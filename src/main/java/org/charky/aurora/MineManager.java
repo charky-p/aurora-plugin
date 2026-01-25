@@ -1,5 +1,6 @@
 package org.charky.aurora;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.charky.aurora.models.MineBlock;
 import org.charky.aurora.models.MineData;
@@ -20,8 +21,10 @@ public class MineManager {
 
         Map<String, List<MineBlock>> blockMap = db.getMineBlocks();
         List<MineData> mines = db.getMines();
-        for (MineData mine : mines) {
-            this.mineMap.put(mine.name(), new Mine(plugin, mine, blockMap.get(mine.name())));
+        for (MineData mineData : mines) {
+            Mine mine = new Mine(plugin, mineData, blockMap.get(mineData.name()));
+            this.mineMap.put(mineData.name(), mine);
+            mine.startTimer();
         }
     }
 
@@ -55,6 +58,34 @@ public class MineManager {
 
     public List<String> getMines() {
         return new ArrayList<>(this.mineMap.keySet());
+    }
+
+    public void setBlocks(String name, List<MineBlock> blocks) {
+        Mine mine = this.mineMap.get(name);
+        if (mine == null) return;
+
+        mine.setBlocks(blocks);
+        this.db.setBlocks(name, blocks);
+    }
+
+    public void resetMine(String name) {
+        Mine mine = this.mineMap.get(name);
+        if (mine == null) return;
+
+        mine.resetMine();
+    }
+
+    public void handleBlockBreak(Location location) {
+        Mine mine = this.getMineAt(location);
+        if (mine == null) return;
+        mine.handleBlockBreak();
+    }
+
+    public Mine getMineAt(Location location) {
+        for (Mine mine : mineMap.values()) {
+            if (mine.atLoc(location)) return mine;
+        }
+        return null;
     }
 
     public void shutdown() {

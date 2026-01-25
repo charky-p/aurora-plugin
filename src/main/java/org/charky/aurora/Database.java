@@ -16,7 +16,8 @@ public class Database {
     private Connection connection;
 
     public Database(String path) {
-        this.url = "jdbc:sqlite:" + path + File.separator + "mines.db";
+        File dbFile = new File(path, "mines.db");
+        this.url = "jdbc:sqlite:" + dbFile.getAbsolutePath();
     }
 
     public void connect() throws SQLException {
@@ -41,7 +42,7 @@ public class Database {
                     "x1 INTEGER, y1 INTEGER, z1 INTEGER, " +
                     "x2 INTEGER, y2 INTEGER, z2 INTEGER, " +
                     "reset_threshold DOUBLE, " +
-                    "tick_delay INTEGER)");
+                    "delay INTEGER)");
 
             // Blocks that map to mines, foreign key allows for efficient db normalisation on mine deletion
             statement.execute("CREATE TABLE IF NOT EXISTS blocks (" +
@@ -54,7 +55,7 @@ public class Database {
     }
 
     public void addMine(MineData data) {
-        String sql = "INSERT INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, tick_delay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, delay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setString(1, data.name());
@@ -76,7 +77,7 @@ public class Database {
 
     public void removeMine(String name) {
         String sqlMines = "DELETE FROM mines WHERE name = ?";
-        String sqlBlocks = "DELETE FROM blocks WHERE name = ?";
+        String sqlBlocks = "DELETE FROM blocks WHERE mine = ?";
 
         try (Connection connection = getConnection()) {
             try (PreparedStatement pst = connection.prepareStatement(sqlMines)) {
@@ -108,7 +109,7 @@ public class Database {
                         rs.getInt("x1"), rs.getInt("y1"), rs.getInt("z1"),
                         rs.getInt("x2"), rs.getInt("y2"), rs.getInt("z2"),
                         rs.getDouble("reset_threshold"),
-                        rs.getInt("reset_delay")
+                        rs.getInt("delay")
                 ));
             }
         } catch (SQLException e) {

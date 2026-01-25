@@ -14,12 +14,7 @@ commands:
   heal:
     description: Restores health, hunge and removes fire ticks
     usage: /heal [player]
-  create-mine:
-    description: Create a mine, defaults to cobblestone
-    usage: /create-mine <name> <x1> <y1> <z1> <x2> <y2> <z2> [threshold]
-  list-mines:
-    description: Lists all mines
-    usage: /list-mines
-  remove-mine:
-    description: Removes specified mine
-    usage: /remove-mine <mineName>
+  mine:
+    description: Main command for aurora mines creation.
+    usage: /mine [add|delete|list|setblocks|reset]
+    aliases: [m, mines]

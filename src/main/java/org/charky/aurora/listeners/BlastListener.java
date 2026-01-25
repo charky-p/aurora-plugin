@@ -7,8 +7,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.charky.aurora.MineManager;
 
 public class BlastListener implements Listener {
+    private final MineManager manager;
+
+    public BlastListener(MineManager manager) {
+        this.manager = manager;
+    }
+
     @EventHandler
     public void onMine(BlockBreakEvent event) {
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
@@ -29,6 +36,7 @@ public class BlastListener implements Listener {
                     for (int z = -1; z <= 1; z++) {
                         Block target = center.getRelative(x, y, z);
                         if (target.getType() != Material.BEDROCK) {
+                            manager.handleBlockBreak(target.getLocation());
                             target.breakNaturally(item);
                         }
                     }

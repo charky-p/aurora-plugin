@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.commands.*;
 import org.charky.aurora.listeners.BlastListener;
+import org.charky.aurora.listeners.MineListener;
 import org.charky.aurora.listeners.WeaponListener;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,19 +43,14 @@ public final class Aurora extends JavaPlugin {
             this.getCommand("heal").setExecutor(new HealCommand());
         }
 
-        if (this.getCommand("create-mine") != null) {
-            this.getCommand("create-mine").setExecutor(new CreateMine(manager));
+        if (this.getCommand("mine") != null) {
+            this.getCommand("mine").setExecutor(new MineCommand(manager));
         }
-
-        if (this.getCommand("list-mines") != null) {
-            this.getCommand("list-mines").setExecutor(new ListMines(manager));
-        }
-
-        this.getCommand("remove-mine").setExecutor(new RemoveMine(manager));
 
         // Listeners
-        getServer().getPluginManager().registerEvents(new BlastListener(), this);
+        getServer().getPluginManager().registerEvents(new BlastListener(manager), this);
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
+        getServer().getPluginManager().registerEvents(new MineListener(manager), this);
         getLogger().info("AuroraMines has been enabled!");
     }
 

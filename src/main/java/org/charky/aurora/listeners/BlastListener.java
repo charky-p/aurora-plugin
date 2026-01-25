@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.charky.aurora.Aurora;
 
 public class BlastListener implements Listener {
     @EventHandler

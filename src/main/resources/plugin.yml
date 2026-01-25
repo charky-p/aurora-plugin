@@ -20,3 +20,6 @@ commands:
   list-mines:
     description: Lists all mines
     usage: /list-mines
+  remove-mine:
+    description: Removes specified mine
+    usage: /remove-mine <mineName>

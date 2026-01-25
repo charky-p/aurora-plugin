@@ -4,10 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.charky.aurora.commands.CreateMine;
-import org.charky.aurora.commands.GiveCustomsCommand;
-import org.charky.aurora.commands.HealCommand;
-import org.charky.aurora.commands.ListMines;
+import org.charky.aurora.commands.*;
 import org.charky.aurora.listeners.BlastListener;
 import org.charky.aurora.listeners.WeaponListener;
 import org.jetbrains.annotations.NotNull;
@@ -53,6 +50,8 @@ public final class Aurora extends JavaPlugin {
             this.getCommand("list-mines").setExecutor(new ListMines(manager));
         }
 
+        this.getCommand("remove-mine").setExecutor(new RemoveMine(manager));
+
         // Listeners
         getServer().getPluginManager().registerEvents(new BlastListener(), this);
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
@@ -73,11 +72,14 @@ public final class Aurora extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if (manager != null) manager.shutdown();
+
         try {
             db.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        getLogger().info("AuroraMines shutting down...");
     }
 }

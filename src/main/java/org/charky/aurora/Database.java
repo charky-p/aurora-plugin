@@ -47,27 +47,26 @@ public class Database {
             statement.execute("CREATE TABLE IF NOT EXISTS blocks (" +
                     "mine TEXT, " +
                     "block TEXT, " +
-                    "percent DOUBLE, " +
-                    "FOREIGN KEY(mine) REFERENCES mines(name) ON DELETE CASCADE)");
+                    "percent DOUBLE)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void addMine(String name, String world, int x1, int y1, int z1, int x2, int y2, int z2, double threshold, int delay) {
+    public void addMine(MineData data) {
         String sql = "INSERT INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, tick_delay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setString(1, name);
-            pst.setString(2, world);
-            pst.setInt(3, x1);
-            pst.setInt(4, y1);
-            pst.setInt(5, z1);
-            pst.setInt(6, x2);
-            pst.setInt(7, y2);
-            pst.setInt(8, z2);
-            pst.setDouble(9, threshold);
-            pst.setInt(10, delay);
+            pst.setString(1, data.name());
+            pst.setString(2, data.world());
+            pst.setInt(3, data.x1());
+            pst.setInt(4, data.y1());
+            pst.setInt(5, data.z1());
+            pst.setInt(6, data.x2());
+            pst.setInt(7, data.y2());
+            pst.setInt(8, data.z2());
+            pst.setDouble(9, data.threshold());
+            pst.setInt(10, data.delay());
 
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -75,19 +74,24 @@ public class Database {
         }
     }
 
-//    public boolean mineExists(String name) {
-//        String sql = "SELECT 1 FROM mines WHERE name = ?";
-//        try (Connection conn = getConnection();
-//             PreparedStatement pst = conn.prepareStatement(sql)) {
-//            pst.setString(1, name);
-//            try (ResultSet rs = pst.executeQuery()) {
-//                return rs.next();
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+    public void removeMine(String name) {
+        String sqlMines = "DELETE FROM mines WHERE name = ?";
+        String sqlBlocks = "DELETE FROM blocks WHERE name = ?";
+
+        try (Connection connection = getConnection()) {
+            try (PreparedStatement pst = connection.prepareStatement(sqlMines)) {
+                pst.setString(1, name);
+                pst.executeUpdate();
+            }
+
+            try (PreparedStatement pst = connection.prepareStatement(sqlBlocks)) {
+                pst.setString(1, name);
+                pst.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<MineData> getMines() {
         List<MineData> mines = new ArrayList<>();

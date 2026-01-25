@@ -1,0 +1,22 @@
+name: Aurora
+version: '1.0'
+main: org.charky.aurora.Aurora
+api-version: '1.21'
+authors: [ Charky ]
+description: AuroraMines server plugin - skymining
+commands:
+  hi:
+    description: Says hi to player
+    usage: /hi
+  getCustoms:
+    description: Get custom made items for testing purposes
+    usage: /getCustoms
+  heal:
+    description: Restores health, hunge and removes fire ticks
+    usage: /heal [player]
+  create-mine:
+    description: Create a mine, defaults to cobblestone
+    usage: /create-mine <name> <x1> <y1> <z1> <x2> <y2> <z2> [threshold]
+  list-mines:
+    description: Lists all mines
+    usage: /list-mines

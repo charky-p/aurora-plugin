@@ -18,6 +18,7 @@ public class Mine {
     private BukkitTask task;
     private int blocksBroken;
     private final int volume;
+    private long lastResetTick = -1;
 
     public Mine(Aurora plugin, MineData data, List<MineBlock> blocks) {
         this.plugin = plugin;
@@ -46,11 +47,16 @@ public class Mine {
 
     public void handleBlockBreak() {
         this.blocksBroken++;
-        if (((double) blocksBroken) / volume >= data.threshold()) {
-            this.resetMine();
-            this.blocksBroken = 0;
-            this.startTimer();
-        }
+        if (((double) blocksBroken) / volume < data.threshold()) return;
+
+        // Ensure we only reset at most once a tick, e.g. blast pickaxe
+        long currentTick = Bukkit.getCurrentTick();
+        if (this.lastResetTick == currentTick) return;
+
+        this.lastResetTick = currentTick;
+        this.resetMine();
+        this.blocksBroken = 0;
+        this.startTimer();
     }
 
     public boolean atLoc(Location location) {
@@ -78,6 +84,7 @@ public class Mine {
         for (int x = this.data.x1(); x <= this.data.x2(); x++) {
             for (int y = this.data.y1(); y <= this.data.y2(); y++) {
                 for (int z = this.data.z1(); z <= this.data.z2(); z++) {
+                    // TODO: maybe check if its air for more natural reset
                     world.getBlockAt(x, y, z).setType(this.getRandomMaterial(), false);
                 }
             }

@@ -113,7 +113,7 @@ public class ScoreboardListener implements Listener {
         if (data == null) return;
 
         data.addMined(1);
-        this.updateBoard(player);
+        // Manually update score board, this is only for data purposes
     }
 
     public void saveProfile(Player player) {

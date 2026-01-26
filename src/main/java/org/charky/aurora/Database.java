@@ -3,6 +3,7 @@ package org.charky.aurora;
 import org.bukkit.Material;
 import org.charky.aurora.models.MineBlock;
 import org.charky.aurora.models.MineData;
+import org.charky.aurora.models.MobData;
 import org.charky.aurora.models.PlayerData;
 
 import java.io.File;
@@ -57,6 +58,29 @@ public class Database {
                     "kills INTEGER DEFAULT 0, " +
                     "mined INTEGER DEFAULT 0, " +
                     "essence INTEGER DEFAULT 0)");
+
+            // Mob Spawners
+            statement.execute("CREATE TABLE IF NOT EXISTS spawners (" +
+                    "name TEXT PRIMARY KEY, " +
+                    "world TEXT, " +
+                    "x INTEGER, y INTEGER, z INTEGER, " +
+                    "mob TEXT, " +
+                    "radius DOUBLE, " +
+                    "mob_limit INT)");
+
+            // TODO: Mob Entities to be spawned, need armor, weapon, other attributes, etc
+//            statement.execute("CREATE TABLE IF NOT EXISTS mobs (" +
+//                    "mob TEXT PRIMARY KEY, " +
+//                    "type TEXT, " +
+//                    "display_name TEXT, " +
+//                    "max_health DOUBLE, " +
+//                    "movement_speed DOUBLE, " +
+//                    "helmet TEXT, " +
+//                    "chestplate TEXT, " +
+//                    "leggings TEXT, " +
+//                    "boots TEXT, " +
+//                    "weapon TEXT, " +
+//                    "offhand TEXT, )");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,7 +89,8 @@ public class Database {
     public void addMine(MineData data) {
         String sql = "INSERT INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, delay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = getConnection(); PreparedStatement pst = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setString(1, data.name());
             pst.setString(2, data.world());
             pst.setInt(3, data.x1());
@@ -289,6 +314,56 @@ public class Database {
         }
 
         return new PlayerData("MEMBER", 0, 0, 0, 0);
+    }
+
+    public void saveSpawner(MobSpawner spawner) {
+        String sql = "INSERT INTO spawners (name, world, x, y, z, mob, radius, mob_limit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = this.getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, spawner.getName());
+            pst.setString(2, spawner.getWorld());
+            pst.setInt(3, spawner.getX());
+            pst.setInt(4, spawner.getY());
+            pst.setInt(5, spawner.getZ());
+            pst.setString(6, spawner.getMobName());
+            pst.setDouble(7, spawner.getRadius());
+            pst.setInt(8, spawner.getLimit());
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<MobSpawner> getSpawners(Map<String, MobData> mobMap, Aurora plugin) {
+        String sql = "SELECT * FROM spawners";
+
+        List<MobSpawner> spawners = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
+            while (rs.next()) {
+                String mob = rs.getString("mob");
+                MobData data = mobMap.get(mob);
+                if (data == null) continue;
+
+                spawners.add(new MobSpawner(
+                        plugin,
+                        rs.getString("name"),
+                        rs.getString("world"),
+                        rs.getInt("x"),
+                        rs.getInt("y"),
+                        rs.getInt("z"),
+                        data,
+                        rs.getDouble("radius"),
+                        rs.getInt("mob_limit")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return spawners;
     }
 
     public Connection getConnection() throws SQLException {

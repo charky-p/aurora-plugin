@@ -9,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +55,28 @@ public class GiveCustomsCommand implements CommandExecutor {
         player.getInventory().addItem(pick);
         player.sendMessage(Component.text("You received a Fast Pickaxe!").color(NamedTextColor.AQUA));
 
+        // Fast blast
+        pick = new ItemStack(Material.WOODEN_PICKAXE);
+        meta = pick.getItemMeta();
+
+        if (meta != null) {
+            meta.displayName(Component.text("Aurora Blast Pickaxe")
+                    .color(NamedTextColor.GOLD)
+                    .decoration(TextDecoration.BOLD, true)
+                    .decoration(TextDecoration.ITALIC, false));
+            List<Component> lore = new ArrayList<>();
+            lore.add(Component.text("Blast V").color(NamedTextColor.GRAY));
+            meta.lore(lore);
+            meta.addEnchant(Enchantment.EFFICIENCY, 50, true);
+            meta.setUnbreakable(true);
+            pick.setItemMeta(meta);
+        }
+
+        player.getInventory().addItem(pick);
+        player.sendMessage(Component.text("You received a Fast Blast Pickaxe!").color(NamedTextColor.AQUA));
+
+
+        // Gravity blade
         ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
         meta = sword.getItemMeta();
 

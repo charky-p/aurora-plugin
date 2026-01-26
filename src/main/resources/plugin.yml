@@ -5,9 +5,9 @@ api-version: '1.21'
 authors: [ Charky ]
 description: AuroraMines server plugin - skymining
 commands:
-  hi:
-    description: Says hi to player
-    usage: /hi
+  refresh:
+    description: Refresh databases
+    usage: /refresh
   getCustoms:
     description: Get custom made items for testing purposes
     usage: /getCustoms
@@ -18,3 +18,7 @@ commands:
     description: Main command for aurora mines creation.
     usage: /mine [add|delete|list|setblocks|reset|tp]
     aliases: [m, mines]
+  mobspawner:
+    description: Main command for mob and spawner creations.
+    usage: /mobspawner [add|save]
+    aliases: [ms, mobspawners]

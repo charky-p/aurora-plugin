@@ -22,3 +22,7 @@ commands:
     description: Main command for mob and spawner creations.
     usage: /mobspawner [add|save]
     aliases: [ms, mobspawners]
+  trader:
+    description: Spawn trader
+    usage: /trader <traderId> <x> <y> <z>
+    aliases: [t]

@@ -8,13 +8,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.charky.aurora.MineManager;
+import org.charky.aurora.managers.MineManager;
+import org.charky.aurora.managers.ScoreboardManager;
 
 public class MineListener implements Listener {
     private final MineManager manager;
-    private final ScoreboardListener scoreboard;
+    private final ScoreboardManager scoreboard;
 
-    public MineListener(MineManager manager, ScoreboardListener scoreboard) {
+    public MineListener(MineManager manager, ScoreboardManager scoreboard) {
         this.manager = manager;
         this.scoreboard = scoreboard;
     }

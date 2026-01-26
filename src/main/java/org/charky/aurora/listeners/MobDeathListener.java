@@ -6,8 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.MobManager;
-import org.charky.aurora.MobSpawner;
+import org.charky.aurora.managers.MobManager;
 
 public class MobDeathListener implements Listener {
     private final MobManager mobManager;

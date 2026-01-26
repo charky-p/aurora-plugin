@@ -1,4 +1,4 @@
-package org.charky.aurora;
+package org.charky.aurora.managers;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -15,6 +15,9 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.charky.aurora.Aurora;
+import org.charky.aurora.Database;
+import org.charky.aurora.models.MobSpawner;
 import org.charky.aurora.models.MobData;
 
 import java.util.HashMap;

@@ -1,11 +1,11 @@
-package org.charky.aurora;
+package org.charky.aurora.models;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitTask;
-import org.charky.aurora.models.MobData;
+import org.charky.aurora.Aurora;
 
 import java.util.Random;
 

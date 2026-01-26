@@ -2,12 +2,11 @@ package org.charky.aurora.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.charky.aurora.MobManager;
+import org.charky.aurora.managers.MobManager;
 import org.jetbrains.annotations.NotNull;
 
 public class MobCommand implements CommandExecutor {

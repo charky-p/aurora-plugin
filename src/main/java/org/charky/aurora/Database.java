@@ -1,10 +1,7 @@
 package org.charky.aurora;
 
 import org.bukkit.Material;
-import org.charky.aurora.models.MineBlock;
-import org.charky.aurora.models.MineData;
-import org.charky.aurora.models.MobData;
-import org.charky.aurora.models.PlayerData;
+import org.charky.aurora.models.*;
 
 import java.io.File;
 import java.sql.*;

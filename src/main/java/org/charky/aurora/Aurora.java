@@ -1,24 +1,20 @@
 package org.charky.aurora;
 
 import org.bukkit.NamespacedKey;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.commands.*;
-import org.charky.aurora.listeners.MineListener;
-import org.charky.aurora.listeners.MobDeathListener;
-import org.charky.aurora.listeners.ScoreboardListener;
-import org.charky.aurora.listeners.WeaponListener;
-import org.jetbrains.annotations.NotNull;
+import org.charky.aurora.listeners.*;
+import org.charky.aurora.managers.*;
 
 import java.sql.SQLException;
 
 public final class Aurora extends JavaPlugin {
     private Database db;
     private MineManager manager;
-    private ScoreboardListener scoreboard;
+    private ScoreboardManager scoreboard;
     private MobManager mobManager;
+    private TabManager tabManager;
+    private TraderManager traderManager;
 
     public static NamespacedKey SPAWNER_ID_KEY;
 
@@ -37,9 +33,11 @@ public final class Aurora extends JavaPlugin {
         getLogger().info("SQLite Database setup complete!");
 
         // Managers
-        this.scoreboard = new ScoreboardListener(this, db);
+        this.tabManager = new TabManager(this);
+        this.scoreboard = new ScoreboardManager(this, db, tabManager);
         this.manager = new MineManager(this, db, scoreboard);
         this.mobManager = new MobManager(this, db);
+        this.traderManager = new TraderManager(this);
 
         // Plugin startup logic
         if (this.getCommand("refresh") != null) {
@@ -62,11 +60,16 @@ public final class Aurora extends JavaPlugin {
             this.getCommand("mobspawner").setExecutor(new MobCommand(mobManager));
         }
 
+        if (this.getCommand("trader") != null) {
+            this.getCommand("trader").setExecutor(new SpawnCommand(traderManager));
+        }
+
         // Listeners
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
         getServer().getPluginManager().registerEvents(new MineListener(manager, scoreboard), this);
-        getServer().getPluginManager().registerEvents(scoreboard, this);
+        getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboard), this);
         getServer().getPluginManager().registerEvents(new MobDeathListener(mobManager), this);
+        getServer().getPluginManager().registerEvents(new TraderListener(traderManager), this);
 
         // Mines setup
         getLogger().info("AuroraMines has been enabled!");

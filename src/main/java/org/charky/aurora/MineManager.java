@@ -1,7 +1,11 @@
 package org.charky.aurora;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.charky.aurora.listeners.ScoreboardListener;
 import org.charky.aurora.models.MineBlock;
 import org.charky.aurora.models.MineData;
 
@@ -13,11 +17,13 @@ import java.util.Map;
 public class MineManager {
     private final Aurora plugin;
     private final Database db;
+    private final ScoreboardListener scoreboard;
     private final Map<String, Mine> mineMap = new HashMap<>();
 
-    public MineManager(Aurora plugin, Database db) {
+    public MineManager(Aurora plugin, Database db, ScoreboardListener scoreboard) {
         this.plugin = plugin;
         this.db = db;
+        this.scoreboard = scoreboard;
 
         Map<String, List<MineBlock>> blockMap = db.getMineBlocks();
         List<MineData> mines = db.getMines();
@@ -75,17 +81,31 @@ public class MineManager {
         mine.resetMine();
     }
 
-    public void handleBlockBreak(Location location) {
+    public void handleBlockBreak(Player player, Location location) {
         Mine mine = this.getMineAt(location);
         if (mine == null) return;
         mine.handleBlockBreak();
+        scoreboard.incrementMined(player);
     }
 
     public Mine getMineAt(Location location) {
-        for (Mine mine : mineMap.values()) {
+        for (Mine mine : this.mineMap.values()) {
             if (mine.atLoc(location)) return mine;
         }
         return null;
+    }
+
+    public void tpMine(Player player, String mineName) {
+        Mine mine = this.mineMap.get(mineName);
+        if (mine == null) return;
+
+        Location location = mine.getLocation();
+        if (location != null && location.getWorld() != null) {
+            player.teleport(location);
+        } else {
+            player.sendMessage(Component.text("ERROR: Mine location was invalid")
+                    .color(NamedTextColor.RED));
+        }
     }
 
     public void shutdown() {

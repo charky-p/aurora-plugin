@@ -3,13 +3,12 @@ package org.charky.aurora;
 import org.bukkit.Material;
 import org.charky.aurora.models.MineBlock;
 import org.charky.aurora.models.MineData;
+import org.charky.aurora.models.PlayerData;
 
 import java.io.File;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 
 public class Database {
     private final String url;
@@ -44,11 +43,20 @@ public class Database {
                     "reset_threshold DOUBLE, " +
                     "delay INTEGER)");
 
-            // Blocks that map to mines, foreign key allows for efficient db normalisation on mine deletion
+            // Blocks that map to mines
             statement.execute("CREATE TABLE IF NOT EXISTS blocks (" +
                     "mine TEXT, " +
                     "block TEXT, " +
                     "percent DOUBLE)");
+
+            // Player data for scoreboard
+            statement.execute("CREATE TABLE IF NOT EXISTS playerData (" +
+                    "uuid TEXT PRIMARY KEY, " +
+                    "rank TEXT DEFAULT 'MEMBER', " +
+                    "level INTEGER DEFAULT 0, " +
+                    "kills INTEGER DEFAULT 0, " +
+                    "mined INTEGER DEFAULT 0, " +
+                    "essence INTEGER DEFAULT 0)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -145,18 +153,18 @@ public class Database {
         String deleteSql = "DELETE FROM blocks WHERE mine = ?";
         String insertSql = "INSERT INTO blocks (mine, block, percent) VALUES (?, ?, ?)";
 
-        try (Connection conn = getConnection()) {
-            conn.setAutoCommit(false);
+        try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
 
             try {
                 // Delete existing blocks
-                try (PreparedStatement delPst = conn.prepareStatement(deleteSql)) {
+                try (PreparedStatement delPst = connection.prepareStatement(deleteSql)) {
                     delPst.setString(1, name);
                     delPst.executeUpdate();
                 }
 
                 // Batch insert new blocks
-                try (PreparedStatement insPst = conn.prepareStatement(insertSql)) {
+                try (PreparedStatement insPst = connection.prepareStatement(insertSql)) {
                     for (MineBlock block : blocks) {
                         insPst.setString(1, name);
                         insPst.setString(2, block.material().name());
@@ -166,30 +174,121 @@ public class Database {
                     insPst.executeBatch();
                 }
 
-                conn.commit();
+                connection.commit();
 
             } catch (SQLException e) {
                 // Undo deletion
-                conn.rollback();
+                connection.rollback();
                 e.printStackTrace();
             } finally {
-                conn.setAutoCommit(true);
+                connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteBlocks(String name) {
-        String sql = "DELETE FROM blocks WHERE mine = ?";
+    public void savePlayerData(UUID uuid, PlayerData data) {
+        // Upsert (delete and insert)
+        String sql = """
+        INSERT INTO playerData (uuid, rank, level, kills, mined, essence)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT(uuid) DO UPDATE SET
+            rank = excluded.rank,
+            level = excluded.level,
+            kills = excluded.kills,
+            mined = excluded.mined,
+            essence = excluded.essence;
+        """;
 
-        try (Connection connection = getConnection();
+        try (Connection connection = this.getConnection();
              PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setString(1, name);
+            pst.setString(1, uuid.toString());
+            pst.setString(2, data.getRank());
+            pst.setInt(3, data.getLevel());
+            pst.setInt(4, data.getKills());
+            pst.setInt(5, data.getMined());
+            pst.setInt(6, data.getEssence());
             pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void saveAllPlayerData(ConcurrentMap<UUID, PlayerData> profiles) {
+        String sql = """
+        INSERT INTO playerData (uuid, rank, level, kills, mined, essence)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT(uuid) DO UPDATE SET
+            rank = excluded.rank,
+            level = excluded.level,
+            kills = excluded.kills,
+            mined = excluded.mined,
+            essence = excluded.essence;
+        """;
+
+        try (Connection connection = this.getConnection()) {
+            connection.setAutoCommit(false);
+
+            // Batch for all profiles
+            try (PreparedStatement pst = connection.prepareStatement(sql)) {
+                boolean change = false;
+
+                for (Map.Entry<UUID, PlayerData> entry : profiles.entrySet()) {
+                    PlayerData data = entry.getValue();
+
+                    // Save only if changed
+                    if (!data.isDirty()) continue;
+
+                    pst.setString(1, entry.getKey().toString());
+                    pst.setString(2, data.getRank());
+                    pst.setInt(3, data.getLevel());
+                    pst.setInt(4, data.getKills());
+                    pst.setInt(5, data.getMined());
+                    pst.setInt(6, data.getEssence());
+
+                    pst.addBatch();
+                    data.resetDirty();
+                    change = true;
+                }
+
+                if (change) {
+                    pst.executeBatch();
+                    connection.commit();
+                }
+            } catch (SQLException e) {
+                connection.rollback();
+                e.printStackTrace();
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public PlayerData loadPlayerData(UUID uuid) {
+        String sql = "SELECT * FROM playerData WHERE uuid = ?";
+        try (Connection connection = this.getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, uuid.toString());
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return new PlayerData(
+                            rs.getString("rank"),
+                            rs.getInt("level"),
+                            rs.getInt("kills"),
+                            rs.getInt("mined"),
+                            rs.getInt("essence")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new PlayerData("MEMBER", 0, 0, 0, 0);
     }
 
     public Connection getConnection() throws SQLException {

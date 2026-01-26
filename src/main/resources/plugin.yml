@@ -16,5 +16,5 @@ commands:
     usage: /heal [player]
   mine:
     description: Main command for aurora mines creation.
-    usage: /mine [add|delete|list|setblocks|reset]
+    usage: /mine [add|delete|list|setblocks|reset|tp]
     aliases: [m, mines]

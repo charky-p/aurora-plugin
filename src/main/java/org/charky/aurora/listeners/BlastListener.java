@@ -36,7 +36,7 @@ public class BlastListener implements Listener {
                     for (int z = -1; z <= 1; z++) {
                         Block target = center.getRelative(x, y, z);
                         if (target.getType() != Material.BEDROCK) {
-                            manager.handleBlockBreak(target.getLocation());
+                            manager.handleBlockBreak(event.getPlayer(), target.getLocation());
                             target.breakNaturally(item);
                         }
                     }

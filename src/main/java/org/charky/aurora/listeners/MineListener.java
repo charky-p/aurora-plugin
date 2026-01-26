@@ -17,6 +17,6 @@ public class MineListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMine(BlockBreakEvent event) {
         // TODO: O(N) time complexity, however mines is small so maybe not an issue
-        manager.handleBlockBreak(event.getBlock().getLocation());
+        manager.handleBlockBreak(event.getPlayer(), event.getBlock().getLocation());
     }
 }

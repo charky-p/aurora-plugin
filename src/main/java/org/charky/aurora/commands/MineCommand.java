@@ -2,6 +2,7 @@ package org.charky.aurora.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,7 +12,6 @@ import org.charky.aurora.MineManager;
 import org.charky.aurora.models.MineBlock;
 import org.jetbrains.annotations.NotNull;
 
-import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +33,7 @@ public class MineCommand implements CommandExecutor {
             case "list" -> listMines(sender, args);
             case "setblocks" -> setBlocks(sender, args);
             case "reset" -> resetMine(sender, args);
+            case "tp" -> tpMine(sender, args);
             default -> false;
         };
     }
@@ -167,6 +168,38 @@ public class MineCommand implements CommandExecutor {
 
         manager.resetMine(name);
         sender.sendMessage(Component.text("Mine " + name + " successfully reset!").color(NamedTextColor.GREEN));
+        return true;
+    }
+
+    private boolean tpMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (args.length != 2 && args.length != 3) {
+            sender.sendMessage(Component.text("Usage: /mine tp [player] <mineName>")
+                    .color(NamedTextColor.RED));
+            return true;
+        }
+
+        if (args.length == 2 && !(sender instanceof Player player)) {
+            sender.sendMessage(Component.text("Specify a user to teleport!")
+                    .color(NamedTextColor.RED));
+            return true;
+        }
+
+        Player target = args.length == 2 ? (Player) sender : Bukkit.getPlayer(args[1]);
+        String mineName = args.length == 2 ? args[1] : args[2];
+        if (target == null) {
+            sender.sendMessage(Component.text("Player " + args[1] + " does not exist.")
+                    .color(NamedTextColor.RED));
+            return true;
+        } else if (!manager.exists(mineName)) {
+            sender.sendMessage(Component.text("Mine " + mineName + " does not exist!")
+                    .color(NamedTextColor.RED));
+            return true;
+        }
+
+        manager.tpMine(target, mineName);
+        sender.sendMessage(Component.text("Player " + target.getName() + " successfully teleported to "
+                            + mineName).color(NamedTextColor.GREEN));
+
         return true;
     }
 }

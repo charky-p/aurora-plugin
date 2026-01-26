@@ -1,6 +1,5 @@
 package org.charky.aurora;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -62,8 +61,14 @@ public class Mine {
 
         if (x < this.data.x1() || x > this.data.x2()) return false;
         if (y < this.data.y1() || y > this.data.y2()) return false;
-        if (z < this.data.z1() || z > this.data.z2()) return false;
-        return true;
+        return z >= this.data.z1() && z <= this.data.z2();
+    }
+
+    public Location getLocation() {
+        World world = Bukkit.getWorld(this.data.world());
+        if (world == null) return null;
+
+        return new Location(world, this.data.x1() + 0.5, this.data.y1() + 1, this.data.z1() + 0.5);
     }
 
     public void resetMine() {

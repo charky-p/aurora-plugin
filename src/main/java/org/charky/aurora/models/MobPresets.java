@@ -19,6 +19,8 @@ public class MobPresets {
     private static final Map<String, MobData> PRESETS = new HashMap<>();
 
     static {
+        IndependentLootPool pool1 = new IndependentLootPool();
+        pool1.add(new ItemDrop(new ItemStack(Material.BEDROCK), 20, 64));
         PRESETS.put("spear_zombie", new MobData("spear_zombie",
                 EntityType.ZOMBIE,
                 Component.text("Spear Zombie"),
@@ -30,7 +32,7 @@ public class MobPresets {
                         EquipmentSlot.OFF_HAND, new ItemStack(Material.SHIELD)
                 ),
                 new HashMap<>(),
-                List.of(new ItemStack(Material.BEDROCK, 64))
+                pool1
         ));
 
         // --- WRAITH PRESET ---
@@ -56,6 +58,11 @@ public class MobPresets {
         wraithAttrs.put(Attribute.KNOCKBACK_RESISTANCE, 0.8);
         wraithAttrs.put(Attribute.FOLLOW_RANGE, 32.0);
 
+        // Drops
+        IndependentLootPool pool = new IndependentLootPool();
+        pool.add(new ItemDrop(new ItemStack(Material.DIAMOND), 1, 5));
+        pool.add(new ItemDrop(new ItemStack(Material.TOTEM_OF_UNDYING), 20, 1, 1));
+
         // Build the Record
         MobData wraith = new MobData(
                 "wraith",
@@ -65,7 +72,7 @@ public class MobPresets {
                         .decorate(TextDecoration.BOLD),
                 wraithEquip,
                 wraithAttrs,
-                List.of(new ItemStack(Material.DIAMOND, 2), new ItemStack(Material.TOTEM_OF_UNDYING))
+                pool
         );
 
         PRESETS.put(wraith.id(), wraith);
@@ -79,8 +86,8 @@ public class MobPresets {
         return PRESETS.containsKey(id);
     }
 
-    public static List<ItemStack> getDrops(String id) {
+    public static List<MenuItem> getDrops(String id) {
         if (!hasMob(id)) return new ArrayList<>();
-        return new ArrayList<>(get(id).drops());
+        return new ArrayList<>(get(id).drops().roll());
     }
 }

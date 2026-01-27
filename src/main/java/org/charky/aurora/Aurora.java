@@ -54,20 +54,8 @@ public final class Aurora extends JavaPlugin {
             this.getCommand("heal").setExecutor(new HealCommand());
         }
 
-        if (this.getCommand("mine") != null) {
-            this.getCommand("mine").setExecutor(new MineCommand(manager));
-        }
-
-        if (this.getCommand("mobspawner") != null) {
-            this.getCommand("mobspawner").setExecutor(new MobCommand(this));
-        }
-
-        if (this.getCommand("trader") != null) {
-            this.getCommand("trader").setExecutor(new SpawnCommand(traderManager));
-        }
-
-        if (this.getCommand("wandE") != null) {
-            this.getCommand("wandE").setExecutor(new WandCommand(this));
+        if (this.getCommand("aurora") != null) {
+            this.getCommand("aurora").setExecutor(new AuroraCommand(this));
         }
 
         // Listeners
@@ -84,6 +72,14 @@ public final class Aurora extends JavaPlugin {
 
     public MobManager getMobManager() {
         return this.mobManager;
+    }
+
+    public MineManager getMineManager() {
+        return this.manager;
+    }
+
+    public TraderManager getTraderManager() {
+        return this.traderManager;
     }
 
     @Override

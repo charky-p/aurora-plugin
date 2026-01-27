@@ -15,7 +15,7 @@ public record MobData(
         Component displayName,
         Map<EquipmentSlot, ItemStack> equipment,
         Map<Attribute, Double> attributes,
-        List<ItemStack> drops
+        LootPool drops
 ) {
     public void apply(org.bukkit.entity.LivingEntity entity) {
         entity.customName(this.displayName);

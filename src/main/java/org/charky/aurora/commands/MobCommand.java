@@ -12,29 +12,32 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class MobCommand implements CommandExecutor {
-    private MobManager manager;
+public class MobCommand implements AuroraSubCommand {
+    private final MobManager manager;
 
     public MobCommand(Aurora plugin) {
         this.manager = plugin.getMobManager();
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-                             @NotNull String s, @NotNull String @NotNull [] args) {
-        if (args.length == 0) return false;
+    public void execute(CommandSender sender, String[] args) {
+        if (args.length == 0) return;
 
-        return switch (args[0].toLowerCase()) {
+        switch (args[0].toLowerCase()) {
             case "add" -> addSpawner(sender, args);
             case "save" -> saveMob(sender, args);
-            default -> false;
         };
     }
 
-    public boolean addSpawner(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+    @Override
+    public List<String> tabComplete(Player player, String[] args) {
+        return List.of();
+    }
+
+    public void addSpawner(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 6) {
             sender.sendMessage("Usage: /mobspawner add <name> <x> <y> <z> <mobName>");
-            return true;
+            return;
         }
 
         String spawnerName = args[1];
@@ -46,28 +49,25 @@ public class MobCommand implements CommandExecutor {
         if (manager.spawnerExists(spawnerName)) {
             sender.sendMessage(Component.text("Spawner " + spawnerName + " already exists")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (!manager.mobExists(mobName)) {
             sender.sendMessage(Component.text("Mob " + mobName + " does not exist")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         // Default radius=5, limit=3 TODO
         String world = "world";
-        if (sender instanceof Player player) {
-            world = player.getWorld().getName();
-        }
+        if (sender instanceof Player player) world = player.getWorld().getName();
 
         manager.addSpawner(spawnerName, world, x, y, z, mobName, 5, 3);
         sender.sendMessage(Component.text("Successfully added " + spawnerName + " spawner!")
                 .color(NamedTextColor.GREEN));
-        return true;
     }
 
-    public boolean saveMob(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
-        return false;
+    public void saveMob(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        return;
     }
 }

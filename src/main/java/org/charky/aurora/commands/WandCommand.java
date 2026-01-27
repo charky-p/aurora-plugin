@@ -16,19 +16,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WandCommand implements CommandExecutor {
+public class WandCommand implements AuroraSubCommand {
     private final Aurora plugin;
 
     public WandCommand(Aurora plugin) {
         this.plugin = plugin;
     }
+
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-                             @NotNull String s, @NotNull String @NotNull [] args) {
-        if (!(sender instanceof Player player)) return false;
+    public void execute(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (!(sender instanceof Player player)) return;
 
         giveWand(player);
-        return true;
     }
 
     public void giveWand(Player player) {
@@ -49,5 +48,10 @@ public class WandCommand implements CommandExecutor {
             meta.lore(lore);
         });
         player.getInventory().addItem(wand);
+    }
+
+    @Override
+    public List<String> tabComplete(Player player, String[] args) {
+        return List.of();
     }
 }

@@ -20,6 +20,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
+import org.charky.aurora.models.IndependentLootPool;
 import org.charky.aurora.models.MobData;
 
 import java.util.*;
@@ -67,7 +68,7 @@ public class WandListener implements Listener {
                 }
             }
 
-            MobData data = new MobData(tempId.toString(), living.getType(), name, equipment, attributes, new ArrayList<>());
+            MobData data = new MobData(tempId.toString(), living.getType(), name, equipment, attributes, new IndependentLootPool());
             clipboard.put(tempId, data);
 
             item.editMeta(meta -> {

@@ -14,6 +14,10 @@ commands:
   heal:
     description: Restores health, hunge and removes fire ticks
     usage: /heal [player]
+  aurora:
+    description: Main command for all aurora admin commands
+    usage: /aurora [mine|mob|trader|wand]
+    aliases: [a, aura]
   mine:
     description: Main command for aurora mines creation.
     usage: /mine [add|delete|list|setblocks|reset|tp]

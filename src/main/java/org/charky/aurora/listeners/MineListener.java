@@ -39,7 +39,7 @@ public class MineListener implements Listener {
                     for (int z = -1; z <= 1; z++) {
                         if (x == 0 && y == 0 && z == 0) continue;
                         Block target = center.getRelative(x, y, z);
-                        if (target.getType() != Material.BEDROCK) {
+                        if (target.getType() != Material.BEDROCK && target.getType() != Material.AIR) {
                             manager.handleBlockBreak(event.getPlayer(), target.getLocation());
                             target.breakNaturally(item);
                         }

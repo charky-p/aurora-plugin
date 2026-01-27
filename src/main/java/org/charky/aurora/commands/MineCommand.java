@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.charky.aurora.Aurora;
 import org.charky.aurora.managers.MineManager;
 import org.charky.aurora.models.MineBlock;
 import org.jetbrains.annotations.NotNull;
@@ -15,35 +16,71 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MineCommand implements CommandExecutor {
+public class MineCommand implements AuroraSubCommand {
     private final MineManager manager;
 
-    public MineCommand(MineManager manager) {
-        this.manager = manager;
+    public MineCommand(Aurora plugin) {
+        this.manager = plugin.getMineManager();
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-                             @NotNull String s, @NotNull String @NotNull [] args) {
-        if (args.length == 0) return false;
+    public void execute(CommandSender sender, String[] args) {
+        if (args.length == 0) return;
 
-        return switch (args[0].toLowerCase()) {
+        switch (args[0].toLowerCase()) {
             case "create" -> createMine(sender, args);
             case "delete" -> deleteMine(sender, args);
             case "list" -> listMines(sender, args);
             case "setblocks" -> setBlocks(sender, args);
             case "reset" -> resetMine(sender, args);
             case "tp" -> tpMine(sender, args);
-            default -> false;
         };
     }
 
-    private boolean createMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+    @Override
+    public List<String> tabComplete(Player player, String[] args) {
+        if (args.length == 1) return List.of("create", "delete", "list", "setblocks", "reset", "tp").stream()
+                .filter(s -> s.startsWith(args[0].toLowerCase()))
+                .toList();
+
+        if (args.length == 2) {
+            String sub = args[0].toLowerCase();
+            if (List.of("delete", "setblocks", "reset", "tp").contains(sub)) {
+                return manager.getMines().stream()
+                        .filter(name -> name.startsWith(args[1].toLowerCase()))
+                        .toList();
+            }
+
+            if (sub.equals("tp")) {
+                List<String> suggestions = new ArrayList<>(Bukkit.getOnlinePlayers().stream()
+                        .map(Player::getName)
+                        .filter(name -> name.startsWith(args[1].toLowerCase()))
+                        .toList());
+                suggestions.addAll(manager.getMines().stream()
+                        .filter(name -> name.startsWith(args[1].toLowerCase()))
+                        .toList());
+                return suggestions;
+            }
+        }
+
+        if (args[0].equalsIgnoreCase("setblocks") && args.length > 2 && args.length % 2 != 0) {
+            String input = args[args.length - 1].toLowerCase();
+            return List.of(Material.values()).stream()
+                    .map(m -> m.name().toLowerCase())
+                    .filter(m -> m.startsWith(input))
+                    .limit(20)
+                    .toList();
+        }
+
+        return List.of();
+    }
+
+    private void createMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         // TODO: Consider edge cases, like overlapping mines, or delay is too small, and what to do for default threshold
         if (args.length < 8) {
             sender.sendMessage(Component.text("Usage: /mine create <name> <x1> <y1> <z1> <x2> <y2> <z2> [threshold]")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         try {
@@ -62,7 +99,7 @@ public class MineCommand implements CommandExecutor {
             if (manager.exists(name)) {
                 sender.sendMessage(Component.text("Mine already exists!")
                         .color(NamedTextColor.RED));
-                return true;
+                return;
             }
 
             manager.addMine(name, worldName, Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
@@ -72,54 +109,52 @@ public class MineCommand implements CommandExecutor {
             sender.sendMessage(Component.text("Error: Coordinates and thresholds must be numbers!")
                     .color(NamedTextColor.RED));
         }
-        return true;
     }
 
-    private boolean deleteMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+    private void deleteMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 2) {
             sender.sendMessage(Component.text("Usage: /delete mine <mineName>"));
-            return true;
+            return;
         }
 
         String mineName = args[1];
         if (!manager.exists(mineName)) {
             sender.sendMessage(Component.text("Mine " + mineName + " does not exist")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         manager.removeMine(mineName);
         sender.sendMessage(Component.text("Removed mine " + mineName + " successfully!")
                 .color(NamedTextColor.GREEN));
-        return true;
     }
 
-    private boolean listMines(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+    private void listMines(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         List<String> names = manager.getMines();
         if (names.isEmpty()) {
             sender.sendMessage(Component.text("There are no mines created yet."));
-            return true;
+            return;
         }
 
         sender.sendMessage(Component.text("Mines:"));
         for (String name : names) {
             sender.sendMessage(Component.text(" - " + name));
         }
-        return true;
     }
 
-    private boolean setBlocks(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+    private void setBlocks(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        // TODO: block must actually be a block
         // Read blocks
         if (args.length < 4 || args.length % 2 != 0) {
             sender.sendMessage(Component.text("Usage: /mine setblocks <mineName> [block1] [block1_amt]...")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         String mineName = args[1];
         if (!manager.exists(mineName)) {
             sender.sendMessage(Component.text("No such mine " + mineName).color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         List<MineBlock> blocks = new ArrayList<>();
@@ -128,7 +163,7 @@ public class MineCommand implements CommandExecutor {
             Material material = Material.matchMaterial(args[i]);
             if (material == null) {
                 sender.sendMessage("No such material: " + args[i]);
-                return true;
+                return;
             }
 
             try {
@@ -139,49 +174,47 @@ public class MineCommand implements CommandExecutor {
                 blocks.add(new MineBlock(material, percent));
             } catch (NumberFormatException e) {
                 sender.sendMessage("Illegal percentage: " + args[i + 1]);
-                return true;
+                return;
             }
         }
 
         if (totalPercent != 100) {
             sender.sendMessage("Percentages must add up to 100!");
-            return true;
+            return;
         }
 
         manager.setBlocks(mineName, blocks);
         sender.sendMessage(Component.text("Successfully updated mine " + mineName)
                 .color(NamedTextColor.GREEN));
-        return true;
     }
 
-    private boolean resetMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+    private void resetMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 2) {
             sender.sendMessage(Component.text("Usage: /mine reset <mineName>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         String name = args[1];
         if (!manager.exists(name)) {
             sender.sendMessage(Component.text("Mine '" + name + "' not found.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         manager.resetMine(name);
         sender.sendMessage(Component.text("Mine " + name + " successfully reset!").color(NamedTextColor.GREEN));
-        return true;
     }
 
-    private boolean tpMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+    private void tpMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length != 2 && args.length != 3) {
             sender.sendMessage(Component.text("Usage: /mine tp [player] <mineName>")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (args.length == 2 && !(sender instanceof Player player)) {
             sender.sendMessage(Component.text("Specify a user to teleport!")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Player target = args.length == 2 ? (Player) sender : Bukkit.getPlayer(args[1]);
@@ -189,17 +222,15 @@ public class MineCommand implements CommandExecutor {
         if (target == null) {
             sender.sendMessage(Component.text("Player " + args[1] + " does not exist.")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         } else if (!manager.exists(mineName)) {
             sender.sendMessage(Component.text("Mine " + mineName + " does not exist!")
                     .color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         manager.tpMine(target, mineName);
         sender.sendMessage(Component.text("Player " + target.getName() + " successfully teleported to "
                             + mineName).color(NamedTextColor.GREEN));
-
-        return true;
     }
 }

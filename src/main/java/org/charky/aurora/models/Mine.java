@@ -1,17 +1,21 @@
 package org.charky.aurora.models;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.Aurora;
+import org.charky.aurora.managers.MineManager;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Mine {
     private final Aurora plugin;
+    private final MineManager manager;
     private final MineData data;
     private List<MineBlock> blocks;
     private BukkitTask task;
@@ -19,8 +23,9 @@ public class Mine {
     private final int volume;
     private long lastResetTick = -1;
 
-    public Mine(Aurora plugin, MineData data, List<MineBlock> blocks) {
+    public Mine(Aurora plugin, MineManager manager, MineData data, List<MineBlock> blocks) {
         this.plugin = plugin;
+        this.manager = manager;
         this.data = data;
         this.blocks = blocks;
         this.volume = (Math.abs(data.x1() - data.x2()) + 1) *
@@ -34,7 +39,8 @@ public class Mine {
 
     public void startTimer() {
         stopTimer();
-        this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, this::resetMine, 0L, (long) this.data.delay());
+        long delayTicks = (long) this.data.delay();
+        this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, this::resetMine, delayTicks, delayTicks);
     }
 
     public void stopTimer() {
@@ -46,15 +52,12 @@ public class Mine {
 
     public void handleBlockBreak() {
         this.blocksBroken++;
-        if (((double) blocksBroken) / volume < data.threshold()) return;
+        if (((double) blocksBroken) / volume * 100 < data.threshold()) return;
 
         // Ensure we only reset at most once a tick, e.g. blast pickaxe
-        long currentTick = Bukkit.getCurrentTick();
-        if (this.lastResetTick == currentTick) return;
+        if (this.lastResetTick == Bukkit.getCurrentTick()) return;
 
-        this.lastResetTick = currentTick;
         this.resetMine();
-        this.blocksBroken = 0;
         this.startTimer();
     }
 
@@ -77,14 +80,19 @@ public class Mine {
     }
 
     public void resetMine() {
+        this.blocksBroken = 0;
+        this.lastResetTick = Bukkit.getCurrentTick();
         World world = Bukkit.getWorld(this.data.world());
         if (world == null) return;
 
         for (int x = this.data.x1(); x <= this.data.x2(); x++) {
             for (int y = this.data.y1(); y <= this.data.y2(); y++) {
                 for (int z = this.data.z1(); z <= this.data.z2(); z++) {
-                    // TODO: maybe check if its air for more natural reset
-                    world.getBlockAt(x, y, z).setType(this.getRandomMaterial(), false);
+                    MineBlock choice = this.getRandomBlock();
+                    world.getBlockAt(x, y, z).setType(choice.material(), false);
+
+                    Location location = new Location(world, x, y, z);
+                    manager.registerBlock(location, choice.id());
                 }
             }
         }
@@ -92,7 +100,7 @@ public class Mine {
         plugin.getLogger().info(this.data.name() + " Reset Successfully!");
     }
 
-    private Material getRandomMaterial() {
+    private MineBlock getRandomBlock() {
         double random = ThreadLocalRandom.current().nextDouble(100.0);
         double totalWeight = 0.0;
 
@@ -100,10 +108,10 @@ public class Mine {
             totalWeight += block.percentage();
 
             if (random < totalWeight) {
-                return block.material();
+                return block;
             }
         }
 
-        return blocks.getLast().material();
+        return blocks.getLast();
     }
 }

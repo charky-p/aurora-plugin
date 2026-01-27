@@ -9,7 +9,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
+import org.charky.aurora.TextUtils;
 import org.charky.aurora.managers.MineManager;
+import org.charky.aurora.models.BlockPresets;
+import org.charky.aurora.models.MessageType;
 import org.charky.aurora.models.MineBlock;
 import org.jetbrains.annotations.NotNull;
 
@@ -78,10 +81,15 @@ public class MineCommand implements AuroraSubCommand {
     private void createMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         // TODO: Consider edge cases, like overlapping mines, or delay is too small, and what to do for default threshold
         if (args.length < 8) {
-            sender.sendMessage(Component.text("Usage: /mine create <name> <x1> <y1> <z1> <x2> <y2> <z2> [threshold]")
-                    .color(NamedTextColor.RED));
+            sender.sendMessage(
+                    TextUtils.format(
+                            "Usage: /aurora mine create <name> <x1> <y1> <z1> <x2> <y2> <z2> [threshold] [delay]",
+                            MessageType.ERROR)
+            );
             return;
         }
+
+        sender.sendMessage(TextUtils.format("This command is outdated, please use a wand to select", MessageType.WARNING));
 
         try {
             String name = args[1];
@@ -92,22 +100,20 @@ public class MineCommand implements AuroraSubCommand {
             int x2 = Integer.parseInt(args[5]);
             int y2 = Integer.parseInt(args[6]);
             int z2 = Integer.parseInt(args[7]);
-            // Default threshold is off, (200%)
-            double threshold = (args.length >= 9) ? Double.parseDouble(args[8]) : 2;
+            // Default threshold is off, (101%)
+            double threshold = (args.length >= 9) ? Double.parseDouble(args[8]) : 101;
             int delay = (args.length >= 10) ? Integer.parseInt(args[9]) : 1200;
 
             if (manager.exists(name)) {
-                sender.sendMessage(Component.text("Mine already exists!")
-                        .color(NamedTextColor.RED));
+                sender.sendMessage(TextUtils.format("Mine already exists!", MessageType.ERROR));
                 return;
             }
 
             manager.addMine(name, worldName, Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
                     Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2), threshold, delay);
-            sender.sendMessage(Component.text(name + " mine created successfully").color(NamedTextColor.GREEN));
+            sender.sendMessage(TextUtils.format(name + " mine created successfully", MessageType.SUCCESS));
         } catch (NumberFormatException e) {
-            sender.sendMessage(Component.text("Error: Coordinates and thresholds must be numbers!")
-                    .color(NamedTextColor.RED));
+            sender.sendMessage(TextUtils.format("Coordinates and thresholds must be numbers", MessageType.ERROR));
         }
     }
 
@@ -160,18 +166,24 @@ public class MineCommand implements AuroraSubCommand {
         List<MineBlock> blocks = new ArrayList<>();
         int totalPercent = 0;
         for (int i = 2; i < args.length; i += 2) {
-            Material material = Material.matchMaterial(args[i]);
-            if (material == null) {
-                sender.sendMessage("No such material: " + args[i]);
-                return;
-            }
-
             try {
                 int percent = Integer.parseInt(args[i + 1]);
                 if (percent < 0) throw new NumberFormatException();
 
                 totalPercent += percent;
-                blocks.add(new MineBlock(material, percent));
+                if (BlockPresets.hasBlock(args[i])) {
+                    blocks.add(new MineBlock(BlockPresets.getMaterial(args[i]), percent, args[i]));
+                } else {
+                    Material material = Material.matchMaterial(args[i]);
+                    if (material == null) {
+                        sender.sendMessage("No such material: " + args[i]);
+                        return;
+                    } else if (!material.isBlock()) {
+                        sender.sendMessage(args[i] + " is not a block");
+                        return;
+                    }
+                    blocks.add(new MineBlock(material, percent, material.getKey().toString()));
+                }
             } catch (NumberFormatException e) {
                 sender.sendMessage("Illegal percentage: " + args[i + 1]);
                 return;

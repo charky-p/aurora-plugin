@@ -15,6 +15,7 @@ public final class Aurora extends JavaPlugin {
     private MobManager mobManager;
     private TabManager tabManager;
     private TraderManager traderManager;
+    private InventoryManager inventoryManager;
 
     public static NamespacedKey SPAWNER_ID_KEY;
     public static NamespacedKey MOB_ID_KEY;
@@ -40,6 +41,7 @@ public final class Aurora extends JavaPlugin {
         this.manager = new MineManager(this, db, scoreboard);
         this.mobManager = new MobManager(this, db);
         this.traderManager = new TraderManager(this);
+        this.inventoryManager = new InventoryManager();
 
         // Plugin startup logic
         if (this.getCommand("refresh") != null) {
@@ -60,9 +62,9 @@ public final class Aurora extends JavaPlugin {
 
         // Listeners
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
-        getServer().getPluginManager().registerEvents(new MineListener(manager, scoreboard), this);
+        getServer().getPluginManager().registerEvents(new MineListener(manager, scoreboard, inventoryManager), this);
         getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboard), this);
-        getServer().getPluginManager().registerEvents(new MobDeathListener(mobManager), this);
+        getServer().getPluginManager().registerEvents(new MobDeathListener(mobManager, inventoryManager), this);
         getServer().getPluginManager().registerEvents(new TraderListener(traderManager), this);
         getServer().getPluginManager().registerEvents(new WandListener(this), this);
 

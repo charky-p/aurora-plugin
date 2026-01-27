@@ -44,8 +44,9 @@ public class Database {
             // Blocks that map to mines
             statement.execute("CREATE TABLE IF NOT EXISTS blocks (" +
                     "mine TEXT, " +
-                    "block TEXT, " +
-                    "percent DOUBLE)");
+                    "material TEXT, " +
+                    "percent DOUBLE, " +
+                    "id TEXT)");
 
             // Player data for scoreboard
             statement.execute("CREATE TABLE IF NOT EXISTS playerData (" +
@@ -150,7 +151,7 @@ public class Database {
 
     public Map<String, List<MineBlock>> getMineBlocks() {
         Map<String, List<MineBlock>> blockMap = new HashMap<>();
-        String sql = "SELECT mine, block, percent FROM blocks";
+        String sql = "SELECT mine, material, percent, id FROM blocks";
 
         try (Connection connection = getConnection();
              PreparedStatement pst = connection.prepareStatement(sql);
@@ -158,10 +159,11 @@ public class Database {
 
             while (rs.next()) {
                 String mineName = rs.getString("mine");
-                Material material = Material.matchMaterial(rs.getString("block"));
+                Material material = Material.matchMaterial(rs.getString("material"));
                 double percent = rs.getDouble("percent");
+                String blockId = rs.getString("id");
 
-                MineBlock mb = new MineBlock(material, percent);
+                MineBlock mb = new MineBlock(material, percent, blockId);
 
                 blockMap.computeIfAbsent(mineName, k -> new ArrayList<>()).add(mb);
             }
@@ -173,7 +175,7 @@ public class Database {
 
     public void setBlocks(String name, List<MineBlock> blocks) {
         String deleteSql = "DELETE FROM blocks WHERE mine = ?";
-        String insertSql = "INSERT INTO blocks (mine, block, percent) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO blocks (mine, material, percent, id) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = getConnection()) {
             connection.setAutoCommit(false);
@@ -191,6 +193,7 @@ public class Database {
                         insPst.setString(1, name);
                         insPst.setString(2, block.material().name());
                         insPst.setDouble(3, block.percentage());
+                        insPst.setString(4, block.id());
                         insPst.addBatch();
                     }
                     insPst.executeBatch();

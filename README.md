@@ -46,6 +46,10 @@ under mob names: level | mob name | health
 
 add borders enum to trader guis
 
+send inventory or item in chat
+
+grapple for movement early on, movement items category like elytra, dash
+
 #### Run Instructions
 Download Paper 1.21
 

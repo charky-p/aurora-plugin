@@ -83,7 +83,7 @@ public class MobPresets {
     }
 
     public static boolean hasMob(String id) {
-        return PRESETS.containsKey(id);
+        return PRESETS.containsKey(id.toLowerCase());
     }
 
     public static List<MenuItem> getDrops(String id) {

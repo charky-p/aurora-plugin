@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.Database;
+import org.charky.aurora.models.BlockPresets;
 import org.charky.aurora.models.Mine;
 import org.charky.aurora.models.MineBlock;
 import org.charky.aurora.models.MineData;
@@ -21,6 +22,7 @@ public class MineManager {
     private final Database db;
     private final ScoreboardManager scoreboard;
     private final Map<String, Mine> mineMap = new HashMap<>();
+    private final Map<Location, String> blockIdMap = new HashMap<>();
 
     public MineManager(Aurora plugin, Database db, ScoreboardManager scoreboard) {
         this.plugin = plugin;
@@ -30,8 +32,9 @@ public class MineManager {
         Map<String, List<MineBlock>> blockMap = db.getMineBlocks();
         List<MineData> mines = db.getMines();
         for (MineData mineData : mines) {
-            Mine mine = new Mine(plugin, mineData, blockMap.get(mineData.name()));
+            Mine mine = new Mine(plugin, this, mineData, blockMap.get(mineData.name()));
             this.mineMap.put(mineData.name(), mine);
+            mine.resetMine();
             mine.startTimer();
         }
     }
@@ -40,12 +43,12 @@ public class MineManager {
         if (exists(name)) return;
 
         MineData data = new MineData(name, world, x1, y1, z1, x2, y2, z2, threshold, delay);
-        List<MineBlock> defaultBlocks = List.of(new MineBlock(Material.COBBLESTONE, 100.0));
+        List<MineBlock> defaultBlocks = List.of(new MineBlock(Material.COBBLESTONE, 100.0, "minecraft:cobblestone"));
 
         this.db.addMine(data);
         this.db.setBlocks(name, defaultBlocks);
 
-        Mine mine = new Mine(this.plugin, data, defaultBlocks);
+        Mine mine = new Mine(this.plugin, this, data, defaultBlocks);
         this.mineMap.put(name, mine);
         mine.startTimer();
     }
@@ -95,6 +98,15 @@ public class MineManager {
             if (mine.atLoc(location)) return mine;
         }
         return null;
+    }
+
+    public String getBlockIdAt(Location location) {
+        if (!blockIdMap.containsKey(location)) return null;
+        return blockIdMap.get(location);
+    }
+
+    public void registerBlock(Location location, String id) {
+        this.blockIdMap.put(location, id);
     }
 
     public void tpMine(Player player, String mineName) {

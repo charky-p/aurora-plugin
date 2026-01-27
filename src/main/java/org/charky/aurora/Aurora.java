@@ -17,11 +17,13 @@ public final class Aurora extends JavaPlugin {
     private TraderManager traderManager;
 
     public static NamespacedKey SPAWNER_ID_KEY;
+    public static NamespacedKey MOB_ID_KEY;
 
     @Override
     public void onEnable() {
         // Spawner id key
         SPAWNER_ID_KEY = new NamespacedKey(this, "spawner_id");
+        MOB_ID_KEY = new NamespacedKey(this, "mob_id");
 
         // Database setup
         if (!getDataFolder().exists()) {
@@ -57,11 +59,15 @@ public final class Aurora extends JavaPlugin {
         }
 
         if (this.getCommand("mobspawner") != null) {
-            this.getCommand("mobspawner").setExecutor(new MobCommand(mobManager));
+            this.getCommand("mobspawner").setExecutor(new MobCommand(this));
         }
 
         if (this.getCommand("trader") != null) {
             this.getCommand("trader").setExecutor(new SpawnCommand(traderManager));
+        }
+
+        if (this.getCommand("wandE") != null) {
+            this.getCommand("wandE").setExecutor(new WandCommand(this));
         }
 
         // Listeners
@@ -70,6 +76,7 @@ public final class Aurora extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboard), this);
         getServer().getPluginManager().registerEvents(new MobDeathListener(mobManager), this);
         getServer().getPluginManager().registerEvents(new TraderListener(traderManager), this);
+        getServer().getPluginManager().registerEvents(new WandListener(this), this);
 
         // Mines setup
         getLogger().info("AuroraMines has been enabled!");

@@ -4,20 +4,18 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class TraderMenu implements MenuNode {
+public class TraderMenu implements TraderNode {
     private String menuId;
     private Component title;
     private int rows;
-    private Map<Integer, MenuNode> contents;
+    private Map<Integer, TraderNode> contents;
     private ItemStack displayItem;
 
-    public TraderMenu(String menuId, Component title, int rows, Map<Integer, MenuNode> contents, ItemStack displayItem) {
+    public TraderMenu(String menuId, Component title, int rows, Map<Integer, TraderNode> contents, ItemStack displayItem) {
         this.menuId = menuId;
         this.title = title;
         this.rows = rows;

@@ -333,7 +333,7 @@ public class Database {
         }
     }
 
-    public List<MobSpawner> getSpawners(Map<String, MobData> mobMap, Aurora plugin) {
+    public List<MobSpawner> getSpawners(Aurora plugin) {
         String sql = "SELECT * FROM spawners";
 
         List<MobSpawner> spawners = new ArrayList<>();
@@ -342,7 +342,7 @@ public class Database {
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 String mob = rs.getString("mob");
-                MobData data = mobMap.get(mob);
+                MobData data = MobPresets.get(mob);
                 if (data == null) continue;
 
                 spawners.add(new MobSpawner(

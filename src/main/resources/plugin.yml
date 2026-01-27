@@ -26,3 +26,6 @@ commands:
     description: Spawn trader
     usage: /trader <traderId> <x> <y> <z>
     aliases: [t]
+  wandE:
+    description: wand entities
+    usage: /wande

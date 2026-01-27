@@ -24,7 +24,7 @@ public class SpawnCommand implements CommandExecutor {
         if (!(sender instanceof Player player)) return false;
 
 //        player.teleport(new Location())
-        if (args.length < 5) {
+        if (args.length < 4) {
             player.sendMessage(Component.text("Usage: /trader <traderId> <x> <y> <z>"));
             return true;
         }
@@ -34,6 +34,11 @@ public class SpawnCommand implements CommandExecutor {
         double y = Double.parseDouble(args[2]);
         double z = Double.parseDouble(args[3]);
 
+        if (!manager.traderExists(traderId)) {
+            player.sendMessage(Component.text("Trader " + traderId + " does not exist!")
+                    .color(NamedTextColor.RED));
+            return true;
+        }
         manager.spawnTrader(traderId, player.getWorld(), x, y, z);
         player.sendMessage(Component.text("Successfully spawned trader!")
                 .color(NamedTextColor.GREEN));

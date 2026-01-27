@@ -58,7 +58,7 @@ public class MobSpawner {
     }
 
     public String getMobName() {
-        return this.mob.name();
+        return this.mob.id();
     }
 
     public double getRadius() {
@@ -74,7 +74,7 @@ public class MobSpawner {
 
         Location spawnLocation = this.findSpawnLocation();
         if (spawnLocation == null) return;
-        this.plugin.getMobManager().spawnMob(this.mob.name(), spawnLocation, this.name);
+        this.plugin.getMobManager().spawnMob(this.mob.id(), spawnLocation, this.name);
         activeMobs++;
     }
 

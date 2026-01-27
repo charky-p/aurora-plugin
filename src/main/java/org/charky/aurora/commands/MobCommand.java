@@ -6,14 +6,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.charky.aurora.Aurora;
 import org.charky.aurora.managers.MobManager;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class MobCommand implements CommandExecutor {
     private MobManager manager;
 
-    public MobCommand(MobManager manager) {
-        this.manager = manager;
+    public MobCommand(Aurora plugin) {
+        this.manager = plugin.getMobManager();
     }
 
     @Override

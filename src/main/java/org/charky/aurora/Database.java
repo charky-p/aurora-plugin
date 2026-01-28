@@ -1,6 +1,9 @@
 package org.charky.aurora;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.charky.aurora.models.*;
 
 import java.io.File;
@@ -79,6 +82,12 @@ public class Database {
 //                    "boots TEXT, " +
 //                    "weapon TEXT, " +
 //                    "offhand TEXT, )");
+
+            // Spawns
+            statement.execute("CREATE TABLE IF NOT EXISTS spawns (" +
+                    "world TEXT PRIMARY KEY, " +
+                    "x DOUBLE, y DOUBLE, z DOUBLE, " +
+                    "yaw FLOAT, pitch FLOAT)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -364,6 +373,50 @@ public class Database {
         }
 
         return spawners;
+    }
+
+    public Map<World, Location> getSpawns() {
+        String sql = "SELECT * FROM spawns";
+
+        Map<World, Location> spawnMap = new HashMap<>();
+        try (Connection connection = this.getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
+            while (rs.next()) {
+                World world = Bukkit.getWorld(rs.getString("world"));
+                Location location = new Location(
+                        world,
+                        rs.getDouble("x"),
+                        rs.getDouble("y"),
+                        rs.getDouble("z"),
+                        rs.getFloat("yaw"),
+                        rs.getFloat("pitch"));
+                spawnMap.put(world, location);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return spawnMap;
+    }
+
+    public void saveSpawn(Location location) {
+        String sql = "INSERT INTO spawns (world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?) " +
+                "ON CONFLICT(world) DO UPDATE SET x=excluded.x, y=excluded.y, z=excluded.z, " +
+                "yaw=excluded.yaw, pitch=excluded.pitch";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, location.getWorld().getName());
+            pst.setDouble(2, location.getX());
+            pst.setDouble(3, location.getY());
+            pst.setDouble(4, location.getZ());
+            pst.setFloat(5, location.getYaw());
+            pst.setFloat(6, location.getPitch());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Connection getConnection() throws SQLException {

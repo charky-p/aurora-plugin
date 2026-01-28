@@ -4,11 +4,13 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class TraderMenu implements TraderNode {
+public class TraderMenu implements TraderNode, InventoryHolder {
     private String menuId;
     private Component title;
     private int rows;
@@ -30,13 +32,18 @@ public class TraderMenu implements TraderNode {
 
     @Override
     public void onClick(Player player) {
-        Inventory inv = Bukkit.createInventory(null, rows * 9, title);
+        Inventory inv = Bukkit.createInventory(this, rows * 9, title);
 
         contents.forEach((slot, node) -> {
             inv.setItem(slot, node.getDisplayItem());
         });
 
         player.openInventory(inv);
+    }
+
+    @Override
+    public @NotNull Inventory getInventory() {
+        return null;
     }
 
     public String getId() {

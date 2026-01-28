@@ -50,6 +50,25 @@ send inventory or item in chat
 
 grapple for movement early on, movement items category like elytra, dash
 
+#### Server Design
+world 1 (overworld): 4 regions
+1. Origin Isles - plains like sky islands (stone, coal, copper, iron, gold, gormak)
+2. Verdant Groves - forest island, grapple unlockable (oak log, birch log, spruce log, dark oak log, tin, bronze, lead, silver, treant or tree zombee in large treehouse)
+3. Emerald Peaks  - large mountain island, elytra unlockable (snow, dirt, pumpkin, melon, redstone, lapis, emerald, arachne)
+4. Ironbound Quarry - detached quarry island, need elytra to go to (pale log, maple, gravel, clay, tungston, platinum, titanium, diamond, pillager, quarry, world boss (overworld golem))
+
+world boss spawns retroactively every 5 minutes, there are also temple guards that drop overworld shards, 
+can combine to overworld core, dropped by overworld golem
+
+tin (light_gray_concrete) needs oak log, bronze (brown_concrete) needs birch log, lead (?) needs spruce, silver (block_of_iron) needs dark oak log
+lapis needs snow AND pumpkin, emerald needs dirt AND melons
+tungston (?), platinum (?) needs gravel, platinum (?) needs pale, titanium (?) needs clay AND maple, diamond needs maple, clay, gravel, pale
+dead log be pale log, maple be mangrove log
+quarry is mob fight in quarry
+
+cobalt for cave world
+#### OOP Design
+
 #### Run Instructions
 Download Paper 1.21
 

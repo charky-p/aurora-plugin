@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.charky.aurora.ItemFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -91,6 +92,14 @@ public class GiveCustomsCommand implements CommandExecutor {
         player.getInventory().addItem(sword);
         player.sendMessage(Component.text("You received a Gravity Blade!").color(NamedTextColor.BLUE));
 
+        ItemFactory factory = new ItemFactory();
+        player.getInventory().addItem(factory.createItem(Component.text("Emerald Pickaxe").color(NamedTextColor.GREEN),
+                Material.DIAMOND_PICKAXE, 50, "overworld", List.of("Efficiency 50", "Fortune 10")));
+        player.sendMessage(Component.text("You received an Emerald pick for custom test"));
+
+        player.getInventory().addItem(factory.createItem(Component.text("Regional Sword").color(NamedTextColor.AQUA),
+                Material.IRON_SWORD, 32, "overworld", List.of("Sharpness 100", "Looting 80")));
+        player.sendMessage(Component.text("You received Strong Sword for custom test"));
         return true;
     }
 }

@@ -50,7 +50,7 @@ public class MineManager {
 
         Mine mine = new Mine(this.plugin, this, data, defaultBlocks);
         this.mineMap.put(name, mine);
-        mine.startTimer();
+        mine.resetMine();
     }
 
     public void removeMine(String name) {

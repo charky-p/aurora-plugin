@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.managers.MobManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +19,7 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
     public AuroraCommand(Aurora plugin) {
         subCommands.put("wand", new WandCommand(plugin));
         subCommands.put("mob", new MobCommand(plugin));
-        subCommands.put("trader", new SpawnCommand(plugin));
+        subCommands.put("trader", new TraderCommand(plugin));
         subCommands.put("mine", new MineCommand(plugin));
     }
 

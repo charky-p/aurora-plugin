@@ -33,3 +33,9 @@ commands:
   wandE:
     description: wand entities
     usage: /wande
+  spawn:
+    description: Teleport to world spawn
+    usage: /spawn
+  setspawn:
+    description: Set world spawn to current location
+    usage: /setspawn

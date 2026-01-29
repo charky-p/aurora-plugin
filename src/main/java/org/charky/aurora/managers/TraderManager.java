@@ -3,7 +3,9 @@ package org.charky.aurora.managers;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.models.*;
+import org.charky.aurora.features.trader.Trader;
+import org.charky.aurora.features.trader.TraderPresets;
+import org.charky.aurora.interfaces.TraderNode;
 
 public class TraderManager {
     public static final String TRADER_KEY_NAME = "trader_id";

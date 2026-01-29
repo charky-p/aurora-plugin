@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.util;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 

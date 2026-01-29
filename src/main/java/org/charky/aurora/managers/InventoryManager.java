@@ -3,11 +3,10 @@ package org.charky.aurora.managers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.title.Title;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.charky.aurora.models.MenuItem;
+import org.charky.aurora.features.loot.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;

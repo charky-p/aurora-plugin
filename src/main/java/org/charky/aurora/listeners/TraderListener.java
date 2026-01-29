@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.managers.TraderManager;
-import org.charky.aurora.models.TraderMenu;
+import org.charky.aurora.features.trader.TraderMenu;
 
 public class TraderListener implements Listener {
     private final TraderManager manager;

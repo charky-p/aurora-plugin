@@ -1,6 +1,6 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.loot;
 
-import org.bukkit.inventory.ItemStack;
+import org.charky.aurora.interfaces.LootPool;
 
 import java.util.*;
 

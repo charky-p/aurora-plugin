@@ -1,16 +1,13 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.mining;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.managers.MineManager;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Mine {
@@ -28,9 +25,9 @@ public class Mine {
         this.manager = manager;
         this.data = data;
         this.blocks = blocks;
-        this.volume = (Math.abs(data.x1() - data.x2()) + 1) *
-                      (Math.abs(data.y1() - data.y2()) + 1) *
-                      (Math.abs(data.z1() - data.z2()) + 1);
+        this.volume = (Math.abs(data.getX1() - data.getX2()) + 1) *
+                      (Math.abs(data.getY1() - data.getY2()) + 1) *
+                      (Math.abs(data.getZ1() - data.getZ2()) + 1);
     }
 
     public void setBlocks(List<MineBlock> blocks) {
@@ -39,7 +36,7 @@ public class Mine {
 
     public void startTimer() {
         stopTimer();
-        long delayTicks = (long) this.data.delay();
+        long delayTicks = (long) this.data.getDelay();
         this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, this::resetMine, delayTicks, delayTicks);
     }
 
@@ -52,7 +49,7 @@ public class Mine {
 
     public void handleBlockBreak() {
         this.blocksBroken++;
-        if (((double) blocksBroken) / volume * 100 < data.threshold()) return;
+        if (((double) blocksBroken) / volume * 100 < data.getThreshold()) return;
 
         // Ensure we only reset at most once a tick, e.g. blast pickaxe
         if (this.lastResetTick == Bukkit.getCurrentTick()) return;
@@ -62,32 +59,36 @@ public class Mine {
     }
 
     public boolean atLoc(Location location) {
-        if (!this.data.world().equals(location.getWorld().getName())) return false;
+        if (!this.data.getWorld().equals(location.getWorld().getName())) return false;
         int x = location.getBlockX();
         int y = location.getBlockY();
         int z = location.getBlockZ();
 
-        if (x < this.data.x1() || x > this.data.x2()) return false;
-        if (y < this.data.y1() || y > this.data.y2()) return false;
-        return z >= this.data.z1() && z <= this.data.z2();
+        if (x < this.data.getX1() || x > this.data.getX2()) return false;
+        if (y < this.data.getY1() || y > this.data.getY2()) return false;
+        return z >= this.data.getZ1() && z <= this.data.getZ2();
     }
 
-    public Location getLocation() {
-        World world = Bukkit.getWorld(this.data.world());
+    public Location getTpLocation() {
+        World world = Bukkit.getWorld(this.data.getWorld());
         if (world == null) return null;
 
-        return new Location(world, this.data.x1() + 0.5, this.data.y1() + 1, this.data.z1() + 0.5);
+        return new Location(world, this.data.getTpX(), this.data.getTpY(), this.data.getTpZ());
+    }
+
+    public void setTp(double x, double y, double z) {
+        data.updateTeleport(x, y, z);
     }
 
     public void resetMine() {
         this.blocksBroken = 0;
         this.lastResetTick = Bukkit.getCurrentTick();
-        World world = Bukkit.getWorld(this.data.world());
+        World world = Bukkit.getWorld(this.data.getWorld());
         if (world == null) return;
 
-        for (int x = this.data.x1(); x <= this.data.x2(); x++) {
-            for (int y = this.data.y1(); y <= this.data.y2(); y++) {
-                for (int z = this.data.z1(); z <= this.data.z2(); z++) {
+        for (int x = this.data.getX1(); x <= this.data.getX2(); x++) {
+            for (int y = this.data.getY1(); y <= this.data.getY2(); y++) {
+                for (int z = this.data.getZ1(); z <= this.data.getZ2(); z++) {
                     MineBlock choice = this.getRandomBlock();
                     world.getBlockAt(x, y, z).setType(choice.material(), false);
 
@@ -96,8 +97,6 @@ public class Mine {
                 }
             }
         }
-
-        plugin.getLogger().info(this.data.name() + " Reset Successfully!");
     }
 
     private MineBlock getRandomBlock() {

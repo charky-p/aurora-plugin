@@ -36,7 +36,7 @@ public class MobCommand implements AuroraSubCommand {
 
     public void addSpawner(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 6) {
-            sender.sendMessage("Usage: /mobspawner add <name> <x> <y> <z> <mobName>");
+            sender.sendMessage("Usage: /mob add <name> <x> <y> <z> <mobName>");
             return;
         }
 
@@ -69,5 +69,20 @@ public class MobCommand implements AuroraSubCommand {
 
     public void saveMob(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         return;
+    }
+
+    @Override
+    public String getUsage() {
+        return "IM HITLER";
+    }
+
+    @Override
+    public String getName() {
+        return "mob";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Create custom spawners with custom entities";
     }
 }

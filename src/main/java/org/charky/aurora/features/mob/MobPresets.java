@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.mob;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -9,6 +9,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.charky.aurora.features.loot.MenuItem;
+import org.charky.aurora.features.loot.IndependentLootPool;
+import org.charky.aurora.features.loot.ItemDrop;
 
 import java.util.ArrayList;
 import java.util.HashMap;

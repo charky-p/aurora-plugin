@@ -4,7 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.charky.aurora.models.*;
+import org.charky.aurora.features.*;
+import org.charky.aurora.features.mining.MineBlock;
+import org.charky.aurora.features.mining.MineData;
+import org.charky.aurora.features.mob.MobData;
+import org.charky.aurora.features.mob.MobPresets;
+import org.charky.aurora.features.mob.MobSpawner;
 
 import java.io.File;
 import java.sql.*;
@@ -42,7 +47,8 @@ public class Database {
                     "x1 INTEGER, y1 INTEGER, z1 INTEGER, " +
                     "x2 INTEGER, y2 INTEGER, z2 INTEGER, " +
                     "reset_threshold DOUBLE, " +
-                    "delay INTEGER)");
+                    "delay INTEGER, " +
+                    "tpX DOUBLE, tpY DOUBLE, tpZ DOUBLE)");
 
             // Blocks that map to mines
             statement.execute("CREATE TABLE IF NOT EXISTS blocks (" +
@@ -94,20 +100,23 @@ public class Database {
     }
 
     public void addMine(MineData data) {
-        String sql = "INSERT INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, delay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, delay, tpX, tpY, tpZ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
              PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setString(1, data.name());
-            pst.setString(2, data.world());
-            pst.setInt(3, data.x1());
-            pst.setInt(4, data.y1());
-            pst.setInt(5, data.z1());
-            pst.setInt(6, data.x2());
-            pst.setInt(7, data.y2());
-            pst.setInt(8, data.z2());
-            pst.setDouble(9, data.threshold());
-            pst.setInt(10, data.delay());
+            pst.setString(1, data.getName());
+            pst.setString(2, data.getWorld());
+            pst.setInt(3, data.getX1());
+            pst.setInt(4, data.getY1());
+            pst.setInt(5, data.getZ1());
+            pst.setInt(6, data.getX2());
+            pst.setInt(7, data.getY2());
+            pst.setInt(8, data.getZ2());
+            pst.setDouble(9, data.getThreshold());
+            pst.setInt(10, data.getDelay());
+            pst.setDouble(11, data.getTpX());
+            pst.setDouble(12, data.getTpY());
+            pst.setDouble(13, data.getTpZ());
 
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -149,7 +158,8 @@ public class Database {
                         rs.getInt("x1"), rs.getInt("y1"), rs.getInt("z1"),
                         rs.getInt("x2"), rs.getInt("y2"), rs.getInt("z2"),
                         rs.getDouble("reset_threshold"),
-                        rs.getInt("delay")
+                        rs.getInt("delay"),
+                        rs.getDouble("tpX"), rs.getDouble("tpY"), rs.getDouble("tpZ")
                 ));
             }
         } catch (SQLException e) {
@@ -217,6 +227,22 @@ public class Database {
             } finally {
                 connection.setAutoCommit(true);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setTp(String name, double tpX, double tpY, double tpZ) {
+        String sql = "UPDATE mines SET tpX = ?, tpY = ?, tpZ = ? WHERE name = ?";
+
+        try (Connection connection = this.getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setDouble(1, tpX);
+            pst.setDouble(2, tpY);
+            pst.setDouble(3, tpZ);
+
+            pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,10 +1,12 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.trader;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.charky.aurora.features.loot.MenuItem;
+import org.charky.aurora.interfaces.TraderNode;
 import org.charky.aurora.managers.TraderManager;
 
 import java.util.ArrayList;

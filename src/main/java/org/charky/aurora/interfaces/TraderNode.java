@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.interfaces;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

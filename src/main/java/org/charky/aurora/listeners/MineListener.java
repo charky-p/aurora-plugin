@@ -1,8 +1,6 @@
 package org.charky.aurora.listeners;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -11,12 +9,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.charky.aurora.Aurora;
 import org.charky.aurora.managers.InventoryManager;
 import org.charky.aurora.managers.MineManager;
 import org.charky.aurora.managers.ScoreboardManager;
-import org.charky.aurora.models.BlockPresets;
-import org.charky.aurora.models.ItemDrop;
-import org.charky.aurora.models.MenuItem;
+import org.charky.aurora.features.mining.BlockPresets;
+import org.charky.aurora.features.loot.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +23,20 @@ public class MineListener implements Listener {
     private final MineManager manager;
     private final ScoreboardManager scoreboard;
     private final InventoryManager inventoryManager;
+    private final BlockPresets blockPresets;
 
-    public MineListener(MineManager manager, ScoreboardManager scoreboard, InventoryManager inventoryManager) {
-        this.manager = manager;
-        this.scoreboard = scoreboard;
-        this.inventoryManager = inventoryManager;
+    public MineListener(Aurora plugin) {
+        this.manager = plugin.getMineManager();
+        this.scoreboard = plugin.getScoreboardManager();
+        this.inventoryManager = plugin.getInventoryManager();
+        this.blockPresets = plugin.getBlockPresets();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMine(BlockBreakEvent event) {
         Player player = event.getPlayer();
         event.setDropItems(false);
+        event.setCancelled(true);
 
         List<MenuItem> drops = new ArrayList<>();
         processBlock(player, event.getBlock(), drops);
@@ -74,10 +75,11 @@ public class MineListener implements Listener {
         String customId = manager.getBlockIdAt(block.getLocation());
         String dropId = customId == null ? block.getType().getKey().toString() : customId;
 
-        if (BlockPresets.hasBlock(dropId)) {
-            drops.addAll(BlockPresets.getDrops(dropId));
+        if (blockPresets.hasBlock(dropId)) {
+            drops.addAll(blockPresets.getDrops(dropId));
         }
 
-        block.setType(Material.AIR, false);
+        // Only break if it is a block with a drop
+        if (!blockPresets.getDrops(dropId).isEmpty()) block.setType(Material.AIR, false);
     }
 }

@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features;
 
 public class PlayerData {
     private String rank;

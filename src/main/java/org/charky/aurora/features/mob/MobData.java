@@ -1,12 +1,12 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.mob;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.charky.aurora.interfaces.LootPool;
 
-import java.util.List;
 import java.util.Map;
 
 public record MobData(

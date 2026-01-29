@@ -7,10 +7,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.Database;
-import org.charky.aurora.models.BlockPresets;
-import org.charky.aurora.models.Mine;
-import org.charky.aurora.models.MineBlock;
-import org.charky.aurora.models.MineData;
+import org.charky.aurora.features.mining.Mine;
+import org.charky.aurora.features.mining.MineBlock;
+import org.charky.aurora.features.mining.MineData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +31,8 @@ public class MineManager {
         Map<String, List<MineBlock>> blockMap = db.getMineBlocks();
         List<MineData> mines = db.getMines();
         for (MineData mineData : mines) {
-            Mine mine = new Mine(plugin, this, mineData, blockMap.get(mineData.name()));
-            this.mineMap.put(mineData.name(), mine);
+            Mine mine = new Mine(plugin, this, mineData, blockMap.get(mineData.getName()));
+            this.mineMap.put(mineData.getName(), mine);
             mine.resetMine();
             mine.startTimer();
         }
@@ -42,7 +41,7 @@ public class MineManager {
     public void addMine(String name, String world, int x1, int y1, int z1, int x2, int y2, int z2, double threshold, int delay) {
         if (exists(name)) return;
 
-        MineData data = new MineData(name, world, x1, y1, z1, x2, y2, z2, threshold, delay);
+        MineData data = new MineData(name, world, x1, y1, z1, x2, y2, z2, threshold, delay, x1 - 0.5, y1 + 1, z1 - 0.5);
         List<MineBlock> defaultBlocks = List.of(new MineBlock(Material.COBBLESTONE, 100.0, "minecraft:cobblestone"));
 
         this.db.addMine(data);
@@ -84,6 +83,7 @@ public class MineManager {
         if (mine == null) return;
 
         mine.resetMine();
+        mine.startTimer();
     }
 
     public void handleBlockBreak(Player player, Location location) {
@@ -113,13 +113,21 @@ public class MineManager {
         Mine mine = this.mineMap.get(mineName);
         if (mine == null) return;
 
-        Location location = mine.getLocation();
+        Location location = mine.getTpLocation();
         if (location != null && location.getWorld() != null) {
             player.teleport(location);
         } else {
             player.sendMessage(Component.text("ERROR: Mine location was invalid")
                     .color(NamedTextColor.RED));
         }
+    }
+
+    public void setTp(String mineName, double x, double y, double z) {
+        Mine mine = mineMap.get(mineName);
+        if (mine == null) return;
+
+        mine.setTp(x, y, z);
+        db.setTp(mineName, x, y, z);
     }
 
     public void shutdown() {

@@ -8,6 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.charky.aurora.util.MessageType;
+import org.charky.aurora.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class HealCommand implements CommandExecutor {
@@ -30,9 +32,10 @@ public class HealCommand implements CommandExecutor {
         target.setFoodLevel(20);
         target.setFireTicks(0);
 
-        target.sendMessage(Component.text("You have been fully healed!").color(NamedTextColor.RED));
+        // TODO: Has aurora tag, maybe remove
+        TextUtils.format(target, "You have been fully healed!", MessageType.SUCCESS);
         if (target != player) {
-            player.sendMessage(Component.text("Healed " + target.getName()).color(NamedTextColor.RED));
+            TextUtils.format(player, "Healed " + target.getName(), MessageType.SUCCESS);
         }
 
         return true;

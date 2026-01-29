@@ -1,9 +1,9 @@
-package org.charky.aurora;
+package org.charky.aurora.util;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.charky.aurora.models.MessageType;
+import org.bukkit.command.CommandSender;
 
 public class TextUtils {
     public static final Component PREFIX = Component.text()
@@ -19,5 +19,9 @@ public class TextUtils {
 
     public static Component format(String message, MessageType type) {
         return Component.text().append(PREFIX).append(Component.text(message, type.getColor())).build();
+    }
+
+    public static void format(CommandSender sender, String message, MessageType type) {
+        sender.sendMessage(format(message, type));
     }
 }

@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.trader;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;

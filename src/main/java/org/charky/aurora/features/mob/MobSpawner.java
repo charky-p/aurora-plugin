@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.mob;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

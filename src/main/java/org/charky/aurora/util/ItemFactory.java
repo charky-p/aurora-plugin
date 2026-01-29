@@ -1,4 +1,4 @@
-package org.charky.aurora;
+package org.charky.aurora.util;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -31,6 +31,8 @@ public class ItemFactory {
                 lore.add(Component.text("⛏ Mining").color(NamedTextColor.DARK_GRAY).decoration(TextDecoration.ITALIC, false));
             } else if (materialName.contains("SWORD")) {
                 lore.add(Component.text("\uD83D\uDDE1 Combat").color(NamedTextColor.DARK_GRAY).decoration(TextDecoration.ITALIC, false));
+            } else {
+                lore.add(Component.text("\uD83D\uDC8E Resource").color(NamedTextColor.DARK_GRAY).decoration(TextDecoration.ITALIC, false));
             }
 
             lore.add(Component.empty());
@@ -51,6 +53,25 @@ public class ItemFactory {
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            item.setItemMeta(meta);
+        }
+
+        return item;
+    }
+
+    public ItemStack createItem(Component name, Material material, String world) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.displayName(name.decoration(TextDecoration.BOLD, true)
+                    .decoration(TextDecoration.ITALIC, false));
+
+            List<Component> lore = new ArrayList<>();
+            lore.add(Component.text("\uD83D\uDC8E Resource").color(NamedTextColor.DARK_GRAY).decoration(TextDecoration.ITALIC, false));
+
+            lore.add(Component.empty());
+            lore.add(this.parseWorld(world));
+            meta.lore(lore);
             item.setItemMeta(meta);
         }
 

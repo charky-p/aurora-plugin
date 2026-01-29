@@ -1,9 +1,8 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.loot;
 
-import org.bukkit.inventory.ItemStack;
+import org.charky.aurora.interfaces.LootPool;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -5,8 +5,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.commands.*;
+import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.listeners.*;
 import org.charky.aurora.managers.*;
+import org.charky.aurora.util.ItemFactory;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -20,6 +22,9 @@ public final class Aurora extends JavaPlugin {
     private TabManager tabManager;
     private TraderManager traderManager;
     private InventoryManager inventoryManager;
+    private WandManager wandManager;
+    private ItemFactory itemFactory = new ItemFactory();
+    private BlockPresets blockPresets;
     private Map<World, Location> spawnMap;
 
     public static NamespacedKey SPAWNER_ID_KEY;
@@ -50,6 +55,8 @@ public final class Aurora extends JavaPlugin {
         this.mobManager = new MobManager(this, db);
         this.traderManager = new TraderManager(this);
         this.inventoryManager = new InventoryManager();
+        this.wandManager = new WandManager();
+        this.blockPresets = new BlockPresets(itemFactory);
 
         // Plugin startup logic
         if (this.getCommand("refresh") != null) {
@@ -78,7 +85,7 @@ public final class Aurora extends JavaPlugin {
 
         // Listeners
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
-        getServer().getPluginManager().registerEvents(new MineListener(manager, scoreboard, inventoryManager), this);
+        getServer().getPluginManager().registerEvents(new MineListener(this), this);
         getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboard), this);
         getServer().getPluginManager().registerEvents(new MobDeathListener(mobManager, inventoryManager), this);
         getServer().getPluginManager().registerEvents(new TraderListener(traderManager), this);
@@ -97,8 +104,24 @@ public final class Aurora extends JavaPlugin {
         return this.manager;
     }
 
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboard;
+    }
+
     public TraderManager getTraderManager() {
         return this.traderManager;
+    }
+
+    public InventoryManager getInventoryManager() {
+        return inventoryManager;
+    }
+
+    public WandManager getWandManager() {
+        return wandManager;
+    }
+
+    public BlockPresets getBlockPresets() {
+        return blockPresets;
     }
 
     public Location getSpawn(World world) {

@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.features.trader;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -6,6 +6,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.charky.aurora.features.loot.MenuItem;
+import org.charky.aurora.interfaces.TraderNode;
 import org.charky.aurora.managers.TraderManager;
 
 import java.util.ArrayList;

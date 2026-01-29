@@ -6,8 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.TextUtils;
-import org.charky.aurora.models.MessageType;
+import org.charky.aurora.util.TextUtils;
+import org.charky.aurora.util.MessageType;
 import org.jetbrains.annotations.NotNull;
 
 public class SpawnCommand implements CommandExecutor {

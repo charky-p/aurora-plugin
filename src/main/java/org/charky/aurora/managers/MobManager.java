@@ -12,9 +12,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.Database;
-import org.charky.aurora.models.MobPresets;
-import org.charky.aurora.models.MobSpawner;
-import org.charky.aurora.models.MobData;
+import org.charky.aurora.features.mob.MobPresets;
+import org.charky.aurora.features.mob.MobSpawner;
+import org.charky.aurora.features.mob.MobData;
 
 import java.util.HashMap;
 import java.util.Map;

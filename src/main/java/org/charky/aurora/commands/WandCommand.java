@@ -54,4 +54,19 @@ public class WandCommand implements AuroraSubCommand {
     public List<String> tabComplete(Player player, String[] args) {
         return List.of();
     }
+
+    @Override
+    public String getUsage() {
+        return "/aurora wand";
+    }
+
+    @Override
+    public String getName() {
+        return "wand";
+    }
+
+    @Override
+    public String getDescription() {
+        return "wand TODO";
+    }
 }

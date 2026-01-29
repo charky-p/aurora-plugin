@@ -6,9 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.TextUtils;
+import org.charky.aurora.util.TextUtils;
 import org.charky.aurora.managers.TraderManager;
-import org.charky.aurora.models.MessageType;
+import org.charky.aurora.util.MessageType;
 
 import java.util.List;
 
@@ -52,5 +52,20 @@ public class TraderCommand implements AuroraSubCommand {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         return List.of();
+    }
+
+    @Override
+    public String getUsage() {
+        return "Usage: /aurora trader TODO";
+    }
+
+    @Override
+    public String getName() {
+        return "trader";
+    }
+
+    @Override
+    public String getDescription() {
+        return "create an npc trader to interact with for shops";
     }
 }

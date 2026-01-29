@@ -3,27 +3,32 @@ package org.charky.aurora.commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.TextUtils;
+import org.charky.aurora.managers.WandManager;
+import org.charky.aurora.util.TextUtils;
 import org.charky.aurora.managers.MineManager;
-import org.charky.aurora.models.BlockPresets;
-import org.charky.aurora.models.MessageType;
-import org.charky.aurora.models.MineBlock;
+import org.charky.aurora.features.mining.BlockPresets;
+import org.charky.aurora.util.MessageType;
+import org.charky.aurora.features.mining.MineBlock;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MineCommand implements AuroraSubCommand {
     private final MineManager manager;
+    private final WandManager wandManager;
+    private final BlockPresets blockPresets;
 
     public MineCommand(Aurora plugin) {
         this.manager = plugin.getMineManager();
+        this.wandManager = plugin.getWandManager();
+        this.blockPresets = plugin.getBlockPresets();
     }
 
     @Override
@@ -32,11 +37,13 @@ public class MineCommand implements AuroraSubCommand {
 
         switch (args[0].toLowerCase()) {
             case "create" -> createMine(sender, args);
+            case "create2" -> createMine2(sender, args);
             case "delete" -> deleteMine(sender, args);
             case "list" -> listMines(sender, args);
             case "setblocks" -> setBlocks(sender, args);
             case "reset" -> resetMine(sender, args);
             case "tp" -> tpMine(sender, args);
+            case "settp" -> setTp(sender, args);
         };
     }
 
@@ -75,7 +82,22 @@ public class MineCommand implements AuroraSubCommand {
                     .toList();
         }
 
-        return List.of();
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getUsage() {
+        return "mine [create|... TODO]";
+    }
+
+    @Override
+    public String getName() {
+        return "mine";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Create regenerating mines with custom or vanilla blocks";
     }
 
     private void createMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
@@ -115,6 +137,40 @@ public class MineCommand implements AuroraSubCommand {
         } catch (NumberFormatException e) {
             sender.sendMessage(TextUtils.format("Coordinates and thresholds must be numbers", MessageType.ERROR));
         }
+    }
+
+    private void createMine2(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (!(sender instanceof Player player)) return;
+
+        if (args.length < 2) {
+            TextUtils.format(player, "Usage: /aurora mine create <name>", MessageType.ERROR);
+            return;
+        }
+
+        String mineName = args[1];
+        if (!wandManager.hasBothPositions(player.getUniqueId())) {
+            TextUtils.format(player, "You must select two positions with the Aurora Wand first!", MessageType.ERROR);
+            return;
+        }
+
+        Location p1 = wandManager.getPos1(player.getUniqueId());
+        Location p2 = wandManager.getPos2(player.getUniqueId());
+
+        // We pass the locations directly to the manager
+        manager.addMine(
+                mineName,
+                p1.getWorld().getName(),
+                Math.min(p1.getBlockX(), p2.getBlockX()),
+                Math.min(p1.getBlockY(), p2.getBlockY()),
+                Math.min(p1.getBlockZ(), p2.getBlockZ()),
+                Math.max(p1.getBlockX(), p2.getBlockX()),
+                Math.max(p1.getBlockY(), p2.getBlockY()),
+                Math.max(p1.getBlockZ(), p2.getBlockZ()),
+                101, // default threshold
+                1200 // default delay
+        );
+
+        TextUtils.format(player, "Mine '" + mineName + "' created using your wand selection!", MessageType.SUCCESS);
     }
 
     private void deleteMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
@@ -171,8 +227,8 @@ public class MineCommand implements AuroraSubCommand {
                 if (percent < 0) throw new NumberFormatException();
 
                 totalPercent += percent;
-                if (BlockPresets.hasBlock(args[i])) {
-                    blocks.add(new MineBlock(BlockPresets.getMaterial(args[i]), percent, args[i]));
+                if (blockPresets.hasBlock(args[i])) {
+                    blocks.add(new MineBlock(blockPresets.getMaterial(args[i]), percent, args[i]));
                 } else {
                     Material material = Material.matchMaterial(args[i]);
                     if (material == null) {
@@ -198,6 +254,9 @@ public class MineCommand implements AuroraSubCommand {
         manager.setBlocks(mineName, blocks);
         sender.sendMessage(Component.text("Successfully updated mine " + mineName)
                 .color(NamedTextColor.GREEN));
+
+        // Reset mine immediately
+        manager.resetMine(mineName);
     }
 
     private void resetMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
@@ -244,5 +303,24 @@ public class MineCommand implements AuroraSubCommand {
         manager.tpMine(target, mineName);
         sender.sendMessage(Component.text("Player " + target.getName() + " successfully teleported to "
                             + mineName).color(NamedTextColor.GREEN));
+    }
+
+    private void setTp(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (args.length < 5) {
+            TextUtils.format(sender, "Usage: /aurora mine setTp <mineName> <x> <y> <z>", MessageType.ERROR);
+            return;
+        }
+
+        String mineName = args[1];
+        double x = Double.parseDouble(args[2]);
+        double y = Double.parseDouble(args[3]);
+        double z = Double.parseDouble(args[4]);
+        if (manager.exists(mineName)) {
+            TextUtils.format(sender, "Mine: " + mineName + " does not exist", MessageType.ERROR);
+            return;
+        }
+
+        manager.setTp(mineName, x, y, z);
+        TextUtils.format(sender, "Set tp point of " + mineName + " to " + x + " " + y + " " + z, MessageType.SUCCESS);
     }
 }

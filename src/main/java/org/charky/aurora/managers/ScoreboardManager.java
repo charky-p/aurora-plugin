@@ -13,7 +13,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.Database;
-import org.charky.aurora.models.PlayerData;
+import org.charky.aurora.features.PlayerData;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

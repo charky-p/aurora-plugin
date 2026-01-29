@@ -1,0 +1,42 @@
+# ===========================================================
+# AURORA RESOURCE TEMPLATE
+# ===========================================================
+# [resource_id]:
+#   display: "<color><b><i>Cobblestone"
+#   material: [BUKKIT_MATERIAL]
+#   lore: (Optional)
+#     - "<color><b><i>Lore Line"
+#   world: "overworld" (Options: "overworld")
+#   region: "origin_isles" (Defaults to "")
+# ===========================================================
+
+items:
+  cobblestone:
+    display: "<gray><b>Cobblestone"
+    material: COBBLESTONE
+    world: "overworld"
+    region: "origin_isles"
+
+  coal:
+    display: "<gray><b>Coal"
+    material: COAL
+    world: "overworld"
+    region: "origin_isles"
+
+  copper:
+    display: "<gray><b>Copper"
+    material: COPPER_INGOT
+    world: "overworld"
+    region: "origin_isles"
+
+  iron:
+    display: "<gray><b>Iron"
+    material: IRON_INGOT
+    world: "overworld"
+    region: "origin_isles"
+
+  gold:
+    display: "<gray><b>Gold"
+    material: GOLD_INGOT
+    world: "overworld"
+    region: "origin_isles"

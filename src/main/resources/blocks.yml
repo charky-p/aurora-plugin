@@ -1,0 +1,80 @@
+# ===========================================================
+# AURORA BLOCK TEMPLATE
+# ===========================================================
+# [block_id]:
+#   material: [BUKKIT_MATERIAL]
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [resource_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [resource_id]
+#         weight: 50
+#         min: 1 (Default)
+#         max: 1 (Default)
+# ===========================================================
+
+items:
+  cobblestone:
+    material: COBBLESTONE
+    independent:
+      - id: cobblestone
+
+  stone:
+    material: STONE
+    independent:
+      - id: cobblestone
+        min: 2
+        max: 4
+
+  coal_ore:
+    material: COAL_ORE
+    independent:
+      - id: coal
+
+  coal_block:
+    material: COAL_BLOCK
+    independent:
+      - id: coal
+        min: 5
+        max: 9
+
+  copper_ore:
+    material: COPPER_ORE
+    independent:
+      - id: copper
+
+  copper_block:
+    material: COPPER_BLOCK
+    independent:
+      - id: copper
+        min: 5
+        max: 9
+
+  iron_ore:
+    material: IRON_ORE
+    independent:
+      - id: iron
+
+  iron_block:
+    material: IRON_BLOCK
+    independent:
+      - id: iron
+        min: 5
+        max: 9
+
+  gold_ore:
+    material: GOLD_ORE
+    independent:
+      - id: gold
+
+  gold_block:
+    material: GOLD_BLOCK
+    independent:
+      - id: gold
+        min: 5
+        max: 9

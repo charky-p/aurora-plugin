@@ -31,7 +31,7 @@ public class MobPresets {
 
         register("wraith", EntityType.HUSK, Component.text("Hollowed Wraith").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
                 .equip(EquipmentSlot.HEAD, Material.GOLDEN_HELMET)
-                .equip(EquipmentSlot.BODY, Material.IRON_CHESTPLATE)
+                .equip(EquipmentSlot.CHEST, Material.IRON_CHESTPLATE)
                 .equip(EquipmentSlot.LEGS, Material.GOLDEN_LEGGINGS)
                 .equip(EquipmentSlot.FEET, Material.IRON_BOOTS)
                 .equip(EquipmentSlot.HAND, Material.GOLDEN_SWORD, "Ancient Blade", Map.of(Enchantment.SHARPNESS, 4))
@@ -151,12 +151,12 @@ public class MobPresets {
         }
 
         public MobBuilder drop(Material mat, int minAmt, int maxAmt) {
-            pool.add(new ItemDrop(new ItemStack(mat), minAmt, maxAmt));
+            pool.add(new ItemDrop(new ItemStack(mat), minAmt, maxAmt), 100);
             return this;
         }
 
         public MobBuilder drop(Material mat, double chance, int minAmt, int maxAmt) {
-            pool.add(new ItemDrop(new ItemStack(mat), chance, minAmt, maxAmt));
+            pool.add(new ItemDrop(new ItemStack(mat), minAmt, maxAmt), chance);
             return this;
         }
 

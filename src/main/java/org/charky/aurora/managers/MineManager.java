@@ -86,11 +86,17 @@ public class MineManager {
         mine.startTimer();
     }
 
+    public void resetAll() {
+        for (Mine mine : mineMap.values()) {
+            mine.resetMine();
+            mine.startTimer();
+        }
+    }
+
     public void handleBlockBreak(Player player, Location location) {
         Mine mine = this.getMineAt(location);
         if (mine == null) return;
         mine.handleBlockBreak();
-        scoreboard.incrementMined(player);
     }
 
     public Mine getMineAt(Location location) {

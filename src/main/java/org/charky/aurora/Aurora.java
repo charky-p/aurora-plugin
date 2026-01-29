@@ -25,6 +25,7 @@ public final class Aurora extends JavaPlugin {
     private WandManager wandManager;
     private ItemFactory itemFactory = new ItemFactory();
     private BlockPresets blockPresets;
+    private CoreRegistry registry;
     private Map<World, Location> spawnMap;
 
     public static NamespacedKey SPAWNER_ID_KEY;
@@ -57,6 +58,8 @@ public final class Aurora extends JavaPlugin {
         this.inventoryManager = new InventoryManager();
         this.wandManager = new WandManager();
         this.blockPresets = new BlockPresets(itemFactory);
+        this.registry = new CoreRegistry(this);
+        registry.loadAll();
 
         // Plugin startup logic
         if (this.getCommand("refresh") != null) {
@@ -122,6 +125,10 @@ public final class Aurora extends JavaPlugin {
 
     public BlockPresets getBlockPresets() {
         return blockPresets;
+    }
+
+    public ItemFactory getItemFactory() {
+        return itemFactory;
     }
 
     public Location getSpawn(World world) {

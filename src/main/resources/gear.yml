@@ -1,0 +1,49 @@
+# ===========================================================
+# AURORA GEAR TEMPLATE
+# ===========================================================
+# [gear_id]:
+#   display: "<color><b><i>Example Sword"
+#   material: [BUKKIT_MATERIAL]
+#   tier: 0 (Default, tier 0 will not display tier)
+#   type: "combat" (Options: "combat", "mining", "logging", "excavation", "armor")
+#   world: "overworld" (Options: "overworld")
+#   region: "origin_isles"
+#   enchants: (Optional)
+#     - display: "<color><b><i>Lore Enchant"
+#       level: 1 (Default)
+#       enchant: Sharpness (Optional, if null no enchantment)
+#   lore: (Optional)
+#     - display: "<gray>Example lore about gear"
+# ===========================================================
+
+items:
+  gormak_sword:
+    display: "<brown><b>Gormak Sword"
+    material: DIAMOND_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      - display: "<gray>Sharpness"
+        level: 30
+        enchant: SHARPNESS
+      - display: "<aqua>Pierce"
+        level: 5
+    lore:
+      - display: "<yellow>Forged by Gormak's descendants"
+      - display: "<yellow>Aura emits from the sword n dat"
+
+  gormak_chest:
+    display: "<brown><b>Gormak Chestplate"
+    material: DIAMOND_CHESTPLATE
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  totem_of_undying:
+    display: "<yellow><b>Totem of Undying"
+    material: TOTEM_OF_UNDYING
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"

@@ -1,0 +1,14 @@
+# ===========================================================
+# AURORA TRADER TEMPLATE
+# ===========================================================
+# [trader_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   gui: [gui_id]
+# ===========================================================
+
+items:
+  cobble_trader:
+    display: "<gray><b>Cobble Trader"
+    entity: VILLAGER
+    gui: cobble_gui

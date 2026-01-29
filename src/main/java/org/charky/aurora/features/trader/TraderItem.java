@@ -2,10 +2,13 @@ package org.charky.aurora.features.trader;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.charky.aurora.Aurora;
 import org.charky.aurora.features.loot.MenuItem;
 import org.charky.aurora.interfaces.TraderNode;
 import org.charky.aurora.managers.TraderManager;
@@ -14,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TraderItem implements TraderNode {
-    private final TraderManager manager;
+    public static final String MENU_KEY_NAME = "menu_id";
+    public static final NamespacedKey MENU_KEY = new NamespacedKey(JavaPlugin.getPlugin(Aurora.class), MENU_KEY_NAME);
     private final String menuId;
     private final MenuItem item;
     private final List<MenuItem> costs;
 
-    public TraderItem(TraderManager manager, String menuId, MenuItem item, List<MenuItem> costs) {
+    public TraderItem(String menuId, MenuItem item, List<MenuItem> costs) {
         this.menuId = menuId;
-        this.manager = manager;
         this.item = item;
         this.costs = costs;
 
@@ -35,7 +38,7 @@ public class TraderItem implements TraderNode {
         ItemStack display = item.getItem();
         display.editMeta(meta -> {
             meta.getPersistentDataContainer().set(
-                    manager.getMenuKey(),
+                    MENU_KEY,
                     PersistentDataType.STRING,
                     this.menuId
             );
@@ -67,7 +70,7 @@ public class TraderItem implements TraderNode {
 
         ItemStack purchase = this.item.getItem().clone();
         purchase.editMeta(meta -> {
-            meta.getPersistentDataContainer().remove(manager.getMenuKey());
+            meta.getPersistentDataContainer().remove(MENU_KEY);
         });
         player.getInventory().addItem(purchase);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);

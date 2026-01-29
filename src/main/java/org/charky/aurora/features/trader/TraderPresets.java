@@ -68,7 +68,7 @@ public class TraderPresets {
         }
 
         public void build() {
-            Trader trader = new Trader(manager, id, name, type, mainMenu);
+            Trader trader = new Trader(id, name, type, mainMenu);
             TRADERS.put(id, trader);
         }
     }
@@ -121,7 +121,7 @@ public class TraderPresets {
         }
 
         public MenuBuilder add() {
-            TraderItem item = new TraderItem(parent.parent.manager, id, new MenuItem(product), costs);
+            TraderItem item = new TraderItem(id, new MenuItem(product), costs);
             parent.contents.put(slot, item);
             NODES.put(id, item);
             return parent;

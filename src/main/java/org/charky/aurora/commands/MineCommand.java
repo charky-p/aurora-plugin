@@ -14,6 +14,7 @@ import org.charky.aurora.managers.MineManager;
 import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.util.MessageType;
 import org.charky.aurora.features.mining.MineBlock;
+import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class MineCommand implements AuroraSubCommand {
             case "list" -> listMines(sender, args);
             case "setblocks" -> setBlocks(sender, args);
             case "reset" -> resetMine(sender, args);
+            case "resetall" -> resetAll(sender, args);
             case "tp" -> tpMine(sender, args);
             case "settp" -> setTp(sender, args);
         };
@@ -273,6 +275,11 @@ public class MineCommand implements AuroraSubCommand {
 
         manager.resetMine(name);
         sender.sendMessage(Component.text("Mine " + name + " successfully reset!").color(NamedTextColor.GREEN));
+    }
+
+    private void resetAll(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        manager.resetAll();
+        TextUtils.format(sender, "Successfully reset all mines", MessageType.SUCCESS);
     }
 
     private void tpMine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {

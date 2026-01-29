@@ -1,0 +1,49 @@
+# ===========================================================
+# AURORA GUI TEMPLATE
+# ===========================================================
+# [gui_id]:
+#   title: "<color><b><i>Gui Title"
+#   icon: [icon_id]
+#   rows: 3 (Default)
+#   layout: (Must be same amount as rows)
+#     - "BBBBIBBBX" (B: Border, I: Info, X: Close)
+#     - "B 1 a b B" (Distinct characters map to Guis or trades, e.g. 0-9, a-z)
+#     - "BBBBBBBBB"
+#   components:
+#     '1':
+#       type: GUI
+#       id: [gui_id]
+#     'a':
+#       type: TRADE
+#       id: [item_id]
+#       amount: 1 (Default)
+#       cost:
+#         - id: [item_id]
+#           amount: 1 (Default)
+#     'b': ...
+# ===========================================================
+
+items:
+  cobble_gui:
+    title: "<gray><b>Cobblestone Shop"
+    icon: cobble_tools
+    rows: 5
+    layout:
+      - "BBBBIBBBX"
+      - "B       B"
+      - "B 1 2 a B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: cobble_gui
+      '2':
+        type: GUI
+        id: cobble_gui
+      'a':
+        type: TRADE
+        id: gormak_sword
+        cost:
+          - id: coal
+            amount: 64

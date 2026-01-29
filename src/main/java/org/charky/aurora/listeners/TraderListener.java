@@ -10,6 +10,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.charky.aurora.features.trader.Trader;
+import org.charky.aurora.features.trader.TraderItem;
 import org.charky.aurora.managers.TraderManager;
 import org.charky.aurora.features.trader.TraderMenu;
 
@@ -69,10 +71,10 @@ public class TraderListener implements Listener {
     }
 
     private String getTraderId(Entity entity) {
-        return entity.getPersistentDataContainer().get(this.manager.getTraderKey(), PersistentDataType.STRING);
+        return entity.getPersistentDataContainer().get(Trader.TRADER_KEY, PersistentDataType.STRING);
     }
 
     private String getMenuId(ItemMeta meta) {
-        return meta.getPersistentDataContainer().get(this.manager.getMenuKey(), PersistentDataType.STRING);
+        return meta.getPersistentDataContainer().get(TraderItem.MENU_KEY, PersistentDataType.STRING);
     }
 }

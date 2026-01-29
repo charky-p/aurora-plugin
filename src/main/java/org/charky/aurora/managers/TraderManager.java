@@ -8,24 +8,9 @@ import org.charky.aurora.features.trader.TraderPresets;
 import org.charky.aurora.interfaces.TraderNode;
 
 public class TraderManager {
-    public static final String TRADER_KEY_NAME = "trader_id";
-    public static final String MENU_KEY_NAME = "menu_id";
-    private final NamespacedKey traderKey;
-    private final NamespacedKey menuKey;
-
     public TraderManager(Aurora plugin) {
-        this.traderKey = new NamespacedKey(plugin, TRADER_KEY_NAME);
-        this.menuKey = new NamespacedKey(plugin, MENU_KEY_NAME);
 
         TraderPresets.init(this);
-    }
-
-    public NamespacedKey getTraderKey() {
-        return this.traderKey;
-    }
-
-    public NamespacedKey getMenuKey() {
-        return this.menuKey;
     }
 
     public boolean traderExists(String traderId) {

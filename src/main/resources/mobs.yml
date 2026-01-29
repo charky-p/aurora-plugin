@@ -1,0 +1,51 @@
+# ===========================================================
+# AURORA MOB TEMPLATE
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id or vanilla material (TODO: Depreciate vanilla mat))
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+
+items:
+  gormak_guard:
+    display: "<brown><b>Gormak Guard"
+    entity: ZOMBIE
+    equip:
+      chest: gormak_chest
+      hand: gormak_sword
+      off_hand: TOTEM_OF_UNDYING
+    attributes:
+      - attr: MAX_HEALTH
+        value: 60.0
+      - attr: MOVEMENT_SPEED
+        value: 0.4
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 32.0
+    independent:
+      - id: gormak_sword
+        chance: 1
+      - id: coal
+        min: 1
+        max: 3

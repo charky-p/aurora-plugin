@@ -1,0 +1,19 @@
+# ===========================================================
+# AURORA ICON TEMPLATE
+# ===========================================================
+# [icon_id]:
+#   display: "<color><b><i>Display Name"
+#   material: [BUKKIT_MATERIAL]
+#   lore: (Optional)
+#     - "<color><b><i>Lore Line"
+#   glow: true (Enchanted)
+# ===========================================================
+
+items:
+  cobble_tools:
+    display: "<gray><b>Cobblestone Tools"
+    material: COBBLESTONE
+    lore:
+      - "<yellow><b>Purchase cobblestone tools like pickaxe and axe"
+    glow: true
+

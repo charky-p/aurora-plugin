@@ -2,18 +2,21 @@ package org.charky.aurora.features.trader;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.charky.aurora.Aurora;
 import org.charky.aurora.managers.TraderManager;
 
 public class Trader {
-    private final TraderManager manager;
+    public static final String TRADER_KEY_NAME = "trader_id";
+    public static final NamespacedKey TRADER_KEY = new NamespacedKey(JavaPlugin.getPlugin(Aurora.class), TRADER_KEY_NAME);
     private final String traderId;
     private final Component displayName;
     private final EntityType type;
     private final TraderMenu menu;
 
-    public Trader(TraderManager manager, String traderId, Component displayName, EntityType type, TraderMenu menu) {
-        this.manager = manager;
+    public Trader(String traderId, Component displayName, EntityType type, TraderMenu menu) {
         this.traderId = traderId;
         this.displayName = displayName;
         this.type = type;
@@ -46,7 +49,7 @@ public class Trader {
             }
 
             entity.getPersistentDataContainer().set(
-                    manager.getTraderKey(),
+                    TRADER_KEY,
                     org.bukkit.persistence.PersistentDataType.STRING,
                     this.traderId
             );

@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.charky.aurora.Aurora;
 import org.charky.aurora.features.loot.MenuItem;
 import org.charky.aurora.features.loot.IndependentLootPool;
 import org.charky.aurora.features.loot.ItemDrop;
@@ -39,20 +38,6 @@ public class BlockPresets {
         register("aurora:gold_ore", Material.GOLD_ORE, item, 1, 1);
         register("aurora:gold_block", Material.GOLD_BLOCK, item, 6, 9);
     }
-//    static {
-//        register("minecraft:cobblestone",
-//                Material.COBBLESTONE,
-//                "COBBLESTONE",
-//                NamedTextColor.YELLOW,
-//                List.of("Good ol cobble"),
-//                2, 4);
-//        register("aurora:peat",
-//                Material.GRAY_TERRACOTTA,
-//                "Peat",
-//                NamedTextColor.GRAY,
-//                List.of("Disgusting filthy peat", "my lord this stinks"),
-//                1, 8);
-//    }
 
     public boolean hasBlock(String id) {
         return PRESETS.containsKey(id);
@@ -81,12 +66,14 @@ public class BlockPresets {
             meta.lore(lore);
         });
 
-        IndependentLootPool pool = new IndependentLootPool(new ItemDrop(item, min, max));
+        IndependentLootPool pool = new IndependentLootPool();
+        pool.add(new ItemDrop(item, min, max), 100);
         PRESETS.put(id, new PresetData(material, pool));
     }
 
     private static void register(String id, Material material, ItemStack item, int min, int max) {
-        IndependentLootPool pool = new IndependentLootPool(new ItemDrop(item, min, max));
+        IndependentLootPool pool = new IndependentLootPool();
+        pool.add(new ItemDrop(item, min, max), 100);
         PRESETS.put(id, new PresetData(material, pool));
     }
 }

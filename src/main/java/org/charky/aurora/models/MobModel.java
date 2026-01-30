@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MobModel {
-    public String id;
     public String display = "Unknown Mob";
     public String entity = "ZOMBIE";
     public EquipmentModel equip = new EquipmentModel();

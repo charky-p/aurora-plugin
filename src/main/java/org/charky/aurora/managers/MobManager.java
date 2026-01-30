@@ -11,8 +11,8 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
+import org.charky.aurora.CoreRegistry;
 import org.charky.aurora.Database;
-import org.charky.aurora.features.mob.MobPresets;
 import org.charky.aurora.features.mob.MobSpawner;
 import org.charky.aurora.features.mob.MobData;
 
@@ -21,12 +21,14 @@ import java.util.Map;
 
 public class MobManager {
     private final Aurora plugin;
+    private final CoreRegistry registry;
     private final Database db;
     private final Map<String, MobSpawner> spawnerMap = new HashMap<>();
 
     public MobManager(Aurora plugin, Database db) {
         this.plugin = plugin;
         this.db = db;
+        this.registry = plugin.getRegistry();
 
         // Add all spawners, (mobs are hardcoded with presets)
         for (MobSpawner spawner : db.getSpawners(plugin)) {
@@ -43,14 +45,14 @@ public class MobManager {
     }
 
     public boolean mobExists(String name) {
-        return MobPresets.hasMob(name);
+        return registry.hasMob(name);
     }
 
     public void addSpawner(String name, String world, int x, int y, int z, String mob, double radius, int limit) {
         if (this.spawnerExists(name)) return;
         if (!this.mobExists(mob)) return;
 
-        MobData data = MobPresets.get(mob);
+        MobData data = registry.getMob(mob);
         MobSpawner spawner = new MobSpawner(this.plugin, name, world, x, y, z, data, radius, limit);
         db.saveSpawner(spawner);
         spawnerMap.put(name, spawner);
@@ -60,7 +62,7 @@ public class MobManager {
         if (!this.spawnerExists(spawner)) return;
         if (!this.mobExists(mob)) return;
 
-        MobData data = MobPresets.get(mob);
+        MobData data = registry.getMob(mob);
 
         spawnLocation.getWorld().spawn(spawnLocation, data.type().getEntityClass(), entity -> {
             // Spawner Id

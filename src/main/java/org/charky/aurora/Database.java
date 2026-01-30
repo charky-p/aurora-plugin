@@ -8,7 +8,6 @@ import org.charky.aurora.features.*;
 import org.charky.aurora.features.mining.MineBlock;
 import org.charky.aurora.features.mining.MineData;
 import org.charky.aurora.features.mob.MobData;
-import org.charky.aurora.features.mob.MobPresets;
 import org.charky.aurora.features.mob.MobSpawner;
 
 import java.io.File;
@@ -17,12 +16,14 @@ import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 
 public class Database {
+    private final CoreRegistry registry;
     private final String url;
     private Connection connection;
 
-    public Database(String path) {
+    public Database(Aurora plugin, String path) {
         File dbFile = new File(path, "mines.db");
         this.url = "jdbc:sqlite:" + dbFile.getAbsolutePath();
+        this.registry = plugin.getRegistry();
     }
 
     public void connect() throws SQLException {
@@ -380,7 +381,7 @@ public class Database {
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 String mob = rs.getString("mob");
-                MobData data = MobPresets.get(mob);
+                MobData data = registry.getMob(mob);
                 if (data == null) continue;
 
                 spawners.add(new MobSpawner(

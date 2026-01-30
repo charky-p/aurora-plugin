@@ -8,10 +8,10 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
+import org.charky.aurora.CoreRegistry;
 import org.charky.aurora.managers.WandManager;
 import org.charky.aurora.util.TextUtils;
 import org.charky.aurora.managers.MineManager;
-import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.util.MessageType;
 import org.charky.aurora.features.mining.MineBlock;
 import org.checkerframework.checker.units.qual.N;
@@ -24,12 +24,12 @@ import java.util.List;
 public class MineCommand implements AuroraSubCommand {
     private final MineManager manager;
     private final WandManager wandManager;
-    private final BlockPresets blockPresets;
+    private final CoreRegistry registry;
 
     public MineCommand(Aurora plugin) {
         this.manager = plugin.getMineManager();
         this.wandManager = plugin.getWandManager();
-        this.blockPresets = plugin.getBlockPresets();
+        this.registry = plugin.getRegistry();
     }
 
     @Override
@@ -229,8 +229,8 @@ public class MineCommand implements AuroraSubCommand {
                 if (percent < 0) throw new NumberFormatException();
 
                 totalPercent += percent;
-                if (blockPresets.hasBlock(args[i])) {
-                    blocks.add(new MineBlock(blockPresets.getMaterial(args[i]), percent, args[i]));
+                if (registry.hasBlock(args[i])) {
+                    blocks.add(new MineBlock(registry.getMaterial(args[i]), percent, args[i]));
                 } else {
                     Material material = Material.matchMaterial(args[i]);
                     if (material == null) {

@@ -2,6 +2,7 @@ package org.charky.aurora;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -32,10 +33,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CoreRegistry {
     private final Aurora plugin;
@@ -66,13 +64,54 @@ public class CoreRegistry {
         loadBlocks();
         loadMobs();
         loadIcons();
-        loadNodes();
+        loadGuis();
         loadTraders();
 
         debugRegistry();
     }
 
-    public void debugRegistry() {
+    public boolean hasBlock(String id) {
+        return blocks.containsKey(id);
+    }
+
+    public Material getMaterial(String id) {
+        return blocks.get(id).material();
+    }
+
+    public List<MenuItem> getBlockDrops(String id) {
+        if (!hasBlock(id)) return new ArrayList<>();
+        return blocks.get(id).pools().stream()
+                    .map(LootPool::roll)
+                    .filter(Objects::nonNull)
+                    .flatMap(List::stream)
+                    .toList();
+    }
+
+    public boolean hasTrader(String id) {
+        return traders.containsKey(id);
+    }
+
+    public TraderMenu getGui(String id) {
+        return guis.get(id);
+    }
+
+    public Trader getTrader(String id) {
+        return traders.get(id);
+    }
+
+    public boolean hasMob(String id) {
+        return mobs.containsKey(id);
+    }
+
+    public MobData getMob(String id) {
+        return mobs.get(id);
+    }
+
+    public List<MenuItem> getMobDrops(String id) {
+        return mobs.get(id).drops().roll();
+    }
+
+    private void debugRegistry() {
         var logger = plugin.getLogger();
         logger.info("=== [ Aurora Registry Debug Report ] ===");
 
@@ -117,7 +156,7 @@ public class CoreRegistry {
         }
     }
 
-    public void loadResources() {
+    private void loadResources() {
         ResourceFile data = loadFile("resources.yml", ResourceFile.class);
         if (data == null || data.items == null) return;
 
@@ -129,11 +168,11 @@ public class CoreRegistry {
                     model.world
             );
 
-            items.put("aurora:" + id.toLowerCase(), item);
+            items.put(id.toLowerCase(), item);
         });
     }
 
-    public void loadGear() {
+    private void loadGear() {
         GearFile data = loadFile("gear.yml", GearFile.class);
         if (data == null || data.items == null) return;
 
@@ -150,11 +189,11 @@ public class CoreRegistry {
                     model.enchants
             );
 
-            items.put("aurora:" + id.toLowerCase(), item);
+            items.put(id.toLowerCase(), item);
         });
     }
 
-    public void loadBlocks() {
+    private void loadBlocks() {
         BlockFile data = loadFile("blocks.yml", BlockFile.class);
         if (data == null || data.items == null) return;
 
@@ -182,11 +221,11 @@ public class CoreRegistry {
                 pools.add(pool);
             }
 
-            blocks.put("aurora:" + id.toLowerCase(), new BlockData(material, pools));
+            blocks.put(id.toLowerCase(), new BlockData(material, pools));
         });
     }
 
-    public void loadMobs() {
+    private void loadMobs() {
         MobFile data = loadFile("mobs.yml", MobFile.class);
         if (data == null || data.items == null) return;
 
@@ -252,14 +291,16 @@ public class CoreRegistry {
 
             // TODO: Not implemented with multiple pools, only one
             MobData mobData = new MobData(id, type, displayName, equipment, attributes, pools.getFirst());
+            mobs.put(id.toLowerCase(), mobData);
         });
     }
 
-    public void loadIcons() {
+    private void loadIcons() {
         IconFile data = loadFile("icons.yml", IconFile.class);
         if (data == null || data.items == null) return;
 
         data.items.forEach((id, model) -> {
+            Bukkit.getLogger().info("Loading icon: " + id);
             Component display = MiniMessage.miniMessage().deserialize(model.display);
             Material material = Material.matchMaterial(model.material);
             ItemStack item = new ItemStack(material);
@@ -279,7 +320,7 @@ public class CoreRegistry {
         });
     }
 
-    public void loadNodes() {
+    private void loadGuis() {
         GuiFile data = loadFile("guis.yml", GuiFile.class);
         if (data == null || data.items == null) return;
 
@@ -333,25 +374,40 @@ public class CoreRegistry {
                 }
             }
 
-            TraderMenu menu = new TraderMenu(id, displayTitle, model.rows, contents, icons.get(model.icon));
+            TraderMenu menu = guis.get(id);
+            if (menu != null) menu.setContents(contents);
+//            TraderMenu menu = new TraderMenu(id, displayTitle, model.rows, contents, icons.get(model.icon));
+//            guis.put(id, menu);
         });
     }
 
-    public void loadTraders() {
+    private void loadTraders() {
         TraderFile data = loadFile("traders.yml", TraderFile.class);
         if (data == null || data.items == null) return;
 
         data.items.forEach((id, model) -> {
             if (!guis.containsKey(model.gui)) return;
             Component displayName = MiniMessage.miniMessage().deserialize(model.display);
-            EntityType type = Registry.ENTITY_TYPE.get(NamespacedKey.fromString(model.entity));
+
+            // GPT code below since minecraft:villager crashing server
+            String entityId = model.entity.toLowerCase();
+            NamespacedKey key = entityId.contains(":")
+                    ? NamespacedKey.fromString(entityId)
+                    : NamespacedKey.minecraft(entityId);
+
+            EntityType type = (key != null) ? Registry.ENTITY_TYPE.get(key) : null;
+
+            if (type == null) {
+                plugin.getLogger().warning("Invalid EntityType '" + model.entity + "' for trader: " + id);
+                type = EntityType.VILLAGER; // Default fallback so it doesn't crash
+            }
             traders.put(id, new Trader(id, displayName, type, guis.get(model.gui)));
         });
     }
 
     private <T> T loadFile(String fileName, Class<T> clazz) {
         File file = new File(plugin.getDataFolder(), fileName);
-        if (!file.exists()) plugin.saveResource(fileName, false);
+        plugin.saveResource(fileName, true);
 
         Yaml yaml = new Yaml(new Constructor(clazz, new LoaderOptions()));
         try (InputStream in = new FileInputStream(file)) {
@@ -361,126 +417,4 @@ public class CoreRegistry {
             return null;
         }
     }
-    // Old Yaml config by Bukkit, it sucks ass
-//    private void loadResources() {
-//        YamlConfiguration config = loadConfig("resources.yml");
-//        ConfigurationSection section = config.getConfigurationSection("items");
-//        if (section == null) return;
-//
-//        for (String id : section.getKeys(false)) {
-//            ConfigurationSection details = section.getConfigurationSection(id);
-//            if (details == null) continue;
-//
-//            String display = details.getString("display");
-//            Material material = Material.matchMaterial(details.getString("material", "BARRIER"));
-//            List<String> loreLines = details.getStringList("lore");
-//            String world = details.getString("world");
-//            String region = details.getString("region");
-//            ItemStack item = itemFactory.createItem(display, material, loreLines, world);
-//
-//            items.put("aurora:" + id.toLowerCase(), item);
-//        }
-//    }
-//
-//    private void loadGear() {
-//        YamlConfiguration config = loadConfig("gear.yml");
-//        ConfigurationSection section = config.getConfigurationSection("items");
-//        if (section == null) return;
-//
-//        for (String id : section.getKeys(false)) {
-//            String display = section.getString("display");
-//            Material material = Material.matchMaterial(section.getString("material", "BARRIER"));
-//            int tier = section.getInt("tier", 0);
-//            String type = section.getString("type");
-//            String world = section.getString("world");
-//            List<String> loreLines = section.getStringList("lore");
-//            List<Map<?, ?>> enchantList = section.getMapList("enchants");
-//            ItemStack item = itemFactory.createGear(display, material, tier, type, world, loreLines, enchantList);
-//
-//            items.put("aurora:" + id.toLowerCase(), item);
-//
-//        }
-//    }
-
-//    private void loadBlocks() {
-//        YamlConfiguration config = loadConfig("blocks.yml");
-//        ConfigurationSection section = config.getConfigurationSection("blocks");
-//        if (section == null) return;
-//
-//        for (String id : section.getKeys(false)) {
-//            ConfigurationSection details = section.getConfigurationSection(id);
-//            if (details == null) continue;
-//
-//            // Completely broken, pass configsection to itemfactory
-//            Material material = Material.matchMaterial(details.getString("material", "STONE"));
-//            List<Map<?, ?>> independentPool = details.getMapList("independent");
-//            List<Map<?, ?>> choicePool = details.getMapList("choice");
-//            // parsePool() for both here
-//            blocks.put("aurora:" + id.toLowerCase(), new BlockData(material, List.of()));
-//        }
-//    }
-//
-//    private void loadIcons() {
-//        YamlConfiguration config = loadConfig("icons.yml");
-//        ConfigurationSection section = config.getConfigurationSection("icons");
-//        if (section == null) return;
-//
-//        for (String id : section.getKeys(false)) {
-//            ConfigurationSection details = section.getConfigurationSection(id);
-//            // Icons are basically resources/simple items for menus
-//            ItemStack icon = itemFactory.createItem(
-//                    details.getString("display"),
-//                    Material.matchMaterial(details.getString("material", "PAPER")),
-//                    details.getStringList("lore"),
-//                    null, null
-//            );
-//            icons.put(id.toLowerCase(), icon);
-//        }
-//    }
-//
-//    private void loadTraders() {
-//        YamlConfiguration config = loadConfig("traders.yml");
-//        ConfigurationSection section = config.getConfigurationSection("traders");
-//        if (section == null) return;
-//
-//        for (String id : section.getKeys(false)) {
-//            ConfigurationSection details = section.getConfigurationSection(id);
-//            String guiId = details.getString("gui");
-//
-//            // Link the physical trader ID to the logic/entity type
-//            // Trader object handles the entity type and the GUI reference
-//            traders.put(id.toLowerCase(), new Trader(
-//                    details.getString("display"),
-//                    details.getString("entity", "VILLAGER"),
-//                    guiId
-//            ));
-//        }
-//    }
-
-//    private void loadMobs() {
-//        YamlConfiguration config = loadConfig("mobs.yml");
-//        ConfigurationSection section = config.getConfigurationSection("mobs");
-//        if (section == null) return;
-//
-//        for (String id : section.getKeys(false)) {
-//            ConfigurationSection details = section.getConfigurationSection(id);
-//
-//            // Build the MobData (stats, equipment IDs, etc.)
-//            MobData data = new MobData(
-//                    details.getString("display"),
-//                    details.getString("type", "ZOMBIE"),
-//                    details.getInt("health", 20),
-//                    details.getString("weapon"), // Just the ID string
-//                    details.getString("armor_chest") // Just the ID string
-//            );
-//
-//            mobs.put("aurora:" + id.toLowerCase(), data);
-//        }
-//    }
-//
-//    private YamlConfiguration loadConfig(String fileName) {
-//        File file = new File(plugin.getDataFolder(), fileName);
-//        if (!file.exists()) plugin.saveResource(fileName, false);
-//        return YamlConfiguration.loadConfiguration(file);
-//    }
 }

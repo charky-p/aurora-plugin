@@ -2,6 +2,7 @@ package org.charky.aurora.features.trader;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -17,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TraderItem implements TraderNode {
-    public static final String MENU_KEY_NAME = "menu_id";
-    public static final NamespacedKey MENU_KEY = new NamespacedKey(JavaPlugin.getPlugin(Aurora.class), MENU_KEY_NAME);
     private final String menuId;
     private final MenuItem item;
     private final List<MenuItem> costs;
@@ -45,9 +44,14 @@ public class TraderItem implements TraderNode {
 
             // Price lore
             List<Component> lore = new ArrayList<>();
-            lore.add(Component.text("Cost:").color(NamedTextColor.GRAY));
+            if (display.lore() != null) lore.addAll(display.lore());
+            lore.add(Component.empty());
+            lore.add(Component.text("Purchase Requirements").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
             for (MenuItem cost : costs) {
-                lore.add(Component.text("- " + cost.getAmount() + "x ").append(cost.getItem().displayName()));
+                Component bullet = Component.text("» ").color(NamedTextColor.GRAY);
+                Component amount = Component.text(cost.getAmount() + "x ").color(NamedTextColor.YELLOW);
+                Component itemName = cost.getItem().effectiveName().colorIfAbsent(NamedTextColor.WHITE);
+                lore.add(bullet.append(amount).append(itemName).decoration(TextDecoration.ITALIC, false));
             }
             meta.lore(lore);
         });
@@ -68,7 +72,7 @@ public class TraderItem implements TraderNode {
             this.removeItems(player, cost);
         }
 
-        ItemStack purchase = this.item.getItem().clone();
+        ItemStack purchase = this.item.getItem();
         purchase.editMeta(meta -> {
             meta.getPersistentDataContainer().remove(MENU_KEY);
         });

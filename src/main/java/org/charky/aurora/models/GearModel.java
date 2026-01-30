@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GearModel {
-    public String id;
     public String display;
     public String material = "BARRIER";
     public int tier = 0;

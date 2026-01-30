@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.commands.*;
-import org.charky.aurora.features.mining.BlockPresets;
+//import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.listeners.*;
 import org.charky.aurora.managers.*;
 import org.charky.aurora.util.ItemFactory;
@@ -24,7 +24,7 @@ public final class Aurora extends JavaPlugin {
     private InventoryManager inventoryManager;
     private WandManager wandManager;
     private ItemFactory itemFactory = new ItemFactory();
-    private BlockPresets blockPresets;
+//    private BlockPresets blockPresets;
     private CoreRegistry registry;
     private Map<World, Location> spawnMap;
 
@@ -37,12 +37,16 @@ public final class Aurora extends JavaPlugin {
         SPAWNER_ID_KEY = new NamespacedKey(this, "spawner_id");
         MOB_ID_KEY = new NamespacedKey(this, "mob_id");
 
+        // Register preset data
+        this.registry = new CoreRegistry(this);
+        registry.loadAll();
+
         // Database setup
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
 
-        db = new Database(getDataFolder().getAbsolutePath());
+        db = new Database(this, getDataFolder().getAbsolutePath());
         db.setup();
         getLogger().info("SQLite Database setup complete!");
 
@@ -57,9 +61,6 @@ public final class Aurora extends JavaPlugin {
         this.traderManager = new TraderManager(this);
         this.inventoryManager = new InventoryManager();
         this.wandManager = new WandManager();
-        this.blockPresets = new BlockPresets(itemFactory);
-        this.registry = new CoreRegistry(this);
-        registry.loadAll();
 
         // Plugin startup logic
         if (this.getCommand("refresh") != null) {
@@ -90,8 +91,8 @@ public final class Aurora extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
         getServer().getPluginManager().registerEvents(new MineListener(this), this);
         getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboard), this);
-        getServer().getPluginManager().registerEvents(new MobDeathListener(mobManager, inventoryManager), this);
-        getServer().getPluginManager().registerEvents(new TraderListener(traderManager), this);
+        getServer().getPluginManager().registerEvents(new MobDeathListener(this), this);
+        getServer().getPluginManager().registerEvents(new TraderListener(this), this);
         getServer().getPluginManager().registerEvents(new WandListener(this), this);
         getServer().getPluginManager().registerEvents(new SpawnListener(this), this);
 
@@ -123,8 +124,13 @@ public final class Aurora extends JavaPlugin {
         return wandManager;
     }
 
-    public BlockPresets getBlockPresets() {
-        return blockPresets;
+//    public BlockPresets getBlockPresets() {
+//        return blockPresets;
+//    }
+
+
+    public CoreRegistry getRegistry() {
+        return registry;
     }
 
     public ItemFactory getItemFactory() {

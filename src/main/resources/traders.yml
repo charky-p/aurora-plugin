@@ -10,5 +10,5 @@
 items:
   cobble_trader:
     display: "<gray><b>Cobble Trader"
-    entity: VILLAGER
+    entity: minecraft:villager
     gui: cobble_gui

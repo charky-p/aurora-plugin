@@ -6,17 +6,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
+import org.charky.aurora.CoreRegistry;
 import org.charky.aurora.managers.InventoryManager;
 import org.charky.aurora.managers.MobManager;
-import org.charky.aurora.features.mob.MobPresets;
 
 public class MobDeathListener implements Listener {
     private final MobManager mobManager;
     private final InventoryManager inventoryManager;
+    private final CoreRegistry registry;
 
-    public MobDeathListener(MobManager mobManager, InventoryManager inventoryManager) {
-        this.mobManager = mobManager;
-        this.inventoryManager = inventoryManager;
+    public MobDeathListener(Aurora plugin) {
+        this.mobManager = plugin.getMobManager();
+        this.inventoryManager = plugin.getInventoryManager();
+        this.registry = plugin.getRegistry();
     }
 
     @EventHandler
@@ -40,8 +42,8 @@ public class MobDeathListener implements Listener {
 
         String mobId = victim.getPersistentDataContainer().get(Aurora.MOB_ID_KEY, PersistentDataType.STRING);
 
-        if (mobId != null && MobPresets.hasMob(mobId)) {
-            inventoryManager.addToInventory(victim.getKiller(), MobPresets.getDrops(mobId));
+        if (mobId != null && registry.hasMob(mobId)) {
+            inventoryManager.addToInventory(victim.getKiller(), registry.getMobDrops(mobId));
         }
     }
 }

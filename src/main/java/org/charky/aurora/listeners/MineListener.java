@@ -1,6 +1,8 @@
 package org.charky.aurora.listeners;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -10,10 +12,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.Aurora;
+import org.charky.aurora.CoreRegistry;
 import org.charky.aurora.managers.InventoryManager;
 import org.charky.aurora.managers.MineManager;
 import org.charky.aurora.managers.ScoreboardManager;
-import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.features.loot.MenuItem;
 
 import java.util.ArrayList;
@@ -23,13 +25,13 @@ public class MineListener implements Listener {
     private final MineManager manager;
     private final ScoreboardManager scoreboard;
     private final InventoryManager inventoryManager;
-    private final BlockPresets blockPresets;
+    private final CoreRegistry registry;
 
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
         this.scoreboard = plugin.getScoreboardManager();
         this.inventoryManager = plugin.getInventoryManager();
-        this.blockPresets = plugin.getBlockPresets();
+        this.registry = plugin.getRegistry();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -75,12 +77,12 @@ public class MineListener implements Listener {
         String customId = manager.getBlockIdAt(block.getLocation());
         String dropId = customId == null ? block.getType().getKey().toString() : customId;
 
-        if (blockPresets.hasBlock(dropId)) {
-            drops.addAll(blockPresets.getDrops(dropId));
+        if (registry.hasBlock(dropId)) {
+            drops.addAll(registry.getBlockDrops(dropId));
         }
 
         // Only break if it is a block with a drop
-        if (!blockPresets.getDrops(dropId).isEmpty()) {
+        if (!registry.getBlockDrops(dropId).isEmpty()) {
             scoreboard.incrementMined(player);
             block.setType(Material.AIR, false);
         }

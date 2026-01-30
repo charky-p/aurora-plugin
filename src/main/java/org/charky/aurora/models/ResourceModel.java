@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResourceModel {
-    public String id;
     public String display;
     public String material;
     public List<String> lore = new ArrayList<>();

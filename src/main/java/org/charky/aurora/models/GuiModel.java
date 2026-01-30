@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public class GuiModel {
-    public String id;
     public String title;
     public String icon;
     public int rows = 3;

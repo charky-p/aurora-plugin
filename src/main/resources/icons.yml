@@ -17,3 +17,9 @@ items:
       - "<yellow><b>Purchase cobblestone tools like pickaxe and axe"
     glow: true
 
+  test_icon:
+    display: "TESTING"
+    material: STONE
+    lore:
+      - "THIS IS A <yellow> TEST"
+    glow: false

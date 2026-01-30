@@ -40,10 +40,30 @@ items:
         id: cobble_gui
       '2':
         type: GUI
-        id: cobble_gui
+        id: test_gui
       'a':
         type: TRADE
         id: gormak_sword
         cost:
           - id: coal
             amount: 64
+
+  test_gui:
+    title: "<b>TEST GUI"
+    icon: test_icon
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B       B"
+      - "B 1 a 1 B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: cobble_gui
+      'a':
+        type: TRADE
+        id: coal
+        cost:
+          - id: cobblestone

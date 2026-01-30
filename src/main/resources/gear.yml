@@ -18,7 +18,7 @@
 
 items:
   gormak_sword:
-    display: "<brown><b>Gormak Sword"
+    display: "<aqua><b>Gormak Sword"
     material: DIAMOND_SWORD
     tier: 1
     type: "combat"

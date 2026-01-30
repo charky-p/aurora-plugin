@@ -24,7 +24,7 @@ public class MenuItem {
     }
 
     public ItemStack getItem() {
-        return this.item;
+        return this.item.clone();
     }
 
     public void setAmount(int amount) {

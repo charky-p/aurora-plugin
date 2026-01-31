@@ -13,6 +13,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+/**
+ * Main command handler for the Aurora plugin.
+ * Handles subcommand delegation and tab completion.
+ * Commands are admin only, not used by players.
+ */
 public class AuroraCommand implements CommandExecutor, TabCompleter {
     private final Map<String, AuroraSubCommand> subCommands = new HashMap<>();
 
@@ -54,7 +59,8 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
         if (!(sender instanceof Player player)) return Collections.emptyList();
 
         if (args.length == 1) {
-            return subCommands.keySet().stream()
+            return subCommands.keySet()
+                    .stream()
                     .filter(s -> s.startsWith(args[0].toLowerCase()))
                     .toList();
         }
@@ -65,6 +71,6 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
             return subCommand.tabComplete(player, subArgs);
         }
 
-        return List.of();
+        return Collections.emptyList();
     }
 }

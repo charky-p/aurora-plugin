@@ -1,17 +1,17 @@
 package org.charky.aurora.commands;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.charky.aurora.util.MessageType;
 import org.charky.aurora.util.TextUtils;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Detailed documentation command for admins.
+ * Provides subcommand syntax and technical details using getInfo()
+ */
 public class InfoCommand implements AuroraSubCommand {
     private final Map<String, AuroraSubCommand> subCommands;
 
@@ -21,44 +21,35 @@ public class InfoCommand implements AuroraSubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(TextUtils.format(getUsage(), MessageType.ERROR));
+        if (args.length < 1) {
+            TextUtils.usage(sender, getFullUsage());
             return;
         }
 
         AuroraSubCommand target = subCommands.get(args[0].toLowerCase());
         if (target == null) {
-            sender.sendMessage(TextUtils.format("Unknown command: " + args[0], MessageType.ERROR));
+            TextUtils.error(sender, "Command not found: <yellow> " + args[0]);
             return;
         }
 
-        // Info format
-        sender.sendMessage(Component.text("» ", NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-                .append(Component.text("Command Details: " + target.getName().toUpperCase(), NamedTextColor.WHITE)));
-
-        sender.sendMessage(Component.text("  Description: ", NamedTextColor.YELLOW)
-                .append(Component.text(target.getDescription(), NamedTextColor.GRAY)));
-
-        if (!target.getUsage().isEmpty()) {
-            sender.sendMessage(Component.text("  Usage: ", NamedTextColor.YELLOW)
-                    .append(Component.text("/aurora " + target.getName() + " " + target.getUsage(), NamedTextColor.WHITE))
-                    .clickEvent(net.kyori.adventure.text.event.ClickEvent.suggestCommand("/aurora " + target.getName() + " ")));
+        TextUtils.display(sender, "<aqua><st>                           </st> <b>COMMAND DETAILS</b> <st>                           </st>");
+        TextUtils.display(sender, " <yellow>Command <dark_gray>» <gray>" + target.getName());
+        TextUtils.display(sender, " <yellow>Description <dark_gray>» <gray>" + target.getDescription());
+        TextUtils.display(sender, " <yellow>Usage <dark_gray>» <white>" + "<click:suggest_command:'/aurora " + target.getName() + " '>" +
+                "<hover:show_text:'<gray>Click to use'><gray>" + target.getFullUsage());
+        TextUtils.display(sender, "<yellow> Details <dark_gray>» <white>");
+        for (String line : target.getInfo()) {
+            TextUtils.display(sender, "<aqua>    • <gray>" + line);
         }
-
-        sender.sendMessage(Component.text("  Details:", NamedTextColor.YELLOW));
-        for (Component line : target.getInfo()) {
-            sender.sendMessage(Component.text("    • ", NamedTextColor.AQUA).append(line.colorIfAbsent(NamedTextColor.GRAY)));
-        }
-
-        sender.sendMessage(Component.text("---", NamedTextColor.DARK_GRAY).decoration(TextDecoration.STRIKETHROUGH, true));
+        TextUtils.line(sender, "<aqua>");
     }
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) {
-            return subCommands.values().stream()
-                    .map(AuroraSubCommand::getName)
+            return subCommands.keySet().stream()
                     .filter(name -> name.startsWith(args[0].toLowerCase()))
+                    .sorted()
                     .toList();
         }
         return Collections.emptyList();

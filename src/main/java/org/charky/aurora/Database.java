@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.charky.aurora.features.*;
+import org.charky.aurora.features.mining.Mine;
 import org.charky.aurora.features.mining.MineBlock;
 import org.charky.aurora.features.mining.MineData;
 import org.charky.aurora.features.mob.MobData;
@@ -139,6 +140,32 @@ public class Database {
                 pst.setString(1, name);
                 pst.executeUpdate();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveMine(MineData data) {
+        String sql = "REPLACE INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, delay, tpX, tpY, tpZ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setString(1, data.getName());
+            pst.setString(2, data.getWorld());
+            pst.setInt(3, data.getX1());
+            pst.setInt(4, data.getY1());
+            pst.setInt(5, data.getZ1());
+            pst.setInt(6, data.getX2());
+            pst.setInt(7, data.getY2());
+            pst.setInt(8, data.getZ2());
+            pst.setDouble(9, data.getThreshold());
+            pst.setInt(10, data.getDelay());
+            pst.setDouble(11, data.getTpX());
+            pst.setDouble(12, data.getTpY());
+            pst.setDouble(13, data.getTpZ());
+
+            pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

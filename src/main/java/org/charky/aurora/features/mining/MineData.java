@@ -1,5 +1,7 @@
 package org.charky.aurora.features.mining;
 
+import org.bukkit.Location;
+
 public class MineData {
     private String name;
     private String world;
@@ -29,6 +31,28 @@ public class MineData {
         this.tpX = tpX;
         this.tpY = tpY;
         this.tpZ = tpZ;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setThreshold(double threshold) {
+        this.threshold = threshold;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public void setLocations(Location location1, Location location2) {
+        this.world = location1.getWorld().toString();
+        this.x1 = location1.getBlockX();
+        this.y1 = location1.getBlockY();
+        this.z1 = location1.getBlockZ();
+        this.x2 = location2.getBlockX();
+        this.y2 = location2.getBlockY();
+        this.z2 = location2.getBlockZ();
     }
 
     public void updateTeleport(double tpX, double tpY, double tpZ) {

@@ -12,6 +12,11 @@ import org.charky.aurora.util.MessageType;
 import org.charky.aurora.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Temporary heal command
+ * TODO: [DELETE] either remove this command or add as a helper command in aurora
+ */
+@Deprecated
 public class HealCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,

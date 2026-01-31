@@ -67,6 +67,12 @@ public class MineManager {
         return this.mineMap.containsKey(name);
     }
 
+    public List<String> getMineInfo(String name) {
+        Mine mine = mineMap.get(name);
+        if (mine == null) return null;
+        return mine.getInfo();
+    }
+
     public List<String> getMines() {
         return new ArrayList<>(this.mineMap.keySet());
     }
@@ -77,6 +83,38 @@ public class MineManager {
 
         mine.setBlocks(blocks);
         this.db.setBlocks(name, blocks);
+    }
+
+    public void setThreshold(String name, double threshold) {
+        Mine mine = this.mineMap.get(name);
+        if (mine == null) return;
+
+        mine.setThreshold(threshold);
+        this.db.saveMine(mine.getData());
+    }
+
+    public void setDelay(String name, int delay) {
+        Mine mine = this.mineMap.get(name);
+        if (mine == null) return;
+
+        mine.setDelay(delay);
+        this.db.saveMine(mine.getData());
+    }
+
+    public void redefineMine(String name, Location location1, Location location2) {
+        Mine mine = this.mineMap.get(name);
+        if (mine == null) return;
+
+        mine.setLocations(location1, location2);
+        this.db.saveMine(mine.getData());
+    }
+
+    public void renameMine(String oldName, String newName) {
+        Mine mine = this.mineMap.get(oldName);
+        if (mine == null) return;
+
+        mine.rename(newName);
+        this.db.saveMine(mine.getData());
     }
 
     public void resetMine(String name) {

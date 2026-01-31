@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.DataRegistry;
+import org.charky.aurora.commands.mine.MineCreateSub;
 import org.charky.aurora.managers.WandManager;
 import org.charky.aurora.util.TextUtils;
 import org.charky.aurora.managers.MineManager;
@@ -16,21 +17,26 @@ import org.charky.aurora.util.MessageType;
 import org.charky.aurora.features.mining.MineBlock;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class MineCommand implements AuroraSubCommand {
+    private final Map<String, AuroraSubCommand> subCommands = new HashMap<>();
     private final MineManager manager;
     private final WandManager wandManager;
     private final DataRegistry registry;
 
     public MineCommand(Aurora plugin) {
+        register(new MineCreateSub(plugin));
         this.manager = plugin.getMineManager();
         this.wandManager = plugin.getWandManager();
         this.registry = plugin.getRegistry();
     }
 
+    private void register(AuroraSubCommand command) {
+        subCommands.put(command.getName().toLowerCase(), command);
+    }
+
+    // TODO: tmr split into subclasses like aurora command
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) return;
@@ -45,6 +51,11 @@ public class MineCommand implements AuroraSubCommand {
             case "resetall" -> resetAll(sender, args);
             case "tp" -> tpMine(sender, args);
             case "settp" -> setTp(sender, args);
+            case "info" -> info(sender, args);
+            case "setthreshold" -> setThreshold(sender, args);
+            case "setdelay" -> setDelay(sender, args);
+            case "redefine" -> redefine(sender, args);
+            case "rename" -> rename(sender, args);
         };
     }
 
@@ -328,5 +339,115 @@ public class MineCommand implements AuroraSubCommand {
 
         manager.setTp(mineName, x, y, z);
         TextUtils.format(sender, "Set tp point of " + mineName + " to " + x + " " + y + " " + z, MessageType.SUCCESS);
+    }
+
+    private void info(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        // /aurora info <mineName>
+        if (args.length < 2) {
+            TextUtils.send(sender, "Usage: /aurora info <mineName>");
+            return;
+        }
+
+        String name = args[1];
+        if (!manager.exists(name)) {
+            TextUtils.error(sender, "it dont exist:" + name);
+            return;
+        }
+
+        TextUtils.display(sender, "<aqua>MINE INFO <dark_gray>» <yellow>" + name);
+        for (String line : manager.getMineInfo(name)) {
+            TextUtils.display(sender, "<aqua>" + line);
+        }
+        TextUtils.line(sender, "<aqua>");
+    }
+
+    private void setThreshold(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (args.length < 3) {
+            TextUtils.send(sender, "Usage: /aurora setthreshold <mineName> <threshold>");
+            return;
+        }
+
+        String name = args[1];
+        double threshold = Double.parseDouble(args[2]);
+
+        if (!manager.exists(name)) {
+            TextUtils.send(sender, "BRUH the mine dont exist");
+            return;
+        }
+
+        // set threshold
+        manager.setThreshold(name, threshold);
+        TextUtils.send(sender, "Successfully updated threshold to " + threshold);
+    }
+
+    private void setDelay(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (args.length < 3) {
+            TextUtils.send(sender, "Usage: /aurora setdelay <mineName> <delay>");
+            return;
+        }
+
+        String name = args[1];
+        int delay = Integer.parseInt(args[2]);
+
+        if (!manager.exists(name)) {
+            TextUtils.send(sender, "BRUH the mine dont exist");
+            return;
+        }
+
+        // set delay
+        manager.setDelay(name, delay);
+        TextUtils.send(sender, "Successfully updated delay to " + delay);
+    }
+
+    private void redefine(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (!(sender instanceof Player player)) return;
+        if (args.length < 2) {
+            TextUtils.usage(sender, "mine redefine <name>");
+            return;
+        }
+
+        String name = args[1];
+        if (!manager.exists(name)) {
+            TextUtils.error(sender, "Mine not found.");
+            return;
+        }
+
+        if (!wandManager.hasBothPositions(player.getUniqueId())) {
+            TextUtils.error(sender, "Select two new points with your wand first!");
+            return;
+        }
+
+        // Update the existing object
+        manager.redefineMine(name, wandManager.getPos1(player.getUniqueId()), wandManager.getPos2(player.getUniqueId()));
+
+        TextUtils.send(sender, "Redefined boundaries for <white>" + name);
+        manager.resetMine(name);
+    }
+
+    private void rename(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (args.length < 3) {
+            TextUtils.usage(sender, "mine rename <oldName> <newName>");
+            return;
+        }
+
+        String oldName = args[1];
+        String newName = args[2];
+
+        if (!manager.exists(oldName)) {
+            TextUtils.error(sender, "no such  mine");
+            return;
+        }
+
+        if (manager.exists(newName)) {
+            TextUtils.error(sender, "A mine with that name already exists!");
+            return;
+        }
+
+        if (oldName.equals(newName)) {
+            TextUtils.error(sender, "cannot be Same name");
+            return;
+        }
+        manager.renameMine(oldName, newName);
+        TextUtils.send(sender, "Mine <yellow>" + oldName + "</yellow> renamed to <white>" + newName);
     }
 }

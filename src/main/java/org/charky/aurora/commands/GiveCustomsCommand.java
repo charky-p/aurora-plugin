@@ -17,6 +17,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Temporary debug command to get commands
+ * Replacing with /aurora give [id]
+ * TODO: [DELETE] Remove this class once custom items are obtained by command
+ */
+@Deprecated
 public class GiveCustomsCommand implements CommandExecutor {
 
     @Override

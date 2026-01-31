@@ -7,6 +7,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.managers.MineManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -30,8 +31,41 @@ public class Mine {
                       (Math.abs(data.getZ1() - data.getZ2()) + 1);
     }
 
+    public List<String> getInfo() {
+        List<String> info = new ArrayList<>();
+        info.add("Mine: " + data.getName());
+        info.add("World: " + data.getWorld());
+        info.add("Coordinate 1: " + data.getX1() + ", " + data.getY1() + ", " + data.getZ1());
+        info.add("Coordinate 2: " + data.getX2() + ", " + data.getY2() + ", " + data.getZ2());
+        info.add("Reset Threshold: " + data.getThreshold());
+        info.add("Delay: " + data.getDelay());
+        info.add("Teleport Coordinate: " + data.getTpX() + ", " + data.getTpY() + ", " + data.getTpZ());
+        return info;
+    }
+
     public void setBlocks(List<MineBlock> blocks) {
         this.blocks = blocks;
+    }
+
+    public void setThreshold(double threshold) {
+        data.setThreshold(threshold);
+    }
+
+    public void setDelay(int delay) {
+        data.setDelay(delay);
+    }
+
+    public void rename(String name) {
+        data.setName(name);
+    }
+
+    // TODO: Unsafe giving data like this
+    public MineData getData() {
+        return data;
+    }
+
+    public void setLocations(Location location1, Location location2) {
+        data.setLocations(location1, location2);
     }
 
     public void startTimer() {

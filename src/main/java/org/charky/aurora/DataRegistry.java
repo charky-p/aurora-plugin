@@ -1,14 +1,14 @@
 package org.charky.aurora;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
@@ -22,9 +22,7 @@ import org.charky.aurora.features.mob.MobData;
 import org.charky.aurora.features.trader.*;
 import org.charky.aurora.interfaces.LootPool;
 import org.charky.aurora.interfaces.TraderNode;
-import org.charky.aurora.models.BlockModel;
-import org.charky.aurora.models.GuiModel;
-import org.charky.aurora.models.MobModel;
+import org.charky.aurora.models.*;
 import org.charky.aurora.util.ItemFactory;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -35,18 +33,20 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
 
-public class CoreRegistry {
+public class DataRegistry {
     private final Aurora plugin;
     private final ItemFactory itemFactory;
     private record BlockData(Material material, List<LootPool> pools) {}
+    private record EnchantData(String display, Enchantment enchant) {}
     private final Map<String, ItemStack> items = new HashMap<>(); // resources + gear
+    private final Map<String, EnchantData> enchants = new HashMap<>();
     private final Map<String, BlockData> blocks = new HashMap<>();
     private final Map<String, MobData> mobs = new HashMap<>();
     private final Map<String, ItemStack> icons = new HashMap<>();
     private final Map<String, TraderMenu> guis = new HashMap<>();
     private final Map<String, Trader> traders = new HashMap<>();
 
-    public CoreRegistry(Aurora plugin) {
+    public DataRegistry(Aurora plugin) {
         this.plugin = plugin;
         this.itemFactory = plugin.getItemFactory();
     }
@@ -60,6 +60,7 @@ public class CoreRegistry {
         traders.clear();
 
         loadResources();
+        loadEnchants();
         loadGear();
         loadBlocks();
         loadMobs();
@@ -172,25 +173,81 @@ public class CoreRegistry {
         });
     }
 
+    private void loadEnchants() {
+        EnchantFile data = loadFile("enchants.yml", EnchantFile.class);
+        if (data == null || data.items == null) return;
+
+        data.items.forEach((id, model) -> {
+            if (model.enchant == null) enchants.put(id, new EnchantData(model.display, null));
+            else enchants.put(id, new EnchantData(model.display, Registry.ENCHANTMENT.get(NamespacedKey.minecraft(model.enchant.toLowerCase()))));
+        });
+    }
+
     private void loadGear() {
         GearFile data = loadFile("gear.yml", GearFile.class);
         if (data == null || data.items == null) return;
 
         data.items.forEach((id, model) -> {
-            List<String> loreStrings = model.lore.stream().map(l -> l.display).toList();
+            ItemStack item = new ItemStack(Material.matchMaterial(model.material));
+            item.editMeta(meta -> {
+                Component displayComponent = MiniMessage.miniMessage().deserialize(model.display).decoration(TextDecoration.ITALIC, false);
+                if (model.tier == 0) meta.displayName(displayComponent);
+                else {
+                    Component tierTag = Component.text(" [T" + model.tier + "]")
+                            .color(NamedTextColor.YELLOW)
+                            .decoration(TextDecoration.BOLD, false)
+                            .decoration(TextDecoration.ITALIC, false);
+                    meta.displayName(Component.empty().append(displayComponent).append(tierTag));
+                }
 
-            ItemStack item = itemFactory.createGear(
-                    model.display,
-                    Material.matchMaterial(model.material),
-                    model.tier,
-                    model.type,
-                    model.world,
-                    loreStrings,
-                    model.enchants
-            );
+                List<Component> lore = new ArrayList<>();
+                lore.add(parseType(model.type));
+                lore.add(Component.empty());
+
+                // Enchants
+                for (Map.Entry<String, Integer> entry : model.enchants.entrySet()) {
+                    EnchantData enchantData = enchants.get(entry.getKey());
+                    lore.add(MiniMessage.miniMessage().deserialize("<!italic><gray>»<white> " + enchantData.display + " " + entry.getValue()));
+                    if (enchantData.enchant != null) {
+                        meta.addEnchant(enchantData.enchant, entry.getValue(), true);
+                    }
+
+                }
+
+                if (!model.enchants.isEmpty()) lore.add(Component.empty());
+
+                for (String line : model.lore) lore.add(MiniMessage.miniMessage().deserialize("<!italic>" + line));
+                if (!model.lore.isEmpty()) lore.add(Component.empty());
+                lore.add(parseWorld(model.world));
+                meta.setUnbreakable(true);
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                meta.lore(lore);
+            });
 
             items.put(id.toLowerCase(), item);
         });
+    }
+
+    private Component parseType(String type) {
+        String display = switch (type) {
+            case "combat" -> "\uD83D\uDDE1 Combat";
+            case "mining" -> "⛏ Mining";
+            default -> "";
+        };
+
+        return Component.text(display).color(NamedTextColor.DARK_GRAY).decoration(TextDecoration.ITALIC, false);
+    }
+
+    private Component parseWorld(String world) {
+        if (world.equals("overworld")) {
+            return Component.text("Overworld \uD83C\uDF0E")
+                    .color(NamedTextColor.GREEN)
+                    .decoration(TextDecoration.BOLD, true)
+                    .decoration(TextDecoration.ITALIC, false);
+        }
+        return Component.text("No world");
     }
 
     private void loadBlocks() {
@@ -300,7 +357,6 @@ public class CoreRegistry {
         if (data == null || data.items == null) return;
 
         data.items.forEach((id, model) -> {
-            Bukkit.getLogger().info("Loading icon: " + id);
             Component display = MiniMessage.miniMessage().deserialize(model.display);
             Material material = Material.matchMaterial(model.material);
             ItemStack item = new ItemStack(material);
@@ -332,7 +388,6 @@ public class CoreRegistry {
         });
 
         data.items.forEach((id, model) -> {
-            if (!icons.containsKey(model.icon)) return;
             Component displayTitle = MiniMessage.miniMessage().deserialize(model.title);
 
             Map<Integer, TraderNode> contents = new HashMap<>();
@@ -386,15 +441,10 @@ public class CoreRegistry {
         if (data == null || data.items == null) return;
 
         data.items.forEach((id, model) -> {
-            if (!guis.containsKey(model.gui)) return;
             Component displayName = MiniMessage.miniMessage().deserialize(model.display);
 
-            // GPT code below since minecraft:villager crashing server
             String entityId = model.entity.toLowerCase();
-            NamespacedKey key = entityId.contains(":")
-                    ? NamespacedKey.fromString(entityId)
-                    : NamespacedKey.minecraft(entityId);
-
+            NamespacedKey key = NamespacedKey.fromString("minecraft:" + entityId);
             EntityType type = (key != null) ? Registry.ENTITY_TYPE.get(key) : null;
 
             if (type == null) {

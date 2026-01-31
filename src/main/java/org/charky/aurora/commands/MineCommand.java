@@ -8,13 +8,12 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.CoreRegistry;
+import org.charky.aurora.DataRegistry;
 import org.charky.aurora.managers.WandManager;
 import org.charky.aurora.util.TextUtils;
 import org.charky.aurora.managers.MineManager;
 import org.charky.aurora.util.MessageType;
 import org.charky.aurora.features.mining.MineBlock;
-import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.List;
 public class MineCommand implements AuroraSubCommand {
     private final MineManager manager;
     private final WandManager wandManager;
-    private final CoreRegistry registry;
+    private final DataRegistry registry;
 
     public MineCommand(Aurora plugin) {
         this.manager = plugin.getMineManager();

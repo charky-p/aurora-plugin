@@ -6,14 +6,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.CoreRegistry;
+import org.charky.aurora.DataRegistry;
 import org.charky.aurora.managers.InventoryManager;
 import org.charky.aurora.managers.MobManager;
 
 public class MobDeathListener implements Listener {
     private final MobManager mobManager;
     private final InventoryManager inventoryManager;
-    private final CoreRegistry registry;
+    private final DataRegistry registry;
 
     public MobDeathListener(Aurora plugin) {
         this.mobManager = plugin.getMobManager();

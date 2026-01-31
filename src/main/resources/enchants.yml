@@ -1,0 +1,19 @@
+# ===========================================================
+# AURORA ENCHANT TEMPLATE
+# ===========================================================
+# [enchant_id]:
+#   display: "<color><b><i>Example Enchant"
+#   enchant: [BUKKIT_ENCHANTMENT] (Optional, null implies custom enchant)
+# ===========================================================
+
+items:
+  sharpness:
+    display: "<gray>Sharpness"
+    enchant: SHARPNESS
+
+  efficiency:
+    display: "<gray>Efficiency"
+    enchant: EFFICIENCY
+
+  pierce:
+    display: "<aqua>Pierce"

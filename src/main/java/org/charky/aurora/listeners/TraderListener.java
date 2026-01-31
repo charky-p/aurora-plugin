@@ -66,6 +66,7 @@ public class TraderListener implements Listener {
         UUID uuid = player.getUniqueId();
         if (processing.contains(uuid)) return;
 
+        // TODO: try and fix the spam buy packet queue
 //        UUID uuid = player.getUniqueId();
 //        long currentTick = Bukkit.getCurrentTick();
 //        long previousTick = clickCooldowns.getOrDefault(uuid, 0L);

@@ -1,7 +1,9 @@
 package org.charky.aurora.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GearModel {
     public String display;
@@ -11,16 +13,6 @@ public class GearModel {
     public String world;
     public String region;
 
-    public List<EnchantEntry> enchants = new ArrayList<>();
-    public List<LoreEntry> lore = new ArrayList<>();
-
-    public static class EnchantEntry {
-        public String display;
-        public int level = 1;
-        public String enchant;
-    }
-
-    public static class LoreEntry {
-        public String display;
-    }
+    public Map<String, Integer> enchants = new HashMap<>();
+    public List<String> lore = new ArrayList<>();
 }

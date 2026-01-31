@@ -2,6 +2,7 @@ package org.charky.aurora.features.trader;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -37,6 +38,7 @@ public class TraderMenu implements TraderNode, InventoryHolder {
 
     @Override
     public ItemStack getDisplayItem() {
+        if (displayItem == null) return new ItemStack(Material.AIR);
         ItemStack display = this.displayItem.clone();
         display.editMeta(meta -> {
             meta.getPersistentDataContainer().set(

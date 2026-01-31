@@ -10,6 +10,10 @@ class ResourceFile {
     public Map<String, ResourceModel> items;
 }
 
+class EnchantFile {
+    public Map<String, EnchantModel> items;
+}
+
 class GearFile {
     public Map<String, GearModel> items;
 }

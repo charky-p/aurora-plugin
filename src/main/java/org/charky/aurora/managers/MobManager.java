@@ -11,7 +11,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.CoreRegistry;
+import org.charky.aurora.DataRegistry;
 import org.charky.aurora.Database;
 import org.charky.aurora.features.mob.MobSpawner;
 import org.charky.aurora.features.mob.MobData;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MobManager {
     private final Aurora plugin;
-    private final CoreRegistry registry;
+    private final DataRegistry registry;
     private final Database db;
     private final Map<String, MobSpawner> spawnerMap = new HashMap<>();
 

@@ -11,7 +11,6 @@ import org.charky.aurora.managers.*;
 import org.charky.aurora.util.ItemFactory;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class Aurora extends JavaPlugin {
@@ -25,7 +24,7 @@ public final class Aurora extends JavaPlugin {
     private WandManager wandManager;
     private ItemFactory itemFactory = new ItemFactory();
 //    private BlockPresets blockPresets;
-    private CoreRegistry registry;
+    private DataRegistry registry;
     private Map<World, Location> spawnMap;
 
     public static NamespacedKey SPAWNER_ID_KEY;
@@ -38,7 +37,7 @@ public final class Aurora extends JavaPlugin {
         MOB_ID_KEY = new NamespacedKey(this, "mob_id");
 
         // Register preset data
-        this.registry = new CoreRegistry(this);
+        this.registry = new DataRegistry(this);
         registry.loadAll();
 
         // Database setup
@@ -129,7 +128,7 @@ public final class Aurora extends JavaPlugin {
 //    }
 
 
-    public CoreRegistry getRegistry() {
+    public DataRegistry getRegistry() {
         return registry;
     }
 

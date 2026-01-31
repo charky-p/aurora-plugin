@@ -105,42 +105,42 @@ public class ItemFactory {
         return item;
     }
 
-    public ItemStack createGear(String display, Material material, int tier, String type, String world, List<String> loreLines, List<GearModel.EnchantEntry> enchantList) {
-        ItemStack item = new ItemStack(material);
-        item.editMeta(meta -> {
-            Component displayComponent = miniMessage.deserialize(display).decoration(TextDecoration.ITALIC, false);
-            if (tier == 0) meta.displayName(displayComponent);
-            else {
-                Component tierTag = Component.text(" [T" + tier + "]")
-                        .color(NamedTextColor.YELLOW)
-                        .decoration(TextDecoration.BOLD, false)
-                        .decoration(TextDecoration.ITALIC, false);
-                meta.displayName(Component.empty().append(displayComponent).append(tierTag));
-            }
-
-            List<Component> lore = new ArrayList<>();
-            lore.add(parseType(type));
-            lore.add(Component.empty());
-
-            // Enchants
-            for (GearModel.EnchantEntry entry : enchantList) {
-                lore.add(miniMessage.deserialize("<!italic><gray>»<white> " + entry.display + " " + entry.level));
-                if (entry.enchant != null) {
-                    meta.addEnchant(Registry.ENCHANTMENT.get(NamespacedKey.minecraft(entry.enchant.toLowerCase())),
-                            entry.level, true);
-                }
-
-            }
-
-            if (!enchantList.isEmpty()) lore.add(Component.empty());
-            for (String line : loreLines) lore.add(miniMessage.deserialize("<!italic>" + line));
-            if (!loreLines.isEmpty()) lore.add(Component.empty());
-            lore.add(parseWorld(world));
-            metaFlags(meta);
-            meta.lore(lore);
-        });
-        return item;
-    }
+//    public ItemStack createGear(String display, Material material, int tier, String type, String world, List<String> loreLines, Map<String, Integer> enchants) {
+//        ItemStack item = new ItemStack(material);
+//        item.editMeta(meta -> {
+//            Component displayComponent = miniMessage.deserialize(display).decoration(TextDecoration.ITALIC, false);
+//            if (tier == 0) meta.displayName(displayComponent);
+//            else {
+//                Component tierTag = Component.text(" [T" + tier + "]")
+//                        .color(NamedTextColor.YELLOW)
+//                        .decoration(TextDecoration.BOLD, false)
+//                        .decoration(TextDecoration.ITALIC, false);
+//                meta.displayName(Component.empty().append(displayComponent).append(tierTag));
+//            }
+//
+//            List<Component> lore = new ArrayList<>();
+//            lore.add(parseType(type));
+//            lore.add(Component.empty());
+//
+//            // Enchants
+//            for (GearModel.EnchantEntry entry : enchantList) {
+//                lore.add(miniMessage.deserialize("<!italic><gray>»<white> " + entry.display + " " + entry.level));
+//                if (entry.enchant != null) {
+//                    meta.addEnchant(Registry.ENCHANTMENT.get(NamespacedKey.minecraft(entry.enchant.toLowerCase())),
+//                            entry.level, true);
+//                }
+//
+//            }
+//
+//            if (!enchantList.isEmpty()) lore.add(Component.empty());
+//            for (String line : loreLines) lore.add(miniMessage.deserialize("<!italic>" + line));
+//            if (!loreLines.isEmpty()) lore.add(Component.empty());
+//            lore.add(parseWorld(world));
+//            metaFlags(meta);
+//            meta.lore(lore);
+//        });
+//        return item;
+//    }
 
     public LootPool parsePool(List<Map<?, ?>> poolEntries, Map<String, ItemStack> items) {
         IndependentLootPool pool = new IndependentLootPool();
@@ -167,16 +167,6 @@ public class ItemFactory {
     }
 
     // can default tier
-
-    private Component parseType(String type) {
-        String display = switch (type) {
-            case "combat" -> "\uD83D\uDDE1 Combat";
-            case "mining" -> "⛏ Mining";
-            default -> "";
-        };
-
-        return Component.text(display).color(NamedTextColor.DARK_GRAY).decoration(TextDecoration.ITALIC, false);
-    }
 
     private void addLore(List<Component> lore, List<String> loreLines, String world) {
         lore.add(Component.empty());

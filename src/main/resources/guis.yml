@@ -3,7 +3,7 @@
 # ===========================================================
 # [gui_id]:
 #   title: "<color><b><i>Gui Title"
-#   icon: [icon_id]
+#   icon: [icon_id] (Default null)
 #   rows: 3 (Default)
 #   layout: (Must be same amount as rows)
 #     - "BBBBIBBBX" (B: Border, I: Info, X: Close)
@@ -17,53 +17,86 @@
 #       type: TRADE
 #       id: [item_id]
 #       amount: 1 (Default)
-#       cost:
+#       cost: (Optional)
 #         - id: [item_id]
 #           amount: 1 (Default)
 #     'b': ...
 # ===========================================================
 
 items:
-  cobble_gui:
+  cobble_shop:
     title: "<gray><b>Cobblestone Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1B2B3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: cobble_tools
+      '2':
+        type: GUI
+        id: cobble_armor
+      '3':
+        type: GUI
+        id: cobble_compressor
+
+  cobble_tools:
+    title: "<gray><b>Cobblestone Tools"
     icon: cobble_tools
     rows: 5
     layout:
-      - "BBBBIBBBX"
+      - "BBBBBBBBB"
+      - "B1234   B"
       - "B       B"
-      - "B 1 2 a B"
       - "B       B"
       - "BBBBBBBBB"
     components:
       '1':
-        type: GUI
-        id: cobble_gui
+        type: TRADE
+        id: starter_pick
       '2':
-        type: GUI
-        id: test_gui
-      'a':
         type: TRADE
-        id: gormak_sword
+        id: cobble_pick_1
         cost:
-          - id: coal
-            amount: 64
+          - id: starter_pick
+          - id: cobblestone
+            amount: 16
+      '3':
+        type: TRADE
+        id: cobble_pick_2
+        cost:
+          - id: cobble_pick_1
+          - id: cobblestone
+            amount: 32
+      '4':
+        type: TRADE
+        id: cobble_pick_3
+        cost:
+          - id: cobble_pick_2
+          - id: cobblestone
+            amount: 48
 
-  test_gui:
-    title: "<b>TEST GUI"
-    icon: test_icon
-    rows: 5
+  cobble_armor:
+    title: "<gray><b>Cobblestone Armor"
+    icon: cobble_armor
     layout:
-      - "BBBBBBBBB"
-      - "B       B"
-      - "B 1 a 1 B"
-      - "B       B"
+      - "BBBBIBBBX"
+      - "B   1   B"
       - "BBBBBBBBB"
     components:
       '1':
         type: GUI
-        id: cobble_gui
-      'a':
-        type: TRADE
-        id: coal
-        cost:
-          - id: cobblestone
+        id: cobble_shop
+
+  cobble_compressor:
+    title: "<gray><b>Cobblestone Compressor"
+    icon: cobble_tools
+    layout:
+      - "BBBBIBBBX"
+      - "B   1   B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: cobble_shop

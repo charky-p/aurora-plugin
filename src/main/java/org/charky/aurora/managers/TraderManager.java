@@ -1,15 +1,14 @@
 package org.charky.aurora.managers;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.CoreRegistry;
+import org.charky.aurora.DataRegistry;
 import org.charky.aurora.features.trader.Trader;
 import org.charky.aurora.interfaces.TraderNode;
 
 public class TraderManager {
-    public CoreRegistry registry;
+    public DataRegistry registry;
     public TraderManager(Aurora plugin) {
         this.registry = plugin.getRegistry();
     }

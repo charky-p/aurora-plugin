@@ -9,9 +9,7 @@
 #   world: "overworld" (Options: "overworld")
 #   region: "origin_isles"
 #   enchants: (Optional)
-#     - display: "<color><b><i>Lore Enchant"
-#       level: 1 (Default)
-#       enchant: Sharpness (Optional, if null no enchantment)
+#     [enchant_id]: 1 (Default, e.g. sharpness: 5)
 #   lore: (Optional)
 #     - display: "<gray>Example lore about gear"
 # ===========================================================
@@ -25,14 +23,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      - display: "<gray>Sharpness"
-        level: 30
-        enchant: SHARPNESS
-      - display: "<aqua>Pierce"
-        level: 5
+      sharpness: 30
+      pierce: 5
     lore:
-      - display: "<yellow>Forged by Gormak's descendants"
-      - display: "<yellow>Aura emits from the sword n dat"
+      - "<yellow>Forged by Gormak's descendants"
+      - "<yellow>Aura emits from the sword n dat"
 
   gormak_chest:
     display: "<brown><b>Gormak Chestplate"
@@ -47,3 +42,38 @@ items:
     type: "armor"
     world: "overworld"
     region: "origin_isles"
+
+  starter_pick:
+    display: "<gray><b>Starter Pickaxe"
+    material: WOODEN_PICKAXE
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+
+  cobble_pick_1:
+    display: "<gray><b>Cobble Pickaxe"
+    material: STONE_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+
+  cobble_pick_2:
+    display: "<gray><b>Cobble Pickaxe"
+    material: STONE_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 1
+
+  cobble_pick_3:
+    display: "<gray><b>Cobble Pickaxe"
+    material: STONE_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 2

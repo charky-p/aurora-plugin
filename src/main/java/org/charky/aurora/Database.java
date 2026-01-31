@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 
 public class Database {
-    private final CoreRegistry registry;
+    private final DataRegistry registry;
     private final String url;
     private Connection connection;
 

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class GuiModel {
     public String title;
-    public String icon;
+    public String icon = null;
     public int rows = 3;
     public List<String> layout = new ArrayList<>();
     public Map<Character, ComponentModel> components = new HashMap<>();

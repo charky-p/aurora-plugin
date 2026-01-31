@@ -2,19 +2,35 @@ package org.charky.aurora.commands.mine;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.charky.aurora.commands.AuroraSubCommand;
+import org.charky.aurora.Aurora;
+import org.charky.aurora.util.TextUtils;
 
+import java.util.Collections;
 import java.util.List;
 
-public class MineResetAllSub implements AuroraSubCommand {
+/**
+ * Mine sub command to trigger mine regeneration for all mines
+ */
+public class MineResetAllSub extends MineSub {
+    public MineResetAllSub(Aurora plugin) {
+        super(plugin);
+    }
+
     @Override
     public void execute(CommandSender sender, String[] args) {
+        List<String> mines = mineManager.getMines();
+        if (mines.isEmpty()) {
+            TextUtils.warn(sender, "There are no mines to reset");
+            return;
+        }
 
+        mineManager.resetAll();
+        TextUtils.success(sender, "Reset all " + mines.size() + " mines successfully");
     }
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        return List.of();
+        return Collections.emptyList();
     }
 
     @Override
@@ -24,11 +40,11 @@ public class MineResetAllSub implements AuroraSubCommand {
 
     @Override
     public String getName() {
-        return "";
+        return "resetall";
     }
 
     @Override
     public String getDescription() {
-        return "";
+        return "Immediately resets all mines";
     }
 }

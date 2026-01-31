@@ -71,6 +71,14 @@ public class DataRegistry {
         debugRegistry();
     }
 
+    public List<String> getBlocks(String prefix) {
+        return blocks.keySet()
+                .stream()
+                .filter(key -> key.toLowerCase().startsWith(prefix))
+                .sorted()
+                .toList();
+    }
+
     public boolean hasBlock(String id) {
         return blocks.containsKey(id);
     }

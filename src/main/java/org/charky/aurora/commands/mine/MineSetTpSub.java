@@ -1,34 +1,74 @@
 package org.charky.aurora.commands.mine;
 
+import org.bukkit.Axis;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.charky.aurora.commands.AuroraSubCommand;
+import org.charky.aurora.Aurora;
+import org.charky.aurora.util.TextUtils;
 
+import java.util.Collections;
 import java.util.List;
 
-public class MineSetTpSub implements AuroraSubCommand {
+/**
+ * TODO: Add a teleport command which uses current position yaw and pitch of sender
+ * Mine sub command to set the teleport point of a mine, used for tp and mine reset teleports
+ * TODO: mine resets need to teleport player
+ * TODO: @NotNull for these sub commands
+ */
+public class MineSetTpSub extends MineSub {
+    public MineSetTpSub(Aurora plugin) {
+        super(plugin);
+    }
+
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (args.length < 4) {
+            TextUtils.usage(sender, getFullUsage());
+            return;
+        }
 
+        String mineName = args[0];
+        if (!mineManager.exists(mineName)) {
+            TextUtils.error(sender, "Mine '" + mineName + "' does not exist");
+            return;
+        }
+
+        try {
+            int x = parseCoordinate(sender, args[1], Axis.X);
+            int y = parseCoordinate(sender, args[2], Axis.Y);
+            int z = parseCoordinate(sender, args[3], Axis.Z);
+
+            mineManager.setTp(mineName, x, y, z);
+            TextUtils.success(sender, "Set teleport point of '" + mineName + "' to [" + x + ", " + y + ", " + z + "]");
+        } catch (NumberFormatException e) {
+            TextUtils.error(sender, "Invalid coordinates: " + e.getMessage());
+        }
     }
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        return List.of();
+        if (args.length == 1) {
+            return mineManager.getMines()
+                    .stream()
+                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .toList();
+        }
+
+        return Collections.emptyList();
     }
 
     @Override
     public String getUsage() {
-        return "";
+        return "<mine> <x> <y> <z>";
     }
 
     @Override
     public String getName() {
-        return "";
+        return "settp";
     }
 
     @Override
     public String getDescription() {
-        return "";
+        return "Sets the teleport point of a mine for mine resets or teleporting to a mine";
     }
 }

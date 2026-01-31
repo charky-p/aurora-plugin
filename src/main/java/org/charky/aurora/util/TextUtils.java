@@ -14,7 +14,7 @@ public class TextUtils {
             .append(Component.space())
             .build();
 
-    private static final String prefix = "<gray>[<aqua><b>AURURA</b><gray>] <white>";
+    private static final String prefix = "<gray>[<aqua><b>AURORA</b><gray>] <white>";
     private static final MiniMessage mm = MiniMessage.miniMessage();
 
     private TextUtils() {}
@@ -59,6 +59,10 @@ public class TextUtils {
 
     public static void success(CommandSender sender, String success) {
         send(sender, "<green>" + success);
+    }
+
+    public static void warn(CommandSender sender, String warning) {
+        send(sender, "<yellow>" + warning);
     }
 
     public static void line(CommandSender sender, String color) {

@@ -6,23 +6,22 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.commands.AuroraSubCommand;
-import org.charky.aurora.managers.MineManager;
+import org.charky.aurora.util.MessageType;
 import org.charky.aurora.util.TextUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
 
 /**
  * TODO: Currently overlapping mines, decide whether this is a feature or error
+ * TODO: Mine is WAY too large error
+ * TODO: Add create2 here
  * Mine subcommand to create mines manually by coordinates.
  */
-@Deprecated
-public class MineCreateSub implements AuroraSubCommand {
-    private final MineManager mineManager;
-
+public class MineCreateSub extends MineSub {
     public MineCreateSub(Aurora plugin) {
-        this.mineManager = plugin.getMineManager();
+        super(plugin);
     }
 
     @Override
@@ -33,10 +32,10 @@ public class MineCreateSub implements AuroraSubCommand {
         }
 
         try {
-            String name = args[0];
+            String mineName = args[0];
 
-            if (mineManager.exists(name)) {
-                TextUtils.error(sender, "Mine '" + name + "' already exists");
+            if (mineManager.exists(mineName)) {
+                TextUtils.error(sender, "Mine '" + mineName + "' already exists");
                 return;
             }
 
@@ -54,7 +53,7 @@ public class MineCreateSub implements AuroraSubCommand {
             int delay = (args.length >= 9) ? Math.max(20, Integer.parseInt(args[8])) : 1200;
 
             mineManager.addMine(
-                    name,
+                    mineName,
                     worldName,
                     Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
                     Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2),
@@ -62,34 +61,10 @@ public class MineCreateSub implements AuroraSubCommand {
                     delay
             );
 
-            TextUtils.success(sender, "Mine '" + name + "' created successfully");
+            TextUtils.success(sender, "Mine '" + mineName + "' created successfully");
         } catch (NumberFormatException e) {
             TextUtils.error(sender, "Coordinates, threshold, and delay must be valid numbers");
         }
-    }
-
-    private int parseCoordinate(CommandSender sender, String input, Axis axis) throws NumberFormatException {
-        // Handle ~ as current coordinate
-        if (input.startsWith("~")) {
-            if (!(sender instanceof Player player)) {
-                throw new NumberFormatException("Relative coordinates (~) cannot be used from console");
-            }
-
-            Location location = player.getLocation();
-            int origin = switch (axis) {
-                case Axis.X -> location.getBlockX();
-                case Axis.Y -> location.getBlockY();
-                case Axis.Z -> location.getBlockZ();
-            };
-
-            if (input.length() == 1) return origin;
-
-            // Handle ~+5, ~-5, ~5
-            String offset = input.substring(1);
-            if (offset.startsWith("+")) offset = offset.substring(1);
-            return origin + Integer.parseInt(offset);
-        }
-        return Integer.parseInt(input);
     }
 
     @Override
@@ -131,4 +106,39 @@ public class MineCreateSub implements AuroraSubCommand {
     public String getDescription() {
         return "Manually create a mine using coordinates";
     }
+
+    // TODO: add this officially here
+//    private void createMine2(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+//        if (!(sender instanceof Player player)) return;
+//
+//        if (args.length < 2) {
+//            TextUtils.format(player, "Usage: /aurora mine create <name>", MessageType.ERROR);
+//            return;
+//        }
+//
+//        String mineName = args[1];
+//        if (!wandManager.hasBothPositions(player.getUniqueId())) {
+//            TextUtils.format(player, "You must select two positions with the Aurora Wand first!", MessageType.ERROR);
+//            return;
+//        }
+//
+//        Location p1 = wandManager.getPos1(player.getUniqueId());
+//        Location p2 = wandManager.getPos2(player.getUniqueId());
+//
+//        // We pass the locations directly to the manager
+//        manager.addMine(
+//                mineName,
+//                p1.getWorld().getName(),
+//                Math.min(p1.getBlockX(), p2.getBlockX()),
+//                Math.min(p1.getBlockY(), p2.getBlockY()),
+//                Math.min(p1.getBlockZ(), p2.getBlockZ()),
+//                Math.max(p1.getBlockX(), p2.getBlockX()),
+//                Math.max(p1.getBlockY(), p2.getBlockY()),
+//                Math.max(p1.getBlockZ(), p2.getBlockZ()),
+//                101, // default threshold
+//                1200 // default delay
+//        );
+//
+//        TextUtils.format(player, "Mine '" + mineName + "' created using your wand selection!", MessageType.SUCCESS);
+//    }
 }

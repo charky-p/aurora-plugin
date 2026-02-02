@@ -1,5 +1,7 @@
 package org.charky.aurora.managers;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -7,25 +9,30 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.DataRegistry;
 import org.charky.aurora.Database;
+import org.charky.aurora.features.mining.Mine;
 import org.charky.aurora.features.mob.MobSpawner;
 import org.charky.aurora.features.mob.MobData;
+import org.charky.aurora.util.TextUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MobManager {
+public class SpawnerManager {
     private final Aurora plugin;
     private final DataRegistry registry;
     private final Database db;
     private final Map<String, MobSpawner> spawnerMap = new HashMap<>();
 
-    public MobManager(Aurora plugin, Database db) {
+    public SpawnerManager(Aurora plugin, Database db) {
         this.plugin = plugin;
         this.db = db;
         this.registry = plugin.getRegistry();
@@ -34,10 +41,6 @@ public class MobManager {
         for (MobSpawner spawner : db.getSpawners(plugin)) {
             spawnerMap.put(spawner.getName(), spawner);
         }
-
-//        for (MobData mob : db.getMobs()) {
-//            mobMap.put(mob.getName(), mob);
-//        }
     }
 
     public boolean spawnerExists(String name) {
@@ -48,7 +51,7 @@ public class MobManager {
         return registry.hasMob(name);
     }
 
-    public void addSpawner(String name, String world, int x, int y, int z, String mob, double radius, int limit) {
+    public void addSpawner(String name, String world, int x, int y, int z, String mob, int limit, double radius) {
         if (this.spawnerExists(name)) return;
         if (!this.mobExists(mob)) return;
 
@@ -56,6 +59,35 @@ public class MobManager {
         MobSpawner spawner = new MobSpawner(this.plugin, name, world, x, y, z, data, radius, limit);
         db.saveSpawner(spawner);
         spawnerMap.put(name, spawner);
+    }
+
+    public void removeSpawner(String spawnerName) {
+        if (!this.spawnerExists(spawnerName)) return;
+
+        db.removeSpawner(spawnerName);
+        spawnerMap.remove(spawnerName);
+    }
+
+    public List<String> getSpawners() {
+        return new ArrayList<>(spawnerMap.keySet());
+    }
+
+    public void tpSpawner(Player player, String spawnerName) {
+        MobSpawner spawner = spawnerMap.get(spawnerName);
+        if (spawner == null) return;
+
+        Location location = spawner.getLocation();
+        if (location != null && location.getWorld() != null) {
+            player.teleport(location.add(0, 1, 0));
+        }
+        // TODO: deal with error, maybe nothing, but it is done differently in MineManager tpMine
+    }
+
+    public List<String> getSpawnerInfo(String spawnerName) {
+        MobSpawner spawner = spawnerMap.get(spawnerName);
+        if (spawner == null) return new ArrayList<>();
+
+        return spawner.getInfo();
     }
 
     public void spawnMob(String mob, Location spawnLocation, String spawner) {

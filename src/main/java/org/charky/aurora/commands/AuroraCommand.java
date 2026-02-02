@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.util.MessageType;
 import org.charky.aurora.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,9 +22,10 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
 
     public AuroraCommand(Aurora plugin) {
         register(new WandCommand(plugin));
-        register(new MobCommand(plugin));
+        register(new SpawnerCommand(plugin));
         register(new TraderCommand(plugin));
         register(new MineCommand(plugin));
+        register(new SetSpawnCommand(plugin));
         register(new HelpCommand(subCommands));
         register(new InfoCommand(subCommands));
     }
@@ -42,9 +42,10 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        // TODO: if (!player.hasPermission("aurora.admin")) return true
         AuroraSubCommand subCommand = subCommands.get(args[0].toLowerCase());
         if (subCommand == null) {
-            TextUtils.format(sender, "Unknown command: " + args[0], MessageType.ERROR);
+            TextUtils.error(sender, "Unknown subcommand: " + args[0]);
             return true;
         }
 

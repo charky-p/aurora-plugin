@@ -8,15 +8,15 @@ import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.DataRegistry;
 import org.charky.aurora.managers.InventoryManager;
-import org.charky.aurora.managers.MobManager;
+import org.charky.aurora.managers.SpawnerManager;
 
 public class MobDeathListener implements Listener {
-    private final MobManager mobManager;
+    private final SpawnerManager spawnerManager;
     private final InventoryManager inventoryManager;
     private final DataRegistry registry;
 
     public MobDeathListener(Aurora plugin) {
-        this.mobManager = plugin.getMobManager();
+        this.spawnerManager = plugin.getMobManager();
         this.inventoryManager = plugin.getInventoryManager();
         this.registry = plugin.getRegistry();
     }
@@ -35,7 +35,7 @@ public class MobDeathListener implements Listener {
 
         // Clear drops for all entities
         if (spawnerName == null) return;
-        mobManager.handleMobDeath(spawnerName);
+        spawnerManager.handleMobDeath(spawnerName);
 
         LivingEntity victim = event.getEntity();
         if (victim.getKiller() == null) return;

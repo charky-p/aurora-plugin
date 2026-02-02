@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
+import org.charky.aurora.DataRegistry;
 import org.charky.aurora.features.trader.Trader;
 import org.charky.aurora.features.trader.TraderItem;
 import org.charky.aurora.interfaces.TraderNode;
@@ -84,7 +85,7 @@ public class TraderListener implements Listener {
     }
 
     private String getTraderId(Entity entity) {
-        return entity.getPersistentDataContainer().get(Trader.TRADER_KEY, PersistentDataType.STRING);
+        return entity.getPersistentDataContainer().get(DataRegistry.TRADER_KEY, PersistentDataType.STRING);
     }
 
     private String getMenuId(ItemMeta meta) {

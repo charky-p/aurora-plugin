@@ -77,19 +77,13 @@ public class Database {
                     "radius DOUBLE, " +
                     "mob_limit INT)");
 
-            // TODO: Mob Entities to be spawned, need armor, weapon, other attributes, etc
-//            statement.execute("CREATE TABLE IF NOT EXISTS mobs (" +
-//                    "mob TEXT PRIMARY KEY, " +
-//                    "type TEXT, " +
-//                    "display_name TEXT, " +
-//                    "max_health DOUBLE, " +
-//                    "movement_speed DOUBLE, " +
-//                    "helmet TEXT, " +
-//                    "chestplate TEXT, " +
-//                    "leggings TEXT, " +
-//                    "boots TEXT, " +
-//                    "weapon TEXT, " +
-//                    "offhand TEXT, )");
+            // Traders
+            statement.execute("CREATE TABLE IF NOT EXISTS traders (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "trader TEXT, " +
+                    "world TEXT, " +
+                    "x DOUBLE, y DOUBLE, z DOUBLE, " +
+                    "yaw FLOAT)");
 
             // Spawns
             statement.execute("CREATE TABLE IF NOT EXISTS spawns (" +
@@ -393,6 +387,18 @@ public class Database {
             pst.setDouble(7, spawner.getRadius());
             pst.setInt(8, spawner.getLimit());
 
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeSpawner(String spawnerName) {
+        String sql = "DELETE FROM spawners WHERE name = ?";
+
+        try (Connection connection = getConnection();
+            PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, spawnerName);
             pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

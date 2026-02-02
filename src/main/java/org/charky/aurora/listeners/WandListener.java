@@ -1,29 +1,17 @@
 package org.charky.aurora.listeners;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.features.loot.IndependentLootPool;
 import org.charky.aurora.features.mob.MobData;
 import org.charky.aurora.managers.WandManager;
-import org.charky.aurora.util.MessageType;
 import org.charky.aurora.util.TextUtils;
 
 import java.util.*;
@@ -111,10 +99,10 @@ public class WandListener implements Listener {
 
         if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
             wandManager.setPos1(player.getUniqueId(), loc);
-            TextUtils.format(player, "Position 1 set to: " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ(), MessageType.SUCCESS);
+            TextUtils.send(player, "<aqua>Position 1 set to: " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
         } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             wandManager.setPos2(player.getUniqueId(), loc);
-            TextUtils.format(player, "Position 2 set to: " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ(), MessageType.SUCCESS);
+            TextUtils.send(player, "<aqua>Position 2 set to: " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
         }
         // For paste, temporarily adding other thing
 //        Location spawnLoc = event.getClickedBlock().getRelative(event.getBlockFace()).getLocation().add(0.5, 0, 0.5);

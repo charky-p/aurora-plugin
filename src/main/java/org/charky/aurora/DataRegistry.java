@@ -34,6 +34,7 @@ import java.io.InputStream;
 import java.util.*;
 
 public class DataRegistry {
+    public static NamespacedKey TRADER_KEY;
     private final Aurora plugin;
     private final ItemFactory itemFactory;
     private record BlockData(Material material, List<LootPool> pools) {}
@@ -49,6 +50,9 @@ public class DataRegistry {
     public DataRegistry(Aurora plugin) {
         this.plugin = plugin;
         this.itemFactory = plugin.getItemFactory();
+        if (TRADER_KEY == null) {
+            TRADER_KEY = new NamespacedKey(plugin, "trader_id");
+        }
     }
 
     public void loadAll() {
@@ -118,6 +122,10 @@ public class DataRegistry {
 
     public List<MenuItem> getMobDrops(String id) {
         return mobs.get(id).drops().roll();
+    }
+
+    public List<String> getMobs() {
+        return new ArrayList<>(mobs.keySet());
     }
 
     private void debugRegistry() {
@@ -459,7 +467,7 @@ public class DataRegistry {
                 plugin.getLogger().warning("Invalid EntityType '" + model.entity + "' for trader: " + id);
                 type = EntityType.VILLAGER; // Default fallback so it doesn't crash
             }
-            traders.put(id, new Trader(id, displayName, type, guis.get(model.gui)));
+            traders.put(id, new Trader(TRADER_KEY, id, displayName, type, guis.get(model.gui)));
         });
     }
 

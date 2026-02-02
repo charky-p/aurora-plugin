@@ -1,14 +1,11 @@
 package org.charky.aurora.commands.mine;
 
 import org.bukkit.Axis;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
-import org.charky.aurora.util.MessageType;
 import org.charky.aurora.util.TextUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,26 +38,25 @@ public class MineCreateSub extends MineSub {
 
             String worldName = (sender instanceof Player p) ? p.getWorld().getName() : "world";
 
-            int x1 = parseCoordinate(sender, args[1], Axis.X);
-            int y1 = Math.max(-64, Math.min(parseCoordinate(sender, args[2], Axis.Y), 319));
-            int z1 = parseCoordinate(sender, args[3], Axis.Z);
-            int x2 = parseCoordinate(sender, args[4], Axis.X);
-            int y2 = Math.max(-64, Math.min(parseCoordinate(sender, args[5], Axis.Y), 319));
-            int z2 = parseCoordinate(sender, args[6], Axis.Z);
+            double x1 = TextUtils.parseCoordinate(sender, args[1], Axis.X);
+            double y1 = Math.max(-64, Math.min(TextUtils.parseCoordinate(sender, args[2], Axis.Y), 319));
+            double z1 = TextUtils.parseCoordinate(sender, args[3], Axis.Z);
+            double x2 = TextUtils.parseCoordinate(sender, args[4], Axis.X);
+            double y2 = Math.max(-64, Math.min(TextUtils.parseCoordinate(sender, args[5], Axis.Y), 319));
+            double z2 = TextUtils.parseCoordinate(sender, args[6], Axis.Z);
 
             // Optional parameters, by default threshold is off (101%), delay is 1 minute
             double threshold = (args.length >= 8) ? Double.parseDouble(args[7]) : 101;
             int delay = (args.length >= 9) ? Math.max(20, Integer.parseInt(args[8])) : 1200;
 
-            mineManager.addMine(
-                    mineName,
-                    worldName,
-                    Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
-                    Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2),
-                    threshold,
-                    delay
-            );
+            int minX = (int) Math.floor(Math.min(x1, x2));
+            int minY = (int) Math.floor(Math.min(y1, y2));
+            int minZ = (int) Math.floor(Math.min(z1, z2));
+            int maxX = (int) Math.floor(Math.max(x1, x2));
+            int maxY = (int) Math.floor(Math.max(y1, y2));
+            int maxZ = (int) Math.floor(Math.max(z1, z2));
 
+            mineManager.addMine(mineName, worldName, minX, minY, minZ, maxX, maxY, maxZ, threshold, delay);
             TextUtils.success(sender, "Mine '" + mineName + "' created successfully");
         } catch (NumberFormatException e) {
             TextUtils.error(sender, "Coordinates, threshold, and delay must be valid numbers");
@@ -94,7 +90,7 @@ public class MineCreateSub extends MineSub {
 
     @Override
     public String getUsage() {
-        return "create <name> <x1> <y1> <z1> <x2> <y2> <z2> [threshold] [delay]";
+        return "<name> <x1> <y1> <z1> <x2> <y2> <z2> [threshold] [delay]";
     }
 
     @Override

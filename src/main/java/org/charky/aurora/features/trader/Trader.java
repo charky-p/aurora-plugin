@@ -10,17 +10,18 @@ import org.charky.aurora.managers.TraderManager;
 
 public class Trader {
     public static final String TRADER_KEY_NAME = "trader_id";
-    public static final NamespacedKey TRADER_KEY = new NamespacedKey(JavaPlugin.getPlugin(Aurora.class), TRADER_KEY_NAME);
+    private final NamespacedKey traderKey;
     private final String traderId;
     private final Component displayName;
     private final EntityType type;
     private final TraderMenu menu;
 
-    public Trader(String traderId, Component displayName, EntityType type, TraderMenu menu) {
+    public Trader(NamespacedKey traderKey, String traderId, Component displayName, EntityType type, TraderMenu menu) {
         this.traderId = traderId;
         this.displayName = displayName;
         this.type = type;
         this.menu = menu;
+        this.traderKey = traderKey;
     }
 
     public String getMenuId() {
@@ -49,7 +50,7 @@ public class Trader {
             }
 
             entity.getPersistentDataContainer().set(
-                    TRADER_KEY,
+                    traderKey,
                     org.bukkit.persistence.PersistentDataType.STRING,
                     this.traderId
             );

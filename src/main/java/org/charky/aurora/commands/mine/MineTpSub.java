@@ -46,7 +46,10 @@ public class MineTpSub extends MineSub {
         }
 
         mineManager.tpMine(target, mineName);
-        TextUtils.success(sender, "Teleported player '" + target.getName() + "' to '" + mineName + "' successfully");
+        TextUtils.success(target, "Teleported to " + mineName + " successfully");
+        if (target != sender) {
+            TextUtils.success(sender, "Teleported player '" + target.getName() + "' to '" + mineName + "' successfully");
+        }
     }
 
     @Override
@@ -55,6 +58,7 @@ public class MineTpSub extends MineSub {
             return mineManager.getMines()
                     .stream()
                     .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .sorted()
                     .toList();
         } else if (args.length == 2) {
             return Bukkit.getOnlinePlayers()

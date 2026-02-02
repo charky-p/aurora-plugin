@@ -1,17 +1,15 @@
 package org.charky.aurora.commands;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.util.TextUtils;
 import org.charky.aurora.managers.TraderManager;
-import org.charky.aurora.util.MessageType;
 
 import java.util.List;
 
+// TODO: adapt to get wand to remove traders
 public class TraderCommand implements AuroraSubCommand {
     public TraderManager manager;
 
@@ -22,30 +20,28 @@ public class TraderCommand implements AuroraSubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length < 4) {
-            sender.sendMessage(Component.text("Usage: /trader <traderId> <x> <y> <z>"));
+            TextUtils.usage(sender, getFullUsage());
             return;
         }
 
         String traderId = args[0];
+        if (!manager.traderExists(traderId)) {
+            TextUtils.error(sender, "Trader '" + traderId + "' does not exist!");
+            return;
+        }
+
         try {
             double x = Double.parseDouble(args[1]);
             double y = Double.parseDouble(args[2]);
             double z = Double.parseDouble(args[3]);
 
-            if (!manager.traderExists(traderId)) {
-                sender.sendMessage(Component.text("Trader " + traderId + " does not exist!")
-                        .color(NamedTextColor.RED));
-                return;
-            }
-
             String worldName = "world";
             if (sender instanceof Player player) worldName = player.getWorld().getName();
 
             manager.spawnTrader(traderId, Bukkit.getWorld(worldName), x, y, z);
-            sender.sendMessage(Component.text("Successfully spawned trader!")
-                    .color(NamedTextColor.GREEN));
+            TextUtils.success(sender, "Trader '" + traderId + "' successfully created");
         } catch (NumberFormatException e) {
-            sender.sendMessage(TextUtils.format("Invalid number", MessageType.ERROR));
+            TextUtils.error(sender, "Invalid Coordinates: " + e.getMessage());
         }
     }
 
@@ -56,7 +52,7 @@ public class TraderCommand implements AuroraSubCommand {
 
     @Override
     public String getUsage() {
-        return "Usage: /aurora trader TODO";
+        return "<trader> <x> <y> <z>";
     }
 
     @Override
@@ -66,6 +62,6 @@ public class TraderCommand implements AuroraSubCommand {
 
     @Override
     public String getDescription() {
-        return "create an npc trader to interact with for shops";
+        return "Create an npc trader to interact with for shops";
     }
 }

@@ -28,12 +28,12 @@ public class MineListSub extends MineSub {
             return;
         }
 
-        TextUtils.send(sender, "<aqua><b>Mines:");
+        TextUtils.display(sender, "<aqua><b>Mines:");
         for (String name : names) {
             String message = " <dark_gray>» <gray>" + name +
                     " <dark_gray>[<click:run_command:'/aurora mine info " + name + "'><hover:show_text:'<gray>Click for <aqua>Info'> <aqua>ℹ</aqua></hover></click>]" +
                     " <dark_gray>[<click:run_command:'/aurora mine tp " + name + "'><hover:show_text:'<gray>Teleport to <green>" + name + "'> <green>⚙</green></hover></click>]";
-            TextUtils.send(sender, message);
+            TextUtils.display(sender, message);
         }
     }
 

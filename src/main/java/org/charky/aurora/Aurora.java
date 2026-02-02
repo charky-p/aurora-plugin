@@ -13,17 +13,16 @@ import org.charky.aurora.util.ItemFactory;
 import java.sql.SQLException;
 import java.util.Map;
 
-public final class Aurora extends JavaPlugin {
+public class Aurora extends JavaPlugin {
     private Database db;
     private MineManager manager;
     private ScoreboardManager scoreboard;
-    private MobManager mobManager;
+    private SpawnerManager spawnerManager;
     private TabManager tabManager;
     private TraderManager traderManager;
     private InventoryManager inventoryManager;
     private WandManager wandManager;
     private ItemFactory itemFactory = new ItemFactory();
-//    private BlockPresets blockPresets;
     private DataRegistry registry;
     private Map<World, Location> spawnMap;
 
@@ -56,7 +55,7 @@ public final class Aurora extends JavaPlugin {
         this.tabManager = new TabManager(this);
         this.scoreboard = new ScoreboardManager(this, db, tabManager);
         this.manager = new MineManager(this, db, scoreboard);
-        this.mobManager = new MobManager(this, db);
+        this.spawnerManager = new SpawnerManager(this, db);
         this.traderManager = new TraderManager(this);
         this.inventoryManager = new InventoryManager();
         this.wandManager = new WandManager();
@@ -82,10 +81,6 @@ public final class Aurora extends JavaPlugin {
             this.getCommand("spawn").setExecutor(new SpawnCommand(this));
         }
 
-        if (this.getCommand("setspawn") != null) {
-            this.getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
-        }
-
         // Listeners
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
         getServer().getPluginManager().registerEvents(new MineListener(this), this);
@@ -99,8 +94,8 @@ public final class Aurora extends JavaPlugin {
         getLogger().info("AuroraMines has been enabled!");
     }
 
-    public MobManager getMobManager() {
-        return this.mobManager;
+    public SpawnerManager getMobManager() {
+        return this.spawnerManager;
     }
 
     public MineManager getMineManager() {
@@ -122,11 +117,6 @@ public final class Aurora extends JavaPlugin {
     public WandManager getWandManager() {
         return wandManager;
     }
-
-//    public BlockPresets getBlockPresets() {
-//        return blockPresets;
-//    }
-
 
     public DataRegistry getRegistry() {
         return registry;
@@ -150,7 +140,7 @@ public final class Aurora extends JavaPlugin {
     public void onDisable() {
         if (manager != null) manager.shutdown();
         if (scoreboard != null) scoreboard.shutdown();
-        if (mobManager != null) mobManager.shutdown();
+        if (spawnerManager != null) spawnerManager.shutdown();
 
         try {
             db.close();

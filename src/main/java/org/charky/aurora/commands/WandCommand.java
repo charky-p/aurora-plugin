@@ -16,6 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: wand support not added yet, different wands or 1 wand
+// delete traders, set mine borders, copy and paste entities
+@Deprecated
 public class WandCommand implements AuroraSubCommand {
     private final Aurora plugin;
 

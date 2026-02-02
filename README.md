@@ -6,6 +6,22 @@
 - Scoreboards
 - etc TODO
 
+#### System Architecture
+Groups: Commands, Listeners, Database, Registry, YAML, Trader, Mining, Spawners, Models, Player Data, Aurora, Managers
+
+Categories: Events = [Commands + Listeners], Data = [Database + Registry + YAML], Objects = [Trader, Mining, Spawners]
+
+
+Aurora links to Managers, Data and Events
+
+Registry links to YAML
+
+Commands links to Managers
+
+Listeners links to Managers
+
+Managers links to Objects, Database and Registry
+
 #### Ideas list
 combine axe, pickaxe, shovel, etc progression together, one linear path, since no
 need to have more than 1 progression line, armor increases through
@@ -49,6 +65,28 @@ add borders enum to trader guis
 send inventory or item in chat
 
 grapple for movement early on, movement items category like elytra, dash
+
+extra inventory for priority items go when full inventory
+
+rank ups based off playtime + blocks mined, perhaps essence cost or gain essence on rank up
+[PLAYER, ROOKIE, APPRENTICE, NOVICE, EXPERT, NOBLE, LORD, DUKE, MASTER, GRANDMASTER]
+
+mine tierlists?
+
+world ideas: space, farm, void, twilight, candy, wasteland, sakura, volcano, mushroom
+
+turn off block drops for specific mines, make fortune go crazy but block density will negate some
+fortune levels, efficiency will be gradual at the start, but upgrades
+like more essence, 1 blast level, double drops, etc
+
+/menu brings up gui with everything in the game on one screen, block drops, ranks, warps, etc
+
+need boss: yaml in mobs, boss null if not boss, otherwise bossbar configuration
+
+boss keys to force summon with no summon message in global chat
+
+collections rewards: mine 100000 of a block, get stat buff (+ fortune)
+collection thing is from low drop rate, if unlocked get essence
 
 #### Server Design
 world 1 (overworld): 4 regions

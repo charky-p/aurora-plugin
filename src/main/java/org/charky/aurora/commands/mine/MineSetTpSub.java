@@ -34,9 +34,9 @@ public class MineSetTpSub extends MineSub {
         }
 
         try {
-            int x = parseCoordinate(sender, args[1], Axis.X);
-            int y = parseCoordinate(sender, args[2], Axis.Y);
-            int z = parseCoordinate(sender, args[3], Axis.Z);
+            double x = TextUtils.parseCoordinate(sender, args[1], Axis.X);
+            double y = TextUtils.parseCoordinate(sender, args[2], Axis.Y);
+            double z = TextUtils.parseCoordinate(sender, args[3], Axis.Z);
 
             mineManager.setTp(mineName, x, y, z);
             TextUtils.success(sender, "Set teleport point of '" + mineName + "' to [" + x + ", " + y + ", " + z + "]");

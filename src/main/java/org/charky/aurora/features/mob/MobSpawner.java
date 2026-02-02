@@ -7,6 +7,8 @@ import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.Aurora;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MobSpawner {
@@ -67,6 +69,21 @@ public class MobSpawner {
 
     public int getLimit() {
         return this.limit;
+    }
+
+    public Location getLocation() {
+        return new Location(Bukkit.getWorld(this.world), this.x, this.y, this.z);
+    }
+
+    public List<String> getInfo() {
+        List<String> info = new ArrayList<>();
+        info.add("Name: " + this.name);
+        info.add("World: " + this.world);
+        info.add("Coordinate: [" + this.x + ", " + this.y + ", " + this.z + "]");
+        info.add("Mob: " + this.mob.id());
+        info.add("Radius: " + this.radius);
+        info.add("Limit: " + this.limit);
+        return info;
     }
 
     public void spawnMob() {

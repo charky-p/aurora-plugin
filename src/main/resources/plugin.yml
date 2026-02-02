@@ -18,24 +18,6 @@ commands:
     description: Main command for all aurora admin commands
     usage: /aurora [mine|mob|trader|wand]
     aliases: [a, aura]
-  mine:
-    description: Main command for aurora mines creation.
-    usage: /mine [add|delete|list|setblocks|reset|tp]
-    aliases: [m, mines]
-  mobspawner:
-    description: Main command for mob and spawner creations.
-    usage: /mobspawner [add|save]
-    aliases: [ms, mobspawners]
-  trader:
-    description: Spawn trader
-    usage: /trader <traderId> <x> <y> <z>
-    aliases: [t]
-  wandE:
-    description: wand entities
-    usage: /wande
   spawn:
     description: Teleport to world spawn
     usage: /spawn
-  setspawn:
-    description: Set world spawn to current location
-    usage: /setspawn

@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.Aurora;
 import org.charky.aurora.util.TextUtils;
-import org.charky.aurora.util.MessageType;
 import org.jetbrains.annotations.NotNull;
 
 public class SpawnCommand implements CommandExecutor {
@@ -21,18 +20,18 @@ public class SpawnCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String s, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(TextUtils.format("Only players can run /spawn"));
+            TextUtils.error(sender, "Only players can run this command");
             return true;
         }
 
         Location location =  plugin.getSpawn(player.getWorld());
         if (location == null) {
-            sender.sendMessage(TextUtils.format("Spawn is not set", MessageType.ERROR));
+            TextUtils.error(sender, "Spawn location is not set");
             return true;
         }
 
-        sender.sendMessage(TextUtils.format("Teleporting to spawn...", MessageType.SUCCESS));
         player.teleport(location);
+        TextUtils.send(sender, "<aqua>Teleporting to spawn...");
         return true;
     }
 }

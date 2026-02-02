@@ -134,14 +134,5 @@ public class SpawnerManager {
         for (MobSpawner spawner : spawnerMap.values()) {
             spawner.stop();
         }
-
-        // Remove all spawned mobs
-        for (World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getEntities()) {
-                if (entity.getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
-                    entity.remove();
-                }
-            }
-        }
     }
 }

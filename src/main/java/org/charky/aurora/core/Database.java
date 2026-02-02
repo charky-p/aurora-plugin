@@ -76,7 +76,7 @@ public class Database {
                     "radius DOUBLE, " +
                     "mob_limit INT)");
 
-            // Traders
+            // TODO: Traders
             statement.execute("CREATE TABLE IF NOT EXISTS traders (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "trader TEXT, " +
@@ -164,6 +164,20 @@ public class Database {
         }
     }
 
+    public void renameMine(String oldName, String newName) {
+        String sql = "UPDATE mines SET name = ? WHERE name = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setString(1, newName);
+            pst.setString(2, oldName);
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public List<MineData> getMines() {
         List<MineData> mines = new ArrayList<>();
         String sql = "SELECT * FROM mines";

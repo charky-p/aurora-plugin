@@ -3,6 +3,7 @@ package org.charky.aurora.features.mine.commands;
 import org.bukkit.Axis;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.charky.aurora.common.util.LocationUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.common.util.TextUtils;
 
@@ -10,9 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO: Add a teleport command which uses current position yaw and pitch of sender
  * Mine sub command to set the teleport point of a mine, used for tp and mine reset teleports
- * TODO: mine resets need to teleport player
  * TODO: @NotNull for these sub commands
  */
 public class MineSetTpSub extends MineSub {
@@ -34,9 +33,9 @@ public class MineSetTpSub extends MineSub {
         }
 
         try {
-            double x = TextUtils.parseCoordinate(sender, args[1], Axis.X);
-            double y = TextUtils.parseCoordinate(sender, args[2], Axis.Y);
-            double z = TextUtils.parseCoordinate(sender, args[3], Axis.Z);
+            double x = LocationUtils.parseCoordinate(sender, args[1], Axis.X);
+            double y = LocationUtils.parseCoordinate(sender, args[2], Axis.Y);
+            double z = LocationUtils.parseCoordinate(sender, args[3], Axis.Z);
 
             mineManager.setTp(mineName, x, y, z);
             TextUtils.success(sender, "Set teleport point of '" + mineName + "' to [" + x + ", " + y + ", " + z + "]");

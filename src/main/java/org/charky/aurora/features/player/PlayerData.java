@@ -49,6 +49,11 @@ public class PlayerData {
         this.dirty = true;
     }
 
+    public synchronized void addEssence(int essence) {
+        this.essence += essence;
+        this.dirty = true;
+    }
+
     public synchronized void setRank(String rank) {
         this.rank = rank;
         this.dirty = true;

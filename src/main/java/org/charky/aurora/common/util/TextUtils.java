@@ -71,24 +71,4 @@ public class TextUtils {
 
         return String.format("%s%.2f", color, Math.min(tps, 20.0));
     }
-
-    // TODO: Make locaitionUtils or smthin
-    public static double parseCoordinate(CommandSender sender, String input, Axis axis) throws NumberFormatException {
-        if (input.startsWith("~")) {
-            if (!(sender instanceof Player player)) {
-                throw new NumberFormatException("Relative coordinates (~) cannot be used from console");
-            }
-
-            Location location = player.getLocation();
-            double base = switch (axis) {
-                case X -> location.getX();
-                case Y -> location.getY();
-                case Z -> location.getZ();
-            };
-
-            if (input.length() == 1) return base;
-            return base + Double.parseDouble(input.substring(1));
-        }
-        return Double.parseDouble(input);
-    }
 }

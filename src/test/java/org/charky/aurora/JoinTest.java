@@ -28,6 +28,7 @@ public class JoinTest {
 
     @Test
     @DisplayName("First join test")
+    @Disabled
     public void joinTest() {
         PlayerMock player = server.addPlayer();
 

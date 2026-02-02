@@ -77,3 +77,26 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 2
+
+  cobble_pick_4:
+    display: "<gray><b>Cobble Pickaxe"
+    material: STONE_PICKAXE
+    tier: 4
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 2
+      fortune: 1
+
+  cobble_pick_5:
+    display: "<gray><b>Cobble Pickaxe"
+    material: STONE_PICKAXE
+    tier: 5
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 2
+      fortune: 1
+      luck: 1

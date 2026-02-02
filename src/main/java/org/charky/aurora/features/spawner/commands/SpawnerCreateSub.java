@@ -3,6 +3,7 @@ package org.charky.aurora.features.spawner.commands;
 import org.bukkit.Axis;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.charky.aurora.common.util.LocationUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.common.util.TextUtils;
 
@@ -31,9 +32,9 @@ public class SpawnerCreateSub extends SpawnerSub {
         }
 
         try {
-            int x = (int) Math.floor(TextUtils.parseCoordinate(sender, args[1], Axis.X));
-            int y = (int) Math.floor(TextUtils.parseCoordinate(sender, args[2], Axis.Y));
-            int z = (int) Math.floor(TextUtils.parseCoordinate(sender, args[3], Axis.Z));
+            int x = (int) Math.floor(LocationUtils.parseCoordinate(sender, args[1], Axis.X));
+            int y = (int) Math.floor(LocationUtils.parseCoordinate(sender, args[2], Axis.Y));
+            int z = (int) Math.floor(LocationUtils.parseCoordinate(sender, args[3], Axis.Z));
             String mobName = args[4];
 
             if (!spawnerManager.mobExists(mobName)) {

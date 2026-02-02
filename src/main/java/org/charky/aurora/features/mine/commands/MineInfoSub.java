@@ -4,6 +4,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.features.mine.Mine;
+import org.charky.aurora.features.mine.MineData;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,11 +31,15 @@ public class MineInfoSub extends MineSub {
             return;
         }
 
-        // TODO: printing information should be here, move getMineInfo logic here, by getting Mine object
-        TextUtils.display(sender, "<aqua><st>                </st>MINE INFO<st>                </st>");
-        for (String line : mineManager.getMineInfo(mineName)) {
-            TextUtils.display(sender, " <dark_gray>» <aqua>" + line);
-        }
+        MineData data = mineManager.getMine(mineName).getData();
+        TextUtils.display(sender, "<aqua><st>                                </st> <b>MINE INFO</b> <st>                                </st>");
+        TextUtils.display(sender, " <dark_gray>» <aqua>Name: <white>" + data.getName());
+        TextUtils.display(sender, " <dark_gray>» <aqua>World: <white>" + data.getWorld());
+        TextUtils.display(sender, " <dark_gray>» <aqua>Coordinate 1: <white>" + data.getX1() + "<gray>, <white>" + data.getY1() + "<gray>, <white>" + data.getZ1());
+        TextUtils.display(sender, " <dark_gray>» <aqua>Coordinate 2: <white>" + data.getX2() + "<gray>, <white>" + data.getY2() + "<gray>, <white>" + data.getZ2());
+        TextUtils.display(sender, " <dark_gray>» <aqua>Reset Threshold: <white>" + data.getThreshold() + "%");
+        TextUtils.display(sender, " <dark_gray>» <aqua>Delay: <white>" + data.getDelay() + "s");
+        TextUtils.display(sender, " <dark_gray>» <aqua>Teleport Coordinate: <white>" + data.getTpX() + "<gray>, <white>" + data.getTpY() + "<gray>, <white>" + data.getTpZ());
         TextUtils.line(sender, "<aqua>");
     }
 

@@ -32,7 +32,7 @@ public class InfoCommand implements AuroraSubCommand {
             return;
         }
 
-        TextUtils.display(sender, "<aqua><st>                           </st> <b>COMMAND DETAILS</b> <st>                           </st>");
+        TextUtils.display(sender, "<aqua><st>                          </st> <b>COMMAND DETAILS</b> <st>                          </st>");
         TextUtils.display(sender, " <yellow>Command <dark_gray>» <gray>" + target.getName());
         TextUtils.display(sender, " <yellow>Description <dark_gray>» <gray>" + target.getDescription());
         TextUtils.display(sender, " <yellow>Usage <dark_gray>» <white>" + "<click:suggest_command:'/aurora " + target.getName() + " '>" +

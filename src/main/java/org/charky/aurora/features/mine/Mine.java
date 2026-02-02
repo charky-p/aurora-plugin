@@ -3,6 +3,7 @@ package org.charky.aurora.features.mine;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.core.Aurora;
 
@@ -30,18 +31,6 @@ public class Mine {
                       (Math.abs(data.getZ1() - data.getZ2()) + 1);
     }
 
-    public List<String> getInfo() {
-        List<String> info = new ArrayList<>();
-        info.add("Mine: " + data.getName());
-        info.add("World: " + data.getWorld());
-        info.add("Coordinate 1: " + data.getX1() + ", " + data.getY1() + ", " + data.getZ1());
-        info.add("Coordinate 2: " + data.getX2() + ", " + data.getY2() + ", " + data.getZ2());
-        info.add("Reset Threshold: " + data.getThreshold());
-        info.add("Delay: " + data.getDelay());
-        info.add("Teleport Coordinate: " + data.getTpX() + ", " + data.getTpY() + ", " + data.getTpZ());
-        return info;
-    }
-
     public void setBlocks(List<MineBlock> blocks) {
         this.blocks = blocks;
     }
@@ -58,7 +47,7 @@ public class Mine {
         data.setName(name);
     }
 
-    // TODO: Unsafe giving data like this
+    // TODO: Can return interface with only getters
     public MineData getData() {
         return data;
     }
@@ -130,6 +119,21 @@ public class Mine {
                 }
             }
         }
+
+        for (Player player : world.getPlayers()) {
+            if (isInside(player.getLocation())) {
+                Location tpLocation = getTpLocation();
+                tpLocation.setPitch(player.getLocation().getPitch());
+                tpLocation.setYaw(player.getLocation().getYaw());
+                player.teleport(tpLocation);
+            }
+        }
+    }
+
+    private boolean isInside(Location location) {
+        return location.getX() >= data.getX1() && location.getX() <= data.getX2() + 1 &&
+                location.getY() >= data.getY1() && location.getY() <= data.getY2() + 1 &&
+                location.getZ() >= data.getZ1() && location.getZ() <= data.getZ2() + 1;
     }
 
     private MineBlock getRandomBlock() {

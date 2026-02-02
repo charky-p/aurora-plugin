@@ -7,13 +7,20 @@
 # ===========================================================
 
 items:
-  sharpness:
-    display: "<gray>Sharpness"
-    enchant: SHARPNESS
-
   efficiency:
     display: "<gray>Efficiency"
     enchant: EFFICIENCY
+
+  fortune:
+    display: "<gray>Fortune"
+    enchant: FORTUNE
+
+  luck:
+    display: "<gray>Luck"
+
+  sharpness:
+    display: "<gray>Sharpness"
+    enchant: SHARPNESS
 
   pierce:
     display: "<aqua>Pierce"

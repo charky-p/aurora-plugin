@@ -47,7 +47,7 @@ items:
     rows: 5
     layout:
       - "BBBBBBBBB"
-      - "B1234   B"
+      - "B123456 B"
       - "B       B"
       - "B       B"
       - "BBBBBBBBB"
@@ -76,6 +76,22 @@ items:
           - id: cobble_pick_2
           - id: cobblestone
             amount: 48
+      '5':
+        type: TRADE
+        id: cobble_pick_4
+        cost:
+          - id: cobble_pick_3
+          - id: compressed_cobblestone
+            amount: 1
+          - id: cobblestone
+            amount: 32
+      '6':
+        type: TRADE
+        id: cobble_pick_5
+        cost:
+          - id: cobble_pick_4
+          - id: compressed_cobblestone
+            amount: 3
 
   cobble_armor:
     title: "<gray><b>Cobblestone Armor"
@@ -91,12 +107,25 @@ items:
 
   cobble_compressor:
     title: "<gray><b>Cobblestone Compressor"
-    icon: cobble_tools
+    icon: cobble_compress
     layout:
       - "BBBBIBBBX"
-      - "B   1   B"
+      - "Bab 1   B"
       - "BBBBBBBBB"
     components:
+      'a':
+        type: TRADE
+        id: compressed_cobblestone
+        cost:
+          - id: cobblestone
+            amount: 64
+      'b':
+        type: TRADE
+        id: cobblestone
+        amount: 64
+        cost:
+          - id: compressed_cobblestone
+            amount: 64
       '1':
         type: GUI
         id: cobble_shop

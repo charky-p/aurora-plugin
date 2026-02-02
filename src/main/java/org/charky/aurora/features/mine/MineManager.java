@@ -64,10 +64,8 @@ public class MineManager {
         return this.mineMap.containsKey(name);
     }
 
-    public List<String> getMineInfo(String name) {
-        Mine mine = mineMap.get(name);
-        if (mine == null) return null;
-        return mine.getInfo();
+    public Mine getMine(String name) {
+        return mineMap.get(name);
     }
 
     public List<String> getMines() {
@@ -111,7 +109,9 @@ public class MineManager {
         if (mine == null) return;
 
         mine.rename(newName);
-        this.db.saveMine(mine.getData());
+        mineMap.remove(oldName);
+        mineMap.put(newName, mine);
+        this.db.renameMine(oldName, newName);
     }
 
     public void resetMine(String name) {
@@ -157,6 +157,8 @@ public class MineManager {
 
         Location location = mine.getTpLocation();
         if (location != null && location.getWorld() != null) {
+            location.setYaw(player.getYaw());
+            location.setPitch(player.getPitch());
             player.teleport(location);
         } else {
             player.sendMessage(Component.text("ERROR: Mine location was invalid")

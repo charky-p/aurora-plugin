@@ -83,7 +83,7 @@ public class ItemFactory {
         return item;
     }
 
-    public ItemStack createItem(String display, Material material, List<String> loreLines, String world) {
+    public ItemStack createItem(String display, Material material, List<String> loreLines, String world, boolean glow) {
         ItemStack item = new ItemStack(material);
         item.editMeta(meta -> {
             meta.displayName(miniMessage.deserialize(display).decoration(TextDecoration.ITALIC, false));
@@ -93,6 +93,8 @@ public class ItemFactory {
             addLore(lore, loreLines, world);
             metaFlags(meta);
             meta.lore(lore);
+
+            meta.setEnchantmentGlintOverride(glow);
         });
         return item;
     }

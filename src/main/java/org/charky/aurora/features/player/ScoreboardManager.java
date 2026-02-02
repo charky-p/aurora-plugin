@@ -120,12 +120,19 @@ public class ScoreboardManager {
         );
     }
 
+    // TODO: player manager
     public void incrementMined(Player player) {
         PlayerData data = this.profiles.get(player.getUniqueId());
         if (data == null) return;
 
         data.addMined(1);
-        // Manually update score board, this is only for data purposes
+    }
+
+    public void addEssence(Player player, int essence) {
+        PlayerData data = this.profiles.get(player.getUniqueId());
+        if (data == null) return;
+
+        data.addEssence(essence);
     }
 
     public void saveProfile(Player player) {

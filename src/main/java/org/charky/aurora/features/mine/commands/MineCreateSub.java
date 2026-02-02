@@ -4,6 +4,7 @@ import org.bukkit.Axis;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.charky.aurora.common.util.LocationUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.common.util.TextUtils;
 
@@ -12,7 +13,6 @@ import java.util.List;
 
 /**
  * TODO: Currently overlapping mines, decide whether this is a feature or error
- * TODO: Mine is WAY too large error
  * TODO: Add create2 here
  * Mine subcommand to create mines manually by coordinates.
  */
@@ -38,12 +38,12 @@ public class MineCreateSub extends MineSub {
 
             String worldName = (sender instanceof Player p) ? p.getWorld().getName() : "world";
 
-            double x1 = TextUtils.parseCoordinate(sender, args[1], Axis.X);
-            double y1 = Math.max(-64, Math.min(TextUtils.parseCoordinate(sender, args[2], Axis.Y), 319));
-            double z1 = TextUtils.parseCoordinate(sender, args[3], Axis.Z);
-            double x2 = TextUtils.parseCoordinate(sender, args[4], Axis.X);
-            double y2 = Math.max(-64, Math.min(TextUtils.parseCoordinate(sender, args[5], Axis.Y), 319));
-            double z2 = TextUtils.parseCoordinate(sender, args[6], Axis.Z);
+            double x1 = LocationUtils.parseCoordinate(sender, args[1], Axis.X);
+            double y1 = Math.max(-64, Math.min(LocationUtils.parseCoordinate(sender, args[2], Axis.Y), 319));
+            double z1 = LocationUtils.parseCoordinate(sender, args[3], Axis.Z);
+            double x2 = LocationUtils.parseCoordinate(sender, args[4], Axis.X);
+            double y2 = Math.max(-64, Math.min(LocationUtils.parseCoordinate(sender, args[5], Axis.Y), 319));
+            double z2 = LocationUtils.parseCoordinate(sender, args[6], Axis.Z);
 
             // Optional parameters, by default threshold is off (101%), delay is 1 minute
             double threshold = (args.length >= 8) ? Double.parseDouble(args[7]) : 101;
@@ -56,6 +56,11 @@ public class MineCreateSub extends MineSub {
             int maxY = (int) Math.floor(Math.max(y1, y2));
             int maxZ = (int) Math.floor(Math.max(z1, z2));
 
+            if ((maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1) > MAX_MINE_VOLUME) {
+                TextUtils.error(sender, "Mine volume exceeds limit of " + MAX_MINE_VOLUME);
+                return;
+            }
+
             mineManager.addMine(mineName, worldName, minX, minY, minZ, maxX, maxY, maxZ, threshold, delay);
             TextUtils.success(sender, "Mine '" + mineName + "' created successfully");
         } catch (NumberFormatException e) {
@@ -65,24 +70,9 @@ public class MineCreateSub extends MineSub {
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        if (args.length == 1) return List.of("<name>");
-
         // Handle tab coordinates
         if (args.length >= 2 && args.length <= 7) {
-            Block target = player.getTargetBlockExact(5);
-
-            int coordIndex = (args.length - 2) % 3;
-
-            String lookValue = "0";
-            if (target != null) {
-                lookValue = switch (coordIndex) {
-                    case 0 -> String.valueOf(target.getX());
-                    case 1 -> String.valueOf(target.getY());
-                    default -> String.valueOf(target.getZ());
-                };
-            }
-
-            return List.of(lookValue, "~");
+            return LocationUtils.relativeCoordinates(player, args.length - 2);
         }
 
         return Collections.emptyList();

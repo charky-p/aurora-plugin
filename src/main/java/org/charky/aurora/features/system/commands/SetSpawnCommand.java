@@ -4,6 +4,7 @@ import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.charky.aurora.common.util.LocationUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.common.util.TextUtils;
 
@@ -39,9 +40,9 @@ public class SetSpawnCommand implements AuroraSubCommand {
         }
 
         try {
-            double x = TextUtils.parseCoordinate(player, args[0], Axis.X);
-            double y = TextUtils.parseCoordinate(player, args[1], Axis.Y);
-            double z = TextUtils.parseCoordinate(player, args[2], Axis.Z);
+            double x = LocationUtils.parseCoordinate(player, args[0], Axis.X);
+            double y = LocationUtils.parseCoordinate(player, args[1], Axis.Y);
+            double z = LocationUtils.parseCoordinate(player, args[2], Axis.Z);
 
             // Default to south
             float yaw = switch (player.getFacing()) {

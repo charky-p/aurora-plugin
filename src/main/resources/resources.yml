@@ -9,6 +9,9 @@
 #   world: "overworld" (Options: "overworld")
 #   region: "origin_isles" (Defaults to "")
 # ===========================================================
+# NOTE: A compressed version is automatically created with
+# compressed_ prefix, e.g. compressed_cobblestone
+# ===========================================================
 
 items:
   cobblestone:

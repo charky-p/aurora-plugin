@@ -21,3 +21,6 @@ commands:
   spawn:
     description: Teleport to world spawn
     usage: /spawn
+worlds:
+  aurora_mines:
+    generator: Aurora

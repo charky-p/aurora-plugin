@@ -13,6 +13,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.loot.CumulativeLootPool;
 import org.charky.aurora.common.loot.IndependentLootPool;
 import org.charky.aurora.common.loot.ItemDrop;
@@ -68,7 +70,7 @@ public class DataRegistry {
         loadGuis();
         loadTraders();
 
-        debugRegistry();
+        // debugRegistry();
     }
 
     public List<String> getBlocks(String prefix) {
@@ -180,10 +182,22 @@ public class DataRegistry {
                     model.display,
                     Material.matchMaterial(model.material),
                     model.lore,
-                    model.world
+                    model.world,
+                    false
             );
 
             items.put(id.toLowerCase(), item);
+
+            // Compressed version
+            item = itemFactory.createItem(
+                    "<gray>[<gold><b>COMPRESSED</b><gray>] " + model.display,
+                    Material.matchMaterial(model.material),
+                    model.lore,
+                    model.world,
+                    true
+            );
+
+            items.put("compressed_" + id.toLowerCase(), item);
         });
     }
 
@@ -224,6 +238,16 @@ public class DataRegistry {
                         meta.addEnchant(enchantData.enchant, entry.getValue(), true);
                     }
 
+                    // Add persistent data container enchant key
+                    PersistentDataContainer pdc = meta.getPersistentDataContainer();
+                    PersistentDataContainer enchantPdc = pdc.getAdapterContext().newPersistentDataContainer();
+
+                    if (pdc.has(DataKeys.ENCHANT_KEY, PersistentDataType.TAG_CONTAINER)) {
+                        enchantPdc = pdc.get(DataKeys.ENCHANT_KEY, PersistentDataType.TAG_CONTAINER);
+                    }
+
+                    enchantPdc.set(new NamespacedKey("aurora", entry.getKey().toLowerCase()), PersistentDataType.INTEGER, entry.getValue());
+                    pdc.set(DataKeys.ENCHANT_KEY, PersistentDataType.TAG_CONTAINER, enchantPdc);
                 }
 
                 if (!model.enchants.isEmpty()) lore.add(Component.empty());

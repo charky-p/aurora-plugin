@@ -12,10 +12,15 @@
 items:
   cobble_tools:
     display: "<gray><b>Cobblestone Tools"
-    material: COBBLESTONE
+    material: STONE_PICKAXE
     glow: true
 
   cobble_armor:
     display: "<gray><b>Cobblestone Armor"
     material: LEATHER_CHESTPLATE
+    glow: true
+
+  cobble_compress:
+    display: "<gray><b>Cobblestone Compressor"
+    material: COBBLESTONE
     glow: true

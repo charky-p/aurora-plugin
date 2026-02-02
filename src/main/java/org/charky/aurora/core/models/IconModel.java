@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.core.models;
 
 import java.util.ArrayList;
 import java.util.List;

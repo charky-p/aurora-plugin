@@ -2,7 +2,7 @@ package org.charky.aurora.features.spawner.commands;
 
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.core.commands.AuroraSubCommand;
+import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import org.charky.aurora.features.spawner.SpawnerManager;
 
 public abstract class SpawnerSub implements AuroraSubCommand {

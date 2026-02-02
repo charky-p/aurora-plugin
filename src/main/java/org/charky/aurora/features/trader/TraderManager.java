@@ -4,7 +4,6 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.common.interfaces.TraderNode;
 
 public class TraderManager {
     public DataRegistry registry;

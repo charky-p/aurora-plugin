@@ -5,7 +5,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.charky.aurora.common.interfaces.LootPool;
+import org.charky.aurora.common.loot.LootPool;
 
 import java.util.Map;
 

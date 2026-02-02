@@ -13,15 +13,15 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.charky.aurora.features.spawner.loot.CumulativeLootPool;
-import org.charky.aurora.features.spawner.loot.IndependentLootPool;
-import org.charky.aurora.features.spawner.loot.ItemDrop;
-import org.charky.aurora.features.spawner.loot.MenuItem;
+import org.charky.aurora.common.loot.CumulativeLootPool;
+import org.charky.aurora.common.loot.IndependentLootPool;
+import org.charky.aurora.common.loot.ItemDrop;
+import org.charky.aurora.common.loot.MenuItem;
+import org.charky.aurora.core.models.*;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.trader.*;
-import org.charky.aurora.common.interfaces.LootPool;
-import org.charky.aurora.common.interfaces.TraderNode;
-import org.charky.aurora.models.*;
+import org.charky.aurora.common.loot.LootPool;
+import org.charky.aurora.features.trader.TraderNode;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.ItemFactory;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -36,7 +36,7 @@ import java.util.*;
 public class DataRegistry {
     private final Aurora plugin;
     private final ItemFactory itemFactory;
-    private record BlockData(Material material, List<LootPool> pools) {}
+    private record BlockData(Material material, int density, List<LootPool> pools) {}
     private record EnchantData(String display, Enchantment enchant) {}
     private final Map<String, ItemStack> items = new HashMap<>(); // resources + gear
     private final Map<String, EnchantData> enchants = new HashMap<>();
@@ -87,12 +87,15 @@ public class DataRegistry {
         return blocks.get(id).material();
     }
 
-    public List<MenuItem> getBlockDrops(String id) {
+    public List<MenuItem> getBlockDrops(String id, int fortune) {
         if (!hasBlock(id)) return new ArrayList<>();
+
+        BlockData block = blocks.get(id);
         return blocks.get(id).pools().stream()
                     .map(LootPool::roll)
                     .filter(Objects::nonNull)
                     .flatMap(List::stream)
+                    .peek(item -> item.setAmount(item.getAmount() * Math.max(0, fortune + 1 - block.density)))
                     .toList();
     }
 
@@ -287,7 +290,7 @@ public class DataRegistry {
                 pools.add(pool);
             }
 
-            blocks.put(id.toLowerCase(), new BlockData(material, pools));
+            blocks.put(id.toLowerCase(), new BlockData(material, model.density, pools));
         });
     }
 

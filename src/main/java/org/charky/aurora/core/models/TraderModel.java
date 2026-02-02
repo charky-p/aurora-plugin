@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.core.models;
 
 public class TraderModel {
     public String display;

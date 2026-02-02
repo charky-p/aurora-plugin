@@ -107,6 +107,9 @@ dead log be pale log, maple be mangrove log
 quarry is mob fight in quarry
 
 cobalt for cave world
+
+drop calculation: `base * (1 + Math.max(0, fortune + 1 - density))`
+
 #### OOP Design
 
 #### Run Instructions

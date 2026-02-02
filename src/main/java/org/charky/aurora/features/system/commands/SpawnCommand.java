@@ -1,4 +1,4 @@
-package org.charky.aurora.features.system;
+package org.charky.aurora.features.system.commands;
 
 import org.bukkit.Location;
 import org.bukkit.command.Command;

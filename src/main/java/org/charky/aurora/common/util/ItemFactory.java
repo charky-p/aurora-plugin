@@ -9,8 +9,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.charky.aurora.features.spawner.loot.IndependentLootPool;
-import org.charky.aurora.common.interfaces.LootPool;
+import org.charky.aurora.common.loot.IndependentLootPool;
+import org.charky.aurora.common.loot.LootPool;
 
 import java.util.ArrayList;
 import java.util.List;

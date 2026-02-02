@@ -1,6 +1,5 @@
-package org.charky.aurora.features.spawner.loot;
+package org.charky.aurora.common.loot;
 
-import org.charky.aurora.common.interfaces.LootPool;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;

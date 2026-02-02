@@ -16,7 +16,7 @@ public class TabManager {
 
     public void updateAll() {
         String headerStr = "<gradient:#7F7FD5:#91EAE4><bold>AURORAMINES</bold></gradient>\n" +
-                            "<white>ᴏɴʟɪɴᴇ: <aqua>" + toSmallCaps(String.valueOf(Bukkit.getOnlinePlayers().size())) + "</white>";
+                            "<yellow>☀ ᴏɴʟɪɴᴇ: " + toSmallCaps(String.valueOf(Bukkit.getOnlinePlayers().size()));
 
         String footerStr = "<white>ɪᴘ: <aqua>ᴀᴜʀᴏʀᴀᴍɪɴᴇs.ɢɢ</white>";
 

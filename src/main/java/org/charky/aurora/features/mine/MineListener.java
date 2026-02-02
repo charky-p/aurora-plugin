@@ -3,6 +3,7 @@ package org.charky.aurora.features.mine;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,9 +12,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.common.InventoryManager;
+import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.features.player.ScoreboardManager;
-import org.charky.aurora.features.spawner.loot.MenuItem;
+import org.charky.aurora.common.loot.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,17 +72,27 @@ public class MineListener implements Listener {
     private void processBlock(Player player, Block block, List<MenuItem> drops) {
         manager.handleBlockBreak(player, block.getLocation());
 
-        String customId = manager.getBlockIdAt(block.getLocation());
-        String dropId = customId == null ? block.getType().getKey().toString() : customId;
+        String dropId = manager.getBlockIdAt(block.getLocation());
 
         if (registry.hasBlock(dropId)) {
-            drops.addAll(registry.getBlockDrops(dropId));
+            List<MenuItem> blockDrops = registry.getBlockDrops(dropId, getFortuneLevel(player));
+            drops.addAll(blockDrops);
+
+            // Only break if it is a block with a drop
+            if (!drops.isEmpty()) {
+                scoreboard.incrementMined(player);
+                block.setType(Material.AIR, false);
+            }
+        }
+    }
+
+    private int getFortuneLevel(Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+
+        if (item.getType().isAir()) {
+            return 0;
         }
 
-        // Only break if it is a block with a drop
-        if (!registry.getBlockDrops(dropId).isEmpty()) {
-            scoreboard.incrementMined(player);
-            block.setType(Material.AIR, false);
-        }
+        return item.getEnchantmentLevel(Enchantment.FORTUNE);
     }
 }

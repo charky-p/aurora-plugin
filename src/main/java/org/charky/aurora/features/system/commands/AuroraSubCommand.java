@@ -1,4 +1,4 @@
-package org.charky.aurora.core.commands;
+package org.charky.aurora.features.system.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

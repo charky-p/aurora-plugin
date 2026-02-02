@@ -12,7 +12,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.core.Aurora;
-import org.charky.aurora.common.interfaces.TraderNode;
 import org.charky.aurora.common.util.DataKeys;
 
 import java.util.*;

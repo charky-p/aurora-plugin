@@ -7,8 +7,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.charky.aurora.features.spawner.loot.MenuItem;
-import org.charky.aurora.common.interfaces.TraderNode;
+import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.DataKeys;
 
 import java.util.ArrayList;

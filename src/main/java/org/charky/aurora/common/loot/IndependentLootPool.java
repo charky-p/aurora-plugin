@@ -1,6 +1,4 @@
-package org.charky.aurora.features.spawner.loot;
-
-import org.charky.aurora.common.interfaces.LootPool;
+package org.charky.aurora.common.loot;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;

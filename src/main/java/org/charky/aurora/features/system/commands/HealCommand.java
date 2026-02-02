@@ -1,4 +1,4 @@
-package org.charky.aurora.core.commands;
+package org.charky.aurora.features.system.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

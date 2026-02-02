@@ -8,7 +8,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.charky.aurora.common.interfaces.TraderNode;
 import org.charky.aurora.common.util.DataKeys;
 import org.jetbrains.annotations.NotNull;
 

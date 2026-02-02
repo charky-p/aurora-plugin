@@ -3,6 +3,7 @@
 # ===========================================================
 # [block_id]:
 #   material: [BUKKIT_MATERIAL]
+#   density: 0 (Default, subtracts from fortune)
 #   independent: (Optional - Every drop roll is independent)
 #     - id: [resource_id]
 #       chance: 100 (Default)
@@ -45,11 +46,13 @@ items:
 
   copper_ore:
     material: COPPER_ORE
+    density: 1
     independent:
       - id: copper
 
   copper_block:
     material: COPPER_BLOCK
+    density: 1
     independent:
       - id: copper
         min: 5
@@ -57,11 +60,13 @@ items:
 
   iron_ore:
     material: IRON_ORE
+    density: 2
     independent:
       - id: iron
 
   iron_block:
     material: IRON_BLOCK
+    density: 2
     independent:
       - id: iron
         min: 5
@@ -69,11 +74,13 @@ items:
 
   gold_ore:
     material: GOLD_ORE
+    density: 3
     independent:
       - id: gold
 
   gold_block:
     material: GOLD_BLOCK
+    density: 3
     independent:
       - id: gold
         min: 5

@@ -1,4 +1,4 @@
-package org.charky.aurora.common.interfaces;
+package org.charky.aurora.features.trader;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -1,4 +1,4 @@
-package org.charky.aurora.features.spawner.loot;
+package org.charky.aurora.common.loot;
 
 import org.bukkit.inventory.ItemStack;
 

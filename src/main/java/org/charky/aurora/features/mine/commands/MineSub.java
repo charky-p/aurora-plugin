@@ -2,7 +2,7 @@ package org.charky.aurora.features.mine.commands;
 
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.core.commands.AuroraSubCommand;
+import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import org.charky.aurora.features.mine.MineManager;
 
 public abstract class MineSub implements AuroraSubCommand {

@@ -11,14 +11,17 @@ import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.Database;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class ScoreboardManager {
+    // TODO: player manager
     private final ConcurrentMap<UUID, Scoreboard> boards = new ConcurrentHashMap<>();
     private final ConcurrentMap<UUID, PlayerData> profiles = new ConcurrentHashMap<>();
     private final Aurora plugin;
@@ -31,6 +34,7 @@ public class ScoreboardManager {
         this.db = db;
         this.tabManager = tabManager;
 
+        // TODO: does not belong here
         this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             this.db.saveAllPlayerData(this.profiles);
             plugin.getLogger().info("Auto-saved all player data to SQLite.");
@@ -65,15 +69,10 @@ public class ScoreboardManager {
 
     public void setupBoard(Player player) {
         Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-        Objective obj = board.registerNewObjective("aurora", Criteria.DUMMY,
-                Component.text("AURORA")
-                        .color(NamedTextColor.AQUA)
-                        .decoration(TextDecoration.BOLD, true)
-                        .decoration(TextDecoration.ITALIC, false)
-        );
+        Objective obj = board.registerNewObjective("aurora", Criteria.DUMMY, TextUtils.getServer());
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        this.renderLines(obj, this.getBoardData(player));
+        this.renderLines(board, obj, this.getBoardData(player));
 
         player.setScoreboard(board);
         this.boards.put(player.getUniqueId(), board);
@@ -81,39 +80,44 @@ public class ScoreboardManager {
 
     public void updateBoard(Player player) {
         Scoreboard board = this.boards.get(player.getUniqueId());
+        if (board == null) return;
+
         Objective obj = board.getObjective("aurora");
         if (obj == null) return;
 
-        for (String entry : board.getEntries()) {
-            board.resetScores(entry);
-        }
-
-        this.renderLines(obj, this.getBoardData(player));
+        this.renderLines(board, obj, this.getBoardData(player));
     }
 
-    private void renderLines(Objective obj, Component[] lines) {
-        for (int i = 0; i < lines.length; i++) {
-            String lineText = LegacyComponentSerializer.legacySection().serialize(lines[i]);
-            obj.getScore(lineText).setScore(lines.length - i);
+    private void renderLines(Scoreboard board, Objective obj, List<Component> lines) {
+        for (int i = 0; i < lines.size(); i++) {
+            // Unique identifier, color codes have no display
+            String entryId = org.bukkit.ChatColor.values()[i].toString() + org.bukkit.ChatColor.RESET;
+
+            org.bukkit.scoreboard.Team team = board.getTeam("line_" + i);
+            if (team == null) team = board.registerNewTeam("line_" + i);
+
+            if (!team.hasEntry(entryId)) team.addEntry(entryId);
+
+            team.prefix(lines.get(i));
+            obj.getScore(entryId).setScore(lines.size() - i);
         }
     }
 
-    public Component[] getBoardData(Player player) {
-        UUID uuid = player.getUniqueId();
-        PlayerData data = this.profiles.get(uuid);
-
-        return new Component[]{
-                Component.text("PLAYER: " + player.getName()),
-                Component.text("    \uD83D\uDC51 RANK: " + data.getRank()),
-                Component.text("    ⭐ LEVEL: " + data.getLevel()),
-                Component.text("STATS:"),
-                Component.text("    ⚔ KILLS: " + data.getKills()),
-                Component.text("    ⛏ BLOCKS MINED: " + data.getMined()),
-                Component.text("    \uD83D\uDD25 ESSENCE: " + data.getEssence()),
-                Component.text("SERVER:"),
-                Component.text("    ☀ ONLINE: " + Bukkit.getOnlinePlayers().size()),
-                Component.text("    \uD83C\uDFAE EVENT: DEVELOPMENT")
-        };
+    public List<Component> getBoardData(Player player) {
+        PlayerData data = this.profiles.get(player.getUniqueId());
+        return List.of(
+                TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>PROFILE</b></gradient>"),
+                TextUtils.parse("<gray>• RANK: <white>" + data.getRank()),
+                TextUtils.parse("<gray>• LEVEL: <white>" + data.getLevel()),
+                Component.empty(),
+                TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>STATS</b></gradient>"),
+                TextUtils.parse("<gray>• KILLS: <red>" + data.getKills()),
+                TextUtils.parse("<gray>• MINED: <green>" + data.getMined()),
+                TextUtils.parse("<gray>• ESSENCE: <gold>" + data.getEssence()),
+                Component.empty(),
+                TextUtils.parse("<light_purple>\uD83C\uDFAE <gray>EVENT: DEVELOPMENT"),
+                TextUtils.parse("<aqua>ᴀᴜʀᴏʀᴀᴍɪɴᴇs.ᴍɪɴᴇʜᴜᴛ.ɢɢ")
+        );
     }
 
     public void incrementMined(Player player) {

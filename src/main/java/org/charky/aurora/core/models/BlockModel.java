@@ -1,4 +1,4 @@
-package org.charky.aurora.models;
+package org.charky.aurora.core.models;
 
 import org.bukkit.Material;
 
@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockModel {
-    public String id;
     public String material;
+    public int density = 0;
     public List<IndependentPoolModel> independent = new ArrayList<>();
     public CumulativeLootPoolModel choices;
 

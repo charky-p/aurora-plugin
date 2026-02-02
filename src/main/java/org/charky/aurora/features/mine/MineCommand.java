@@ -3,7 +3,7 @@ package org.charky.aurora.features.mine;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
-import org.charky.aurora.core.commands.AuroraSubCommand;
+import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import org.charky.aurora.features.mine.commands.*;
 import org.charky.aurora.common.util.TextUtils;
 

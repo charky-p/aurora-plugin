@@ -11,11 +11,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class TextUtils {
-    private static final String prefix = "<gray>[<gradient:#7F7FD5:#91EAE4><b>AURORA</b></gradient><gray>] <white>";
+    private static final String NAME ="<gradient:#7F7FD5:#91EAE4><b>AURORA</b></gradient>";
+    private static final String SERVER = "<gradient:#7F7FD5:#91EAE4><bold>AURORAMINES</bold></gradient>";
+    private static final String PREFIX = "<gray>[" + NAME + "<gray>] <white>";
     private static final MiniMessage mm = MiniMessage.miniMessage();
 
     // Stop instances
     private TextUtils() {}
+
+    public static Component getServer() {
+        return parse(SERVER);
+    }
 
     public static Component parse(String message) {
         return mm.deserialize(message);
@@ -23,7 +29,7 @@ public class TextUtils {
 
     // Proper command with prefix
     public static void send(CommandSender sender, String message) {
-        sender.sendMessage(parse(prefix + message));
+        sender.sendMessage(parse(PREFIX + message));
     }
 
     // Display without prefix

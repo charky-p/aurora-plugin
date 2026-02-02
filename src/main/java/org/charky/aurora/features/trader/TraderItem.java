@@ -3,16 +3,13 @@ package org.charky.aurora.features.trader;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.charky.aurora.Aurora;
-import org.charky.aurora.features.loot.MenuItem;
-import org.charky.aurora.interfaces.TraderNode;
-import org.charky.aurora.managers.TraderManager;
+import org.charky.aurora.features.spawner.loot.MenuItem;
+import org.charky.aurora.common.interfaces.TraderNode;
+import org.charky.aurora.common.util.DataKeys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +34,7 @@ public class TraderItem implements TraderNode {
         ItemStack display = item.getItem();
         display.editMeta(meta -> {
             meta.getPersistentDataContainer().set(
-                    MENU_KEY,
+                    DataKeys.MENU_KEY,
                     PersistentDataType.STRING,
                     this.menuId
             );
@@ -74,7 +71,7 @@ public class TraderItem implements TraderNode {
 
         ItemStack purchase = this.item.getItem();
         purchase.editMeta(meta -> {
-            meta.getPersistentDataContainer().remove(MENU_KEY);
+            meta.getPersistentDataContainer().remove(DataKeys.MENU_KEY);
         });
         player.getInventory().addItem(purchase);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);

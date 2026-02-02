@@ -4,9 +4,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.charky.aurora.Aurora;
-import org.charky.aurora.managers.TraderManager;
 
 public class Trader {
     public static final String TRADER_KEY_NAME = "trader_id";

@@ -1,6 +1,6 @@
 name: Aurora
 version: '1.0'
-main: org.charky.aurora.Aurora
+main: org.charky.aurora.core.Aurora
 api-version: '1.21'
 authors: [ Charky ]
 description: AuroraMines server plugin - skymining

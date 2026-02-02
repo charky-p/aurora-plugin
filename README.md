@@ -22,6 +22,8 @@ Listeners links to Managers
 
 Managers links to Objects, Database and Registry
 
+feature/purpose directory structure
+
 #### Ideas list
 combine axe, pickaxe, shovel, etc progression together, one linear path, since no
 need to have more than 1 progression line, armor increases through

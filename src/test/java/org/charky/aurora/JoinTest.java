@@ -1,5 +1,6 @@
 package org.charky.aurora;
 
+import org.charky.aurora.core.Aurora;
 import org.junit.jupiter.api.*;
 import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;

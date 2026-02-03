@@ -465,6 +465,83 @@ public class Database {
         }
     }
 
+    public void setSpawnerRadius(String spawnerName, double radius) {
+        String sql = "UPDATE spawners SET radius = ? WHERE name = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setDouble(1, radius);
+            pst.setString(2, spawnerName);
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setSpawnerLimit(String spawnerName, int limit) {
+        String sql = "UPDATE spawners SET mob_limit = ? WHERE name = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setInt(1, limit);
+            pst.setString(2, spawnerName);
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setSpawnerDelay(String spawnerName, int delay) {
+        String sql = "UPDATE spawners SET delay = ? WHERE name = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setInt(1, delay);
+            pst.setString(2, spawnerName);
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void spawnerRedefine(String spawnerName, int x, int y, int z) {
+        String sql = "UPDATE spawners SET x = ?, y = ?, z = ? WHERE name = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setInt(1, x);
+            pst.setInt(2, y);
+            pst.setInt(3, z);
+            pst.setString(4, spawnerName);
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void spawnerRename(String oldName, String newName) {
+        String sql = "UPDATE spawners SET name = ? WHERE name = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setString(1, newName);
+            pst.setString(2, oldName);
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Map<World, Location> getSpawns() {
         String sql = "SELECT * FROM spawns";
 

@@ -19,6 +19,13 @@ public class SpawnerCommand implements AuroraSubCommand {
         register(new SpawnerListSub(plugin));
         register(new SpawnerTpSub(plugin));
         register(new SpawnerInfoSub(plugin));
+        register(new SpawnerSetMobSub(plugin));
+        register(new SpawnerSetRadiusSub(plugin));
+        register(new SpawnerSetLimitSub(plugin));
+        register(new SpawnerSetDelaySub(plugin));
+        register(new SpawnerRenameSub(plugin));
+        register(new SpawnerRedefineSub(plugin));
+        register(new SpawnerToggleSub(plugin));
     }
 
     private void register(AuroraSubCommand command) {
@@ -27,7 +34,6 @@ public class SpawnerCommand implements AuroraSubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        // create, delete, list, tp, info, setmob, TODO: setradius, setlimit, setdelay, rename, redefine, toggle
         // TODO: add activation radius hidden by player, stop mob lag
         // TODO: no mob or trade regions, where mobs will be deleted (not traders)
         if (args.length == 0) {

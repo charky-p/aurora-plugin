@@ -23,6 +23,7 @@ public class MobSpawner {
     private int limit;
     private int delay;
     private int activeMobs = 0;
+    private boolean active = true;
     private BukkitTask task;
 
     public MobSpawner(Aurora plugin, String name, String world, int x, int y, int z, MobData mob, double radius, int limit, int delay) {
@@ -37,8 +38,8 @@ public class MobSpawner {
         this.limit = limit;
         this.delay = delay;
 
-        // Spawn mob every 10 seconds
-        this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, 100L, 200L);
+        // Spawn mob with delay offset
+        this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
     }
 
     public String getName() {
@@ -95,6 +96,39 @@ public class MobSpawner {
 
     public void setMob(MobData mob) {
         this.mob = mob;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public void redefine(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public void rename(String newName) {
+        this.name = newName;
+    }
+
+    public boolean toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
+        } else if (this.task != null) {
+            this.task.cancel();
+        }
+
+        return this.active;
     }
 
     public void spawnMob() {

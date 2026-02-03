@@ -134,6 +134,62 @@ public class SpawnerManager {
         spawner.setMob(mob);
     }
 
+    public void setRadius(String spawnerName, double radius) {
+        if (!this.spawnerExists(spawnerName)) return;
+        MobSpawner spawner = spawnerMap.get(spawnerName);
+        if (spawner == null) return;
+
+        db.setSpawnerRadius(spawnerName, radius);
+        spawner.setRadius(radius);
+    }
+
+    public void setLimit(String spawnerName, int limit) {
+        if (!this.spawnerExists(spawnerName)) return;
+        MobSpawner spawner = spawnerMap.get(spawnerName);
+        if (spawner == null) return;
+
+        db.setSpawnerLimit(spawnerName, limit);
+        spawner.setLimit(limit);
+    }
+
+    public void setDelay(String spawnerName, int delay) {
+        if (!this.spawnerExists(spawnerName)) return;
+        MobSpawner spawner = spawnerMap.get(spawnerName);
+        if (spawner == null) return;
+
+        db.setSpawnerDelay(spawnerName, delay);
+        spawner.setDelay(delay);
+    }
+
+    public void redefine(String spawnerName, int x, int y, int z) {
+        if (!this.spawnerExists(spawnerName)) return;
+        MobSpawner spawner = spawnerMap.get(spawnerName);
+        if (spawner == null) return;
+
+        db.spawnerRedefine(spawnerName, x, y, z);
+        spawner.redefine(x, y, z);
+    }
+
+    public void rename(String oldName, String newName) {
+        if (!this.spawnerExists(oldName)) return;
+        MobSpawner spawner = spawnerMap.get(oldName);
+        if (spawner == null) return;
+
+        db.spawnerRename(oldName, newName);
+        spawner.rename(newName);
+        spawnerMap.remove(oldName);
+        spawnerMap.put(newName, spawner);
+    }
+
+    public boolean spawnerToggle(String spawnerName) {
+        if (!this.spawnerExists(spawnerName)) return false;
+        MobSpawner spawner = spawnerMap.get(spawnerName);
+        if (spawner == null) return false;
+
+        // TODO: toggle in database too
+        return spawner.toggle();
+    }
+
     public void handleMobDeath(String spawnerName) {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;

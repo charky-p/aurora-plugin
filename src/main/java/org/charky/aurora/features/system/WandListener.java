@@ -2,13 +2,16 @@ package org.charky.aurora.features.system;
 
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.common.util.TextUtils;
@@ -111,6 +114,26 @@ public class WandListener implements Listener {
 //            data.apply(living);
 //            event.getPlayer().sendMessage(Component.text("Entity pasted successfully!").color(NamedTextColor.GREEN));
 //        }
+    }
+
+    @EventHandler
+    public void onWandEntityInteract(PlayerInteractEntityEvent event) {
+        Player player = event.getPlayer();
+        ItemStack item = player.getInventory().getItemInMainHand();
+
+        if (!isWand(item)) return;
+
+        Entity target = event.getRightClicked();
+
+        if (target.getPersistentDataContainer().has(DataKeys.TRADER_KEY, PersistentDataType.STRING)) {
+            event.setCancelled(true);
+
+            String traderId = target.getPersistentDataContainer().get(DataKeys.TRADER_KEY, PersistentDataType.STRING);
+            target.remove();
+
+            TextUtils.send(player, "<red><b>ZAP!</b> <gray>Trader <white>" + traderId + " <gray>has been removed.");
+            player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_GENERIC_EXPLODE, 0.5f, 2.0f);
+        }
     }
 
     private boolean isWand(ItemStack item) {

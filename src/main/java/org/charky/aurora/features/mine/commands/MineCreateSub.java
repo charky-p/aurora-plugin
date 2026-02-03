@@ -92,39 +92,4 @@ public class MineCreateSub extends MineSub {
     public String getDescription() {
         return "Manually create a mine using coordinates";
     }
-
-    // TODO: add this officially here
-//    private void createMine2(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
-//        if (!(sender instanceof Player player)) return;
-//
-//        if (args.length < 2) {
-//            TextUtils.format(player, "Usage: /aurora mine create <name>", MessageType.ERROR);
-//            return;
-//        }
-//
-//        String mineName = args[1];
-//        if (!wandManager.hasBothPositions(player.getUniqueId())) {
-//            TextUtils.format(player, "You must select two positions with the Aurora Wand first!", MessageType.ERROR);
-//            return;
-//        }
-//
-//        Location p1 = wandManager.getPos1(player.getUniqueId());
-//        Location p2 = wandManager.getPos2(player.getUniqueId());
-//
-//        // We pass the locations directly to the manager
-//        manager.addMine(
-//                mineName,
-//                p1.getWorld().getName(),
-//                Math.min(p1.getBlockX(), p2.getBlockX()),
-//                Math.min(p1.getBlockY(), p2.getBlockY()),
-//                Math.min(p1.getBlockZ(), p2.getBlockZ()),
-//                Math.max(p1.getBlockX(), p2.getBlockX()),
-//                Math.max(p1.getBlockY(), p2.getBlockY()),
-//                Math.max(p1.getBlockZ(), p2.getBlockZ()),
-//                101, // default threshold
-//                1200 // default delay
-//        );
-//
-//        TextUtils.format(player, "Mine '" + mineName + "' created using your wand selection!", MessageType.SUCCESS);
-//    }
 }

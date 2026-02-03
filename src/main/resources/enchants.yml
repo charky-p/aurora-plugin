@@ -18,6 +18,9 @@ items:
   luck:
     display: "<gray>Luck"
 
+  blast:
+    display: "<gray>Blast"
+
   sharpness:
     display: "<gray>Sharpness"
     enchant: SHARPNESS

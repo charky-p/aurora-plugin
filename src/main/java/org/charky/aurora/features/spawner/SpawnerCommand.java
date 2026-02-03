@@ -27,7 +27,7 @@ public class SpawnerCommand implements AuroraSubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        // create, delete, list, tp, info, TODO: setmob, setradius, setlimit, setdelay, rename, redefine, toggle
+        // create, delete, list, tp, info, setmob, TODO: setradius, setlimit, setdelay, rename, redefine, toggle
         // TODO: add activation radius hidden by player, stop mob lag
         // TODO: no mob or trade regions, where mobs will be deleted (not traders)
         if (args.length == 0) {

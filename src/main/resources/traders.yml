@@ -12,3 +12,28 @@ items:
     display: "<gray><b>Cobble Trader"
     entity: VILLAGER
     gui: cobble_shop
+
+  coal_trader:
+    display: "<gray><b>Coal Trader"
+    entity: VILLAGER
+    gui: coal_shop
+
+  copper_trader:
+    display: "<gray><b>Copper Trader"
+    entity: VILLAGER
+    gui: copper_shop
+
+  iron_trader:
+    display: "<gray><b>Iron Trader"
+    entity: VILLAGER
+    gui: iron_shop
+
+  gold_trader:
+    display: "<gray><b>Gold Trader"
+    entity: VILLAGER
+    gui: gold_shop
+
+  gormak_trader:
+    display: "<yellow><b>Gormak Trader"
+    entity: VILLAGER
+    gui: gormak_shop

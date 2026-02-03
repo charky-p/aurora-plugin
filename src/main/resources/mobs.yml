@@ -27,28 +27,57 @@
 # ===========================================================
 
 items:
-  gormak_guard:
-    display: "<brown><b>Gormak Guard"
-    entity: ZOMBIE
+  gormak_minion:
+    display: "<dark_gray><b>Gormak Minion"
+    entity: HUSK
     equip:
-      chest: gormak_chest
-      hand: gormak_sword
-      off_hand: TOTEM_OF_UNDYING
+      head: leather_helmet
+      chest: iron_chestplate
+      legs: leather_leggings
+      feet: leather_boots
+      hand: wooden_sword
+    attributes:
+      - attr: MAX_HEALTH
+        value: 30.0
+    independent:
+      - id: ancient_flesh
+        min: 1
+        max: 6
+
+  gormak_bowman:
+    display: "<gray><b>Gormak Bowman"
+    entity: SKELETON
+    equip:
+      head: iron_helmet
+      chest: gold_chestplate
+      hand: bow
+    attributes:
+      - attr: MAX_HEALTH
+        value: 35.0
+    independent:
+      - id: ancient_bone
+        min: 1
+        max: 4
+
+  gormak_guard:
+    display: "<yellow><b>Gormak Guard"
+    entity: HUSK
+    equip:
+      head: iron_helmet
+      chest: gold_chestplate
+      legs: iron_leggings
+      feet: iron_boots
+      hand: iron_sword
+      off_hand: shield
     attributes:
       - attr: MAX_HEALTH
         value: 60.0
-      - attr: MOVEMENT_SPEED
-        value: 0.4
-      - attr: KNOCKBACK_RESISTANCE
-        value: 0.8
-      - attr: FOLLOW_RANGE
-        value: 32.0
     independent:
       - id: gormak_sword
         chance: 1
-      - id: coal
-        min: 1
-        max: 3
+      - id: ancient_nugget
+        min: 5
+        max: 13
 
   void_gormak_shaman:
     display: "<purple><b>Void-Infused Shaman"

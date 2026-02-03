@@ -49,8 +49,9 @@ public class SpawnerCreateSub extends SpawnerSub {
                 // Default limit = 3, radius = 5
                 int limit = (args.length < 6) ? 3 : Integer.parseInt(args[5]);
                 double radius = (args.length < 7) ? 5 : Double.parseDouble(args[6]);
+                int delay = (args.length < 8) ? 200 : Integer.parseInt(args[7]);
 
-                spawnerManager.addSpawner(spawnerName, world, x, y, z, mobName, limit, radius);
+                spawnerManager.addSpawner(spawnerName, world, x, y, z, mobName, limit, radius, delay);
                 TextUtils.success(sender, "Spawner '" + spawnerName + "' has been successfully added");
             } catch (NumberFormatException e) {
                 TextUtils.error(sender, "Limit and radius must be valid numbers");
@@ -77,7 +78,7 @@ public class SpawnerCreateSub extends SpawnerSub {
 
     @Override
     public String getUsage() {
-        return "<spawner> <x> <y> <z> <mob> [limit] [radius]";
+        return "<spawner> <x> <y> <z> <mob> [limit] [radius] [delay]";
     }
 
     @Override

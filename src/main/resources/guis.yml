@@ -125,7 +125,408 @@ items:
         amount: 64
         cost:
           - id: compressed_cobblestone
-            amount: 64
       '1':
         type: GUI
         id: cobble_shop
+
+  coal_shop:
+    title: "<gray><b>Coal Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: coal_tools
+      '3':
+        type: GUI
+        id: coal_compress
+
+  coal_tools:
+    title: "<gray><b>Coal Tools"
+    icon: coal_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: coal_pick_1
+        cost:
+          - id: cobble_pick_5
+          - id: coal
+            amount: 32
+      '2':
+        type: TRADE
+        id: coal_pick_2
+        cost:
+          - id: coal_pick_1
+          - id: compressed_coal
+      '3':
+        type: TRADE
+        id: coal_pick_3
+        cost:
+          - id: coal_pick_2
+          - id: compressed_coal
+            amount: 3
+      '4':
+        type: TRADE
+        id: coal_pick_4
+        cost:
+          - id: coal_pick_3
+          - id: compressed_coal
+            amount: 5
+      '5':
+        type: TRADE
+        id: coal_pick_5
+        cost:
+          - id: coal_pick_4
+          - id: compressed_coal
+            amount: 8
+
+  coal_compress:
+    title: "<gray><b>Coal Compressor"
+    icon: coal_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab     B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_coal
+        cost:
+          - id: coal
+            amount: 64
+      'b':
+        type: TRADE
+        id: coal
+        amount: 64
+        cost:
+          - id: compressed_coal
+
+  copper_shop:
+    title: "<gray><b>Copper Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: copper_tools
+      '3':
+        type: GUI
+        id: copper_compress
+
+  copper_tools:
+    title: "<gray><b>Copper Tools"
+    icon: copper_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: copper_pick_1
+        cost:
+          - id: coal_pick_5
+          - id: copper
+            amount: 48
+      '2':
+        type: TRADE
+        id: copper_pick_2
+        cost:
+          - id: copper_pick_1
+          - id: compressed_copper
+            amount: 2
+      '3':
+        type: TRADE
+        id: copper_pick_3
+        cost:
+          - id: copper_pick_2
+          - id: compressed_copper
+            amount: 5
+      '4':
+        type: TRADE
+        id: copper_pick_4
+        cost:
+          - id: copper_pick_3
+          - id: compressed_copper
+            amount: 8
+      '5':
+        type: TRADE
+        id: copper_pick_5
+        cost:
+          - id: copper_pick_4
+          - id: compressed_copper
+            amount: 12
+
+  copper_compress:
+    title: "<gray><b>Copper Compressor"
+    icon: copper_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab     B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_copper
+        cost:
+          - id: copper
+            amount: 64
+      'b':
+        type: TRADE
+        id: copper
+        amount: 64
+        cost:
+          - id: compressed_copper
+
+  iron_shop:
+    title: "<gray><b>Iron Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: iron_tools
+      '3':
+        type: GUI
+        id: iron_compress
+
+  iron_tools:
+    title: "<gray><b>Iron Tools"
+    icon: iron_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: iron_pick_1
+        cost:
+          - id: copper_pick_5
+          - id: compressed_iron
+      '2':
+        type: TRADE
+        id: iron_pick_2
+        cost:
+          - id: iron_pick_1
+          - id: compressed_iron
+            amount: 3
+      '3':
+        type: TRADE
+        id: iron_pick_3
+        cost:
+          - id: iron_pick_2
+          - id: compressed_iron
+            amount: 5
+      '4':
+        type: TRADE
+        id: iron_pick_4
+        cost:
+          - id: iron_pick_3
+          - id: compressed_iron
+            amount: 10
+      '5':
+        type: TRADE
+        id: iron_pick_5
+        cost:
+          - id: iron_pick_4
+          - id: compressed_iron
+            amount: 16
+
+  iron_compress:
+    title: "<gray><b>Iron Compressor"
+    icon: iron_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab     B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_iron
+        cost:
+          - id: iron
+            amount: 64
+      'b':
+        type: TRADE
+        id: iron
+        amount: 64
+        cost:
+          - id: compressed_iron
+
+  gold_shop:
+    title: "<gray><b>Gold Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: gold_tools
+      '3':
+        type: GUI
+        id: gold_compress
+
+  gold_tools:
+    title: "<gray><b>Gold Tools"
+    icon: gold_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: gold_pick_1
+        cost:
+          - id: iron_pick_5
+          - id: compressed_gold
+          - id: gold
+            amount: 32
+      '2':
+        type: TRADE
+        id: gold_pick_2
+        cost:
+          - id: gold_pick_1
+          - id: compressed_gold
+            amount: 3
+      '3':
+        type: TRADE
+        id: gold_pick_3
+        cost:
+          - id: gold_pick_2
+          - id: compressed_gold
+            amount: 6
+      '4':
+        type: TRADE
+        id: gold_pick_4
+        cost:
+          - id: gold_pick_3
+          - id: compressed_gold
+            amount: 12
+      '5':
+        type: TRADE
+        id: gold_pick_5
+        cost:
+          - id: gold_pick_4
+          - id: compressed_gold
+            amount: 18
+
+  gold_compress:
+    title: "<gray><b>Gold Compressor"
+    icon: gold_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab     B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_gold
+        cost:
+          - id: gold
+            amount: 64
+      'b':
+        type: TRADE
+        id: gold
+        amount: 64
+        cost:
+          - id: compressed_gold
+
+# UNPOLISHED BELOW
+  gormak_shop:
+    title: "<gray><b>Gormak Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: gormak_tools
+      '3':
+        type: GUI
+        id: gold_compress
+
+  gormak_tools:
+    title: "<gray><b>Gormak Tools"
+    icon: gold_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B123456 B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: gormak_sword_1
+      '2':
+        type: TRADE
+        id: gormak_sword_2
+        cost:
+          - id: gormak_sword_1
+          - id: ancient_flesh
+            amount: 32
+      '3':
+        type: TRADE
+        id: gormak_sword_3
+        cost:
+          - id: gormak_sword_2
+          - id: ancient_flesh
+            amount: 64
+          - id: ancient_bone
+            amount: 32
+      '4':
+        type: TRADE
+        id: gormak_sword_4
+        cost:
+          - id: gormak_sword_3
+          - id: ancient_bone
+            amount: 32
+          - id: ancient_nugget
+            amount: 48
+      '5':
+        type: TRADE
+        id: gormak_sword_5
+        cost:
+          - id: gormak_sword_4
+          - id: ancient_flesh
+            amount: 64
+          - id: ancient_nugget
+            amount: 128
+      '6':
+        type: TRADE
+        id: gormak_sword_6
+        cost:
+          - id: gormak_sword_5
+          - id: ancient_flesh
+            amount: 64
+          - id: ancient_bone
+            amount: 64
+          - id: ancient_nugget
+            amount: 256

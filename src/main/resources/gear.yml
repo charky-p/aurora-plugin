@@ -15,6 +15,83 @@
 # ===========================================================
 
 items:
+  leather_helmet:
+    display: "LEATHER HELMET"
+    material: LEATHER_HELMET
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  iron_helmet:
+    display: "IRON HELMET"
+    material: IRON_HELMET
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  iron_chestplate:
+    display: "IRON CHESTPLATE"
+    material: IRON_CHESTPLATE
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  gold_chestplate:
+    display: "GOLD CHESTPLATE"
+    material: GOLDEN_CHESTPLATE
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  iron_leggings:
+    display: "IRON LEGGINGS"
+    material: IRON_LEGGINGS
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  leather_leggings:
+    display: "LEATHER LEGGINGS"
+    material: LEATHER_LEGGINGS
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  leather_boots:
+    display: "LEATHER BOOTS"
+    material: LEATHER_BOOTS
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  wooden_sword:
+    display: "WOODEN SWORD"
+    material: WOODEN_SWORD
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  iron_sword:
+    display: "IRON SWORD"
+    material: IRON_SWORD
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  bow:
+    display: "BOW"
+    material: BOW
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  shield:
+    display: "SHIELD"
+    material: SHIELD
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
   gormak_sword:
     display: "<aqua><b>Gormak Sword"
     material: DIAMOND_SWORD
@@ -42,6 +119,96 @@ items:
     type: "armor"
     world: "overworld"
     region: "origin_isles"
+
+  gormak_sword_1:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  gormak_sword_2:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 1
+
+  gormak_sword_3:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 2
+
+  gormak_sword_4:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 3
+
+  gormak_sword_5:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 4
+
+  gormak_sword_6:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 6
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### TOOLS - TODO FORMAT ABOVE
+
 
   starter_pick:
     display: "<gray><b>Starter Pickaxe"
@@ -100,3 +267,244 @@ items:
       efficiency: 2
       fortune: 1
       luck: 1
+
+  coal_pick_1:
+    display: "<dark_gray><b>Coal Pickaxe"
+    material: STONE_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 3
+      fortune: 1
+      luck: 1
+
+  coal_pick_2:
+    display: "<dark_gray><b>Coal Pickaxe"
+    material: STONE_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 3
+      fortune: 1
+      luck: 2
+
+  coal_pick_3:
+    display: "<dark_gray><b>Coal Pickaxe"
+    material: STONE_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 3
+      fortune: 2
+      luck: 2
+
+  coal_pick_4:
+    display: "<dark_gray><b>Coal Pickaxe"
+    material: STONE_PICKAXE
+    tier: 4
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 4
+      fortune: 2
+      luck: 2
+
+  coal_pick_5:
+    display: "<dark_gray><b>Coal Pickaxe"
+    material: STONE_PICKAXE
+    tier: 5
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 4
+      fortune: 3
+      luck: 2
+
+  copper_pick_1:
+    display: "<#D94110><b>Copper Pickaxe"
+    material: COPPER_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 4
+      fortune: 3
+      luck: 2
+
+  copper_pick_2:
+    display: "<#D94110><b>Copper Pickaxe"
+    material: COPPER_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 5
+      fortune: 3
+      luck: 2
+
+  copper_pick_3:
+    display: "<#D94110><b>Copper Pickaxe"
+    material: COPPER_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 5
+      fortune: 3
+      luck: 3
+
+  copper_pick_4:
+    display: "<#D94110><b>Copper Pickaxe"
+    material: COPPER_PICKAXE
+    tier: 4
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 5
+      fortune: 4
+      luck: 3
+
+  copper_pick_5:
+    display: "<#D94110><b>Copper Pickaxe"
+    material: COPPER_PICKAXE
+    tier: 5
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 6
+      fortune: 4
+      luck: 3
+
+  iron_pick_1:
+    display: "<white><b>Iron Pickaxe"
+    material: IRON_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 6
+      fortune: 4
+      luck: 3
+
+  iron_pick_2:
+    display: "<white><b>Iron Pickaxe"
+    material: IRON_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 6
+      fortune: 4
+      luck: 4
+
+  iron_pick_3:
+    display: "<white><b>Iron Pickaxe"
+    material: IRON_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 7
+      fortune: 4
+      luck: 4
+
+  iron_pick_4:
+    display: "<white><b>Iron Pickaxe"
+    material: IRON_PICKAXE
+    tier: 4
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 7
+      fortune: 5
+      luck: 4
+
+  iron_pick_5:
+    display: "<white><b>Iron Pickaxe"
+    material: IRON_PICKAXE
+    tier: 5
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 8
+      fortune: 5
+      luck: 4
+
+  gold_pick_1:
+    display: "<gold><b>Gold Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 8
+      fortune: 5
+      luck: 4
+
+  gold_pick_2:
+    display: "<gold><b>Gold Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 8
+      fortune: 5
+      luck: 5
+
+  gold_pick_3:
+    display: "<gold><b>Gold Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 9
+      fortune: 5
+      luck: 5
+
+  gold_pick_4:
+    display: "<gold><b>Gold Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 4
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 10
+      fortune: 5
+      luck: 5
+
+  gold_pick_5:
+    display: "<gold><b>Gold Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 5
+    type: "mining"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      efficiency: 10
+      fortune: 5
+      luck: 5
+      blast: 1

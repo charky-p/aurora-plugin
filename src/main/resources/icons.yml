@@ -24,3 +24,43 @@ items:
     display: "<gray><b>Cobblestone Compressor"
     material: COBBLESTONE
     glow: true
+
+  coal_tools:
+    display: "<gray><b>Coal Tools"
+    material: STONE_PICKAXE
+    glow: true
+
+  coal_compress:
+    display: "<gray><b>Coal Compressor"
+    material: COAL
+    glow: true
+
+  copper_tools:
+    display: "<#D94110><b>Copper Tools"
+    material: COPPER_PICKAXE
+    glow: true
+
+  copper_compress:
+    display: "<gray><b>Copper Compressor"
+    material: COPPER_INGOT
+    glow: true
+
+  iron_tools:
+    display: "<white><b>Iron Tools"
+    material: IRON_PICKAXE
+    glow: true
+
+  iron_compress:
+    display: "<gray><b>Iron Compressor"
+    material: IRON_INGOT
+    glow: true
+
+  gold_tools:
+    display: "<gold><b>Gold Tools"
+    material: GOLDEN_PICKAXE
+    glow: true
+
+  gold_compress:
+    display: "<gray><b>Gold Compressor"
+    material: GOLD_INGOT
+    glow: true

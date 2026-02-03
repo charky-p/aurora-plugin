@@ -21,10 +21,11 @@ public class MobSpawner {
     private MobData mob;
     private double radius;
     private int limit;
+    private int delay;
     private int activeMobs = 0;
     private BukkitTask task;
 
-    public MobSpawner(Aurora plugin, String name, String world, int x, int y, int z, MobData mob, double radius, int limit) {
+    public MobSpawner(Aurora plugin, String name, String world, int x, int y, int z, MobData mob, double radius, int limit, int delay) {
         this.plugin = plugin;
         this.name = name;
         this.world = world;
@@ -34,6 +35,7 @@ public class MobSpawner {
         this.mob = mob;
         this.radius = radius;
         this.limit = limit;
+        this.delay = delay;
 
         // Spawn mob every 10 seconds
         this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, 100L, 200L);
@@ -71,6 +73,10 @@ public class MobSpawner {
         return this.limit;
     }
 
+    public int getDelay() {
+        return delay;
+    }
+
     public Location getLocation() {
         return new Location(Bukkit.getWorld(this.world), this.x, this.y, this.z);
     }
@@ -83,7 +89,12 @@ public class MobSpawner {
         info.add("Mob: " + this.mob.id());
         info.add("Radius: " + this.radius);
         info.add("Limit: " + this.limit);
+        info.add("Delay: " + this.delay);
         return info;
+    }
+
+    public void setMob(MobData mob) {
+        this.mob = mob;
     }
 
     public void spawnMob() {

@@ -74,7 +74,8 @@ public class Database {
                     "x INTEGER, y INTEGER, z INTEGER, " +
                     "mob TEXT, " +
                     "radius DOUBLE, " +
-                    "mob_limit INT)");
+                    "mob_limit INTEGER, " +
+                    "delay INTEGER)");
 
             // TODO: Traders
             statement.execute("CREATE TABLE IF NOT EXISTS traders (" +
@@ -439,13 +440,29 @@ public class Database {
                         rs.getInt("z"),
                         data,
                         rs.getDouble("radius"),
-                        rs.getInt("mob_limit")));
+                        rs.getInt("mob_limit"),
+                        rs.getInt("delay")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return spawners;
+    }
+
+    public void setMob(String spawnerName, String mobName) {
+        String sql = "UPDATE spawners SET mob = ? WHERE name = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+
+            pst.setString(1, mobName);
+            pst.setString(2, spawnerName);
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Map<World, Location> getSpawns() {

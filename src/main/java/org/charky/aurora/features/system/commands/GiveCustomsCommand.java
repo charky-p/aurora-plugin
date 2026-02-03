@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.charky.aurora.common.util.ItemFactory;
+import org.charky.aurora.common.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ public class GiveCustomsCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) return true;
+
+        if (!sender.isOp()) {
+            TextUtils.error(sender, "This is an administrator-only command");
+            return true;
+        }
 
         // Create the item
         ItemStack pick = new ItemStack(Material.DIAMOND_PICKAXE);

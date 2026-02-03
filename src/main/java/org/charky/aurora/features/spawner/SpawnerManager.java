@@ -46,12 +46,12 @@ public class SpawnerManager {
         return registry.hasMob(name);
     }
 
-    public void addSpawner(String name, String world, int x, int y, int z, String mob, int limit, double radius) {
+    public void addSpawner(String name, String world, int x, int y, int z, String mob, int limit, double radius, int delay) {
         if (this.spawnerExists(name)) return;
         if (!this.mobExists(mob)) return;
 
         MobData data = registry.getMob(mob);
-        MobSpawner spawner = new MobSpawner(this.plugin, name, world, x, y, z, data, radius, limit);
+        MobSpawner spawner = new MobSpawner(this.plugin, name, world, x, y, z, data, radius, limit, delay);
         db.saveSpawner(spawner);
         spawnerMap.put(name, spawner);
     }
@@ -122,6 +122,16 @@ public class SpawnerManager {
 
             living.setRemoveWhenFarAway(false);
         });
+    }
+
+    public void setMob(String spawnerName, String mobName) {
+        if (!this.spawnerExists(spawnerName)) return;
+        MobSpawner spawner = spawnerMap.get(spawnerName);
+        if (spawner == null) return;
+
+        MobData mob = registry.getMob(mobName);
+        db.setMob(spawnerName, mobName);
+        spawner.setMob(mob);
     }
 
     public void handleMobDeath(String spawnerName) {

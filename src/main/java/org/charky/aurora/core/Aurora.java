@@ -7,6 +7,7 @@ import org.bukkit.WorldCreator;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.persistence.PersistentDataType;
@@ -14,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 //import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.features.spawner.MobSpawner;
 import org.charky.aurora.features.system.VoidGenerator;
 import org.charky.aurora.features.system.commands.AuroraCommand;
 import org.charky.aurora.features.system.commands.GiveCustomsCommand;
@@ -115,10 +117,6 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new SpawnListener(this), this);
         getServer().getPluginManager().registerEvents(this, this);
 
-        for (World world : Bukkit.getWorlds()) {
-            cleanupMobs(world);
-        }
-
         // Mines setup
         getLogger().info("AuroraMines has been enabled!");
     }
@@ -165,27 +163,35 @@ public class Aurora extends JavaPlugin implements Listener {
         db.saveSpawn(location);
     }
 
-    private void cleanupMobs(World world) {
-        // Refresh spawned mobs
-        int count = 0;
-        for (Entity entity : world.getEntities()) {
-            if (entity.getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
-                entity.remove();
-                count++;
-            }
-        }
-        if (count > 0) {
-            getLogger().info("Removed " + count + " orphaned mobs from " + world.getName());
-        }
-    }
-
-    @EventHandler
-    public void onWorldLoad(WorldLoadEvent event) {
-        cleanupMobs(event.getWorld());
-    }
+    // TODO: Refresh on startup rather than new chunk
+//    @EventHandler
+//    public void onChunkLoad(ChunkLoadEvent event) {
+//        // This triggers every time a chunk is pulled from the disk into memory
+//        int removed = 0;
+//        for (Entity entity : event.getChunk().getEntities()) {
+//            if (entity.getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+//                entity.remove();
+//                removed++;
+//            }
+//        }
+//
+//        if (removed > 0) getLogger().info("Zapped " + removed + " orphaned mobs in newly loaded chunk.");
+//    }
 
     @Override
     public void onDisable() {
+        int count = 0;
+        for (World world : Bukkit.getWorlds()) {
+            for (Entity entity : world.getEntities()) {
+                // Check for your specific key
+                if (entity.getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+                    entity.remove();
+                    count++;
+                }
+            }
+        }
+
+        getLogger().info("Purged " + count + " mobs before shutdown.");
         if (manager != null) manager.shutdown();
         if (scoreboard != null) scoreboard.shutdown();
         if (spawnerManager != null) spawnerManager.shutdown();

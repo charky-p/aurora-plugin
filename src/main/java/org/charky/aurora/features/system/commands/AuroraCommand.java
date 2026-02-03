@@ -45,6 +45,11 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        // TODO: TEMPORARY PERMISSION
+        if (!sender.isOp()) {
+            TextUtils.error(sender, "This is an administrator-only command");
+            return true;
+        }
         // TODO: if (!player.hasPermission("aurora.admin")) return true
         AuroraSubCommand subCommand = subCommands.get(args[0].toLowerCase());
         if (subCommand == null) {

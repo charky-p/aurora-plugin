@@ -31,6 +31,7 @@ public class MineCommand implements AuroraSubCommand {
         register(new MineSetDelaySub(plugin));
         register(new MineRedefineSub(plugin));
         register(new MineRenameSub(plugin));
+        register(new MineWandCreateSub(plugin));
     }
 
     private void register(AuroraSubCommand command) {

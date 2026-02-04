@@ -1,3 +1,4 @@
+
 # ===========================================================
 # AURORA MOB TEMPLATE
 # ===========================================================
@@ -5,7 +6,7 @@
 #   display: "<color><b><i>Display Name"
 #   entity: [BUKKIT_ENTITY_TYPE]
 #   equip: (Optional)
-#     head: [item_id] (Optional, item_id = gear_id or resource_id or vanilla material (TODO: Depreciate vanilla mat))
+#     head: [item_id] (Optional, item_id = gear_id or resource_id)
 #     chest: [item_id] (Optional)
 #     legs: [item_id] (Optional)
 #     feet: [item_id] (Optional)
@@ -41,7 +42,6 @@ items:
         value: 30.0
     independent:
       - id: ancient_flesh
-        min: 1
         max: 6
 
   gormak_bowman:
@@ -56,7 +56,6 @@ items:
         value: 35.0
     independent:
       - id: ancient_bone
-        min: 1
         max: 4
 
   gormak_guard:
@@ -80,7 +79,7 @@ items:
         max: 13
 
   void_gormak_shaman:
-    display: "<purple><b>Void-Infused Shaman"
+    display: "<black><b>Void-Infused Shaman"
     entity: WITHER_SKELETON
     equip:
       chest: gormak_chest
@@ -100,3 +99,4 @@ items:
       - id: gold
         min: 5
         max: 12
+

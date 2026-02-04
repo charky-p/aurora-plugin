@@ -1,3 +1,4 @@
+
 # ===========================================================
 # AURORA TRADER TEMPLATE
 # ===========================================================
@@ -37,3 +38,4 @@ items:
     display: "<yellow><b>Gormak Trader"
     entity: VILLAGER
     gui: gormak_shop
+

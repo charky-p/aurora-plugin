@@ -1,3 +1,4 @@
+
 # ===========================================================
 # AURORA GEAR TEMPLATE
 # ===========================================================
@@ -5,88 +6,88 @@
 #   display: "<color><b><i>Example Sword"
 #   material: [BUKKIT_MATERIAL]
 #   tier: 0 (Default, tier 0 will not display tier)
-#   type: "combat" (Options: "combat", "mining", "logging", "excavation", "armor")
+#   type: "armor" (Options: armor, combat, mining)
 #   world: "overworld" (Options: "overworld")
 #   region: "origin_isles"
 #   enchants: (Optional)
 #     [enchant_id]: 1 (Default, e.g. sharpness: 5)
 #   lore: (Optional)
-#     - display: "<gray>Example lore about gear"
+#     - "<gray>Example lore about gear"
 # ===========================================================
 
 items:
   leather_helmet:
-    display: "LEATHER HELMET"
+    display: "<white><b>Leather Helmet"
     material: LEATHER_HELMET
     type: "armor"
     world: "overworld"
     region: "origin_isles"
 
   iron_helmet:
-    display: "IRON HELMET"
+    display: "<white><b>Iron Helmet"
     material: IRON_HELMET
     type: "armor"
     world: "overworld"
     region: "origin_isles"
 
   iron_chestplate:
-    display: "IRON CHESTPLATE"
+    display: "<white><b>Iron Chestplate"
     material: IRON_CHESTPLATE
     type: "armor"
     world: "overworld"
     region: "origin_isles"
 
   gold_chestplate:
-    display: "GOLD CHESTPLATE"
+    display: "<white><b>Gold Chestplate"
     material: GOLDEN_CHESTPLATE
     type: "armor"
     world: "overworld"
     region: "origin_isles"
 
   iron_leggings:
-    display: "IRON LEGGINGS"
+    display: "<white><b>Iron Leggings"
     material: IRON_LEGGINGS
     type: "armor"
     world: "overworld"
     region: "origin_isles"
 
   leather_leggings:
-    display: "LEATHER LEGGINGS"
+    display: "<white><b>Leather Leggings"
     material: LEATHER_LEGGINGS
     type: "armor"
     world: "overworld"
     region: "origin_isles"
 
   leather_boots:
-    display: "LEATHER BOOTS"
+    display: "<white><b>Leather Boots"
     material: LEATHER_BOOTS
     type: "armor"
     world: "overworld"
     region: "origin_isles"
 
   wooden_sword:
-    display: "WOODEN SWORD"
+    display: "<white><b>Wooden Sword"
     material: WOODEN_SWORD
     type: "combat"
     world: "overworld"
     region: "origin_isles"
 
   iron_sword:
-    display: "IRON SWORD"
+    display: "<white><b>Iron Sword"
     material: IRON_SWORD
     type: "combat"
     world: "overworld"
     region: "origin_isles"
 
   bow:
-    display: "BOW"
+    display: "<white><b>Bow"
     material: BOW
     type: "combat"
     world: "overworld"
     region: "origin_isles"
 
   shield:
-    display: "SHIELD"
+    display: "<white><b>Shield"
     material: SHIELD
     type: "combat"
     world: "overworld"
@@ -119,3 +120,4 @@ items:
     type: "armor"
     world: "overworld"
     region: "origin_isles"
+

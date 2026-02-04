@@ -90,6 +90,8 @@ boss keys to force summon with no summon message in global chat
 collections rewards: mine 100000 of a block, get stat buff (+ fortune)
 collection thing is from low drop rate, if unlocked get essence
 
+transition to backback inventory system, so amounts are variables
+
 #### Server Design
 world 1 (overworld): 4 regions
 1. Origin Isles - plains like sky islands (stone, coal, copper, iron, gold, gormak)

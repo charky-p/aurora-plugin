@@ -1,3 +1,4 @@
+
 # ===========================================================
 # AURORA ICON TEMPLATE
 # ===========================================================
@@ -64,3 +65,4 @@ items:
     display: "<gray><b>Gold Compressor"
     material: GOLD_INGOT
     glow: true
+

@@ -1,3 +1,4 @@
+
 # ===========================================================
 # AURORA GUI TEMPLATE
 # ===========================================================
@@ -24,25 +25,9 @@
 # ===========================================================
 
 items:
-  cobble_shop:
-    title: "<gray><b>Cobblestone Shop"
-    layout:
-      - "BBBBIBBBX"
-      - "BB1B2B3BB"
-      - "BBBBBBBBB"
-    components:
-      '1':
-        type: GUI
-        id: cobble_tools
-      '2':
-        type: GUI
-        id: cobble_armor
-      '3':
-        type: GUI
-        id: cobble_compressor
-
   coal_shop:
     title: "<gray><b>Coal Shop"
+    rows: 3
     layout:
       - "BBBBIBBBX"
       - "BB1BBB3BB"
@@ -57,6 +42,7 @@ items:
 
   copper_shop:
     title: "<gray><b>Copper Shop"
+    rows: 3
     layout:
       - "BBBBIBBBX"
       - "BB1BBB3BB"
@@ -71,6 +57,7 @@ items:
 
   iron_shop:
     title: "<gray><b>Iron Shop"
+    rows: 3
     layout:
       - "BBBBIBBBX"
       - "BB1BBB3BB"
@@ -85,6 +72,7 @@ items:
 
   gold_shop:
     title: "<gray><b>Gold Shop"
+    rows: 3
     layout:
       - "BBBBIBBBX"
       - "BB1BBB3BB"
@@ -99,6 +87,7 @@ items:
 
   gormak_shop:
     title: "<gray><b>Gormak Shop"
+    rows: 3
     layout:
       - "BBBBIBBBX"
       - "BB1BBB3BB"
@@ -110,3 +99,4 @@ items:
       '3':
         type: GUI
         id: gold_compress
+

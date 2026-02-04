@@ -27,3 +27,7 @@ items:
 
   pierce:
     display: "<aqua>Pierce"
+
+  # Protection levels will include all forms of protection
+  protection:
+    display: "<gray>Protection"

@@ -1,3 +1,4 @@
+
 # ===========================================================
 # AURORA RESOURCE TEMPLATE
 # ===========================================================
@@ -14,32 +15,14 @@
 # ===========================================================
 
 items:
-  ancient_flesh:
-    display: "<yellow><b>Ancient Flesh"
-    material: ROTTEN_FLESH
-    world: "overworld"
-    region: "origin_isles"
-
-  ancient_bone:
-    display: "<yellow><b>Ancient Bone"
-    material: BONE
-    world: "overworld"
-    region: "origin_isles"
-
-  ancient_nugget:
-    display: "<yellow><b>Ancient Nugget"
-    material: GOLD_NUGGET
-    world: "overworld"
-    region: "origin_isles"
-
   cobblestone:
-    display: "<gray><b>Cobblestone"
+    display: "<gray>Cobblestone"
     material: COBBLESTONE
     world: "overworld"
     region: "origin_isles"
 
   coal:
-    display: "<gray><b>Coal"
+    display: "<gray>Coal"
     material: COAL
     world: "overworld"
     region: "origin_isles"
@@ -61,3 +44,22 @@ items:
     material: GOLD_INGOT
     world: "overworld"
     region: "origin_isles"
+
+  ancient_flesh:
+    display: "<yellow><b>Ancient Flesh"
+    material: ROTTEN_FLESH
+    world: "overworld"
+    region: "origin_isles"
+
+  ancient_bone:
+    display: "<yellow><b>Ancient Bone"
+    material: BONE
+    world: "overworld"
+    region: "origin_isles"
+
+  ancient_nugget:
+    display: "<yellow><b>Ancient Nugget"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "origin_isles"
+

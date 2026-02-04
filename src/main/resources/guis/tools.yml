@@ -1,0 +1,324 @@
+# ===========================================================
+# AURORA GUI TEMPLATE
+# ===========================================================
+# [gui_id]:
+#   title: "<color><b><i>Gui Title"
+#   icon: [icon_id] (Default null)
+#   rows: 3 (Default)
+#   layout: (Must be same amount as rows)
+#     - "BBBBIBBBX" (B: Border, I: Info, X: Close)
+#     - "B 1 a b B" (Distinct characters map to Guis or trades, e.g. 0-9, a-z)
+#     - "BBBBBBBBB"
+#   components:
+#     '1':
+#       type: GUI
+#       id: [gui_id]
+#     'a':
+#       type: TRADE
+#       id: [item_id]
+#       amount: 1 (Default)
+#       cost: (Optional)
+#         - id: [item_id]
+#           amount: 1 (Default)
+#     'b': ...
+# ===========================================================
+
+items:
+  cobble_tools:
+    title: "<gray><b>Cobblestone Tools"
+    icon: cobble_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B123456 B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: starter_pick
+      '2':
+        type: TRADE
+        id: cobble_pick_1
+        cost:
+          - id: starter_pick
+          - id: cobblestone
+            amount: 16
+      '3':
+        type: TRADE
+        id: cobble_pick_2
+        cost:
+          - id: cobble_pick_1
+          - id: cobblestone
+            amount: 32
+      '4':
+        type: TRADE
+        id: cobble_pick_3
+        cost:
+          - id: cobble_pick_2
+          - id: cobblestone
+            amount: 48
+      '5':
+        type: TRADE
+        id: cobble_pick_4
+        cost:
+          - id: cobble_pick_3
+          - id: compressed_cobblestone
+            amount: 1
+          - id: cobblestone
+            amount: 32
+      '6':
+        type: TRADE
+        id: cobble_pick_5
+        cost:
+          - id: cobble_pick_4
+          - id: compressed_cobblestone
+            amount: 3
+
+  coal_tools:
+    title: "<gray><b>Coal Tools"
+    icon: coal_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: coal_pick_1
+        cost:
+          - id: cobble_pick_5
+          - id: coal
+            amount: 32
+      '2':
+        type: TRADE
+        id: coal_pick_2
+        cost:
+          - id: coal_pick_1
+          - id: compressed_coal
+      '3':
+        type: TRADE
+        id: coal_pick_3
+        cost:
+          - id: coal_pick_2
+          - id: compressed_coal
+            amount: 3
+      '4':
+        type: TRADE
+        id: coal_pick_4
+        cost:
+          - id: coal_pick_3
+          - id: compressed_coal
+            amount: 5
+      '5':
+        type: TRADE
+        id: coal_pick_5
+        cost:
+          - id: coal_pick_4
+          - id: compressed_coal
+            amount: 8
+
+  copper_tools:
+    title: "<gray><b>Copper Tools"
+    icon: copper_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: copper_pick_1
+        cost:
+          - id: coal_pick_5
+          - id: copper
+            amount: 48
+      '2':
+        type: TRADE
+        id: copper_pick_2
+        cost:
+          - id: copper_pick_1
+          - id: compressed_copper
+            amount: 2
+      '3':
+        type: TRADE
+        id: copper_pick_3
+        cost:
+          - id: copper_pick_2
+          - id: compressed_copper
+            amount: 5
+      '4':
+        type: TRADE
+        id: copper_pick_4
+        cost:
+          - id: copper_pick_3
+          - id: compressed_copper
+            amount: 8
+      '5':
+        type: TRADE
+        id: copper_pick_5
+        cost:
+          - id: copper_pick_4
+          - id: compressed_copper
+            amount: 12
+
+  iron_tools:
+    title: "<gray><b>Iron Tools"
+    icon: iron_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: iron_pick_1
+        cost:
+          - id: copper_pick_5
+          - id: compressed_iron
+      '2':
+        type: TRADE
+        id: iron_pick_2
+        cost:
+          - id: iron_pick_1
+          - id: compressed_iron
+            amount: 3
+      '3':
+        type: TRADE
+        id: iron_pick_3
+        cost:
+          - id: iron_pick_2
+          - id: compressed_iron
+            amount: 5
+      '4':
+        type: TRADE
+        id: iron_pick_4
+        cost:
+          - id: iron_pick_3
+          - id: compressed_iron
+            amount: 10
+      '5':
+        type: TRADE
+        id: iron_pick_5
+        cost:
+          - id: iron_pick_4
+          - id: compressed_iron
+            amount: 16
+
+  gold_tools:
+    title: "<gray><b>Gold Tools"
+    icon: gold_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: gold_pick_1
+        cost:
+          - id: iron_pick_5
+          - id: compressed_gold
+          - id: gold
+            amount: 32
+      '2':
+        type: TRADE
+        id: gold_pick_2
+        cost:
+          - id: gold_pick_1
+          - id: compressed_gold
+            amount: 3
+      '3':
+        type: TRADE
+        id: gold_pick_3
+        cost:
+          - id: gold_pick_2
+          - id: compressed_gold
+            amount: 6
+      '4':
+        type: TRADE
+        id: gold_pick_4
+        cost:
+          - id: gold_pick_3
+          - id: compressed_gold
+            amount: 12
+      '5':
+        type: TRADE
+        id: gold_pick_5
+        cost:
+          - id: gold_pick_4
+          - id: compressed_gold
+            amount: 18
+
+  gormak_tools:
+    title: "<gray><b>Gormak Tools"
+    icon: gold_tools
+    rows: 5
+    layout:
+      - "BBBBBBBBB"
+      - "B123456 B"
+      - "B       B"
+      - "B       B"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: gormak_sword_1
+      '2':
+        type: TRADE
+        id: gormak_sword_2
+        cost:
+          - id: gormak_sword_1
+          - id: ancient_flesh
+            amount: 32
+      '3':
+        type: TRADE
+        id: gormak_sword_3
+        cost:
+          - id: gormak_sword_2
+          - id: ancient_flesh
+            amount: 64
+          - id: ancient_bone
+            amount: 32
+      '4':
+        type: TRADE
+        id: gormak_sword_4
+        cost:
+          - id: gormak_sword_3
+          - id: ancient_bone
+            amount: 32
+          - id: ancient_nugget
+            amount: 48
+      '5':
+        type: TRADE
+        id: gormak_sword_5
+        cost:
+          - id: gormak_sword_4
+          - id: ancient_flesh
+            amount: 64
+          - id: ancient_nugget
+            amount: 128
+      '6':
+        type: TRADE
+        id: gormak_sword_6
+        cost:
+          - id: gormak_sword_5
+          - id: ancient_flesh
+            amount: 64
+          - id: ancient_bone
+            amount: 64
+          - id: ancient_nugget
+            amount: 256

@@ -1,0 +1,27 @@
+# ===========================================================
+# AURORA GEAR TEMPLATE
+# ===========================================================
+# [gear_id]:
+#   display: "<color><b><i>Example Sword"
+#   material: [BUKKIT_MATERIAL]
+#   tier: 0 (Default, tier 0 will not display tier)
+#   type: "armor" (Default)
+#   world: "overworld" (Options: "overworld")
+#   region: "origin_isles"
+#   enchants: (Optional)
+#     [enchant_id]: 1 (Default, e.g. sharpness: 5)
+#   lore: (Optional)
+#     - display: "<gray>Example lore about gear"
+# ===========================================================
+
+items:
+  starter_helmet:
+    display: "<gray><b>Starter Helmet"
+    material: LEATHER_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<gray>A simple helmet crafted for"
+      - "<gray>new travelers of Aurora."

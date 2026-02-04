@@ -1,0 +1,74 @@
+# ===========================================================
+# AURORA GEAR TEMPLATE
+# ===========================================================
+# [gear_id]:
+#   display: "<color><b><i>Example Sword"
+#   material: [BUKKIT_MATERIAL]
+#   tier: 0 (Default, tier 0 will not display tier)
+#   type: "combat" (Default)
+#   world: "overworld" (Options: "overworld")
+#   region: "origin_isles"
+#   enchants: (Optional)
+#     [enchant_id]: 1 (Default, e.g. sharpness: 5)
+#   lore: (Optional)
+#     - display: "<gray>Example lore about gear"
+# ===========================================================
+
+items:
+  gormak_sword_1:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  gormak_sword_2:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 1
+
+  gormak_sword_3:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 2
+
+  gormak_sword_4:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 3
+
+  gormak_sword_5:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 4
+
+  gormak_sword_6:
+    display: "<yellow><b>Gormak Sword"
+    material: IRON_SWORD
+    tier: 6
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 5

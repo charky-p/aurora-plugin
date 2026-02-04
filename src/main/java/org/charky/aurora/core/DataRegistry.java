@@ -63,14 +63,21 @@ public class DataRegistry {
 
         loadResources();
         loadEnchants();
-        loadGear();
+        loadGear("picks.yml", "mining");
+        loadGear("armor.yml", "armor");
+        loadGear("weapons.yml", "combat");
+        loadGear("other.yml", "");
         loadBlocks();
         loadMobs();
         loadIcons();
-        loadGuis();
+        // TODO: order matters since there is a hierarchy of GUIs, make this more robust
+        loadGuis("armor.yml");
+        loadGuis("compressors.yml");
+        loadGuis("tools.yml");
+        loadGuis("shops.yml");
         loadTraders();
 
-        // debugRegistry();
+         debugRegistry();
     }
 
     public List<String> getBlocks(String prefix) {
@@ -210,8 +217,8 @@ public class DataRegistry {
         });
     }
 
-    private void loadGear() {
-        Map<String, GearModel> data = loadYaml("gear.yml", GearModel.class);
+    private void loadGear(String file, String defaultType) {
+        Map<String, GearModel> data = loadYaml("gear/" + file, GearModel.class);
 
         data.forEach((id, model) -> {
             ItemStack item = new ItemStack(Material.matchMaterial(model.material));
@@ -227,6 +234,7 @@ public class DataRegistry {
                 }
 
                 List<Component> lore = new ArrayList<>();
+//                if (model.type == null) lore.add(parseType(defaultType));
                 lore.add(parseType(model.type));
                 lore.add(Component.empty());
 
@@ -271,6 +279,7 @@ public class DataRegistry {
         String display = switch (type) {
             case "combat" -> "\uD83D\uDDE1 Combat";
             case "mining" -> "⛏ Mining";
+            case "armor" -> "\uD83D\uDEE1\uFE0F Armor";
             default -> "";
         };
 
@@ -410,8 +419,8 @@ public class DataRegistry {
         });
     }
 
-    private void loadGuis() {
-        Map<String, GuiModel> data = loadYaml("guis.yml", GuiModel.class);
+    private void loadGuis(String file) {
+        Map<String, GuiModel> data = loadYaml("guis/" + file, GuiModel.class);
 
         // Make map for look up existence
         data.forEach((id, model) -> {
@@ -438,25 +447,25 @@ public class DataRegistry {
                         GuiModel.ComponentModel component = model.components.get(rowStr.charAt(col));
                         if (component.type.equals("GUI")) {
                             // should never be called unless error with yaml
-                            if (!guis.containsKey(component.id)) {
+                            if (!guis.containsKey(component.id.toLowerCase())) {
                                 contents.put(row * 9 + col, new TraderBorder());
                                 continue;
                             }
-                            contents.put(row * 9 + col, guis.get(component.id));
+                            contents.put(row * 9 + col, guis.get(component.id.toLowerCase()));
                         } else {
                             // Purchasable item
                             // Error happened with yaml, TODO: better error handling with yaml
-                            if (!items.containsKey(component.id)) {
+                            if (!items.containsKey(component.id.toLowerCase())) {
                                 contents.put(row * 9 + col, new TraderBorder());
                                 continue;
                             }
-                            MenuItem menu = new MenuItem(items.get(component.id), component.amount);
+                            MenuItem menu = new MenuItem(items.get(component.id.toLowerCase()), component.amount);
                             List<MenuItem> costs = new ArrayList<>();
                             for (GuiModel.CostEntry entry : component.cost) {
-                                if (!items.containsKey(component.id)) continue;
-                                costs.add(new MenuItem(items.get(entry.id), entry.amount));
+                                if (!items.containsKey(entry.id.toLowerCase())) continue;
+                                costs.add(new MenuItem(items.get(entry.id.toLowerCase()), entry.amount));
                             }
-                            contents.put(row * 9 + col, new TraderItem(component.id, menu, costs));
+                            contents.put(row * 9 + col, new TraderItem(component.id.toLowerCase(), menu, costs));
                         }
                     }
                 }

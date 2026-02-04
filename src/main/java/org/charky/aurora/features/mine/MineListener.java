@@ -42,7 +42,7 @@ public class MineListener implements Listener {
     public void onMine(BlockBreakEvent event) {
         Player player = event.getPlayer();
         event.setDropItems(false);
-        event.setCancelled(true);
+        if (!player.isOp()) event.setCancelled(true);
 
         List<MenuItem> drops = new ArrayList<>();
         processBlock(player, event.getBlock(), drops);

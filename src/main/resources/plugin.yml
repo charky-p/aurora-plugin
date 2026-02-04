@@ -21,6 +21,9 @@ commands:
   spawn:
     description: Teleport to world spawn
     usage: /spawn
+  gauntlet:
+    description: Gauntlet gamemode
+    usage: /gauntlet
 worlds:
   aurora_mines:
     generator: Aurora

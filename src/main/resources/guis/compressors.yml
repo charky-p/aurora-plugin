@@ -1,0 +1,133 @@
+# ===========================================================
+# AURORA GUI TEMPLATE
+# ===========================================================
+# [gui_id]:
+#   title: "<color><b><i>Gui Title"
+#   icon: [icon_id] (Default null)
+#   rows: 3 (Default)
+#   layout: (Must be same amount as rows)
+#     - "BBBBIBBBX" (B: Border, I: Info, X: Close)
+#     - "B 1 a b B" (Distinct characters map to Guis or trades, e.g. 0-9, a-z)
+#     - "BBBBBBBBB"
+#   components:
+#     '1':
+#       type: GUI
+#       id: [gui_id]
+#     'a':
+#       type: TRADE
+#       id: [item_id]
+#       amount: 1 (Default)
+#       cost: (Optional)
+#         - id: [item_id]
+#           amount: 1 (Default)
+#     'b': ...
+# ===========================================================
+
+items:
+  cobble_compressor:
+    title: "<gray><b>Cobblestone Compressor"
+    icon: cobble_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab 1   B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_cobblestone
+        cost:
+          - id: cobblestone
+            amount: 64
+      'b':
+        type: TRADE
+        id: cobblestone
+        amount: 64
+        cost:
+          - id: compressed_cobblestone
+      '1':
+        type: GUI
+        id: cobble_shop
+
+  coal_compress:
+    title: "<gray><b>Coal Compressor"
+    icon: coal_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab     B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_coal
+        cost:
+          - id: coal
+            amount: 64
+      'b':
+        type: TRADE
+        id: coal
+        amount: 64
+        cost:
+          - id: compressed_coal
+
+  copper_compress:
+    title: "<gray><b>Copper Compressor"
+    icon: copper_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab     B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_copper
+        cost:
+          - id: copper
+            amount: 64
+      'b':
+        type: TRADE
+        id: copper
+        amount: 64
+        cost:
+          - id: compressed_copper
+
+  iron_compress:
+    title: "<gray><b>Iron Compressor"
+    icon: iron_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab     B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_iron
+        cost:
+          - id: iron
+            amount: 64
+      'b':
+        type: TRADE
+        id: iron
+        amount: 64
+        cost:
+          - id: compressed_iron
+
+  gold_compress:
+    title: "<gray><b>Gold Compressor"
+    icon: gold_compress
+    layout:
+      - "BBBBIBBBX"
+      - "Bab     B"
+      - "BBBBBBBBB"
+    components:
+      'a':
+        type: TRADE
+        id: compressed_gold
+        cost:
+          - id: gold
+            amount: 64
+      'b':
+        type: TRADE
+        id: gold
+        amount: 64
+        cost:
+          - id: compressed_gold

@@ -1,0 +1,112 @@
+# ===========================================================
+# AURORA GUI TEMPLATE
+# ===========================================================
+# [gui_id]:
+#   title: "<color><b><i>Gui Title"
+#   icon: [icon_id] (Default null)
+#   rows: 3 (Default)
+#   layout: (Must be same amount as rows)
+#     - "BBBBIBBBX" (B: Border, I: Info, X: Close)
+#     - "B 1 a b B" (Distinct characters map to Guis or trades, e.g. 0-9, a-z)
+#     - "BBBBBBBBB"
+#   components:
+#     '1':
+#       type: GUI
+#       id: [gui_id]
+#     'a':
+#       type: TRADE
+#       id: [item_id]
+#       amount: 1 (Default)
+#       cost: (Optional)
+#         - id: [item_id]
+#           amount: 1 (Default)
+#     'b': ...
+# ===========================================================
+
+items:
+  cobble_shop:
+    title: "<gray><b>Cobblestone Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1B2B3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: cobble_tools
+      '2':
+        type: GUI
+        id: cobble_armor
+      '3':
+        type: GUI
+        id: cobble_compressor
+
+  coal_shop:
+    title: "<gray><b>Coal Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: coal_tools
+      '3':
+        type: GUI
+        id: coal_compress
+
+  copper_shop:
+    title: "<gray><b>Copper Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: copper_tools
+      '3':
+        type: GUI
+        id: copper_compress
+
+  iron_shop:
+    title: "<gray><b>Iron Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: iron_tools
+      '3':
+        type: GUI
+        id: iron_compress
+
+  gold_shop:
+    title: "<gray><b>Gold Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: gold_tools
+      '3':
+        type: GUI
+        id: gold_compress
+
+  gormak_shop:
+    title: "<gray><b>Gormak Shop"
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: gormak_tools
+      '3':
+        type: GUI
+        id: gold_compress

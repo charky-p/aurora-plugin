@@ -1,0 +1,121 @@
+# ===========================================================
+# AURORA GEAR TEMPLATE
+# ===========================================================
+# [gear_id]:
+#   display: "<color><b><i>Example Sword"
+#   material: [BUKKIT_MATERIAL]
+#   tier: 0 (Default, tier 0 will not display tier)
+#   type: "combat" (Options: "combat", "mining", "logging", "excavation", "armor")
+#   world: "overworld" (Options: "overworld")
+#   region: "origin_isles"
+#   enchants: (Optional)
+#     [enchant_id]: 1 (Default, e.g. sharpness: 5)
+#   lore: (Optional)
+#     - display: "<gray>Example lore about gear"
+# ===========================================================
+
+items:
+  leather_helmet:
+    display: "LEATHER HELMET"
+    material: LEATHER_HELMET
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  iron_helmet:
+    display: "IRON HELMET"
+    material: IRON_HELMET
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  iron_chestplate:
+    display: "IRON CHESTPLATE"
+    material: IRON_CHESTPLATE
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  gold_chestplate:
+    display: "GOLD CHESTPLATE"
+    material: GOLDEN_CHESTPLATE
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  iron_leggings:
+    display: "IRON LEGGINGS"
+    material: IRON_LEGGINGS
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  leather_leggings:
+    display: "LEATHER LEGGINGS"
+    material: LEATHER_LEGGINGS
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  leather_boots:
+    display: "LEATHER BOOTS"
+    material: LEATHER_BOOTS
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  wooden_sword:
+    display: "WOODEN SWORD"
+    material: WOODEN_SWORD
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  iron_sword:
+    display: "IRON SWORD"
+    material: IRON_SWORD
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  bow:
+    display: "BOW"
+    material: BOW
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  shield:
+    display: "SHIELD"
+    material: SHIELD
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+
+  gormak_sword:
+    display: "<aqua><b>Gormak Sword"
+    material: DIAMOND_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 30
+      pierce: 5
+    lore:
+      - "<yellow>Forged by Gormak's descendants"
+      - "<yellow>Aura emits from the sword n dat"
+
+  gormak_chest:
+    display: "<brown><b>Gormak Chestplate"
+    material: DIAMOND_CHESTPLATE
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  totem_of_undying:
+    display: "<yellow><b>Totem of Undying"
+    material: TOTEM_OF_UNDYING
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"

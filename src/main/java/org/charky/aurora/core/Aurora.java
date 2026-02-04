@@ -15,6 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 //import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.features.gauntlet.GauntletCommand;
+import org.charky.aurora.features.gauntlet.GauntletListener;
+import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.spawner.MobSpawner;
 import org.charky.aurora.features.system.VoidGenerator;
 import org.charky.aurora.features.system.commands.AuroraCommand;
@@ -86,6 +89,9 @@ public class Aurora extends JavaPlugin implements Listener {
         this.inventoryManager = new InventoryManager();
         this.wandManager = new WandManager();
 
+        // temp
+        GauntletManager  gauntletManager = new GauntletManager(this);
+
         // Plugin startup logic
         if (this.getCommand("refresh") != null) {
             this.getCommand("refresh").setExecutor(this);
@@ -107,6 +113,10 @@ public class Aurora extends JavaPlugin implements Listener {
             this.getCommand("spawn").setExecutor(new SpawnCommand(this));
         }
 
+        if (this.getCommand("gauntlet") != null) {
+            this.getCommand("gauntlet").setExecutor(new GauntletCommand(gauntletManager));
+        }
+
         // Listeners
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
         getServer().getPluginManager().registerEvents(new MineListener(this), this);
@@ -116,6 +126,8 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new WandListener(this), this);
         getServer().getPluginManager().registerEvents(new SpawnListener(this), this);
         getServer().getPluginManager().registerEvents(this, this);
+
+        getServer().getPluginManager().registerEvents(new GauntletListener(gauntletManager), this);
 
         // Mines setup
         getLogger().info("AuroraMines has been enabled!");

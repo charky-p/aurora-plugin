@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.charky.aurora.features.mine.MineBlock;
 import org.charky.aurora.features.mine.MineData;
+import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.spawner.MobSpawner;
@@ -66,6 +67,13 @@ public class Database {
                     "kills INTEGER DEFAULT 0, " +
                     "mined INTEGER DEFAULT 0, " +
                     "essence INTEGER DEFAULT 0)");
+
+            // Player backpacks
+            statement.execute("CREATE TABLE IF NOT EXISTS backpack_data (" +
+                    "uuid VARCHAR(36) NOT NULL, " +
+                    "item_id TEXT NOT NULL, " +
+                    "amount BIGINT NOT NULL, " +
+                    "PRIMARY KEY (uuid, item_id))");
 
             // Mob Spawners
             statement.execute("CREATE TABLE IF NOT EXISTS spawners (" +
@@ -581,6 +589,63 @@ public class Database {
             pst.setFloat(5, location.getYaw());
             pst.setFloat(6, location.getPitch());
             pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Map<UUID, BackpackData> loadAllBackpacks(DataRegistry registry) {
+        Map<UUID, BackpackData> results = new HashMap<>();
+        String sql = "SELECT uuid, item_id, amount FROM backpack_data";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                UUID uuid = UUID.fromString(rs.getString("uuid"));
+                String itemId = rs.getString("item_id");
+                long amount = rs.getLong("amount");
+
+                BackpackData data = results.computeIfAbsent(uuid, k -> new BackpackData(registry));
+                data.addItem(itemId, amount);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
+    public void saveBackpacks(Map<UUID, BackpackData> backpacks) {
+        String deleteSql = "DELETE FROM backpack_data"; // Wipe to refresh state
+        String insertSql = "INSERT INTO backpack_data (uuid, item_id, amount) VALUES (?, ?, ?)";
+
+        try (Connection conn = getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement delStmt = conn.prepareStatement(deleteSql)) {
+                delStmt.executeUpdate();
+            }
+
+            // 2. Batch insert everything
+            try (PreparedStatement insStmt = conn.prepareStatement(insertSql)) {
+                for (Map.Entry<UUID, BackpackData> entry : backpacks.entrySet()) {
+                    UUID uuid = entry.getKey();
+                    Map<String, Long> items = entry.getValue().getItems();
+
+                    for (Map.Entry<String, Long> item : items.entrySet()) {
+                        if (item.getValue() <= 0) continue;
+
+                        insStmt.setString(1, uuid.toString());
+                        insStmt.setString(2, item.getKey());
+                        insStmt.setLong(3, item.getValue());
+                        insStmt.addBatch();
+                    }
+                }
+                insStmt.executeBatch();
+            }
+
+            conn.commit(); // Finalize write to disk
         } catch (SQLException e) {
             e.printStackTrace();
         }

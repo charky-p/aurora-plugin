@@ -18,6 +18,8 @@ import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.common.loot.InventoryManager;
+import org.charky.aurora.features.player.BackpackData;
+import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.common.loot.MenuItem;
 
@@ -29,6 +31,7 @@ public class MineListener implements Listener {
     private final MineManager manager;
     private final ScoreboardManager scoreboard;
     private final InventoryManager inventoryManager;
+    private final BackpackManager backpackManager;
     private final DataRegistry registry;
 
     public MineListener(Aurora plugin) {
@@ -36,6 +39,7 @@ public class MineListener implements Listener {
         this.scoreboard = plugin.getScoreboardManager();
         this.inventoryManager = plugin.getInventoryManager();
         this.registry = plugin.getRegistry();
+        this.backpackManager = plugin.getBackpackManager();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -82,7 +86,10 @@ public class MineListener implements Listener {
 
         if (registry.hasBlock(dropId)) {
             List<MenuItem> blockDrops = registry.getBlockDrops(dropId, getFortuneLevel(player));
-            drops.addAll(blockDrops);
+            // TODO: move completely to backpack system
+//            drops.addAll(blockDrops);
+            BackpackData backpack = backpackManager.get(player.getUniqueId());
+            backpack.addItems(blockDrops);
 
             // Essence
             double baseChance = 0.001;

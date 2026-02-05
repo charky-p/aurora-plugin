@@ -37,7 +37,7 @@ public class TraderMenu implements TraderNode, InventoryHolder {
     }
 
     @Override
-    public ItemStack getDisplayItem() {
+    public ItemStack getDisplayItem(Player player) {
         if (displayItem == null) return new ItemStack(Material.AIR);
         ItemStack display = this.displayItem.clone();
         display.editMeta(meta -> {
@@ -55,7 +55,7 @@ public class TraderMenu implements TraderNode, InventoryHolder {
         Inventory inv = Bukkit.createInventory(this, rows * 9, title);
 
         contents.forEach((slot, node) -> {
-            inv.setItem(slot, node.getDisplayItem());
+            inv.setItem(slot, node.getDisplayItem(player));
         });
 
         player.openInventory(inv);

@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class TraderBorder implements TraderNode {
     @Override
-    public ItemStack getDisplayItem() {
+    public ItemStack getDisplayItem(Player player) {
         return new ItemStack(Material.RED_STAINED_GLASS_PANE);
     }
 

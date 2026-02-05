@@ -194,7 +194,7 @@ gen.save("icons.yml")
 
 gen = GuiGenerator()
 # --- SHOPS ---
-materials = ["coal", "copper", "iron", "gold", "gormak"]
+materials = ["cobble", "coal", "copper", "iron", "gold", "gormak"]
 
 for material in materials:
     display_name = f"{material.capitalize()} Shop"

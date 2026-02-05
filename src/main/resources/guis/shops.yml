@@ -25,6 +25,21 @@
 # ===========================================================
 
 items:
+  cobble_shop:
+    title: "<gray><b>Cobble Shop"
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB3BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: cobble_tools
+      '3':
+        type: GUI
+        id: cobble_compress
+
   coal_shop:
     title: "<gray><b>Coal Shop"
     rows: 3

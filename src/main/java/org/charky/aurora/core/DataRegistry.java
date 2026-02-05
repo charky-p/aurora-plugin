@@ -20,6 +20,7 @@ import org.charky.aurora.common.loot.IndependentLootPool;
 import org.charky.aurora.common.loot.ItemDrop;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.core.models.*;
+import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.trader.*;
 import org.charky.aurora.common.loot.LootPool;
@@ -38,6 +39,7 @@ import java.util.*;
 public class DataRegistry {
     private final Aurora plugin;
     private final ItemFactory itemFactory;
+    private BackpackManager backpackManager;
     private record BlockData(Material material, int density, List<LootPool> pools) {}
     private record EnchantData(String display, Enchantment enchant) {}
     private final Map<String, ItemStack> items = new HashMap<>(); // resources + gear
@@ -48,9 +50,16 @@ public class DataRegistry {
     private final Map<String, TraderMenu> guis = new HashMap<>();
     private final Map<String, Trader> traders = new HashMap<>();
 
+    private final List<MenuItem> resourceList = new ArrayList<>();
+
     public DataRegistry(Aurora plugin) {
         this.plugin = plugin;
         this.itemFactory = plugin.getItemFactory();
+        this.backpackManager = plugin.getBackpackManager();
+    }
+
+    public void setBackpackManager(BackpackManager backpackManager) {
+        this.backpackManager = backpackManager;
     }
 
     public void loadAll() {
@@ -136,6 +145,14 @@ public class DataRegistry {
         return new ArrayList<>(mobs.keySet());
     }
 
+    public List<MenuItem> getItems() {
+        return resourceList;
+    }
+
+    public MenuItem getItem(String item) {
+        return new MenuItem(item, items.get(item));
+    }
+
     private void debugRegistry() {
         var logger = plugin.getLogger();
         logger.info("=== [ Aurora Registry Debug Report ] ===");
@@ -194,6 +211,7 @@ public class DataRegistry {
             );
 
             items.put(id.toLowerCase(), item);
+            resourceList.add(new MenuItem(id.toLowerCase(), item));
 
             // Compressed version
             item = itemFactory.createItem(
@@ -308,7 +326,7 @@ public class DataRegistry {
                 for (BlockModel.IndependentPoolModel choice : model.independent) {
                     if (!items.containsKey(choice.id)) continue;
 
-                    pool.add(new ItemDrop(items.get(choice.id), choice.min, choice.max), choice.chance);
+                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max), choice.chance);
                 }
                 pools.add(pool);
             }
@@ -318,7 +336,7 @@ public class DataRegistry {
                 for (BlockModel.ChoiceModel choice : model.choices.options) {
                     if (!items.containsKey(choice.id)) continue;
 
-                    pool.add(new ItemDrop(items.get(choice.id), choice.min, choice.max), choice.weight);
+                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max), choice.weight);
                 }
                 pools.add(pool);
             }
@@ -375,7 +393,7 @@ public class DataRegistry {
                 for (BlockModel.IndependentPoolModel choice : model.independent) {
                     if (!items.containsKey(choice.id)) continue;
 
-                    pool.add(new ItemDrop(items.get(choice.id), choice.min, choice.max), choice.chance);
+                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max), choice.chance);
                 }
                 pools.add(pool);
             }
@@ -385,7 +403,7 @@ public class DataRegistry {
                 for (BlockModel.ChoiceModel choice : model.choices.options) {
                     if (!items.containsKey(choice.id)) continue;
 
-                    pool.add(new ItemDrop(items.get(choice.id), choice.min, choice.max), choice.weight);
+                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max), choice.weight);
                 }
                 pools.add(pool);
             }
@@ -459,13 +477,13 @@ public class DataRegistry {
                                 contents.put(row * 9 + col, new TraderBorder());
                                 continue;
                             }
-                            MenuItem menu = new MenuItem(items.get(component.id.toLowerCase()), component.amount);
+                            MenuItem menu = new MenuItem(component.id.toLowerCase(), items.get(component.id.toLowerCase()), component.amount);
                             List<MenuItem> costs = new ArrayList<>();
                             for (GuiModel.CostEntry entry : component.cost) {
                                 if (!items.containsKey(entry.id.toLowerCase())) continue;
-                                costs.add(new MenuItem(items.get(entry.id.toLowerCase()), entry.amount));
+                                costs.add(new MenuItem(entry.id.toLowerCase(), items.get(entry.id.toLowerCase()), entry.amount));
                             }
-                            contents.put(row * 9 + col, new TraderItem(component.id.toLowerCase(), menu, costs));
+                            contents.put(row * 9 + col, new TraderItem(backpackManager, component.id.toLowerCase(), menu, costs));
                         }
                     }
                 }

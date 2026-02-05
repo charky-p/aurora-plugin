@@ -18,14 +18,12 @@ import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletListener;
 import org.charky.aurora.features.gauntlet.GauntletManager;
+import org.charky.aurora.features.player.*;
 import org.charky.aurora.features.spawner.MobSpawner;
 import org.charky.aurora.features.system.VoidGenerator;
 import org.charky.aurora.features.system.commands.AuroraCommand;
 import org.charky.aurora.features.system.commands.GiveCustomsCommand;
 import org.charky.aurora.features.system.commands.HealCommand;
-import org.charky.aurora.features.player.ScoreboardListener;
-import org.charky.aurora.features.player.ScoreboardManager;
-import org.charky.aurora.features.player.TabManager;
 import org.charky.aurora.features.spawner.WeaponListener;
 import org.charky.aurora.features.system.commands.SpawnCommand;
 import org.charky.aurora.features.system.SpawnListener;
@@ -51,6 +49,7 @@ public class Aurora extends JavaPlugin implements Listener {
     private TraderManager traderManager;
     private InventoryManager inventoryManager;
     private WandManager wandManager;
+    private BackpackManager backpackManager;
     private ItemFactory itemFactory = new ItemFactory();
     private DataRegistry registry;
     private Map<World, Location> spawnMap;
@@ -66,6 +65,8 @@ public class Aurora extends JavaPlugin implements Listener {
 
         // Register preset data
         this.registry = new DataRegistry(this);
+        this.backpackManager = new BackpackManager(registry);
+        registry.setBackpackManager(backpackManager);
         registry.loadAll();
 
         // Database setup
@@ -76,6 +77,8 @@ public class Aurora extends JavaPlugin implements Listener {
         db = new Database(this, getDataFolder().getAbsolutePath());
         db.setup();
         getLogger().info("SQLite Database setup complete!");
+
+        backpackManager.loadBackpacks(db);
 
         // Spawn map
         this.spawnMap = db.getSpawns();
@@ -90,7 +93,7 @@ public class Aurora extends JavaPlugin implements Listener {
         this.wandManager = new WandManager();
 
         // temp
-        GauntletManager  gauntletManager = new GauntletManager(this);
+        GauntletManager gauntletManager = new GauntletManager(this);
 
         // Plugin startup logic
         if (this.getCommand("refresh") != null) {
@@ -117,6 +120,10 @@ public class Aurora extends JavaPlugin implements Listener {
             this.getCommand("gauntlet").setExecutor(new GauntletCommand(gauntletManager));
         }
 
+        if (this.getCommand("backpack") != null) {
+            this.getCommand("backpack").setExecutor(new BackpackCommand(backpackManager));
+        }
+
         // Listeners
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
         getServer().getPluginManager().registerEvents(new MineListener(this), this);
@@ -128,6 +135,7 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
 
         getServer().getPluginManager().registerEvents(new GauntletListener(gauntletManager), this);
+        getServer().getPluginManager().registerEvents(new BackpackListener(), this);
 
         // Mines setup
         getLogger().info("AuroraMines has been enabled!");
@@ -155,6 +163,10 @@ public class Aurora extends JavaPlugin implements Listener {
 
     public WandManager getWandManager() {
         return wandManager;
+    }
+
+    public BackpackManager getBackpackManager() {
+        return backpackManager;
     }
 
     public DataRegistry getRegistry() {
@@ -207,6 +219,7 @@ public class Aurora extends JavaPlugin implements Listener {
         if (manager != null) manager.shutdown();
         if (scoreboard != null) scoreboard.shutdown();
         if (spawnerManager != null) spawnerManager.shutdown();
+        if (backpackManager != null) backpackManager.shutdown();
 
         try {
             db.close();

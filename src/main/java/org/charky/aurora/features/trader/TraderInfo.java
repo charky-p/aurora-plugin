@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class TraderInfo implements TraderNode {
     @Override
-    public ItemStack getDisplayItem() {
+    public ItemStack getDisplayItem(Player player) {
         return new ItemStack(Material.BEDROCK);
     }
 

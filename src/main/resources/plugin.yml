@@ -24,6 +24,10 @@ commands:
   gauntlet:
     description: Gauntlet gamemode
     usage: /gauntlet
+  backpack:
+    description: Open the backpack
+    usage: /backpack
+    aliases: [bp]
 worlds:
   aurora_mines:
     generator: Aurora

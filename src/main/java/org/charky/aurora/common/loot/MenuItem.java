@@ -9,14 +9,16 @@ public class MenuItem {
     // Wrapper for ItemStack to be used for TraderItem, allows for amount > 64
     private final ItemStack item;
     private int amount;
+    private String id;
 
-    public MenuItem(ItemStack item) {
-        this(item, 1);
+    public MenuItem(String id, ItemStack item) {
+        this(id, item, 1);
     }
 
-    public MenuItem(ItemStack item, int amount) {
+    public MenuItem(String id, ItemStack item, int amount) {
         this.item = item;
         this.amount = amount;
+        this.id = id;
     }
 
     public int getAmount() {
@@ -44,5 +46,13 @@ public class MenuItem {
             remaining -= currentStackSize;
         }
         return stacks;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public MenuItem clone() {
+        return new MenuItem(id, item.clone(), amount);
     }
 }

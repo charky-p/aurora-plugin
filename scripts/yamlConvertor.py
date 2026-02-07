@@ -204,10 +204,9 @@ for material in materials:
     gen.add_gui(
         f"{material}_shop",
         f"<gray><b>{display_name}",
-        ["BBBBIBBBX", "BB1BBB3BB", "BBBBBBBBB"],
+        ["BBBBIBBBX", "BB1BBBBBB", "BBBBBBBBB"],
         {
-            "1": {"type": "GUI", "id": tools_id},
-            "3": {"type": "GUI", "id": compress_id}
+            "1": {"type": "GUI", "id": tools_id}
         }
     )
 

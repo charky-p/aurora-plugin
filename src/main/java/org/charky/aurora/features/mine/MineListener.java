@@ -1,5 +1,8 @@
 package org.charky.aurora.features.mine;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -46,6 +49,7 @@ public class MineListener implements Listener {
     public void onMine(BlockBreakEvent event) {
         Player player = event.getPlayer();
         event.setDropItems(false);
+        // TODO: temp for building
         if (!player.isOp()) event.setCancelled(true);
 
         List<MenuItem> drops = new ArrayList<>();
@@ -90,6 +94,7 @@ public class MineListener implements Listener {
 //            drops.addAll(blockDrops);
             BackpackData backpack = backpackManager.get(player.getUniqueId());
             backpack.addItems(blockDrops);
+            if (!blockDrops.isEmpty()) player.sendActionBar(Component.text(blockDrops.getLast().getId().toUpperCase() + " " + backpack.getAmount(player, blockDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD));
 
             // Essence
             double baseChance = 0.001;

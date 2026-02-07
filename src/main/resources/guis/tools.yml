@@ -64,17 +64,15 @@ items:
         id: cobble_pick_4
         cost:
           - id: cobble_pick_3
-          - id: compressed_cobblestone
-            amount: 1
           - id: cobblestone
-            amount: 32
+            amount: 96
       '6':
         type: TRADE
         id: cobble_pick_5
         cost:
           - id: cobble_pick_4
-          - id: compressed_cobblestone
-            amount: 3
+          - id: cobblestone
+            amount: 192
 
   coal_tools:
     title: "<gray><b>Coal Tools"
@@ -99,28 +97,29 @@ items:
         id: coal_pick_2
         cost:
           - id: coal_pick_1
-          - id: compressed_coal
+          - id: coal
+            amount: 64
       '3':
         type: TRADE
         id: coal_pick_3
         cost:
           - id: coal_pick_2
-          - id: compressed_coal
-            amount: 3
+          - id: coal
+            amount: 192
       '4':
         type: TRADE
         id: coal_pick_4
         cost:
           - id: coal_pick_3
-          - id: compressed_coal
-            amount: 5
+          - id: coal
+            amount: 320
       '5':
         type: TRADE
         id: coal_pick_5
         cost:
           - id: coal_pick_4
-          - id: compressed_coal
-            amount: 8
+          - id: coal
+            amount: 512
 
   copper_tools:
     title: "<gray><b>Copper Tools"
@@ -145,29 +144,29 @@ items:
         id: copper_pick_2
         cost:
           - id: copper_pick_1
-          - id: compressed_copper
-            amount: 2
+          - id: copper
+            amount: 128
       '3':
         type: TRADE
         id: copper_pick_3
         cost:
           - id: copper_pick_2
-          - id: compressed_copper
-            amount: 5
+          - id: copper
+            amount: 320
       '4':
         type: TRADE
         id: copper_pick_4
         cost:
           - id: copper_pick_3
-          - id: compressed_copper
-            amount: 8
+          - id: copper
+            amount: 512
       '5':
         type: TRADE
         id: copper_pick_5
         cost:
           - id: copper_pick_4
-          - id: compressed_copper
-            amount: 12
+          - id: copper
+            amount: 768
 
   iron_tools:
     title: "<gray><b>Iron Tools"
@@ -185,35 +184,36 @@ items:
         id: iron_pick_1
         cost:
           - id: copper_pick_5
-          - id: compressed_iron
+          - id: iron
+            amount: 64
       '2':
         type: TRADE
         id: iron_pick_2
         cost:
           - id: iron_pick_1
-          - id: compressed_iron
-            amount: 3
+          - id: iron
+            amount: 192
       '3':
         type: TRADE
         id: iron_pick_3
         cost:
           - id: iron_pick_2
-          - id: compressed_iron
-            amount: 5
+          - id: iron
+            amount: 320
       '4':
         type: TRADE
         id: iron_pick_4
         cost:
           - id: iron_pick_3
-          - id: compressed_iron
-            amount: 10
+          - id: iron
+            amount: 640
       '5':
         type: TRADE
         id: iron_pick_5
         cost:
           - id: iron_pick_4
-          - id: compressed_iron
-            amount: 16
+          - id: iron
+            amount: 1024
 
   gold_tools:
     title: "<gray><b>Gold Tools"
@@ -231,37 +231,36 @@ items:
         id: gold_pick_1
         cost:
           - id: iron_pick_5
-          - id: compressed_gold
           - id: gold
-            amount: 32
+            amount: 96
       '2':
         type: TRADE
         id: gold_pick_2
         cost:
           - id: gold_pick_1
-          - id: compressed_gold
-            amount: 3
+          - id: gold
+            amount: 192
       '3':
         type: TRADE
         id: gold_pick_3
         cost:
           - id: gold_pick_2
-          - id: compressed_gold
-            amount: 6
+          - id: gold
+            amount: 384
       '4':
         type: TRADE
         id: gold_pick_4
         cost:
           - id: gold_pick_3
-          - id: compressed_gold
-            amount: 12
+          - id: gold
+            amount: 768
       '5':
         type: TRADE
         id: gold_pick_5
         cost:
           - id: gold_pick_4
-          - id: compressed_gold
-            amount: 18
+          - id: gold
+            amount: 1152
 
   gormak_tools:
     title: "<gray><b>Gormak Tools"

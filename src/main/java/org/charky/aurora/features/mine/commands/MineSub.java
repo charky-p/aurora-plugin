@@ -7,8 +7,6 @@ import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import org.charky.aurora.features.mine.MineManager;
 
 public abstract class MineSub implements AuroraSubCommand {
-    protected static final int MAX_MINE_VOLUME = 100000;
-
     protected final MineManager mineManager;
     protected final WandManager wandManager;
     protected final DataRegistry registry;

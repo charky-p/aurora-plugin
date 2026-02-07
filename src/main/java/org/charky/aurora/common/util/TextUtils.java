@@ -10,6 +10,9 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
+import java.util.List;
+
 public class TextUtils {
     private static final String NAME ="<gradient:#7F7FD5:#91EAE4><b>AURORA</b></gradient>";
     private static final String SERVER = "<gradient:#7F7FD5:#91EAE4><bold>AURORAMINES</bold></gradient>";
@@ -59,16 +62,11 @@ public class TextUtils {
         display(sender, color + "<st>                                                                                 </st>");
     }
 
-    @Deprecated
-    public static String getFormattedTPS() {
-        double tps = Bukkit.getTPS()[0]; // Get the 1-minute average
-
-        // Color coding for the "Aurora" UI feel
-        String color;
-        if (tps >= 18.0) color = "<green>";
-        else if (tps >= 15.0) color = "<yellow>";
-        else color = "<red>";
-
-        return String.format("%s%.2f", color, Math.min(tps, 20.0));
+    public static List<String> getCompletions(String input, Collection<String> options) {
+        return options
+                .stream()
+                .filter(name -> name.toLowerCase().startsWith(input.toLowerCase()))
+                .sorted(String.CASE_INSENSITIVE_ORDER)
+                .toList();
     }
 }

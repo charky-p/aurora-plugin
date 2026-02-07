@@ -4,10 +4,9 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
+import org.charky.aurora.common.util.DataKeys;
 
 public class Trader {
-    public static final String TRADER_KEY_NAME = "trader_id";
-    private final NamespacedKey traderKey;
     private final String traderId;
     private final Component displayName;
     private final EntityType type;
@@ -18,7 +17,6 @@ public class Trader {
         this.displayName = displayName;
         this.type = type;
         this.menu = menu;
-        this.traderKey = traderKey;
     }
 
     public String getMenuId() {
@@ -47,7 +45,7 @@ public class Trader {
             }
 
             entity.getPersistentDataContainer().set(
-                    traderKey,
+                    DataKeys.TRADER_KEY,
                     org.bukkit.persistence.PersistentDataType.STRING,
                     this.traderId
             );

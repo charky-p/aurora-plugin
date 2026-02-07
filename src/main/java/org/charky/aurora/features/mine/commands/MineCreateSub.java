@@ -1,7 +1,6 @@
 package org.charky.aurora.features.mine.commands;
 
-import org.bukkit.Axis;
-import org.bukkit.block.Block;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.LocationUtils;
@@ -13,7 +12,6 @@ import java.util.List;
 
 /**
  * TODO: Currently overlapping mines, decide whether this is a feature or error
- * TODO: Add create2 here
  * Mine subcommand to create mines manually by coordinates.
  */
 public class MineCreateSub extends MineSub {
@@ -36,33 +34,19 @@ public class MineCreateSub extends MineSub {
                 return;
             }
 
-            String worldName = (sender instanceof Player p) ? p.getWorld().getName() : "world";
-
-            double x1 = LocationUtils.parseCoordinate(sender, args[1], Axis.X);
-            double y1 = Math.max(-64, Math.min(LocationUtils.parseCoordinate(sender, args[2], Axis.Y), 319));
-            double z1 = LocationUtils.parseCoordinate(sender, args[3], Axis.Z);
-            double x2 = LocationUtils.parseCoordinate(sender, args[4], Axis.X);
-            double y2 = Math.max(-64, Math.min(LocationUtils.parseCoordinate(sender, args[5], Axis.Y), 319));
-            double z2 = LocationUtils.parseCoordinate(sender, args[6], Axis.Z);
+            Location location1 = LocationUtils.parseLocation(sender, args[1], args[2], args[3]);
+            Location location2 = LocationUtils.parseLocation(sender, args[4], args[5], args[6]);
 
             // Optional parameters, by default threshold is off (101%), delay is 1 minute
             double threshold = (args.length >= 8) ? Double.parseDouble(args[7]) : 101;
             int delay = (args.length >= 9) ? Math.max(20, Integer.parseInt(args[8])) : 1200;
 
-            int minX = (int) Math.floor(Math.min(x1, x2));
-            int minY = (int) Math.floor(Math.min(y1, y2));
-            int minZ = (int) Math.floor(Math.min(z1, z2));
-            int maxX = (int) Math.floor(Math.max(x1, x2));
-            int maxY = (int) Math.floor(Math.max(y1, y2));
-            int maxZ = (int) Math.floor(Math.max(z1, z2));
-
-            if ((maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1) > MAX_MINE_VOLUME) {
-                TextUtils.error(sender, "Mine volume exceeds limit of " + MAX_MINE_VOLUME);
-                return;
+            try {
+                mineManager.addMine(mineName, location1, location2, threshold, delay);
+                TextUtils.success(sender, "Mine '" + mineName + "' created successfully");
+            } catch (MineException e) {
+                TextUtils.error(sender, e.getMessage());
             }
-
-            mineManager.addMine(mineName, worldName, minX, minY, minZ, maxX, maxY, maxZ, threshold, delay);
-            TextUtils.success(sender, "Mine '" + mineName + "' created successfully");
         } catch (NumberFormatException e) {
             TextUtils.error(sender, "Coordinates, threshold, and delay must be valid numbers");
         }
@@ -70,7 +54,6 @@ public class MineCreateSub extends MineSub {
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        // Handle tab coordinates
         if (args.length >= 2 && args.length <= 7) {
             return LocationUtils.relativeCoordinates(player, args.length - 2);
         }

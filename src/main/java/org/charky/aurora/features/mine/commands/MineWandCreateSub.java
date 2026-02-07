@@ -38,32 +38,19 @@ public class MineWandCreateSub extends MineSub {
             return;
         }
 
-        Location p1 = wandManager.getPos1(player.getUniqueId());
-        Location p2 = wandManager.getPos2(player.getUniqueId());
-
-        if (!p1.getWorld().equals(p2.getWorld())) {
-            TextUtils.error(player, "Positions must be in the same world!");
-            return;
-        }
-
-        int minX = Math.min(p1.getBlockX(), p2.getBlockX());
-        int minY = Math.min(p1.getBlockY(), p2.getBlockY());
-        int minZ = Math.min(p1.getBlockZ(), p2.getBlockZ());
-        int maxX = Math.max(p1.getBlockX(), p2.getBlockX());
-        int maxY = Math.max(p1.getBlockY(), p2.getBlockY());
-        int maxZ = Math.max(p1.getBlockZ(), p2.getBlockZ());
-
-        if ((maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1) > MAX_MINE_VOLUME) {
-            TextUtils.error(player, "Mine volume exceeds limit of " + MAX_MINE_VOLUME);
-            return;
-        }
+        Location location1 = wandManager.getPos1(player.getUniqueId());
+        Location location2 = wandManager.getPos2(player.getUniqueId());
 
         // Optional parameters, threshold and delay
         double threshold = (args.length >= 2) ? Double.parseDouble(args[1]) : 101;
         int delay = (args.length >= 3) ? Math.max(20, Integer.parseInt(args[2])) : 1200;
 
-        mineManager.addMine(mineName, p1.getWorld().getName(), minX, minY, minZ, maxX, maxY, maxZ, threshold, delay);
-        TextUtils.success(player, "Mine '" + mineName + "' created using wand selection!");
+        try {
+            mineManager.addMine(mineName, location1, location2, threshold, delay);
+            TextUtils.success(player, "Mine '" + mineName + "' created using wand selection!");
+        } catch (MineException e) {
+            TextUtils.error(player, e.getMessage());
+        }
     }
 
     @Override

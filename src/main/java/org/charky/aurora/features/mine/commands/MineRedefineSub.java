@@ -43,29 +43,9 @@ public class MineRedefineSub extends MineSub {
                 return;
             }
 
-            World world = (sender instanceof Player p) ? p.getWorld() : Bukkit.getWorld("world");
+            Location location1 = LocationUtils.parseLocation(sender, args[1], args[2], args[3]);
+            Location location2 = LocationUtils.parseLocation(sender, args[4], args[5], args[6]);
 
-            double x1 = LocationUtils.parseCoordinate(sender, args[1], Axis.X);
-            double y1 = Math.max(-64, Math.min(LocationUtils.parseCoordinate(sender, args[2], Axis.Y), 319));
-            double z1 = LocationUtils.parseCoordinate(sender, args[3], Axis.Z);
-            double x2 = LocationUtils.parseCoordinate(sender, args[4], Axis.X);
-            double y2 = Math.max(-64, Math.min(LocationUtils.parseCoordinate(sender, args[5], Axis.Y), 319));
-            double z2 = LocationUtils.parseCoordinate(sender, args[6], Axis.Z);
-
-            int minX = (int) Math.floor(Math.min(x1, x2));
-            int minY = (int) Math.floor(Math.min(y1, y2));
-            int minZ = (int) Math.floor(Math.min(z1, z2));
-            int maxX = (int) Math.floor(Math.max(x1, x2));
-            int maxY = (int) Math.floor(Math.max(y1, y2));
-            int maxZ = (int) Math.floor(Math.max(z1, z2));
-
-            if ((maxX - minX + 1) * (maxY - minY + 1) * (maxZ - minZ + 1) > MAX_MINE_VOLUME) {
-                TextUtils.error(sender, "Mine volume exceeds limit of " + MAX_MINE_VOLUME);
-                return;
-            }
-
-            Location location1 = new Location(world, minX, minY, minZ);
-            Location location2 = new Location(world, maxX, maxY, maxZ);
             mineManager.redefineMine(mineName, location1, location2);
             TextUtils.success(sender, "Mine '" + mineName + "' redefined successfully");
 
@@ -77,13 +57,7 @@ public class MineRedefineSub extends MineSub {
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        if (args.length == 1) {
-            return mineManager.getMines()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .sorted()
-                    .toList();
-        }
+        if (args.length == 1) return TextUtils.getCompletions(args[0], mineManager.getMines());
 
         if (args.length >= 2 && args.length <= 7) {
             return LocationUtils.relativeCoordinates(player, args.length - 2);

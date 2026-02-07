@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class BackpackData implements InventoryHolder {
+    // TODO: Add player to be attached here
     private final Map<String, Long> backpack = new HashMap<>();
     private final DataRegistry registry;
     private Inventory inventory;

@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.Database;
+import org.charky.aurora.features.mine.commands.MineException;
 import org.charky.aurora.features.player.ScoreboardManager;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MineManager {
+    private static final int MAX_MINE_VOLUME = 100000;
+
     private final Aurora plugin;
     private final Database db;
     private final ScoreboardManager scoreboard;
@@ -36,8 +39,22 @@ public class MineManager {
         }
     }
 
-    public void addMine(String name, String world, int x1, int y1, int z1, int x2, int y2, int z2, double threshold, int delay) {
+    public void addMine(String name, Location location1, Location location2, double threshold, int delay) throws MineException {
         if (exists(name)) return;
+
+        String world = location1.getWorld().getName();
+        if (!world.equals(location2.getWorld().getName())) throw new MineException("Positions must be in the same world");
+
+        int x1 = Math.min(location1.getBlockX(), location2.getBlockX());
+        int y1 = Math.min(location1.getBlockY(), location2.getBlockY());
+        int z1 = Math.min(location1.getBlockZ(), location2.getBlockZ());
+        int x2 = Math.max(location1.getBlockX(), location2.getBlockX());
+        int y2 = Math.max(location1.getBlockY(), location2.getBlockY());
+        int z2 = Math.max(location1.getBlockZ(), location2.getBlockZ());
+
+        if ((x2 - x1 + 1) * (y2 - y1 + 1) * (z2 - z1 + 1) > MAX_MINE_VOLUME) {
+            throw new MineException("Mine volume exceeds limit of " + MAX_MINE_VOLUME);
+        }
 
         MineData data = new MineData(name, world, x1, y1, z1, x2, y2, z2, threshold, delay, x1 - 0.5, y1 + 1, z1 - 0.5);
         List<MineBlock> defaultBlocks = List.of(new MineBlock(Material.COBBLESTONE, 100.0, "minecraft:cobblestone"));

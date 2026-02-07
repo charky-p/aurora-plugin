@@ -212,17 +212,6 @@ public class DataRegistry {
 
             items.put(id.toLowerCase(), item);
             resourceList.add(new MenuItem(id.toLowerCase(), item));
-
-            // Compressed version
-            item = itemFactory.createItem(
-                    "<gray>[<gold><b>COMPRESSED</b><gray>] " + model.display,
-                    Material.matchMaterial(model.material),
-                    model.lore,
-                    model.world,
-                    true
-            );
-
-            items.put("compressed_" + id.toLowerCase(), item);
         });
     }
 
@@ -512,19 +501,6 @@ public class DataRegistry {
             traders.put(id, new Trader(DataKeys.TRADER_KEY, id, displayName, type, guis.get(model.gui)));
         });
     }
-
-//    private <T> T loadFile(String fileName, Class<T> clazz) {
-//        File file = new File(plugin.getDataFolder(), fileName);
-//        plugin.saveResource(fileName, true);
-//
-//        Yaml yaml = new Yaml(new Constructor(clazz, new LoaderOptions()));
-//        try (InputStream in = new FileInputStream(file)) {
-//            return yaml.load(in);
-//        } catch (Exception e) {
-//            plugin.getLogger().severe("Error loading " + fileName + ": " + e.getMessage());
-//            return null;
-//        }
-//    }
 
     private <T> Map<String, T> loadYaml(String fileName, Class<T> modelClass) {
         File file = new File(plugin.getDataFolder(), fileName);

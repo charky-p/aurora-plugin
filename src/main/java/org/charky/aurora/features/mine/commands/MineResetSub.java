@@ -35,13 +35,8 @@ public class MineResetSub extends MineSub {
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        if (args.length != 1) return Collections.emptyList();
-
-        return mineManager.getMines()
-                .stream()
-                .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                .sorted()
-                .toList();
+        if (args.length == 1) return TextUtils.getCompletions(args[0], mineManager.getMines());
+        return Collections.emptyList();
     }
 
     @Override

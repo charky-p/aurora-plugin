@@ -4,6 +4,7 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 import java.util.Random;
 
+@Deprecated
 public class VoidGenerator extends ChunkGenerator {
     @Override
     public void generateNoise(WorldInfo worldInfo, Random random, int x, int z, ChunkData chunkData) {

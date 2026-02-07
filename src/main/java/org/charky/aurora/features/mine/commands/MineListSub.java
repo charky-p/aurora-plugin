@@ -21,10 +21,7 @@ public class MineListSub extends MineSub {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        List<String> names = mineManager.getMines()
-                .stream()
-                .sorted(String.CASE_INSENSITIVE_ORDER)
-                .toList();
+        List<String> names = TextUtils.getCompletions(args[0], mineManager.getMines());
 
         if (names.isEmpty()) {
             TextUtils.warn(sender, "There are no mines created yet");
@@ -51,15 +48,11 @@ public class MineListSub extends MineSub {
         int start = (page - 1) * PAGE_SIZE;
         int end = Math.min(start + PAGE_SIZE, names.size());
         List<String> pageNames = names.subList(start, end);
-//        TextUtils.display(sender, "<aqua><b>Mines:");
         TextUtils.display(sender, "<aqua><st>                               </st> <b>MINES (<white>" + page + "/" + maxPages + "</white>)</b> <st>                               </st>");
         for (String name : pageNames) {
             String message = " <dark_gray>» <gray>" + name;
             String infoIcon = "<click:run_command:'/aurora mine info " + name + "'><hover:show_text:'<aqua>Click for <aqua>Info'><aqua>ℹ</aqua></hover></click>";
             String tpIcon = "<click:run_command:'/aurora mine tp " + name + "'><hover:show_text:'<green>Teleport to <green>" + name + "'><green>➹</green></hover></click>";
-
-//            String infoIcon = "<click:run_command:'/aurora mine info " + name + "'><hover:show_text:'<aqua>Click for <aqua>Info'><dark_gray>[<aqua>ℹ</aqua>]</hover></click>";
-//            String tpIcon = "<click:run_command:'/aurora mine tp " + name + "'><hover:show_text:'<green>Teleport to <green>" + name + "'><dark_gray>[<green>➹</green>]</hover></click>";
             TextUtils.display(sender, message + " " + infoIcon + " " + tpIcon);
         }
         TextUtils.line(sender, "<aqua>");

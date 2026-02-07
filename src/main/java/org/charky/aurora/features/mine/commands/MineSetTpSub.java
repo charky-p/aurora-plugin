@@ -46,12 +46,7 @@ public class MineSetTpSub extends MineSub {
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        if (args.length == 1) {
-            return mineManager.getMines()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .toList();
-        }
+        if (args.length == 1) return TextUtils.getCompletions(args[0], mineManager.getMines());
 
         return Collections.emptyList();
     }

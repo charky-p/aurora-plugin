@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -61,10 +60,10 @@ public class MobDeathListener implements Listener {
             BackpackData backpack = backpackManager.get(victim.getKiller().getUniqueId());
             List<MenuItem> mobDrops = registry.getMobDrops(mobId);
             backpack.addItems(mobDrops);
-            if (!mobDrops.isEmpty()) victim.getKiller().sendActionBar(Component.text(mobDrops.getLast().getId().toUpperCase() + " " + backpack.getAmount(victim.getKiller(), mobDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD));
+            if (!mobDrops.isEmpty()) victim.getKiller().sendActionBar(mobDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(victim.getKiller(), mobDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
             // Transfer to backpack system
             // TODO: add resources to backpack, add other items to inventory
-            inventoryManager.addToInventory(victim.getKiller(), registry.getMobDrops(mobId));
+//            inventoryManager.addToInventory(victim.getKiller(), registry.getMobDrops(mobId));
         }
     }
 }

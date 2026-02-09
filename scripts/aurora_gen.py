@@ -92,7 +92,7 @@ class BlockGenerator(AuroraGenerator):
                 if "max" in opt: lines.append(f"          max: {opt['max']}\n")
 
         lines.append(f"\n")
-        self.items.append(lines)
+        self.items.append("".join(lines))
 
 class ResourceGenerator(AuroraGenerator):
     def __init__(self, world: str, region: str) -> None:

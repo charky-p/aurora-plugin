@@ -25,93 +25,155 @@
 # ===========================================================
 
 items:
+  starter_shop:
+    title: "<gray><b>Starter Shop"
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB2BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: starter_pick_1
+        cost: []
+      '2':
+        type: TRADE
+        id: starter_sword_1
+        cost: []
+
   cobble_shop:
     title: "<gray><b>Cobble Shop"
     rows: 3
     layout:
       - "BBBBIBBBX"
-      - "BB1BBB3BB"
+      - "BB1BBB2BB"
       - "BBBBBBBBB"
     components:
       '1':
         type: GUI
-        id: cobble_tools
-      '3':
+        id: cobble_picks
+      '2':
         type: GUI
-        id: cobble_compress
+        id: cobble_gear
 
   coal_shop:
     title: "<gray><b>Coal Shop"
     rows: 3
     layout:
       - "BBBBIBBBX"
-      - "BB1BBB3BB"
+      - "BB1BBB2BB"
       - "BBBBBBBBB"
     components:
       '1':
         type: GUI
-        id: coal_tools
-      '3':
+        id: coal_picks
+      '2':
         type: GUI
-        id: coal_compress
+        id: coal_gear
 
   copper_shop:
     title: "<gray><b>Copper Shop"
     rows: 3
     layout:
       - "BBBBIBBBX"
-      - "BB1BBB3BB"
+      - "BB1BBB2BB"
       - "BBBBBBBBB"
     components:
       '1':
         type: GUI
-        id: copper_tools
-      '3':
+        id: copper_picks
+      '2':
         type: GUI
-        id: copper_compress
+        id: copper_gear
 
   iron_shop:
     title: "<gray><b>Iron Shop"
     rows: 3
     layout:
       - "BBBBIBBBX"
-      - "BB1BBB3BB"
+      - "BB1BBB2BB"
       - "BBBBBBBBB"
     components:
       '1':
         type: GUI
-        id: iron_tools
-      '3':
+        id: iron_picks
+      '2':
         type: GUI
-        id: iron_compress
+        id: iron_gear
 
   gold_shop:
     title: "<gray><b>Gold Shop"
     rows: 3
     layout:
       - "BBBBIBBBX"
-      - "BB1BBB3BB"
+      - "BB1BBB2BB"
       - "BBBBBBBBB"
     components:
       '1':
         type: GUI
-        id: gold_tools
-      '3':
+        id: gold_picks
+      '2':
         type: GUI
-        id: gold_compress
+        id: gold_gear
 
-  gormak_shop:
-    title: "<gray><b>Gormak Shop"
+  gormak_city_shop:
+    title: "<gold><b>City Shop"
     rows: 3
     layout:
       - "BBBBIBBBX"
-      - "BB1BBB3BB"
+      - "BB1BBB2BB"
       - "BBBBBBBBB"
     components:
       '1':
         type: GUI
-        id: gormak_tools
-      '3':
+        id: gormak_city_picks
+      '2':
         type: GUI
-        id: gold_compress
+        id: gormak_city_gear
+
+  gormak_dunes_shop:
+    title: "<gold><b>Dunes Shop"
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB2BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: gormak_dunes_picks
+      '2':
+        type: GUI
+        id: gormak_dunes_gear
+
+  gormak_temple_shop:
+    title: "<gold><b>Temple Shop"
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB2BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: gormak_temple_picks
+      '2':
+        type: GUI
+        id: gormak_temple_gear
+
+  gormak_tomb_shop:
+    title: "<gold><b>Tomb Shop"
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BB1BBB2BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: GUI
+        id: gormak_tomb_picks
+      '2':
+        type: GUI
+        id: gormak_tomb_gear
 

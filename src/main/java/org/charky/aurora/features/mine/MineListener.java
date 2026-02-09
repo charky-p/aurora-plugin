@@ -94,7 +94,7 @@ public class MineListener implements Listener {
 //            drops.addAll(blockDrops);
             BackpackData backpack = backpackManager.get(player.getUniqueId());
             backpack.addItems(blockDrops);
-            if (!blockDrops.isEmpty()) player.sendActionBar(Component.text(blockDrops.getLast().getId().toUpperCase() + " " + backpack.getAmount(player, blockDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD));
+            if (!blockDrops.isEmpty()) player.sendActionBar(blockDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(player, blockDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
 
             // Essence
             double baseChance = 0.001;

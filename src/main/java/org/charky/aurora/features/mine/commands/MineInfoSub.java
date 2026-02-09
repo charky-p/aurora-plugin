@@ -4,7 +4,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.common.util.TextUtils;
-import org.charky.aurora.features.mine.Mine;
 import org.charky.aurora.features.mine.MineData;
 
 import java.util.Collections;

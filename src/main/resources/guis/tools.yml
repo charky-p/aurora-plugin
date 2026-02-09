@@ -1,3 +1,4 @@
+
 # ===========================================================
 # AURORA GUI TEMPLATE
 # ===========================================================
@@ -24,49 +25,46 @@
 # ===========================================================
 
 items:
-  cobble_tools:
-    title: "<gray><b>Cobblestone Tools"
-    icon: cobble_tools
+  cobble_picks:
+    title: "<gray><b>Cobblestone Picks"
+    icon: cobble_picks
     rows: 5
     layout:
       - "BBBBBBBBB"
-      - "B123456 B"
+      - "B12345  B"
       - "B       B"
       - "B       B"
       - "BBBBBBBBB"
     components:
       '1':
         type: TRADE
-        id: starter_pick
-      '2':
-        type: TRADE
         id: cobble_pick_1
         cost:
-          - id: starter_pick
+          - id: starter_pick_1
           - id: cobblestone
             amount: 16
-      '3':
+      '2':
         type: TRADE
         id: cobble_pick_2
         cost:
           - id: cobble_pick_1
           - id: cobblestone
             amount: 32
-      '4':
+      '3':
         type: TRADE
         id: cobble_pick_3
         cost:
           - id: cobble_pick_2
           - id: cobblestone
             amount: 48
-      '5':
+      '4':
         type: TRADE
         id: cobble_pick_4
         cost:
           - id: cobble_pick_3
           - id: cobblestone
             amount: 96
-      '6':
+      '5':
         type: TRADE
         id: cobble_pick_5
         cost:
@@ -74,9 +72,9 @@ items:
           - id: cobblestone
             amount: 192
 
-  coal_tools:
-    title: "<gray><b>Coal Tools"
-    icon: coal_tools
+  coal_picks:
+    title: "<gray><b>Coal Picks"
+    icon: coal_picks
     rows: 5
     layout:
       - "BBBBBBBBB"
@@ -121,9 +119,9 @@ items:
           - id: coal
             amount: 512
 
-  copper_tools:
-    title: "<gray><b>Copper Tools"
-    icon: copper_tools
+  copper_picks:
+    title: "<gray><b>Copper Picks"
+    icon: copper_picks
     rows: 5
     layout:
       - "BBBBBBBBB"
@@ -168,9 +166,9 @@ items:
           - id: copper
             amount: 768
 
-  iron_tools:
-    title: "<gray><b>Iron Tools"
-    icon: iron_tools
+  iron_picks:
+    title: "<gray><b>Iron Picks"
+    icon: iron_picks
     rows: 5
     layout:
       - "BBBBBBBBB"
@@ -215,9 +213,9 @@ items:
           - id: iron
             amount: 1024
 
-  gold_tools:
-    title: "<gray><b>Gold Tools"
-    icon: gold_tools
+  gold_picks:
+    title: "<gray><b>Gold Picks"
+    icon: gold_picks
     rows: 5
     layout:
       - "BBBBBBBBB"
@@ -262,62 +260,724 @@ items:
           - id: gold
             amount: 1152
 
-  gormak_tools:
-    title: "<gray><b>Gormak Tools"
-    icon: gold_tools
-    rows: 5
+  cobble_gear:
+    title: "<gray><b>Cobble Equipment"
+    icon: cobble_gear
+    rows: 4
     layout:
       - "BBBBBBBBB"
-      - "B123456 B"
-      - "B       B"
-      - "B       B"
+      - "B sS    B"
+      - "B hclb  B"
+      - "BBBBBBBBB"
+    components:
+      's':
+        type: TRADE
+        id: cobble_sword_1
+        cost:
+          - id: starter_sword_1
+          - id: cobblestone
+            amount: 32
+      'S':
+        type: TRADE
+        id: cobble_sword_2
+        cost:
+          - id: cobble_sword_1
+          - id: cobblestone
+            amount: 64
+      'h':
+        type: TRADE
+        id: cobble_helmet_1
+        cost:
+          - id: cobblestone
+            amount: 32
+      'c':
+        type: TRADE
+        id: cobble_chestplate_1
+        cost:
+          - id: cobblestone
+            amount: 32
+      'l':
+        type: TRADE
+        id: cobble_leggings_1
+        cost:
+          - id: cobblestone
+            amount: 32
+      'b':
+        type: TRADE
+        id: cobble_boots_1
+        cost:
+          - id: cobblestone
+            amount: 32
+
+  coal_gear:
+    title: "<gray><b>Coal Equipment"
+    icon: coal_gear
+    rows: 4
+    layout:
+      - "BBBBBBBBB"
+      - "B sS    B"
+      - "B hclb  B"
+      - "BBBBBBBBB"
+    components:
+      's':
+        type: TRADE
+        id: coal_sword_1
+        cost:
+          - id: cobble_sword_2
+          - id: coal
+            amount: 64
+      'S':
+        type: TRADE
+        id: coal_sword_2
+        cost:
+          - id: coal_sword_1
+          - id: coal
+            amount: 128
+      'h':
+        type: TRADE
+        id: coal_helmet_1
+        cost:
+          - id: coal
+            amount: 64
+      'c':
+        type: TRADE
+        id: coal_chestplate_1
+        cost:
+          - id: coal
+            amount: 64
+      'l':
+        type: TRADE
+        id: coal_leggings_1
+        cost:
+          - id: coal
+            amount: 64
+      'b':
+        type: TRADE
+        id: coal_boots_1
+        cost:
+          - id: coal
+            amount: 64
+
+  copper_gear:
+    title: "<gray><b>Copper Equipment"
+    icon: copper_gear
+    rows: 4
+    layout:
+      - "BBBBBBBBB"
+      - "B sS    B"
+      - "B hclb  B"
+      - "BBBBBBBBB"
+    components:
+      's':
+        type: TRADE
+        id: copper_sword_1
+        cost:
+          - id: coal_sword_2
+          - id: copper
+            amount: 128
+      'S':
+        type: TRADE
+        id: copper_sword_2
+        cost:
+          - id: copper_sword_1
+          - id: copper
+            amount: 256
+      'h':
+        type: TRADE
+        id: copper_helmet_1
+        cost:
+          - id: copper
+            amount: 128
+      'c':
+        type: TRADE
+        id: copper_chestplate_1
+        cost:
+          - id: copper
+            amount: 128
+      'l':
+        type: TRADE
+        id: copper_leggings_1
+        cost:
+          - id: copper
+            amount: 128
+      'b':
+        type: TRADE
+        id: copper_boots_1
+        cost:
+          - id: copper
+            amount: 128
+
+  iron_gear:
+    title: "<gray><b>Iron Equipment"
+    icon: iron_gear
+    rows: 4
+    layout:
+      - "BBBBBBBBB"
+      - "B sS    B"
+      - "B hclb  B"
+      - "BBBBBBBBB"
+    components:
+      's':
+        type: TRADE
+        id: iron_sword_1
+        cost:
+          - id: copper_sword_2
+          - id: iron
+            amount: 256
+      'S':
+        type: TRADE
+        id: iron_sword_2
+        cost:
+          - id: iron_sword_1
+          - id: iron
+            amount: 512
+      'h':
+        type: TRADE
+        id: iron_helmet_1
+        cost:
+          - id: iron
+            amount: 256
+      'c':
+        type: TRADE
+        id: iron_chestplate_1
+        cost:
+          - id: iron
+            amount: 256
+      'l':
+        type: TRADE
+        id: iron_leggings_1
+        cost:
+          - id: iron
+            amount: 256
+      'b':
+        type: TRADE
+        id: iron_boots_1
+        cost:
+          - id: iron
+            amount: 256
+
+  gold_gear:
+    title: "<gray><b>Gold Equipment"
+    icon: gold_gear
+    rows: 4
+    layout:
+      - "BBBBBBBBB"
+      - "B sS    B"
+      - "B hclb  B"
+      - "BBBBBBBBB"
+    components:
+      's':
+        type: TRADE
+        id: gold_sword_1
+        cost:
+          - id: iron_sword_2
+          - id: gold
+            amount: 512
+      'S':
+        type: TRADE
+        id: gold_sword_2
+        cost:
+          - id: gold_sword_1
+          - id: gold
+            amount: 1024
+      'h':
+        type: TRADE
+        id: gold_helmet_1
+        cost:
+          - id: gold
+            amount: 512
+      'c':
+        type: TRADE
+        id: gold_chestplate_1
+        cost:
+          - id: gold
+            amount: 512
+      'l':
+        type: TRADE
+        id: gold_leggings_1
+        cost:
+          - id: gold
+            amount: 512
+      'b':
+        type: TRADE
+        id: gold_boots_1
+        cost:
+          - id: gold
+            amount: 512
+
+  gormak_city_picks:
+    title: "<gold><b>Abandoned City Picks"
+    icon: gormak_city_picks
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BBBB1B2BB"
       - "BBBBBBBBB"
     components:
       '1':
         type: TRADE
-        id: gormak_sword_1
+        id: gormak_city_pick_1
+        cost:
+          - id: gold_pick_5
+          - id: tattered_cloth
+            amount: 64
       '2':
+        type: TRADE
+        id: gormak_city_pick_2
+        cost:
+          - id: gormak_city_pick_1
+          - id: ancient_scrap
+            amount: 32
+
+  gormak_city_gear:
+    title: "<gold><b>Abandoned City Gear"
+    icon: gormak_city_gear
+    rows: 4
+    layout:
+      - "BBBBIBBBX"
+      - "B12 hclbB"
+      - "B34 HCLTB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: serf_sword_1
+        cost:
+          - id: gold_sword_2
+          - id: tattered_cloth
+            amount: 32
+      '2':
+        type: TRADE
+        id: serf_sword_2
+        cost:
+          - id: serf_sword_1
+          - id: tattered_cloth
+            amount: 64
+      'h':
+        type: TRADE
+        id: serf_helmet_1
+        cost:
+          - id: gold_helmet_1
+          - id: tattered_cloth
+            amount: 32
+      'c':
+        type: TRADE
+        id: serf_chestplate_1
+        cost:
+          - id: gold_chestplate_1
+          - id: tattered_cloth
+            amount: 32
+      'l':
+        type: TRADE
+        id: serf_leggings_1
+        cost:
+          - id: gold_leggings_1
+          - id: tattered_cloth
+            amount: 32
+      'b':
+        type: TRADE
+        id: serf_boots_1
+        cost:
+          - id: gold_boots_1
+          - id: tattered_cloth
+            amount: 32
+      '3':
+        type: TRADE
+        id: scavenger_sword_1
+        cost:
+          - id: serf_sword_2
+          - id: ancient_scrap
+            amount: 16
+      '4':
+        type: TRADE
+        id: scavenger_sword_2
+        cost:
+          - id: scavenger_sword_1
+          - id: ancient_scrap
+            amount: 32
+      'H':
+        type: TRADE
+        id: scavenger_helmet_1
+        cost:
+          - id: serf_helmet_1
+          - id: ancient_scrap
+            amount: 16
+      'C':
+        type: TRADE
+        id: scavenger_chestplate_1
+        cost:
+          - id: serf_chestplate_1
+          - id: ancient_scrap
+            amount: 16
+      'L':
+        type: TRADE
+        id: scavenger_leggings_1
+        cost:
+          - id: serf_leggings_1
+          - id: ancient_scrap
+            amount: 16
+      'T':
+        type: TRADE
+        id: scavenger_boots_1
+        cost:
+          - id: serf_boots_1
+          - id: ancient_scrap
+            amount: 16
+
+  gormak_dunes_picks:
+    title: "<gold><b>The Shifting Dunes Picks"
+    icon: gormak_dunes_picks
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BBBB1B2BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: gormak_dunes_pick_1
+        cost:
+          - id: gold_pick_5
+          - id: ancient_bone
+            amount: 64
+      '2':
+        type: TRADE
+        id: gormak_dunes_pick_2
+        cost:
+          - id: gormak_dunes_pick_1
+          - id: ancient_flesh
+            amount: 32
+
+  gormak_dunes_gear:
+    title: "<gold><b>The Shifting Dunes Gear"
+    icon: gormak_dunes_gear
+    rows: 4
+    layout:
+      - "BBBBIBBBX"
+      - "B12 hclbB"
+      - "B34 HCLTB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: dune_scout_sword_1
+        cost:
+          - id: gold_sword_2
+          - id: ancient_bone
+            amount: 32
+      '2':
+        type: TRADE
+        id: dune_scout_sword_2
+        cost:
+          - id: dune_scout_sword_1
+          - id: ancient_bone
+            amount: 64
+      'h':
+        type: TRADE
+        id: dune_scout_helmet_1
+        cost:
+          - id: gold_helmet_1
+          - id: ancient_bone
+            amount: 32
+      'c':
+        type: TRADE
+        id: dune_scout_chestplate_1
+        cost:
+          - id: gold_chestplate_1
+          - id: ancient_bone
+            amount: 32
+      'l':
+        type: TRADE
+        id: dune_scout_leggings_1
+        cost:
+          - id: gold_leggings_1
+          - id: ancient_bone
+            amount: 32
+      'b':
+        type: TRADE
+        id: dune_scout_boots_1
+        cost:
+          - id: gold_boots_1
+          - id: ancient_bone
+            amount: 32
+      '3':
+        type: TRADE
+        id: stalker_sword_1
+        cost:
+          - id: dune_scout_sword_2
+          - id: ancient_flesh
+            amount: 16
+      '4':
+        type: TRADE
+        id: stalker_sword_2
+        cost:
+          - id: stalker_sword_1
+          - id: ancient_flesh
+            amount: 32
+      'H':
+        type: TRADE
+        id: stalker_helmet_1
+        cost:
+          - id: dune_scout_helmet_1
+          - id: ancient_flesh
+            amount: 16
+      'C':
+        type: TRADE
+        id: stalker_chestplate_1
+        cost:
+          - id: dune_scout_chestplate_1
+          - id: ancient_flesh
+            amount: 16
+      'L':
+        type: TRADE
+        id: stalker_leggings_1
+        cost:
+          - id: dune_scout_leggings_1
+          - id: ancient_flesh
+            amount: 16
+      'T':
+        type: TRADE
+        id: stalker_boots_1
+        cost:
+          - id: dune_scout_boots_1
+          - id: ancient_flesh
+            amount: 16
+
+  gormak_temple_picks:
+    title: "<gold><b>Ancient Temple Picks"
+    icon: gormak_temple_picks
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BBBB1B2BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: gormak_temple_pick_1
+        cost:
+          - id: gold_pick_5
+          - id: ancient_nugget
+            amount: 64
+      '2':
+        type: TRADE
+        id: gormak_temple_pick_2
+        cost:
+          - id: gormak_temple_pick_1
+          - id: vizier_scroll
+            amount: 32
+
+  gormak_temple_gear:
+    title: "<gold><b>Ancient Temple Gear"
+    icon: gormak_temple_gear
+    rows: 4
+    layout:
+      - "BBBBIBBBX"
+      - "B12 hclbB"
+      - "B34 HCLTB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: tomb_guard_sword_1
+        cost:
+          - id: gold_sword_2
+          - id: ancient_nugget
+            amount: 32
+      '2':
+        type: TRADE
+        id: tomb_guard_sword_2
+        cost:
+          - id: tomb_guard_sword_1
+          - id: ancient_nugget
+            amount: 64
+      'h':
+        type: TRADE
+        id: tomb_guard_helmet_1
+        cost:
+          - id: gold_helmet_1
+          - id: ancient_nugget
+            amount: 32
+      'c':
+        type: TRADE
+        id: tomb_guard_chestplate_1
+        cost:
+          - id: gold_chestplate_1
+          - id: ancient_nugget
+            amount: 32
+      'l':
+        type: TRADE
+        id: tomb_guard_leggings_1
+        cost:
+          - id: gold_leggings_1
+          - id: ancient_nugget
+            amount: 32
+      'b':
+        type: TRADE
+        id: tomb_guard_boots_1
+        cost:
+          - id: gold_boots_1
+          - id: ancient_nugget
+            amount: 32
+      '3':
+        type: TRADE
+        id: vizier_sword_1
+        cost:
+          - id: tomb_guard_sword_2
+          - id: vizier_scroll
+            amount: 16
+      '4':
+        type: TRADE
+        id: vizier_sword_2
+        cost:
+          - id: vizier_sword_1
+          - id: vizier_scroll
+            amount: 32
+      'H':
+        type: TRADE
+        id: vizier_helmet_1
+        cost:
+          - id: tomb_guard_helmet_1
+          - id: vizier_scroll
+            amount: 16
+      'C':
+        type: TRADE
+        id: vizier_chestplate_1
+        cost:
+          - id: tomb_guard_chestplate_1
+          - id: vizier_scroll
+            amount: 16
+      'L':
+        type: TRADE
+        id: vizier_leggings_1
+        cost:
+          - id: tomb_guard_leggings_1
+          - id: vizier_scroll
+            amount: 16
+      'T':
+        type: TRADE
+        id: vizier_boots_1
+        cost:
+          - id: tomb_guard_boots_1
+          - id: vizier_scroll
+            amount: 16
+
+  gormak_tomb_picks:
+    title: "<gold><b>Royal Tomb Picks"
+    icon: gormak_tomb_picks
+    rows: 3
+    layout:
+      - "BBBBIBBBX"
+      - "BBBB1B2BB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: gormak_tomb_pick_1
+        cost:
+          - id: gold_pick_5
+          - id: eternal_soul
+            amount: 64
+      '2':
+        type: TRADE
+        id: gormak_tomb_pick_2
+        cost:
+          - id: gormak_tomb_pick_1
+          - id: ancient_heart
+            amount: 32
+
+  gormak_tomb_gear:
+    title: "<gold><b>Royal Tomb Gear"
+    icon: gormak_tomb_gear
+    rows: 4
+    layout:
+      - "BBBBIBBBX"
+      - "B12 hclbB"
+      - "B34 HCLTB"
+      - "BBBBBBBBB"
+    components:
+      '1':
+        type: TRADE
+        id: myrmidon_sword_1
+        cost:
+          - id: gold_sword_2
+          - id: eternal_soul
+            amount: 32
+      '2':
+        type: TRADE
+        id: myrmidon_sword_2
+        cost:
+          - id: myrmidon_sword_1
+          - id: eternal_soul
+            amount: 64
+      'h':
+        type: TRADE
+        id: myrmidon_helmet_1
+        cost:
+          - id: gold_helmet_1
+          - id: eternal_soul
+            amount: 32
+      'c':
+        type: TRADE
+        id: myrmidon_chestplate_1
+        cost:
+          - id: gold_chestplate_1
+          - id: eternal_soul
+            amount: 32
+      'l':
+        type: TRADE
+        id: myrmidon_leggings_1
+        cost:
+          - id: gold_leggings_1
+          - id: eternal_soul
+            amount: 32
+      'b':
+        type: TRADE
+        id: myrmidon_boots_1
+        cost:
+          - id: gold_boots_1
+          - id: eternal_soul
+            amount: 32
+      '3':
+        type: TRADE
+        id: gormak_sword_1
+        cost:
+          - id: myrmidon_sword_2
+          - id: ancient_heart
+            amount: 16
+      '4':
         type: TRADE
         id: gormak_sword_2
         cost:
           - id: gormak_sword_1
-          - id: ancient_flesh
+          - id: ancient_heart
             amount: 32
-      '3':
+      'H':
         type: TRADE
-        id: gormak_sword_3
+        id: gormak_helmet_1
         cost:
-          - id: gormak_sword_2
-          - id: ancient_flesh
-            amount: 64
-          - id: ancient_bone
-            amount: 32
-      '4':
+          - id: myrmidon_helmet_1
+          - id: ancient_heart
+            amount: 16
+      'C':
         type: TRADE
-        id: gormak_sword_4
+        id: gormak_chestplate_1
         cost:
-          - id: gormak_sword_3
-          - id: ancient_bone
-            amount: 32
-          - id: ancient_nugget
-            amount: 48
-      '5':
+          - id: myrmidon_chestplate_1
+          - id: ancient_heart
+            amount: 16
+      'L':
         type: TRADE
-        id: gormak_sword_5
+        id: gormak_leggings_1
         cost:
-          - id: gormak_sword_4
-          - id: ancient_flesh
-            amount: 64
-          - id: ancient_nugget
-            amount: 128
-      '6':
+          - id: myrmidon_leggings_1
+          - id: ancient_heart
+            amount: 16
+      'T':
         type: TRADE
-        id: gormak_sword_6
+        id: gormak_boots_1
         cost:
-          - id: gormak_sword_5
-          - id: ancient_flesh
-            amount: 64
-          - id: ancient_bone
-            amount: 64
-          - id: ancient_nugget
-            amount: 256
+          - id: myrmidon_boots_1
+          - id: ancient_heart
+            amount: 16
+

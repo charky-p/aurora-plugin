@@ -11,58 +11,93 @@
 # ===========================================================
 
 items:
-  cobble_tools:
-    display: "<gray><b>Cobblestone Tools"
+  cobble_picks:
+    display: "<gray><b>Cobblestone Pickaxe"
     material: STONE_PICKAXE
     glow: true
 
-  cobble_armor:
-    display: "<gray><b>Cobblestone Armor"
+  cobble_gear:
+    display: "<gray><b>Cobblestone Gear"
     material: LEATHER_CHESTPLATE
     glow: true
 
-  cobble_compress:
-    display: "<gray><b>Cobblestone Compressor"
-    material: COBBLESTONE
-    glow: true
-
-  coal_tools:
-    display: "<gray><b>Coal Tools"
+  coal_picks:
+    display: "<dark_gray><b>Coal Pickaxe"
     material: STONE_PICKAXE
     glow: true
 
-  coal_compress:
-    display: "<gray><b>Coal Compressor"
-    material: COAL
+  coal_gear:
+    display: "<dark_gray><b>Coal Gear"
+    material: LEATHER_CHESTPLATE
     glow: true
 
-  copper_tools:
-    display: "<#D94110><b>Copper Tools"
+  copper_picks:
+    display: "<#D94110><b>Copper Pickaxe"
     material: COPPER_PICKAXE
     glow: true
 
-  copper_compress:
-    display: "<gray><b>Copper Compressor"
-    material: COPPER_INGOT
+  copper_gear:
+    display: "<#D94110><b>Copper Gear"
+    material: COPPER_CHESTPLATE
     glow: true
 
-  iron_tools:
-    display: "<white><b>Iron Tools"
+  iron_picks:
+    display: "<white><b>Iron Pickaxe"
     material: IRON_PICKAXE
     glow: true
 
-  iron_compress:
-    display: "<gray><b>Iron Compressor"
-    material: IRON_INGOT
+  iron_gear:
+    display: "<white><b>Iron Gear"
+    material: IRON_CHESTPLATE
     glow: true
 
-  gold_tools:
-    display: "<gold><b>Gold Tools"
+  gold_picks:
+    display: "<gold><b>Gold Pickaxe"
     material: GOLDEN_PICKAXE
     glow: true
 
-  gold_compress:
-    display: "<gray><b>Gold Compressor"
-    material: GOLD_INGOT
+  gold_gear:
+    display: "<gold><b>Gold Gear"
+    material: GOLDEN_CHESTPLATE
+    glow: true
+
+  gormak_city_picks:
+    display: "<gray><b>Abandoned City Picks"
+    material: GOLDEN_PICKAXE
+    glow: true
+
+  gormak_city_gear:
+    display: "<gray><b>Abandoned City Gear"
+    material: CHAINMAIL_CHESTPLATE
+    glow: true
+
+  gormak_dunes_picks:
+    display: "<white><b>The Shifting Dunes Picks"
+    material: GOLDEN_PICKAXE
+    glow: true
+
+  gormak_dunes_gear:
+    display: "<white><b>The Shifting Dunes Gear"
+    material: IRON_CHESTPLATE
+    glow: true
+
+  gormak_temple_picks:
+    display: "<gold><b>Ancient Temple Picks"
+    material: GOLDEN_PICKAXE
+    glow: true
+
+  gormak_temple_gear:
+    display: "<gold><b>Ancient Temple Gear"
+    material: GOLDEN_CHESTPLATE
+    glow: true
+
+  gormak_tomb_picks:
+    display: "<#FFD700><b>Royal Tomb Picks"
+    material: GOLDEN_PICKAXE
+    glow: true
+
+  gormak_tomb_gear:
+    display: "<#FFD700><b>Royal Tomb Gear"
+    material: GOLDEN_CHESTPLATE
     glow: true
 

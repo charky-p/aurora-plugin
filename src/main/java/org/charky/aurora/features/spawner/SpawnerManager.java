@@ -5,9 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
@@ -92,6 +90,9 @@ public class SpawnerManager {
         MobData data = registry.getMob(mob);
 
         spawnLocation.getWorld().spawn(spawnLocation, data.type().getEntityClass(), entity -> {
+            // Remove jockeys
+            entity.getPassengers().forEach(entity::removePassenger);
+
             // Spawner Id
             entity.getPersistentDataContainer().set(DataKeys.SPAWNER_KEY, PersistentDataType.STRING, spawner);
             entity.getPersistentDataContainer().set(DataKeys.MOB_KEY, PersistentDataType.STRING, data.id());
@@ -100,6 +101,15 @@ public class SpawnerManager {
             entity.setCustomNameVisible(true);
             // TODO: add glowing support
             if (!(entity instanceof LivingEntity living)) return;
+
+            // Prevent babies TODO: Add baby support
+            if (living instanceof Zombie zombie) {
+                zombie.setBaby(false);
+            }
+
+            if (living instanceof Ageable ageable) {
+                ageable.setAdult();
+            }
 
             data.attributes().forEach((attr, value) -> {
                 AttributeInstance instance = living.getAttribute(attr);

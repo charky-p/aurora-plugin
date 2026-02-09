@@ -16,9 +16,10 @@
 # ===========================================================
 
 items:
-  starter_pick:
+  starter_pick_1:
     display: "<gray><b>Starter Pickaxe"
     material: WOODEN_PICKAXE
+    tier: 1
     type: "mining"
     world: "overworld"
     region: "origin_isles"

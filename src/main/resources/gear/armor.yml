@@ -16,14 +16,787 @@
 # ===========================================================
 
 items:
-  starter_helmet:
+  starter_helmet_1:
     display: "<gray><b>Starter Helmet"
     material: LEATHER_HELMET
     tier: 1
     type: "armor"
     world: "overworld"
     region: "origin_isles"
-    lore:
-      - "<gray>A simple helmet crafted for"
-      - "<gray>new travellers of Aurora"
+
+  starter_chestplate_1:
+    display: "<gray><b>Starter Chestplate"
+    material: LEATHER_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  starter_leggings_1:
+    display: "<gray><b>Starter Leggings"
+    material: LEATHER_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  starter_boots_1:
+    display: "<gray><b>Starter Boots"
+    material: LEATHER_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+
+  cobble_helmet_1:
+    display: "<gray><b>Cobble Helmet"
+    material: LEATHER_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 1
+
+  cobble_chestplate_1:
+    display: "<gray><b>Cobble Chestplate"
+    material: LEATHER_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 1
+
+  cobble_leggings_1:
+    display: "<gray><b>Cobble Leggings"
+    material: LEATHER_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 1
+
+  cobble_boots_1:
+    display: "<gray><b>Cobble Boots"
+    material: LEATHER_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 1
+
+  cobble_helmet_2:
+    display: "<gray><b>Cobble Helmet"
+    material: LEATHER_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 2
+
+  cobble_chestplate_2:
+    display: "<gray><b>Cobble Chestplate"
+    material: LEATHER_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 2
+
+  cobble_leggings_2:
+    display: "<gray><b>Cobble Leggings"
+    material: LEATHER_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 2
+
+  cobble_boots_2:
+    display: "<gray><b>Cobble Boots"
+    material: LEATHER_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 2
+
+  coal_helmet_1:
+    display: "<dark_gray><b>Coal Helmet"
+    material: LEATHER_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 3
+
+  coal_chestplate_1:
+    display: "<dark_gray><b>Coal Chestplate"
+    material: LEATHER_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 3
+
+  coal_leggings_1:
+    display: "<dark_gray><b>Coal Leggings"
+    material: LEATHER_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 3
+
+  coal_boots_1:
+    display: "<dark_gray><b>Coal Boots"
+    material: LEATHER_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 3
+
+  coal_helmet_2:
+    display: "<dark_gray><b>Coal Helmet"
+    material: LEATHER_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  coal_chestplate_2:
+    display: "<dark_gray><b>Coal Chestplate"
+    material: LEATHER_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  coal_leggings_2:
+    display: "<dark_gray><b>Coal Leggings"
+    material: LEATHER_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  coal_boots_2:
+    display: "<dark_gray><b>Coal Boots"
+    material: LEATHER_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  copper_helmet_1:
+    display: "<#D94110><b>Copper Helmet"
+    material: COPPER_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  copper_chestplate_1:
+    display: "<#D94110><b>Copper Chestplate"
+    material: COPPER_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  copper_leggings_1:
+    display: "<#D94110><b>Copper Leggings"
+    material: COPPER_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  copper_boots_1:
+    display: "<#D94110><b>Copper Boots"
+    material: COPPER_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  copper_helmet_2:
+    display: "<#D94110><b>Copper Helmet"
+    material: COPPER_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+
+  copper_chestplate_2:
+    display: "<#D94110><b>Copper Chestplate"
+    material: COPPER_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+
+  copper_leggings_2:
+    display: "<#D94110><b>Copper Leggings"
+    material: COPPER_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+
+  copper_boots_2:
+    display: "<#D94110><b>Copper Boots"
+    material: COPPER_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+
+  iron_helmet_1:
+    display: "<white><b>Iron Helmet"
+    material: IRON_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 2
+
+  iron_chestplate_1:
+    display: "<white><b>Iron Chestplate"
+    material: IRON_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 2
+
+  iron_leggings_1:
+    display: "<white><b>Iron Leggings"
+    material: IRON_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 2
+
+  iron_boots_1:
+    display: "<white><b>Iron Boots"
+    material: IRON_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 2
+
+  iron_helmet_2:
+    display: "<white><b>Iron Helmet"
+    material: IRON_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 3
+
+  iron_chestplate_2:
+    display: "<white><b>Iron Chestplate"
+    material: IRON_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 3
+
+  iron_leggings_2:
+    display: "<white><b>Iron Leggings"
+    material: IRON_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 3
+
+  iron_boots_2:
+    display: "<white><b>Iron Boots"
+    material: IRON_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 3
+
+  gold_helmet_1:
+    display: "<gold><b>Gold Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  gold_chestplate_1:
+    display: "<gold><b>Gold Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  gold_leggings_1:
+    display: "<gold><b>Gold Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  gold_boots_1:
+    display: "<gold><b>Gold Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+
+  gold_helmet_2:
+    display: "<gold><b>Gold Helmet"
+    material: GOLDEN_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+
+  gold_chestplate_2:
+    display: "<gold><b>Gold Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+
+  gold_leggings_2:
+    display: "<gold><b>Gold Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+
+  gold_boots_2:
+    display: "<gold><b>Gold Boots"
+    material: GOLDEN_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+
+  serf_helmet_1:
+    display: "<gray><b>Serf Helmet"
+    material: LEATHER_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+      health: 1
+
+  serf_chestplate_1:
+    display: "<gray><b>Serf Chestplate"
+    material: LEATHER_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+      health: 1
+
+  serf_leggings_1:
+    display: "<gray><b>Serf Leggings"
+    material: LEATHER_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+      health: 1
+
+  serf_boots_1:
+    display: "<gray><b>Serf Boots"
+    material: LEATHER_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 5
+      health: 1
+
+  scavenger_helmet_1:
+    display: "<gray><b>Scavenger Helmet"
+    material: CHAINMAIL_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 6
+      health: 1
+
+  scavenger_chestplate_1:
+    display: "<gray><b>Scavenger Chestplate"
+    material: CHAINMAIL_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 6
+      health: 1
+
+  scavenger_leggings_1:
+    display: "<gray><b>Scavenger Leggings"
+    material: CHAINMAIL_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 6
+      health: 1
+
+  scavenger_boots_1:
+    display: "<gray><b>Scavenger Boots"
+    material: CHAINMAIL_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 6
+      health: 1
+
+  dune_scout_helmet_1:
+    display: "<white><b>Dune Scout Helmet"
+    material: IRON_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 7
+      health: 1
+
+  dune_scout_chestplate_1:
+    display: "<white><b>Dune Scout Chestplate"
+    material: IRON_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 7
+      health: 1
+
+  dune_scout_leggings_1:
+    display: "<white><b>Dune Scout Leggings"
+    material: IRON_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 7
+      health: 1
+
+  dune_scout_boots_1:
+    display: "<white><b>Dune Scout Boots"
+    material: IRON_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 7
+      health: 1
+
+  stalker_helmet_1:
+    display: "<gold><b>Stalker Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 7
+      health: 2
+
+  stalker_chestplate_1:
+    display: "<gold><b>Stalker Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 7
+      health: 2
+
+  stalker_leggings_1:
+    display: "<gold><b>Stalker Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 7
+      health: 2
+
+  stalker_boots_1:
+    display: "<gold><b>Stalker Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 7
+      health: 2
+
+  tomb_guard_helmet_1:
+    display: "<gold><b>Tomb Guard Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 8
+      health: 2
+
+  tomb_guard_chestplate_1:
+    display: "<gold><b>Tomb Guard Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 8
+      health: 2
+
+  tomb_guard_leggings_1:
+    display: "<gold><b>Tomb Guard Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 8
+      health: 2
+
+  tomb_guard_boots_1:
+    display: "<gold><b>Tomb Guard Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 8
+      health: 2
+
+  vizier_helmet_1:
+    display: "<gold><b>Vizier Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 9
+      health: 2
+
+  vizier_chestplate_1:
+    display: "<gold><b>Vizier Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 9
+      health: 2
+
+  vizier_leggings_1:
+    display: "<gold><b>Vizier Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 9
+      health: 2
+
+  vizier_boots_1:
+    display: "<gold><b>Vizier Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 9
+      health: 2
+
+  myrmidon_helmet_1:
+    display: "<gold><b>Myrmidon Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 10
+      health: 2
+
+  myrmidon_chestplate_1:
+    display: "<gold><b>Myrmidon Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 10
+      health: 2
+
+  myrmidon_leggings_1:
+    display: "<gold><b>Myrmidon Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 10
+      health: 2
+
+  myrmidon_boots_1:
+    display: "<gold><b>Myrmidon Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 10
+      health: 2
+
+  gormak_helmet_1:
+    display: "<gold><b>Gormak the Eternal Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 10
+      health: 3
+
+  gormak_chestplate_1:
+    display: "<gold><b>Gormak the Eternal Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 10
+      health: 3
+
+  gormak_leggings_1:
+    display: "<gold><b>Gormak the Eternal Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 10
+      health: 3
+
+  gormak_boots_1:
+    display: "<gold><b>Gormak the Eternal Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 10
+      health: 3
 

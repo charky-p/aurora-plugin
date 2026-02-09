@@ -21,7 +21,7 @@ public class MineListSub extends MineSub {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        List<String> names = TextUtils.getCompletions(args[0], mineManager.getMines());
+        List<String> names = TextUtils.getCompletions("", mineManager.getMines());
 
         if (names.isEmpty()) {
             TextUtils.warn(sender, "There are no mines created yet");

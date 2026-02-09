@@ -10,19 +10,16 @@
 #   world: "overworld" (Options: "overworld")
 #   region: "origin_isles" (Defaults to "")
 # ===========================================================
-# NOTE: A compressed version is automatically created with
-# compressed_ prefix, e.g. compressed_cobblestone
-# ===========================================================
 
 items:
   cobblestone:
-    display: "<gray>Cobblestone"
+    display: "<gray><b>Cobblestone"
     material: COBBLESTONE
     world: "overworld"
     region: "origin_isles"
 
   coal:
-    display: "<gray>Coal"
+    display: "<gray><b>Coal"
     material: COAL
     world: "overworld"
     region: "origin_isles"
@@ -45,21 +42,67 @@ items:
     world: "overworld"
     region: "origin_isles"
 
+  tattered_cloth:
+    display: "<gray><b>Tattered Cloth"
+    material: PAPER
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<gray>Old bandages from a fallen serf."
+
+  ancient_scrap:
+    display: "<white><b>Ancient Scrap"
+    material: IRON_NUGGET
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<gray>Brittle metal used for basic shivs."
+
   ancient_flesh:
-    display: "<yellow><b>Ancient Flesh"
+    display: "<#964B00><b>Ancient Flesh"
     material: ROTTEN_FLESH
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<gray>A pulsating heart of desert magic."
 
   ancient_bone:
-    display: "<yellow><b>Ancient Bone"
+    display: "<white><b>Ancient Bone"
     material: BONE
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<gray>Hardened by centuries in the heat."
 
   ancient_nugget:
-    display: "<yellow><b>Ancient Nugget"
+    display: "<gold><b>Ancient Nugget"
     material: GOLD_NUGGET
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<gray>Dense stone from the Vizier's temple."
+
+  vizier_scroll:
+    display: "<gold><b>Vizier Scroll"
+    material: FLOW_BANNER_PATTERN
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<gray>The mark of the high priests."
+
+  eternal_soul:
+    display: "<gold><b>Eternal Soul"
+    material: SOUL_SAND
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<gray>A lost soul from the inner tomb."
+
+  ancient_heart:
+    display: "<gold><b>Sand-Tainted Heart"
+    material: YELLOW_DYE
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<gray>A fragment of Gormak."
 

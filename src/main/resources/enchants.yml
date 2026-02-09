@@ -25,9 +25,16 @@ items:
     display: "<gray>Sharpness"
     enchant: SHARPNESS
 
+  looting:
+    display: "<gray>Looting"
+    enchant: LOOTING
+
   pierce:
     display: "<aqua>Pierce"
 
   # Protection levels will include all forms of protection
   protection:
     display: "<gray>Protection"
+
+  health:
+    display: "<gray>Health"

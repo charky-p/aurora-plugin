@@ -199,20 +199,27 @@ materials = ["cobble", "coal", "copper", "iron", "gold", "gormak"]
 for material in materials:
     display_name = f"{material.capitalize()} Shop"
     tools_id = f"{material}_tools"
+    gear_id = f"{material}_gear"
     compress_id = f"{material}_compress" if material != "gormak" else "gold_compress"
 
     gen.add_gui(
         f"{material}_shop",
         f"<gray><b>{display_name}",
-        ["BBBBIBBBX", "BB1BBBBBB", "BBBBBBBBB"],
+        ["BBBBIBBBX", "BB1BBB3BB", "BBBBBBBBB"],
         {
-            "1": {"type": "GUI", "id": tools_id}
+            "1": {"type": "GUI", "id": tools_id},
+            "3": {"type": "GUI", "id": gear_id}
         }
     )
 
 gen.save("guis/shops.yml")
 
 # TODO: gui for armor, tools, compressors after backpack
+
+gen = GuiGenerator()
+# --- TOOLS ---
+
+
 
 gen = TraderGenerator()
 

@@ -77,11 +77,11 @@ public class DataRegistry {
         loadGear("weapons.yml", "combat");
         loadGear("other.yml", "");
         loadBlocks();
-        loadMobs();
+        loadMobs("gormak.yml");
         loadIcons();
         // TODO: order matters since there is a hierarchy of GUIs, make this more robust
-        loadGuis("armor.yml");
-        loadGuis("compressors.yml");
+//        loadGuis("armor.yml");
+//        loadGuis("compressors.yml");
         loadGuis("tools.yml");
         loadGuis("shops.yml");
         loadTraders();
@@ -286,7 +286,7 @@ public class DataRegistry {
         String display = switch (type) {
             case "combat" -> "\uD83D\uDDE1 Combat";
             case "mining" -> "⛏ Mining";
-            case "armor" -> "\uD83D\uDEE1\uFE0F Armor";
+            case "armor" -> "\uD83D\uDEE1 Armor";
             default -> "";
         };
 
@@ -334,8 +334,8 @@ public class DataRegistry {
         });
     }
 
-    private void loadMobs() {
-        Map<String, MobModel> data = loadYaml("mobs.yml", MobModel.class);
+    private void loadMobs(String file) {
+        Map<String, MobModel> data = loadYaml("mobs/" + file, MobModel.class);
 
         data.forEach((id, model) -> {
             EntityType type = EntityType.fromName(model.entity);
@@ -452,6 +452,12 @@ public class DataRegistry {
                         contents.put(row * 9 + col, new TraderClose());
                     } else if (rowStr.charAt(col) != ' '){
                         GuiModel.ComponentModel component = model.components.get(rowStr.charAt(col));
+                        if (component == null) {
+                            plugin.getLogger().severe("GUI ERROR: Character '" + rowStr.charAt(col) + "' in layout of '" + id + "' is missing from components!");
+                            contents.put(row * 9 + col, new TraderBorder());
+                            continue; // Skip to next character instead of crashing
+                        }
+
                         if (component.type.equals("GUI")) {
                             // should never be called unless error with yaml
                             if (!guis.containsKey(component.id.toLowerCase())) {

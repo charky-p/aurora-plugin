@@ -108,6 +108,12 @@ tungston (?), platinum (?) needs gravel, platinum (?) needs pale, titanium (?) n
 dead log be pale log, maple be mangrove log
 quarry is mob fight in quarry
 
+gormak region:
+- abandoned city: scavenger husk, hollowed serf
+- dunes: sand stalker (skeleton bowman), dune scout (gormak minion)
+- temple: tomb guard, vizier mage
+- royal tomb: royal myrmidon, gormak the eternal
+
 cobalt for cave world
 
 drop calculation: `base * (1 + Math.max(0, fortune + 1 - density))`

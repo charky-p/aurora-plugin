@@ -9,6 +9,11 @@
 # ===========================================================
 
 items:
+  starter_trader:
+    display: "<gray><b>Starter Trader"
+    entity: VILLAGER
+    gui: starter_shop
+
   cobble_trader:
     display: "<gray><b>Cobble Trader"
     entity: VILLAGER
@@ -34,8 +39,23 @@ items:
     entity: VILLAGER
     gui: gold_shop
 
-  gormak_trader:
-    display: "<yellow><b>Gormak Trader"
+  gormak_city_trader:
+    display: "<yellow><b>Abandoned City Trader"
     entity: VILLAGER
-    gui: gormak_shop
+    gui: gormak_city_shop
+
+  gormak_dunes_trader:
+    display: "<yellow><b>Dunes Trader"
+    entity: VILLAGER
+    gui: gormak_dunes_shop
+
+  gormak_temple_trader:
+    display: "<yellow><b>Temple Trader"
+    entity: VILLAGER
+    gui: gormak_temple_shop
+
+  gormak_tomb_trader:
+    display: "<yellow><b>Gormak Tomb Trader"
+    entity: VILLAGER
+    gui: gormak_tomb_shop
 

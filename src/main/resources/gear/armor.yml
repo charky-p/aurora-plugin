@@ -1,6 +1,5 @@
-
 # ===========================================================
-# AURORA GEAR TEMPLATE
+# AURORA GEAR TEMPLATE - generated from CSV
 # ===========================================================
 # [gear_id]:
 #   display: "<color><b><i>Example Sword"
@@ -13,6 +12,8 @@
 #     [enchant_id]: 1 (Default, e.g. sharpness: 5)
 #   lore: (Optional)
 #     - "<gray>Example lore about gear"
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
 
 items:
@@ -799,4 +800,3 @@ items:
     enchants:
       protection: 10
       health: 3
-

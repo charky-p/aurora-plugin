@@ -1,10 +1,11 @@
-
 # ===========================================================
-# AURORA ENCHANT TEMPLATE
+# AURORA ENCHANT TEMPLATE - generated from data/enchants.csv
 # ===========================================================
 # [enchant_id]:
 #   display: "<color><b><i>Example Enchant"
 #   enchant: [BUKKIT_ENCHANTMENT] (Optional, null implies custom enchant)
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
 
 items:
@@ -41,4 +42,3 @@ items:
 
   adrenaline:
     display: "<red>Adrenaline"
-

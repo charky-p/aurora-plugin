@@ -1,6 +1,5 @@
-
 # ===========================================================
-# AURORA GUI TEMPLATE
+# AURORA GUI TEMPLATE - generated from CSV
 # ===========================================================
 # [gui_id]:
 #   title: "<color><b><i>Gui Title"
@@ -23,6 +22,8 @@
 #           amount: 1 (Default)
 #     'b': ...
 # ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
 
 items:
   starter_shop:
@@ -36,11 +37,9 @@ items:
       '1':
         type: TRADE
         id: starter_pick_1
-        cost: []
       '2':
         type: TRADE
         id: starter_sword_1
-        cost: []
 
   cobble_shop:
     title: "<gray><b>Cobble Shop"
@@ -176,4 +175,3 @@ items:
       '2':
         type: GUI
         id: gormak_tomb_gear
-

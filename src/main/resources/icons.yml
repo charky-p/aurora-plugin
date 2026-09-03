@@ -1,6 +1,5 @@
-
 # ===========================================================
-# AURORA ICON TEMPLATE
+# AURORA ICON TEMPLATE - generated from data/icons.csv
 # ===========================================================
 # [icon_id]:
 #   display: "<color><b><i>Display Name"
@@ -8,6 +7,8 @@
 #   lore: (Optional)
 #     - "<color><b><i>Lore Line"
 #   glow: true (Enchanted)
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
 
 items:
@@ -100,4 +101,3 @@ items:
     display: "<#FFD700><b>Royal Tomb Gear"
     material: GOLDEN_CHESTPLATE
     glow: true
-

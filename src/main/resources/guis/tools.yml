@@ -1,6 +1,5 @@
-
 # ===========================================================
-# AURORA GUI TEMPLATE
+# AURORA GUI TEMPLATE - generated from CSV
 # ===========================================================
 # [gui_id]:
 #   title: "<color><b><i>Gui Title"
@@ -22,6 +21,8 @@
 #         - id: [item_id]
 #           amount: 1 (Default)
 #     'b': ...
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
 
 items:
@@ -270,39 +271,39 @@ items:
       - "B hclb  B"
       - "BBBBBBBBB"
     components:
-      's':
+      s:
         type: TRADE
         id: cobble_sword_1
         cost:
           - id: starter_sword_1
           - id: cobblestone
             amount: 32
-      'S':
+      S:
         type: TRADE
         id: cobble_sword_2
         cost:
           - id: cobble_sword_1
           - id: cobblestone
             amount: 64
-      'h':
+      h:
         type: TRADE
         id: cobble_helmet_1
         cost:
           - id: cobblestone
             amount: 32
-      'c':
+      c:
         type: TRADE
         id: cobble_chestplate_1
         cost:
           - id: cobblestone
             amount: 32
-      'l':
+      l:
         type: TRADE
         id: cobble_leggings_1
         cost:
           - id: cobblestone
             amount: 32
-      'b':
+      b:
         type: TRADE
         id: cobble_boots_1
         cost:
@@ -319,39 +320,39 @@ items:
       - "B hclb  B"
       - "BBBBBBBBB"
     components:
-      's':
+      s:
         type: TRADE
         id: coal_sword_1
         cost:
           - id: cobble_sword_2
           - id: coal
             amount: 64
-      'S':
+      S:
         type: TRADE
         id: coal_sword_2
         cost:
           - id: coal_sword_1
           - id: coal
             amount: 128
-      'h':
+      h:
         type: TRADE
         id: coal_helmet_1
         cost:
           - id: coal
             amount: 64
-      'c':
+      c:
         type: TRADE
         id: coal_chestplate_1
         cost:
           - id: coal
             amount: 64
-      'l':
+      l:
         type: TRADE
         id: coal_leggings_1
         cost:
           - id: coal
             amount: 64
-      'b':
+      b:
         type: TRADE
         id: coal_boots_1
         cost:
@@ -368,39 +369,39 @@ items:
       - "B hclb  B"
       - "BBBBBBBBB"
     components:
-      's':
+      s:
         type: TRADE
         id: copper_sword_1
         cost:
           - id: coal_sword_2
           - id: copper
             amount: 128
-      'S':
+      S:
         type: TRADE
         id: copper_sword_2
         cost:
           - id: copper_sword_1
           - id: copper
             amount: 256
-      'h':
+      h:
         type: TRADE
         id: copper_helmet_1
         cost:
           - id: copper
             amount: 128
-      'c':
+      c:
         type: TRADE
         id: copper_chestplate_1
         cost:
           - id: copper
             amount: 128
-      'l':
+      l:
         type: TRADE
         id: copper_leggings_1
         cost:
           - id: copper
             amount: 128
-      'b':
+      b:
         type: TRADE
         id: copper_boots_1
         cost:
@@ -417,39 +418,39 @@ items:
       - "B hclb  B"
       - "BBBBBBBBB"
     components:
-      's':
+      s:
         type: TRADE
         id: iron_sword_1
         cost:
           - id: copper_sword_2
           - id: iron
             amount: 256
-      'S':
+      S:
         type: TRADE
         id: iron_sword_2
         cost:
           - id: iron_sword_1
           - id: iron
             amount: 512
-      'h':
+      h:
         type: TRADE
         id: iron_helmet_1
         cost:
           - id: iron
             amount: 256
-      'c':
+      c:
         type: TRADE
         id: iron_chestplate_1
         cost:
           - id: iron
             amount: 256
-      'l':
+      l:
         type: TRADE
         id: iron_leggings_1
         cost:
           - id: iron
             amount: 256
-      'b':
+      b:
         type: TRADE
         id: iron_boots_1
         cost:
@@ -466,39 +467,39 @@ items:
       - "B hclb  B"
       - "BBBBBBBBB"
     components:
-      's':
+      s:
         type: TRADE
         id: gold_sword_1
         cost:
           - id: iron_sword_2
           - id: gold
             amount: 512
-      'S':
+      S:
         type: TRADE
         id: gold_sword_2
         cost:
           - id: gold_sword_1
           - id: gold
             amount: 1024
-      'h':
+      h:
         type: TRADE
         id: gold_helmet_1
         cost:
           - id: gold
             amount: 512
-      'c':
+      c:
         type: TRADE
         id: gold_chestplate_1
         cost:
           - id: gold
             amount: 512
-      'l':
+      l:
         type: TRADE
         id: gold_leggings_1
         cost:
           - id: gold
             amount: 512
-      'b':
+      b:
         type: TRADE
         id: gold_boots_1
         cost:
@@ -553,28 +554,28 @@ items:
           - id: serf_sword_1
           - id: tattered_cloth
             amount: 64
-      'h':
+      h:
         type: TRADE
         id: serf_helmet_1
         cost:
           - id: gold_helmet_1
           - id: tattered_cloth
             amount: 32
-      'c':
+      c:
         type: TRADE
         id: serf_chestplate_1
         cost:
           - id: gold_chestplate_1
           - id: tattered_cloth
             amount: 32
-      'l':
+      l:
         type: TRADE
         id: serf_leggings_1
         cost:
           - id: gold_leggings_1
           - id: tattered_cloth
             amount: 32
-      'b':
+      b:
         type: TRADE
         id: serf_boots_1
         cost:
@@ -595,28 +596,28 @@ items:
           - id: scavenger_sword_1
           - id: ancient_scrap
             amount: 32
-      'H':
+      H:
         type: TRADE
         id: scavenger_helmet_1
         cost:
           - id: serf_helmet_1
           - id: ancient_scrap
             amount: 16
-      'C':
+      C:
         type: TRADE
         id: scavenger_chestplate_1
         cost:
           - id: serf_chestplate_1
           - id: ancient_scrap
             amount: 16
-      'L':
+      L:
         type: TRADE
         id: scavenger_leggings_1
         cost:
           - id: serf_leggings_1
           - id: ancient_scrap
             amount: 16
-      'T':
+      T:
         type: TRADE
         id: scavenger_boots_1
         cost:
@@ -672,28 +673,28 @@ items:
           - id: dune_scout_sword_1
           - id: ancient_bone
             amount: 64
-      'h':
+      h:
         type: TRADE
         id: dune_scout_helmet_1
         cost:
           - id: gold_helmet_1
           - id: ancient_bone
             amount: 32
-      'c':
+      c:
         type: TRADE
         id: dune_scout_chestplate_1
         cost:
           - id: gold_chestplate_1
           - id: ancient_bone
             amount: 32
-      'l':
+      l:
         type: TRADE
         id: dune_scout_leggings_1
         cost:
           - id: gold_leggings_1
           - id: ancient_bone
             amount: 32
-      'b':
+      b:
         type: TRADE
         id: dune_scout_boots_1
         cost:
@@ -714,28 +715,28 @@ items:
           - id: stalker_sword_1
           - id: ancient_flesh
             amount: 32
-      'H':
+      H:
         type: TRADE
         id: stalker_helmet_1
         cost:
           - id: dune_scout_helmet_1
           - id: ancient_flesh
             amount: 16
-      'C':
+      C:
         type: TRADE
         id: stalker_chestplate_1
         cost:
           - id: dune_scout_chestplate_1
           - id: ancient_flesh
             amount: 16
-      'L':
+      L:
         type: TRADE
         id: stalker_leggings_1
         cost:
           - id: dune_scout_leggings_1
           - id: ancient_flesh
             amount: 16
-      'T':
+      T:
         type: TRADE
         id: stalker_boots_1
         cost:
@@ -791,28 +792,28 @@ items:
           - id: tomb_guard_sword_1
           - id: ancient_nugget
             amount: 64
-      'h':
+      h:
         type: TRADE
         id: tomb_guard_helmet_1
         cost:
           - id: gold_helmet_1
           - id: ancient_nugget
             amount: 32
-      'c':
+      c:
         type: TRADE
         id: tomb_guard_chestplate_1
         cost:
           - id: gold_chestplate_1
           - id: ancient_nugget
             amount: 32
-      'l':
+      l:
         type: TRADE
         id: tomb_guard_leggings_1
         cost:
           - id: gold_leggings_1
           - id: ancient_nugget
             amount: 32
-      'b':
+      b:
         type: TRADE
         id: tomb_guard_boots_1
         cost:
@@ -833,28 +834,28 @@ items:
           - id: vizier_sword_1
           - id: vizier_scroll
             amount: 32
-      'H':
+      H:
         type: TRADE
         id: vizier_helmet_1
         cost:
           - id: tomb_guard_helmet_1
           - id: vizier_scroll
             amount: 16
-      'C':
+      C:
         type: TRADE
         id: vizier_chestplate_1
         cost:
           - id: tomb_guard_chestplate_1
           - id: vizier_scroll
             amount: 16
-      'L':
+      L:
         type: TRADE
         id: vizier_leggings_1
         cost:
           - id: tomb_guard_leggings_1
           - id: vizier_scroll
             amount: 16
-      'T':
+      T:
         type: TRADE
         id: vizier_boots_1
         cost:
@@ -910,28 +911,28 @@ items:
           - id: myrmidon_sword_1
           - id: eternal_soul
             amount: 64
-      'h':
+      h:
         type: TRADE
         id: myrmidon_helmet_1
         cost:
           - id: gold_helmet_1
           - id: eternal_soul
             amount: 32
-      'c':
+      c:
         type: TRADE
         id: myrmidon_chestplate_1
         cost:
           - id: gold_chestplate_1
           - id: eternal_soul
             amount: 32
-      'l':
+      l:
         type: TRADE
         id: myrmidon_leggings_1
         cost:
           - id: gold_leggings_1
           - id: eternal_soul
             amount: 32
-      'b':
+      b:
         type: TRADE
         id: myrmidon_boots_1
         cost:
@@ -952,32 +953,31 @@ items:
           - id: gormak_sword_1
           - id: ancient_heart
             amount: 32
-      'H':
+      H:
         type: TRADE
         id: gormak_helmet_1
         cost:
           - id: myrmidon_helmet_1
           - id: ancient_heart
             amount: 16
-      'C':
+      C:
         type: TRADE
         id: gormak_chestplate_1
         cost:
           - id: myrmidon_chestplate_1
           - id: ancient_heart
             amount: 16
-      'L':
+      L:
         type: TRADE
         id: gormak_leggings_1
         cost:
           - id: myrmidon_leggings_1
           - id: ancient_heart
             amount: 16
-      'T':
+      T:
         type: TRADE
         id: gormak_boots_1
         cost:
           - id: myrmidon_boots_1
           - id: ancient_heart
             amount: 16
-

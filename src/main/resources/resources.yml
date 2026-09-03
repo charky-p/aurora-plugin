@@ -1,6 +1,5 @@
-
 # ===========================================================
-# AURORA RESOURCE TEMPLATE
+# AURORA RESOURCE TEMPLATE - generated from data/resources.csv
 # ===========================================================
 # [resource_id]:
 #   display: "<color><b><i>Cobblestone"
@@ -9,6 +8,8 @@
 #     - "<color><b><i>Lore Line"
 #   world: "overworld" (Options: "overworld")
 #   region: "origin_isles" (Defaults to "")
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
 
 items:
@@ -105,4 +106,3 @@ items:
     region: "origin_isles"
     lore:
       - "<gray>A fragment of Gormak."
-

@@ -1,5 +1,5 @@
 # ===========================================================
-# AURORA GUI TEMPLATE
+# AURORA GUI TEMPLATE - generated from CSV
 # ===========================================================
 # [gui_id]:
 #   title: "<color><b><i>Gui Title"
@@ -22,11 +22,14 @@
 #           amount: 1 (Default)
 #     'b': ...
 # ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
 
 items:
   cobble_armor:
     title: "<gray><b>Cobblestone Armor"
     icon: cobble_armor
+    rows: 3
     layout:
       - "BBBBIBBBX"
       - "B   1   B"

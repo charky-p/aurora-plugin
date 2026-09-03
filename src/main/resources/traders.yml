@@ -1,11 +1,12 @@
-
 # ===========================================================
-# AURORA TRADER TEMPLATE
+# AURORA TRADER TEMPLATE - generated from data/traders.csv
 # ===========================================================
 # [trader_id]:
 #   display: "<color><b><i>Display Name"
 #   entity: [BUKKIT_ENTITY_TYPE]
 #   gui: [gui_id]
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
 
 items:
@@ -58,4 +59,3 @@ items:
     display: "<yellow><b>Gormak Tomb Trader"
     entity: VILLAGER
     gui: gormak_tomb_shop
-

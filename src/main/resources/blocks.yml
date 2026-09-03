@@ -1,6 +1,5 @@
-
 # ===========================================================
-# AURORA BLOCK TEMPLATE
+# AURORA BLOCK TEMPLATE - generated from data/blocks.csv
 # ===========================================================
 # [block_id]:
 #   material: [BUKKIT_MATERIAL]
@@ -18,6 +17,8 @@
 #         weight: 50
 #         min: 1 (Default)
 #         max: 1 (Default)
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
 
 items:
@@ -86,4 +87,3 @@ items:
       - id: gold
         min: 5
         max: 9
-

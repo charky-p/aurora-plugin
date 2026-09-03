@@ -21,11 +21,8 @@ import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.player.*;
 import org.charky.aurora.features.spawner.MobSpawner;
 import org.charky.aurora.features.system.VoidGenerator;
-import org.charky.aurora.features.system.commands.AuroraCommand;
-import org.charky.aurora.features.system.commands.GiveCustomsCommand;
-import org.charky.aurora.features.system.commands.HealCommand;
+import org.charky.aurora.features.system.commands.*;
 import org.charky.aurora.features.spawner.WeaponListener;
-import org.charky.aurora.features.system.commands.SpawnCommand;
 import org.charky.aurora.features.system.SpawnListener;
 import org.charky.aurora.features.system.WandListener;
 import org.charky.aurora.features.system.WandManager;
@@ -122,6 +119,10 @@ public class Aurora extends JavaPlugin implements Listener {
 
         if (this.getCommand("backpack") != null) {
             this.getCommand("backpack").setExecutor(new BackpackCommand(backpackManager));
+        }
+
+        if (this.getCommand("dump") != null) {
+            this.getCommand("dump").setExecutor(new DumpCommand(this));
         }
 
         // Listeners

@@ -28,6 +28,9 @@ commands:
     description: Open the backpack
     usage: /backpack
     aliases: [bp]
+  dump: # TODO
+    description: Give shulkers of every registry item
+    usage: /dump [items|icons|all]
 worlds:
   aurora_mines:
     generator: Aurora

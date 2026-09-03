@@ -149,6 +149,14 @@ public class DataRegistry {
         return resourceList;
     }
 
+    public Map<String, ItemStack> getAllItems() {
+        return Collections.unmodifiableMap(items);
+    }
+
+    public Map<String, ItemStack> getAllIcons() {
+        return Collections.unmodifiableMap(icons);
+    }
+
     public MenuItem getItem(String item) {
         return new MenuItem(item, items.get(item));
     }

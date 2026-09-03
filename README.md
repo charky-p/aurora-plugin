@@ -112,7 +112,14 @@ gormak region:
 - abandoned city: scavenger husk, hollowed serf
 - dunes: sand stalker (skeleton bowman), dune scout (gormak minion)
 - temple: tomb guard, vizier mage
-- royal tomb: royal myrmidon, gormak the eternal
+- royal tomb: royal myrmidon, pharaoh, gormak the eternal
+
+rare mob that spawns in any of the gormak regions: mirage, goes invisible every 5 sec for 4 sec, drops a rare item
+
+tomb guard halberd, pharaoh  khopesh
+(cracked stone bricks / stone bricks) for abandoned city
+sandstone for dunes
+raw gold block for temple
 
 cobalt for cave world
 

@@ -124,6 +124,227 @@ items:
     enchants:
       sharpness: 6
 
+  crude_gormak_sword_1:
+    display: "<gold><b>Crude Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 6
+      looting: 1
+
+  crude_gormak_sword_2:
+    display: "<gold><b>Crude Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 7
+      looting: 1
+
+  crude_gormak_sword_3:
+    display: "<gold><b>Crude Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 8
+      looting: 1
+
+  crude_gormak_sword_4:
+    display: "<gold><b>Crude Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 9
+      looting: 1
+
+  crude_gormak_sword_5:
+    display: "<gold><b>Crude Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 10
+      looting: 1
+
+  refined_gormak_sword_1:
+    display: "<gold><b>Refined Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 10
+      looting: 2
+
+  refined_gormak_sword_2:
+    display: "<gold><b>Refined Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 11
+      looting: 2
+
+  refined_gormak_sword_3:
+    display: "<gold><b>Refined Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 12
+      looting: 2
+
+  refined_gormak_sword_4:
+    display: "<gold><b>Refined Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 13
+      looting: 2
+
+  refined_gormak_sword_5:
+    display: "<gold><b>Refined Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 13
+      looting: 3
+
+  gilded_gormak_sword_1:
+    display: "<gold><b>Gilded Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 14
+      looting: 3
+
+  gilded_gormak_sword_2:
+    display: "<gold><b>Gilded Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 15
+      looting: 3
+
+  gilded_gormak_sword_3:
+    display: "<gold><b>Gilded Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 16
+      looting: 3
+
+  gilded_gormak_sword_4:
+    display: "<gold><b>Gilded Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 17
+      looting: 3
+
+  gilded_gormak_sword_5:
+    display: "<gold><b>Gilded Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 18
+      looting: 3
+
+  eternal_gormak_sword_1:
+    display: "<gold><b>Eternal Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 18
+      looting: 4
+
+  eternal_gormak_sword_2:
+    display: "<gold><b>Eternal Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 19
+      looting: 4
+
+  eternal_gormak_sword_3:
+    display: "<gold><b>Eternal Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 20
+      looting: 4
+
+  eternal_gormak_sword_4:
+    display: "<gold><b>Eternal Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 20
+      looting: 5
+
+  eternal_gormak_sword_5:
+    display: "<gold><b>Eternal Gormak Sword"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 20
+      looting: 5
+      adrenaline: 1
+
   serf_sword_1:
     display: "<gray><b>Serf Dagger"
     material: STONE_SWORD
@@ -213,7 +434,7 @@ items:
       looting: 2
 
   tomb_guard_sword_1:
-    display: "<gold><b>Tomb Rapier"
+    display: "<gold><b>Tomb Guard Halberd"
     material: GOLDEN_SWORD
     tier: 1
     type: "combat"
@@ -224,7 +445,7 @@ items:
       looting: 2
 
   tomb_guard_sword_2:
-    display: "<gold><b>Tomb Rapier"
+    display: "<gold><b>Tomb Guard Halberd"
     material: GOLDEN_SWORD
     tier: 2
     type: "combat"
@@ -277,6 +498,17 @@ items:
     enchants:
       sharpness: 17
       looting: 3
+
+  pharaoh_sword_1:
+    display: "<gold><b>Pharaoh Khopesh"
+    material: GOLDEN_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 20
+      looting: 1
 
   gormak_sword_1:
     display: "<gold><b>Gormak's Sun Blade"

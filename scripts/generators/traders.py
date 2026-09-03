@@ -1,4 +1,4 @@
-from aurora_gen import AuroraGenerator
+from generate import AuroraGenerator
 
 class TraderGenerator(AuroraGenerator):
     def __init__(self) -> None:
@@ -15,13 +15,14 @@ class TraderGenerator(AuroraGenerator):
         super().__init__(header)
 
     def add_trader(self, trader_id: str, display: str, entity: str, gui_id: str) -> None:
-        out = [
+        lines = [
             f"  {trader_id}:\n",
             f"    display: \"{display}\"\n",
             f"    entity: {entity}\n",
-            f"    gui: {gui_id}\n\n"
+            f"    gui: {gui_id}\n",
+            "\n"
         ]
-        self.items.append("".join(out))
+        self.items.append("".join(lines))
 
 def register_traders():
     gen = TraderGenerator()

@@ -519,7 +519,8 @@ public class DataRegistry {
             if (root == null || !root.containsKey("items")) return Collections.emptyMap();
 
             Map<String, Object> itemsMap = (Map<String, Object>) root.get("items");
-            Map<String, T> result = new HashMap<>();
+            // TODO: linked hash map is to ensure order (need to specify order correctly)
+            Map<String, T> result = new LinkedHashMap<>();
 
             // Convert map into model class with SnakeYAML
             Yaml modelMapper = new Yaml(new Constructor(modelClass, new LoaderOptions()));

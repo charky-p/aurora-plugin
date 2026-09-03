@@ -5,3 +5,4 @@ from .blocks import register_blocks
 from .icons import register_icons
 from .guis import register_guis
 from .traders import register_traders
+from .enchants import register_enchants

@@ -1,3 +1,4 @@
+
 # ===========================================================
 # AURORA ENCHANT TEMPLATE
 # ===========================================================
@@ -30,11 +31,14 @@ items:
     enchant: LOOTING
 
   pierce:
-    display: "<aqua>Pierce"
+    display: "<gray>Pierce"
 
-  # Protection levels will include all forms of protection
   protection:
     display: "<gray>Protection"
 
   health:
     display: "<gray>Health"
+
+  adrenaline:
+    display: "<red>Adrenaline"
+

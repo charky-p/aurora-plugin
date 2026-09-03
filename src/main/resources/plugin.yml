@@ -21,7 +21,7 @@ commands:
   spawn:
     description: Teleport to world spawn
     usage: /spawn
-  gauntlet:
+  gauntlet: # TODO
     description: Gauntlet gamemode
     usage: /gauntlet
   backpack:

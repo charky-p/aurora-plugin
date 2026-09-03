@@ -1,4 +1,4 @@
-from aurora_gen import AuroraGenerator
+from generate import AuroraGenerator
 from typing import Dict, List, Optional
 
 class GuiGenerator(AuroraGenerator):

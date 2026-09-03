@@ -109,7 +109,7 @@ public class MineListener implements Listener {
             }
 
             // Only break if it is a block with a drop
-            if (!drops.isEmpty()) {
+            if (!blockDrops.isEmpty()) {
                 scoreboard.incrementMined(player);
                 block.setType(Material.AIR, false);
             }

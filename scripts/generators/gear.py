@@ -1,4 +1,4 @@
-from aurora_gen import AuroraGenerator
+from generate import AuroraGenerator
 from typing import Dict, List, Optional
 
 class GearGenerator(AuroraGenerator):
@@ -195,13 +195,18 @@ def register_weapons():
         {"id": "copper", "name": "<#D94110><b>Copper Sword", "material": "COPPER_SWORD", "tiers": [{"sharpness": 3}, {"sharpness": 4}]},
         {"id": "iron", "name": "<white><b>Iron Sword", "material": "IRON_SWORD", "tiers": [{"sharpness": 4}, {"sharpness": 5}]},
         {"id": "gold", "name": "<gold><b>Gold Sword", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 5}, {"sharpness": 6}]},
+        {"id": "crude_gormak", "name": "<gold><b>Crude Gormak Sword", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 6, "looting": 1}, {"sharpness": 7, "looting": 1}, {"sharpness": 8, "looting": 1}, {"sharpness": 9, "looting": 1}, {"sharpness": 10, "looting": 1}]},
+        {"id": "refined_gormak", "name": "<gold><b>Refined Gormak Sword", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 10, "looting": 2}, {"sharpness": 11, "looting": 2}, {"sharpness": 12, "looting": 2}, {"sharpness": 13, "looting": 2}, {"sharpness": 13, "looting": 3}]},
+        {"id": "gilded_gormak", "name": "<gold><b>Gilded Gormak Sword", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 14, "looting": 3}, {"sharpness": 15, "looting": 3}, {"sharpness": 16, "looting": 3}, {"sharpness": 17, "looting": 3}, {"sharpness": 18, "looting": 3}]},
+        {"id": "eternal_gormak", "name": "<gold><b>Eternal Gormak Sword", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 18, "looting": 4}, {"sharpness": 19, "looting": 4}, {"sharpness": 20, "looting": 4}, {"sharpness": 20, "looting": 5}, {"sharpness": 20, "looting": 5, "adrenaline": 1}]},
         {"id": "serf", "name": "<gray><b>Serf Dagger", "material": "STONE_SWORD", "tiers": [{"sharpness": 6, "looting": 1}, {"sharpness": 7, "looting": 1}]},
         {"id": "scavenger", "name": "<gray><b>Scavenger Shiv", "material": "IRON_SWORD", "tiers": [{"sharpness": 8, "looting": 1}, {"sharpness": 9, "looting": 1}]},
         {"id": "dune_scout", "name": "<white><b>Dune Scout Machete", "material": "IRON_SWORD", "tiers": [{"sharpness": 10, "looting": 1}, {"sharpness": 11, "looting": 1}]},
         {"id": "stalker", "name": "<gold><b>Stalker Dagger", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 11, "looting": 2}, {"sharpness": 12, "looting": 2}]},
-        {"id": "tomb_guard", "name": "<gold><b>Tomb Rapier", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 13, "looting": 2}, {"sharpness": 14, "looting": 2}]},
+        {"id": "tomb_guard", "name": "<gold><b>Tomb Guard Halberd", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 13, "looting": 2}, {"sharpness": 14, "looting": 2}]},
         {"id": "vizier", "name": "<gold><b>Vizier Dagger", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 15, "looting": 2}, {"sharpness": 16, "looting": 2}]},
         {"id": "myrmidon", "name": "<gold><b>Myrmidon Blade", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 16, "looting": 3}, {"sharpness": 17, "looting": 3}]},
+        {"id": "pharaoh", "name": "<gold><b>Pharaoh Khopesh", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 20, "looting": 1}]},
         {"id": "gormak", "name": "<gold><b>Gormak's Sun Blade", "material": "GOLDEN_SWORD", "tiers": [{"sharpness": 18, "looting": 3}, {"sharpness": 18, "looting": 4}]}
     ]
 

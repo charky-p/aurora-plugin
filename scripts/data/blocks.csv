@@ -1,0 +1,11 @@
+id,material,density,independent,choices_chance,choices
+cobblestone,COBBLESTONE,,cobblestone,,
+stone,STONE,,cobblestone:100:2-4,,
+coal_ore,COAL_ORE,,coal,,
+coal_block,COAL_BLOCK,,coal:100:5-9,,
+copper_ore,COPPER_ORE,1,copper,,
+copper_block,COPPER_BLOCK,1,copper:100:5-9,,
+iron_ore,IRON_ORE,2,iron,,
+iron_block,IRON_BLOCK,2,iron:100:5-9,,
+gold_ore,GOLD_ORE,3,gold,,
+gold_block,GOLD_BLOCK,3,gold:100:5-9,,

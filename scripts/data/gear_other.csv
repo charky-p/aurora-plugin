@@ -1,0 +1,15 @@
+id,display,material,tier,type,world,region,enchants,lore
+leather_helmet,<white><b>Leather Helmet,LEATHER_HELMET,,armor,overworld,origin_isles,,
+iron_helmet,<white><b>Iron Helmet,IRON_HELMET,,armor,overworld,origin_isles,,
+iron_chestplate,<white><b>Iron Chestplate,IRON_CHESTPLATE,,armor,overworld,origin_isles,,
+gold_chestplate,<white><b>Gold Chestplate,GOLDEN_CHESTPLATE,,armor,overworld,origin_isles,,
+iron_leggings,<white><b>Iron Leggings,IRON_LEGGINGS,,armor,overworld,origin_isles,,
+leather_leggings,<white><b>Leather Leggings,LEATHER_LEGGINGS,,armor,overworld,origin_isles,,
+leather_boots,<white><b>Leather Boots,LEATHER_BOOTS,,armor,overworld,origin_isles,,
+wooden_sword,<white><b>Wooden Sword,WOODEN_SWORD,,combat,overworld,origin_isles,,
+iron_sword,<white><b>Iron Sword,IRON_SWORD,,combat,overworld,origin_isles,,
+bow,<white><b>Bow,BOW,,combat,overworld,origin_isles,,
+shield,<white><b>Shield,SHIELD,,combat,overworld,origin_isles,,
+gormak_sword,<aqua><b>Gormak Sword,DIAMOND_SWORD,1,combat,overworld,origin_isles,sharpness:30|pierce:5,<yellow>Forged by Gormak's descendants|<yellow>Aura emits from the sword n dat
+gormak_chest,<brown><b>Gormak Chestplate,DIAMOND_CHESTPLATE,,armor,overworld,origin_isles,,
+totem_of_undying,<yellow><b>Totem of Undying,TOTEM_OF_UNDYING,,armor,overworld,origin_isles,,

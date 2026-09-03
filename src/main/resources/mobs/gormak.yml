@@ -1,0 +1,161 @@
+# ===========================================================
+# AURORA MOB TEMPLATE - generated from CSV
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  hollowed_serf:
+    display: "<gray>Hollowed Serf"
+    entity: HUSK
+    equip:
+      head: serf_helmet_1
+      hand: serf_sword_1
+    attributes:
+      - attr: MAX_HEALTH
+        value: 30.0
+    independent:
+      - id: tattered_cloth
+        min: 2
+        max: 5
+      - id: ancient_scrap
+        chance: 30
+        max: 2
+
+  scavenger_husk:
+    display: "<gray><b>Scavenger Husk"
+    entity: HUSK
+    equip:
+      head: scavenger_helmet_1
+      chest: scavenger_chestplate_1
+      hand: scavenger_sword_1
+    attributes:
+      - attr: MAX_HEALTH
+        value: 45.0
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+    independent:
+      - id: ancient_scrap
+        min: 3
+        max: 6
+
+  dune_scout:
+    display: "<white><b>Dune Scout"
+    entity: HUSK
+    equip:
+      head: dune_scout_helmet_1
+      hand: dune_scout_sword_1
+    attributes:
+      - attr: MAX_HEALTH
+        value: 60.0
+    independent:
+      - id: ancient_flesh
+        max: 3
+
+  sand_stalker:
+    display: "<gold><b>Sand Stalker"
+    entity: SKELETON
+    equip:
+      head: stalker_helmet_1
+      hand: stalker_sword_1
+    attributes:
+      - attr: MAX_HEALTH
+        value: 80.0
+    independent:
+      - id: ancient_bone
+        min: 5
+        max: 11
+
+  tomb_guard:
+    display: "<gold><b>Tomb Guard"
+    entity: HUSK
+    equip:
+      head: tomb_guard_helmet_1
+      chest: tomb_guard_chestplate_1
+      legs: tomb_guard_leggings_1
+      feet: tomb_guard_boots_1
+      hand: tomb_guard_sword_1
+    attributes:
+      - attr: MAX_HEALTH
+        value: 120.0
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+    independent:
+      - id: ancient_nugget
+        min: 3
+        max: 7
+
+  vizier_mage:
+    display: "<gold><b>Vizier Mage"
+    entity: HUSK
+    equip:
+      head: vizier_helmet_1
+      hand: vizier_sword_1
+    attributes:
+      - attr: MAX_HEALTH
+        value: 100.0
+    independent:
+      - id: vizier_scroll
+        chance: 25
+
+  royal_myrmidon:
+    display: "<gold><b>Royal Myrmidon"
+    entity: HUSK
+    equip:
+      head: myrmidon_helmet_1
+      chest: myrmidon_chestplate_1
+      legs: myrmidon_leggings_1
+      feet: myrmidon_boots_1
+      hand: myrmidon_sword_1
+    attributes:
+      - attr: MAX_HEALTH
+        value: 200.0
+      - attr: ATTACK_DAMAGE
+        value: 15.0
+    independent:
+      - id: eternal_soul
+        chance: 35
+
+  gormak_eternal:
+    display: "<gold><b>Gormak the Eternal"
+    entity: HUSK
+    equip:
+      head: gormak_helmet_1
+      chest: gormak_chestplate_1
+      legs: gormak_leggings_1
+      feet: gormak_boots_1
+      hand: gormak_sword_1
+    attributes:
+      - attr: MAX_HEALTH
+        value: 1000.0
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 100.0
+    independent:
+      - id: ancient_heart
+        max: 2

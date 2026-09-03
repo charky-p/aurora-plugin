@@ -1,0 +1,11 @@
+id,display,entity,gui
+starter_trader,<gray><b>Starter Trader,VILLAGER,starter_shop
+cobble_trader,<gray><b>Cobble Trader,VILLAGER,cobble_shop
+coal_trader,<gray><b>Coal Trader,VILLAGER,coal_shop
+copper_trader,<gray><b>Copper Trader,VILLAGER,copper_shop
+iron_trader,<gray><b>Iron Trader,VILLAGER,iron_shop
+gold_trader,<gray><b>Gold Trader,VILLAGER,gold_shop
+gormak_city_trader,<yellow><b>Abandoned City Trader,VILLAGER,gormak_city_shop
+gormak_dunes_trader,<yellow><b>Dunes Trader,VILLAGER,gormak_dunes_shop
+gormak_temple_trader,<yellow><b>Temple Trader,VILLAGER,gormak_temple_shop
+gormak_tomb_trader,<yellow><b>Gormak Tomb Trader,VILLAGER,gormak_tomb_shop

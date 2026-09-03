@@ -1,0 +1,14 @@
+id,display,material,category,world,region,lore
+cobblestone,<gray><b>Cobblestone,COBBLESTONE,,overworld,origin_isles,
+coal,<gray><b>Coal,COAL,,overworld,origin_isles,
+copper,<gray><b>Copper,COPPER_INGOT,,overworld,origin_isles,
+iron,<gray><b>Iron,IRON_INGOT,,overworld,origin_isles,
+gold,<gray><b>Gold,GOLD_INGOT,,overworld,origin_isles,
+tattered_cloth,<gray><b>Tattered Cloth,PAPER,,overworld,origin_isles,<gray>Old bandages from a fallen serf.
+ancient_scrap,<white><b>Ancient Scrap,IRON_NUGGET,,overworld,origin_isles,<gray>Brittle metal used for basic shivs.
+ancient_flesh,<#964B00><b>Ancient Flesh,ROTTEN_FLESH,,overworld,origin_isles,<gray>A pulsating heart of desert magic.
+ancient_bone,<white><b>Ancient Bone,BONE,,overworld,origin_isles,<gray>Hardened by centuries in the heat.
+ancient_nugget,<gold><b>Ancient Nugget,GOLD_NUGGET,,overworld,origin_isles,<gray>Dense stone from the Vizier's temple.
+vizier_scroll,<gold><b>Vizier Scroll,FLOW_BANNER_PATTERN,,overworld,origin_isles,<gray>The mark of the high priests.
+eternal_soul,<gold><b>Eternal Soul,SOUL_SAND,,overworld,origin_isles,<gray>A lost soul from the inner tomb.
+ancient_heart,<gold><b>Sand-Tainted Heart,YELLOW_DYE,,overworld,origin_isles,<gray>A fragment of Gormak.

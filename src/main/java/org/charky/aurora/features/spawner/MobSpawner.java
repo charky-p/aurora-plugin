@@ -22,9 +22,11 @@ public class MobSpawner {
     private double radius;
     private int limit;
     private int delay;
-    private int activeMobs = 0;
     private boolean active = true;
     private BukkitTask task;
+
+    private static final double ACTIVATION_RANGE = 64.0;
+    private int consecutiveFailures = 0;
 
     public MobSpawner(Aurora plugin, String name, String world, int x, int y, int z, MobData mob, double radius, int limit, int delay) {
         this.plugin = plugin;
@@ -132,12 +134,31 @@ public class MobSpawner {
     }
 
     public void spawnMob() {
-        if (activeMobs >= limit) return;
+        if (!active) return;
 
-        Location spawnLocation = this.findSpawnLocation();
-        if (spawnLocation == null) return;
-        this.plugin.getMobManager().spawnMob(this.mob.id(), spawnLocation, this.name);
-        activeMobs++;
+        World world = Bukkit.getWorld(this.world);
+        if (world == null) return;
+
+        Location origin = getLocation();
+
+        // If nobody near, do not spawn mob to stop lag
+        boolean watched = world.getPlayers().stream().anyMatch(p ->
+                p.getLocation().distanceSquared(origin) < ACTIVATION_RANGE * ACTIVATION_RANGE);
+        if (!watched) return;
+
+        if (!world.isChunkLoaded(this.x >> 4, this.z >> 4)) return;
+        if (plugin.getMobManager().countFor(this.name) >= limit) return;
+
+        Location spawnLocation = findSpawnLocation();
+        if (spawnLocation == null) {
+            if (++consecutiveFailures == 20) {
+                plugin.getLogger().warning("Spawner '" + name + "' found no valid spawn location in 20 consecutive cycles");
+            }
+            return;
+        }
+
+        consecutiveFailures = 0;
+        plugin.getMobManager().spawnMob(this.mob.id(), spawnLocation, this.name);
     }
 
     private Location findSpawnLocation() {
@@ -178,10 +199,6 @@ public class MobSpawner {
         }
 
         return true;
-    }
-
-    public void decrementCount() {
-        if (this.activeMobs > 0) this.activeMobs--;
     }
 
     public void stop() {

@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 //import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletListener;
 import org.charky.aurora.features.gauntlet.GauntletManager;
@@ -133,6 +134,7 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new TraderListener(this), this);
         getServer().getPluginManager().registerEvents(new WandListener(this), this);
         getServer().getPluginManager().registerEvents(new SpawnListener(this), this);
+        getServer().getPluginManager().registerEvents(new CombatListener(this), this);
         getServer().getPluginManager().registerEvents(this, this);
 
         getServer().getPluginManager().registerEvents(new GauntletListener(gauntletManager), this);
@@ -208,7 +210,6 @@ public class Aurora extends JavaPlugin implements Listener {
         int count = 0;
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
-                // Check for your specific key
                 if (entity.getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
                     entity.remove();
                     count++;

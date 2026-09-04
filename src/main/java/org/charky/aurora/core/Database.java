@@ -396,7 +396,7 @@ public class Database {
     }
 
     public void saveSpawner(MobSpawner spawner) {
-        String sql = "INSERT INTO spawners (name, world, x, y, z, mob, radius, mob_limit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO spawners (name, world, x, y, z, mob, radius, mob_limit, delay) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = this.getConnection();
              PreparedStatement pst = connection.prepareStatement(sql)) {
@@ -408,6 +408,7 @@ public class Database {
             pst.setString(6, spawner.getMobName());
             pst.setDouble(7, spawner.getRadius());
             pst.setInt(8, spawner.getLimit());
+            pst.setInt(9, spawner.getDelay());
 
             pst.executeUpdate();
         } catch (SQLException e) {

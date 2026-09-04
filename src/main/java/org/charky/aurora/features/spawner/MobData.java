@@ -13,31 +13,11 @@ public record MobData(
         String id,
         EntityType type,
         Component displayName,
+        double health,
+        double defence,
+        double attack,
         Map<EquipmentSlot, ItemStack> equipment,
         Map<Attribute, Double> attributes,
         LootPool drops
 ) {
-    public void apply(org.bukkit.entity.LivingEntity entity) {
-        entity.customName(this.displayName);
-        entity.setCustomNameVisible(true);
-
-        if (this.equipment != null) {
-            this.equipment.forEach((slot, item) -> {
-                entity.getEquipment().setItem(slot, item.clone());
-            });
-        }
-
-        if (this.attributes != null) {
-            this.attributes.forEach((attr, value) -> {
-                var instance = entity.getAttribute(attr);
-                if (instance != null) {
-                    instance.setBaseValue(value);
-
-                    if (attr == Attribute.MAX_HEALTH) {
-                        entity.setHealth(value);
-                    }
-                }
-            });
-        }
-    }
 }

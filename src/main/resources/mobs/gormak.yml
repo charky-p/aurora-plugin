@@ -32,12 +32,11 @@ items:
   hollowed_serf:
     display: "<gray>Hollowed Serf"
     entity: HUSK
+    health: 30.0
+    attack: 10.0
     equip:
       head: serf_helmet_1
       hand: serf_sword_1
-    attributes:
-      - attr: MAX_HEALTH
-        value: 30.0
     independent:
       - id: tattered_cloth
         min: 2
@@ -49,13 +48,14 @@ items:
   scavenger_husk:
     display: "<gray><b>Scavenger Husk"
     entity: HUSK
+    health: 40.0
+    defence: 2.0
+    attack: 10.0
     equip:
       head: scavenger_helmet_1
       chest: scavenger_chestplate_1
       hand: scavenger_sword_1
     attributes:
-      - attr: MAX_HEALTH
-        value: 45.0
       - attr: MOVEMENT_SPEED
         value: 0.3
     independent:
@@ -66,12 +66,12 @@ items:
   dune_scout:
     display: "<white><b>Dune Scout"
     entity: HUSK
+    health: 60.0
+    defence: 4.0
+    attack: 20.0
     equip:
       head: dune_scout_helmet_1
       hand: dune_scout_sword_1
-    attributes:
-      - attr: MAX_HEALTH
-        value: 60.0
     independent:
       - id: ancient_flesh
         max: 3
@@ -79,12 +79,12 @@ items:
   sand_stalker:
     display: "<gold><b>Sand Stalker"
     entity: SKELETON
+    health: 100.0
+    defence: 2.0
+    attack: 20.0
     equip:
       head: stalker_helmet_1
       hand: stalker_sword_1
-    attributes:
-      - attr: MAX_HEALTH
-        value: 80.0
     independent:
       - id: ancient_bone
         min: 5
@@ -93,6 +93,9 @@ items:
   tomb_guard:
     display: "<gold><b>Tomb Guard"
     entity: HUSK
+    health: 120.0
+    defence: 8.0
+    attack: 30.0
     equip:
       head: tomb_guard_helmet_1
       chest: tomb_guard_chestplate_1
@@ -100,8 +103,6 @@ items:
       feet: tomb_guard_boots_1
       hand: tomb_guard_sword_1
     attributes:
-      - attr: MAX_HEALTH
-        value: 120.0
       - attr: KNOCKBACK_RESISTANCE
         value: 1.0
     independent:
@@ -112,12 +113,12 @@ items:
   vizier_mage:
     display: "<gold><b>Vizier Mage"
     entity: HUSK
+    health: 160.0
+    defence: 5.0
+    attack: 30.0
     equip:
       head: vizier_helmet_1
       hand: vizier_sword_1
-    attributes:
-      - attr: MAX_HEALTH
-        value: 100.0
     independent:
       - id: vizier_scroll
         chance: 25
@@ -125,6 +126,9 @@ items:
   royal_myrmidon:
     display: "<gold><b>Royal Myrmidon"
     entity: HUSK
+    health: 200.0
+    defence: 12.0
+    attack: 50.0
     equip:
       head: myrmidon_helmet_1
       chest: myrmidon_chestplate_1
@@ -132,8 +136,6 @@ items:
       feet: myrmidon_boots_1
       hand: myrmidon_sword_1
     attributes:
-      - attr: MAX_HEALTH
-        value: 200.0
       - attr: ATTACK_DAMAGE
         value: 15.0
     independent:
@@ -143,6 +145,9 @@ items:
   gormak_eternal:
     display: "<gold><b>Gormak the Eternal"
     entity: HUSK
+    health: 400.0
+    defence: 25.0
+    attack: 100.0
     equip:
       head: gormak_helmet_1
       chest: gormak_chestplate_1
@@ -150,8 +155,6 @@ items:
       feet: gormak_boots_1
       hand: gormak_sword_1
     attributes:
-      - attr: MAX_HEALTH
-        value: 1000.0
       - attr: KNOCKBACK_RESISTANCE
         value: 1.0
       - attr: FOLLOW_RANGE

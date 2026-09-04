@@ -406,7 +406,7 @@ public class DataRegistry {
             }
 
             // TODO: Not implemented with multiple pools, only one
-            MobData mobData = new MobData(id, type, displayName, equipment, attributes, pools.getFirst());
+            MobData mobData = new MobData(id, type, displayName, model.health, model.defence, model.attack, equipment, attributes, pools.getFirst());
             mobs.put(id.toLowerCase(), mobData);
         });
     }

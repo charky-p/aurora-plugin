@@ -145,3 +145,8 @@ rerun `start.bat`, join `127.0.0.1` on minecraft in server list
 to stop server, first write `stop`, then `CTRL + C` after server starts to reboot
 
 Note: Turn off named entity console alerts in `spigot.yml`, `log-named-deaths: false`
+
+
+#### Notes
+
+Player health is real, mob health is pseudo, run `/data get entity @s Health`

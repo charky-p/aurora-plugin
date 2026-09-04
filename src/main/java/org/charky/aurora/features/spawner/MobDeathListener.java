@@ -45,7 +45,6 @@ public class MobDeathListener implements Listener {
 
         // Clear drops for all entities
         if (spawnerName == null) return;
-        spawnerManager.handleMobDeath(spawnerName);
 
         LivingEntity victim = event.getEntity();
         if (victim.getKiller() == null) return;

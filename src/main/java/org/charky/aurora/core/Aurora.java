@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 //import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletListener;
@@ -37,6 +39,7 @@ import org.charky.aurora.common.util.ItemFactory;
 
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class Aurora extends JavaPlugin implements Listener {
     private Database db;
@@ -139,6 +142,21 @@ public class Aurora extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(new GauntletListener(gauntletManager), this);
         getServer().getPluginManager().registerEvents(new BackpackListener(), this);
+
+        // FIXME: temporary refresh command
+        PluginCommand refresh = getCommand("refresh");
+        if (refresh != null) {
+            refresh.setExecutor((sender, cmd, label, args) -> {
+                try {
+                    registry.loadAll();
+                    TextUtils.success(sender, "Registry reloaded");
+                } catch (Exception e) {
+                    TextUtils.error(sender, "Reload failed: " + e.getMessage());
+                    getLogger().log(Level.SEVERE, "Registry reload failed", e);
+                }
+                return true;
+            });
+        }
 
         // Mines setup
         getLogger().info("AuroraMines has been enabled!");

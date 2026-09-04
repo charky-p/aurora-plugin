@@ -145,9 +145,9 @@ items:
   gormak_eternal:
     display: "<gold><b>Gormak the Eternal"
     entity: HUSK
-    health: 400.0
+    health: 500.0
     defence: 25.0
-    attack: 100.0
+    attack: 150.0
     equip:
       head: gormak_helmet_1
       chest: gormak_chestplate_1

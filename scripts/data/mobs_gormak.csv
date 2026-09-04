@@ -6,4 +6,4 @@ sand_stalker,<gold><b>Sand Stalker,SKELETON,100,2,20,head:stalker_helmet_1|hand:
 tomb_guard,<gold><b>Tomb Guard,HUSK,120,8,30,head:tomb_guard_helmet_1|chest:tomb_guard_chestplate_1|legs:tomb_guard_leggings_1|feet:tomb_guard_boots_1|hand:tomb_guard_sword_1,KNOCKBACK_RESISTANCE:1,ancient_nugget:100:3-7,,
 vizier_mage,<gold><b>Vizier Mage,HUSK,160,5,30,head:vizier_helmet_1|hand:vizier_sword_1,,vizier_scroll:25,,
 royal_myrmidon,<gold><b>Royal Myrmidon,HUSK,200,12,50,head:myrmidon_helmet_1|chest:myrmidon_chestplate_1|legs:myrmidon_leggings_1|feet:myrmidon_boots_1|hand:myrmidon_sword_1,ATTACK_DAMAGE:15,eternal_soul:35,,
-gormak_eternal,<gold><b>Gormak the Eternal,HUSK,400,25,100,head:gormak_helmet_1|chest:gormak_chestplate_1|legs:gormak_leggings_1|feet:gormak_boots_1|hand:gormak_sword_1,KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:100,ancient_heart:100:1-2,,
+gormak_eternal,<gold><b>Gormak the Eternal,HUSK,500,25,150,head:gormak_helmet_1|chest:gormak_chestplate_1|legs:gormak_leggings_1|feet:gormak_boots_1|hand:gormak_sword_1,KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:100,ancient_heart:100:1-2,,

@@ -21,10 +21,18 @@ import os
 import sys
 from collections import OrderedDict
 import yaml
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--live", action="store_true",
+                    help="write to the running server's data folder")
+parser.add_argument("--check", action="store_true")
+args = parser.parse_args()
 
 CUR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(CUR, "data")
-RESOURCE_DIR = os.path.join(CUR, "..", "src", "main", "resources")
+RESOURCE_PATH = "LocalServer/plugins/Aurora" if args.live else "src/main/resources"
+RESOURCE_DIR = os.path.join(CUR, "..", RESOURCE_PATH)
 
 LIST_SEP = "|"
 PART_SEP = ":"

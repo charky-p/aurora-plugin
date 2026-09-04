@@ -64,11 +64,13 @@ public class DataRegistry {
 
     public void loadAll() {
         items.clear();
+        enchants.clear();
         blocks.clear();
         mobs.clear();
         icons.clear();
         guis.clear();
         traders.clear();
+        resourceList.clear();
 
         loadResources();
         loadEnchants();
@@ -518,7 +520,7 @@ public class DataRegistry {
 
     private <T> Map<String, T> loadYaml(String fileName, Class<T> modelClass) {
         File file = new File(plugin.getDataFolder(), fileName);
-        plugin.saveResource(fileName, true);
+        if (!file.exists()) plugin.saveResource(fileName, false);
 
         Yaml yaml = new Yaml();
         try (InputStream in = new FileInputStream(file)) {

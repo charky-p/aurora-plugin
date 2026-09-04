@@ -140,4 +140,8 @@ public class BackpackData implements InventoryHolder {
     public @NotNull Inventory getInventory() {
         return inventory;
     }
+
+    public void clear() {
+        backpack.clear();
+    }
 }

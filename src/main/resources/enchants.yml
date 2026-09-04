@@ -18,10 +18,10 @@ items:
     enchant: FORTUNE
 
   luck:
-    display: "<gray>Luck"
+    display: "<aqua>Luck"
 
   blast:
-    display: "<gray>Blast"
+    display: "<gold>Blast"
 
   sharpness:
     display: "<gray>Sharpness"
@@ -29,16 +29,21 @@ items:
 
   looting:
     display: "<gray>Looting"
-    enchant: LOOTING
 
-  pierce:
-    display: "<gray>Pierce"
+  bloodlust:
+    display: "<dark_red>Bloodlust"
 
   protection:
     display: "<gray>Protection"
 
-  health:
-    display: "<gray>Health"
+  sustenance:
+    display: "<green>Sustenance"
 
-  adrenaline:
-    display: "<red>Adrenaline"
+  deflection:
+    display: "<blue>Deflection"
+
+  defence:
+    display: "<blue>Defence"
+
+  thorns:
+    display: "<dark_green>Thorns"

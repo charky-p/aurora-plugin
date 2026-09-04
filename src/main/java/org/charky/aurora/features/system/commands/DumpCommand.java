@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.BlockStateMeta;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.player.BackpackManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,9 +34,11 @@ public class DumpCommand implements CommandExecutor, TabCompleter {
     private static final int SHULKER_SLOTS = 27;
 
     private final DataRegistry registry;
+    private final BackpackManager backpackManager;
 
     public DumpCommand(Aurora plugin) {
         this.registry = plugin.getRegistry();
+        this.backpackManager = plugin.getBackpackManager();
     }
 
     @Override
@@ -56,6 +59,12 @@ public class DumpCommand implements CommandExecutor, TabCompleter {
         switch (mode) {
             case "items" -> source.addAll(registry.getAllItems().entrySet());
             case "icons" -> source.addAll(registry.getAllIcons().entrySet());
+            case "clear" -> {
+                backpackManager.clear(player.getUniqueId());
+                player.getInventory().clear();
+                TextUtils.success(player, "Backpack and inventory cleared.");
+                return true;
+            }
             case "all" -> {
                 source.addAll(registry.getAllItems().entrySet());
                 source.addAll(registry.getAllIcons().entrySet());

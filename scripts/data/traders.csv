@@ -1,11 +1,12 @@
 id,display,entity,gui
-starter_trader,<gray><b>Starter Trader,VILLAGER,starter_shop
-cobble_trader,<gray><b>Cobble Trader,VILLAGER,cobble_shop
-coal_trader,<gray><b>Coal Trader,VILLAGER,coal_shop
-copper_trader,<gray><b>Copper Trader,VILLAGER,copper_shop
-iron_trader,<gray><b>Iron Trader,VILLAGER,iron_shop
-gold_trader,<gray><b>Gold Trader,VILLAGER,gold_shop
-gormak_city_trader,<yellow><b>Abandoned City Trader,VILLAGER,gormak_city_shop
-gormak_dunes_trader,<yellow><b>Dunes Trader,VILLAGER,gormak_dunes_shop
-gormak_temple_trader,<yellow><b>Temple Trader,VILLAGER,gormak_temple_shop
-gormak_tomb_trader,<yellow><b>Gormak Tomb Trader,VILLAGER,gormak_tomb_shop
+starter_trader,<gray><b>Isle Outfitter,VILLAGER,starter_shop
+cobble_trader,<gray><b>Quarry Foreman,VILLAGER,cobble_shop
+coal_trader,<dark_gray><b>Coal Broker,VILLAGER,coal_shop
+copper_trader,<#D94110><b>Copper Smith,VILLAGER,copper_shop
+iron_trader,<white><b>Iron Smith,VILLAGER,iron_shop
+gold_trader,<gold><b>Gold Assayer,VILLAGER,gold_shop
+city_trader,<gray><b>City Scavenger,WANDERING_TRADER,city_shop
+dunes_trader,<yellow><b>Dune Nomad,WANDERING_TRADER,dunes_shop
+canyons_trader,<#B4462A><b>Canyon Hermit,WANDERING_TRADER,canyons_shop
+temple_trader,<gold><b>Temple Keeper,WANDERING_TRADER,temple_shop
+tomb_trader,<dark_purple><b>Tomb Broker,WANDERING_TRADER,tomb_shop

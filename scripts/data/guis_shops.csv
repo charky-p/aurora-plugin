@@ -1,11 +1,30 @@
 id,title,icon,rows,layout
-starter_shop,<gray><b>Starter Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-cobble_shop,<gray><b>Cobble Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-coal_shop,<gray><b>Coal Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-copper_shop,<gray><b>Copper Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-iron_shop,<gray><b>Iron Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-gold_shop,<gray><b>Gold Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-gormak_city_shop,<gold><b>City Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-gormak_dunes_shop,<gold><b>Dunes Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-gormak_temple_shop,<gold><b>Temple Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
-gormak_tomb_shop,<gold><b>Tomb Shop,,3,BBBBIBBBX|BB1BBB2BB|BBBBBBBBB
+origin_hub,<green><b>Origin Isles,icon_origin,3,BBBBIBBBB|B123456 B|BBBBBBBBX
+gormak_hub,<gold><b>Gormak,icon_gormak,3,BBBBIBBBB|B 12345 B|BBBBBBBBX
+starter_shop,<gold><b>Starter Gear,icon_starter,5,BBBBIBBBB|B   1   B|B   q   B|B   A   B|zBBBBBBBX
+cobble_shop,<gold><b>Cobblestone Quarry,icon_cobble,5,BBBBIBBBB|B 12345 B|B  qw   B|B   A   B|zBBBBBBBX
+coal_shop,<gold><b>Coal Seam,icon_coal,5,BBBBIBBBB|B 12345 B|B  qw   B|B   A   B|zBBBBBBBX
+copper_shop,<gold><b>Copper Vein,icon_copper,5,BBBBIBBBB|B 12345 B|B qwert B|B   A   B|zBBBBBBBX
+iron_shop,<gold><b>Iron Deposit,icon_iron,5,BBBBIBBBB|B 12345 B|B qwert B|B   A   B|zBBBBBBBX
+gold_shop,<gold><b>Gold Reef,icon_gold,5,BBBBIBBBB|B 12345 B|B qwert B|B   A   B|zBBBBBBBX
+city_shop,<gold><b>Abandoned City,icon_city,5,BBBBIBBBB|B  123  B|B qwert B|B  AS   B|zBBBBBBBX
+dunes_shop,<gold><b>The Dunes,icon_dunes,5,BBBBIBBBB|B  123  B|B qwert B|B  AS   B|zBBBBBBBX
+canyons_shop,<gold><b>Howling Canyons,icon_canyons,5,BBBBIBBBB|B  123  B|B qwert B|B  AS   B|zBBBBBBBX
+temple_shop,<gold><b>Sun Temple,icon_temple,5,BBBBIBBBB|B  123  B|B qwert B|B  AS   B|zBBBBBBBX
+tomb_shop,<gold><b>Royal Tomb,icon_tomb,5,BBBBIBBBB|B  12   B|B qwert B|B  AU   B|zBBBBBBBX
+starter_armor,<gold><b>Starter Gear <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   1   B|B   6   B|B   a   B|B   f   B|zBBBBBBBX
+cobble_armor,<gold><b>Cobblestone Quarry <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   1   B|B   6   B|B   a   B|B   f   B|zBBBBBBBX
+coal_armor,<gold><b>Coal Seam <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   1   B|B   6   B|B   a   B|B   f   B|zBBBBBBBX
+copper_armor,<gold><b>Copper Vein <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B  123  B|B  678  B|B  abc  B|B  fgh  B|zBBBBBBBX
+iron_armor,<gold><b>Iron Deposit <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B  123  B|B  678  B|B  abc  B|B  fgh  B|zBBBBBBBX
+gold_armor,<gold><b>Gold Reef <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B  123  B|B  678  B|B  abc  B|B  fgh  B|zBBBBBBBX
+city_armor,<gold><b>Abandoned City <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B 12345 B|B 67890 B|B abcde B|B fghij B|zBBBBBBBX
+dunes_armor,<gold><b>The Dunes <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B 12345 B|B 67890 B|B abcde B|B fghij B|zBBBBBBBX
+canyons_armor,<gold><b>Howling Canyons <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B 12345 B|B 67890 B|B abcde B|B fghij B|zBBBBBBBX
+temple_armor,<gold><b>Sun Temple <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B 12345 B|B 67890 B|B abcde B|B fghij B|zBBBBBBBX
+tomb_armor,<gold><b>Royal Tomb <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B 1234  B|B 6789  B|B abcd  B|B fghi  B|zBBBBBBBX
+city_shields,<blue><b>Abandoned City <dark_gray>| <gray>Shields,icon_shields,3,BBBBIBBBB|B  123  B|zBBBBBBBX
+dunes_shields,<blue><b>The Dunes <dark_gray>| <gray>Shields,icon_shields,3,BBBBIBBBB|B  123  B|zBBBBBBBX
+canyons_shields,<blue><b>Howling Canyons <dark_gray>| <gray>Shields,icon_shields,3,BBBBIBBBB|B  123  B|zBBBBBBBX
+temple_shields,<blue><b>Sun Temple <dark_gray>| <gray>Shields,icon_shields,3,BBBBIBBBB|B  123  B|zBBBBBBBX
+tomb_utility,<gold><b>Royal Tomb <dark_gray>| <gray>Utility,icon_utility,3,BBBBIBBBB|B  12   B|zBBBBBBBX

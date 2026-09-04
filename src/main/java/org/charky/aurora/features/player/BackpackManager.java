@@ -25,6 +25,11 @@ public class BackpackManager {
         return backpacks.computeIfAbsent(uuid, k -> new BackpackData(registry));
     }
 
+    public void clear(UUID uuid) {
+        BackpackData data = backpacks.get(uuid);
+        if (data != null) data.clear();
+    }
+
     public void shutdown() {
         db.saveBackpacks(backpacks);
     }

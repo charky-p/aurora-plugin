@@ -80,6 +80,7 @@ public class DataRegistry {
         loadGear("other.yml", "");
         loadBlocks();
         loadMobs("gormak.yml");
+        loadMobs("origin.yml");
         loadIcons();
         // TODO: order matters since there is a hierarchy of GUIs, make this more robust
 //        loadGuis("armor.yml");
@@ -281,6 +282,7 @@ public class DataRegistry {
                 if (!model.lore.isEmpty()) lore.add(Component.empty());
                 lore.add(parseWorld(model.world));
                 meta.setUnbreakable(true);
+                if (!model.enchants.isEmpty()) meta.setEnchantmentGlintOverride(true);
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                 meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -380,9 +382,14 @@ public class DataRegistry {
             Map<Attribute, Double> attributes = new HashMap<>();
             if (model.attributes != null) {
                 for (MobModel.AttributeEntry entry : model.attributes) {
-                    NamespacedKey key = NamespacedKey.fromString(entry.attr);
-                    if (key == null) continue;
-                    attributes.put(Registry.ATTRIBUTE.get(key), entry.value);
+                    // Namespaced keys must be lowercase
+                    NamespacedKey key = NamespacedKey.fromString(entry.attr.toLowerCase());
+                    Attribute attribute = (key == null) ? null : Registry.ATTRIBUTE.get(key);
+                    if (attribute == null) {
+                        plugin.getLogger().warning("Mob '" + id + "': unknown attribute '" + entry.attr + "'");
+                        continue;
+                    }
+                    attributes.put(attribute, entry.value);
                 }
             }
 

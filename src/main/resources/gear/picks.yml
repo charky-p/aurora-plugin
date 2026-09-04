@@ -17,24 +17,27 @@
 # ===========================================================
 
 items:
-  starter_pick_1:
+  starter_pick_0:
     display: "<gray><b>Starter Pickaxe"
     material: WOODEN_PICKAXE
-    tier: 1
     type: "mining"
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
   cobble_pick_1:
-    display: "<gray><b>Cobble Pickaxe"
+    display: "<gray><b>Cobblestone Pickaxe"
     material: STONE_PICKAXE
     tier: 1
     type: "mining"
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   cobble_pick_2:
-    display: "<gray><b>Cobble Pickaxe"
+    display: "<gray><b>Cobblestone Pickaxe"
     material: STONE_PICKAXE
     tier: 2
     type: "mining"
@@ -42,9 +45,11 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 1
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   cobble_pick_3:
-    display: "<gray><b>Cobble Pickaxe"
+    display: "<gray><b>Cobblestone Pickaxe"
     material: STONE_PICKAXE
     tier: 3
     type: "mining"
@@ -52,9 +57,11 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 2
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   cobble_pick_4:
-    display: "<gray><b>Cobble Pickaxe"
+    display: "<gray><b>Cobblestone Pickaxe"
     material: STONE_PICKAXE
     tier: 4
     type: "mining"
@@ -63,9 +70,11 @@ items:
     enchants:
       efficiency: 2
       fortune: 1
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   cobble_pick_5:
-    display: "<gray><b>Cobble Pickaxe"
+    display: "<gray><b>Cobblestone Pickaxe"
     material: STONE_PICKAXE
     tier: 5
     type: "mining"
@@ -75,6 +84,8 @@ items:
       efficiency: 2
       fortune: 1
       luck: 1
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   coal_pick_1:
     display: "<dark_gray><b>Coal Pickaxe"
@@ -87,6 +98,8 @@ items:
       efficiency: 3
       fortune: 1
       luck: 1
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   coal_pick_2:
     display: "<dark_gray><b>Coal Pickaxe"
@@ -99,6 +112,8 @@ items:
       efficiency: 3
       fortune: 1
       luck: 2
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   coal_pick_3:
     display: "<dark_gray><b>Coal Pickaxe"
@@ -108,9 +123,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 3
-      fortune: 2
+      efficiency: 4
+      fortune: 1
       luck: 2
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   coal_pick_4:
     display: "<dark_gray><b>Coal Pickaxe"
@@ -123,6 +140,8 @@ items:
       efficiency: 4
       fortune: 2
       luck: 2
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   coal_pick_5:
     display: "<dark_gray><b>Coal Pickaxe"
@@ -133,8 +152,10 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 4
-      fortune: 3
-      luck: 2
+      fortune: 2
+      luck: 3
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   copper_pick_1:
     display: "<#D94110><b>Copper Pickaxe"
@@ -145,8 +166,10 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 4
-      fortune: 3
-      luck: 2
+      fortune: 2
+      luck: 3
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_pick_2:
     display: "<#D94110><b>Copper Pickaxe"
@@ -156,9 +179,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 5
-      fortune: 3
-      luck: 2
+      efficiency: 4
+      fortune: 2
+      luck: 4
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_pick_3:
     display: "<#D94110><b>Copper Pickaxe"
@@ -169,8 +194,10 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 5
-      fortune: 3
-      luck: 3
+      fortune: 2
+      luck: 4
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_pick_4:
     display: "<#D94110><b>Copper Pickaxe"
@@ -181,8 +208,10 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 5
-      fortune: 4
-      luck: 3
+      fortune: 2
+      luck: 5
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_pick_5:
     display: "<#D94110><b>Copper Pickaxe"
@@ -192,9 +221,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 6
-      fortune: 4
-      luck: 3
+      efficiency: 5
+      fortune: 3
+      luck: 4
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   iron_pick_1:
     display: "<white><b>Iron Pickaxe"
@@ -204,9 +235,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 6
-      fortune: 4
-      luck: 3
+      efficiency: 5
+      fortune: 3
+      luck: 4
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_pick_2:
     display: "<white><b>Iron Pickaxe"
@@ -216,9 +249,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 6
-      fortune: 4
-      luck: 4
+      efficiency: 5
+      fortune: 3
+      luck: 5
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_pick_3:
     display: "<white><b>Iron Pickaxe"
@@ -228,9 +263,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 7
-      fortune: 4
-      luck: 4
+      efficiency: 6
+      fortune: 3
+      luck: 5
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_pick_4:
     display: "<white><b>Iron Pickaxe"
@@ -241,8 +278,10 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 7
-      fortune: 5
-      luck: 4
+      fortune: 3
+      luck: 5
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_pick_5:
     display: "<white><b>Iron Pickaxe"
@@ -252,9 +291,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 8
-      fortune: 5
-      luck: 4
+      efficiency: 7
+      fortune: 4
+      luck: 5
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   gold_pick_1:
     display: "<gold><b>Gold Pickaxe"
@@ -264,9 +305,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 8
-      fortune: 5
-      luck: 4
+      efficiency: 7
+      fortune: 4
+      luck: 5
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_pick_2:
     display: "<gold><b>Gold Pickaxe"
@@ -277,8 +320,10 @@ items:
     region: "origin_isles"
     enchants:
       efficiency: 8
-      fortune: 5
+      fortune: 4
       luck: 5
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_pick_3:
     display: "<gold><b>Gold Pickaxe"
@@ -288,9 +333,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 9
-      fortune: 5
-      luck: 5
+      efficiency: 8
+      fortune: 4
+      luck: 6
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_pick_4:
     display: "<gold><b>Gold Pickaxe"
@@ -300,9 +347,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 10
+      efficiency: 8
       fortune: 5
-      luck: 5
+      luck: 6
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_pick_5:
     display: "<gold><b>Gold Pickaxe"
@@ -312,7 +361,219 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      efficiency: 10
+      efficiency: 8
       fortune: 5
-      luck: 5
+      luck: 6
       blast: 1
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
+
+  city_pick_1:
+    display: "<gray><b>Ashen Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      efficiency: 8
+      fortune: 5
+      luck: 7
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_pick_2:
+    display: "<gray><b>Ashen Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      efficiency: 9
+      fortune: 5
+      luck: 7
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_pick_3:
+    display: "<gray><b>Ashen Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      efficiency: 9
+      fortune: 6
+      luck: 7
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  dunes_pick_1:
+    display: "<yellow><b>Dune Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      efficiency: 9
+      fortune: 6
+      luck: 8
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_pick_2:
+    display: "<yellow><b>Dune Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      efficiency: 10
+      fortune: 6
+      luck: 8
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_pick_3:
+    display: "<yellow><b>Dune Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      efficiency: 10
+      fortune: 7
+      luck: 8
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  canyons_pick_1:
+    display: "<#B4462A><b>Canyon Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      efficiency: 10
+      fortune: 7
+      luck: 9
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_pick_2:
+    display: "<#B4462A><b>Canyon Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      efficiency: 10
+      fortune: 7
+      luck: 10
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_pick_3:
+    display: "<#B4462A><b>Canyon Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      efficiency: 10
+      fortune: 8
+      luck: 10
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  temple_pick_1:
+    display: "<gold><b>Sunward Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      efficiency: 10
+      fortune: 8
+      luck: 11
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_pick_2:
+    display: "<gold><b>Sunward Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      efficiency: 11
+      fortune: 8
+      luck: 11
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_pick_3:
+    display: "<gold><b>Sunward Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 3
+    type: "mining"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      efficiency: 11
+      fortune: 9
+      luck: 11
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  tomb_pick_1:
+    display: "<dark_purple><b>Royal Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 1
+    type: "mining"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      efficiency: 12
+      fortune: 9
+      luck: 11
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_pick_2:
+    display: "<dark_purple><b>Royal Pickaxe"
+    material: GOLDEN_PICKAXE
+    tier: 2
+    type: "mining"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      efficiency: 12
+      fortune: 10
+      luck: 11
+      blast: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"

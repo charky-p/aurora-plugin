@@ -1,19 +1,20 @@
 id,display,material,glow,lore
-cobble_picks,<gray><b>Cobblestone Pickaxe,STONE_PICKAXE,true,
-cobble_gear,<gray><b>Cobblestone Gear,LEATHER_CHESTPLATE,true,
-coal_picks,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,true,
-coal_gear,<dark_gray><b>Coal Gear,LEATHER_CHESTPLATE,true,
-copper_picks,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,true,
-copper_gear,<#D94110><b>Copper Gear,COPPER_CHESTPLATE,true,
-iron_picks,<white><b>Iron Pickaxe,IRON_PICKAXE,true,
-iron_gear,<white><b>Iron Gear,IRON_CHESTPLATE,true,
-gold_picks,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,true,
-gold_gear,<gold><b>Gold Gear,GOLDEN_CHESTPLATE,true,
-gormak_city_picks,<gray><b>Abandoned City Picks,GOLDEN_PICKAXE,true,
-gormak_city_gear,<gray><b>Abandoned City Gear,CHAINMAIL_CHESTPLATE,true,
-gormak_dunes_picks,<white><b>The Shifting Dunes Picks,GOLDEN_PICKAXE,true,
-gormak_dunes_gear,<white><b>The Shifting Dunes Gear,IRON_CHESTPLATE,true,
-gormak_temple_picks,<gold><b>Ancient Temple Picks,GOLDEN_PICKAXE,true,
-gormak_temple_gear,<gold><b>Ancient Temple Gear,GOLDEN_CHESTPLATE,true,
-gormak_tomb_picks,<#FFD700><b>Royal Tomb Picks,GOLDEN_PICKAXE,true,
-gormak_tomb_gear,<#FFD700><b>Royal Tomb Gear,GOLDEN_CHESTPLATE,true,
+icon_picks,<gray><b>Pickaxes,DIAMOND_PICKAXE,false,"<gray>Mine faster, drop more."
+icon_swords,<gray><b>Swords,DIAMOND_SWORD,false,<gray>Hit harder.
+icon_armor,<gray><b>Armour,DIAMOND_CHESTPLATE,false,<gray>Take less.
+icon_shields,<blue><b>Shields,SHIELD,false,<gray>Raise to deflect.
+icon_utility,<gold><b>Utility,ENDER_CHEST,false,<gray>Everything else.
+icon_back,<red><b>Back,ARROW,false,<gray>Return to the previous menu.
+icon_origin,<green><b>Origin Isles,GRASS_BLOCK,true,<gray>Where everyone starts.
+icon_gormak,<gold><b>Gormak,SAND,true,<gray>The buried kingdom.
+icon_starter,<gray><b>Starter Gear,WOODEN_PICKAXE,false,<gray>Free. Barely works.
+icon_cobble,<gray><b>Cobblestone Quarry,COBBLESTONE,false,<gray>Zone 1
+icon_coal,<dark_gray><b>Coal Seam,COAL_BLOCK,false,<gray>Zone 2
+icon_copper,<#D94110><b>Copper Vein,COPPER_BLOCK,false,<gray>Zone 3 - chickens
+icon_iron,<white><b>Iron Deposit,IRON_BLOCK,false,<gray>Zone 4 - sheep
+icon_gold,<gold><b>Gold Reef,GOLD_BLOCK,false,<gray>Zone 5 - cows
+icon_city,<gray><b>Abandoned City,STONE_BRICKS,false,<gray>Serfs and scavengers
+icon_dunes,<yellow><b>The Dunes,SANDSTONE,false,<gray>Scouts and stalkers
+icon_canyons,<#B4462A><b>Howling Canyons,RED_SANDSTONE,false,<gray>Zealots and legionnaires
+icon_temple,<gold><b>Sun Temple,RAW_GOLD_BLOCK,false,<gray>Guards and viziers
+icon_tomb,<dark_purple><b>Royal Tomb,GILDED_BLACKSTONE,true,"<gray>Myrmidons, pharaohs, and him."

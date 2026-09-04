@@ -1,27 +1,41 @@
 id,display,material,tier,type,world,region,enchants,lore
-starter_pick_1,<gray><b>Starter Pickaxe,WOODEN_PICKAXE,1,mining,overworld,origin_isles,,
-cobble_pick_1,<gray><b>Cobble Pickaxe,STONE_PICKAXE,1,mining,overworld,origin_isles,,
-cobble_pick_2,<gray><b>Cobble Pickaxe,STONE_PICKAXE,2,mining,overworld,origin_isles,efficiency:1,
-cobble_pick_3,<gray><b>Cobble Pickaxe,STONE_PICKAXE,3,mining,overworld,origin_isles,efficiency:2,
-cobble_pick_4,<gray><b>Cobble Pickaxe,STONE_PICKAXE,4,mining,overworld,origin_isles,efficiency:2|fortune:1,
-cobble_pick_5,<gray><b>Cobble Pickaxe,STONE_PICKAXE,5,mining,overworld,origin_isles,efficiency:2|fortune:1|luck:1,
-coal_pick_1,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,1,mining,overworld,origin_isles,efficiency:3|fortune:1|luck:1,
-coal_pick_2,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,2,mining,overworld,origin_isles,efficiency:3|fortune:1|luck:2,
-coal_pick_3,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,3,mining,overworld,origin_isles,efficiency:3|fortune:2|luck:2,
-coal_pick_4,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,4,mining,overworld,origin_isles,efficiency:4|fortune:2|luck:2,
-coal_pick_5,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,5,mining,overworld,origin_isles,efficiency:4|fortune:3|luck:2,
-copper_pick_1,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,1,mining,overworld,origin_isles,efficiency:4|fortune:3|luck:2,
-copper_pick_2,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,2,mining,overworld,origin_isles,efficiency:5|fortune:3|luck:2,
-copper_pick_3,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,3,mining,overworld,origin_isles,efficiency:5|fortune:3|luck:3,
-copper_pick_4,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,4,mining,overworld,origin_isles,efficiency:5|fortune:4|luck:3,
-copper_pick_5,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,5,mining,overworld,origin_isles,efficiency:6|fortune:4|luck:3,
-iron_pick_1,<white><b>Iron Pickaxe,IRON_PICKAXE,1,mining,overworld,origin_isles,efficiency:6|fortune:4|luck:3,
-iron_pick_2,<white><b>Iron Pickaxe,IRON_PICKAXE,2,mining,overworld,origin_isles,efficiency:6|fortune:4|luck:4,
-iron_pick_3,<white><b>Iron Pickaxe,IRON_PICKAXE,3,mining,overworld,origin_isles,efficiency:7|fortune:4|luck:4,
-iron_pick_4,<white><b>Iron Pickaxe,IRON_PICKAXE,4,mining,overworld,origin_isles,efficiency:7|fortune:5|luck:4,
-iron_pick_5,<white><b>Iron Pickaxe,IRON_PICKAXE,5,mining,overworld,origin_isles,efficiency:8|fortune:5|luck:4,
-gold_pick_1,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,1,mining,overworld,origin_isles,efficiency:8|fortune:5|luck:4,
-gold_pick_2,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,origin_isles,efficiency:8|fortune:5|luck:5,
-gold_pick_3,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,3,mining,overworld,origin_isles,efficiency:9|fortune:5|luck:5,
-gold_pick_4,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,4,mining,overworld,origin_isles,efficiency:10|fortune:5|luck:5,
-gold_pick_5,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,5,mining,overworld,origin_isles,efficiency:10|fortune:5|luck:5|blast:1,
+starter_pick_0,<gray><b>Starter Pickaxe,WOODEN_PICKAXE,0,mining,overworld,origin_isles,,<dark_gray>Origin Isles
+cobble_pick_1,<gray><b>Cobblestone Pickaxe,STONE_PICKAXE,1,mining,overworld,origin_isles,,<dark_gray>Origin Isles - Cobblestone Quarry
+cobble_pick_2,<gray><b>Cobblestone Pickaxe,STONE_PICKAXE,2,mining,overworld,origin_isles,efficiency:1,<dark_gray>Origin Isles - Cobblestone Quarry
+cobble_pick_3,<gray><b>Cobblestone Pickaxe,STONE_PICKAXE,3,mining,overworld,origin_isles,efficiency:2,<dark_gray>Origin Isles - Cobblestone Quarry
+cobble_pick_4,<gray><b>Cobblestone Pickaxe,STONE_PICKAXE,4,mining,overworld,origin_isles,efficiency:2|fortune:1,<dark_gray>Origin Isles - Cobblestone Quarry
+cobble_pick_5,<gray><b>Cobblestone Pickaxe,STONE_PICKAXE,5,mining,overworld,origin_isles,efficiency:2|fortune:1|luck:1,<dark_gray>Origin Isles - Cobblestone Quarry
+coal_pick_1,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,1,mining,overworld,origin_isles,efficiency:3|fortune:1|luck:1,<dark_gray>Origin Isles - Coal Seam
+coal_pick_2,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,2,mining,overworld,origin_isles,efficiency:3|fortune:1|luck:2,<dark_gray>Origin Isles - Coal Seam
+coal_pick_3,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,3,mining,overworld,origin_isles,efficiency:4|fortune:1|luck:2,<dark_gray>Origin Isles - Coal Seam
+coal_pick_4,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,4,mining,overworld,origin_isles,efficiency:4|fortune:2|luck:2,<dark_gray>Origin Isles - Coal Seam
+coal_pick_5,<dark_gray><b>Coal Pickaxe,STONE_PICKAXE,5,mining,overworld,origin_isles,efficiency:4|fortune:2|luck:3,<dark_gray>Origin Isles - Coal Seam
+copper_pick_1,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,1,mining,overworld,origin_isles,efficiency:4|fortune:2|luck:3,<dark_gray>Origin Isles - Copper Vein
+copper_pick_2,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,2,mining,overworld,origin_isles,efficiency:4|fortune:2|luck:4,<dark_gray>Origin Isles - Copper Vein
+copper_pick_3,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,3,mining,overworld,origin_isles,efficiency:5|fortune:2|luck:4,<dark_gray>Origin Isles - Copper Vein
+copper_pick_4,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,4,mining,overworld,origin_isles,efficiency:5|fortune:2|luck:5,<dark_gray>Origin Isles - Copper Vein
+copper_pick_5,<#D94110><b>Copper Pickaxe,COPPER_PICKAXE,5,mining,overworld,origin_isles,efficiency:5|fortune:3|luck:4,<dark_gray>Origin Isles - Copper Vein
+iron_pick_1,<white><b>Iron Pickaxe,IRON_PICKAXE,1,mining,overworld,origin_isles,efficiency:5|fortune:3|luck:4,<dark_gray>Origin Isles - Iron Deposit
+iron_pick_2,<white><b>Iron Pickaxe,IRON_PICKAXE,2,mining,overworld,origin_isles,efficiency:5|fortune:3|luck:5,<dark_gray>Origin Isles - Iron Deposit
+iron_pick_3,<white><b>Iron Pickaxe,IRON_PICKAXE,3,mining,overworld,origin_isles,efficiency:6|fortune:3|luck:5,<dark_gray>Origin Isles - Iron Deposit
+iron_pick_4,<white><b>Iron Pickaxe,IRON_PICKAXE,4,mining,overworld,origin_isles,efficiency:7|fortune:3|luck:5,<dark_gray>Origin Isles - Iron Deposit
+iron_pick_5,<white><b>Iron Pickaxe,IRON_PICKAXE,5,mining,overworld,origin_isles,efficiency:7|fortune:4|luck:5,<dark_gray>Origin Isles - Iron Deposit
+gold_pick_1,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,1,mining,overworld,origin_isles,efficiency:7|fortune:4|luck:5,<dark_gray>Origin Isles - Gold Reef
+gold_pick_2,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,origin_isles,efficiency:8|fortune:4|luck:5,<dark_gray>Origin Isles - Gold Reef
+gold_pick_3,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,3,mining,overworld,origin_isles,efficiency:8|fortune:4|luck:6,<dark_gray>Origin Isles - Gold Reef
+gold_pick_4,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,4,mining,overworld,origin_isles,efficiency:8|fortune:5|luck:6,<dark_gray>Origin Isles - Gold Reef
+gold_pick_5,<gold><b>Gold Pickaxe,GOLDEN_PICKAXE,5,mining,overworld,origin_isles,efficiency:8|fortune:5|luck:6|blast:1,<dark_gray>Origin Isles - Gold Reef
+city_pick_1,<gray><b>Ashen Pickaxe,GOLDEN_PICKAXE,1,mining,overworld,gormak_city,efficiency:8|fortune:5|luck:7|blast:1,<dark_gray>Gormak - Abandoned City
+city_pick_2,<gray><b>Ashen Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,gormak_city,efficiency:9|fortune:5|luck:7|blast:1,<dark_gray>Gormak - Abandoned City
+city_pick_3,<gray><b>Ashen Pickaxe,GOLDEN_PICKAXE,3,mining,overworld,gormak_city,efficiency:9|fortune:6|luck:7|blast:1,<dark_gray>Gormak - Abandoned City
+dunes_pick_1,<yellow><b>Dune Pickaxe,GOLDEN_PICKAXE,1,mining,overworld,gormak_dunes,efficiency:9|fortune:6|luck:8|blast:1,<dark_gray>Gormak - The Dunes
+dunes_pick_2,<yellow><b>Dune Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,gormak_dunes,efficiency:10|fortune:6|luck:8|blast:1,<dark_gray>Gormak - The Dunes
+dunes_pick_3,<yellow><b>Dune Pickaxe,GOLDEN_PICKAXE,3,mining,overworld,gormak_dunes,efficiency:10|fortune:7|luck:8|blast:1,<dark_gray>Gormak - The Dunes
+canyons_pick_1,<#B4462A><b>Canyon Pickaxe,GOLDEN_PICKAXE,1,mining,overworld,gormak_canyons,efficiency:10|fortune:7|luck:9|blast:1,<dark_gray>Gormak - Howling Canyons
+canyons_pick_2,<#B4462A><b>Canyon Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,gormak_canyons,efficiency:10|fortune:7|luck:10|blast:1,<dark_gray>Gormak - Howling Canyons
+canyons_pick_3,<#B4462A><b>Canyon Pickaxe,GOLDEN_PICKAXE,3,mining,overworld,gormak_canyons,efficiency:10|fortune:8|luck:10|blast:1,<dark_gray>Gormak - Howling Canyons
+temple_pick_1,<gold><b>Sunward Pickaxe,GOLDEN_PICKAXE,1,mining,overworld,gormak_temple,efficiency:10|fortune:8|luck:11|blast:1,<dark_gray>Gormak - Sun Temple
+temple_pick_2,<gold><b>Sunward Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,gormak_temple,efficiency:11|fortune:8|luck:11|blast:1,<dark_gray>Gormak - Sun Temple
+temple_pick_3,<gold><b>Sunward Pickaxe,GOLDEN_PICKAXE,3,mining,overworld,gormak_temple,efficiency:11|fortune:9|luck:11|blast:1,<dark_gray>Gormak - Sun Temple
+tomb_pick_1,<dark_purple><b>Royal Pickaxe,GOLDEN_PICKAXE,1,mining,overworld,gormak_tomb,efficiency:12|fortune:9|luck:11|blast:1,<dark_gray>Gormak - Royal Tomb
+tomb_pick_2,<dark_purple><b>Royal Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,gormak_tomb,efficiency:12|fortune:10|luck:11|blast:1,<dark_gray>Gormak - Royal Tomb

@@ -30,135 +30,312 @@
 
 items:
   hollowed_serf:
-    display: "<gray>Hollowed Serf"
-    entity: HUSK
-    health: 30.0
-    attack: 10.0
+    display: "<gray><b>Hollowed Serf"
+    entity: ZOMBIE_VILLAGER
+    health: 40.0
+    defence: 2.0
+    attack: 48.0
     equip:
       head: serf_helmet_1
-      hand: serf_sword_1
+      chest: serf_chestplate_1
+      hand: serf_cleaver
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.23
     independent:
       - id: tattered_cloth
         min: 2
         max: 5
       - id: ancient_scrap
-        chance: 30
+        chance: 25
         max: 2
+      - id: serf_cleaver
+        chance: 2
 
   scavenger_husk:
     display: "<gray><b>Scavenger Husk"
     entity: HUSK
-    health: 40.0
-    defence: 2.0
-    attack: 10.0
+    health: 80.0
+    defence: 3.0
+    attack: 50.0
     equip:
       head: scavenger_helmet_1
       chest: scavenger_chestplate_1
-      hand: scavenger_sword_1
+      legs: scavenger_leggings_1
+      hand: scavenger_shiv
     attributes:
       - attr: MOVEMENT_SPEED
-        value: 0.3
+        value: 0.26
+      - attr: FOLLOW_RANGE
+        value: 32.0
     independent:
       - id: ancient_scrap
         min: 3
         max: 6
+      - id: tattered_cloth
+        chance: 25
+        max: 3
+      - id: scavenger_shiv
+        chance: 2
 
   dune_scout:
-    display: "<white><b>Dune Scout"
+    display: "<yellow><b>Dune Scout"
     entity: HUSK
-    health: 60.0
+    health: 100.0
     defence: 4.0
-    attack: 20.0
+    attack: 66.0
     equip:
-      head: dune_scout_helmet_1
-      hand: dune_scout_sword_1
+      head: scout_helmet_1
+      chest: scout_chestplate_1
+      feet: scout_boots_1
+      hand: scout_blade
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.34
+      - attr: FOLLOW_RANGE
+        value: 40.0
+      - attr: ATTACK_KNOCKBACK
+        value: 1.0
     independent:
       - id: ancient_flesh
-        max: 3
+        min: 2
+        max: 5
+      - id: scout_blade
+        chance: 2
 
   sand_stalker:
     display: "<gold><b>Sand Stalker"
-    entity: SKELETON
-    health: 100.0
-    defence: 2.0
-    attack: 20.0
+    entity: WITHER_SKELETON
+    health: 130.0
+    defence: 5.0
+    attack: 68.0
     equip:
       head: stalker_helmet_1
-      hand: stalker_sword_1
+      chest: stalker_chestplate_1
+      legs: stalker_leggings_1
+      hand: stalker_fang
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.36
+      - attr: FOLLOW_RANGE
+        value: 48.0
     independent:
       - id: ancient_bone
-        min: 5
-        max: 11
+        min: 4
+        max: 9
+      - id: ancient_flesh
+        chance: 30
+        max: 3
+      - id: stalker_fang
+        chance: 2
+
+  scarab_zealot:
+    display: "<dark_purple><b>Scarab Zealot"
+    entity: ZOMBIE
+    health: 180.0
+    defence: 6.0
+    attack: 84.0
+    equip:
+      head: zealot_helmet_1
+      chest: zealot_chestplate_1
+      legs: zealot_leggings_1
+      hand: scarab_khopesh
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: scarab_shell
+        min: 2
+        max: 5
+      - id: scarab_khopesh
+        chance: 2
+
+  hollowed_legionnaire:
+    display: "<gray><b>Hollowed Legionnaire"
+    entity: HUSK
+    health: 200.0
+    defence: 8.0
+    attack: 86.0
+    equip:
+      head: legionnaire_helmet_1
+      chest: legionnaire_chestplate_1
+      legs: legionnaire_leggings_1
+      feet: legionnaire_boots_1
+      hand: legion_halberd
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.22
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 36.0
+    independent:
+      - id: legion_plate
+        min: 2
+        max: 4
+      - id: scarab_shell
+        chance: 25
+        max: 2
+      - id: legion_halberd
+        chance: 2
 
   tomb_guard:
     display: "<gold><b>Tomb Guard"
     entity: HUSK
-    health: 120.0
-    defence: 8.0
-    attack: 30.0
+    health: 250.0
+    defence: 10.0
+    attack: 95.0
     equip:
-      head: tomb_guard_helmet_1
-      chest: tomb_guard_chestplate_1
-      legs: tomb_guard_leggings_1
-      feet: tomb_guard_boots_1
-      hand: tomb_guard_sword_1
+      head: guard_helmet_1
+      chest: guard_chestplate_1
+      legs: guard_leggings_1
+      feet: guard_boots_1
+      hand: tomb_halberd
     attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.24
       - attr: KNOCKBACK_RESISTANCE
         value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 40.0
     independent:
       - id: ancient_nugget
         min: 3
         max: 7
+      - id: tomb_halberd
+        chance: 2
 
   vizier_mage:
-    display: "<gold><b>Vizier Mage"
-    entity: HUSK
-    health: 160.0
-    defence: 5.0
-    attack: 30.0
+    display: "<yellow><b>Vizier Mage"
+    entity: SKELETON
+    health: 220.0
+    defence: 12.0
+    attack: 100.0
     equip:
       head: vizier_helmet_1
-      hand: vizier_sword_1
+      chest: vizier_chestplate_1
+      hand: vizier_bow
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.28
+      - attr: FOLLOW_RANGE
+        value: 64.0
     independent:
       - id: vizier_scroll
-        chance: 25
+        max: 3
+      - id: ancient_nugget
+        chance: 40
+        min: 2
+        max: 4
+      - id: vizier_bow
+        chance: 2
 
   royal_myrmidon:
-    display: "<gold><b>Royal Myrmidon"
-    entity: HUSK
-    health: 200.0
-    defence: 12.0
-    attack: 50.0
+    display: "<dark_purple><b>Royal Myrmidon"
+    entity: WITHER_SKELETON
+    health: 320.0
+    defence: 14.0
+    attack: 120.0
     equip:
       head: myrmidon_helmet_1
       chest: myrmidon_chestplate_1
       legs: myrmidon_leggings_1
       feet: myrmidon_boots_1
-      hand: myrmidon_sword_1
+      hand: myrmidon_blade
     attributes:
-      - attr: ATTACK_DAMAGE
-        value: 15.0
+      - attr: MOVEMENT_SPEED
+        value: 0.28
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
     independent:
       - id: eternal_soul
-        chance: 35
+        max: 2
+      - id: tomb_key
+        chance: 8
+      - id: myrmidon_blade
+        chance: 2
+
+  pharaoh:
+    display: "<gold><b>Pharaoh"
+    entity: ZOMBIE_VILLAGER
+    health: 380.0
+    defence: 16.0
+    attack: 122.0
+    equip:
+      head: pharaoh_helmet_1
+      chest: pharaoh_chestplate_1
+      legs: pharaoh_leggings_1
+      feet: pharaoh_boots_1
+      hand: pharaoh_scepter
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.26
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+    independent:
+      - id: royal_seal
+        max: 2
+      - id: tomb_key
+        chance: 8
+      - id: pharaoh_scepter
+        chance: 2
 
   gormak_eternal:
-    display: "<gold><b>Gormak the Eternal"
-    entity: HUSK
-    health: 500.0
-    defence: 25.0
-    attack: 150.0
+    display: "<dark_red><b>Gormak the Eternal"
+    entity: WITHER_SKELETON
+    health: 600.0
+    defence: 20.0
+    attack: 135.0
     equip:
-      head: gormak_helmet_1
-      chest: gormak_chestplate_1
-      legs: gormak_leggings_1
-      feet: gormak_boots_1
-      hand: gormak_sword_1
+      head: eternal_helmet_1
+      chest: eternal_chestplate_1
+      legs: eternal_leggings_1
+      feet: eternal_boots_1
+      hand: gormak_blade
+      off_hand: totem
     attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.3
       - attr: KNOCKBACK_RESISTANCE
         value: 1.0
       - attr: FOLLOW_RANGE
         value: 100.0
+      - attr: ATTACK_KNOCKBACK
+        value: 2.0
+      - attr: SCALE
+        value: 2.0
     independent:
       - id: ancient_heart
         max: 2
+      - id: gormak_blade
+        chance: 15
+      - id: royal_seal
+        min: 3
+        max: 6
+
+  mirage:
+    display: "<light_purple><b>Mirage"
+    entity: HUSK
+    health: 400.0
+    defence: 5.0
+    attack: 60.0
+    equip:
+      head: mirage_helmet_1
+      chest: mirage_chestplate_1
+      hand: mirage_edge
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.32
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    independent:
+      - id: mirage_shard
+        max: 2
+      - id: mirage_edge
+        chance: 5

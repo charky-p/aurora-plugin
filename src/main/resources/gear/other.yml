@@ -17,107 +17,181 @@
 # ===========================================================
 
 items:
-  leather_helmet:
-    display: "<white><b>Leather Helmet"
-    material: LEATHER_HELMET
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-
-  iron_helmet:
-    display: "<white><b>Iron Helmet"
-    material: IRON_HELMET
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-
-  iron_chestplate:
-    display: "<white><b>Iron Chestplate"
-    material: IRON_CHESTPLATE
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-
-  gold_chestplate:
-    display: "<white><b>Gold Chestplate"
-    material: GOLDEN_CHESTPLATE
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-
-  iron_leggings:
-    display: "<white><b>Iron Leggings"
-    material: IRON_LEGGINGS
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-
-  leather_leggings:
-    display: "<white><b>Leather Leggings"
-    material: LEATHER_LEGGINGS
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-
-  leather_boots:
-    display: "<white><b>Leather Boots"
-    material: LEATHER_BOOTS
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-
-  wooden_sword:
-    display: "<white><b>Wooden Sword"
-    material: WOODEN_SWORD
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-
-  iron_sword:
-    display: "<white><b>Iron Sword"
-    material: IRON_SWORD
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-
-  bow:
-    display: "<white><b>Bow"
-    material: BOW
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-
-  shield:
-    display: "<white><b>Shield"
+  city_shield_1:
+    display: "<gray><b>Ashen Shield"
     material: SHIELD
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-
-  gormak_sword:
-    display: "<aqua><b>Gormak Sword"
-    material: DIAMOND_SWORD
     tier: 1
-    type: "combat"
+    type: "armor"
     world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 30
-      pierce: 5
+    region: "gormak_city"
     lore:
-      - "<yellow>Forged by Gormak's descendants"
-      - "<yellow>Aura emits from the sword n dat"
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Abandoned City"
 
-  gormak_chest:
-    display: "<brown><b>Gormak Chestplate"
-    material: DIAMOND_CHESTPLATE
+  city_shield_2:
+    display: "<gray><b>Ashen Shield"
+    material: SHIELD
+    tier: 2
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
+    enchants:
+      deflection: 1
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Abandoned City"
 
-  totem_of_undying:
-    display: "<yellow><b>Totem of Undying"
+  city_shield_3:
+    display: "<gray><b>Ashen Shield"
+    material: SHIELD
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      deflection: 2
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Abandoned City"
+
+  dunes_shield_1:
+    display: "<yellow><b>Dune Shield"
+    material: SHIELD
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      deflection: 3
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_shield_2:
+    display: "<yellow><b>Dune Shield"
+    material: SHIELD
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      deflection: 4
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_shield_3:
+    display: "<yellow><b>Dune Shield"
+    material: SHIELD
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      deflection: 5
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - The Dunes"
+
+  canyons_shield_1:
+    display: "<#B4462A><b>Canyon Shield"
+    material: SHIELD
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      deflection: 6
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_shield_2:
+    display: "<#B4462A><b>Canyon Shield"
+    material: SHIELD
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      deflection: 7
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_shield_3:
+    display: "<#B4462A><b>Canyon Shield"
+    material: SHIELD
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      deflection: 8
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  temple_shield_1:
+    display: "<gold><b>Sunward Shield"
+    material: SHIELD
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      deflection: 9
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_shield_2:
+    display: "<gold><b>Sunward Shield"
+    material: SHIELD
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      deflection: 10
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_shield_3:
+    display: "<gold><b>Sunward Shield"
+    material: SHIELD
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      deflection: 10
+      defence: 1
+    lore:
+      - "<gray>Raise to deflect. Fully negates weaker blows."
+      - "<dark_gray>Gormak - Sun Temple"
+
+  totem:
+    display: "<gold><b>Totem of Undying"
     material: TOTEM_OF_UNDYING
-    type: "armor"
+    type: ''
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
+    lore:
+      - "<gray>Survives one killing blow."
+      - "<dark_gray>Consumed on use"
+
+  gormak_talisman:
+    display: "<dark_red><b>Gormak Talisman"
+    material: NETHER_STAR
+    type: ''
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      luck: 10
+      bloodlust: 1
+    lore:
+      - "<gray>Held in the off hand."
+      - "<gray>Carries the weight of the tomb."
+      - "<dark_gray>Gormak - Royal Tomb"

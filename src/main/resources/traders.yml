@@ -11,51 +11,56 @@
 
 items:
   starter_trader:
-    display: "<gray><b>Starter Trader"
+    display: "<gray><b>Isle Outfitter"
     entity: VILLAGER
     gui: starter_shop
 
   cobble_trader:
-    display: "<gray><b>Cobble Trader"
+    display: "<gray><b>Quarry Foreman"
     entity: VILLAGER
     gui: cobble_shop
 
   coal_trader:
-    display: "<gray><b>Coal Trader"
+    display: "<dark_gray><b>Coal Broker"
     entity: VILLAGER
     gui: coal_shop
 
   copper_trader:
-    display: "<gray><b>Copper Trader"
+    display: "<#D94110><b>Copper Smith"
     entity: VILLAGER
     gui: copper_shop
 
   iron_trader:
-    display: "<gray><b>Iron Trader"
+    display: "<white><b>Iron Smith"
     entity: VILLAGER
     gui: iron_shop
 
   gold_trader:
-    display: "<gray><b>Gold Trader"
+    display: "<gold><b>Gold Assayer"
     entity: VILLAGER
     gui: gold_shop
 
-  gormak_city_trader:
-    display: "<yellow><b>Abandoned City Trader"
-    entity: VILLAGER
-    gui: gormak_city_shop
+  city_trader:
+    display: "<gray><b>City Scavenger"
+    entity: WANDERING_TRADER
+    gui: city_shop
 
-  gormak_dunes_trader:
-    display: "<yellow><b>Dunes Trader"
-    entity: VILLAGER
-    gui: gormak_dunes_shop
+  dunes_trader:
+    display: "<yellow><b>Dune Nomad"
+    entity: WANDERING_TRADER
+    gui: dunes_shop
 
-  gormak_temple_trader:
-    display: "<yellow><b>Temple Trader"
-    entity: VILLAGER
-    gui: gormak_temple_shop
+  canyons_trader:
+    display: "<#B4462A><b>Canyon Hermit"
+    entity: WANDERING_TRADER
+    gui: canyons_shop
 
-  gormak_tomb_trader:
-    display: "<yellow><b>Gormak Tomb Trader"
-    entity: VILLAGER
-    gui: gormak_tomb_shop
+  temple_trader:
+    display: "<gold><b>Temple Keeper"
+    entity: WANDERING_TRADER
+    gui: temple_shop
+
+  tomb_trader:
+    display: "<dark_purple><b>Tomb Broker"
+    entity: WANDERING_TRADER
+    gui: tomb_shop

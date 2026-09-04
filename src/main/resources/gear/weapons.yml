@@ -17,33 +17,36 @@
 # ===========================================================
 
 items:
-  starter_sword_1:
+  starter_sword_0:
     display: "<gray><b>Starter Sword"
     material: WOODEN_SWORD
-    tier: 1
     type: "combat"
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
   cobble_sword_1:
-    display: "<gray><b>Cobble Sword"
+    display: "<gray><b>Cobblestone Sword"
     material: STONE_SWORD
     tier: 1
     type: "combat"
     world: "overworld"
     region: "origin_isles"
-    enchants:
-      sharpness: 1
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   cobble_sword_2:
-    display: "<gray><b>Cobble Sword"
+    display: "<gray><b>Cobblestone Sword"
     material: STONE_SWORD
     tier: 2
     type: "combat"
     world: "overworld"
     region: "origin_isles"
     enchants:
-      sharpness: 2
+      sharpness: 1
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   coal_sword_1:
     display: "<dark_gray><b>Coal Sword"
@@ -54,6 +57,8 @@ items:
     region: "origin_isles"
     enchants:
       sharpness: 2
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   coal_sword_2:
     display: "<dark_gray><b>Coal Sword"
@@ -63,7 +68,10 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      sharpness: 3
+      sharpness: 2
+      luck: 1
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   copper_sword_1:
     display: "<#D94110><b>Copper Sword"
@@ -73,7 +81,10 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      sharpness: 3
+      sharpness: 2
+      luck: 1
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_sword_2:
     display: "<#D94110><b>Copper Sword"
@@ -83,7 +94,50 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
+      sharpness: 3
+      luck: 1
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
+
+  copper_sword_3:
+    display: "<#D94110><b>Copper Sword"
+    material: COPPER_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
       sharpness: 4
+      luck: 1
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
+
+  copper_sword_4:
+    display: "<#D94110><b>Copper Sword"
+    material: COPPER_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 5
+      luck: 1
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
+
+  copper_sword_5:
+    display: "<#D94110><b>Copper Sword"
+    material: COPPER_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 5
+      luck: 1
+      looting: 1
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   iron_sword_1:
     display: "<white><b>Iron Sword"
@@ -93,7 +147,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      sharpness: 4
+      sharpness: 5
+      luck: 1
+      looting: 1
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_sword_2:
     display: "<white><b>Iron Sword"
@@ -103,7 +161,53 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      sharpness: 5
+      sharpness: 6
+      luck: 1
+      looting: 1
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
+
+  iron_sword_3:
+    display: "<white><b>Iron Sword"
+    material: IRON_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 6
+      luck: 2
+      looting: 1
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
+
+  iron_sword_4:
+    display: "<white><b>Iron Sword"
+    material: IRON_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 7
+      luck: 2
+      looting: 1
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
+
+  iron_sword_5:
+    display: "<white><b>Iron Sword"
+    material: IRON_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 7
+      luck: 2
+      looting: 2
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   gold_sword_1:
     display: "<gold><b>Gold Sword"
@@ -113,7 +217,11 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      sharpness: 5
+      sharpness: 7
+      luck: 2
+      looting: 2
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_sword_2:
     display: "<gold><b>Gold Sword"
@@ -123,32 +231,14 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      sharpness: 6
-
-  crude_gormak_sword_1:
-    display: "<gold><b>Crude Gormak Sword"
-    material: GOLDEN_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 6
-      looting: 1
-
-  crude_gormak_sword_2:
-    display: "<gold><b>Crude Gormak Sword"
-    material: GOLDEN_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
       sharpness: 7
-      looting: 1
+      luck: 3
+      looting: 2
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
-  crude_gormak_sword_3:
-    display: "<gold><b>Crude Gormak Sword"
+  gold_sword_3:
+    display: "<gold><b>Gold Sword"
     material: GOLDEN_SWORD
     tier: 3
     type: "combat"
@@ -156,379 +246,595 @@ items:
     region: "origin_isles"
     enchants:
       sharpness: 8
-      looting: 1
+      luck: 3
+      looting: 2
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
-  crude_gormak_sword_4:
-    display: "<gold><b>Crude Gormak Sword"
+  gold_sword_4:
+    display: "<gold><b>Gold Sword"
     material: GOLDEN_SWORD
     tier: 4
     type: "combat"
     world: "overworld"
     region: "origin_isles"
+    enchants:
+      sharpness: 8
+      luck: 4
+      looting: 2
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
+
+  gold_sword_5:
+    display: "<gold><b>Gold Sword"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      sharpness: 8
+      luck: 4
+      looting: 3
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
+
+  city_sword_1:
+    display: "<gray><b>Ashen Sword"
+    material: GOLDEN_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      sharpness: 8
+      luck: 5
+      looting: 3
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_sword_2:
+    display: "<gray><b>Ashen Sword"
+    material: GOLDEN_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "gormak_city"
     enchants:
       sharpness: 9
-      looting: 1
+      luck: 5
+      looting: 3
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
 
-  crude_gormak_sword_5:
-    display: "<gold><b>Crude Gormak Sword"
+  city_sword_3:
+    display: "<gray><b>Ashen Sword"
+    material: GOLDEN_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      sharpness: 10
+      luck: 5
+      looting: 3
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_sword_4:
+    display: "<gray><b>Ashen Sword"
+    material: GOLDEN_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      sharpness: 10
+      luck: 5
+      looting: 4
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_sword_5:
+    display: "<gray><b>Ashen Sword"
     material: GOLDEN_SWORD
     tier: 5
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
       sharpness: 10
-      looting: 1
+      luck: 5
+      looting: 4
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
 
-  refined_gormak_sword_1:
-    display: "<gold><b>Refined Gormak Sword"
+  dunes_sword_1:
+    display: "<yellow><b>Dune Sword"
     material: GOLDEN_SWORD
     tier: 1
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     enchants:
       sharpness: 10
-      looting: 2
+      luck: 6
+      looting: 4
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
 
-  refined_gormak_sword_2:
-    display: "<gold><b>Refined Gormak Sword"
+  dunes_sword_2:
+    display: "<yellow><b>Dune Sword"
     material: GOLDEN_SWORD
     tier: 2
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     enchants:
       sharpness: 11
-      looting: 2
+      luck: 6
+      looting: 4
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
 
-  refined_gormak_sword_3:
-    display: "<gold><b>Refined Gormak Sword"
+  dunes_sword_3:
+    display: "<yellow><b>Dune Sword"
     material: GOLDEN_SWORD
     tier: 3
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
+    enchants:
+      sharpness: 11
+      luck: 7
+      looting: 4
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_sword_4:
+    display: "<yellow><b>Dune Sword"
+    material: GOLDEN_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "gormak_dunes"
     enchants:
       sharpness: 12
-      looting: 2
+      luck: 7
+      looting: 4
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
 
-  refined_gormak_sword_4:
-    display: "<gold><b>Refined Gormak Sword"
-    material: GOLDEN_SWORD
-    tier: 4
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 13
-      looting: 2
-
-  refined_gormak_sword_5:
-    display: "<gold><b>Refined Gormak Sword"
+  dunes_sword_5:
+    display: "<yellow><b>Dune Sword"
     material: GOLDEN_SWORD
     tier: 5
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     enchants:
-      sharpness: 13
-      looting: 3
+      sharpness: 12
+      luck: 7
+      looting: 5
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
 
-  gilded_gormak_sword_1:
-    display: "<gold><b>Gilded Gormak Sword"
+  canyons_sword_1:
+    display: "<#B4462A><b>Canyon Sword"
     material: GOLDEN_SWORD
     tier: 1
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_canyons"
     enchants:
-      sharpness: 14
-      looting: 3
+      sharpness: 12
+      luck: 7
+      looting: 5
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
 
-  gilded_gormak_sword_2:
-    display: "<gold><b>Gilded Gormak Sword"
+  canyons_sword_2:
+    display: "<#B4462A><b>Canyon Sword"
     material: GOLDEN_SWORD
     tier: 2
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_canyons"
     enchants:
-      sharpness: 15
-      looting: 3
+      sharpness: 13
+      luck: 7
+      looting: 5
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
 
-  gilded_gormak_sword_3:
-    display: "<gold><b>Gilded Gormak Sword"
+  canyons_sword_3:
+    display: "<#B4462A><b>Canyon Sword"
     material: GOLDEN_SWORD
     tier: 3
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_canyons"
     enchants:
-      sharpness: 16
-      looting: 3
+      sharpness: 13
+      luck: 8
+      looting: 5
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
 
-  gilded_gormak_sword_4:
-    display: "<gold><b>Gilded Gormak Sword"
+  canyons_sword_4:
+    display: "<#B4462A><b>Canyon Sword"
     material: GOLDEN_SWORD
     tier: 4
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_canyons"
     enchants:
-      sharpness: 17
-      looting: 3
+      sharpness: 14
+      luck: 8
+      looting: 5
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
 
-  gilded_gormak_sword_5:
-    display: "<gold><b>Gilded Gormak Sword"
+  canyons_sword_5:
+    display: "<#B4462A><b>Canyon Sword"
     material: GOLDEN_SWORD
     tier: 5
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_canyons"
     enchants:
-      sharpness: 18
-      looting: 3
+      sharpness: 14
+      luck: 8
+      looting: 6
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
 
-  eternal_gormak_sword_1:
-    display: "<gold><b>Eternal Gormak Sword"
+  temple_sword_1:
+    display: "<gold><b>Sunward Sword"
     material: GOLDEN_SWORD
     tier: 1
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      sharpness: 18
-      looting: 4
+      sharpness: 14
+      luck: 9
+      looting: 6
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
 
-  eternal_gormak_sword_2:
-    display: "<gold><b>Eternal Gormak Sword"
+  temple_sword_2:
+    display: "<gold><b>Sunward Sword"
     material: GOLDEN_SWORD
     tier: 2
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
+    enchants:
+      sharpness: 15
+      luck: 9
+      looting: 6
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_sword_3:
+    display: "<gold><b>Sunward Sword"
+    material: GOLDEN_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      sharpness: 15
+      luck: 10
+      looting: 6
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_sword_4:
+    display: "<gold><b>Sunward Sword"
+    material: GOLDEN_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      sharpness: 16
+      luck: 10
+      looting: 6
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_sword_5:
+    display: "<gold><b>Sunward Sword"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      sharpness: 16
+      luck: 10
+      looting: 7
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  tomb_sword_1:
+    display: "<dark_purple><b>Royal Sword"
+    material: GOLDEN_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      sharpness: 16
+      luck: 10
+      looting: 7
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_sword_2:
+    display: "<dark_purple><b>Royal Sword"
+    material: GOLDEN_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      sharpness: 17
+      luck: 10
+      looting: 7
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_sword_3:
+    display: "<dark_purple><b>Royal Sword"
+    material: GOLDEN_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      sharpness: 17
+      luck: 10
+      looting: 8
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_sword_4:
+    display: "<dark_purple><b>Royal Sword"
+    material: GOLDEN_SWORD
+    tier: 4
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      sharpness: 18
+      luck: 10
+      looting: 8
+      bloodlust: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_sword_5:
+    display: "<dark_purple><b>Royal Sword"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      sharpness: 18
+      luck: 10
+      looting: 8
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  serf_cleaver:
+    display: "<gray><b>Serf Cleaver"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      sharpness: 9
+      luck: 6
+      looting: 3
+    lore:
+      - "<gray>Notched from a thousand years of labour."
+      - "<dark_gray>Dropped by Hollowed Serfs"
+
+  scavenger_shiv:
+    display: "<gray><b>Scavenger Shiv"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      sharpness: 8
+      luck: 7
+      looting: 4
+    lore:
+      - "<gray>Rusted, but it still finds the gaps."
+      - "<dark_gray>Dropped by Scavenger Husks"
+
+  scout_blade:
+    display: "<yellow><b>Dune Scout Blade"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      sharpness: 11
+      luck: 7
+      looting: 4
+      bloodlust: 1
+    lore:
+      - "<gray>Light enough to run with."
+      - "<dark_gray>Dropped by Dune Scouts"
+
+  stalker_fang:
+    display: "<gold><b>Stalker Fang"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      sharpness: 12
+      luck: 6
+      looting: 5
+      bloodlust: 1
+    lore:
+      - "<gray>It was never a blade. It was a tooth."
+      - "<dark_gray>Dropped by Sand Stalkers"
+
+  scarab_khopesh:
+    display: "<dark_purple><b>Scarab Khopesh"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      sharpness: 13
+      luck: 8
+      looting: 5
+      bloodlust: 1
+    lore:
+      - "<gray>The hooked blade of the beetle-priests."
+      - "<dark_gray>Dropped by Scarab Zealots"
+
+  legion_halberd:
+    display: "<gray><b>Legion Halberd"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      sharpness: 14
+      luck: 7
+      looting: 5
+      bloodlust: 1
+    lore:
+      - "<gray>A spear for a line that never broke."
+      - "<dark_gray>Dropped by Hollowed Legionnaires"
+
+  tomb_halberd:
+    display: "<gold><b>Tomb Guard Halberd"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      sharpness: 15
+      luck: 9
+      looting: 6
+      bloodlust: 1
+    lore:
+      - "<gray>Still standing its post."
+      - "<dark_gray>Dropped by Tomb Guards"
+
+  vizier_bow:
+    display: "<yellow><b>Vizier Longbow"
+    material: BOW
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      sharpness: 15
+      luck: 10
+      looting: 6
+    lore:
+      - "<gray>Arrows that remember their target."
+      - "<dark_gray>Dropped by Vizier Mages"
+
+  myrmidon_blade:
+    display: "<dark_purple><b>Myrmidon Blade"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      sharpness: 17
+      luck: 10
+      looting: 7
+      bloodlust: 1
+    lore:
+      - "<gray>Forged for the ones who never left."
+      - "<dark_gray>Dropped by Royal Myrmidons"
+
+  pharaoh_scepter:
+    display: "<gold><b>Pharaoh's Scepter"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      sharpness: 17
+      luck: 10
+      looting: 8
+      bloodlust: 1
+    lore:
+      - "<gray>It ruled before it killed."
+      - "<dark_gray>Dropped by Pharaohs"
+
+  gormak_blade:
+    display: "<dark_red><b>Blade of the Eternal"
+    material: GOLDEN_SWORD
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
     enchants:
       sharpness: 19
-      looting: 4
+      luck: 12
+      looting: 9
+      bloodlust: 2
+    lore:
+      - "<gray>The only thing that outlasted him."
+      - "<dark_gray>Dropped by Gormak the Eternal"
 
-  eternal_gormak_sword_3:
-    display: "<gold><b>Eternal Gormak Sword"
-    material: GOLDEN_SWORD
-    tier: 3
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 20
-      looting: 4
-
-  eternal_gormak_sword_4:
-    display: "<gold><b>Eternal Gormak Sword"
-    material: GOLDEN_SWORD
-    tier: 4
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 20
-      looting: 5
-
-  eternal_gormak_sword_5:
-    display: "<gold><b>Eternal Gormak Sword"
+  mirage_edge:
+    display: "<light_purple><b>Mirage Edge"
     material: GOLDEN_SWORD
     tier: 5
     type: "combat"
     world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 20
-      looting: 5
-      adrenaline: 1
-
-  serf_sword_1:
-    display: "<gray><b>Serf Dagger"
-    material: STONE_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 6
-      looting: 1
-
-  serf_sword_2:
-    display: "<gray><b>Serf Dagger"
-    material: STONE_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 7
-      looting: 1
-
-  scavenger_sword_1:
-    display: "<gray><b>Scavenger Shiv"
-    material: IRON_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 8
-      looting: 1
-
-  scavenger_sword_2:
-    display: "<gray><b>Scavenger Shiv"
-    material: IRON_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 9
-      looting: 1
-
-  dune_scout_sword_1:
-    display: "<white><b>Dune Scout Machete"
-    material: IRON_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 10
-      looting: 1
-
-  dune_scout_sword_2:
-    display: "<white><b>Dune Scout Machete"
-    material: IRON_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 11
-      looting: 1
-
-  stalker_sword_1:
-    display: "<gold><b>Stalker Dagger"
-    material: GOLDEN_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 11
-      looting: 2
-
-  stalker_sword_2:
-    display: "<gold><b>Stalker Dagger"
-    material: GOLDEN_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 12
-      looting: 2
-
-  tomb_guard_sword_1:
-    display: "<gold><b>Tomb Guard Halberd"
-    material: GOLDEN_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 13
-      looting: 2
-
-  tomb_guard_sword_2:
-    display: "<gold><b>Tomb Guard Halberd"
-    material: GOLDEN_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 14
-      looting: 2
-
-  vizier_sword_1:
-    display: "<gold><b>Vizier Dagger"
-    material: GOLDEN_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 15
-      looting: 2
-
-  vizier_sword_2:
-    display: "<gold><b>Vizier Dagger"
-    material: GOLDEN_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
+    region: "gormak"
     enchants:
       sharpness: 16
-      looting: 2
-
-  myrmidon_sword_1:
-    display: "<gold><b>Myrmidon Blade"
-    material: GOLDEN_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 16
-      looting: 3
-
-  myrmidon_sword_2:
-    display: "<gold><b>Myrmidon Blade"
-    material: GOLDEN_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 17
-      looting: 3
-
-  pharaoh_sword_1:
-    display: "<gold><b>Pharaoh Khopesh"
-    material: GOLDEN_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 20
-      looting: 1
-
-  gormak_sword_1:
-    display: "<gold><b>Gormak's Sun Blade"
-    material: GOLDEN_SWORD
-    tier: 1
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 18
-      looting: 3
-
-  gormak_sword_2:
-    display: "<gold><b>Gormak's Sun Blade"
-    material: GOLDEN_SWORD
-    tier: 2
-    type: "combat"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      sharpness: 18
-      looting: 4
+      luck: 15
+      looting: 8
+      bloodlust: 1
+    lore:
+      - "<gray>You are not certain you are holding it."
+      - "<dark_gray>Dropped by the Mirage"

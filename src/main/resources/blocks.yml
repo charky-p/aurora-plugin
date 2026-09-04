@@ -26,64 +26,127 @@ items:
     material: COBBLESTONE
     independent:
       - id: cobblestone
+        max: 2
 
   stone:
     material: STONE
     independent:
       - id: cobblestone
-        min: 2
-        max: 4
 
   coal_ore:
     material: COAL_ORE
     independent:
       - id: coal
+        max: 2
 
   coal_block:
     material: COAL_BLOCK
     independent:
       - id: coal
-        min: 5
-        max: 9
+        min: 3
+        max: 5
 
   copper_ore:
     material: COPPER_ORE
     density: 1
     independent:
       - id: copper
+        max: 2
 
   copper_block:
     material: COPPER_BLOCK
     density: 1
     independent:
       - id: copper
-        min: 5
-        max: 9
+        min: 3
+        max: 5
 
   iron_ore:
     material: IRON_ORE
     density: 2
     independent:
       - id: iron
+        max: 2
 
   iron_block:
     material: IRON_BLOCK
     density: 2
     independent:
       - id: iron
-        min: 5
-        max: 9
+        min: 3
+        max: 5
 
   gold_ore:
     material: GOLD_ORE
     density: 3
     independent:
       - id: gold
+        max: 2
 
   gold_block:
     material: GOLD_BLOCK
     density: 3
     independent:
       - id: gold
-        min: 5
-        max: 9
+        min: 3
+        max: 5
+
+  carved_brick:
+    material: STONE_BRICKS
+    density: 4
+    independent:
+      - id: carved_brick
+        max: 2
+
+  cracked_brick:
+    material: CRACKED_STONE_BRICKS
+    density: 4
+    independent:
+      - id: carved_brick
+        min: 2
+        max: 4
+
+  sunbaked_sand:
+    material: SANDSTONE
+    density: 5
+    independent:
+      - id: sunbaked_sand
+        max: 2
+
+  cut_sunbaked_sand:
+    material: CUT_SANDSTONE
+    density: 5
+    independent:
+      - id: sunbaked_sand
+        min: 2
+        max: 4
+
+  crimson_sand:
+    material: RED_SANDSTONE
+    density: 6
+    independent:
+      - id: crimson_sand
+        max: 2
+
+  cut_crimson_sand:
+    material: CUT_RED_SANDSTONE
+    density: 6
+    independent:
+      - id: crimson_sand
+        min: 2
+        max: 4
+
+  raw_gold_block:
+    material: RAW_GOLD_BLOCK
+    density: 7
+    independent:
+      - id: raw_gold
+        max: 2
+
+  gilded_stone:
+    material: GILDED_BLACKSTONE
+    density: 7
+    independent:
+      - id: raw_gold
+        min: 2
+        max: 4

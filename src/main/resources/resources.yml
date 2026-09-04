@@ -14,95 +14,203 @@
 
 items:
   cobblestone:
-    display: "<gray><b>Cobblestone"
+    display: "<gray>Cobblestone"
     material: COBBLESTONE
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
   coal:
-    display: "<gray><b>Coal"
+    display: "<dark_gray><b>Coal"
     material: COAL
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
   copper:
-    display: "<gray><b>Copper"
+    display: "<#D94110><b>Copper Ingot"
     material: COPPER_INGOT
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
   iron:
-    display: "<gray><b>Iron"
+    display: "<white><b>Iron Ingot"
     material: IRON_INGOT
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
   gold:
-    display: "<gray><b>Gold"
+    display: "<gold><b>Gold Ingot"
     material: GOLD_INGOT
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
+
+  feather:
+    display: "<white>Feather"
+    material: FEATHER
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<dark_gray>Dropped by chickens"
+
+  wool:
+    display: "<white>Tuft of Wool"
+    material: WHITE_WOOL
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<dark_gray>Dropped by sheep"
+
+  leather:
+    display: "<#8B5A2B>Hide"
+    material: LEATHER
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<dark_gray>Dropped by cows"
+
+  carved_brick:
+    display: "<gray>Carved Brick"
+    material: STONE_BRICKS
+    world: "overworld"
+    region: "gormak_city"
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
 
   tattered_cloth:
-    display: "<gray><b>Tattered Cloth"
-    material: PAPER
+    display: "<gray>Tattered Cloth"
+    material: STRING
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     lore:
-      - "<gray>Old bandages from a fallen serf."
+      - "<dark_gray>Dropped by Hollowed Serfs"
 
   ancient_scrap:
-    display: "<white><b>Ancient Scrap"
+    display: "<gray><b>Ancient Scrap"
     material: IRON_NUGGET
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     lore:
-      - "<gray>Brittle metal used for basic shivs."
+      - "<dark_gray>Dropped by Scavenger Husks"
+
+  sunbaked_sand:
+    display: "<yellow>Sunbaked Sandstone"
+    material: SANDSTONE
+    world: "overworld"
+    region: "gormak_dunes"
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
 
   ancient_flesh:
-    display: "<#964B00><b>Ancient Flesh"
+    display: "<dark_red>Ancient Flesh"
     material: ROTTEN_FLESH
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     lore:
-      - "<gray>A pulsating heart of desert magic."
+      - "<dark_gray>Dropped by Dune Scouts"
 
   ancient_bone:
     display: "<white><b>Ancient Bone"
     material: BONE
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     lore:
-      - "<gray>Hardened by centuries in the heat."
+      - "<dark_gray>Dropped by Sand Stalkers"
+
+  crimson_sand:
+    display: "<#B4462A>Crimson Sandstone"
+    material: RED_SANDSTONE
+    world: "overworld"
+    region: "gormak_canyons"
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  scarab_shell:
+    display: "<dark_purple><b>Scarab Shell"
+    material: TURTLE_SCUTE
+    world: "overworld"
+    region: "gormak_canyons"
+    lore:
+      - "<dark_gray>Dropped by Scarab Zealots"
+
+  legion_plate:
+    display: "<gray><b>Legion Plate"
+    material: IRON_INGOT
+    world: "overworld"
+    region: "gormak_canyons"
+    lore:
+      - "<dark_gray>Dropped by Hollowed Legionnaires"
+
+  raw_gold:
+    display: "<gold>Raw Gold"
+    material: RAW_GOLD
+    world: "overworld"
+    region: "gormak_temple"
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
 
   ancient_nugget:
     display: "<gold><b>Ancient Nugget"
     material: GOLD_NUGGET
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     lore:
-      - "<gray>Dense stone from the Vizier's temple."
+      - "<dark_gray>Dropped by Tomb Guards"
 
   vizier_scroll:
-    display: "<gold><b>Vizier Scroll"
-    material: FLOW_BANNER_PATTERN
+    display: "<yellow><b>Vizier Scroll"
+    material: PAPER
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     lore:
-      - "<gray>The mark of the high priests."
+      - "<dark_gray>Dropped by Vizier Mages"
 
   eternal_soul:
-    display: "<gold><b>Eternal Soul"
-    material: SOUL_SAND
+    display: "<dark_purple><b>Eternal Soul"
+    material: ECHO_SHARD
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     lore:
-      - "<gray>A lost soul from the inner tomb."
+      - "<dark_gray>Dropped by Royal Myrmidons"
+
+  royal_seal:
+    display: "<gold><b>Royal Seal"
+    material: HEART_OF_THE_SEA
+    world: "overworld"
+    region: "gormak_tomb"
+    lore:
+      - "<dark_gray>Dropped by Pharaohs"
+
+  tomb_key:
+    display: "<gold><b>Tomb Key"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "gormak_tomb"
+    lore:
+      - "<gray>Summons Gormak the Eternal"
+      - "<dark_gray>Use at the Golden Throne"
 
   ancient_heart:
-    display: "<gold><b>Sand-Tainted Heart"
-    material: YELLOW_DYE
+    display: "<dark_red><b>Ancient Heart"
+    material: NETHER_STAR
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     lore:
-      - "<gray>A fragment of Gormak."
+      - "<dark_gray>Dropped by Gormak the Eternal"
+
+  mirage_shard:
+    display: "<light_purple><b>Mirage Shard"
+    material: AMETHYST_SHARD
+    world: "overworld"
+    region: "gormak"
+    lore:
+      - "<gray>Shimmers as though it isn't there."
+      - "<dark_gray>Dropped by the Mirage"

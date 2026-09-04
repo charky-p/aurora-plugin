@@ -30,7 +30,7 @@ public class MineSetDelaySub extends MineSub {
         }
 
         try {
-            int delay = Integer.parseInt(args[2]);
+            int delay = Integer.parseInt(args[1]);
             mineManager.setDelay(mineName, delay);
             TextUtils.success(sender, "Mine '" + mineName + "' delay set to " + delay + " successfully");
         } catch (NumberFormatException e) {

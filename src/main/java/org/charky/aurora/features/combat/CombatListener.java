@@ -193,7 +193,11 @@ public class CombatListener implements Listener {
 
     // TODO: sum a defence value off the six armour slots once gear carries one
     private double playerDefence(Player player) {
-        return 0.0;
+        double total = 0;
+        for (ItemStack piece : player.getInventory().getArmorContents()) {
+            total += loreLevel(piece, "protection");
+        }
+        return total;
     }
 
     // TODO: move to its own class once bleed and percentage damage land

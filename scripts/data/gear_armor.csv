@@ -1,77 +1,193 @@
 id,display,material,tier,type,world,region,enchants,lore
-starter_helmet_1,<gray><b>Starter Helmet,LEATHER_HELMET,1,armor,overworld,origin_isles,,
-starter_chestplate_1,<gray><b>Starter Chestplate,LEATHER_CHESTPLATE,1,armor,overworld,origin_isles,,
-starter_leggings_1,<gray><b>Starter Leggings,LEATHER_LEGGINGS,1,armor,overworld,origin_isles,,
-starter_boots_1,<gray><b>Starter Boots,LEATHER_BOOTS,1,armor,overworld,origin_isles,,
-cobble_helmet_1,<gray><b>Cobble Helmet,LEATHER_HELMET,1,armor,overworld,origin_isles,protection:1,
-cobble_chestplate_1,<gray><b>Cobble Chestplate,LEATHER_CHESTPLATE,1,armor,overworld,origin_isles,protection:1,
-cobble_leggings_1,<gray><b>Cobble Leggings,LEATHER_LEGGINGS,1,armor,overworld,origin_isles,protection:1,
-cobble_boots_1,<gray><b>Cobble Boots,LEATHER_BOOTS,1,armor,overworld,origin_isles,protection:1,
-cobble_helmet_2,<gray><b>Cobble Helmet,LEATHER_HELMET,2,armor,overworld,origin_isles,protection:2,
-cobble_chestplate_2,<gray><b>Cobble Chestplate,LEATHER_CHESTPLATE,2,armor,overworld,origin_isles,protection:2,
-cobble_leggings_2,<gray><b>Cobble Leggings,LEATHER_LEGGINGS,2,armor,overworld,origin_isles,protection:2,
-cobble_boots_2,<gray><b>Cobble Boots,LEATHER_BOOTS,2,armor,overworld,origin_isles,protection:2,
-coal_helmet_1,<dark_gray><b>Coal Helmet,LEATHER_HELMET,1,armor,overworld,origin_isles,protection:3,
-coal_chestplate_1,<dark_gray><b>Coal Chestplate,LEATHER_CHESTPLATE,1,armor,overworld,origin_isles,protection:3,
-coal_leggings_1,<dark_gray><b>Coal Leggings,LEATHER_LEGGINGS,1,armor,overworld,origin_isles,protection:3,
-coal_boots_1,<dark_gray><b>Coal Boots,LEATHER_BOOTS,1,armor,overworld,origin_isles,protection:3,
-coal_helmet_2,<dark_gray><b>Coal Helmet,LEATHER_HELMET,2,armor,overworld,origin_isles,protection:4,
-coal_chestplate_2,<dark_gray><b>Coal Chestplate,LEATHER_CHESTPLATE,2,armor,overworld,origin_isles,protection:4,
-coal_leggings_2,<dark_gray><b>Coal Leggings,LEATHER_LEGGINGS,2,armor,overworld,origin_isles,protection:4,
-coal_boots_2,<dark_gray><b>Coal Boots,LEATHER_BOOTS,2,armor,overworld,origin_isles,protection:4,
-copper_helmet_1,<#D94110><b>Copper Helmet,COPPER_HELMET,1,armor,overworld,origin_isles,protection:4,
-copper_chestplate_1,<#D94110><b>Copper Chestplate,COPPER_CHESTPLATE,1,armor,overworld,origin_isles,protection:4,
-copper_leggings_1,<#D94110><b>Copper Leggings,COPPER_LEGGINGS,1,armor,overworld,origin_isles,protection:4,
-copper_boots_1,<#D94110><b>Copper Boots,COPPER_BOOTS,1,armor,overworld,origin_isles,protection:4,
-copper_helmet_2,<#D94110><b>Copper Helmet,COPPER_HELMET,2,armor,overworld,origin_isles,protection:5,
-copper_chestplate_2,<#D94110><b>Copper Chestplate,COPPER_CHESTPLATE,2,armor,overworld,origin_isles,protection:5,
-copper_leggings_2,<#D94110><b>Copper Leggings,COPPER_LEGGINGS,2,armor,overworld,origin_isles,protection:5,
-copper_boots_2,<#D94110><b>Copper Boots,COPPER_BOOTS,2,armor,overworld,origin_isles,protection:5,
-iron_helmet_1,<white><b>Iron Helmet,IRON_HELMET,1,armor,overworld,origin_isles,protection:2,
-iron_chestplate_1,<white><b>Iron Chestplate,IRON_CHESTPLATE,1,armor,overworld,origin_isles,protection:2,
-iron_leggings_1,<white><b>Iron Leggings,IRON_LEGGINGS,1,armor,overworld,origin_isles,protection:2,
-iron_boots_1,<white><b>Iron Boots,IRON_BOOTS,1,armor,overworld,origin_isles,protection:2,
-iron_helmet_2,<white><b>Iron Helmet,IRON_HELMET,2,armor,overworld,origin_isles,protection:3,
-iron_chestplate_2,<white><b>Iron Chestplate,IRON_CHESTPLATE,2,armor,overworld,origin_isles,protection:3,
-iron_leggings_2,<white><b>Iron Leggings,IRON_LEGGINGS,2,armor,overworld,origin_isles,protection:3,
-iron_boots_2,<white><b>Iron Boots,IRON_BOOTS,2,armor,overworld,origin_isles,protection:3,
-gold_helmet_1,<gold><b>Gold Helmet,GOLDEN_HELMET,1,armor,overworld,origin_isles,protection:4,
-gold_chestplate_1,<gold><b>Gold Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,origin_isles,protection:4,
-gold_leggings_1,<gold><b>Gold Leggings,GOLDEN_LEGGINGS,1,armor,overworld,origin_isles,protection:4,
-gold_boots_1,<gold><b>Gold Boots,GOLDEN_BOOTS,1,armor,overworld,origin_isles,protection:4,
-gold_helmet_2,<gold><b>Gold Helmet,GOLDEN_HELMET,2,armor,overworld,origin_isles,protection:5,
-gold_chestplate_2,<gold><b>Gold Chestplate,GOLDEN_CHESTPLATE,2,armor,overworld,origin_isles,protection:5,
-gold_leggings_2,<gold><b>Gold Leggings,GOLDEN_LEGGINGS,2,armor,overworld,origin_isles,protection:5,
-gold_boots_2,<gold><b>Gold Boots,GOLDEN_BOOTS,2,armor,overworld,origin_isles,protection:5,
-serf_helmet_1,<gray><b>Serf Helmet,LEATHER_HELMET,1,armor,overworld,origin_isles,protection:5|health:1,
-serf_chestplate_1,<gray><b>Serf Chestplate,LEATHER_CHESTPLATE,1,armor,overworld,origin_isles,protection:5|health:1,
-serf_leggings_1,<gray><b>Serf Leggings,LEATHER_LEGGINGS,1,armor,overworld,origin_isles,protection:5|health:1,
-serf_boots_1,<gray><b>Serf Boots,LEATHER_BOOTS,1,armor,overworld,origin_isles,protection:5|health:1,
-scavenger_helmet_1,<gray><b>Scavenger Helmet,CHAINMAIL_HELMET,1,armor,overworld,origin_isles,protection:6|health:1,
-scavenger_chestplate_1,<gray><b>Scavenger Chestplate,CHAINMAIL_CHESTPLATE,1,armor,overworld,origin_isles,protection:6|health:1,
-scavenger_leggings_1,<gray><b>Scavenger Leggings,CHAINMAIL_LEGGINGS,1,armor,overworld,origin_isles,protection:6|health:1,
-scavenger_boots_1,<gray><b>Scavenger Boots,CHAINMAIL_BOOTS,1,armor,overworld,origin_isles,protection:6|health:1,
-dune_scout_helmet_1,<white><b>Dune Scout Helmet,IRON_HELMET,1,armor,overworld,origin_isles,protection:7|health:1,
-dune_scout_chestplate_1,<white><b>Dune Scout Chestplate,IRON_CHESTPLATE,1,armor,overworld,origin_isles,protection:7|health:1,
-dune_scout_leggings_1,<white><b>Dune Scout Leggings,IRON_LEGGINGS,1,armor,overworld,origin_isles,protection:7|health:1,
-dune_scout_boots_1,<white><b>Dune Scout Boots,IRON_BOOTS,1,armor,overworld,origin_isles,protection:7|health:1,
-stalker_helmet_1,<gold><b>Stalker Helmet,GOLDEN_HELMET,1,armor,overworld,origin_isles,protection:7|health:2,
-stalker_chestplate_1,<gold><b>Stalker Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,origin_isles,protection:7|health:2,
-stalker_leggings_1,<gold><b>Stalker Leggings,GOLDEN_LEGGINGS,1,armor,overworld,origin_isles,protection:7|health:2,
-stalker_boots_1,<gold><b>Stalker Boots,GOLDEN_BOOTS,1,armor,overworld,origin_isles,protection:7|health:2,
-tomb_guard_helmet_1,<gold><b>Tomb Guard Helmet,GOLDEN_HELMET,1,armor,overworld,origin_isles,protection:8|health:2,
-tomb_guard_chestplate_1,<gold><b>Tomb Guard Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,origin_isles,protection:8|health:2,
-tomb_guard_leggings_1,<gold><b>Tomb Guard Leggings,GOLDEN_LEGGINGS,1,armor,overworld,origin_isles,protection:8|health:2,
-tomb_guard_boots_1,<gold><b>Tomb Guard Boots,GOLDEN_BOOTS,1,armor,overworld,origin_isles,protection:8|health:2,
-vizier_helmet_1,<gold><b>Vizier Helmet,GOLDEN_HELMET,1,armor,overworld,origin_isles,protection:9|health:2,
-vizier_chestplate_1,<gold><b>Vizier Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,origin_isles,protection:9|health:2,
-vizier_leggings_1,<gold><b>Vizier Leggings,GOLDEN_LEGGINGS,1,armor,overworld,origin_isles,protection:9|health:2,
-vizier_boots_1,<gold><b>Vizier Boots,GOLDEN_BOOTS,1,armor,overworld,origin_isles,protection:9|health:2,
-myrmidon_helmet_1,<gold><b>Myrmidon Helmet,GOLDEN_HELMET,1,armor,overworld,origin_isles,protection:10|health:2,
-myrmidon_chestplate_1,<gold><b>Myrmidon Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,origin_isles,protection:10|health:2,
-myrmidon_leggings_1,<gold><b>Myrmidon Leggings,GOLDEN_LEGGINGS,1,armor,overworld,origin_isles,protection:10|health:2,
-myrmidon_boots_1,<gold><b>Myrmidon Boots,GOLDEN_BOOTS,1,armor,overworld,origin_isles,protection:10|health:2,
-gormak_helmet_1,<gold><b>Gormak the Eternal Helmet,GOLDEN_HELMET,1,armor,overworld,origin_isles,protection:10|health:3,
-gormak_chestplate_1,<gold><b>Gormak the Eternal Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,origin_isles,protection:10|health:3,
-gormak_leggings_1,<gold><b>Gormak the Eternal Leggings,GOLDEN_LEGGINGS,1,armor,overworld,origin_isles,protection:10|health:3,
-gormak_boots_1,<gold><b>Gormak the Eternal Boots,GOLDEN_BOOTS,1,armor,overworld,origin_isles,protection:10|health:3,
+starter_helmet_0,<gray><b>Starter Helmet,LEATHER_HELMET,0,armor,overworld,origin_isles,,<dark_gray>Origin Isles
+starter_chestplate_0,<gray><b>Starter Chestplate,LEATHER_CHESTPLATE,0,armor,overworld,origin_isles,,<dark_gray>Origin Isles
+starter_leggings_0,<gray><b>Starter Leggings,LEATHER_LEGGINGS,0,armor,overworld,origin_isles,,<dark_gray>Origin Isles
+starter_boots_0,<gray><b>Starter Boots,LEATHER_BOOTS,0,armor,overworld,origin_isles,,<dark_gray>Origin Isles
+cobble_helmet_1,<gray><b>Cobblestone Helmet,LEATHER_HELMET,1,armor,overworld,origin_isles,protection:1,<dark_gray>Origin Isles - Cobblestone Quarry
+cobble_chestplate_1,<gray><b>Cobblestone Chestplate,LEATHER_CHESTPLATE,1,armor,overworld,origin_isles,protection:1,<dark_gray>Origin Isles - Cobblestone Quarry
+cobble_leggings_1,<gray><b>Cobblestone Leggings,LEATHER_LEGGINGS,1,armor,overworld,origin_isles,protection:1,<dark_gray>Origin Isles - Cobblestone Quarry
+cobble_boots_1,<gray><b>Cobblestone Boots,LEATHER_BOOTS,1,armor,overworld,origin_isles,protection:1,<dark_gray>Origin Isles - Cobblestone Quarry
+coal_helmet_1,<dark_gray><b>Coal Helmet,LEATHER_HELMET,1,armor,overworld,origin_isles,protection:2,<dark_gray>Origin Isles - Coal Seam
+coal_chestplate_1,<dark_gray><b>Coal Chestplate,LEATHER_CHESTPLATE,1,armor,overworld,origin_isles,protection:2,<dark_gray>Origin Isles - Coal Seam
+coal_leggings_1,<dark_gray><b>Coal Leggings,LEATHER_LEGGINGS,1,armor,overworld,origin_isles,protection:2,<dark_gray>Origin Isles - Coal Seam
+coal_boots_1,<dark_gray><b>Coal Boots,LEATHER_BOOTS,1,armor,overworld,origin_isles,protection:2,<dark_gray>Origin Isles - Coal Seam
+copper_helmet_1,<#D94110><b>Copper Helmet,COPPER_HELMET,1,armor,overworld,origin_isles,protection:2,<dark_gray>Origin Isles - Copper Vein
+copper_chestplate_1,<#D94110><b>Copper Chestplate,COPPER_CHESTPLATE,1,armor,overworld,origin_isles,protection:2,<dark_gray>Origin Isles - Copper Vein
+copper_leggings_1,<#D94110><b>Copper Leggings,COPPER_LEGGINGS,1,armor,overworld,origin_isles,protection:2,<dark_gray>Origin Isles - Copper Vein
+copper_boots_1,<#D94110><b>Copper Boots,COPPER_BOOTS,1,armor,overworld,origin_isles,protection:2,<dark_gray>Origin Isles - Copper Vein
+copper_helmet_2,<#D94110><b>Copper Helmet,COPPER_HELMET,2,armor,overworld,origin_isles,protection:3,<dark_gray>Origin Isles - Copper Vein
+copper_chestplate_2,<#D94110><b>Copper Chestplate,COPPER_CHESTPLATE,2,armor,overworld,origin_isles,protection:3,<dark_gray>Origin Isles - Copper Vein
+copper_leggings_2,<#D94110><b>Copper Leggings,COPPER_LEGGINGS,2,armor,overworld,origin_isles,protection:3,<dark_gray>Origin Isles - Copper Vein
+copper_boots_2,<#D94110><b>Copper Boots,COPPER_BOOTS,2,armor,overworld,origin_isles,protection:3,<dark_gray>Origin Isles - Copper Vein
+copper_helmet_3,<#D94110><b>Copper Helmet,COPPER_HELMET,3,armor,overworld,origin_isles,protection:4,<dark_gray>Origin Isles - Copper Vein
+copper_chestplate_3,<#D94110><b>Copper Chestplate,COPPER_CHESTPLATE,3,armor,overworld,origin_isles,protection:4,<dark_gray>Origin Isles - Copper Vein
+copper_leggings_3,<#D94110><b>Copper Leggings,COPPER_LEGGINGS,3,armor,overworld,origin_isles,protection:4,<dark_gray>Origin Isles - Copper Vein
+copper_boots_3,<#D94110><b>Copper Boots,COPPER_BOOTS,3,armor,overworld,origin_isles,protection:4,<dark_gray>Origin Isles - Copper Vein
+iron_helmet_1,<white><b>Iron Helmet,IRON_HELMET,1,armor,overworld,origin_isles,protection:4,<dark_gray>Origin Isles - Iron Deposit
+iron_chestplate_1,<white><b>Iron Chestplate,IRON_CHESTPLATE,1,armor,overworld,origin_isles,protection:4,<dark_gray>Origin Isles - Iron Deposit
+iron_leggings_1,<white><b>Iron Leggings,IRON_LEGGINGS,1,armor,overworld,origin_isles,protection:4,<dark_gray>Origin Isles - Iron Deposit
+iron_boots_1,<white><b>Iron Boots,IRON_BOOTS,1,armor,overworld,origin_isles,protection:4,<dark_gray>Origin Isles - Iron Deposit
+iron_helmet_2,<white><b>Iron Helmet,IRON_HELMET,2,armor,overworld,origin_isles,protection:5,<dark_gray>Origin Isles - Iron Deposit
+iron_chestplate_2,<white><b>Iron Chestplate,IRON_CHESTPLATE,2,armor,overworld,origin_isles,protection:5,<dark_gray>Origin Isles - Iron Deposit
+iron_leggings_2,<white><b>Iron Leggings,IRON_LEGGINGS,2,armor,overworld,origin_isles,protection:5,<dark_gray>Origin Isles - Iron Deposit
+iron_boots_2,<white><b>Iron Boots,IRON_BOOTS,2,armor,overworld,origin_isles,protection:5,<dark_gray>Origin Isles - Iron Deposit
+iron_helmet_3,<white><b>Iron Helmet,IRON_HELMET,3,armor,overworld,origin_isles,protection:6,<dark_gray>Origin Isles - Iron Deposit
+iron_chestplate_3,<white><b>Iron Chestplate,IRON_CHESTPLATE,3,armor,overworld,origin_isles,protection:6,<dark_gray>Origin Isles - Iron Deposit
+iron_leggings_3,<white><b>Iron Leggings,IRON_LEGGINGS,3,armor,overworld,origin_isles,protection:6,<dark_gray>Origin Isles - Iron Deposit
+iron_boots_3,<white><b>Iron Boots,IRON_BOOTS,3,armor,overworld,origin_isles,protection:6,<dark_gray>Origin Isles - Iron Deposit
+gold_helmet_1,<gold><b>Gold Helmet,GOLDEN_HELMET,1,armor,overworld,origin_isles,protection:6,<dark_gray>Origin Isles - Gold Reef
+gold_chestplate_1,<gold><b>Gold Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,origin_isles,protection:6,<dark_gray>Origin Isles - Gold Reef
+gold_leggings_1,<gold><b>Gold Leggings,GOLDEN_LEGGINGS,1,armor,overworld,origin_isles,protection:6,<dark_gray>Origin Isles - Gold Reef
+gold_boots_1,<gold><b>Gold Boots,GOLDEN_BOOTS,1,armor,overworld,origin_isles,protection:6,<dark_gray>Origin Isles - Gold Reef
+gold_helmet_2,<gold><b>Gold Helmet,GOLDEN_HELMET,2,armor,overworld,origin_isles,protection:7,<dark_gray>Origin Isles - Gold Reef
+gold_chestplate_2,<gold><b>Gold Chestplate,GOLDEN_CHESTPLATE,2,armor,overworld,origin_isles,protection:7,<dark_gray>Origin Isles - Gold Reef
+gold_leggings_2,<gold><b>Gold Leggings,GOLDEN_LEGGINGS,2,armor,overworld,origin_isles,protection:7,<dark_gray>Origin Isles - Gold Reef
+gold_boots_2,<gold><b>Gold Boots,GOLDEN_BOOTS,2,armor,overworld,origin_isles,protection:7,<dark_gray>Origin Isles - Gold Reef
+gold_helmet_3,<gold><b>Gold Helmet,GOLDEN_HELMET,3,armor,overworld,origin_isles,protection:8,<dark_gray>Origin Isles - Gold Reef
+gold_chestplate_3,<gold><b>Gold Chestplate,GOLDEN_CHESTPLATE,3,armor,overworld,origin_isles,protection:8,<dark_gray>Origin Isles - Gold Reef
+gold_leggings_3,<gold><b>Gold Leggings,GOLDEN_LEGGINGS,3,armor,overworld,origin_isles,protection:8,<dark_gray>Origin Isles - Gold Reef
+gold_boots_3,<gold><b>Gold Boots,GOLDEN_BOOTS,3,armor,overworld,origin_isles,protection:8,<dark_gray>Origin Isles - Gold Reef
+city_helmet_1,<gray><b>Ashen Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_city,protection:9,<dark_gray>Gormak - Abandoned City
+city_chestplate_1,<gray><b>Ashen Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_city,protection:9,<dark_gray>Gormak - Abandoned City
+city_leggings_1,<gray><b>Ashen Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_city,protection:9,<dark_gray>Gormak - Abandoned City
+city_boots_1,<gray><b>Ashen Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_city,protection:9,<dark_gray>Gormak - Abandoned City
+city_helmet_2,<gray><b>Ashen Helmet,GOLDEN_HELMET,2,armor,overworld,gormak_city,protection:10,<dark_gray>Gormak - Abandoned City
+city_chestplate_2,<gray><b>Ashen Chestplate,GOLDEN_CHESTPLATE,2,armor,overworld,gormak_city,protection:10,<dark_gray>Gormak - Abandoned City
+city_leggings_2,<gray><b>Ashen Leggings,GOLDEN_LEGGINGS,2,armor,overworld,gormak_city,protection:10,<dark_gray>Gormak - Abandoned City
+city_boots_2,<gray><b>Ashen Boots,GOLDEN_BOOTS,2,armor,overworld,gormak_city,protection:10,<dark_gray>Gormak - Abandoned City
+city_helmet_3,<gray><b>Ashen Helmet,GOLDEN_HELMET,3,armor,overworld,gormak_city,protection:11,<dark_gray>Gormak - Abandoned City
+city_chestplate_3,<gray><b>Ashen Chestplate,GOLDEN_CHESTPLATE,3,armor,overworld,gormak_city,protection:11,<dark_gray>Gormak - Abandoned City
+city_leggings_3,<gray><b>Ashen Leggings,GOLDEN_LEGGINGS,3,armor,overworld,gormak_city,protection:11,<dark_gray>Gormak - Abandoned City
+city_boots_3,<gray><b>Ashen Boots,GOLDEN_BOOTS,3,armor,overworld,gormak_city,protection:11,<dark_gray>Gormak - Abandoned City
+city_helmet_4,<gray><b>Ashen Helmet,GOLDEN_HELMET,4,armor,overworld,gormak_city,protection:12,<dark_gray>Gormak - Abandoned City
+city_chestplate_4,<gray><b>Ashen Chestplate,GOLDEN_CHESTPLATE,4,armor,overworld,gormak_city,protection:12,<dark_gray>Gormak - Abandoned City
+city_leggings_4,<gray><b>Ashen Leggings,GOLDEN_LEGGINGS,4,armor,overworld,gormak_city,protection:12,<dark_gray>Gormak - Abandoned City
+city_boots_4,<gray><b>Ashen Boots,GOLDEN_BOOTS,4,armor,overworld,gormak_city,protection:12,<dark_gray>Gormak - Abandoned City
+city_helmet_5,<gray><b>Ashen Helmet,GOLDEN_HELMET,5,armor,overworld,gormak_city,protection:12|sustenance:1,<dark_gray>Gormak - Abandoned City
+city_chestplate_5,<gray><b>Ashen Chestplate,GOLDEN_CHESTPLATE,5,armor,overworld,gormak_city,protection:12|sustenance:1,<dark_gray>Gormak - Abandoned City
+city_leggings_5,<gray><b>Ashen Leggings,GOLDEN_LEGGINGS,5,armor,overworld,gormak_city,protection:12|sustenance:1,<dark_gray>Gormak - Abandoned City
+city_boots_5,<gray><b>Ashen Boots,GOLDEN_BOOTS,5,armor,overworld,gormak_city,protection:12|sustenance:1,<dark_gray>Gormak - Abandoned City
+dunes_helmet_1,<yellow><b>Dune Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_dunes,protection:13|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_chestplate_1,<yellow><b>Dune Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_dunes,protection:13|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_leggings_1,<yellow><b>Dune Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_dunes,protection:13|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_boots_1,<yellow><b>Dune Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_dunes,protection:13|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_helmet_2,<yellow><b>Dune Helmet,GOLDEN_HELMET,2,armor,overworld,gormak_dunes,protection:14|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_chestplate_2,<yellow><b>Dune Chestplate,GOLDEN_CHESTPLATE,2,armor,overworld,gormak_dunes,protection:14|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_leggings_2,<yellow><b>Dune Leggings,GOLDEN_LEGGINGS,2,armor,overworld,gormak_dunes,protection:14|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_boots_2,<yellow><b>Dune Boots,GOLDEN_BOOTS,2,armor,overworld,gormak_dunes,protection:14|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_helmet_3,<yellow><b>Dune Helmet,GOLDEN_HELMET,3,armor,overworld,gormak_dunes,protection:15|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_chestplate_3,<yellow><b>Dune Chestplate,GOLDEN_CHESTPLATE,3,armor,overworld,gormak_dunes,protection:15|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_leggings_3,<yellow><b>Dune Leggings,GOLDEN_LEGGINGS,3,armor,overworld,gormak_dunes,protection:15|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_boots_3,<yellow><b>Dune Boots,GOLDEN_BOOTS,3,armor,overworld,gormak_dunes,protection:15|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_helmet_4,<yellow><b>Dune Helmet,GOLDEN_HELMET,4,armor,overworld,gormak_dunes,protection:16|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_chestplate_4,<yellow><b>Dune Chestplate,GOLDEN_CHESTPLATE,4,armor,overworld,gormak_dunes,protection:16|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_leggings_4,<yellow><b>Dune Leggings,GOLDEN_LEGGINGS,4,armor,overworld,gormak_dunes,protection:16|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_boots_4,<yellow><b>Dune Boots,GOLDEN_BOOTS,4,armor,overworld,gormak_dunes,protection:16|sustenance:1,<dark_gray>Gormak - The Dunes
+dunes_helmet_5,<yellow><b>Dune Helmet,GOLDEN_HELMET,5,armor,overworld,gormak_dunes,protection:16|sustenance:2,<dark_gray>Gormak - The Dunes
+dunes_chestplate_5,<yellow><b>Dune Chestplate,GOLDEN_CHESTPLATE,5,armor,overworld,gormak_dunes,protection:16|sustenance:2,<dark_gray>Gormak - The Dunes
+dunes_leggings_5,<yellow><b>Dune Leggings,GOLDEN_LEGGINGS,5,armor,overworld,gormak_dunes,protection:16|sustenance:2,<dark_gray>Gormak - The Dunes
+dunes_boots_5,<yellow><b>Dune Boots,GOLDEN_BOOTS,5,armor,overworld,gormak_dunes,protection:16|sustenance:2,<dark_gray>Gormak - The Dunes
+canyons_helmet_1,<#B4462A><b>Canyon Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_canyons,protection:17|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_chestplate_1,<#B4462A><b>Canyon Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_canyons,protection:17|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_leggings_1,<#B4462A><b>Canyon Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_canyons,protection:17|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_boots_1,<#B4462A><b>Canyon Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_canyons,protection:17|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_helmet_2,<#B4462A><b>Canyon Helmet,GOLDEN_HELMET,2,armor,overworld,gormak_canyons,protection:18|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_chestplate_2,<#B4462A><b>Canyon Chestplate,GOLDEN_CHESTPLATE,2,armor,overworld,gormak_canyons,protection:18|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_leggings_2,<#B4462A><b>Canyon Leggings,GOLDEN_LEGGINGS,2,armor,overworld,gormak_canyons,protection:18|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_boots_2,<#B4462A><b>Canyon Boots,GOLDEN_BOOTS,2,armor,overworld,gormak_canyons,protection:18|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_helmet_3,<#B4462A><b>Canyon Helmet,GOLDEN_HELMET,3,armor,overworld,gormak_canyons,protection:19|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_chestplate_3,<#B4462A><b>Canyon Chestplate,GOLDEN_CHESTPLATE,3,armor,overworld,gormak_canyons,protection:19|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_leggings_3,<#B4462A><b>Canyon Leggings,GOLDEN_LEGGINGS,3,armor,overworld,gormak_canyons,protection:19|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_boots_3,<#B4462A><b>Canyon Boots,GOLDEN_BOOTS,3,armor,overworld,gormak_canyons,protection:19|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_helmet_4,<#B4462A><b>Canyon Helmet,GOLDEN_HELMET,4,armor,overworld,gormak_canyons,protection:20|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_chestplate_4,<#B4462A><b>Canyon Chestplate,GOLDEN_CHESTPLATE,4,armor,overworld,gormak_canyons,protection:20|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_leggings_4,<#B4462A><b>Canyon Leggings,GOLDEN_LEGGINGS,4,armor,overworld,gormak_canyons,protection:20|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_boots_4,<#B4462A><b>Canyon Boots,GOLDEN_BOOTS,4,armor,overworld,gormak_canyons,protection:20|sustenance:2,<dark_gray>Gormak - Howling Canyons
+canyons_helmet_5,<#B4462A><b>Canyon Helmet,GOLDEN_HELMET,5,armor,overworld,gormak_canyons,protection:20|sustenance:3,<dark_gray>Gormak - Howling Canyons
+canyons_chestplate_5,<#B4462A><b>Canyon Chestplate,GOLDEN_CHESTPLATE,5,armor,overworld,gormak_canyons,protection:20|sustenance:3,<dark_gray>Gormak - Howling Canyons
+canyons_leggings_5,<#B4462A><b>Canyon Leggings,GOLDEN_LEGGINGS,5,armor,overworld,gormak_canyons,protection:20|sustenance:3,<dark_gray>Gormak - Howling Canyons
+canyons_boots_5,<#B4462A><b>Canyon Boots,GOLDEN_BOOTS,5,armor,overworld,gormak_canyons,protection:20|sustenance:3,<dark_gray>Gormak - Howling Canyons
+temple_helmet_1,<gold><b>Sunward Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_temple,protection:21|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_chestplate_1,<gold><b>Sunward Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_temple,protection:21|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_leggings_1,<gold><b>Sunward Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_temple,protection:21|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_boots_1,<gold><b>Sunward Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_temple,protection:21|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_helmet_2,<gold><b>Sunward Helmet,GOLDEN_HELMET,2,armor,overworld,gormak_temple,protection:22|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_chestplate_2,<gold><b>Sunward Chestplate,GOLDEN_CHESTPLATE,2,armor,overworld,gormak_temple,protection:22|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_leggings_2,<gold><b>Sunward Leggings,GOLDEN_LEGGINGS,2,armor,overworld,gormak_temple,protection:22|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_boots_2,<gold><b>Sunward Boots,GOLDEN_BOOTS,2,armor,overworld,gormak_temple,protection:22|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_helmet_3,<gold><b>Sunward Helmet,GOLDEN_HELMET,3,armor,overworld,gormak_temple,protection:23|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_chestplate_3,<gold><b>Sunward Chestplate,GOLDEN_CHESTPLATE,3,armor,overworld,gormak_temple,protection:23|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_leggings_3,<gold><b>Sunward Leggings,GOLDEN_LEGGINGS,3,armor,overworld,gormak_temple,protection:23|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_boots_3,<gold><b>Sunward Boots,GOLDEN_BOOTS,3,armor,overworld,gormak_temple,protection:23|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_helmet_4,<gold><b>Sunward Helmet,GOLDEN_HELMET,4,armor,overworld,gormak_temple,protection:24|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_chestplate_4,<gold><b>Sunward Chestplate,GOLDEN_CHESTPLATE,4,armor,overworld,gormak_temple,protection:24|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_leggings_4,<gold><b>Sunward Leggings,GOLDEN_LEGGINGS,4,armor,overworld,gormak_temple,protection:24|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_boots_4,<gold><b>Sunward Boots,GOLDEN_BOOTS,4,armor,overworld,gormak_temple,protection:24|sustenance:3,<dark_gray>Gormak - Sun Temple
+temple_helmet_5,<gold><b>Sunward Helmet,GOLDEN_HELMET,5,armor,overworld,gormak_temple,protection:24|sustenance:4,<dark_gray>Gormak - Sun Temple
+temple_chestplate_5,<gold><b>Sunward Chestplate,GOLDEN_CHESTPLATE,5,armor,overworld,gormak_temple,protection:24|sustenance:4,<dark_gray>Gormak - Sun Temple
+temple_leggings_5,<gold><b>Sunward Leggings,GOLDEN_LEGGINGS,5,armor,overworld,gormak_temple,protection:24|sustenance:4,<dark_gray>Gormak - Sun Temple
+temple_boots_5,<gold><b>Sunward Boots,GOLDEN_BOOTS,5,armor,overworld,gormak_temple,protection:24|sustenance:4,<dark_gray>Gormak - Sun Temple
+tomb_helmet_1,<dark_purple><b>Royal Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_tomb,protection:25|sustenance:3,<dark_gray>Gormak - Royal Tomb
+tomb_chestplate_1,<dark_purple><b>Royal Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_tomb,protection:25|sustenance:3,<dark_gray>Gormak - Royal Tomb
+tomb_leggings_1,<dark_purple><b>Royal Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_tomb,protection:25|sustenance:3,<dark_gray>Gormak - Royal Tomb
+tomb_boots_1,<dark_purple><b>Royal Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_tomb,protection:25|sustenance:3,<dark_gray>Gormak - Royal Tomb
+tomb_helmet_2,<dark_purple><b>Royal Helmet,GOLDEN_HELMET,2,armor,overworld,gormak_tomb,protection:25|sustenance:4,<dark_gray>Gormak - Royal Tomb
+tomb_chestplate_2,<dark_purple><b>Royal Chestplate,GOLDEN_CHESTPLATE,2,armor,overworld,gormak_tomb,protection:25|sustenance:4,<dark_gray>Gormak - Royal Tomb
+tomb_leggings_2,<dark_purple><b>Royal Leggings,GOLDEN_LEGGINGS,2,armor,overworld,gormak_tomb,protection:25|sustenance:4,<dark_gray>Gormak - Royal Tomb
+tomb_boots_2,<dark_purple><b>Royal Boots,GOLDEN_BOOTS,2,armor,overworld,gormak_tomb,protection:25|sustenance:4,<dark_gray>Gormak - Royal Tomb
+tomb_helmet_3,<dark_purple><b>Royal Helmet,GOLDEN_HELMET,3,armor,overworld,gormak_tomb,protection:25|sustenance:5,<dark_gray>Gormak - Royal Tomb
+tomb_chestplate_3,<dark_purple><b>Royal Chestplate,GOLDEN_CHESTPLATE,3,armor,overworld,gormak_tomb,protection:25|sustenance:5,<dark_gray>Gormak - Royal Tomb
+tomb_leggings_3,<dark_purple><b>Royal Leggings,GOLDEN_LEGGINGS,3,armor,overworld,gormak_tomb,protection:25|sustenance:5,<dark_gray>Gormak - Royal Tomb
+tomb_boots_3,<dark_purple><b>Royal Boots,GOLDEN_BOOTS,3,armor,overworld,gormak_tomb,protection:25|sustenance:5,<dark_gray>Gormak - Royal Tomb
+tomb_helmet_4,<dark_purple><b>Royal Helmet,GOLDEN_HELMET,4,armor,overworld,gormak_tomb,protection:25|sustenance:5|thorns:1,<dark_gray>Gormak - Royal Tomb
+tomb_chestplate_4,<dark_purple><b>Royal Chestplate,GOLDEN_CHESTPLATE,4,armor,overworld,gormak_tomb,protection:25|sustenance:5|thorns:1,<dark_gray>Gormak - Royal Tomb
+tomb_leggings_4,<dark_purple><b>Royal Leggings,GOLDEN_LEGGINGS,4,armor,overworld,gormak_tomb,protection:25|sustenance:5|thorns:1,<dark_gray>Gormak - Royal Tomb
+tomb_boots_4,<dark_purple><b>Royal Boots,GOLDEN_BOOTS,4,armor,overworld,gormak_tomb,protection:25|sustenance:5|thorns:1,<dark_gray>Gormak - Royal Tomb
+serf_helmet_1,<gray>Serf Helmet,LEATHER_HELMET,1,armor,overworld,gormak_city,protection:4,<dark_gray>Worn by the fallen.
+serf_chestplate_1,<gray>Serf Chestplate,LEATHER_CHESTPLATE,1,armor,overworld,gormak_city,protection:4,<dark_gray>Worn by the fallen.
+serf_leggings_1,<gray>Serf Leggings,LEATHER_LEGGINGS,1,armor,overworld,gormak_city,protection:4,<dark_gray>Worn by the fallen.
+serf_boots_1,<gray>Serf Boots,LEATHER_BOOTS,1,armor,overworld,gormak_city,protection:4,<dark_gray>Worn by the fallen.
+scavenger_helmet_1,<gray>Scavenger Helmet,CHAINMAIL_HELMET,1,armor,overworld,gormak_city,protection:5,<dark_gray>Worn by the fallen.
+scavenger_chestplate_1,<gray>Scavenger Chestplate,CHAINMAIL_CHESTPLATE,1,armor,overworld,gormak_city,protection:5,<dark_gray>Worn by the fallen.
+scavenger_leggings_1,<gray>Scavenger Leggings,CHAINMAIL_LEGGINGS,1,armor,overworld,gormak_city,protection:5,<dark_gray>Worn by the fallen.
+scavenger_boots_1,<gray>Scavenger Boots,CHAINMAIL_BOOTS,1,armor,overworld,gormak_city,protection:5,<dark_gray>Worn by the fallen.
+scout_helmet_1,<yellow>Dune Scout Helmet,CHAINMAIL_HELMET,1,armor,overworld,gormak_dunes,protection:7,<dark_gray>Worn by the fallen.
+scout_chestplate_1,<yellow>Dune Scout Chestplate,CHAINMAIL_CHESTPLATE,1,armor,overworld,gormak_dunes,protection:7,<dark_gray>Worn by the fallen.
+scout_leggings_1,<yellow>Dune Scout Leggings,CHAINMAIL_LEGGINGS,1,armor,overworld,gormak_dunes,protection:7,<dark_gray>Worn by the fallen.
+scout_boots_1,<yellow>Dune Scout Boots,CHAINMAIL_BOOTS,1,armor,overworld,gormak_dunes,protection:7,<dark_gray>Worn by the fallen.
+stalker_helmet_1,<gold>Stalker Helmet,IRON_HELMET,1,armor,overworld,gormak_dunes,protection:8,<dark_gray>Worn by the fallen.
+stalker_chestplate_1,<gold>Stalker Chestplate,IRON_CHESTPLATE,1,armor,overworld,gormak_dunes,protection:8,<dark_gray>Worn by the fallen.
+stalker_leggings_1,<gold>Stalker Leggings,IRON_LEGGINGS,1,armor,overworld,gormak_dunes,protection:8,<dark_gray>Worn by the fallen.
+stalker_boots_1,<gold>Stalker Boots,IRON_BOOTS,1,armor,overworld,gormak_dunes,protection:8,<dark_gray>Worn by the fallen.
+zealot_helmet_1,<dark_purple>Scarab Zealot Helmet,IRON_HELMET,1,armor,overworld,gormak_canyons,protection:10,<dark_gray>Worn by the fallen.
+zealot_chestplate_1,<dark_purple>Scarab Zealot Chestplate,IRON_CHESTPLATE,1,armor,overworld,gormak_canyons,protection:10,<dark_gray>Worn by the fallen.
+zealot_leggings_1,<dark_purple>Scarab Zealot Leggings,IRON_LEGGINGS,1,armor,overworld,gormak_canyons,protection:10,<dark_gray>Worn by the fallen.
+zealot_boots_1,<dark_purple>Scarab Zealot Boots,IRON_BOOTS,1,armor,overworld,gormak_canyons,protection:10,<dark_gray>Worn by the fallen.
+legionnaire_helmet_1,<gray>Legionnaire Helmet,IRON_HELMET,1,armor,overworld,gormak_canyons,protection:12,<dark_gray>Worn by the fallen.
+legionnaire_chestplate_1,<gray>Legionnaire Chestplate,IRON_CHESTPLATE,1,armor,overworld,gormak_canyons,protection:12,<dark_gray>Worn by the fallen.
+legionnaire_leggings_1,<gray>Legionnaire Leggings,IRON_LEGGINGS,1,armor,overworld,gormak_canyons,protection:12,<dark_gray>Worn by the fallen.
+legionnaire_boots_1,<gray>Legionnaire Boots,IRON_BOOTS,1,armor,overworld,gormak_canyons,protection:12,<dark_gray>Worn by the fallen.
+guard_helmet_1,<gold>Tomb Guard Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_temple,protection:14,<dark_gray>Worn by the fallen.
+guard_chestplate_1,<gold>Tomb Guard Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_temple,protection:14,<dark_gray>Worn by the fallen.
+guard_leggings_1,<gold>Tomb Guard Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_temple,protection:14,<dark_gray>Worn by the fallen.
+guard_boots_1,<gold>Tomb Guard Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_temple,protection:14,<dark_gray>Worn by the fallen.
+vizier_helmet_1,<yellow>Vizier Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_temple,protection:13,<dark_gray>Worn by the fallen.
+vizier_chestplate_1,<yellow>Vizier Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_temple,protection:13,<dark_gray>Worn by the fallen.
+vizier_leggings_1,<yellow>Vizier Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_temple,protection:13,<dark_gray>Worn by the fallen.
+vizier_boots_1,<yellow>Vizier Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_temple,protection:13,<dark_gray>Worn by the fallen.
+myrmidon_helmet_1,<dark_purple>Myrmidon Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_tomb,protection:18,<dark_gray>Worn by the fallen.
+myrmidon_chestplate_1,<dark_purple>Myrmidon Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_tomb,protection:18,<dark_gray>Worn by the fallen.
+myrmidon_leggings_1,<dark_purple>Myrmidon Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_tomb,protection:18,<dark_gray>Worn by the fallen.
+myrmidon_boots_1,<dark_purple>Myrmidon Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_tomb,protection:18,<dark_gray>Worn by the fallen.
+pharaoh_helmet_1,<gold>Pharaoh Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_tomb,protection:20|thorns:1,<dark_gray>Worn by the fallen.
+pharaoh_chestplate_1,<gold>Pharaoh Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_tomb,protection:20|thorns:1,<dark_gray>Worn by the fallen.
+pharaoh_leggings_1,<gold>Pharaoh Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_tomb,protection:20|thorns:1,<dark_gray>Worn by the fallen.
+pharaoh_boots_1,<gold>Pharaoh Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_tomb,protection:20|thorns:1,<dark_gray>Worn by the fallen.
+eternal_helmet_1,<dark_red>Eternal Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_tomb,protection:25|thorns:2,<dark_gray>Worn by the fallen.
+eternal_chestplate_1,<dark_red>Eternal Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_tomb,protection:25|thorns:2,<dark_gray>Worn by the fallen.
+eternal_leggings_1,<dark_red>Eternal Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_tomb,protection:25|thorns:2,<dark_gray>Worn by the fallen.
+eternal_boots_1,<dark_red>Eternal Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_tomb,protection:25|thorns:2,<dark_gray>Worn by the fallen.
+mirage_helmet_1,<light_purple>Mirage Helmet,GOLDEN_HELMET,1,armor,overworld,gormak,protection:15,<dark_gray>Worn by the fallen.
+mirage_chestplate_1,<light_purple>Mirage Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak,protection:15,<dark_gray>Worn by the fallen.
+mirage_leggings_1,<light_purple>Mirage Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak,protection:15,<dark_gray>Worn by the fallen.
+mirage_boots_1,<light_purple>Mirage Boots,GOLDEN_BOOTS,1,armor,overworld,gormak,protection:15,<dark_gray>Worn by the fallen.

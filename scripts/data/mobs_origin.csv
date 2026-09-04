@@ -1,0 +1,4 @@
+id,display,entity,health,defence,attack,equip,attributes,independent,choices_chance,choices
+chicken,<white><b>Isle Chicken,CHICKEN,20,0,0,,MOVEMENT_SPEED:0.3,feather:100:1-3,,
+sheep,<white><b>Isle Sheep,SHEEP,30,0,0,,,wool:100:1-3,,
+cow,<#8B5A2B><b>Isle Cow,COW,40,0,0,,,leather:100:1-3,,

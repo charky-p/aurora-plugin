@@ -1,14 +1,26 @@
-id,display,material,category,world,region,lore
-cobblestone,<gray><b>Cobblestone,COBBLESTONE,,overworld,origin_isles,
-coal,<gray><b>Coal,COAL,,overworld,origin_isles,
-copper,<gray><b>Copper,COPPER_INGOT,,overworld,origin_isles,
-iron,<gray><b>Iron,IRON_INGOT,,overworld,origin_isles,
-gold,<gray><b>Gold,GOLD_INGOT,,overworld,origin_isles,
-tattered_cloth,<gray><b>Tattered Cloth,PAPER,,overworld,origin_isles,<gray>Old bandages from a fallen serf.
-ancient_scrap,<white><b>Ancient Scrap,IRON_NUGGET,,overworld,origin_isles,<gray>Brittle metal used for basic shivs.
-ancient_flesh,<#964B00><b>Ancient Flesh,ROTTEN_FLESH,,overworld,origin_isles,<gray>A pulsating heart of desert magic.
-ancient_bone,<white><b>Ancient Bone,BONE,,overworld,origin_isles,<gray>Hardened by centuries in the heat.
-ancient_nugget,<gold><b>Ancient Nugget,GOLD_NUGGET,,overworld,origin_isles,<gray>Dense stone from the Vizier's temple.
-vizier_scroll,<gold><b>Vizier Scroll,FLOW_BANNER_PATTERN,,overworld,origin_isles,<gray>The mark of the high priests.
-eternal_soul,<gold><b>Eternal Soul,SOUL_SAND,,overworld,origin_isles,<gray>A lost soul from the inner tomb.
-ancient_heart,<gold><b>Sand-Tainted Heart,YELLOW_DYE,,overworld,origin_isles,<gray>A fragment of Gormak.
+id,display,material,world,region,lore
+cobblestone,<gray>Cobblestone,COBBLESTONE,overworld,origin_isles,<dark_gray>Origin Isles
+coal,<dark_gray><b>Coal,COAL,overworld,origin_isles,<dark_gray>Origin Isles
+copper,<#D94110><b>Copper Ingot,COPPER_INGOT,overworld,origin_isles,<dark_gray>Origin Isles
+iron,<white><b>Iron Ingot,IRON_INGOT,overworld,origin_isles,<dark_gray>Origin Isles
+gold,<gold><b>Gold Ingot,GOLD_INGOT,overworld,origin_isles,<dark_gray>Origin Isles
+feather,<white>Feather,FEATHER,overworld,origin_isles,<dark_gray>Dropped by chickens
+wool,<white>Tuft of Wool,WHITE_WOOL,overworld,origin_isles,<dark_gray>Dropped by sheep
+leather,<#8B5A2B>Hide,LEATHER,overworld,origin_isles,<dark_gray>Dropped by cows
+carved_brick,<gray>Carved Brick,STONE_BRICKS,overworld,gormak_city,<dark_gray>Gormak - Abandoned City
+tattered_cloth,<gray>Tattered Cloth,STRING,overworld,gormak_city,<dark_gray>Dropped by Hollowed Serfs
+ancient_scrap,<gray><b>Ancient Scrap,IRON_NUGGET,overworld,gormak_city,<dark_gray>Dropped by Scavenger Husks
+sunbaked_sand,<yellow>Sunbaked Sandstone,SANDSTONE,overworld,gormak_dunes,<dark_gray>Gormak - The Dunes
+ancient_flesh,<dark_red>Ancient Flesh,ROTTEN_FLESH,overworld,gormak_dunes,<dark_gray>Dropped by Dune Scouts
+ancient_bone,<white><b>Ancient Bone,BONE,overworld,gormak_dunes,<dark_gray>Dropped by Sand Stalkers
+crimson_sand,<#B4462A>Crimson Sandstone,RED_SANDSTONE,overworld,gormak_canyons,<dark_gray>Gormak - Howling Canyons
+scarab_shell,<dark_purple><b>Scarab Shell,TURTLE_SCUTE,overworld,gormak_canyons,<dark_gray>Dropped by Scarab Zealots
+legion_plate,<gray><b>Legion Plate,IRON_INGOT,overworld,gormak_canyons,<dark_gray>Dropped by Hollowed Legionnaires
+raw_gold,<gold>Raw Gold,RAW_GOLD,overworld,gormak_temple,<dark_gray>Gormak - Sun Temple
+ancient_nugget,<gold><b>Ancient Nugget,GOLD_NUGGET,overworld,gormak_temple,<dark_gray>Dropped by Tomb Guards
+vizier_scroll,<yellow><b>Vizier Scroll,PAPER,overworld,gormak_temple,<dark_gray>Dropped by Vizier Mages
+eternal_soul,<dark_purple><b>Eternal Soul,ECHO_SHARD,overworld,gormak_tomb,<dark_gray>Dropped by Royal Myrmidons
+royal_seal,<gold><b>Royal Seal,HEART_OF_THE_SEA,overworld,gormak_tomb,<dark_gray>Dropped by Pharaohs
+tomb_key,<gold><b>Tomb Key,TRIAL_KEY,overworld,gormak_tomb,<gray>Summons Gormak the Eternal|<dark_gray>Use at the Golden Throne
+ancient_heart,<dark_red><b>Ancient Heart,NETHER_STAR,overworld,gormak_tomb,<dark_gray>Dropped by Gormak the Eternal
+mirage_shard,<light_purple><b>Mirage Shard,AMETHYST_SHARD,overworld,gormak,<gray>Shimmers as though it isn't there.|<dark_gray>Dropped by the Mirage

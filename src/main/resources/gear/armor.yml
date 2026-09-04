@@ -17,40 +17,44 @@
 # ===========================================================
 
 items:
-  starter_helmet_1:
+  starter_helmet_0:
     display: "<gray><b>Starter Helmet"
     material: LEATHER_HELMET
-    tier: 1
     type: "armor"
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
-  starter_chestplate_1:
+  starter_chestplate_0:
     display: "<gray><b>Starter Chestplate"
     material: LEATHER_CHESTPLATE
-    tier: 1
     type: "armor"
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
-  starter_leggings_1:
+  starter_leggings_0:
     display: "<gray><b>Starter Leggings"
     material: LEATHER_LEGGINGS
-    tier: 1
     type: "armor"
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
-  starter_boots_1:
+  starter_boots_0:
     display: "<gray><b>Starter Boots"
     material: LEATHER_BOOTS
-    tier: 1
     type: "armor"
     world: "overworld"
     region: "origin_isles"
+    lore:
+      - "<dark_gray>Origin Isles"
 
   cobble_helmet_1:
-    display: "<gray><b>Cobble Helmet"
+    display: "<gray><b>Cobblestone Helmet"
     material: LEATHER_HELMET
     tier: 1
     type: "armor"
@@ -58,9 +62,11 @@ items:
     region: "origin_isles"
     enchants:
       protection: 1
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   cobble_chestplate_1:
-    display: "<gray><b>Cobble Chestplate"
+    display: "<gray><b>Cobblestone Chestplate"
     material: LEATHER_CHESTPLATE
     tier: 1
     type: "armor"
@@ -68,9 +74,11 @@ items:
     region: "origin_isles"
     enchants:
       protection: 1
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   cobble_leggings_1:
-    display: "<gray><b>Cobble Leggings"
+    display: "<gray><b>Cobblestone Leggings"
     material: LEATHER_LEGGINGS
     tier: 1
     type: "armor"
@@ -78,9 +86,11 @@ items:
     region: "origin_isles"
     enchants:
       protection: 1
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   cobble_boots_1:
-    display: "<gray><b>Cobble Boots"
+    display: "<gray><b>Cobblestone Boots"
     material: LEATHER_BOOTS
     tier: 1
     type: "armor"
@@ -88,46 +98,8 @@ items:
     region: "origin_isles"
     enchants:
       protection: 1
-
-  cobble_helmet_2:
-    display: "<gray><b>Cobble Helmet"
-    material: LEATHER_HELMET
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 2
-
-  cobble_chestplate_2:
-    display: "<gray><b>Cobble Chestplate"
-    material: LEATHER_CHESTPLATE
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 2
-
-  cobble_leggings_2:
-    display: "<gray><b>Cobble Leggings"
-    material: LEATHER_LEGGINGS
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 2
-
-  cobble_boots_2:
-    display: "<gray><b>Cobble Boots"
-    material: LEATHER_BOOTS
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Cobblestone Quarry"
 
   coal_helmet_1:
     display: "<dark_gray><b>Coal Helmet"
@@ -137,7 +109,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 3
+      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   coal_chestplate_1:
     display: "<dark_gray><b>Coal Chestplate"
@@ -147,7 +121,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 3
+      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   coal_leggings_1:
     display: "<dark_gray><b>Coal Leggings"
@@ -157,7 +133,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 3
+      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   coal_boots_1:
     display: "<dark_gray><b>Coal Boots"
@@ -167,47 +145,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 3
-
-  coal_helmet_2:
-    display: "<dark_gray><b>Coal Helmet"
-    material: LEATHER_HELMET
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 4
-
-  coal_chestplate_2:
-    display: "<dark_gray><b>Coal Chestplate"
-    material: LEATHER_CHESTPLATE
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 4
-
-  coal_leggings_2:
-    display: "<dark_gray><b>Coal Leggings"
-    material: LEATHER_LEGGINGS
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 4
-
-  coal_boots_2:
-    display: "<dark_gray><b>Coal Boots"
-    material: LEATHER_BOOTS
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 4
+      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Coal Seam"
 
   copper_helmet_1:
     display: "<#D94110><b>Copper Helmet"
@@ -217,7 +157,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 4
+      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_chestplate_1:
     display: "<#D94110><b>Copper Chestplate"
@@ -227,7 +169,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 4
+      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_leggings_1:
     display: "<#D94110><b>Copper Leggings"
@@ -237,7 +181,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 4
+      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_boots_1:
     display: "<#D94110><b>Copper Boots"
@@ -247,7 +193,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 4
+      protection: 2
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_helmet_2:
     display: "<#D94110><b>Copper Helmet"
@@ -257,7 +205,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 5
+      protection: 3
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_chestplate_2:
     display: "<#D94110><b>Copper Chestplate"
@@ -267,7 +217,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 5
+      protection: 3
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_leggings_2:
     display: "<#D94110><b>Copper Leggings"
@@ -277,7 +229,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 5
+      protection: 3
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   copper_boots_2:
     display: "<#D94110><b>Copper Boots"
@@ -287,7 +241,57 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 5
+      protection: 3
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
+
+  copper_helmet_3:
+    display: "<#D94110><b>Copper Helmet"
+    material: COPPER_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
+
+  copper_chestplate_3:
+    display: "<#D94110><b>Copper Chestplate"
+    material: COPPER_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
+
+  copper_leggings_3:
+    display: "<#D94110><b>Copper Leggings"
+    material: COPPER_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
+
+  copper_boots_3:
+    display: "<#D94110><b>Copper Boots"
+    material: COPPER_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 4
+    lore:
+      - "<dark_gray>Origin Isles - Copper Vein"
 
   iron_helmet_1:
     display: "<white><b>Iron Helmet"
@@ -297,7 +301,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 2
+      protection: 4
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_chestplate_1:
     display: "<white><b>Iron Chestplate"
@@ -307,7 +313,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 2
+      protection: 4
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_leggings_1:
     display: "<white><b>Iron Leggings"
@@ -317,7 +325,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 2
+      protection: 4
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_boots_1:
     display: "<white><b>Iron Boots"
@@ -327,7 +337,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 2
+      protection: 4
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_helmet_2:
     display: "<white><b>Iron Helmet"
@@ -337,7 +349,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 3
+      protection: 5
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_chestplate_2:
     display: "<white><b>Iron Chestplate"
@@ -347,7 +361,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 3
+      protection: 5
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_leggings_2:
     display: "<white><b>Iron Leggings"
@@ -357,7 +373,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 3
+      protection: 5
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   iron_boots_2:
     display: "<white><b>Iron Boots"
@@ -367,7 +385,57 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 3
+      protection: 5
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
+
+  iron_helmet_3:
+    display: "<white><b>Iron Helmet"
+    material: IRON_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 6
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
+
+  iron_chestplate_3:
+    display: "<white><b>Iron Chestplate"
+    material: IRON_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 6
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
+
+  iron_leggings_3:
+    display: "<white><b>Iron Leggings"
+    material: IRON_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 6
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
+
+  iron_boots_3:
+    display: "<white><b>Iron Boots"
+    material: IRON_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 6
+    lore:
+      - "<dark_gray>Origin Isles - Iron Deposit"
 
   gold_helmet_1:
     display: "<gold><b>Gold Helmet"
@@ -377,7 +445,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 4
+      protection: 6
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_chestplate_1:
     display: "<gold><b>Gold Chestplate"
@@ -387,7 +457,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 4
+      protection: 6
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_leggings_1:
     display: "<gold><b>Gold Leggings"
@@ -397,7 +469,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 4
+      protection: 6
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_boots_1:
     display: "<gold><b>Gold Boots"
@@ -407,7 +481,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 4
+      protection: 6
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_helmet_2:
     display: "<gold><b>Gold Helmet"
@@ -417,7 +493,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 5
+      protection: 7
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_chestplate_2:
     display: "<gold><b>Gold Chestplate"
@@ -427,7 +505,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 5
+      protection: 7
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_leggings_2:
     display: "<gold><b>Gold Leggings"
@@ -437,7 +517,9 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 5
+      protection: 7
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
 
   gold_boots_2:
     display: "<gold><b>Gold Boots"
@@ -447,356 +529,1874 @@ items:
     world: "overworld"
     region: "origin_isles"
     enchants:
-      protection: 5
+      protection: 7
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
+
+  gold_helmet_3:
+    display: "<gold><b>Gold Helmet"
+    material: GOLDEN_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 8
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
+
+  gold_chestplate_3:
+    display: "<gold><b>Gold Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 8
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
+
+  gold_leggings_3:
+    display: "<gold><b>Gold Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 8
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
+
+  gold_boots_3:
+    display: "<gold><b>Gold Boots"
+    material: GOLDEN_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "origin_isles"
+    enchants:
+      protection: 8
+    lore:
+      - "<dark_gray>Origin Isles - Gold Reef"
+
+  city_helmet_1:
+    display: "<gray><b>Ashen Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 9
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_chestplate_1:
+    display: "<gray><b>Ashen Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 9
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_leggings_1:
+    display: "<gray><b>Ashen Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 9
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_boots_1:
+    display: "<gray><b>Ashen Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 9
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_helmet_2:
+    display: "<gray><b>Ashen Helmet"
+    material: GOLDEN_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 10
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_chestplate_2:
+    display: "<gray><b>Ashen Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 10
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_leggings_2:
+    display: "<gray><b>Ashen Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 10
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_boots_2:
+    display: "<gray><b>Ashen Boots"
+    material: GOLDEN_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 10
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_helmet_3:
+    display: "<gray><b>Ashen Helmet"
+    material: GOLDEN_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 11
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_chestplate_3:
+    display: "<gray><b>Ashen Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 11
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_leggings_3:
+    display: "<gray><b>Ashen Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 11
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_boots_3:
+    display: "<gray><b>Ashen Boots"
+    material: GOLDEN_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 11
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_helmet_4:
+    display: "<gray><b>Ashen Helmet"
+    material: GOLDEN_HELMET
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 12
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_chestplate_4:
+    display: "<gray><b>Ashen Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 12
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_leggings_4:
+    display: "<gray><b>Ashen Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 12
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_boots_4:
+    display: "<gray><b>Ashen Boots"
+    material: GOLDEN_BOOTS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 12
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_helmet_5:
+    display: "<gray><b>Ashen Helmet"
+    material: GOLDEN_HELMET
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 12
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_chestplate_5:
+    display: "<gray><b>Ashen Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 12
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_leggings_5:
+    display: "<gray><b>Ashen Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 12
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  city_boots_5:
+    display: "<gray><b>Ashen Boots"
+    material: GOLDEN_BOOTS
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_city"
+    enchants:
+      protection: 12
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - Abandoned City"
+
+  dunes_helmet_1:
+    display: "<yellow><b>Dune Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 13
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_chestplate_1:
+    display: "<yellow><b>Dune Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 13
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_leggings_1:
+    display: "<yellow><b>Dune Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 13
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_boots_1:
+    display: "<yellow><b>Dune Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 13
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_helmet_2:
+    display: "<yellow><b>Dune Helmet"
+    material: GOLDEN_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 14
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_chestplate_2:
+    display: "<yellow><b>Dune Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 14
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_leggings_2:
+    display: "<yellow><b>Dune Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 14
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_boots_2:
+    display: "<yellow><b>Dune Boots"
+    material: GOLDEN_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 14
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_helmet_3:
+    display: "<yellow><b>Dune Helmet"
+    material: GOLDEN_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 15
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_chestplate_3:
+    display: "<yellow><b>Dune Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 15
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_leggings_3:
+    display: "<yellow><b>Dune Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 15
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_boots_3:
+    display: "<yellow><b>Dune Boots"
+    material: GOLDEN_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 15
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_helmet_4:
+    display: "<yellow><b>Dune Helmet"
+    material: GOLDEN_HELMET
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 16
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_chestplate_4:
+    display: "<yellow><b>Dune Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 16
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_leggings_4:
+    display: "<yellow><b>Dune Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 16
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_boots_4:
+    display: "<yellow><b>Dune Boots"
+    material: GOLDEN_BOOTS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 16
+      sustenance: 1
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_helmet_5:
+    display: "<yellow><b>Dune Helmet"
+    material: GOLDEN_HELMET
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 16
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_chestplate_5:
+    display: "<yellow><b>Dune Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 16
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_leggings_5:
+    display: "<yellow><b>Dune Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 16
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  dunes_boots_5:
+    display: "<yellow><b>Dune Boots"
+    material: GOLDEN_BOOTS
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 16
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - The Dunes"
+
+  canyons_helmet_1:
+    display: "<#B4462A><b>Canyon Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 17
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_chestplate_1:
+    display: "<#B4462A><b>Canyon Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 17
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_leggings_1:
+    display: "<#B4462A><b>Canyon Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 17
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_boots_1:
+    display: "<#B4462A><b>Canyon Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 17
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_helmet_2:
+    display: "<#B4462A><b>Canyon Helmet"
+    material: GOLDEN_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 18
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_chestplate_2:
+    display: "<#B4462A><b>Canyon Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 18
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_leggings_2:
+    display: "<#B4462A><b>Canyon Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 18
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_boots_2:
+    display: "<#B4462A><b>Canyon Boots"
+    material: GOLDEN_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 18
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_helmet_3:
+    display: "<#B4462A><b>Canyon Helmet"
+    material: GOLDEN_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 19
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_chestplate_3:
+    display: "<#B4462A><b>Canyon Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 19
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_leggings_3:
+    display: "<#B4462A><b>Canyon Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 19
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_boots_3:
+    display: "<#B4462A><b>Canyon Boots"
+    material: GOLDEN_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 19
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_helmet_4:
+    display: "<#B4462A><b>Canyon Helmet"
+    material: GOLDEN_HELMET
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 20
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_chestplate_4:
+    display: "<#B4462A><b>Canyon Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 20
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_leggings_4:
+    display: "<#B4462A><b>Canyon Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 20
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_boots_4:
+    display: "<#B4462A><b>Canyon Boots"
+    material: GOLDEN_BOOTS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 20
+      sustenance: 2
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_helmet_5:
+    display: "<#B4462A><b>Canyon Helmet"
+    material: GOLDEN_HELMET
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 20
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_chestplate_5:
+    display: "<#B4462A><b>Canyon Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 20
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_leggings_5:
+    display: "<#B4462A><b>Canyon Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 20
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  canyons_boots_5:
+    display: "<#B4462A><b>Canyon Boots"
+    material: GOLDEN_BOOTS
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 20
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Howling Canyons"
+
+  temple_helmet_1:
+    display: "<gold><b>Sunward Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 21
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_chestplate_1:
+    display: "<gold><b>Sunward Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 21
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_leggings_1:
+    display: "<gold><b>Sunward Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 21
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_boots_1:
+    display: "<gold><b>Sunward Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 21
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_helmet_2:
+    display: "<gold><b>Sunward Helmet"
+    material: GOLDEN_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 22
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_chestplate_2:
+    display: "<gold><b>Sunward Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 22
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_leggings_2:
+    display: "<gold><b>Sunward Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 22
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_boots_2:
+    display: "<gold><b>Sunward Boots"
+    material: GOLDEN_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 22
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_helmet_3:
+    display: "<gold><b>Sunward Helmet"
+    material: GOLDEN_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 23
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_chestplate_3:
+    display: "<gold><b>Sunward Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 23
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_leggings_3:
+    display: "<gold><b>Sunward Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 23
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_boots_3:
+    display: "<gold><b>Sunward Boots"
+    material: GOLDEN_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 23
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_helmet_4:
+    display: "<gold><b>Sunward Helmet"
+    material: GOLDEN_HELMET
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 24
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_chestplate_4:
+    display: "<gold><b>Sunward Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 24
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_leggings_4:
+    display: "<gold><b>Sunward Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 24
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_boots_4:
+    display: "<gold><b>Sunward Boots"
+    material: GOLDEN_BOOTS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 24
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_helmet_5:
+    display: "<gold><b>Sunward Helmet"
+    material: GOLDEN_HELMET
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 24
+      sustenance: 4
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_chestplate_5:
+    display: "<gold><b>Sunward Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 24
+      sustenance: 4
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_leggings_5:
+    display: "<gold><b>Sunward Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 24
+      sustenance: 4
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  temple_boots_5:
+    display: "<gold><b>Sunward Boots"
+    material: GOLDEN_BOOTS
+    tier: 5
+    type: "armor"
+    world: "overworld"
+    region: "gormak_temple"
+    enchants:
+      protection: 24
+      sustenance: 4
+    lore:
+      - "<dark_gray>Gormak - Sun Temple"
+
+  tomb_helmet_1:
+    display: "<dark_purple><b>Royal Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_chestplate_1:
+    display: "<dark_purple><b>Royal Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_leggings_1:
+    display: "<dark_purple><b>Royal Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_boots_1:
+    display: "<dark_purple><b>Royal Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 3
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_helmet_2:
+    display: "<dark_purple><b>Royal Helmet"
+    material: GOLDEN_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 4
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_chestplate_2:
+    display: "<dark_purple><b>Royal Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 4
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_leggings_2:
+    display: "<dark_purple><b>Royal Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 4
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_boots_2:
+    display: "<dark_purple><b>Royal Boots"
+    material: GOLDEN_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 4
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_helmet_3:
+    display: "<dark_purple><b>Royal Helmet"
+    material: GOLDEN_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 5
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_chestplate_3:
+    display: "<dark_purple><b>Royal Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 5
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_leggings_3:
+    display: "<dark_purple><b>Royal Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 5
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_boots_3:
+    display: "<dark_purple><b>Royal Boots"
+    material: GOLDEN_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 5
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_helmet_4:
+    display: "<dark_purple><b>Royal Helmet"
+    material: GOLDEN_HELMET
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_chestplate_4:
+    display: "<dark_purple><b>Royal Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_leggings_4:
+    display: "<dark_purple><b>Royal Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
+
+  tomb_boots_4:
+    display: "<dark_purple><b>Royal Boots"
+    material: GOLDEN_BOOTS
+    tier: 4
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Gormak - Royal Tomb"
 
   serf_helmet_1:
-    display: "<gray><b>Serf Helmet"
+    display: "<gray>Serf Helmet"
     material: LEATHER_HELMET
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
-      protection: 5
-      health: 1
+      protection: 4
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   serf_chestplate_1:
-    display: "<gray><b>Serf Chestplate"
+    display: "<gray>Serf Chestplate"
     material: LEATHER_CHESTPLATE
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
-      protection: 5
-      health: 1
+      protection: 4
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   serf_leggings_1:
-    display: "<gray><b>Serf Leggings"
+    display: "<gray>Serf Leggings"
     material: LEATHER_LEGGINGS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
-      protection: 5
-      health: 1
+      protection: 4
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   serf_boots_1:
-    display: "<gray><b>Serf Boots"
+    display: "<gray>Serf Boots"
     material: LEATHER_BOOTS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
-      protection: 5
-      health: 1
+      protection: 4
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   scavenger_helmet_1:
-    display: "<gray><b>Scavenger Helmet"
+    display: "<gray>Scavenger Helmet"
     material: CHAINMAIL_HELMET
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
-      protection: 6
-      health: 1
+      protection: 5
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   scavenger_chestplate_1:
-    display: "<gray><b>Scavenger Chestplate"
+    display: "<gray>Scavenger Chestplate"
     material: CHAINMAIL_CHESTPLATE
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
-      protection: 6
-      health: 1
+      protection: 5
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   scavenger_leggings_1:
-    display: "<gray><b>Scavenger Leggings"
+    display: "<gray>Scavenger Leggings"
     material: CHAINMAIL_LEGGINGS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
-      protection: 6
-      health: 1
+      protection: 5
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   scavenger_boots_1:
-    display: "<gray><b>Scavenger Boots"
+    display: "<gray>Scavenger Boots"
     material: CHAINMAIL_BOOTS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_city"
     enchants:
-      protection: 6
-      health: 1
+      protection: 5
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  dune_scout_helmet_1:
-    display: "<white><b>Dune Scout Helmet"
+  scout_helmet_1:
+    display: "<yellow>Dune Scout Helmet"
+    material: CHAINMAIL_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 7
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  scout_chestplate_1:
+    display: "<yellow>Dune Scout Chestplate"
+    material: CHAINMAIL_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 7
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  scout_leggings_1:
+    display: "<yellow>Dune Scout Leggings"
+    material: CHAINMAIL_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 7
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  scout_boots_1:
+    display: "<yellow>Dune Scout Boots"
+    material: CHAINMAIL_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_dunes"
+    enchants:
+      protection: 7
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  stalker_helmet_1:
+    display: "<gold>Stalker Helmet"
     material: IRON_HELMET
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     enchants:
-      protection: 7
-      health: 1
+      protection: 8
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  dune_scout_chestplate_1:
-    display: "<white><b>Dune Scout Chestplate"
+  stalker_chestplate_1:
+    display: "<gold>Stalker Chestplate"
     material: IRON_CHESTPLATE
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     enchants:
-      protection: 7
-      health: 1
+      protection: 8
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  dune_scout_leggings_1:
-    display: "<white><b>Dune Scout Leggings"
+  stalker_leggings_1:
+    display: "<gold>Stalker Leggings"
     material: IRON_LEGGINGS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     enchants:
-      protection: 7
-      health: 1
+      protection: 8
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  dune_scout_boots_1:
-    display: "<white><b>Dune Scout Boots"
+  stalker_boots_1:
+    display: "<gold>Stalker Boots"
     material: IRON_BOOTS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_dunes"
     enchants:
-      protection: 7
-      health: 1
+      protection: 8
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  stalker_helmet_1:
-    display: "<gold><b>Stalker Helmet"
+  zealot_helmet_1:
+    display: "<dark_purple>Scarab Zealot Helmet"
+    material: IRON_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 10
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  zealot_chestplate_1:
+    display: "<dark_purple>Scarab Zealot Chestplate"
+    material: IRON_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 10
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  zealot_leggings_1:
+    display: "<dark_purple>Scarab Zealot Leggings"
+    material: IRON_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 10
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  zealot_boots_1:
+    display: "<dark_purple>Scarab Zealot Boots"
+    material: IRON_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 10
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  legionnaire_helmet_1:
+    display: "<gray>Legionnaire Helmet"
+    material: IRON_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 12
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  legionnaire_chestplate_1:
+    display: "<gray>Legionnaire Chestplate"
+    material: IRON_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 12
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  legionnaire_leggings_1:
+    display: "<gray>Legionnaire Leggings"
+    material: IRON_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 12
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  legionnaire_boots_1:
+    display: "<gray>Legionnaire Boots"
+    material: IRON_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_canyons"
+    enchants:
+      protection: 12
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  guard_helmet_1:
+    display: "<gold>Tomb Guard Helmet"
     material: GOLDEN_HELMET
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      protection: 7
-      health: 2
+      protection: 14
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  stalker_chestplate_1:
-    display: "<gold><b>Stalker Chestplate"
+  guard_chestplate_1:
+    display: "<gold>Tomb Guard Chestplate"
     material: GOLDEN_CHESTPLATE
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      protection: 7
-      health: 2
+      protection: 14
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  stalker_leggings_1:
-    display: "<gold><b>Stalker Leggings"
+  guard_leggings_1:
+    display: "<gold>Tomb Guard Leggings"
     material: GOLDEN_LEGGINGS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      protection: 7
-      health: 2
+      protection: 14
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  stalker_boots_1:
-    display: "<gold><b>Stalker Boots"
+  guard_boots_1:
+    display: "<gold>Tomb Guard Boots"
     material: GOLDEN_BOOTS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      protection: 7
-      health: 2
-
-  tomb_guard_helmet_1:
-    display: "<gold><b>Tomb Guard Helmet"
-    material: GOLDEN_HELMET
-    tier: 1
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 8
-      health: 2
-
-  tomb_guard_chestplate_1:
-    display: "<gold><b>Tomb Guard Chestplate"
-    material: GOLDEN_CHESTPLATE
-    tier: 1
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 8
-      health: 2
-
-  tomb_guard_leggings_1:
-    display: "<gold><b>Tomb Guard Leggings"
-    material: GOLDEN_LEGGINGS
-    tier: 1
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 8
-      health: 2
-
-  tomb_guard_boots_1:
-    display: "<gold><b>Tomb Guard Boots"
-    material: GOLDEN_BOOTS
-    tier: 1
-    type: "armor"
-    world: "overworld"
-    region: "origin_isles"
-    enchants:
-      protection: 8
-      health: 2
+      protection: 14
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   vizier_helmet_1:
-    display: "<gold><b>Vizier Helmet"
+    display: "<yellow>Vizier Helmet"
     material: GOLDEN_HELMET
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      protection: 9
-      health: 2
+      protection: 13
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   vizier_chestplate_1:
-    display: "<gold><b>Vizier Chestplate"
+    display: "<yellow>Vizier Chestplate"
     material: GOLDEN_CHESTPLATE
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      protection: 9
-      health: 2
+      protection: 13
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   vizier_leggings_1:
-    display: "<gold><b>Vizier Leggings"
+    display: "<yellow>Vizier Leggings"
     material: GOLDEN_LEGGINGS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      protection: 9
-      health: 2
+      protection: 13
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   vizier_boots_1:
-    display: "<gold><b>Vizier Boots"
+    display: "<yellow>Vizier Boots"
     material: GOLDEN_BOOTS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_temple"
     enchants:
-      protection: 9
-      health: 2
+      protection: 13
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   myrmidon_helmet_1:
-    display: "<gold><b>Myrmidon Helmet"
+    display: "<dark_purple>Myrmidon Helmet"
     material: GOLDEN_HELMET
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     enchants:
-      protection: 10
-      health: 2
+      protection: 18
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   myrmidon_chestplate_1:
-    display: "<gold><b>Myrmidon Chestplate"
+    display: "<dark_purple>Myrmidon Chestplate"
     material: GOLDEN_CHESTPLATE
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     enchants:
-      protection: 10
-      health: 2
+      protection: 18
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   myrmidon_leggings_1:
-    display: "<gold><b>Myrmidon Leggings"
+    display: "<dark_purple>Myrmidon Leggings"
     material: GOLDEN_LEGGINGS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     enchants:
-      protection: 10
-      health: 2
+      protection: 18
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
   myrmidon_boots_1:
-    display: "<gold><b>Myrmidon Boots"
+    display: "<dark_purple>Myrmidon Boots"
     material: GOLDEN_BOOTS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     enchants:
-      protection: 10
-      health: 2
+      protection: 18
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  gormak_helmet_1:
-    display: "<gold><b>Gormak the Eternal Helmet"
+  pharaoh_helmet_1:
+    display: "<gold>Pharaoh Helmet"
     material: GOLDEN_HELMET
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     enchants:
-      protection: 10
-      health: 3
+      protection: 20
+      thorns: 1
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  gormak_chestplate_1:
-    display: "<gold><b>Gormak the Eternal Chestplate"
+  pharaoh_chestplate_1:
+    display: "<gold>Pharaoh Chestplate"
     material: GOLDEN_CHESTPLATE
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     enchants:
-      protection: 10
-      health: 3
+      protection: 20
+      thorns: 1
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  gormak_leggings_1:
-    display: "<gold><b>Gormak the Eternal Leggings"
+  pharaoh_leggings_1:
+    display: "<gold>Pharaoh Leggings"
     material: GOLDEN_LEGGINGS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     enchants:
-      protection: 10
-      health: 3
+      protection: 20
+      thorns: 1
+    lore:
+      - "<dark_gray>Worn by the fallen."
 
-  gormak_boots_1:
-    display: "<gold><b>Gormak the Eternal Boots"
+  pharaoh_boots_1:
+    display: "<gold>Pharaoh Boots"
     material: GOLDEN_BOOTS
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "origin_isles"
+    region: "gormak_tomb"
     enchants:
-      protection: 10
-      health: 3
+      protection: 20
+      thorns: 1
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  eternal_helmet_1:
+    display: "<dark_red>Eternal Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      thorns: 2
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  eternal_chestplate_1:
+    display: "<dark_red>Eternal Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      thorns: 2
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  eternal_leggings_1:
+    display: "<dark_red>Eternal Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      thorns: 2
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  eternal_boots_1:
+    display: "<dark_red>Eternal Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak_tomb"
+    enchants:
+      protection: 25
+      thorns: 2
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  mirage_helmet_1:
+    display: "<light_purple>Mirage Helmet"
+    material: GOLDEN_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak"
+    enchants:
+      protection: 15
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  mirage_chestplate_1:
+    display: "<light_purple>Mirage Chestplate"
+    material: GOLDEN_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak"
+    enchants:
+      protection: 15
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  mirage_leggings_1:
+    display: "<light_purple>Mirage Leggings"
+    material: GOLDEN_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak"
+    enchants:
+      protection: 15
+    lore:
+      - "<dark_gray>Worn by the fallen."
+
+  mirage_boots_1:
+    display: "<light_purple>Mirage Boots"
+    material: GOLDEN_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "gormak"
+    enchants:
+      protection: 15
+    lore:
+      - "<dark_gray>Worn by the fallen."

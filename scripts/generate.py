@@ -420,7 +420,22 @@ SCHEMAS["armor"] = gear_schema("gear_armor.csv", "gear/armor.yml", "armor")
 SCHEMAS["weapons"] = gear_schema("gear_weapons.csv", "gear/weapons.yml", "combat")
 SCHEMAS["other"] = gear_schema("gear_other.csv", "gear/other.yml", "")
 
-SCHEMAS["mobs"] = {
+SCHEMAS["mobs_origin"] = {
+    "csv": "mobs_origin.csv",
+    "out": "mobs/origin.yml",
+    "header": MOB_HEADER,
+    "fields": OrderedDict([
+        ("display",    Str(quote=True, required=True)),
+        ("entity",     Str(required=True)),
+        ("health",     Float(default=20.0, always=True)),
+        ("defence",    Float(default=0.0)),
+        ("attack",     Float(default=0.0)),
+        ("equip",      PairMap(value=str)),
+        ("attributes", PairList("attr", "value", value=float)),
+    ] + loot_fields()),
+}
+
+SCHEMAS["mobs_gormak"] = {
     "csv": "mobs_gormak.csv",
     "out": "mobs/gormak.yml",
     "header": MOB_HEADER,
@@ -496,10 +511,7 @@ def gui_schema(csv_name, child_name, out_name):
         },
     }
 
-SCHEMAS["gui_tools"] = gui_schema("guis_tools.csv", "guis_tools_components.csv", "guis/tools.yml")
 SCHEMAS["gui_shops"] = gui_schema("guis_shops.csv", "guis_shops_components.csv", "guis/shops.yml")
-SCHEMAS["gui_armor"] = gui_schema("guis_armor.csv", "guis_armor_components.csv", "guis/armor.yml")
-SCHEMAS["gui_compressors"] = gui_schema("guis_compressors.csv", "guis_compressors_components.csv", "guis/compressors.yml")
 
 # --------------------------------------------------------------------------
 # Building

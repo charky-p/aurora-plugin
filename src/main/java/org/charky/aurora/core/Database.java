@@ -285,6 +285,7 @@ public class Database {
             pst.setDouble(1, tpX);
             pst.setDouble(2, tpY);
             pst.setDouble(3, tpZ);
+            pst.setString(4, name);
 
             pst.executeUpdate();
         } catch (SQLException e) {

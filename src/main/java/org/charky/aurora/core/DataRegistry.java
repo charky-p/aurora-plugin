@@ -82,14 +82,10 @@ public class DataRegistry {
         loadMobs("gormak.yml");
         loadMobs("origin.yml");
         loadIcons();
-        // TODO: order matters since there is a hierarchy of GUIs, make this more robust
-//        loadGuis("armor.yml");
-//        loadGuis("compressors.yml");
-        loadGuis("tools.yml");
         loadGuis("shops.yml");
         loadTraders();
 
-         debugRegistry();
+        // debugRegistry();
     }
 
     public List<String> getBlocks(String prefix) {
@@ -190,9 +186,7 @@ public class DataRegistry {
 
         // 6. Traders (Physical Entities)
         logger.info("-> Traders [" + traders.size() + "]:");
-        traders.forEach((id, trader) -> {
-            logger.info("   - " + id + " (Links to Menu: " + trader.getMenuId() + ")");
-        });
+        traders.forEach((id, trader) -> logger.info("   - " + id + " (Links to Menu: " + trader.getMenuId() + ")"));
 
         logger.info("=== [ Debug Report Complete ] ===");
     }
@@ -257,7 +251,6 @@ public class DataRegistry {
                 }
 
                 List<Component> lore = new ArrayList<>();
-//                if (model.type == null) lore.add(parseType(defaultType));
                 lore.add(parseType(model.type));
                 lore.add(Component.empty());
 
@@ -508,8 +501,6 @@ public class DataRegistry {
 
             TraderMenu menu = guis.get(id);
             if (menu != null) menu.setContents(contents);
-//            TraderMenu menu = new TraderMenu(id, displayTitle, model.rows, contents, icons.get(model.icon));
-//            guis.put(id, menu);
         });
     }
 

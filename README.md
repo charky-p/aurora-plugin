@@ -152,3 +152,5 @@ Note: Turn off named entity console alerts in `spigot.yml`, `log-named-deaths: f
 Player health is real, mob health is pseudo, run `/data get entity @s Health`
 
 Reload CSV Data: run `generate.py --live`
+
+Server Transfer: use `target/Aurora-1.0.java`, use FileZilla FTP to transfer world files.

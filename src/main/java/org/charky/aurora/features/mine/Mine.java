@@ -18,7 +18,7 @@ public class Mine {
     private List<MineBlock> blocks;
     private BukkitTask task;
     private int blocksBroken;
-    private final int volume;
+    private int volume;
     private long lastResetTick = -1;
 
     public Mine(Aurora plugin, MineManager manager, MineData data, List<MineBlock> blocks) {
@@ -54,6 +54,9 @@ public class Mine {
 
     public void setLocations(Location location1, Location location2) {
         data.setLocations(location1, location2);
+        this.volume = (Math.abs(data.getX1() - data.getX2()) + 1) *
+                      (Math.abs(data.getY1() - data.getY2()) + 1) *
+                      (Math.abs(data.getZ1() - data.getZ2()) + 1);
     }
 
     public void startTimer() {

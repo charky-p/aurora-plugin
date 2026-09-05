@@ -6,14 +6,9 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.WorldLoadEvent;
-import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-//import org.charky.aurora.features.mining.BlockPresets;
 import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
@@ -22,7 +17,6 @@ import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletListener;
 import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.player.*;
-import org.charky.aurora.features.spawner.MobSpawner;
 import org.charky.aurora.features.system.VoidGenerator;
 import org.charky.aurora.features.system.commands.*;
 import org.charky.aurora.features.spawner.WeaponListener;
@@ -51,7 +45,7 @@ public class Aurora extends JavaPlugin implements Listener {
     private InventoryManager inventoryManager;
     private WandManager wandManager;
     private BackpackManager backpackManager;
-    private ItemFactory itemFactory = new ItemFactory();
+    private final ItemFactory itemFactory = new ItemFactory();
     private DataRegistry registry;
     private Map<World, Location> spawnMap;
 
@@ -207,21 +201,6 @@ public class Aurora extends JavaPlugin implements Listener {
         spawnMap.put(location.getWorld(), location);
         db.saveSpawn(location);
     }
-
-    // TODO: Refresh on startup rather than new chunk
-//    @EventHandler
-//    public void onChunkLoad(ChunkLoadEvent event) {
-//        // This triggers every time a chunk is pulled from the disk into memory
-//        int removed = 0;
-//        for (Entity entity : event.getChunk().getEntities()) {
-//            if (entity.getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
-//                entity.remove();
-//                removed++;
-//            }
-//        }
-//
-//        if (removed > 0) getLogger().info("Zapped " + removed + " orphaned mobs in newly loaded chunk.");
-//    }
 
     @Override
     public void onDisable() {

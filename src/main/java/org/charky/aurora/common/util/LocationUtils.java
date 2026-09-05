@@ -56,7 +56,7 @@ public class LocationUtils {
         if (world == null) throw new NumberFormatException("Unknown world: " + worldName);
 
         double x = parseCoordinate(sender, xStr, Axis.X);
-        double y = Math.max(-64, Math.min(parseCoordinate(sender, yStr, Axis.Y), 319));
+        double y = Math.clamp(parseCoordinate(sender, yStr, Axis.Y), -64, 319);
         double z = parseCoordinate(sender, zStr, Axis.Z);
 
         return new Location(world, x, y, z);

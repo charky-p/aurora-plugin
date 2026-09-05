@@ -9,7 +9,7 @@ public class MenuItem {
     // Wrapper for ItemStack to be used for TraderItem, allows for amount > 64
     private final ItemStack item;
     private int amount;
-    private String id;
+    private final String id;
 
     public MenuItem(String id, ItemStack item) {
         this(id, item, 1);
@@ -52,7 +52,7 @@ public class MenuItem {
         return id;
     }
 
-    public MenuItem clone() {
+    public MenuItem copy() {
         return new MenuItem(id, item.clone(), amount);
     }
 }

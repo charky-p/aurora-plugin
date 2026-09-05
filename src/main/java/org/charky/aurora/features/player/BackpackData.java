@@ -62,7 +62,7 @@ public class BackpackData implements InventoryHolder {
 
         if (template != null) {
             ItemStack target = template.getItem();
-            for (ItemStack slot : player.getInventory().getStorageContents()) {
+            for (ItemStack slot : player.getInventory().getContents()) {
                 if (slot != null && slot.isSimilar(target)) {
                     inventoryAmount += slot.getAmount();
                 }
@@ -74,16 +74,14 @@ public class BackpackData implements InventoryHolder {
 
     public boolean hasItems(Player player, List<MenuItem> costs) {
         for (MenuItem cost : costs) {
-            if (backpack.getOrDefault(cost.getId(), 0L) >= cost.getAmount() ||
-                hasPhysicalItem(player, cost)) continue;
-            return false;
+            if (getAmount(player, cost.getId()) < cost.getAmount()) return false;
         }
         return true;
     }
 
     public boolean hasPhysicalItem(Player player, MenuItem cost) {
         int count = 0;
-        for (ItemStack slot : player.getInventory().getStorageContents()) {
+        for (ItemStack slot : player.getInventory().getContents()) {
             if (slot != null && slot.isSimilar(cost.getItem())) count += slot.getAmount();
         }
 
@@ -91,7 +89,7 @@ public class BackpackData implements InventoryHolder {
     }
 
     private void removePhysicalItem(Player player, ItemStack itemToMatch, int amountToRemove) {
-        ItemStack[] contents = player.getInventory().getStorageContents();
+        ItemStack[] contents = player.getInventory().getContents();
         int remaining = amountToRemove;
 
         for (int i = 0; i < contents.length; i++) {
@@ -110,7 +108,7 @@ public class BackpackData implements InventoryHolder {
             if (remaining <= 0) break;
         }
 
-        player.getInventory().setStorageContents(contents);
+        player.getInventory().setContents(contents);
     }
 
     public Map<String, Long> getItems() {

@@ -3,10 +3,13 @@ package org.charky.aurora.features.trader;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.DataKeys;
@@ -70,25 +73,6 @@ public class TraderItem implements TraderNode {
 
     @Override
     public void onClick(Player player) {
-        // Legacy inventory system
-//        for (MenuItem cost : costs) {
-//            if (!this.hasItems(player, cost)) {
-//                player.sendMessage(Component.text("Missing materials or full inventory!")
-//                        .color(NamedTextColor.RED));
-//                return;
-//            }
-//        }
-//
-//        for (MenuItem cost : costs) {
-//            this.removeItems(player, cost);
-//        }
-
-        // New backpack system
-        if (player.getInventory().firstEmpty() == -1) {
-            TextUtils.error(player, "Full inventory");
-            return;
-        }
-
         BackpackData backpack = backpackManager.get(player.getUniqueId());
         if (!backpack.hasItems(player, costs)) {
             TextUtils.error(player, "Not enough items");
@@ -98,40 +82,41 @@ public class TraderItem implements TraderNode {
         backpack.removeItems(player, costs);
 
         ItemStack purchase = this.item.getItem();
-        purchase.editMeta(meta -> {
-            meta.getPersistentDataContainer().remove(DataKeys.MENU_KEY);
-        });
-        player.getInventory().addItem(purchase);
+        purchase.editMeta(meta -> meta.getPersistentDataContainer().remove(DataKeys.MENU_KEY));
+
+        PlayerInventory playerInv = player.getInventory();
+        EquipmentSlot target = equipmentSlot(purchase.getType());
+        ItemStack occupant = (target == null) ? null : playerInv.getItem(target);
+
+        if (target != null && occupant.getType().isAir()) {
+            playerInv.setItem(target, purchase);
+        } else if (playerInv.firstEmpty() != -1) {
+            playerInv.addItem(purchase);
+        } else {
+            player.getWorld().dropItemNaturally(player.getLocation(), purchase);
+            TextUtils.warn(player, "Inventory full - dropped at your feet");
+        }
+
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 
-        Inventory inventory = player.getOpenInventory().getTopInventory();
-        if (inventory.getHolder() instanceof TraderMenu menu) {
-            for (int i = 0; i < inventory.getSize(); i++) {
+        Inventory open = player.getOpenInventory().getTopInventory();
+        if (open.getHolder() instanceof TraderMenu menu) {
+            for (int i = 0; i < open.getSize(); i++) {
                 TraderNode node = menu.getNode(i);
                 if (node != null) {
-                    inventory.setItem(i, node.getDisplayItem(player));
+                    open.setItem(i, node.getDisplayItem(player));
                 }
             }
         }
     }
 
-    private void removeItems(Player player, MenuItem cost) {
-        int toRemove = cost.getAmount();
-        ItemStack[] contents = player.getInventory().getStorageContents();
-        for (int i = 0; i < contents.length; i++) {
-            ItemStack slot = contents[i];
-            if (slot != null && slot.isSimilar(cost.getItem())) {
-                if (slot.getAmount() <= toRemove) {
-                    toRemove -= slot.getAmount();
-                    contents[i] = null;
-                } else {
-                    slot.setAmount(slot.getAmount() - toRemove);
-                    toRemove = 0;
-                }
-            }
-
-            if (toRemove <= 0) break;
-        }
-        player.getInventory().setStorageContents(contents);
+    private static EquipmentSlot equipmentSlot(Material material) {
+        String name = material.name();
+        if (name.endsWith("_HELMET"))     return EquipmentSlot.HEAD;
+        if (name.endsWith("_CHESTPLATE")) return EquipmentSlot.CHEST;
+        if (name.endsWith("_LEGGINGS"))   return EquipmentSlot.LEGS;
+        if (name.endsWith("_BOOTS"))      return EquipmentSlot.FEET;
+        if (material == Material.SHIELD)  return EquipmentSlot.OFF_HAND;
+        return null;
     }
 }

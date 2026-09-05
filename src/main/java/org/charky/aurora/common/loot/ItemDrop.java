@@ -1,6 +1,5 @@
 package org.charky.aurora.common.loot;
 
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemDrop {
@@ -18,7 +17,7 @@ public class ItemDrop {
         int amount = (int) (Math.random() * (maxAmount - minAmount + 1)) + minAmount;
 
         // Menu item to cater to amounts > 64
-        MenuItem drop = item.clone();
+        MenuItem drop = item.copy();
         drop.setAmount(amount);
         return drop;
     }

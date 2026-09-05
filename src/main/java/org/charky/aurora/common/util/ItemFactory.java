@@ -9,16 +9,14 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.charky.aurora.common.loot.IndependentLootPool;
-import org.charky.aurora.common.loot.LootPool;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ItemFactory {
-    private MiniMessage miniMessage = MiniMessage.miniMessage();
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
+    @Deprecated
     // create gormak sword: createItem(
     //          Component.text("Gormak Sword").color(NamedTextColor.BROWN),
     //          30, "combat", "overworld", List.of("Sharpness 30", "Looting 6"))
@@ -64,25 +62,6 @@ public class ItemFactory {
         return item;
     }
 
-    public ItemStack createItem(Component name, Material material, String world) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.displayName(name.decoration(TextDecoration.BOLD, true)
-                    .decoration(TextDecoration.ITALIC, false));
-
-            List<Component> lore = new ArrayList<>();
-            lore.add(Component.text("\uD83D\uDC8E Resource").color(NamedTextColor.DARK_GRAY).decoration(TextDecoration.ITALIC, false));
-
-            lore.add(Component.empty());
-            lore.add(this.parseWorld(world));
-            meta.lore(lore);
-            item.setItemMeta(meta);
-        }
-
-        return item;
-    }
-
     public ItemStack createItem(String display, Material material, List<String> loreLines, String world, boolean glow) {
         ItemStack item = new ItemStack(material);
         item.editMeta(meta -> {
@@ -99,57 +78,6 @@ public class ItemFactory {
         return item;
     }
 
-//    public ItemStack createGear(String display, Material material, int tier, String type, String world, List<String> loreLines, Map<String, Integer> enchants) {
-//        ItemStack item = new ItemStack(material);
-//        item.editMeta(meta -> {
-//            Component displayComponent = miniMessage.deserialize(display).decoration(TextDecoration.ITALIC, false);
-//            if (tier == 0) meta.displayName(displayComponent);
-//            else {
-//                Component tierTag = Component.text(" [T" + tier + "]")
-//                        .color(NamedTextColor.YELLOW)
-//                        .decoration(TextDecoration.BOLD, false)
-//                        .decoration(TextDecoration.ITALIC, false);
-//                meta.displayName(Component.empty().append(displayComponent).append(tierTag));
-//            }
-//
-//            List<Component> lore = new ArrayList<>();
-//            lore.add(parseType(type));
-//            lore.add(Component.empty());
-//
-//            // Enchants
-//            for (GearModel.EnchantEntry entry : enchantList) {
-//                lore.add(miniMessage.deserialize("<!italic><gray>»<white> " + entry.display + " " + entry.level));
-//                if (entry.enchant != null) {
-//                    meta.addEnchant(Registry.ENCHANTMENT.get(NamespacedKey.minecraft(entry.enchant.toLowerCase())),
-//                            entry.level, true);
-//                }
-//
-//            }
-//
-//            if (!enchantList.isEmpty()) lore.add(Component.empty());
-//            for (String line : loreLines) lore.add(miniMessage.deserialize("<!italic>" + line));
-//            if (!loreLines.isEmpty()) lore.add(Component.empty());
-//            lore.add(parseWorld(world));
-//            metaFlags(meta);
-//            meta.lore(lore);
-//        });
-//        return item;
-//    }
-
-    public LootPool parsePool(List<Map<?, ?>> poolEntries, Map<String, ItemStack> items) {
-        IndependentLootPool pool = new IndependentLootPool();
-//        for (Map<?, ?> entry : poolEntries) {
-//            String itemId = (String) entry.get("id");
-//            double chance = ((Number) entry.getOrDefault("chance", 100.0)).doubleValue();
-//            int min = (int) entry.getOrDefault("min", 1);
-//            int max = (int) entry.getOrDefault("max", 1);
-//
-//            pool.add(new ItemDrop(items.get(itemId), chance, min, max));
-//        }
-
-        return pool;
-    }
-
     private Component parseWorld(String world) {
         if (world.equals("overworld")) {
             return Component.text("Overworld \uD83C\uDF0E")
@@ -159,8 +87,6 @@ public class ItemFactory {
         }
         return Component.text("No world");
     }
-
-    // can default tier
 
     private void addLore(List<Component> lore, List<String> loreLines, String world) {
         lore.add(Component.empty());

@@ -89,9 +89,13 @@ public class MineListener implements Listener {
         String dropId = manager.getBlockIdAt(block.getLocation());
 
         if (registry.hasBlock(dropId)) {
-            List<MenuItem> blockDrops = registry.getBlockDrops(dropId, getFortuneLevel(player));
-            // TODO: move completely to backpack system
-//            drops.addAll(blockDrops);
+            int density = registry.getDensity(dropId);
+            int fortune = getFortuneLevel(player);
+            if (fortune + 1 - density <= 0) {
+                player.sendActionBar(Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD));
+            }
+
+            List<MenuItem> blockDrops = registry.getBlockDrops(dropId, fortune);
             BackpackData backpack = backpackManager.get(player.getUniqueId());
             backpack.addItems(blockDrops);
             if (!blockDrops.isEmpty()) player.sendActionBar(blockDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(player, blockDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));

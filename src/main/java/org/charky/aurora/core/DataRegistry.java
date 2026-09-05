@@ -108,6 +108,11 @@ public class DataRegistry {
         return blocks.get(id).material();
     }
 
+    public int getDensity(String id) {
+        BlockData block = blocks.get(id);
+        return block == null ? 0 : block.density();
+    }
+
     public List<MenuItem> getBlockDrops(String id, int fortune) {
         if (!hasBlock(id)) return new ArrayList<>();
 

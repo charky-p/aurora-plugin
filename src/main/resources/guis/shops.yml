@@ -882,14 +882,13 @@ items:
         cost:
           - id: tomb_sword_2
           - id: royal_seal
-            amount: 9
       r:
         type: TRADE
         id: tomb_sword_4
         cost:
           - id: tomb_sword_3
           - id: royal_seal
-            amount: 14
+            amount: 2
       t:
         type: TRADE
         id: tomb_sword_5
@@ -898,7 +897,7 @@ items:
           - id: eternal_soul
             amount: 9
           - id: royal_seal
-            amount: 9
+            amount: 3
           - id: ancient_nugget
             amount: 5
       A:
@@ -2031,14 +2030,13 @@ items:
         cost:
           - id: tomb_helmet_2
           - id: royal_seal
-            amount: 5
       '4':
         type: TRADE
         id: tomb_helmet_4
         cost:
           - id: tomb_helmet_3
           - id: royal_seal
-            amount: 9
+            amount: 3
       '6':
         type: TRADE
         id: tomb_chestplate_1
@@ -2059,14 +2057,13 @@ items:
         cost:
           - id: tomb_chestplate_2
           - id: royal_seal
-            amount: 5
       '9':
         type: TRADE
         id: tomb_chestplate_4
         cost:
           - id: tomb_chestplate_3
           - id: royal_seal
-            amount: 9
+            amount: 3
       a:
         type: TRADE
         id: tomb_leggings_1
@@ -2087,14 +2084,13 @@ items:
         cost:
           - id: tomb_leggings_2
           - id: royal_seal
-            amount: 5
       d:
         type: TRADE
         id: tomb_leggings_4
         cost:
           - id: tomb_leggings_3
           - id: royal_seal
-            amount: 9
+            amount: 3
       f:
         type: TRADE
         id: tomb_boots_1
@@ -2115,14 +2111,13 @@ items:
         cost:
           - id: tomb_boots_2
           - id: royal_seal
-            amount: 5
       i:
         type: TRADE
         id: tomb_boots_4
         cost:
           - id: tomb_boots_3
           - id: royal_seal
-            amount: 9
+            amount: 3
       z:
         type: GUI
         id: tomb_shop
@@ -2285,7 +2280,7 @@ items:
         cost:
           - id: ancient_heart
           - id: royal_seal
-            amount: 8
+            amount: 2
       z:
         type: GUI
         id: tomb_shop

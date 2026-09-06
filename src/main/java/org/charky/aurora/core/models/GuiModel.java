@@ -15,6 +15,7 @@ public class GuiModel {
     public static class ComponentModel {
         public String type;
         public String id;
+        public String icon = null;
         public int amount = 1;
         public List<CostEntry> cost = new ArrayList<>();
     }

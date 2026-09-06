@@ -1,4 +1,4 @@
-gui,key,type,id,amount,cost
+gui,key,type,id,amount,cost,icon
 origin_hub,1,GUI,starter_shop,,
 origin_hub,2,GUI,cobble_shop,,
 origin_hub,3,GUI,coal_shop,,
@@ -296,3 +296,14 @@ temple_shields,z,GUI,temple_shop,,
 tomb_utility,1,TRADE,totem,1,ancient_nugget*64+eternal_soul*2
 tomb_utility,2,TRADE,gormak_talisman,1,ancient_heart*1+royal_seal*2
 tomb_utility,z,GUI,tomb_shop,,
+aurora_hub,1,GUI,howto_menu,,,
+aurora_hub,2,GUI,origin_hub,,,
+aurora_hub,3,ACTION,backpack,,,icon_backpack
+aurora_hub,4,ACTION,spawn,,,icon_spawn
+aurora_hub,5,ICON,icon_progress,,,
+howto_menu,1,ICON,icon_howto_mining,,,
+howto_menu,2,ICON,icon_howto_backpack,,,
+howto_menu,3,ICON,icon_howto_gear,,,
+howto_menu,4,ICON,icon_howto_combat,,,
+howto_menu,5,ICON,icon_howto_regions,,,
+howto_menu,z,GUI,aurora_hub,,,

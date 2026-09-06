@@ -18,3 +18,13 @@ icon_dunes,<yellow><b>The Dunes,SANDSTONE,false,<gray>Scouts and stalkers
 icon_canyons,<#B4462A><b>Howling Canyons,RED_SANDSTONE,false,<gray>Zealots and legionnaires
 icon_temple,<gold><b>Sun Temple,RAW_GOLD_BLOCK,false,<gray>Guards and viziers
 icon_tomb,<dark_purple><b>Royal Tomb,GILDED_BLACKSTONE,true,"<gray>Myrmidons, pharaohs, and him."
+icon_menu,<aqua><b>Aurora,NETHER_STAR,true,<gray>Everything in one place.
+icon_howto,<yellow><b>How to Play,BOOK,false,<gray>New here? Start here.
+icon_backpack,<gold><b>Backpack,CHEST,false,<gray>Everything you have mined.
+icon_spawn,<green><b>Spawn,ENDER_PEARL,false,<gray>Return to the hub island.
+icon_progress,<light_purple><b>Your Progress,PLAYER_HEAD,false,"<gray>Rank, level and stats.|<dark_gray>Coming soon."
+icon_howto_mining,<yellow><b>1. Mining,IRON_PICKAXE,false,<gray>Break blocks in any mine.|<gray>Drops go straight to your backpack.|<gray>Fortune multiplies drops - block density cancels it out.
+icon_howto_backpack,<yellow><b>2. Your Backpack,CHEST,false,<gray>Resources stack without limit.|<gray>Open it with /backpack or from the menu.|<gray>Shops spend from it directly.
+icon_howto_gear,<yellow><b>3. Upgrading,ANVIL,false,<gray>Trade resources at shop NPCs for better gear.|<gray>One linear path - each pick beats the last.|<gray>Better gear unlocks harder blocks.
+icon_howto_combat,<yellow><b>4. Combat,IRON_SWORD,false,<gray>Mobs spawn in their own areas.|<gray>Some upgrades need mob drops as well as ore.
+icon_howto_regions,<yellow><b>5. Regions,GRASS_BLOCK,false,<gray>Each island is a region with its own blocks.|<gray>Clear a region to unlock the next one.

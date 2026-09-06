@@ -139,8 +139,8 @@ public class CombatListener implements Listener {
             text.setShadowed(true);
             text.setViewRange(0.4f);
 
-            // Never persistent, or a stop mid animation writes these into the
-            // chunk and they accumulate the way the husks did
+            // Never persistent, or a stop mid-animation writes these into the
+            // chunk, and they accumulate the way the husks did
             text.setPersistent(false);
         });
 
@@ -168,11 +168,12 @@ public class CombatListener implements Listener {
     }
 
     private LivingEntity resolveMobAttacker(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player) return null;
-        if (event.getDamager() instanceof LivingEntity living) return living;
-        if (event.getDamager() instanceof Projectile projectile
-                && projectile.getShooter() instanceof LivingEntity shooter) return shooter;
-        return null;
+        return switch (event.getDamager()) {
+            case Player ignored -> null;
+            case LivingEntity living -> living;
+            case Projectile projectile when projectile.getShooter() instanceof LivingEntity shooter -> shooter;
+            default -> null;
+        };
     }
 
     private double defenceOf(LivingEntity victim) {

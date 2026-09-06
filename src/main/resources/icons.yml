@@ -144,3 +144,82 @@ items:
     glow: true
     lore:
       - "<gray>Myrmidons, pharaohs, and him."
+
+  icon_menu:
+    display: "<aqua><b>Aurora"
+    material: NETHER_STAR
+    glow: true
+    lore:
+      - "<gray>Everything in one place."
+
+  icon_howto:
+    display: "<yellow><b>How to Play"
+    material: BOOK
+    glow: false
+    lore:
+      - "<gray>New here? Start here."
+
+  icon_backpack:
+    display: "<gold><b>Backpack"
+    material: CHEST
+    glow: false
+    lore:
+      - "<gray>Everything you have mined."
+
+  icon_spawn:
+    display: "<green><b>Spawn"
+    material: ENDER_PEARL
+    glow: false
+    lore:
+      - "<gray>Return to the hub island."
+
+  icon_progress:
+    display: "<light_purple><b>Your Progress"
+    material: PLAYER_HEAD
+    glow: false
+    lore:
+      - "<gray>Rank, level and stats."
+      - "<dark_gray>Coming soon."
+
+  icon_howto_mining:
+    display: "<yellow><b>1. Mining"
+    material: IRON_PICKAXE
+    glow: false
+    lore:
+      - "<gray>Break blocks in any mine."
+      - "<gray>Drops go straight to your backpack."
+      - "<gray>Fortune multiplies drops - block density cancels it out."
+
+  icon_howto_backpack:
+    display: "<yellow><b>2. Your Backpack"
+    material: CHEST
+    glow: false
+    lore:
+      - "<gray>Resources stack without limit."
+      - "<gray>Open it with /backpack or from the menu."
+      - "<gray>Shops spend from it directly."
+
+  icon_howto_gear:
+    display: "<yellow><b>3. Upgrading"
+    material: ANVIL
+    glow: false
+    lore:
+      - "<gray>Trade resources at shop NPCs for better gear."
+      - "<gray>One linear path - each pick beats the last."
+      - "<gray>Better gear unlocks harder blocks."
+
+  icon_howto_combat:
+    display: "<yellow><b>4. Combat"
+    material: IRON_SWORD
+    glow: false
+    lore:
+      - "<gray>Mobs spawn in their own areas."
+      - "<gray>Some upgrades need mob drops as well as ore."
+
+  icon_howto_regions:
+    display: "<yellow><b>5. Regions"
+    material: GRASS_BLOCK
+    glow: false
+    lore:
+      - "<gray>Each island is a region with its own blocks."
+      - "<gray>Clear a region to unlock the next one."

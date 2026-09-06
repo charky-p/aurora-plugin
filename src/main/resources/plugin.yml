@@ -31,6 +31,10 @@ commands:
   dump: # TODO
     description: Give shulkers of every registry item
     usage: /dump [items|icons|all]
+  menu:
+    description: Open the main Aurora menu
+    usage: /menu
+    aliases: [ hub ]
 worlds:
   aurora_mines:
     generator: Aurora

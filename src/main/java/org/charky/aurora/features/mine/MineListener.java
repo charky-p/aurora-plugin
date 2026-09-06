@@ -93,6 +93,7 @@ public class MineListener implements Listener {
             int fortune = getFortuneLevel(player);
             if (fortune + 1 - density <= 0) {
                 player.sendActionBar(Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD));
+                return;
             }
 
             List<MenuItem> blockDrops = registry.getBlockDrops(dropId, fortune);

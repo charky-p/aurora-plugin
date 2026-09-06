@@ -10,6 +10,7 @@ import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +36,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class DataRegistry {
     private final Aurora plugin;
@@ -51,6 +53,8 @@ public class DataRegistry {
     private final Map<String, Trader> traders = new HashMap<>();
 
     private final List<MenuItem> resourceList = new ArrayList<>();
+
+    private final Map<String, Consumer<Player>> actions = new HashMap<>();
 
     public DataRegistry(Aurora plugin) {
         this.plugin = plugin;
@@ -72,6 +76,8 @@ public class DataRegistry {
         traders.clear();
         resourceList.clear();
 
+        loadActions();
+
         loadResources();
         loadEnchants();
         loadGear("picks.yml", "mining");
@@ -86,6 +92,11 @@ public class DataRegistry {
         loadTraders();
 
         // debugRegistry();
+    }
+
+    private void loadActions() {
+        actions.put("backpack", player -> backpackManager.get(player.getUniqueId()).openInventory(player));
+        actions.put("spawn", player -> player.performCommand("spawn"));
     }
 
     public List<String> getBlocks(String prefix) {
@@ -473,7 +484,17 @@ public class DataRegistry {
                             continue; // Skip to next character instead of crashing
                         }
 
-                        if (component.type.equals("GUI")) {
+                        if (component.type.equals("ICON")) {
+                            contents.put(row * 9 + col, new TraderIcon(icons.get(component.id.toLowerCase())));
+                        } else if (component.type.equals("ACTION")) {
+                            Consumer<Player> action = actions.get(component.id.toLowerCase());
+                            if (action == null) {
+                                plugin.getLogger().severe("GUI ERROR: unknown action '" + component.id + "' in '" + id + "'");
+                                contents.put(row * 9 + col, new TraderBorder());
+                                continue;
+                            }
+                            contents.put(row * 9 + col, new TraderAction(icons.get(component.icon), action));
+                        } else if (component.type.equals("GUI")) {
                             // should never be called unless error with yaml
                             if (!guis.containsKey(component.id.toLowerCase())) {
                                 contents.put(row * 9 + col, new TraderBorder());

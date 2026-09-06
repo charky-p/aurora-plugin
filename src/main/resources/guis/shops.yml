@@ -2284,3 +2284,58 @@ items:
       z:
         type: GUI
         id: tomb_shop
+
+  aurora_hub:
+    title: "<aqua><b>Aurora"
+    icon: icon_menu
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B 12345 B"
+      - "BBBBBBBBX"
+    components:
+      '1':
+        type: GUI
+        id: howto_menu
+      '2':
+        type: GUI
+        id: origin_hub
+      '3':
+        type: ACTION
+        id: backpack
+        icon: icon_backpack
+      '4':
+        type: ACTION
+        id: spawn
+        icon: icon_spawn
+      '5':
+        type: ICON
+        id: icon_progress
+
+  howto_menu:
+    title: "<aqua><b>How to Play"
+    icon: icon_howto
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B 12345 B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: ICON
+        id: icon_howto_mining
+      '2':
+        type: ICON
+        id: icon_howto_backpack
+      '3':
+        type: ICON
+        id: icon_howto_gear
+      '4':
+        type: ICON
+        id: icon_howto_combat
+      '5':
+        type: ICON
+        id: icon_howto_regions
+      z:
+        type: GUI
+        id: aurora_hub

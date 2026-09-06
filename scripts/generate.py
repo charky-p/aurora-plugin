@@ -505,6 +505,7 @@ def gui_schema(csv_name, child_name, out_name):
             "fields": OrderedDict([
                 ("type",   Str(required=True)),
                 ("id",     Str(required=True)),
+                ("icon",   Str()),
                 ("amount", Int(default=1)),
                 ("cost",   Costs()),
             ]),

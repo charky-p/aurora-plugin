@@ -123,6 +123,10 @@ public class Aurora extends JavaPlugin implements Listener {
             this.getCommand("dump").setExecutor(new DumpCommand(this));
         }
 
+        if (this.getCommand("menu") != null) {
+            this.getCommand("menu").setExecutor(new MenuCommand(this));
+        }
+
         // Listeners
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
         getServer().getPluginManager().registerEvents(new MineListener(this), this);

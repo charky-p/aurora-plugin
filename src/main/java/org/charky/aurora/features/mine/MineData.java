@@ -45,14 +45,15 @@ public class MineData {
         this.delay = delay;
     }
 
+    // Corners are sorted so x1 <= x2 etc, atLoc relies on it
     public void setLocations(Location location1, Location location2) {
-        this.world = location1.getWorld().toString();
-        this.x1 = location1.getBlockX();
-        this.y1 = location1.getBlockY();
-        this.z1 = location1.getBlockZ();
-        this.x2 = location2.getBlockX();
-        this.y2 = location2.getBlockY();
-        this.z2 = location2.getBlockZ();
+        this.world = location1.getWorld().getName();
+        this.x1 = Math.min(location1.getBlockX(), location2.getBlockX());
+        this.y1 = Math.min(location1.getBlockY(), location2.getBlockY());
+        this.z1 = Math.min(location1.getBlockZ(), location2.getBlockZ());
+        this.x2 = Math.max(location1.getBlockX(), location2.getBlockX());
+        this.y2 = Math.max(location1.getBlockY(), location2.getBlockY());
+        this.z2 = Math.max(location1.getBlockZ(), location2.getBlockZ());
     }
 
     public void updateTeleport(double tpX, double tpY, double tpZ) {

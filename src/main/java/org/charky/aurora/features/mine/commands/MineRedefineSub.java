@@ -63,7 +63,12 @@ public class MineRedefineSub extends MineSub {
             return;
         }
 
-        mineManager.redefineMine(mineName, location1, location2);
+        try {
+            mineManager.redefineMine(mineName, location1, location2);
+        } catch (MineException e) {
+            TextUtils.error(sender, e.getMessage());
+            return;
+        }
         mineManager.resetMine(mineName);
         TextUtils.success(sender, "Mine '" + mineName + "' redefined successfully");
     }

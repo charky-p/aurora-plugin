@@ -45,20 +45,15 @@ public class MineManager {
 
     public void addMine(String name, Location location1, Location location2, double threshold, int delay) throws MineException {
         if (exists(name)) return;
+        validateArea(name, location1, location2);
 
         String world = location1.getWorld().getName();
-        if (!world.equals(location2.getWorld().getName())) throw new MineException("Positions must be in the same world");
-
         int x1 = Math.min(location1.getBlockX(), location2.getBlockX());
         int y1 = Math.min(location1.getBlockY(), location2.getBlockY());
         int z1 = Math.min(location1.getBlockZ(), location2.getBlockZ());
         int x2 = Math.max(location1.getBlockX(), location2.getBlockX());
         int y2 = Math.max(location1.getBlockY(), location2.getBlockY());
         int z2 = Math.max(location1.getBlockZ(), location2.getBlockZ());
-
-        if ((x2 - x1 + 1) * (y2 - y1 + 1) * (z2 - z1 + 1) > MAX_MINE_VOLUME) {
-            throw new MineException("Mine volume exceeds limit of " + MAX_MINE_VOLUME);
-        }
 
         MineData data = new MineData(name, world, x1, y1, z1, x2, y2, z2, threshold, delay, x1 - 0.5, y1 + 1, z1 - 0.5);
 
@@ -69,6 +64,34 @@ public class MineManager {
         this.mineMap.put(name, mine);
         mine.resetMine();
         mine.startTimer();
+    }
+
+    // Shared by create and redefine. Overlapping mines would fight over the same
+    // blocks, each resetting and paying out for the other
+    private void validateArea(String name, Location location1, Location location2) throws MineException {
+        String world = location1.getWorld().getName();
+        if (!world.equals(location2.getWorld().getName())) throw new MineException("Positions must be in the same world");
+
+        int x1 = Math.min(location1.getBlockX(), location2.getBlockX());
+        int y1 = Math.min(location1.getBlockY(), location2.getBlockY());
+        int z1 = Math.min(location1.getBlockZ(), location2.getBlockZ());
+        int x2 = Math.max(location1.getBlockX(), location2.getBlockX());
+        int y2 = Math.max(location1.getBlockY(), location2.getBlockY());
+        int z2 = Math.max(location1.getBlockZ(), location2.getBlockZ());
+
+        if ((long) (x2 - x1 + 1) * (y2 - y1 + 1) * (z2 - z1 + 1) > MAX_MINE_VOLUME) {
+            throw new MineException("Mine volume exceeds limit of " + MAX_MINE_VOLUME);
+        }
+
+        for (Mine other : mineMap.values()) {
+            MineData data = other.getData();
+            if (data.getName().equals(name) || !data.getWorld().equals(world)) continue;
+
+            boolean overlaps = x1 <= data.getX2() && x2 >= data.getX1()
+                    && y1 <= data.getY2() && y2 >= data.getY1()
+                    && z1 <= data.getZ2() && z2 >= data.getZ1();
+            if (overlaps) throw new MineException("Overlaps mine '" + data.getName() + "'");
+        }
     }
 
     public void removeMine(String name) {
@@ -127,9 +150,10 @@ public class MineManager {
         mine.startTimer();
     }
 
-    public void redefineMine(String name, Location location1, Location location2) {
+    public void redefineMine(String name, Location location1, Location location2) throws MineException {
         Mine mine = this.mineMap.get(name);
         if (mine == null) return;
+        validateArea(name, location1, location2);
 
         forgetBlocks(mine);
         mine.setLocations(location1, location2);

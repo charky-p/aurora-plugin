@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Expected values come from scripts/balance/balance_sim.py, so if the plugin and
 // the simulator drift apart, this fails
-class CombatFormulaTest {
+class CombatFormulasTest {
     private static final double LEVELS_PER_TIER = 4.0;
     private static final double EPSILON = 1e-6;
 
@@ -18,26 +18,26 @@ class CombatFormulaTest {
     @Test
     void heartsMatchTheSimulator() {
         for (int i = 0; i < GAPS.length; i++) {
-            double hearts = CombatListener.heartsPerHit(GAPS[i] * LEVELS_PER_TIER, 0);
+            double hearts = CombatFormulas.heartsPerHit(GAPS[i] * LEVELS_PER_TIER, 0);
             assertEquals(SIM_HEARTS[i], hearts, EPSILON, "gap " + GAPS[i]);
         }
     }
 
     @Test
     void sameTierIsOneHeart() {
-        assertEquals(1.0, CombatListener.heartsPerHit(20, 20), EPSILON);
+        assertEquals(1.0, CombatFormulas.heartsPerHit(20, 20), EPSILON);
     }
 
     @Test
     void heartsNeverDropBelowHalf() {
-        assertTrue(CombatListener.heartsPerHit(0, 1000) >= 0.5);
+        assertTrue(CombatFormulas.heartsPerHit(0, 1000) >= 0.5);
     }
 
     @Test
     void heartsRiseWithAttack() {
         double previous = 0;
         for (int attack = 0; attack <= 80; attack++) {
-            double hearts = CombatListener.heartsPerHit(attack, 40);
+            double hearts = CombatFormulas.heartsPerHit(attack, 40);
             assertTrue(hearts > previous, "attack " + attack);
             previous = hearts;
         }
@@ -48,20 +48,20 @@ class CombatFormulaTest {
         int[] levels = {0, 1, 5, 6, 10, 11, 50, 51, 60};
         double[] simBonus = {0, 1, 5, 8, 20, 25, 920, 965, 1395};
         for (int i = 0; i < levels.length; i++) {
-            assertEquals(simBonus[i], CombatListener.sharpnessBonus(levels[i]), EPSILON, "sharpness " + levels[i]);
+            assertEquals(simBonus[i], CombatFormulas.sharpnessBonus(levels[i]), EPSILON, "sharpness " + levels[i]);
         }
     }
 
     @Test
     void negativeSharpnessGivesNothing() {
-        assertEquals(0.0, CombatListener.sharpnessBonus(-3));
+        assertEquals(0.0, CombatFormulas.sharpnessBonus(-3));
     }
 
     @Test
     void chargeRunsFromTwentyPercentToFull() {
-        assertEquals(0.2, CombatListener.chargeMultiplier(0), EPSILON);
-        assertEquals(0.4, CombatListener.chargeMultiplier(625 / 2), 0.01);
-        assertEquals(1.0, CombatListener.chargeMultiplier(625), EPSILON);
-        assertEquals(1.0, CombatListener.chargeMultiplier(5000), EPSILON);
+        assertEquals(0.2, CombatFormulas.chargeMultiplier(0), EPSILON);
+        assertEquals(0.4, CombatFormulas.chargeMultiplier(625 / 2), 0.01);
+        assertEquals(1.0, CombatFormulas.chargeMultiplier(625), EPSILON);
+        assertEquals(1.0, CombatFormulas.chargeMultiplier(5000), EPSILON);
     }
 }

@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -169,6 +170,12 @@ public class DataRegistry {
 
     public MobData getMob(String id) {
         return mobs.get(id);
+    }
+
+    // The Aurora mob an entity was spawned as, null for anything else
+    public MobData mobOf(Entity entity) {
+        String mobId = entity.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
+        return mobId == null ? null : mobs.get(mobId);
     }
 
     public List<String> getMobs() {

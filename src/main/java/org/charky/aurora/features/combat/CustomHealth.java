@@ -100,11 +100,8 @@ public final class CustomHealth {
     }
 
     private static Component baseName(LivingEntity entity, DataRegistry registry) {
-        String mobId = entity.getPersistentDataContainer()
-                .get(DataKeys.MOB_KEY, PersistentDataType.STRING);
-
-        if (mobId != null && registry.hasMob(mobId)) return registry.getMob(mobId).displayName();
-        return Component.text(entity.getType().name());
+        MobData mob = registry.mobOf(entity);
+        return mob != null ? mob.displayName() : Component.text(entity.getType().name());
     }
 
     private static void refreshName(LivingEntity entity, Component base) {

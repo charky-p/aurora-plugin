@@ -8,14 +8,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.trader.TraderMenu;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // View only, the backpack holds resources so they don't clutter the inventory.
 // We may later add moving items between the backpack and the inventory
@@ -86,7 +85,7 @@ public class BackpackMenu implements InventoryHolder {
             inventory.setItem(ITEM_SLOTS[i], items.get(start + i));
         }
 
-        int pages = pageCount();
+        int pages = pageCount(items.size());
         if (page > 0) inventory.setItem(PREVIOUS_SLOT, button(Material.ARROW, "<yellow>Previous Page"));
         if (page < pages - 1) inventory.setItem(NEXT_SLOT, button(Material.ARROW, "<yellow>Next Page"));
 
@@ -102,18 +101,25 @@ public class BackpackMenu implements InventoryHolder {
         inventory.setItem(CLOSE_SLOT, button(Material.BARRIER, "<red>Close"));
     }
 
-    // Resources in the order they were first collected, each showing how many are held
+    // Held resources in progression order, the order of resources.csv. Anything else
+    // that ended up in the backpack (mob gear drops) follows after
     private List<ItemStack> displayItems() {
+        Map<String, Long> held = backpack.getItems();
+        Set<String> order = new LinkedHashSet<>();
+        for (MenuItem resource : registry.getItems()) order.add(resource.getId());
+        order.addAll(held.keySet());
+
         List<ItemStack> items = new ArrayList<>();
-        for (Map.Entry<String, Long> entry : backpack.getItems().entrySet()) {
-            ItemStack template = registry.getAllItems().get(entry.getKey());
-            if (template == null || entry.getValue() <= 0) continue;
+        for (String id : order) {
+            long amount = held.getOrDefault(id, 0L);
+            ItemStack template = registry.getAllItems().get(id);
+            if (template == null || amount <= 0) continue;
 
             ItemStack display = template.clone();
             display.editMeta(meta -> {
                 List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
                 lore.add(Component.empty());
-                lore.add(TextUtils.parse("<!italic><gray>Amount: <white>" + entry.getValue()));
+                lore.add(TextUtils.parse("<!italic><gray>Amount: <white>" + amount));
                 meta.lore(lore);
             });
             items.add(display);
@@ -122,10 +128,11 @@ public class BackpackMenu implements InventoryHolder {
     }
 
     private int pageCount() {
-        int count = (int) backpack.getItems().entrySet().stream()
-                .filter(entry -> entry.getValue() > 0 && registry.getAllItems().containsKey(entry.getKey()))
-                .count();
-        return Math.max(1, (count + ITEM_SLOTS.length - 1) / ITEM_SLOTS.length);
+        return pageCount(displayItems().size());
+    }
+
+    private static int pageCount(int items) {
+        return Math.max(1, (items + ITEM_SLOTS.length - 1) / ITEM_SLOTS.length);
     }
 
     // Null name hides the tooltip, for the glass border

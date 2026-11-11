@@ -10,8 +10,7 @@ import java.util.*;
 
 public class BackpackData {
     // TODO: Add player to be attached here
-    // Linked, so resources keep the order they were first collected in
-    private final Map<String, Long> backpack = new LinkedHashMap<>();
+    private final Map<String, Long> backpack = new HashMap<>();
     private final DataRegistry registry;
 
     public BackpackData(DataRegistry registry) {

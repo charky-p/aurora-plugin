@@ -9,7 +9,6 @@ import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.Database;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -61,7 +60,7 @@ public class BackpackManager {
 
     private Map<UUID, Map<String, Long>> snapshot() {
         Map<UUID, Map<String, Long>> copy = new HashMap<>();
-        backpacks.forEach((uuid, data) -> copy.put(uuid, new LinkedHashMap<>(data.getItems())));
+        backpacks.forEach((uuid, data) -> copy.put(uuid, new HashMap<>(data.getItems())));
         return copy;
     }
 }

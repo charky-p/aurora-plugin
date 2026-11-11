@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.database.MineStore;
 import org.charky.aurora.features.mine.commands.MineException;
-import org.charky.aurora.features.player.ScoreboardManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,14 +21,12 @@ public class MineManager {
 
     private final Aurora plugin;
     private final MineStore store;
-    private final ScoreboardManager scoreboard;
     private final Map<String, Mine> mineMap = new HashMap<>();
     private final Map<Location, String> blockIdMap = new HashMap<>();
 
-    public MineManager(Aurora plugin, MineStore store, ScoreboardManager scoreboard) {
+    public MineManager(Aurora plugin, MineStore store) {
         this.plugin = plugin;
         this.store = store;
-        this.scoreboard = scoreboard;
 
         Map<String, List<MineBlock>> blockMap = store.loadBlocks();
         List<MineData> mines = store.loadAll();

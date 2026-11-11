@@ -1,79 +1,27 @@
 package org.charky.aurora.features.player;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.charky.aurora.common.util.TextUtils;
-import org.charky.aurora.core.Aurora;
-import org.charky.aurora.core.database.Database;
-import org.charky.aurora.core.database.PlayerStore;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
+// Draws each player's sidebar from their profile in PlayerManager
 public class ScoreboardManager {
-    // TODO: player manager
-    private final ConcurrentMap<UUID, Scoreboard> boards = new ConcurrentHashMap<>();
-    private final ConcurrentMap<UUID, PlayerData> profiles = new ConcurrentHashMap<>();
-    private final Aurora plugin;
-    private final Database db;
-    private final PlayerStore players;
-    private final TabManager tabManager;
-    private final BukkitTask task;
+    private final Map<UUID, Scoreboard> boards = new ConcurrentHashMap<>();
+    private final PlayerManager players;
 
-    public ScoreboardManager(Aurora plugin, Database db, PlayerStore players, TabManager tabManager) {
-        this.plugin = plugin;
-        this.db = db;
+    public ScoreboardManager(PlayerManager players) {
         this.players = players;
-        this.tabManager = tabManager;
-
-        // TODO: does not belong here
-        this.task = Bukkit.getScheduler().runTaskTimer(plugin, () -> this.db.async(() -> {
-            this.players.saveAll(this.profiles);
-            plugin.getLogger().info("Auto-saved all player data to SQLite.");
-        }), 12000L, 12000L);
-    }
-
-    // Loads run on the database thread after any save still queued from a quit,
-    // so a quick rejoin can never read the old row
-    public void handleJoin(Player player) {
-        UUID uuid = player.getUniqueId();
-        this.db.async(() -> {
-            PlayerData data = this.players.load(uuid);
-
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                // Left again before the load came back
-                if (!player.isOnline()) return;
-
-                this.profiles.put(uuid, data);
-
-                this.setupBoard(player);
-                this.tabManager.updateAll();
-            });
-        });
-    }
-
-    // The profile leaves the map here on the main thread, then its own copy is saved,
-    // so a late save can never remove the profile of a player who already rejoined
-    public void handleQuit(Player player) {
-        UUID uuid = player.getUniqueId();
-        this.boards.remove(uuid);
-
-        PlayerData data = this.profiles.remove(uuid);
-        if (data != null) this.db.async(() -> this.players.save(uuid, data));
-
-        // Next tick, the quitting player still counts as online during the event
-        Bukkit.getScheduler().runTask(plugin, this.tabManager::updateAll);
     }
 
     public void setupBoard(Player player) {
@@ -81,28 +29,33 @@ public class ScoreboardManager {
         Objective obj = board.registerNewObjective("aurora", Criteria.DUMMY, TextUtils.getServer());
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        this.renderLines(board, obj, this.getBoardData(player));
+        renderLines(board, obj, lines(player));
 
         player.setScoreboard(board);
-        this.boards.put(player.getUniqueId(), board);
+        boards.put(player.getUniqueId(), board);
     }
 
     public void updateBoard(Player player) {
-        Scoreboard board = this.boards.get(player.getUniqueId());
+        Scoreboard board = boards.get(player.getUniqueId());
         if (board == null) return;
 
         Objective obj = board.getObjective("aurora");
         if (obj == null) return;
 
-        this.renderLines(board, obj, this.getBoardData(player));
+        renderLines(board, obj, lines(player));
     }
 
+    public void removeBoard(Player player) {
+        boards.remove(player.getUniqueId());
+    }
+
+    // One team per line, its prefix is the text, so lines update without flicker
     private void renderLines(Scoreboard board, Objective obj, List<Component> lines) {
         for (int i = 0; i < lines.size(); i++) {
             // Unique identifier, color codes have no display
             String entryId = "§" + Integer.toHexString(i) + "§r";
 
-            org.bukkit.scoreboard.Team team = board.getTeam("line_" + i);
+            Team team = board.getTeam("line_" + i);
             if (team == null) team = board.registerNewTeam("line_" + i);
 
             if (!team.hasEntry(entryId)) team.addEntry(entryId);
@@ -112,8 +65,8 @@ public class ScoreboardManager {
         }
     }
 
-    public List<Component> getBoardData(Player player) {
-        PlayerData data = this.profiles.get(player.getUniqueId());
+    private List<Component> lines(Player player) {
+        PlayerData data = players.get(player);
         // Profile still loading
         if (data == null) return List.of();
 
@@ -127,44 +80,8 @@ public class ScoreboardManager {
                 TextUtils.parse("<gray>• MINED: <green>" + data.getMined()),
                 TextUtils.parse("<gray>• ESSENCE: <gold>" + data.getEssence()),
                 Component.empty(),
-                TextUtils.parse("<light_purple>\uD83C\uDFAE <gray>EVENT: DEVELOPMENT"),
+                TextUtils.parse("<light_purple>🎮 <gray>EVENT: DEVELOPMENT"),
                 TextUtils.parse("<aqua>ᴀᴜʀᴏʀᴀᴍɪɴᴇs.ᴍɪɴᴇʜᴜᴛ.ɢɢ")
         );
-    }
-
-    // TODO: player manager
-    public void incrementMined(Player player) {
-        PlayerData data = this.profiles.get(player.getUniqueId());
-        if (data == null) return;
-
-        data.addMined(1);
-    }
-
-    public void incrementKills(Player player) {
-        PlayerData data = this.profiles.get(player.getUniqueId());
-        if (data == null) return;
-
-        data.addKills(1);
-    }
-
-    public void addEssence(Player player, int essence) {
-        PlayerData data = this.profiles.get(player.getUniqueId());
-        if (data == null) return;
-
-        data.addEssence(essence);
-    }
-
-    public void saveProfile(Player player) {
-        UUID uuid = player.getUniqueId();
-        this.players.save(uuid, this.profiles.get(uuid));
-    }
-
-    public void saveAllProfiles() {
-        this.players.saveAll(this.profiles);
-    }
-
-    public void shutdown() {
-        if (task != null) task.cancel();
-        saveAllProfiles();
     }
 }

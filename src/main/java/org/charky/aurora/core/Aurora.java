@@ -43,6 +43,7 @@ public class Aurora extends JavaPlugin implements Listener {
     private Database db;
     private SpawnStore spawnStore;
     private MineManager manager;
+    private PlayerManager players;
     private ScoreboardManager scoreboard;
     private SpawnerManager spawnerManager;
     private TabManager tabManager;
@@ -91,8 +92,9 @@ public class Aurora extends JavaPlugin implements Listener {
 
         // Managers
         this.tabManager = new TabManager(this);
-        this.scoreboard = new ScoreboardManager(this, db, new PlayerStore(db), tabManager);
-        this.manager = new MineManager(this, new MineStore(db), scoreboard);
+        this.players = new PlayerManager(this, db, new PlayerStore(db));
+        this.scoreboard = new ScoreboardManager(players);
+        this.manager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.traderManager = new TraderManager(this);
         this.wandManager = new WandManager();
@@ -128,7 +130,7 @@ public class Aurora extends JavaPlugin implements Listener {
         // Listeners
         getServer().getPluginManager().registerEvents(new WeaponListener(), this);
         getServer().getPluginManager().registerEvents(new MineListener(this), this);
-        getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboard), this);
+        getServer().getPluginManager().registerEvents(new PlayerSessionListener(this, players, scoreboard, tabManager), this);
         getServer().getPluginManager().registerEvents(new MobDeathListener(this), this);
         getServer().getPluginManager().registerEvents(new LeftoverMobListener(), this);
         getServer().getPluginManager().registerEvents(new TraderListener(this), this);
@@ -169,6 +171,10 @@ public class Aurora extends JavaPlugin implements Listener {
 
     public MineManager getMineManager() {
         return this.manager;
+    }
+
+    public PlayerManager getPlayerManager() {
+        return players;
     }
 
     public ScoreboardManager getScoreboardManager() {
@@ -219,7 +225,7 @@ public class Aurora extends JavaPlugin implements Listener {
 
         getLogger().info("Purged " + count + " mobs before shutdown.");
         if (manager != null) manager.shutdown();
-        if (scoreboard != null) scoreboard.shutdown();
+        if (players != null) players.shutdown();
         if (spawnerManager != null) spawnerManager.shutdown();
         if (backpackManager != null) backpackManager.shutdown();
 

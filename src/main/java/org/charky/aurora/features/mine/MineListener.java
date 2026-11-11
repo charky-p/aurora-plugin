@@ -19,6 +19,7 @@ import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.player.Essence;
+import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.common.loot.MenuItem;
 
@@ -36,12 +37,14 @@ public class MineListener implements Listener {
     };
 
     private final MineManager manager;
+    private final PlayerManager players;
     private final ScoreboardManager scoreboard;
     private final BackpackManager backpackManager;
     private final DataRegistry registry;
 
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
+        this.players = plugin.getPlayerManager();
         this.scoreboard = plugin.getScoreboardManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
@@ -88,11 +91,11 @@ public class MineListener implements Listener {
             backpack.addItems(blockDrops);
             if (!blockDrops.isEmpty()) player.sendActionBar(blockDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(player, blockDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
 
-            Essence.roll(player, Enchants.level(pick, "luck"), scoreboard);
+            Essence.roll(player, Enchants.level(pick, "luck"), players);
 
             // Only break if it is a block with a drop
             if (!blockDrops.isEmpty()) {
-                scoreboard.incrementMined(player);
+                players.addMined(player);
                 block.setType(Material.AIR, false);
             }
         }

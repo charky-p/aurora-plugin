@@ -44,6 +44,16 @@ public class PlayerData {
         this.dirty = false;
     }
 
+    // A save that failed puts the flag back so the next autosave retries it
+    public synchronized void markDirty() {
+        this.dirty = true;
+    }
+
+    public synchronized void addKills(int kills) {
+        this.kills += kills;
+        this.dirty = true;
+    }
+
     public synchronized void addMined(int mined) {
         this.mined += mined;
         this.dirty = true;

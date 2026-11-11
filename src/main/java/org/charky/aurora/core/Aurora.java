@@ -75,6 +75,7 @@ public class Aurora extends JavaPlugin implements Listener {
         getLogger().info("SQLite Database setup complete!");
 
         backpackManager.loadBackpacks(db);
+        backpackManager.startAutosave(this);
 
         // Spawn map
         this.spawnMap = db.getSpawns();
@@ -227,10 +228,11 @@ public class Aurora extends JavaPlugin implements Listener {
         if (spawnerManager != null) spawnerManager.shutdown();
         if (backpackManager != null) backpackManager.shutdown();
 
+        // Last, so the saves above and any still queued finish first
         try {
-            db.close();
+            if (db != null) db.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            getLogger().log(Level.SEVERE, "Could not close the database", e);
         }
 
         getLogger().info("AuroraMines shutting down...");

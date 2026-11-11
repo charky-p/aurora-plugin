@@ -15,34 +15,92 @@ import java.io.File;
 import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+// One SQLite connection for the plugin's lifetime. Every method is synchronized so
+// the main thread and the database thread never share it mid-statement, and work
+// sent through async() runs in order on a single thread, so a quit's save always
+// lands before the same player's next load
 public class Database {
+    private static final String UPSERT_PLAYER = """
+            INSERT INTO playerData (uuid, rank, level, kills, mined, essence)
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON CONFLICT(uuid) DO UPDATE SET
+                rank = excluded.rank,
+                level = excluded.level,
+                kills = excluded.kills,
+                mined = excluded.mined,
+                essence = excluded.essence;
+            """;
+
+    private static final String REPLACE_MINE = "REPLACE INTO mines (name, world, x1, y1, z1, x2, y2, z2, "
+            + "reset_threshold, delay, tpX, tpY, tpZ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
     private final DataRegistry registry;
+    private final Logger logger;
     private final String url;
+    private final ExecutorService worker = Executors.newSingleThreadExecutor(runnable -> {
+        Thread thread = new Thread(runnable, "Aurora-Database");
+        thread.setDaemon(true);
+        return thread;
+    });
     private Connection connection;
+
+    @FunctionalInterface
+    private interface SqlWork {
+        void run(Connection connection) throws SQLException;
+    }
+
+    @FunctionalInterface
+    private interface SqlBinder {
+        void bind(PreparedStatement statement) throws SQLException;
+    }
 
     public Database(Aurora plugin, String path) {
         File dbFile = new File(path, "mines.db");
         this.url = "jdbc:sqlite:" + dbFile.getAbsolutePath();
         this.registry = plugin.getRegistry();
+        this.logger = plugin.getLogger();
     }
 
-    public void connect() throws SQLException {
+    // Runs off the main thread, in submission order
+    public void async(Runnable task) {
+        worker.execute(() -> {
+            try {
+                task.run();
+            } catch (RuntimeException e) {
+                logger.log(Level.SEVERE, "Database task failed", e);
+            }
+        });
+    }
+
+    public synchronized void connect() throws SQLException {
         if (connection != null && !connection.isClosed()) return;
         connection = DriverManager.getConnection(url);
     }
 
+    // Lets queued saves finish before the connection goes
     public void close() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
+        worker.shutdown();
+        try {
+            if (!worker.awaitTermination(10, TimeUnit.SECONDS)) {
+                logger.warning("Database thread did not finish in time, some saves may be lost");
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        synchronized (this) {
+            if (connection != null && !connection.isClosed()) connection.close();
         }
     }
 
-    public void setup() {
-        try {
-            connect();
-
-            Statement statement = connection.createStatement();
+    public synchronized void setup() {
+        try (Statement statement = connection().createStatement()) {
             statement.execute("CREATE TABLE IF NOT EXISTS mines (" +
                     "name TEXT PRIMARY KEY, " +
                     "world TEXT, " +
@@ -99,308 +157,137 @@ public class Database {
                     "x DOUBLE, y DOUBLE, z DOUBLE, " +
                     "yaw FLOAT, pitch FLOAT)");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Could not create database tables", e);
         }
     }
 
-    public void addMine(MineData data) {
-        String sql = "INSERT INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, delay, tpX, tpY, tpZ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setString(1, data.getName());
-            pst.setString(2, data.getWorld());
-            pst.setInt(3, data.getX1());
-            pst.setInt(4, data.getY1());
-            pst.setInt(5, data.getZ1());
-            pst.setInt(6, data.getX2());
-            pst.setInt(7, data.getY2());
-            pst.setInt(8, data.getZ2());
-            pst.setDouble(9, data.getThreshold());
-            pst.setInt(10, data.getDelay());
-            pst.setDouble(11, data.getTpX());
-            pst.setDouble(12, data.getTpY());
-            pst.setDouble(13, data.getTpZ());
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void addMine(MineData data) {
+        update(REPLACE_MINE, pst -> bindMine(pst, data));
     }
 
-    public void removeMine(String name) {
-        String sqlMines = "DELETE FROM mines WHERE name = ?";
-        String sqlBlocks = "DELETE FROM blocks WHERE mine = ?";
-
-        try (Connection connection = getConnection()) {
-            try (PreparedStatement pst = connection.prepareStatement(sqlMines)) {
-                pst.setString(1, name);
-                pst.executeUpdate();
-            }
-
-            try (PreparedStatement pst = connection.prepareStatement(sqlBlocks)) {
-                pst.setString(1, name);
-                pst.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void removeMine(String name) {
+        transaction(conn -> {
+            execute(conn, "DELETE FROM mines WHERE name = ?", pst -> pst.setString(1, name));
+            execute(conn, "DELETE FROM blocks WHERE mine = ?", pst -> pst.setString(1, name));
+        });
     }
 
-    public void saveMine(MineData data) {
-        String sql = "REPLACE INTO mines (name, world, x1, y1, z1, x2, y2, z2, reset_threshold, delay, tpX, tpY, tpZ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
-            pst.setString(1, data.getName());
-            pst.setString(2, data.getWorld());
-            pst.setInt(3, data.getX1());
-            pst.setInt(4, data.getY1());
-            pst.setInt(5, data.getZ1());
-            pst.setInt(6, data.getX2());
-            pst.setInt(7, data.getY2());
-            pst.setInt(8, data.getZ2());
-            pst.setDouble(9, data.getThreshold());
-            pst.setInt(10, data.getDelay());
-            pst.setDouble(11, data.getTpX());
-            pst.setDouble(12, data.getTpY());
-            pst.setDouble(13, data.getTpZ());
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void saveMine(MineData data) {
+        update(REPLACE_MINE, pst -> bindMine(pst, data));
     }
 
-    public void renameMine(String oldName, String newName) {
-        String sql = "UPDATE mines SET name = ? WHERE name = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
-            pst.setString(1, newName);
-            pst.setString(2, oldName);
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    // Blocks are keyed by mine name, so they move with it or the mine loads empty
+    public synchronized void renameMine(String oldName, String newName) {
+        transaction(conn -> {
+            execute(conn, "UPDATE mines SET name = ? WHERE name = ?", pst -> {
+                pst.setString(1, newName);
+                pst.setString(2, oldName);
+            });
+            execute(conn, "UPDATE blocks SET mine = ? WHERE mine = ?", pst -> {
+                pst.setString(1, newName);
+                pst.setString(2, oldName);
+            });
+        });
     }
-    public List<MineData> getMines() {
+
+    public synchronized List<MineData> getMines() {
         List<MineData> mines = new ArrayList<>();
-        String sql = "SELECT * FROM mines";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql);
-             ResultSet rs = pst.executeQuery()) {
-
-            while (rs.next()) {
-                mines.add(new MineData(
-                        rs.getString("name"),
-                        rs.getString("world"),
-                        rs.getInt("x1"), rs.getInt("y1"), rs.getInt("z1"),
-                        rs.getInt("x2"), rs.getInt("y2"), rs.getInt("z2"),
-                        rs.getDouble("reset_threshold"),
-                        rs.getInt("delay"),
-                        rs.getDouble("tpX"), rs.getDouble("tpY"), rs.getDouble("tpZ")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        query("SELECT * FROM mines", pst -> {}, rs -> mines.add(new MineData(
+                rs.getString("name"),
+                rs.getString("world"),
+                rs.getInt("x1"), rs.getInt("y1"), rs.getInt("z1"),
+                rs.getInt("x2"), rs.getInt("y2"), rs.getInt("z2"),
+                rs.getDouble("reset_threshold"),
+                rs.getInt("delay"),
+                rs.getDouble("tpX"), rs.getDouble("tpY"), rs.getDouble("tpZ"))));
         return mines;
     }
 
-    public Map<String, List<MineBlock>> getMineBlocks() {
+    public synchronized Map<String, List<MineBlock>> getMineBlocks() {
         Map<String, List<MineBlock>> blockMap = new HashMap<>();
-        String sql = "SELECT mine, material, percent, id FROM blocks";
+        query("SELECT mine, material, percent, id FROM blocks", pst -> {}, rs -> {
+            Material material = Material.matchMaterial(rs.getString("material"));
+            if (material == null) return;
 
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql);
-             ResultSet rs = pst.executeQuery()) {
-
-            while (rs.next()) {
-                String mineName = rs.getString("mine");
-                Material material = Material.matchMaterial(rs.getString("material"));
-                double percent = rs.getDouble("percent");
-                String blockId = rs.getString("id");
-
-                MineBlock mb = new MineBlock(material, percent, blockId);
-
-                blockMap.computeIfAbsent(mineName, k -> new ArrayList<>()).add(mb);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            MineBlock block = new MineBlock(material, rs.getDouble("percent"), rs.getString("id"));
+            blockMap.computeIfAbsent(rs.getString("mine"), k -> new ArrayList<>()).add(block);
+        });
         return blockMap;
     }
 
-    public void setBlocks(String name, List<MineBlock> blocks) {
-        String deleteSql = "DELETE FROM blocks WHERE mine = ?";
-        String insertSql = "INSERT INTO blocks (mine, material, percent, id) VALUES (?, ?, ?, ?)";
+    public synchronized void setBlocks(String name, List<MineBlock> blocks) {
+        transaction(conn -> {
+            execute(conn, "DELETE FROM blocks WHERE mine = ?", pst -> pst.setString(1, name));
 
-        try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
-
-            try {
-                // Delete existing blocks
-                try (PreparedStatement delPst = connection.prepareStatement(deleteSql)) {
-                    delPst.setString(1, name);
-                    delPst.executeUpdate();
+            try (PreparedStatement pst = conn.prepareStatement(
+                    "INSERT INTO blocks (mine, material, percent, id) VALUES (?, ?, ?, ?)")) {
+                for (MineBlock block : blocks) {
+                    pst.setString(1, name);
+                    pst.setString(2, block.material().name());
+                    pst.setDouble(3, block.percentage());
+                    pst.setString(4, block.id());
+                    pst.addBatch();
                 }
-
-                // Batch insert new blocks
-                try (PreparedStatement insPst = connection.prepareStatement(insertSql)) {
-                    for (MineBlock block : blocks) {
-                        insPst.setString(1, name);
-                        insPst.setString(2, block.material().name());
-                        insPst.setDouble(3, block.percentage());
-                        insPst.setString(4, block.id());
-                        insPst.addBatch();
-                    }
-                    insPst.executeBatch();
-                }
-
-                connection.commit();
-
-            } catch (SQLException e) {
-                // Undo deletion
-                connection.rollback();
-                e.printStackTrace();
-            } finally {
-                connection.setAutoCommit(true);
+                pst.executeBatch();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
-    public void setTp(String name, double tpX, double tpY, double tpZ) {
-        String sql = "UPDATE mines SET tpX = ?, tpY = ?, tpZ = ? WHERE name = ?";
-
-        try (Connection connection = this.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
+    public synchronized void setTp(String name, double tpX, double tpY, double tpZ) {
+        update("UPDATE mines SET tpX = ?, tpY = ?, tpZ = ? WHERE name = ?", pst -> {
             pst.setDouble(1, tpX);
             pst.setDouble(2, tpY);
             pst.setDouble(3, tpZ);
             pst.setString(4, name);
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
-    public void savePlayerData(UUID uuid, PlayerData data) {
-        // Upsert (delete and insert)
-        String sql = """
-        INSERT INTO playerData (uuid, rank, level, kills, mined, essence)
-        VALUES (?, ?, ?, ?, ?, ?)
-        ON CONFLICT(uuid) DO UPDATE SET
-            rank = excluded.rank,
-            level = excluded.level,
-            kills = excluded.kills,
-            mined = excluded.mined,
-            essence = excluded.essence;
-        """;
-
-        try (Connection connection = this.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setString(1, uuid.toString());
-            pst.setString(2, data.getRank());
-            pst.setInt(3, data.getLevel());
-            pst.setInt(4, data.getKills());
-            pst.setInt(5, data.getMined());
-            pst.setInt(6, data.getEssence());
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void savePlayerData(UUID uuid, PlayerData data) {
+        if (data == null) return;
+        update(UPSERT_PLAYER, pst -> bindPlayer(pst, uuid, data));
     }
 
-    public void saveAllPlayerData(ConcurrentMap<UUID, PlayerData> profiles) {
-        String sql = """
-        INSERT INTO playerData (uuid, rank, level, kills, mined, essence)
-        VALUES (?, ?, ?, ?, ?, ?)
-        ON CONFLICT(uuid) DO UPDATE SET
-            rank = excluded.rank,
-            level = excluded.level,
-            kills = excluded.kills,
-            mined = excluded.mined,
-            essence = excluded.essence;
-        """;
+    // Each profile is marked clean before its values are read, so a change made
+    // mid-save stays dirty for the next one. A failed save marks them dirty again
+    public synchronized void saveAllPlayerData(ConcurrentMap<UUID, PlayerData> profiles) {
+        List<PlayerData> saving = new ArrayList<>();
+        try {
+            runTransaction(conn -> {
+                try (PreparedStatement pst = conn.prepareStatement(UPSERT_PLAYER)) {
+                    for (Map.Entry<UUID, PlayerData> entry : profiles.entrySet()) {
+                        PlayerData data = entry.getValue();
+                        if (!data.isDirty()) continue;
 
-        try (Connection connection = this.getConnection()) {
-            connection.setAutoCommit(false);
-
-            // Batch for all profiles
-            try (PreparedStatement pst = connection.prepareStatement(sql)) {
-                boolean change = false;
-
-                for (Map.Entry<UUID, PlayerData> entry : profiles.entrySet()) {
-                    PlayerData data = entry.getValue();
-
-                    // Save only if changed
-                    if (!data.isDirty()) continue;
-
-                    pst.setString(1, entry.getKey().toString());
-                    pst.setString(2, data.getRank());
-                    pst.setInt(3, data.getLevel());
-                    pst.setInt(4, data.getKills());
-                    pst.setInt(5, data.getMined());
-                    pst.setInt(6, data.getEssence());
-
-                    pst.addBatch();
-                    data.resetDirty();
-                    change = true;
+                        data.resetDirty();
+                        saving.add(data);
+                        bindPlayer(pst, entry.getKey(), data);
+                        pst.addBatch();
+                    }
+                    if (!saving.isEmpty()) pst.executeBatch();
                 }
-
-                if (change) {
-                    pst.executeBatch();
-                    connection.commit();
-                }
-            } catch (SQLException e) {
-                connection.rollback();
-                e.printStackTrace();
-            } finally {
-                connection.setAutoCommit(true);
-            }
+            });
         } catch (SQLException e) {
-            e.printStackTrace();
+            saving.forEach(PlayerData::markDirty);
+            logger.log(Level.SEVERE, "Could not save player data", e);
         }
     }
 
-    public PlayerData loadPlayerData(UUID uuid) {
-        String sql = "SELECT * FROM playerData WHERE uuid = ?";
-        try (Connection connection = this.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setString(1, uuid.toString());
+    public synchronized PlayerData loadPlayerData(UUID uuid) {
+        List<PlayerData> found = new ArrayList<>();
+        query("SELECT * FROM playerData WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()),
+                rs -> found.add(new PlayerData(
+                        rs.getString("rank"),
+                        rs.getInt("level"),
+                        rs.getInt("kills"),
+                        rs.getInt("mined"),
+                        rs.getInt("essence"))));
 
-            try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    return new PlayerData(
-                            rs.getString("rank"),
-                            rs.getInt("level"),
-                            rs.getInt("kills"),
-                            rs.getInt("mined"),
-                            rs.getInt("essence")
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return new PlayerData("MEMBER", 0, 0, 0, 0);
+        return found.isEmpty() ? new PlayerData("MEMBER", 0, 0, 0, 0) : found.getFirst();
     }
 
-    public void saveSpawner(MobSpawner spawner) {
-        String sql = "INSERT INTO spawners (name, world, x, y, z, mob, radius, mob_limit, delay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection connection = this.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
+    public synchronized void saveSpawner(MobSpawner spawner) {
+        update("INSERT INTO spawners (name, world, x, y, z, mob, radius, mob_limit, delay) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", pst -> {
             pst.setString(1, spawner.getName());
             pst.setString(2, spawner.getWorld());
             pst.setInt(3, spawner.getX());
@@ -410,251 +297,214 @@ public class Database {
             pst.setDouble(7, spawner.getRadius());
             pst.setInt(8, spawner.getLimit());
             pst.setInt(9, spawner.getDelay());
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
-    public void removeSpawner(String spawnerName) {
-        String sql = "DELETE FROM spawners WHERE name = ?";
-
-        try (Connection connection = getConnection();
-            PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setString(1, spawnerName);
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void removeSpawner(String spawnerName) {
+        update("DELETE FROM spawners WHERE name = ?", pst -> pst.setString(1, spawnerName));
     }
 
-    public List<MobSpawner> getSpawners(Aurora plugin) {
-        String sql = "SELECT * FROM spawners";
-
+    public synchronized List<MobSpawner> getSpawners(Aurora plugin) {
         List<MobSpawner> spawners = new ArrayList<>();
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql);
-             ResultSet rs = pst.executeQuery()) {
-            while (rs.next()) {
-                String mob = rs.getString("mob");
-                MobData data = registry.getMob(mob);
-                if (data == null) continue;
+        query("SELECT * FROM spawners", pst -> {}, rs -> {
+            MobData data = registry.getMob(rs.getString("mob"));
+            if (data == null) return;
 
-                spawners.add(new MobSpawner(
-                        plugin,
-                        rs.getString("name"),
-                        rs.getString("world"),
-                        rs.getInt("x"),
-                        rs.getInt("y"),
-                        rs.getInt("z"),
-                        data,
-                        rs.getDouble("radius"),
-                        rs.getInt("mob_limit"),
-                        rs.getInt("delay")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+            spawners.add(new MobSpawner(
+                    plugin,
+                    rs.getString("name"),
+                    rs.getString("world"),
+                    rs.getInt("x"),
+                    rs.getInt("y"),
+                    rs.getInt("z"),
+                    data,
+                    rs.getDouble("radius"),
+                    rs.getInt("mob_limit"),
+                    rs.getInt("delay")));
+        });
         return spawners;
     }
 
-    public void setMob(String spawnerName, String mobName) {
-        String sql = "UPDATE spawners SET mob = ? WHERE name = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
-            pst.setString(1, mobName);
-            pst.setString(2, spawnerName);
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void setMob(String spawnerName, String mobName) {
+        updateSpawner("mob", spawnerName, pst -> pst.setString(1, mobName));
     }
 
-    public void setSpawnerRadius(String spawnerName, double radius) {
-        String sql = "UPDATE spawners SET radius = ? WHERE name = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
-            pst.setDouble(1, radius);
-            pst.setString(2, spawnerName);
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void setSpawnerRadius(String spawnerName, double radius) {
+        updateSpawner("radius", spawnerName, pst -> pst.setDouble(1, radius));
     }
 
-    public void setSpawnerLimit(String spawnerName, int limit) {
-        String sql = "UPDATE spawners SET mob_limit = ? WHERE name = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
-            pst.setInt(1, limit);
-            pst.setString(2, spawnerName);
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void setSpawnerLimit(String spawnerName, int limit) {
+        updateSpawner("mob_limit", spawnerName, pst -> pst.setInt(1, limit));
     }
 
-    public void setSpawnerDelay(String spawnerName, int delay) {
-        String sql = "UPDATE spawners SET delay = ? WHERE name = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
-            pst.setInt(1, delay);
-            pst.setString(2, spawnerName);
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void setSpawnerDelay(String spawnerName, int delay) {
+        updateSpawner("delay", spawnerName, pst -> pst.setInt(1, delay));
     }
 
-    public void spawnerRedefine(String spawnerName, int x, int y, int z) {
-        String sql = "UPDATE spawners SET x = ?, y = ?, z = ? WHERE name = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
+    public synchronized void spawnerRedefine(String spawnerName, int x, int y, int z) {
+        update("UPDATE spawners SET x = ?, y = ?, z = ? WHERE name = ?", pst -> {
             pst.setInt(1, x);
             pst.setInt(2, y);
             pst.setInt(3, z);
             pst.setString(4, spawnerName);
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
-    public void spawnerRename(String oldName, String newName) {
-        String sql = "UPDATE spawners SET name = ? WHERE name = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-
-            pst.setString(1, newName);
-            pst.setString(2, oldName);
-
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public synchronized void spawnerRename(String oldName, String newName) {
+        updateSpawner("name", oldName, pst -> pst.setString(1, newName));
     }
 
-    public Map<World, Location> getSpawns() {
-        String sql = "SELECT * FROM spawns";
-
+    public synchronized Map<World, Location> getSpawns() {
         Map<World, Location> spawnMap = new HashMap<>();
-        try (Connection connection = this.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql);
-             ResultSet rs = pst.executeQuery()) {
-            while (rs.next()) {
-                World world = Bukkit.getWorld(rs.getString("world"));
-                Location location = new Location(
-                        world,
-                        rs.getDouble("x"),
-                        rs.getDouble("y"),
-                        rs.getDouble("z"),
-                        rs.getFloat("yaw"),
-                        rs.getFloat("pitch"));
-                spawnMap.put(world, location);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        query("SELECT * FROM spawns", pst -> {}, rs -> {
+            // A world that is not loaded has nowhere to put the spawn
+            World world = Bukkit.getWorld(rs.getString("world"));
+            if (world == null) return;
 
+            spawnMap.put(world, new Location(
+                    world,
+                    rs.getDouble("x"),
+                    rs.getDouble("y"),
+                    rs.getDouble("z"),
+                    rs.getFloat("yaw"),
+                    rs.getFloat("pitch")));
+        });
         return spawnMap;
     }
 
-    public void saveSpawn(Location location) {
-        String sql = "INSERT INTO spawns (world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?) " +
+    public synchronized void saveSpawn(Location location) {
+        update("INSERT INTO spawns (world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?) " +
                 "ON CONFLICT(world) DO UPDATE SET x=excluded.x, y=excluded.y, z=excluded.z, " +
-                "yaw=excluded.yaw, pitch=excluded.pitch";
-
-        try (Connection conn = getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
+                "yaw=excluded.yaw, pitch=excluded.pitch", pst -> {
             pst.setString(1, location.getWorld().getName());
             pst.setDouble(2, location.getX());
             pst.setDouble(3, location.getY());
             pst.setDouble(4, location.getZ());
             pst.setFloat(5, location.getYaw());
             pst.setFloat(6, location.getPitch());
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
-    public Map<UUID, BackpackData> loadAllBackpacks(DataRegistry registry) {
+    public synchronized Map<UUID, BackpackData> loadAllBackpacks(DataRegistry registry) {
         Map<UUID, BackpackData> results = new HashMap<>();
-        String sql = "SELECT uuid, item_id, amount FROM backpack_data";
-
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                UUID uuid = UUID.fromString(rs.getString("uuid"));
-                String itemId = rs.getString("item_id");
-                long amount = rs.getLong("amount");
-
-                BackpackData data = results.computeIfAbsent(uuid, k -> new BackpackData(registry));
-                data.addItem(itemId, amount);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        query("SELECT uuid, item_id, amount FROM backpack_data", pst -> {}, rs -> results
+                .computeIfAbsent(UUID.fromString(rs.getString("uuid")), k -> new BackpackData(registry))
+                .addItem(rs.getString("item_id"), rs.getLong("amount")));
         return results;
     }
 
-    public void saveBackpacks(Map<UUID, BackpackData> backpacks) {
-        String deleteSql = "DELETE FROM backpack_data"; // Wipe to refresh state
-        String insertSql = "INSERT INTO backpack_data (uuid, item_id, amount) VALUES (?, ?, ?)";
+    // Takes a copy made on the main thread, so it is safe to save from the database thread
+    public synchronized void saveBackpacks(Map<UUID, Map<String, Long>> backpacks) {
+        transaction(conn -> {
+            // Wipe to refresh state
+            execute(conn, "DELETE FROM backpack_data", pst -> {});
 
-        try (Connection conn = getConnection()) {
-            conn.setAutoCommit(false);
-
-            try (PreparedStatement delStmt = conn.prepareStatement(deleteSql)) {
-                delStmt.executeUpdate();
-            }
-
-            // 2. Batch insert everything
-            try (PreparedStatement insStmt = conn.prepareStatement(insertSql)) {
-                for (Map.Entry<UUID, BackpackData> entry : backpacks.entrySet()) {
-                    UUID uuid = entry.getKey();
-                    Map<String, Long> items = entry.getValue().getItems();
-
-                    for (Map.Entry<String, Long> item : items.entrySet()) {
+            try (PreparedStatement pst = conn.prepareStatement(
+                    "INSERT INTO backpack_data (uuid, item_id, amount) VALUES (?, ?, ?)")) {
+                for (Map.Entry<UUID, Map<String, Long>> entry : backpacks.entrySet()) {
+                    for (Map.Entry<String, Long> item : entry.getValue().entrySet()) {
                         if (item.getValue() <= 0) continue;
 
-                        insStmt.setString(1, uuid.toString());
-                        insStmt.setString(2, item.getKey());
-                        insStmt.setLong(3, item.getValue());
-                        insStmt.addBatch();
+                        pst.setString(1, entry.getKey().toString());
+                        pst.setString(2, item.getKey());
+                        pst.setLong(3, item.getValue());
+                        pst.addBatch();
                     }
                 }
-                insStmt.executeBatch();
+                pst.executeBatch();
             }
+        });
+    }
 
-            conn.commit(); // Finalize write to disk
+    private Connection connection() throws SQLException {
+        connect();
+        return connection;
+    }
+
+    private void bindMine(PreparedStatement pst, MineData data) throws SQLException {
+        pst.setString(1, data.getName());
+        pst.setString(2, data.getWorld());
+        pst.setInt(3, data.getX1());
+        pst.setInt(4, data.getY1());
+        pst.setInt(5, data.getZ1());
+        pst.setInt(6, data.getX2());
+        pst.setInt(7, data.getY2());
+        pst.setInt(8, data.getZ2());
+        pst.setDouble(9, data.getThreshold());
+        pst.setInt(10, data.getDelay());
+        pst.setDouble(11, data.getTpX());
+        pst.setDouble(12, data.getTpY());
+        pst.setDouble(13, data.getTpZ());
+    }
+
+    private void bindPlayer(PreparedStatement pst, UUID uuid, PlayerData data) throws SQLException {
+        pst.setString(1, uuid.toString());
+        pst.setString(2, data.getRank());
+        pst.setInt(3, data.getLevel());
+        pst.setInt(4, data.getKills());
+        pst.setInt(5, data.getMined());
+        pst.setInt(6, data.getEssence());
+    }
+
+    // Column names are only ever our own constants, never player input
+    private void updateSpawner(String column, String spawnerName, SqlBinder value) {
+        update("UPDATE spawners SET " + column + " = ? WHERE name = ?", pst -> {
+            value.bind(pst);
+            pst.setString(2, spawnerName);
+        });
+    }
+
+    private void update(String sql, SqlBinder binder) {
+        try {
+            execute(connection(), sql, binder);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Database update failed: " + sql, e);
         }
     }
 
-    public Connection getConnection() throws SQLException {
-        connect();
-        return connection;
+    private static void execute(Connection conn, String sql, SqlBinder binder) throws SQLException {
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            binder.bind(pst);
+            pst.executeUpdate();
+        }
+    }
+
+    @FunctionalInterface
+    private interface RowReader {
+        void read(ResultSet rs) throws SQLException;
+    }
+
+    private void query(String sql, SqlBinder binder, RowReader reader) {
+        try (PreparedStatement pst = connection().prepareStatement(sql)) {
+            binder.bind(pst);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) reader.read(rs);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Database query failed: " + sql, e);
+        }
+    }
+
+    private void transaction(SqlWork work) {
+        try {
+            runTransaction(work);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Database transaction failed", e);
+        }
+    }
+
+    // All or nothing, rolls back on failure and always hands autocommit back
+    private void runTransaction(SqlWork work) throws SQLException {
+        Connection conn = connection();
+        conn.setAutoCommit(false);
+        try {
+            work.run(conn);
+            conn.commit();
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+        } finally {
+            conn.setAutoCommit(true);
+        }
     }
 }

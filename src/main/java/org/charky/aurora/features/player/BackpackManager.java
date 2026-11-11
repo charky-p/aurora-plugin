@@ -1,5 +1,8 @@
 package org.charky.aurora.features.player;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.core.Database;
 
@@ -8,9 +11,13 @@ import java.util.Map;
 import java.util.UUID;
 
 public class BackpackManager {
+    // Every 5 minutes, so a crash loses at most that much mining
+    private static final long AUTOSAVE_TICKS = 6000L;
+
     private Map<UUID, BackpackData> backpacks;
     private final DataRegistry registry;
     private Database db;
+    private BukkitTask autosave;
 
     public BackpackManager(DataRegistry registry) {
         this.registry = registry;
@@ -19,6 +26,14 @@ public class BackpackManager {
     public void loadBackpacks(Database db) {
         this.backpacks = db.loadAllBackpacks(registry);
         this.db = db;
+    }
+
+    // The copy is made on the main thread where backpacks change, then saved off it
+    public void startAutosave(Plugin plugin) {
+        this.autosave = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            Map<UUID, Map<String, Long>> copy = snapshot();
+            db.async(() -> db.saveBackpacks(copy));
+        }, AUTOSAVE_TICKS, AUTOSAVE_TICKS);
     }
 
     public BackpackData get(UUID uuid) {
@@ -31,6 +46,13 @@ public class BackpackManager {
     }
 
     public void shutdown() {
-        db.saveBackpacks(backpacks);
+        if (autosave != null) autosave.cancel();
+        db.saveBackpacks(snapshot());
+    }
+
+    private Map<UUID, Map<String, Long>> snapshot() {
+        Map<UUID, Map<String, Long>> copy = new HashMap<>();
+        backpacks.forEach((uuid, data) -> copy.put(uuid, new HashMap<>(data.getItems())));
+        return copy;
     }
 }

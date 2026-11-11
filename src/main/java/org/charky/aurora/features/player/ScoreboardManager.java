@@ -35,18 +35,23 @@ public class ScoreboardManager {
         this.tabManager = tabManager;
 
         // TODO: does not belong here
-        this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+        this.task = Bukkit.getScheduler().runTaskTimer(plugin, () -> this.db.async(() -> {
             this.db.saveAllPlayerData(this.profiles);
             plugin.getLogger().info("Auto-saved all player data to SQLite.");
-        }, 12000L, 12000L);
+        }), 12000L, 12000L);
     }
 
+    // Loads run on the database thread after any save still queued from a quit,
+    // so a quick rejoin can never read the old row
     public void handleJoin(Player player) {
         UUID uuid = player.getUniqueId();
-        Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
+        this.db.async(() -> {
             PlayerData data = this.db.loadPlayerData(uuid);
 
             Bukkit.getScheduler().runTask(plugin, () -> {
+                // Left again before the load came back
+                if (!player.isOnline()) return;
+
                 this.profiles.put(uuid, data);
 
                 this.setupBoard(player);
@@ -55,16 +60,17 @@ public class ScoreboardManager {
         });
     }
 
+    // The profile leaves the map here on the main thread, then its own copy is saved,
+    // so a late save can never remove the profile of a player who already rejoined
     public void handleQuit(Player player) {
         UUID uuid = player.getUniqueId();
         this.boards.remove(uuid);
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            saveProfile(player);
-            this.profiles.remove(uuid);
-        });
+        PlayerData data = this.profiles.remove(uuid);
+        if (data != null) this.db.async(() -> this.db.savePlayerData(uuid, data));
 
-        this.tabManager.updateAll();
+        // Next tick, the quitting player still counts as online during the event
+        Bukkit.getScheduler().runTask(plugin, this.tabManager::updateAll);
     }
 
     public void setupBoard(Player player) {
@@ -105,6 +111,9 @@ public class ScoreboardManager {
 
     public List<Component> getBoardData(Player player) {
         PlayerData data = this.profiles.get(player.getUniqueId());
+        // Profile still loading
+        if (data == null) return List.of();
+
         return List.of(
                 TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>PROFILE</b></gradient>"),
                 TextUtils.parse("<gray>• RANK: <white>" + data.getRank()),

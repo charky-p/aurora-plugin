@@ -11,7 +11,8 @@ Paper 1.21 sky-mining RPG plugin (Java 21, Maven, SQLite).
 - `scripts/generate.py` generates the YAML in `src/main/resources/` from it. Edit the CSV, never the YAML.
 
 ## Build and run
-- `mvn package` builds and copies the jar to `LocalServer/plugins/`.
+- `mvn package` builds and copies the jar to `LocalServer/plugins/` and the YAML to `LocalServer/plugins/Aurora/`.
+- With the server running, use `python scripts/generate.py --live` then `/refresh` for data-only changes.
 - `LocalServer/start.bat` runs the local test server (gitignored). Check its logs to verify changes; I test in-game.
 
 ## Rules

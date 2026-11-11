@@ -70,6 +70,13 @@
                             <target>
                                 <copy file="target/${project.build.finalName}.jar"
                                       todir="LocalServer/plugins" />
+                                <!-- The plugin only copies its YAML into the data folder when a
+                                     file is missing, so push the current data every build or the
+                                     server keeps loading stale numbers -->
+                                <copy todir="LocalServer/plugins/Aurora" overwrite="true">
+                                    <fileset dir="src/main/resources" includes="**/*.yml"
+                                             excludes="plugin.yml" />
+                                </copy>
                             </target>
                         </configuration>
                     </execution>

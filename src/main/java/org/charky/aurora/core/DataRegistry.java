@@ -258,7 +258,7 @@ public class DataRegistry {
                     false
             );
 
-            items.put(id.toLowerCase(), item);
+            putItem(id, item);
             resourceList.add(new MenuItem(id.toLowerCase(), item));
         });
     }
@@ -345,8 +345,22 @@ public class DataRegistry {
                 meta.lore(lore);
             });
 
-            items.put(id.toLowerCase(), item);
+            putItem(id, item);
         });
+    }
+
+    // Every registry item carries its id, so costs match what an item is rather than
+    // every detail of how it looks, which changes whenever gear generation does
+    private void putItem(String id, ItemStack item) {
+        String key = id.toLowerCase();
+        item.editMeta(meta -> meta.getPersistentDataContainer().set(DataKeys.ITEM_KEY, PersistentDataType.STRING, key));
+        items.put(key, item);
+    }
+
+    // The registry id of an item, null for anything that did not come from the registry
+    public static String itemId(ItemStack item) {
+        if (item == null || !item.hasItemMeta()) return null;
+        return item.getItemMeta().getPersistentDataContainer().get(DataKeys.ITEM_KEY, PersistentDataType.STRING);
     }
 
     // TODO: TextUtils ngl

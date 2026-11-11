@@ -147,6 +147,10 @@ public class DataRegistry {
         return traders.get(id);
     }
 
+    public List<String> getTraders() {
+        return new ArrayList<>(traders.keySet());
+    }
+
     public boolean hasMob(String id) {
         return mobs.containsKey(id);
     }

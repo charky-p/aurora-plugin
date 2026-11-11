@@ -80,6 +80,10 @@ public class MobSpawner {
         return delay;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     public Location getLocation() {
         return new Location(Bukkit.getWorld(this.world), this.x, this.y, this.z);
     }

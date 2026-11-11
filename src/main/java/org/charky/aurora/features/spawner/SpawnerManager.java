@@ -57,8 +57,9 @@ public class SpawnerManager {
     public void removeSpawner(String spawnerName) {
         if (!this.spawnerExists(spawnerName)) return;
 
+        // Its spawn task would otherwise keep spawning until the next restart
+        spawnerMap.remove(spawnerName).stop();
         db.removeSpawner(spawnerName);
-        spawnerMap.remove(spawnerName);
     }
 
     public List<String> getSpawners() {
@@ -74,6 +75,10 @@ public class SpawnerManager {
             player.teleport(location.add(0, 1, 0));
         }
         // TODO: deal with error, maybe nothing, but it is done differently in MineManager tpMine
+    }
+
+    public MobSpawner getSpawner(String spawnerName) {
+        return spawnerMap.get(spawnerName);
     }
 
     public List<String> getSpawnerInfo(String spawnerName) {

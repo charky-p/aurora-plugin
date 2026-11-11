@@ -37,7 +37,8 @@ public class MineInfoSub extends MineSub {
         TextUtils.display(sender, " <dark_gray>» <aqua>Coordinate 1: <white>" + data.getX1() + "<gray>, <white>" + data.getY1() + "<gray>, <white>" + data.getZ1());
         TextUtils.display(sender, " <dark_gray>» <aqua>Coordinate 2: <white>" + data.getX2() + "<gray>, <white>" + data.getY2() + "<gray>, <white>" + data.getZ2());
         TextUtils.display(sender, " <dark_gray>» <aqua>Reset Threshold: <white>" + data.getThreshold() + "%");
-        TextUtils.display(sender, " <dark_gray>» <aqua>Delay: <white>" + data.getDelay() + "s");
+        // Stored in ticks, 20 to a second
+        TextUtils.display(sender, " <dark_gray>» <aqua>Delay: <white>" + data.getDelay() + " ticks <gray>(" + data.getDelay() / 20.0 + "s)");
         TextUtils.display(sender, " <dark_gray>» <aqua>Teleport Coordinate: <white>" + data.getTpX() + "<gray>, <white>" + data.getTpY() + "<gray>, <white>" + data.getTpZ());
         TextUtils.line(sender, "<aqua>");
     }

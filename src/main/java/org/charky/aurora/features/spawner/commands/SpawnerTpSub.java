@@ -55,10 +55,11 @@ public class SpawnerTpSub extends SpawnerSub {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) {
-            return spawnerManager.getSpawners()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .toList();
+            return TextUtils.getCompletions(args[0], spawnerManager.getSpawners());
+        }
+
+        if (args.length == 2) {
+            return TextUtils.getCompletions(args[1], Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
         }
 
         return Collections.emptyList();
@@ -66,7 +67,7 @@ public class SpawnerTpSub extends SpawnerSub {
 
     @Override
     public String getUsage() {
-        return "<spawner>";
+        return "<spawner> [player]";
     }
 
     @Override

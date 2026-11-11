@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.system.commands.AuroraSubCommand;
+import org.charky.aurora.features.system.commands.HelpCommand;
 import org.charky.aurora.features.spawner.commands.*;
 import org.charky.aurora.common.util.TextUtils;
 
@@ -37,8 +38,7 @@ public class SpawnerCommand implements AuroraSubCommand {
         // TODO: add activation radius hidden by player, stop mob lag
         // TODO: no mob or trade regions, where mobs will be deleted (not traders)
         if (args.length == 0) {
-            // TODO: Full usage is not set
-            TextUtils.usage(sender, getFullUsage());
+            HelpCommand.showList(sender, "SPAWNER COMMANDS", "/aurora spawner", subCommands.values());
             return;
         }
 
@@ -46,7 +46,8 @@ public class SpawnerCommand implements AuroraSubCommand {
         AuroraSubCommand subCommand = subCommands.get(subCommandName);
 
         if (subCommand == null) {
-            TextUtils.error(sender, "Unknown subcommand: " + subCommandName);
+            TextUtils.error(sender, "Unknown spawner command: " + subCommandName);
+            HelpCommand.showList(sender, "SPAWNER COMMANDS", "/aurora spawner", subCommands.values());
             return;
         }
 

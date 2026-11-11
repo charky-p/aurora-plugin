@@ -41,7 +41,7 @@ public class MineRenameSub extends MineSub {
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        if (args.length == 1) TextUtils.getCompletions(args[0], mineManager.getMines());
+        if (args.length == 1) return TextUtils.getCompletions(args[0], mineManager.getMines());
 
         return Collections.emptyList();
     }

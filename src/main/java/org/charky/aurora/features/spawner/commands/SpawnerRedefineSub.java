@@ -17,7 +17,8 @@ public class SpawnerRedefineSub extends SpawnerSub {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (args.length < 2) {
+        // Just the name moves it to where you stand, otherwise all three coordinates
+        if (args.length != 1 && args.length < 4) {
             TextUtils.usage(sender, getFullUsage());
             return;
         }
@@ -28,10 +29,17 @@ public class SpawnerRedefineSub extends SpawnerSub {
             return;
         }
 
+        if (args.length == 1 && !(sender instanceof Player)) {
+            TextUtils.error(sender, "Console must give coordinates");
+            return;
+        }
+
         try {
-            int x = (int) LocationUtils.parseCoordinate(sender, args[1], Axis.X);
-            int y = (int) LocationUtils.parseCoordinate(sender, args[2], Axis.Y);
-            int z = (int) LocationUtils.parseCoordinate(sender, args[3], Axis.Z);
+            String[] coords = (args.length == 1) ? new String[]{"~", "~", "~"} : new String[]{args[1], args[2], args[3]};
+            // Floor, not a cast, or negative coordinates land one block off
+            int x = (int) Math.floor(LocationUtils.parseCoordinate(sender, coords[0], Axis.X));
+            int y = (int) Math.floor(LocationUtils.parseCoordinate(sender, coords[1], Axis.Y));
+            int z = (int) Math.floor(LocationUtils.parseCoordinate(sender, coords[2], Axis.Z));
 
             spawnerManager.redefine(spawnerName, x, y, z);
             TextUtils.success(sender, "Spawner '" + spawnerName + "' has been redefined successfully");
@@ -43,11 +51,7 @@ public class SpawnerRedefineSub extends SpawnerSub {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) {
-            return spawnerManager.getSpawners()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return TextUtils.getCompletions(args[0], spawnerManager.getSpawners());
         }
 
         if (args.length >= 2 && args.length <= 4) {
@@ -59,7 +63,7 @@ public class SpawnerRedefineSub extends SpawnerSub {
 
     @Override
     public String getUsage() {
-        return "<spawner> <x> <y> <z>";
+        return "<spawner> [<x> <y> <z>]";
     }
 
     @Override

@@ -28,6 +28,10 @@ public class SpawnerSetDelaySub extends SpawnerSub {
 
         try {
             int delay = Integer.parseInt(args[1]);
+            if (delay < 1) {
+                TextUtils.error(sender, "Delay must be at least 1 tick");
+                return;
+            }
 
             spawnerManager.setDelay(spawnerName, delay);
             TextUtils.success(sender, "Spawner '" + spawnerName + "' delay has been set to " + delay + " successfully");
@@ -39,11 +43,7 @@ public class SpawnerSetDelaySub extends SpawnerSub {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) {
-            return spawnerManager.getSpawners()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return TextUtils.getCompletions(args[0], spawnerManager.getSpawners());
         }
 
         if (args.length == 2) {
@@ -65,6 +65,6 @@ public class SpawnerSetDelaySub extends SpawnerSub {
 
     @Override
     public String getDescription() {
-        return "Sets the spawn delay of a spawner";
+        return "Sets the spawn delay of a spawner in ticks, where 20 is one second";
     }
 }

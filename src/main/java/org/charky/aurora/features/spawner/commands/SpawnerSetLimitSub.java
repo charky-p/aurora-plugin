@@ -28,6 +28,10 @@ public class SpawnerSetLimitSub extends SpawnerSub {
 
         try {
             int limit = Integer.parseInt(args[1]);
+            if (limit < 1) {
+                TextUtils.error(sender, "Limit must be at least 1, use toggle to turn a spawner off");
+                return;
+            }
 
             spawnerManager.setLimit(spawnerName, limit);
             TextUtils.success(sender, "Spawner '" + spawnerName + "' limit has been set to " + limit + " successfully");
@@ -39,11 +43,7 @@ public class SpawnerSetLimitSub extends SpawnerSub {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) {
-            return spawnerManager.getSpawners()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return TextUtils.getCompletions(args[0], spawnerManager.getSpawners());
         }
 
         if (args.length == 2) {

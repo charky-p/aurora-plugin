@@ -28,6 +28,10 @@ public class SpawnerSetRadiusSub extends SpawnerSub {
 
         try {
             double radius = Double.parseDouble(args[1]);
+            if (radius <= 0) {
+                TextUtils.error(sender, "Radius must be above 0");
+                return;
+            }
 
             spawnerManager.setRadius(spawnerName, radius);
             TextUtils.success(sender, "Spawner '" + spawnerName + "' radius has been set to " + radius + " successfully");
@@ -39,11 +43,7 @@ public class SpawnerSetRadiusSub extends SpawnerSub {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) {
-            return spawnerManager.getSpawners()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return TextUtils.getCompletions(args[0], spawnerManager.getSpawners());
         }
 
         if (args.length == 2) {

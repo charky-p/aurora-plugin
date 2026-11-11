@@ -16,10 +16,19 @@ public class TraderManager {
     }
 
     public void spawnTrader(String traderId, World world, double x, double y, double z) {
+        spawnTrader(traderId, new Location(world, x, y, z));
+    }
+
+    // Keeps the location's yaw, so a trader placed where you stand can face you
+    public void spawnTrader(String traderId, Location location) {
         Trader trader = registry.getTrader(traderId);
         if (trader == null) return;
 
-        trader.spawn(new Location(world, x, y, z));
+        trader.spawn(location);
+    }
+
+    public java.util.List<String> getTraders() {
+        return registry.getTraders();
     }
 
     public void handleTrade(Player player, String traderId) {

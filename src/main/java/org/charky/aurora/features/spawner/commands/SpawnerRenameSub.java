@@ -28,7 +28,7 @@ public class SpawnerRenameSub extends SpawnerSub {
 
         String newName = args[1];
         if (spawnerManager.spawnerExists(newName)) {
-            TextUtils.error(sender, "Spawner '" + oldName + "' already exists");
+            TextUtils.error(sender, "Spawner '" + newName + "' already exists");
             return;
         }
 
@@ -39,11 +39,7 @@ public class SpawnerRenameSub extends SpawnerSub {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) {
-            return spawnerManager.getSpawners()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return TextUtils.getCompletions(args[0], spawnerManager.getSpawners());
         }
 
         return Collections.emptyList();

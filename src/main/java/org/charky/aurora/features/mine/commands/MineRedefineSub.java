@@ -11,7 +11,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Mine sub command to redefine the boundaries of a mine
+ * Mine sub command to redefine the boundaries of a mine, either with coordinates
+ * or, with only the mine name, from the player's wand selection
  */
 public class MineRedefineSub extends MineSub {
     public MineRedefineSub(Aurora plugin) {
@@ -20,51 +21,65 @@ public class MineRedefineSub extends MineSub {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        // TODO: Implement this properly, there r 2 redefines, manual and with wand
-        if (args.length < 7) {
+        if (args.length != 1 && args.length < 7) {
             TextUtils.usage(sender, getFullUsage());
             return;
         }
 
-//        if (!wandManager.hasBothPositions(player.getUniqueId())) {
-//            TextUtils.error(sender, "Select two new points with your wand first!");
-//            return;
-//        }
+        String mineName = args[0];
+        if (!mineManager.exists(mineName)) {
+            TextUtils.error(sender, "Mine '" + mineName + "' does not exist");
+            return;
+        }
 
-        try {
-            String mineName = args[0];
+        Location location1;
+        Location location2;
 
-            if (mineManager.exists(mineName)) {
-                TextUtils.error(sender, "Mine '" + mineName + "' already exists");
+        if (args.length == 1) {
+            if (!(sender instanceof Player player)) {
+                TextUtils.error(sender, "Console must give coordinates, only players have a wand selection");
                 return;
             }
 
-            Location location1 = LocationUtils.parseLocation(sender, args[1], args[2], args[3]);
-            Location location2 = LocationUtils.parseLocation(sender, args[4], args[5], args[6]);
+            if (!wandManager.hasBothPositions(player.getUniqueId())) {
+                TextUtils.error(sender, "Select two new points with your wand first, or give coordinates");
+                return;
+            }
 
-            mineManager.redefineMine(mineName, location1, location2);
-            TextUtils.success(sender, "Mine '" + mineName + "' redefined successfully");
-
-            mineManager.resetMine(mineName);
-        } catch (NumberFormatException e) {
-            TextUtils.error(sender, "Coordinates must be valid numbers");
+            location1 = wandManager.getPos1(player.getUniqueId());
+            location2 = wandManager.getPos2(player.getUniqueId());
+        } else {
+            try {
+                location1 = LocationUtils.parseLocation(sender, args[1], args[2], args[3]);
+                location2 = LocationUtils.parseLocation(sender, args[4], args[5], args[6]);
+            } catch (NumberFormatException e) {
+                TextUtils.error(sender, "Coordinates must be valid numbers");
+                return;
+            }
         }
+
+        if (!location1.getWorld().equals(location2.getWorld())) {
+            TextUtils.error(sender, "Positions must be in the same world");
+            return;
+        }
+
+        mineManager.redefineMine(mineName, location1, location2);
+        mineManager.resetMine(mineName);
+        TextUtils.success(sender, "Mine '" + mineName + "' redefined successfully");
     }
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) return TextUtils.getCompletions(args[0], mineManager.getMines());
-
         if (args.length >= 2 && args.length <= 7) {
             return LocationUtils.relativeCoordinates(player, args.length - 2);
         }
-
         return Collections.emptyList();
     }
 
     @Override
     public String getUsage() {
-        return "<mine> <x1> <y1> <z1> <x2> <y2> <z2>";
+        return "<mine> [<x1> <y1> <z1> <x2> <y2> <z2>]";
     }
 
     @Override
@@ -74,6 +89,6 @@ public class MineRedefineSub extends MineSub {
 
     @Override
     public String getDescription() {
-        return "Redefine the coordinates of a mine";
+        return "Redefine the area of a mine, from coordinates or your wand selection";
     }
 }

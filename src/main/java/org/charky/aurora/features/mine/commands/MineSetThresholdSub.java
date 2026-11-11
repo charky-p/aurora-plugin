@@ -31,6 +31,11 @@ public class MineSetThresholdSub extends MineSub {
 
         try {
             double threshold = Double.parseDouble(args[1]);
+            // 0 or below resets the mine on every single block broken
+            if (threshold <= 0) {
+                TextUtils.error(sender, "Threshold must be above 0, or above 100 for no threshold");
+                return;
+            }
             mineManager.setThreshold(mineName, threshold);
             TextUtils.success(sender, "Mine '" + mineName + "' threshold set to " + threshold + " successfully");
         } catch (NumberFormatException e) {

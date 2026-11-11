@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.system.commands.AuroraSubCommand;
+import org.charky.aurora.features.system.commands.HelpCommand;
 import org.charky.aurora.features.mine.commands.*;
 import org.charky.aurora.common.util.TextUtils;
 
@@ -41,8 +42,7 @@ public class MineCommand implements AuroraSubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
-            // TODO: set full usage properly
-            TextUtils.usage(sender, getFullUsage());
+            HelpCommand.showList(sender, "MINE COMMANDS", "/aurora mine", subCommands.values());
             return;
         }
 
@@ -51,6 +51,7 @@ public class MineCommand implements AuroraSubCommand {
 
         if (sub == null) {
             TextUtils.error(sender, "Unknown mine command: " + subName);
+            HelpCommand.showList(sender, "MINE COMMANDS", "/aurora mine", subCommands.values());
             return;
         }
 

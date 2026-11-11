@@ -42,8 +42,20 @@ public class MineWandCreateSub extends MineSub {
         Location location2 = wandManager.getPos2(player.getUniqueId());
 
         // Optional parameters, threshold and delay
-        double threshold = (args.length >= 2) ? Double.parseDouble(args[1]) : 101;
-        int delay = (args.length >= 3) ? Math.max(20, Integer.parseInt(args[2])) : 1200;
+        double threshold;
+        int delay;
+        try {
+            threshold = (args.length >= 2) ? Double.parseDouble(args[1]) : 101;
+            delay = (args.length >= 3) ? Math.max(20, Integer.parseInt(args[2])) : 1200;
+        } catch (NumberFormatException e) {
+            TextUtils.error(player, "Threshold and delay must be valid numbers");
+            return;
+        }
+
+        if (threshold <= 0) {
+            TextUtils.error(player, "Threshold must be above 0, or above 100 for no threshold");
+            return;
+        }
 
         try {
             mineManager.addMine(mineName, location1, location2, threshold, delay);
@@ -55,6 +67,8 @@ public class MineWandCreateSub extends MineSub {
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
+        if (args.length == 2) return List.of("50", "75", "101");
+        if (args.length == 3) return List.of("600", "1200", "2400");
         return Collections.emptyList();
     }
 

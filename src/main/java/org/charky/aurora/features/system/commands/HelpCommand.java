@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.TextUtils;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -22,12 +23,17 @@ public class HelpCommand implements AuroraSubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        TextUtils.display(sender, "<aqua><st>                          </st> <b>AURORA COMMANDS</b> <st>                          </st>");
-        subCommands.values()
-                .stream()
+        showList(sender, "AURORA COMMANDS", "/aurora", subCommands.values());
+    }
+
+    // Shared by /aurora help and the mine and spawner routers, so every list of
+    // commands looks the same and each line fills the command in when clicked
+    public static void showList(CommandSender sender, String title, String root, Collection<AuroraSubCommand> commands) {
+        TextUtils.display(sender, "<aqua><st>                          </st> <b>" + title + "</b> <st>                          </st>");
+        commands.stream()
                 .sorted(Comparator.comparing(AuroraSubCommand::getName))
                 .forEach(sub -> {
-                String line = "<click:suggest_command:'/aurora " + sub.getName() + " '>" +
+                String line = "<click:suggest_command:'" + root + " " + sub.getName() + " '>" +
                         "<hover:show_text:'<gray>Click to use'><yellow>" + sub.getFullUsage() +
                         " <dark_gray>» <gray>" + sub.getDescription() + "</hover></click>";
                 TextUtils.display(sender, line);

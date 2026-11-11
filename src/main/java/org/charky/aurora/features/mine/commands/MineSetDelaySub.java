@@ -30,7 +30,8 @@ public class MineSetDelaySub extends MineSub {
         }
 
         try {
-            int delay = Integer.parseInt(args[1]);
+            // Same floor as /aurora mine create, anything faster resets every tick
+            int delay = Math.max(20, Integer.parseInt(args[1]));
             mineManager.setDelay(mineName, delay);
             TextUtils.success(sender, "Mine '" + mineName + "' delay set to " + delay + " successfully");
         } catch (NumberFormatException e) {

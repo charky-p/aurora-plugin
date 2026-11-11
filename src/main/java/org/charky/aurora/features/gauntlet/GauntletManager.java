@@ -33,6 +33,7 @@ public class GauntletManager {
     public void joinQueue(Player player) {
         if (state == GameState.ACTIVE) {
             TextUtils.error(player, "Gauntlet is already in progress");
+            return;
         }
 
         players.add(player.getUniqueId());

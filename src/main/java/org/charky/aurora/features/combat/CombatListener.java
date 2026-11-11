@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -141,6 +142,12 @@ public class CombatListener implements Listener {
         int stacks = Math.min(BLOODLUST_MAX_STACKS, activeBloodlustStacks(killer) + 1);
         pdc.set(DataKeys.BLOODLUST_STACKS_KEY, PersistentDataType.INTEGER, stacks);
         pdc.set(DataKeys.BLOODLUST_UNTIL_KEY, PersistentDataType.LONG, System.currentTimeMillis() + BLOODLUST_MS);
+    }
+
+    // Swing timings are per player, drop them when the player leaves
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        lastAttack.remove(event.getPlayer().getUniqueId());
     }
 
     // Terrain damage would move vanilla health without moving the nameplate, so

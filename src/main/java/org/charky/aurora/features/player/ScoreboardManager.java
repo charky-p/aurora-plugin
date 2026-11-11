@@ -137,6 +137,13 @@ public class ScoreboardManager {
         data.addMined(1);
     }
 
+    public void incrementKills(Player player) {
+        PlayerData data = this.profiles.get(player.getUniqueId());
+        if (data == null) return;
+
+        data.addKills(1);
+    }
+
     public void addEssence(Player player, int essence) {
         PlayerData data = this.profiles.get(player.getUniqueId());
         if (data == null) return;

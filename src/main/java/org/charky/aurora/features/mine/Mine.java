@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Mine {
+    // One second, matches the floor MineCreateSub already uses
+    private static final long MIN_DELAY_TICKS = 20L;
+
     private final Aurora plugin;
     private final MineManager manager;
     private final MineData data;
@@ -61,7 +64,8 @@ public class Mine {
 
     public void startTimer() {
         stopTimer();
-        long delayTicks = (long) this.data.getDelay();
+        // A delay of 0 or less would reset the mine every tick
+        long delayTicks = Math.max(MIN_DELAY_TICKS, this.data.getDelay());
         this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, this::resetMine, delayTicks, delayTicks);
     }
 

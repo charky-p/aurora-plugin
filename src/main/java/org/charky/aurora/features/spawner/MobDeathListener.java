@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -16,6 +17,7 @@ import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.features.player.ScoreboardManager;
 
 import java.util.List;
 
@@ -24,44 +26,48 @@ public class MobDeathListener implements Listener {
     private final InventoryManager inventoryManager;
     private final DataRegistry registry;
     private final BackpackManager backpackManager;
+    private final ScoreboardManager scoreboard;
 
     public MobDeathListener(Aurora plugin) {
         this.spawnerManager = plugin.getMobManager();
         this.inventoryManager = plugin.getInventoryManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
+        this.scoreboard = plugin.getScoreboardManager();
     }
 
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
-        LivingEntity entity = event.getEntity();
+        LivingEntity victim = event.getEntity();
+
+        // Clearing a player's drops deletes their whole inventory, vanilla handles them
+        if (victim instanceof Player) return;
+
+        // Clear drops for all mobs
         event.getDrops().clear();
         event.setDroppedExp(0);
 
         // Spawner key implies it was spawned by a custom spawner
-        String spawnerName = entity.getPersistentDataContainer().get(
+        String spawnerName = victim.getPersistentDataContainer().get(
                 DataKeys.SPAWNER_KEY,
                 PersistentDataType.STRING
         );
-
-        // Clear drops for all entities
         if (spawnerName == null) return;
 
-        LivingEntity victim = event.getEntity();
-        if (victim.getKiller() == null) return;
+        Player killer = victim.getKiller();
+        if (killer == null) return;
 
         String mobId = victim.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
 
         if (mobId != null && registry.hasMob(mobId)) {
-            if (victim.getKiller() == null) {
-                return;
-            }
+            scoreboard.incrementKills(killer);
+            scoreboard.updateBoard(killer);
 
-            BackpackData backpack = backpackManager.get(victim.getKiller().getUniqueId());
-            int looting = Enchants.level(victim.getKiller().getInventory().getItemInMainHand(), "looting");
+            BackpackData backpack = backpackManager.get(killer.getUniqueId());
+            int looting = Enchants.level(killer.getInventory().getItemInMainHand(), "looting");
             List<MenuItem> mobDrops = registry.getMobDrops(mobId, looting);
             backpack.addItems(mobDrops);
-            if (!mobDrops.isEmpty()) victim.getKiller().sendActionBar(mobDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(victim.getKiller(), mobDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
+            if (!mobDrops.isEmpty()) killer.sendActionBar(mobDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(killer, mobDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
             // Transfer to backpack system
             // TODO: add resources to backpack, add other items to inventory
 //            inventoryManager.addToInventory(victim.getKiller(), registry.getMobDrops(mobId));

@@ -17,6 +17,8 @@ import java.util.Map;
 
 public class MineManager {
     private static final int MAX_MINE_VOLUME = 100000;
+    private static final List<MineBlock> DEFAULT_BLOCKS =
+            List.of(new MineBlock(Material.COBBLESTONE, 100.0, "minecraft:cobblestone"));
 
     private final Aurora plugin;
     private final Database db;
@@ -32,7 +34,9 @@ public class MineManager {
         Map<String, List<MineBlock>> blockMap = db.getMineBlocks();
         List<MineData> mines = db.getMines();
         for (MineData mineData : mines) {
-            Mine mine = new Mine(plugin, this, mineData, blockMap.get(mineData.getName()));
+            // A mine saved without blocks would throw on its first reset
+            List<MineBlock> blocks = blockMap.getOrDefault(mineData.getName(), DEFAULT_BLOCKS);
+            Mine mine = new Mine(plugin, this, mineData, blocks);
             this.mineMap.put(mineData.getName(), mine);
             mine.resetMine();
             mine.startTimer();
@@ -57,14 +61,14 @@ public class MineManager {
         }
 
         MineData data = new MineData(name, world, x1, y1, z1, x2, y2, z2, threshold, delay, x1 - 0.5, y1 + 1, z1 - 0.5);
-        List<MineBlock> defaultBlocks = List.of(new MineBlock(Material.COBBLESTONE, 100.0, "minecraft:cobblestone"));
 
         this.db.addMine(data);
-        this.db.setBlocks(name, defaultBlocks);
+        this.db.setBlocks(name, DEFAULT_BLOCKS);
 
-        Mine mine = new Mine(this.plugin, this, data, defaultBlocks);
+        Mine mine = new Mine(this.plugin, this, data, DEFAULT_BLOCKS);
         this.mineMap.put(name, mine);
         mine.resetMine();
+        mine.startTimer();
     }
 
     public void removeMine(String name) {
@@ -72,9 +76,16 @@ public class MineManager {
         if (mine == null) return;
 
         mine.stopTimer();
+        forgetBlocks(mine);
 
         this.mineMap.remove(name);
         this.db.removeMine(name);
+    }
+
+    // Registered blocks outlive their mine, so a removed or moved mine would keep
+    // paying out drops where it used to be
+    private void forgetBlocks(Mine mine) {
+        this.blockIdMap.keySet().removeIf(mine::atLoc);
     }
 
     public boolean exists(String name) {
@@ -111,12 +122,16 @@ public class MineManager {
 
         mine.setDelay(delay);
         this.db.saveMine(mine.getData());
+
+        // The running timer still has the old period
+        mine.startTimer();
     }
 
     public void redefineMine(String name, Location location1, Location location2) {
         Mine mine = this.mineMap.get(name);
         if (mine == null) return;
 
+        forgetBlocks(mine);
         mine.setLocations(location1, location2);
         this.db.saveMine(mine.getData());
     }
@@ -159,7 +174,9 @@ public class MineManager {
         return null;
     }
 
+    // Only blocks inside a live mine count, whatever is still registered
     public String getBlockIdAt(Location location) {
+        if (getMineAt(location) == null) return null;
         if (!blockIdMap.containsKey(location)) return null;
         return blockIdMap.get(location);
     }

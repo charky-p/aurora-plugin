@@ -108,8 +108,13 @@ public class MobSpawner {
         this.limit = limit;
     }
 
+    // The running task still has the old period, so restart it on the new one
     public void setDelay(int delay) {
         this.delay = delay;
+        if (!this.active) return;
+
+        if (this.task != null) this.task.cancel();
+        this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
     }
 
     public void redefine(int x, int y, int z) {

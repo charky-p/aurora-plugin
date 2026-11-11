@@ -54,7 +54,8 @@ public class MineListener implements Listener {
         this.backpackManager = plugin.getBackpackManager();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    // HIGH, not MONITOR: this changes the event, and MONITOR is for watching only
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onMine(BlockBreakEvent event) {
         Player player = event.getPlayer();
         event.setDropItems(false);

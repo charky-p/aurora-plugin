@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -46,7 +47,14 @@ public class TraderListener implements Listener {
         manager.handleTrade(player, id);
     }
 
-    // TODO: Add drag stop, as u can drag items into inventory
+    // A drag is its own event, without this an item dragged in is gone when it closes
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onMenuDrag(InventoryDragEvent event) {
+        if (event.getView().getTopInventory().getHolder() instanceof TraderMenu) {
+            event.setCancelled(true);
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onMenuClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;

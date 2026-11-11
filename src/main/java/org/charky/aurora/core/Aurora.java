@@ -92,11 +92,7 @@ public class Aurora extends JavaPlugin implements Listener {
         // temp
         GauntletManager gauntletManager = new GauntletManager(this);
 
-        // Plugin startup logic
-        if (this.getCommand("refresh") != null) {
-            this.getCommand("refresh").setExecutor(this);
-        }
-
+        // Plugin startup logic, /refresh is registered further down
         if (this.getCommand("getCustoms") != null) {
             this.getCommand("getCustoms").setExecutor(new GiveCustomsCommand());
         }

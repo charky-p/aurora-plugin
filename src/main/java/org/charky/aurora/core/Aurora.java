@@ -32,7 +32,6 @@ import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
 import org.charky.aurora.features.trader.TraderListener;
 import org.charky.aurora.features.trader.TraderManager;
-import org.charky.aurora.common.util.ItemFactory;
 
 import java.sql.SQLException;
 import org.charky.aurora.core.database.*;
@@ -51,7 +50,6 @@ public class Aurora extends JavaPlugin implements Listener {
     private WandManager wandManager;
     private BackpackManager backpackManager;
     private ArmoryManager armoryManager;
-    private final ItemFactory itemFactory = new ItemFactory();
     private DataRegistry registry;
     private Map<World, Location> spawnMap;
 
@@ -195,10 +193,6 @@ public class Aurora extends JavaPlugin implements Listener {
 
     public DataRegistry getRegistry() {
         return registry;
-    }
-
-    public ItemFactory getItemFactory() {
-        return itemFactory;
     }
 
     public Location getSpawn(World world) {

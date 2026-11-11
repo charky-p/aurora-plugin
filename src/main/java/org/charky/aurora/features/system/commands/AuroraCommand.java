@@ -17,13 +17,15 @@ import java.util.*;
 
 /**
  * Main command handler for the Aurora plugin.
- * Handles subcommand delegation and tab completion.
- * Commands are admin only, not used by players.
+ * On its own it opens the player menu, for everyone.
+ * Subcommands are admin only, not used by players.
  */
 public class AuroraCommand implements CommandExecutor, TabCompleter {
     private final Map<String, AuroraSubCommand> subCommands = new HashMap<>();
+    private final MenuCommand menu;
 
     public AuroraCommand(Aurora plugin) {
+        this.menu = new MenuCommand(plugin);
         register(new WandCommand(plugin));
         register(new SpawnerCommand(plugin));
         register(new TraderCommand(plugin));
@@ -40,8 +42,10 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String s, @NotNull String @NotNull [] args) {
+        // Players get the menu, the console has no inventory so it gets help
         if (args.length == 0) {
-            subCommands.get("help").execute(sender, args);
+            if (sender instanceof Player) menu.onCommand(sender, command, s, args);
+            else subCommands.get("help").execute(sender, args);
             return true;
         }
 
@@ -66,6 +70,8 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                                 @NotNull String alias, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) return Collections.emptyList();
+        // Players only use the bare command, so they get no subcommand hints
+        if (!player.isOp()) return Collections.emptyList();
 
         if (args.length == 1) {
             return subCommands.keySet()

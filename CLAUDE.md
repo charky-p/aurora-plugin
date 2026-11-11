@@ -1,6 +1,6 @@
 # Aurora
 
-Paper 1.21 sky-mining RPG plugin (Java 21, Maven, SQLite).
+Paper 26.3 sky-mining RPG plugin (Java 25, Maven, SQLite).
 
 ## Goal: launch a working demo
 - Priority is a stable, playable demo (Origin Isles), not new features.

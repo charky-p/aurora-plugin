@@ -12,9 +12,9 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SERVER="$ROOT/LocalServer"
 
 MVN="/c/Program Files/JetBrains/IntelliJ IDEA 2025.3.1.1/plugins/maven-plugin/lib/maven3/bin/mvn.cmd"
-BUILD_JDK='C:\Users\Chill\.jdks\ms-21.0.12.1'
+BUILD_JDK='C:\Users\Chill\.jdks\openjdk-25.0.1'
 SERVER_JAVA="/c/Users/Chill/.jdks/openjdk-25.0.1/bin/java.exe"
-PAPER_JAR="versions/26.2/paper-26.2-121.jar"
+PAPER_JAR="versions/26.3/paper-26.3-248.jar"
 
 # The server reads its console from this file, so commands can be appended to it
 CONSOLE="$SERVER/console.in"

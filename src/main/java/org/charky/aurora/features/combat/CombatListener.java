@@ -339,7 +339,11 @@ public class CombatListener implements Listener {
         Long previous = lastAttack.put(attacker.getUniqueId(), now);
         if (previous == null) return 1.0;
 
-        double charge = Math.min(1.0, (now - previous) / FULL_CHARGE_MS);
+        return chargeMultiplier(now - previous);
+    }
+
+    static double chargeMultiplier(long sinceLastSwingMs) {
+        double charge = Math.min(1.0, sinceLastSwingMs / FULL_CHARGE_MS);
         return 0.2 + 0.8 * charge * charge;
     }
 }

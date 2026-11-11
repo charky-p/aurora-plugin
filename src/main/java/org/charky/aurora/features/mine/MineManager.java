@@ -85,12 +85,8 @@ public class MineManager {
 
         for (Mine other : mineMap.values()) {
             MineData data = other.getData();
-            if (data.getName().equals(name) || !data.getWorld().equals(world)) continue;
-
-            boolean overlaps = x1 <= data.getX2() && x2 >= data.getX1()
-                    && y1 <= data.getY2() && y2 >= data.getY1()
-                    && z1 <= data.getZ2() && z2 >= data.getZ1();
-            if (overlaps) throw new MineException("Overlaps mine '" + data.getName() + "'");
+            if (data.getName().equals(name)) continue;
+            if (data.overlaps(world, x1, y1, z1, x2, y2, z2)) throw new MineException("Overlaps mine '" + data.getName() + "'");
         }
     }
 

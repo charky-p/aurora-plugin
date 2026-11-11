@@ -125,7 +125,7 @@ public abstract class PagedMenu implements InventoryHolder {
         player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1f);
     }
 
-    private static int pageCount(int entries) {
+    static int pageCount(int entries) {
         return Math.max(1, (entries + ENTRY_SLOTS.length - 1) / ENTRY_SLOTS.length);
     }
 

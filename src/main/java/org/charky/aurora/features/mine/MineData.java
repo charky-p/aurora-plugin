@@ -56,6 +56,14 @@ public class MineData {
         this.z2 = Math.max(location1.getBlockZ(), location2.getBlockZ());
     }
 
+    // Boxes share at least one block, touching faces count since that block is in both
+    public boolean overlaps(String world, int x1, int y1, int z1, int x2, int y2, int z2) {
+        return this.world.equals(world)
+                && x1 <= this.x2 && x2 >= this.x1
+                && y1 <= this.y2 && y2 >= this.y1
+                && z1 <= this.z2 && z2 >= this.z1;
+    }
+
     public void updateTeleport(double tpX, double tpY, double tpZ) {
         this.tpX = tpX;
         this.tpY = tpY;

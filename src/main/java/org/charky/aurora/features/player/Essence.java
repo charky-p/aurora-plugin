@@ -15,8 +15,12 @@ public final class Essence {
     private Essence() {
     }
 
+    static double chance(int luck) {
+        return CHANCE + CHANCE * luck;
+    }
+
     public static boolean roll(Player player, int luck, ScoreboardManager scoreboard) {
-        if (Math.random() >= CHANCE + CHANCE * luck) return false;
+        if (Math.random() >= chance(luck)) return false;
 
         scoreboard.addEssence(player, ThreadLocalRandom.current().nextInt(MIN_AMOUNT, MAX_AMOUNT + 1));
         TextUtils.send(player, "<gradient:light_purple:dark_purple><b>RARE!</b></gradient> <gray>You found <white>Essence<gray>!");

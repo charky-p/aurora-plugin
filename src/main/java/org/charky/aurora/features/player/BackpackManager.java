@@ -1,6 +1,7 @@
 package org.charky.aurora.features.player;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.core.DataRegistry;
@@ -8,6 +9,7 @@ import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.Database;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -43,6 +45,10 @@ public class BackpackManager {
         return backpacks.computeIfAbsent(uuid, k -> new BackpackData(registry));
     }
 
+    public void open(Player player) {
+        new BackpackMenu(get(player.getUniqueId()), registry).open(player);
+    }
+
     public void clear(UUID uuid) {
         BackpackData data = backpacks.get(uuid);
         if (data != null) data.clear();
@@ -55,7 +61,7 @@ public class BackpackManager {
 
     private Map<UUID, Map<String, Long>> snapshot() {
         Map<UUID, Map<String, Long>> copy = new HashMap<>();
-        backpacks.forEach((uuid, data) -> copy.put(uuid, new HashMap<>(data.getItems())));
+        backpacks.forEach((uuid, data) -> copy.put(uuid, new LinkedHashMap<>(data.getItems())));
         return copy;
     }
 }

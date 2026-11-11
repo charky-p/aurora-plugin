@@ -18,12 +18,13 @@ public class BackpackStore {
 
     public Map<UUID, BackpackData> loadAll(DataRegistry registry) {
         Map<UUID, BackpackData> results = new HashMap<>();
-        db.query("SELECT uuid, item_id, amount FROM backpack_data", pst -> {}, rs -> results
+        db.query("SELECT uuid, item_id, amount FROM backpack_data ORDER BY rowid", pst -> {}, rs -> results
                 .computeIfAbsent(UUID.fromString(rs.getString("uuid")), k -> new BackpackData(registry))
                 .addItem(rs.getString("item_id"), rs.getLong("amount")));
         return results;
     }
 
+    // Rows go in, and come back out, in each backpack's collection order
     // Takes a copy made on the main thread, so it is safe to save from the database thread
     public void saveAll(Map<UUID, Map<String, Long>> backpacks) {
         db.transaction(conn -> {

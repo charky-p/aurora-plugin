@@ -98,7 +98,7 @@ public class DataRegistry {
     }
 
     private void loadActions() {
-        actions.put("backpack", player -> backpackManager.get(player.getUniqueId()).openInventory(player));
+        actions.put("backpack", backpackManager::open);
         actions.put("spawn", player -> player.performCommand("spawn"));
     }
 

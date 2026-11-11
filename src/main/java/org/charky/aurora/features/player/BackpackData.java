@@ -1,23 +1,18 @@
 package org.charky.aurora.features.player;
 
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.DataRegistry;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class BackpackData implements InventoryHolder {
+public class BackpackData {
     // TODO: Add player to be attached here
-    private final Map<String, Long> backpack = new HashMap<>();
+    // Linked, so resources keep the order they were first collected in
+    private final Map<String, Long> backpack = new LinkedHashMap<>();
     private final DataRegistry registry;
-    private Inventory inventory;
 
     public BackpackData(DataRegistry registry) {
         this.registry = registry;
@@ -124,30 +119,6 @@ public class BackpackData implements InventoryHolder {
 
     public Map<String, Long> getItems() {
         return backpack;
-    }
-
-    public void openInventory(Player player) {
-        this.inventory = Bukkit.createInventory(this, 54, "§8Your Backpack");
-
-        // TODO: preserve order of resources yaml file
-        for (MenuItem item : registry.getItems()) {
-            ItemStack displayItem = item.getItem();
-            displayItem.editMeta(meta -> {
-                List<Component> lore = meta.hasLore() ? meta.lore() : new ArrayList<>();
-                lore.add(Component.empty());
-                lore.add(Component.text("Amount: " + backpack.getOrDefault(item.getId(), 0L)));
-                meta.lore(lore);
-            });
-
-            this.inventory.addItem(displayItem);
-        }
-
-        player.openInventory(this.inventory);
-    }
-
-    @Override
-    public @NotNull Inventory getInventory() {
-        return inventory;
     }
 
     public void clear() {

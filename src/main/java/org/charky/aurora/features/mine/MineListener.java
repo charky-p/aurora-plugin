@@ -14,18 +14,17 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 import org.charky.aurora.common.util.Enchants;
-import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.features.player.Essence;
 import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.common.loot.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class MineListener implements Listener {
     // Blast level -> width, height, depth broken, laid flat against the face you
@@ -36,9 +35,6 @@ public class MineListener implements Listener {
             {2, 2, 1},
             {3, 3, 1},
     };
-
-    // Essence chance = 0.1% + (0.1% * Luck)
-    private static final double ESSENCE_CHANCE = 0.001;
 
     private final MineManager manager;
     private final ScoreboardManager scoreboard;
@@ -97,11 +93,7 @@ public class MineListener implements Listener {
             backpack.addItems(blockDrops);
             if (!blockDrops.isEmpty()) player.sendActionBar(blockDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(player, blockDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
 
-            int luck = Enchants.level(pick, "luck");
-            if (Math.random() < ESSENCE_CHANCE + ESSENCE_CHANCE * luck) {
-                scoreboard.addEssence(player, ThreadLocalRandom.current().nextInt(1, 4));
-                TextUtils.send(player, "<gradient:light_purple:dark_purple><b>RARE!</b></gradient> <gray>You found <white>Essence<gray>!");
-            }
+            Essence.roll(player, Enchants.level(pick, "luck"), scoreboard);
 
             // Only break if it is a block with a drop
             if (!blockDrops.isEmpty()) {

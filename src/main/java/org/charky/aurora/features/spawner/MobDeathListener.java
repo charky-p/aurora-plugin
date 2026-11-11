@@ -17,6 +17,7 @@ import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.features.player.Essence;
 import org.charky.aurora.features.player.ScoreboardManager;
 
 import java.util.List;
@@ -61,6 +62,8 @@ public class MobDeathListener implements Listener {
 
         if (mobId != null && registry.hasMob(mobId)) {
             scoreboard.incrementKills(killer);
+            // Same roll as mining, with the sword's Luck
+            Essence.roll(killer, Enchants.level(killer.getInventory().getItemInMainHand(), "luck"), scoreboard);
             scoreboard.updateBoard(killer);
 
             BackpackData backpack = backpackManager.get(killer.getUniqueId());

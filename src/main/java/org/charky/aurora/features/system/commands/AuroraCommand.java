@@ -31,6 +31,7 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
         register(new TraderCommand(plugin));
         register(new MineCommand(plugin));
         register(new SetSpawnCommand(plugin));
+        register(new HealSub());
         register(new HelpCommand(subCommands));
         register(new InfoCommand(subCommands));
     }

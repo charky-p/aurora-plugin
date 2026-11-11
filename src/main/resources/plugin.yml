@@ -9,13 +9,9 @@ commands:
     description: Refresh databases
     usage: /refresh
     permission: aurora.admin
-  heal:
-    description: Restores health, hunger and removes fire ticks
-    usage: /heal [player]
-    permission: aurora.admin
   aurora:
     description: Open the Aurora menu, admins also get the subcommands
-    usage: /aurora [mine|spawner|trader|wand|setspawn|help|info]
+    usage: /aurora [mine|spawner|trader|wand|setspawn|heal|help|info]
     aliases: [a, aura]
   spawn:
     description: Teleport to world spawn
@@ -40,6 +36,3 @@ permissions:
   aurora.admin:
     description: Admin and testing commands
     default: op
-worlds:
-  aurora_mines:
-    generator: Aurora

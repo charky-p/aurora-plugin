@@ -33,11 +33,14 @@ import org.charky.aurora.features.trader.TraderManager;
 import org.charky.aurora.common.util.ItemFactory;
 
 import java.sql.SQLException;
+import org.charky.aurora.core.database.*;
+
 import java.util.Map;
 import java.util.logging.Level;
 
 public class Aurora extends JavaPlugin implements Listener {
     private Database db;
+    private SpawnStore spawnStore;
     private MineManager manager;
     private ScoreboardManager scoreboard;
     private SpawnerManager spawnerManager;
@@ -71,20 +74,22 @@ public class Aurora extends JavaPlugin implements Listener {
         }
 
         db = new Database(this, getDataFolder().getAbsolutePath());
-        db.setup();
+        Schema.create(db);
         getLogger().info("SQLite Database setup complete!");
 
-        backpackManager.loadBackpacks(db);
+        // One store per table, each manager only gets the one it needs
+        this.spawnStore = new SpawnStore(db);
+        backpackManager.loadBackpacks(db, new BackpackStore(db));
         backpackManager.startAutosave(this);
 
         // Spawn map
-        this.spawnMap = db.getSpawns();
+        this.spawnMap = spawnStore.loadAll();
 
         // Managers
         this.tabManager = new TabManager(this);
-        this.scoreboard = new ScoreboardManager(this, db, tabManager);
-        this.manager = new MineManager(this, db, scoreboard);
-        this.spawnerManager = new SpawnerManager(this, db);
+        this.scoreboard = new ScoreboardManager(this, db, new PlayerStore(db), tabManager);
+        this.manager = new MineManager(this, new MineStore(db), scoreboard);
+        this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.traderManager = new TraderManager(this);
         this.inventoryManager = new InventoryManager();
         this.wandManager = new WandManager();
@@ -203,7 +208,7 @@ public class Aurora extends JavaPlugin implements Listener {
 
     public void setSpawn(Location location) {
         spawnMap.put(location.getWorld(), location);
-        db.saveSpawn(location);
+        spawnStore.save(location);
     }
 
     @Override

@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
-import org.charky.aurora.core.Database;
+import org.charky.aurora.core.database.MineStore;
 import org.charky.aurora.features.mine.commands.MineException;
 import org.charky.aurora.features.player.ScoreboardManager;
 
@@ -21,18 +21,18 @@ public class MineManager {
             List.of(new MineBlock(Material.COBBLESTONE, 100.0, "minecraft:cobblestone"));
 
     private final Aurora plugin;
-    private final Database db;
+    private final MineStore store;
     private final ScoreboardManager scoreboard;
     private final Map<String, Mine> mineMap = new HashMap<>();
     private final Map<Location, String> blockIdMap = new HashMap<>();
 
-    public MineManager(Aurora plugin, Database db, ScoreboardManager scoreboard) {
+    public MineManager(Aurora plugin, MineStore store, ScoreboardManager scoreboard) {
         this.plugin = plugin;
-        this.db = db;
+        this.store = store;
         this.scoreboard = scoreboard;
 
-        Map<String, List<MineBlock>> blockMap = db.getMineBlocks();
-        List<MineData> mines = db.getMines();
+        Map<String, List<MineBlock>> blockMap = store.loadBlocks();
+        List<MineData> mines = store.loadAll();
         for (MineData mineData : mines) {
             // A mine saved without blocks would throw on its first reset
             List<MineBlock> blocks = blockMap.getOrDefault(mineData.getName(), DEFAULT_BLOCKS);
@@ -62,8 +62,8 @@ public class MineManager {
 
         MineData data = new MineData(name, world, x1, y1, z1, x2, y2, z2, threshold, delay, x1 - 0.5, y1 + 1, z1 - 0.5);
 
-        this.db.addMine(data);
-        this.db.setBlocks(name, DEFAULT_BLOCKS);
+        this.store.add(data);
+        this.store.setBlocks(name, DEFAULT_BLOCKS);
 
         Mine mine = new Mine(this.plugin, this, data, DEFAULT_BLOCKS);
         this.mineMap.put(name, mine);
@@ -79,7 +79,7 @@ public class MineManager {
         forgetBlocks(mine);
 
         this.mineMap.remove(name);
-        this.db.removeMine(name);
+        this.store.remove(name);
     }
 
     // Registered blocks outlive their mine, so a removed or moved mine would keep
@@ -105,7 +105,7 @@ public class MineManager {
         if (mine == null) return;
 
         mine.setBlocks(blocks);
-        this.db.setBlocks(name, blocks);
+        this.store.setBlocks(name, blocks);
     }
 
     public void setThreshold(String name, double threshold) {
@@ -113,7 +113,7 @@ public class MineManager {
         if (mine == null) return;
 
         mine.setThreshold(threshold);
-        this.db.saveMine(mine.getData());
+        this.store.save(mine.getData());
     }
 
     public void setDelay(String name, int delay) {
@@ -121,7 +121,7 @@ public class MineManager {
         if (mine == null) return;
 
         mine.setDelay(delay);
-        this.db.saveMine(mine.getData());
+        this.store.save(mine.getData());
 
         // The running timer still has the old period
         mine.startTimer();
@@ -133,7 +133,7 @@ public class MineManager {
 
         forgetBlocks(mine);
         mine.setLocations(location1, location2);
-        this.db.saveMine(mine.getData());
+        this.store.save(mine.getData());
     }
 
     public void renameMine(String oldName, String newName) {
@@ -143,7 +143,7 @@ public class MineManager {
         mine.rename(newName);
         mineMap.remove(oldName);
         mineMap.put(newName, mine);
-        this.db.renameMine(oldName, newName);
+        this.store.rename(oldName, newName);
     }
 
     public void resetMine(String name) {
@@ -205,7 +205,7 @@ public class MineManager {
         if (mine == null) return;
 
         mine.setTp(x, y, z);
-        db.setTp(mineName, x, y, z);
+        store.setTp(mineName, x, y, z);
     }
 
     public void shutdown() {

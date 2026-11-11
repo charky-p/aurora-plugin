@@ -4,7 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.core.Database;
+import org.charky.aurora.core.database.BackpackStore;
+import org.charky.aurora.core.database.Database;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,22 +18,24 @@ public class BackpackManager {
     private Map<UUID, BackpackData> backpacks;
     private final DataRegistry registry;
     private Database db;
+    private BackpackStore store;
     private BukkitTask autosave;
 
     public BackpackManager(DataRegistry registry) {
         this.registry = registry;
     }
 
-    public void loadBackpacks(Database db) {
-        this.backpacks = db.loadAllBackpacks(registry);
+    public void loadBackpacks(Database db, BackpackStore store) {
+        this.backpacks = store.loadAll(registry);
         this.db = db;
+        this.store = store;
     }
 
     // The copy is made on the main thread where backpacks change, then saved off it
     public void startAutosave(Plugin plugin) {
         this.autosave = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             Map<UUID, Map<String, Long>> copy = snapshot();
-            db.async(() -> db.saveBackpacks(copy));
+            db.async(() -> store.saveAll(copy));
         }, AUTOSAVE_TICKS, AUTOSAVE_TICKS);
     }
 
@@ -47,7 +50,7 @@ public class BackpackManager {
 
     public void shutdown() {
         if (autosave != null) autosave.cancel();
-        db.saveBackpacks(snapshot());
+        store.saveAll(snapshot());
     }
 
     private Map<UUID, Map<String, Long>> snapshot() {

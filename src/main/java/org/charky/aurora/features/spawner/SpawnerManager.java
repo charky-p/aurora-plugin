@@ -11,7 +11,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.core.Database;
+import org.charky.aurora.core.database.SpawnerStore;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.features.combat.CustomHealth;
 
@@ -20,18 +20,18 @@ import java.util.*;
 public class SpawnerManager {
     private final Aurora plugin;
     private final DataRegistry registry;
-    private final Database db;
+    private final SpawnerStore store;
     private final Map<String, MobSpawner> spawnerMap = new HashMap<>();
     private Map<String, Integer> cachedCounts = new HashMap<>();
     private long cacheExpiry = 0;
 
-    public SpawnerManager(Aurora plugin, Database db) {
+    public SpawnerManager(Aurora plugin, SpawnerStore store) {
         this.plugin = plugin;
-        this.db = db;
+        this.store = store;
         this.registry = plugin.getRegistry();
 
         // Add all spawners, (mobs are hardcoded with presets)
-        for (MobSpawner spawner : db.getSpawners(plugin)) {
+        for (MobSpawner spawner : store.loadAll(plugin)) {
             spawnerMap.put(spawner.getName(), spawner);
         }
     }
@@ -50,7 +50,7 @@ public class SpawnerManager {
 
         MobData data = registry.getMob(mob);
         MobSpawner spawner = new MobSpawner(this.plugin, name, world, x, y, z, data, radius, limit, delay);
-        db.saveSpawner(spawner);
+        store.save(spawner);
         spawnerMap.put(name, spawner);
     }
 
@@ -59,7 +59,7 @@ public class SpawnerManager {
 
         // Its spawn task would otherwise keep spawning until the next restart
         spawnerMap.remove(spawnerName).stop();
-        db.removeSpawner(spawnerName);
+        store.remove(spawnerName);
     }
 
     public List<String> getSpawners() {
@@ -147,7 +147,7 @@ public class SpawnerManager {
         if (spawner == null) return;
 
         MobData mob = registry.getMob(mobName);
-        db.setMob(spawnerName, mobName);
+        store.setMob(spawnerName, mobName);
         spawner.setMob(mob);
     }
 
@@ -156,7 +156,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
-        db.setSpawnerRadius(spawnerName, radius);
+        store.setRadius(spawnerName, radius);
         spawner.setRadius(radius);
     }
 
@@ -165,7 +165,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
-        db.setSpawnerLimit(spawnerName, limit);
+        store.setLimit(spawnerName, limit);
         spawner.setLimit(limit);
     }
 
@@ -174,7 +174,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
-        db.setSpawnerDelay(spawnerName, delay);
+        store.setDelay(spawnerName, delay);
         spawner.setDelay(delay);
     }
 
@@ -183,7 +183,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
-        db.spawnerRedefine(spawnerName, x, y, z);
+        store.redefine(spawnerName, x, y, z);
         spawner.redefine(x, y, z);
     }
 
@@ -192,7 +192,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(oldName);
         if (spawner == null) return;
 
-        db.spawnerRename(oldName, newName);
+        store.rename(oldName, newName);
         spawner.rename(newName);
         spawnerMap.remove(oldName);
         spawnerMap.put(newName, spawner);

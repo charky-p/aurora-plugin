@@ -13,7 +13,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
-import org.charky.aurora.core.Database;
+import org.charky.aurora.core.database.Database;
+import org.charky.aurora.core.database.PlayerStore;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,17 +27,19 @@ public class ScoreboardManager {
     private final ConcurrentMap<UUID, PlayerData> profiles = new ConcurrentHashMap<>();
     private final Aurora plugin;
     private final Database db;
+    private final PlayerStore players;
     private final TabManager tabManager;
     private final BukkitTask task;
 
-    public ScoreboardManager(Aurora plugin, Database db, TabManager tabManager) {
+    public ScoreboardManager(Aurora plugin, Database db, PlayerStore players, TabManager tabManager) {
         this.plugin = plugin;
         this.db = db;
+        this.players = players;
         this.tabManager = tabManager;
 
         // TODO: does not belong here
         this.task = Bukkit.getScheduler().runTaskTimer(plugin, () -> this.db.async(() -> {
-            this.db.saveAllPlayerData(this.profiles);
+            this.players.saveAll(this.profiles);
             plugin.getLogger().info("Auto-saved all player data to SQLite.");
         }), 12000L, 12000L);
     }
@@ -46,7 +49,7 @@ public class ScoreboardManager {
     public void handleJoin(Player player) {
         UUID uuid = player.getUniqueId();
         this.db.async(() -> {
-            PlayerData data = this.db.loadPlayerData(uuid);
+            PlayerData data = this.players.load(uuid);
 
             Bukkit.getScheduler().runTask(plugin, () -> {
                 // Left again before the load came back
@@ -67,7 +70,7 @@ public class ScoreboardManager {
         this.boards.remove(uuid);
 
         PlayerData data = this.profiles.remove(uuid);
-        if (data != null) this.db.async(() -> this.db.savePlayerData(uuid, data));
+        if (data != null) this.db.async(() -> this.players.save(uuid, data));
 
         // Next tick, the quitting player still counts as online during the event
         Bukkit.getScheduler().runTask(plugin, this.tabManager::updateAll);
@@ -153,11 +156,11 @@ public class ScoreboardManager {
 
     public void saveProfile(Player player) {
         UUID uuid = player.getUniqueId();
-        this.db.savePlayerData(uuid, this.profiles.get(uuid));
+        this.players.save(uuid, this.profiles.get(uuid));
     }
 
     public void saveAllProfiles() {
-        this.db.saveAllPlayerData(this.profiles);
+        this.players.saveAll(this.profiles);
     }
 
     public void shutdown() {

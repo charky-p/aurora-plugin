@@ -23,7 +23,7 @@ public class CumulativeLootPool implements LootPool {
     }
 
     @Override
-    public @Nullable List<MenuItem> roll() {
+    public @Nullable List<MenuItem> roll(int looting) {
         if (Math.random() * 100 > chance) {
             return Collections.emptyList();
         }
@@ -34,7 +34,7 @@ public class CumulativeLootPool implements LootPool {
         for (Map.Entry<ItemDrop, Double> entry : drops.entrySet()) {
             current += entry.getValue();
             if (rand <= current) {
-                MenuItem rolled = entry.getKey().rollAmt();
+                MenuItem rolled = entry.getKey().rollAmt(looting);
                 if (rolled != null) return List.of(rolled);
             }
         }

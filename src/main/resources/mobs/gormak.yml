@@ -34,7 +34,7 @@ items:
     entity: ZOMBIE_VILLAGER
     health: 40.0
     defence: 2.0
-    attack: 48.0
+    attack: 11.0
     equip:
       head: serf_helmet_1
       chest: serf_chestplate_1
@@ -57,7 +57,7 @@ items:
     entity: HUSK
     health: 80.0
     defence: 3.0
-    attack: 50.0
+    attack: 11.0
     equip:
       head: scavenger_helmet_1
       chest: scavenger_chestplate_1
@@ -83,7 +83,7 @@ items:
     entity: HUSK
     health: 100.0
     defence: 4.0
-    attack: 66.0
+    attack: 15.0
     equip:
       head: scout_helmet_1
       chest: scout_chestplate_1
@@ -108,7 +108,7 @@ items:
     entity: WITHER_SKELETON
     health: 130.0
     defence: 5.0
-    attack: 68.0
+    attack: 15.0
     equip:
       head: stalker_helmet_1
       chest: stalker_chestplate_1
@@ -134,7 +134,7 @@ items:
     entity: ZOMBIE
     health: 180.0
     defence: 6.0
-    attack: 84.0
+    attack: 19.0
     equip:
       head: zealot_helmet_1
       chest: zealot_chestplate_1
@@ -157,7 +157,7 @@ items:
     entity: HUSK
     health: 200.0
     defence: 8.0
-    attack: 86.0
+    attack: 19.0
     equip:
       head: legionnaire_helmet_1
       chest: legionnaire_chestplate_1
@@ -186,7 +186,7 @@ items:
     entity: HUSK
     health: 250.0
     defence: 10.0
-    attack: 95.0
+    attack: 23.0
     equip:
       head: guard_helmet_1
       chest: guard_chestplate_1
@@ -212,7 +212,7 @@ items:
     entity: SKELETON
     health: 220.0
     defence: 12.0
-    attack: 100.0
+    attack: 23.0
     equip:
       head: vizier_helmet_1
       chest: vizier_chestplate_1
@@ -237,7 +237,7 @@ items:
     entity: WITHER_SKELETON
     health: 250.0
     defence: 13.0
-    attack: 115.0
+    attack: 25.0
     equip:
       head: myrmidon_helmet_1
       chest: myrmidon_chestplate_1
@@ -264,7 +264,7 @@ items:
     entity: ZOMBIE_VILLAGER
     health: 340.0
     defence: 15.0
-    attack: 112.0
+    attack: 25.0
     equip:
       head: pharaoh_helmet_1
       chest: pharaoh_chestplate_1
@@ -289,9 +289,10 @@ items:
   gormak_eternal:
     display: "<dark_red><b>Gormak the Eternal"
     entity: HUSK
-    health: 500.0
+    health: 3220.0
     defence: 18.0
-    attack: 125.0
+    attack: 25.0
+    attack_cooldown: 3.0
     equip:
       head: eternal_helmet_1
       chest: eternal_chestplate_1
@@ -324,7 +325,7 @@ items:
     entity: HUSK
     health: 400.0
     defence: 5.0
-    attack: 60.0
+    attack: 17.0
     equip:
       head: mirage_helmet_1
       chest: mirage_chestplate_1

@@ -7,13 +7,16 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
+import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.components.ToolComponent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.loot.CumulativeLootPool;
@@ -152,8 +155,28 @@ public class DataRegistry {
         return mobs.get(id);
     }
 
-    public List<MenuItem> getMobDrops(String id) {
-        return mobs.get(id).drops().roll();
+    public List<MenuItem> getMobDrops(String id, int looting) {
+        return mobs.get(id).drops().roll(looting);
+    }
+
+    // Vanilla tier speeds, Efficiency still adds on top through the enchant
+    private static float pickaxeSpeed(Material material) {
+        return switch (material) {
+            case WOODEN_PICKAXE -> 2f;
+            case STONE_PICKAXE -> 4f;
+            case COPPER_PICKAXE -> 5f;
+            case IRON_PICKAXE -> 6f;
+            case DIAMOND_PICKAXE -> 8f;
+            case NETHERITE_PICKAXE -> 9f;
+            case GOLDEN_PICKAXE -> 12f;
+            default -> 1f;
+        };
+    }
+
+    // Resources stack in the backpack, so only they are boosted by Looting
+    private boolean isResource(String id) {
+        String key = id.toLowerCase();
+        return resourceList.stream().anyMatch(resource -> resource.getId().equals(key));
     }
 
     public List<String> getMobs() {
@@ -291,6 +314,26 @@ public class DataRegistry {
                 if (!model.lore.isEmpty()) lore.add(Component.empty());
                 lore.add(parseWorld(model.world));
                 meta.setUnbreakable(true);
+
+                // Protection is the only defence, any modifier on an item replaces its
+                // vanilla ones, so a zero armour modifier removes leather/iron/gold points
+                EquipmentSlot slot = item.getType().getEquipmentSlot();
+                if (slot.isArmor()) {
+                    meta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(
+                            new NamespacedKey(plugin, "no_armor"), 0,
+                            AttributeModifier.Operation.ADD_NUMBER, slot.getGroup()));
+                }
+
+                // Vanilla wood and gold tiers cannot harvest ores, so they dig them three
+                // times slower. Our picks are the right tool for every pickaxe block, at
+                // their tier's own speed, so every upgrade digs faster
+                if (Tag.ITEMS_PICKAXES.isTagged(item.getType())) {
+                    ToolComponent tool = meta.getTool();
+                    tool.setRules(new ArrayList<>());
+                    tool.addRule(Tag.MINEABLE_PICKAXE, pickaxeSpeed(item.getType()), true);
+                    meta.setTool(tool);
+                }
+
                 if (!model.enchants.isEmpty()) meta.setEnchantmentGlintOverride(true);
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -408,7 +451,7 @@ public class DataRegistry {
                 for (BlockModel.IndependentPoolModel choice : model.independent) {
                     if (!items.containsKey(choice.id)) continue;
 
-                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max), choice.chance);
+                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max, isResource(choice.id)), choice.chance);
                 }
                 pools.add(pool);
             }
@@ -418,13 +461,17 @@ public class DataRegistry {
                 for (BlockModel.ChoiceModel choice : model.choices.options) {
                     if (!items.containsKey(choice.id)) continue;
 
-                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max), choice.weight);
+                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max, isResource(choice.id)), choice.weight);
                 }
                 pools.add(pool);
             }
 
+            // A mob with no drops still needs a pool, getFirst() on nothing throws
+            if (pools.isEmpty()) pools.add(new IndependentLootPool());
+
             // TODO: Not implemented with multiple pools, only one
-            MobData mobData = new MobData(id, type, displayName, model.health, model.defence, model.attack, equipment, attributes, pools.getFirst());
+            MobData mobData = new MobData(id, type, displayName, model.health, model.defence, model.attack,
+                    model.attack_cooldown, equipment, attributes, pools.getFirst());
             mobs.put(id.toLowerCase(), mobData);
         });
     }

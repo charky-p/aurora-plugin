@@ -3,20 +3,17 @@ package org.charky.aurora.features.mine;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.charky.aurora.common.util.DataKeys;
+import org.bukkit.util.RayTraceResult;
+import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
@@ -31,6 +28,18 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MineListener implements Listener {
+    // Blast level -> width, height, depth broken, laid flat against the face you
+    // mine. Even sizes grow to your right and upward. Past the table the last holds.
+    // Kept in step with BLAST_SHAPES in scripts/balance/balance_sim.py
+    private static final int[][] BLAST_SHAPES = {
+            {2, 1, 1},
+            {2, 2, 1},
+            {3, 3, 1},
+    };
+
+    // Essence chance = 0.1% + (0.1% * Luck)
+    private static final double ESSENCE_CHANCE = 0.001;
+
     private final MineManager manager;
     private final ScoreboardManager scoreboard;
     private final InventoryManager inventoryManager;
@@ -52,29 +61,15 @@ public class MineListener implements Listener {
         // TODO: temp for building
         if (!player.isOp()) event.setCancelled(true);
 
+        ItemStack pick = player.getInventory().getItemInMainHand();
         List<MenuItem> drops = new ArrayList<>();
-        processBlock(player, event.getBlock(), drops);
+        processBlock(player, pick, event.getBlock(), drops);
 
-        // Blast mining
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (item.getType() != Material.AIR && item.hasItemMeta() && item.lore() != null)  {
-            boolean isBlast = item.lore().stream()
-                    .anyMatch(line -> PlainTextComponentSerializer.plainText()
-                            .serialize(line).contains("Blast"));
-
-            // 3x3x3 mining
-            if (isBlast) {
-                Block center = event.getBlock();
-                for (int x = -1; x <= 1; x++) {
-                    for (int y = -1; y <= 1; y++) {
-                        for (int z = -1; z <= 1; z++) {
-                            if (x == 0 && y == 0 && z == 0) continue;
-                            Block target = center.getRelative(x, y, z);
-                            if (target.getType() != Material.BEDROCK && target.getType() != Material.AIR) {
-                                processBlock(player, target, drops);
-                            }
-                        }
-                    }
+        int blast = Enchants.level(pick, "blast");
+        if (blast > 0) {
+            for (Block target : blastArea(player, event.getBlock(), blast)) {
+                if (target.getType() != Material.BEDROCK && target.getType() != Material.AIR) {
+                    processBlock(player, pick, target, drops);
                 }
             }
         }
@@ -83,14 +78,14 @@ public class MineListener implements Listener {
         inventoryManager.addToInventory(player, drops);
     }
 
-    private void processBlock(Player player, Block block, List<MenuItem> drops) {
+    private void processBlock(Player player, ItemStack pick, Block block, List<MenuItem> drops) {
         manager.handleBlockBreak(player, block.getLocation());
 
         String dropId = manager.getBlockIdAt(block.getLocation());
 
         if (registry.hasBlock(dropId)) {
             int density = registry.getDensity(dropId);
-            int fortune = getFortuneLevel(player);
+            int fortune = Enchants.level(pick, "fortune");
             if (fortune + 1 - density <= 0) {
                 player.sendActionBar(Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD));
                 return;
@@ -101,14 +96,8 @@ public class MineListener implements Listener {
             backpack.addItems(blockDrops);
             if (!blockDrops.isEmpty()) player.sendActionBar(blockDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(player, blockDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
 
-            // Essence
-            double baseChance = 0.001;
-            int luckLevel = getCustomEnchantLevel(player, "luck");
-
-            // Essence Chance = 0.1% + (0.1% * Level)
-            double finalChance = baseChance + (baseChance * luckLevel);
-
-            if (Math.random() < finalChance) {
+            int luck = Enchants.level(pick, "luck");
+            if (Math.random() < ESSENCE_CHANCE + ESSENCE_CHANCE * luck) {
                 scoreboard.addEssence(player, ThreadLocalRandom.current().nextInt(1, 4));
                 TextUtils.send(player, "<gradient:light_purple:dark_purple><b>RARE!</b></gradient> <gray>You found <white>Essence<gray>!");
             }
@@ -121,27 +110,43 @@ public class MineListener implements Listener {
         }
     }
 
-    private int getFortuneLevel(Player player) {
-        ItemStack item = player.getInventory().getItemInMainHand();
+    // Every block blast breaks besides the one mined. Width runs to your right,
+    // height runs up a wall, or away from you across a floor or ceiling, depth
+    // runs into the block
+    private List<Block> blastArea(Player player, Block center, int level) {
+        int[] shape = BLAST_SHAPES[Math.min(level, BLAST_SHAPES.length) - 1];
+        BlockFace face = minedFace(player);
+        boolean flat = face == BlockFace.UP || face == BlockFace.DOWN;
 
-        if (item.getType().isAir()) {
-            return 0;
+        int[] depth = {-face.getModX(), -face.getModY(), -face.getModZ()};
+        BlockFace facing = player.getFacing();
+        int[] forward = flat ? new int[]{facing.getModX(), 0, facing.getModZ()} : depth;
+        int[] right = {-forward[2], 0, forward[0]};
+        int[] up = flat ? forward : new int[]{0, 1, 0};
+
+        List<Block> area = new ArrayList<>();
+        for (int w = -(shape[0] - 1) / 2; w <= shape[0] / 2; w++) {
+            for (int h = -(shape[1] - 1) / 2; h <= shape[1] / 2; h++) {
+                for (int d = 0; d < shape[2]; d++) {
+                    if (w == 0 && h == 0 && d == 0) continue;
+                    area.add(center.getRelative(
+                            w * right[0] + h * up[0] + d * depth[0],
+                            w * right[1] + h * up[1] + d * depth[1],
+                            w * right[2] + h * up[2] + d * depth[2]));
+                }
+            }
         }
-
-        return item.getEnchantmentLevel(Enchantment.FORTUNE);
+        return area;
     }
 
-    private int getCustomEnchantLevel(Player player, String enchantId) {
-        ItemStack item = player.getInventory().getItemInMainHand();
+    // The face the player is looking at, falling back to their pitch if the ray misses
+    private static BlockFace minedFace(Player player) {
+        RayTraceResult hit = player.rayTraceBlocks(6.0);
+        if (hit != null && hit.getHitBlockFace() != null) return hit.getHitBlockFace();
 
-        if (item.getType().isAir() || !item.hasItemMeta()) return 0;
-
-        PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        if (!pdc.has(DataKeys.ENCHANT_KEY, PersistentDataType.TAG_CONTAINER)) return 0;
-
-        PersistentDataContainer enchantPdc = pdc.get(DataKeys.ENCHANT_KEY, PersistentDataType.TAG_CONTAINER);
-
-        NamespacedKey key = new NamespacedKey("aurora", enchantId.toLowerCase());
-        return enchantPdc.getOrDefault(key, PersistentDataType.INTEGER, 0);
+        float pitch = player.getLocation().getPitch();
+        if (pitch > 45) return BlockFace.UP;
+        if (pitch < -45) return BlockFace.DOWN;
+        return player.getFacing().getOppositeFace();
     }
 }

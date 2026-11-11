@@ -13,6 +13,7 @@ import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
 
@@ -57,7 +58,8 @@ public class MobDeathListener implements Listener {
             }
 
             BackpackData backpack = backpackManager.get(victim.getKiller().getUniqueId());
-            List<MenuItem> mobDrops = registry.getMobDrops(mobId);
+            int looting = Enchants.level(victim.getKiller().getInventory().getItemInMainHand(), "looting");
+            List<MenuItem> mobDrops = registry.getMobDrops(mobId, looting);
             backpack.addItems(mobDrops);
             if (!mobDrops.isEmpty()) victim.getKiller().sendActionBar(mobDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(victim.getKiller(), mobDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
             // Transfer to backpack system

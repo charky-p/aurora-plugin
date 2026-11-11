@@ -15,6 +15,7 @@ Paper 1.21 sky-mining RPG plugin (Java 21, Maven, SQLite).
 - `LocalServer/start.bat` runs the local test server (gitignored). Check its logs to verify changes; I test in-game.
 
 ## Rules
-- I write core systems myself: explain and review those. Do boilerplate and cleanups when asked.
+- I own design and features: ask before changing how the game plays (mechanics, balance targets, new features).
+- Claude implements the code, core systems included. Match my style; explain non-obvious changes.
 - Never commit, push, tag or delete without my go-ahead.
 - Claude's commits: prefix the subject with `[C] `. No Co-Authored-By or other trailers.

@@ -11,11 +11,11 @@ public class IndependentLootPool implements LootPool {
     }
 
     @Override
-    public List<MenuItem> roll() {
+    public List<MenuItem> roll(int looting) {
         return drops.entrySet()
                     .stream()
                     .filter(e -> ThreadLocalRandom.current().nextDouble(100) <= e.getValue())
-                    .map(e -> e.getKey().rollAmt())
+                    .map(e -> e.getKey().rollAmt(looting))
                     .filter(Objects::nonNull)
                     .toList();
     }

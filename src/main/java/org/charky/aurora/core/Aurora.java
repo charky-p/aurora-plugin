@@ -13,6 +13,7 @@ import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.features.combat.CombatListener;
+import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletListener;
 import org.charky.aurora.features.gauntlet.GauntletManager;
@@ -140,6 +141,8 @@ public class Aurora extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(new GauntletListener(gauntletManager), this);
         getServer().getPluginManager().registerEvents(new BackpackListener(), this);
+
+        SustenanceTask.start(this);
 
         // FIXME: temporary refresh command
         PluginCommand refresh = getCommand("refresh");

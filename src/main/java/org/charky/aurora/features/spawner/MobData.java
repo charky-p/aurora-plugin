@@ -16,6 +16,7 @@ public record MobData(
         double health,
         double defence,
         double attack,
+        double attackCooldown,
         Map<EquipmentSlot, ItemStack> equipment,
         Map<Attribute, Double> attributes,
         LootPool drops

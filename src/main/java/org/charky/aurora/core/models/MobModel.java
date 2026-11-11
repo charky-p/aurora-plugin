@@ -9,6 +9,7 @@ public class MobModel {
     public double health = 20.0;
     public double defence = 0.0;
     public double attack = 1.0;
+    public double attack_cooldown = 0.0;
     public EquipmentModel equip = new EquipmentModel();
     public List<AttributeEntry> attributes = new ArrayList<>();
     public List<BlockModel.IndependentPoolModel> independent = new ArrayList<>();

@@ -10,8 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.common.loot.InventoryManager;
+import org.charky.aurora.common.menu.PagedMenuListener;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
@@ -49,6 +51,7 @@ public class Aurora extends JavaPlugin implements Listener {
     private InventoryManager inventoryManager;
     private WandManager wandManager;
     private BackpackManager backpackManager;
+    private ArmoryManager armoryManager;
     private final ItemFactory itemFactory = new ItemFactory();
     private DataRegistry registry;
     private Map<World, Location> spawnMap;
@@ -66,6 +69,8 @@ public class Aurora extends JavaPlugin implements Listener {
         this.registry = new DataRegistry(this);
         this.backpackManager = new BackpackManager(registry);
         registry.setBackpackManager(backpackManager);
+        this.armoryManager = new ArmoryManager(registry);
+        registry.setArmoryManager(armoryManager);
         registry.loadAll();
 
         // Database setup
@@ -81,6 +86,8 @@ public class Aurora extends JavaPlugin implements Listener {
         this.spawnStore = new SpawnStore(db);
         backpackManager.loadBackpacks(db, new BackpackStore(db));
         backpackManager.startAutosave(this);
+        armoryManager.load(db, new UnlockStore(db));
+        armoryManager.migrateFrom(backpackManager);
 
         // Spawn map
         this.spawnMap = spawnStore.loadAll();
@@ -142,7 +149,7 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
 
         getServer().getPluginManager().registerEvents(new GauntletListener(gauntletManager), this);
-        getServer().getPluginManager().registerEvents(new BackpackListener(), this);
+        getServer().getPluginManager().registerEvents(new PagedMenuListener(), this);
 
         SustenanceTask.start(this);
 
@@ -191,6 +198,10 @@ public class Aurora extends JavaPlugin implements Listener {
 
     public BackpackManager getBackpackManager() {
         return backpackManager;
+    }
+
+    public ArmoryManager getArmoryManager() {
+        return armoryManager;
     }
 
     public DataRegistry getRegistry() {

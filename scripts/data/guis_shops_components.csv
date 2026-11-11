@@ -299,8 +299,9 @@ tomb_utility,z,GUI,tomb_shop,,
 aurora_hub,1,GUI,howto_menu,,,
 aurora_hub,2,GUI,origin_hub,,,
 aurora_hub,3,ACTION,backpack,,,icon_backpack
-aurora_hub,4,ACTION,spawn,,,icon_spawn
-aurora_hub,5,ICON,icon_progress,,,
+aurora_hub,4,ACTION,armory,,,icon_armory
+aurora_hub,5,ACTION,spawn,,,icon_spawn
+aurora_hub,6,ICON,icon_progress,,,
 howto_menu,1,ICON,icon_howto_mining,,,
 howto_menu,2,ICON,icon_howto_backpack,,,
 howto_menu,3,ICON,icon_howto_gear,,,

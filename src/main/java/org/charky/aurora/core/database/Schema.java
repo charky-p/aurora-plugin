@@ -37,6 +37,12 @@ public final class Schema {
                     "amount BIGINT NOT NULL, " +
                     "PRIMARY KEY (uuid, item_id))",
 
+            // Gear each player has unlocked in the Armory
+            "CREATE TABLE IF NOT EXISTS unlocked_gear (" +
+                    "uuid VARCHAR(36) NOT NULL, " +
+                    "item_id TEXT NOT NULL, " +
+                    "PRIMARY KEY (uuid, item_id))",
+
             // Mob Spawners
             "CREATE TABLE IF NOT EXISTS spawners (" +
                     "name TEXT PRIMARY KEY, " +

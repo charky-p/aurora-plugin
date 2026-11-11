@@ -15,11 +15,13 @@ import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
+import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.player.Essence;
 import org.charky.aurora.features.player.ScoreboardManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MobDeathListener implements Listener {
@@ -27,6 +29,7 @@ public class MobDeathListener implements Listener {
     private final InventoryManager inventoryManager;
     private final DataRegistry registry;
     private final BackpackManager backpackManager;
+    private final ArmoryManager armoryManager;
     private final ScoreboardManager scoreboard;
 
     public MobDeathListener(Aurora plugin) {
@@ -34,6 +37,7 @@ public class MobDeathListener implements Listener {
         this.inventoryManager = plugin.getInventoryManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
+        this.armoryManager = plugin.getArmoryManager();
         this.scoreboard = plugin.getScoreboardManager();
     }
 
@@ -68,12 +72,16 @@ public class MobDeathListener implements Listener {
 
             BackpackData backpack = backpackManager.get(killer.getUniqueId());
             int looting = Enchants.level(killer.getInventory().getItemInMainHand(), "looting");
-            List<MenuItem> mobDrops = registry.getMobDrops(mobId, looting);
+
+            // Resources stack in the backpack, gear is unlocked in the Armory
+            List<MenuItem> mobDrops = new ArrayList<>();
+            for (MenuItem drop : registry.getMobDrops(mobId, looting)) {
+                if (registry.isResource(drop.getId())) mobDrops.add(drop);
+                else armoryManager.handleDrop(killer, drop.getId());
+            }
+
             backpack.addItems(mobDrops);
             if (!mobDrops.isEmpty()) killer.sendActionBar(mobDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(killer, mobDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
-            // Transfer to backpack system
-            // TODO: add resources to backpack, add other items to inventory
-//            inventoryManager.addToInventory(victim.getKiller(), registry.getMobDrops(mobId));
         }
     }
 }

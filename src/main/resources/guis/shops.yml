@@ -2291,7 +2291,7 @@ items:
     rows: 3
     layout:
       - "BBBBIBBBB"
-      - "B 12345 B"
+      - "B123456 B"
       - "BBBBBBBBX"
     components:
       '1':
@@ -2306,9 +2306,13 @@ items:
         icon: icon_backpack
       '4':
         type: ACTION
+        id: armory
+        icon: icon_armory
+      '5':
+        type: ACTION
         id: spawn
         icon: icon_spawn
-      '5':
+      '6':
         type: ICON
         id: icon_progress
 

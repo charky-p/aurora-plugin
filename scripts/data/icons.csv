@@ -21,6 +21,7 @@ icon_tomb,<dark_purple><b>Royal Tomb,GILDED_BLACKSTONE,true,"<gray>Myrmidons, ph
 icon_menu,<aqua><b>Aurora,NETHER_STAR,true,<gray>Everything in one place.
 icon_howto,<yellow><b>How to Play,BOOK,false,<gray>New here? Start here.
 icon_backpack,<gold><b>Backpack,CHEST,false,<gray>Everything you have mined.
+icon_armory,<red><b>Armory,IRON_SWORD,false,<gray>Weapons unlocked from mobs.
 icon_spawn,<green><b>Spawn,ENDER_PEARL,false,<gray>Return to the hub island.
 icon_progress,<light_purple><b>Your Progress,PLAYER_HEAD,false,"<gray>Rank, level and stats.|<dark_gray>Coming soon."
 icon_howto_mining,<yellow><b>1. Mining,IRON_PICKAXE,false,<gray>Break blocks in any mine.|<gray>Drops go straight to your backpack.|<gray>Fortune multiplies drops - block density cancels it out.

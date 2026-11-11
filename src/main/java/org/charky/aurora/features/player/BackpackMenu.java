@@ -1,121 +1,41 @@
 package org.charky.aurora.features.player;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.loot.MenuItem;
+import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.features.trader.TraderMenu;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 // View only, the backpack holds resources so they don't clutter the inventory.
 // We may later add moving items between the backpack and the inventory
-public class BackpackMenu implements InventoryHolder {
-    private static final int SIZE = 54;
-    private static final String HUB_ID = "aurora_hub";
-
-    // Bottom row controls
-    private static final int BACK_SLOT = 45;
-    private static final int PREVIOUS_SLOT = 48;
-    private static final int INFO_SLOT = 49;
-    private static final int NEXT_SLOT = 50;
-    private static final int CLOSE_SLOT = 53;
-
-    // Everything inside the glass border, 4 rows of 7
-    private static final int[] ITEM_SLOTS = innerSlots();
+public class BackpackMenu extends PagedMenu {
+    private static final int ARMORY_SLOT = 52;
 
     private final BackpackData backpack;
-    private final DataRegistry registry;
-    private final Inventory inventory;
-    private int page = 0;
 
     public BackpackMenu(BackpackData backpack, DataRegistry registry) {
+        super(registry, "Backpack");
         this.backpack = backpack;
-        this.registry = registry;
-        this.inventory = Bukkit.createInventory(this, SIZE, TextUtils.parse("<dark_gray>Backpack"));
     }
 
-    public void open(Player player) {
-        render(player);
-        player.openInventory(inventory);
-    }
-
-    public void handleClick(Player player, int slot) {
-        switch (slot) {
-            case PREVIOUS_SLOT -> turnPage(player, page - 1);
-            case NEXT_SLOT -> turnPage(player, page + 1);
-            case CLOSE_SLOT -> player.closeInventory();
-            case BACK_SLOT -> {
-                TraderMenu hub = registry.getGui(HUB_ID);
-                if (hub != null) hub.onClick(player);
-            }
-            default -> {}
-        }
-    }
-
-    private void turnPage(Player player, int target) {
-        if (target < 0 || target >= pageCount()) return;
-
-        page = target;
-        render(player);
-        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1f);
-    }
-
-    // Redrawn in place so turning a page does not reopen the window
-    private void render(Player player) {
-        inventory.clear();
-
-        ItemStack glass = button(Material.GRAY_STAINED_GLASS_PANE, null);
-        for (int slot = 0; slot < SIZE; slot++) {
-            int row = slot / 9, col = slot % 9;
-            if (row == 0 || row == 5 || col == 0 || col == 8) inventory.setItem(slot, glass);
-        }
-
-        List<ItemStack> items = displayItems();
-        int start = page * ITEM_SLOTS.length;
-        for (int i = 0; i < ITEM_SLOTS.length && start + i < items.size(); i++) {
-            inventory.setItem(ITEM_SLOTS[i], items.get(start + i));
-        }
-
-        int pages = pageCount(items.size());
-        if (page > 0) inventory.setItem(PREVIOUS_SLOT, button(Material.ARROW, "<yellow>Previous Page"));
-        if (page < pages - 1) inventory.setItem(NEXT_SLOT, button(Material.ARROW, "<yellow>Next Page"));
-
-        TraderMenu hub = registry.getGui(HUB_ID);
-        if (hub != null) inventory.setItem(BACK_SLOT, hub.getDisplayItem(player));
-
-        ItemStack info = button(Material.CHEST, "<gold><b>Backpack");
-        info.editMeta(meta -> meta.lore(List.of(
-                TextUtils.parse("<!italic><gray>Resources: <white>" + items.size()),
-                TextUtils.parse("<!italic><gray>Page: <white>" + (page + 1) + "/" + pages))));
-        inventory.setItem(INFO_SLOT, info);
-
-        inventory.setItem(CLOSE_SLOT, button(Material.BARRIER, "<red>Close"));
-    }
-
-    // Held resources in progression order, the order of resources.csv. Anything else
-    // that ended up in the backpack (mob gear drops) follows after
-    private List<ItemStack> displayItems() {
+    // Held resources in progression order, the order of resources.csv
+    @Override
+    protected List<ItemStack> entries(Player player) {
         Map<String, Long> held = backpack.getItems();
-        Set<String> order = new LinkedHashSet<>();
-        for (MenuItem resource : registry.getItems()) order.add(resource.getId());
-        order.addAll(held.keySet());
 
         List<ItemStack> items = new ArrayList<>();
-        for (String id : order) {
-            long amount = held.getOrDefault(id, 0L);
-            ItemStack template = registry.getAllItems().get(id);
-            if (template == null || amount <= 0) continue;
+        for (MenuItem resource : registry.getItems()) {
+            long amount = held.getOrDefault(resource.getId(), 0L);
+            if (amount <= 0) continue;
 
-            ItemStack display = template.clone();
+            ItemStack display = resource.getItem();
             display.editMeta(meta -> {
                 List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
                 lore.add(Component.empty());
@@ -127,35 +47,19 @@ public class BackpackMenu implements InventoryHolder {
         return items;
     }
 
-    private int pageCount() {
-        return pageCount(displayItems().size());
-    }
-
-    private static int pageCount(int items) {
-        return Math.max(1, (items + ITEM_SLOTS.length - 1) / ITEM_SLOTS.length);
-    }
-
-    // Null name hides the tooltip, for the glass border
-    private static ItemStack button(Material material, String name) {
-        ItemStack item = new ItemStack(material);
-        item.editMeta(meta -> {
-            if (name == null) meta.setHideTooltip(true);
-            else meta.displayName(TextUtils.parse("<!italic>" + name));
-        });
-        return item;
-    }
-
-    private static int[] innerSlots() {
-        int[] slots = new int[28];
-        int i = 0;
-        for (int row = 1; row <= 4; row++) {
-            for (int col = 1; col <= 7; col++) slots[i++] = row * 9 + col;
-        }
-        return slots;
+    @Override
+    protected List<Component> info(Player player, List<ItemStack> entries) {
+        return List.of(TextUtils.parse("<!italic><gray>Resources: <white>" + entries.size()));
     }
 
     @Override
-    public @NotNull Inventory getInventory() {
-        return inventory;
+    protected void decorate(Player player, Inventory inventory) {
+        ItemStack icon = registry.getAllIcons().get("icon_armory");
+        if (icon != null) inventory.setItem(ARMORY_SLOT, icon.clone());
+    }
+
+    @Override
+    protected void onButtonClick(Player player, int slot) {
+        if (slot == ARMORY_SLOT) registry.runAction("armory", player);
     }
 }

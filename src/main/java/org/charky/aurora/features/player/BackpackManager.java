@@ -11,6 +11,7 @@ import org.charky.aurora.core.database.Database;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 public class BackpackManager {
     // Every 5 minutes, so a crash loses at most that much mining
@@ -46,6 +47,11 @@ public class BackpackManager {
 
     public void open(Player player) {
         new BackpackMenu(get(player.getUniqueId()), registry).open(player);
+    }
+
+    // The live item maps, for changes that span every backpack
+    public void forEachItem(BiConsumer<UUID, Map<String, Long>> action) {
+        backpacks.forEach((uuid, data) -> action.accept(uuid, data.getItems()));
     }
 
     public void clear(UUID uuid) {

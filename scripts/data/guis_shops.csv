@@ -28,5 +28,5 @@ dunes_shields,<blue><b>The Dunes <dark_gray>| <gray>Shields,icon_shields,3,BBBBI
 canyons_shields,<blue><b>Howling Canyons <dark_gray>| <gray>Shields,icon_shields,3,BBBBIBBBB|B  123  B|zBBBBBBBX
 temple_shields,<blue><b>Sun Temple <dark_gray>| <gray>Shields,icon_shields,3,BBBBIBBBB|B  123  B|zBBBBBBBX
 tomb_utility,<gold><b>Royal Tomb <dark_gray>| <gray>Utility,icon_utility,3,BBBBIBBBB|B  12   B|zBBBBBBBX
-aurora_hub,<aqua><b>Aurora,icon_menu,3,BBBBIBBBB|B 12345 B|BBBBBBBBX
+aurora_hub,<aqua><b>Aurora,icon_menu,3,BBBBIBBBB|B123456 B|BBBBBBBBX
 howto_menu,<aqua><b>How to Play,icon_howto,3,BBBBIBBBB|B 12345 B|zBBBBBBBX

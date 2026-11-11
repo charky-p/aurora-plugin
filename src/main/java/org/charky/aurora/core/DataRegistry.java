@@ -24,6 +24,7 @@ import org.charky.aurora.common.loot.IndependentLootPool;
 import org.charky.aurora.common.loot.ItemDrop;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.core.models.*;
+import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.trader.*;
@@ -45,6 +46,7 @@ public class DataRegistry {
     private final Aurora plugin;
     private final ItemFactory itemFactory;
     private BackpackManager backpackManager;
+    private ArmoryManager armoryManager;
     private record BlockData(Material material, int density, List<LootPool> pools) {}
     private record EnchantData(String display, Enchantment enchant) {}
     private final Map<String, ItemStack> items = new HashMap<>(); // resources + gear
@@ -56,6 +58,8 @@ public class DataRegistry {
     private final Map<String, Trader> traders = new HashMap<>();
 
     private final List<MenuItem> resourceList = new ArrayList<>();
+    // Gear that mobs drop, in mob load order (progression), with the mob that drops it
+    private final Map<String, Component> armory = new LinkedHashMap<>();
 
     private final Map<String, Consumer<Player>> actions = new HashMap<>();
 
@@ -69,6 +73,10 @@ public class DataRegistry {
         this.backpackManager = backpackManager;
     }
 
+    public void setArmoryManager(ArmoryManager armoryManager) {
+        this.armoryManager = armoryManager;
+    }
+
     public void loadAll() {
         items.clear();
         enchants.clear();
@@ -78,6 +86,7 @@ public class DataRegistry {
         guis.clear();
         traders.clear();
         resourceList.clear();
+        armory.clear();
 
         loadActions();
 
@@ -99,6 +108,7 @@ public class DataRegistry {
 
     private void loadActions() {
         actions.put("backpack", backpackManager::open);
+        actions.put("armory", armoryManager::open);
         actions.put("spawn", player -> player.performCommand("spawn"));
     }
 
@@ -178,7 +188,7 @@ public class DataRegistry {
     }
 
     // Resources stack in the backpack, so only they are boosted by Looting
-    private boolean isResource(String id) {
+    public boolean isResource(String id) {
         String key = id.toLowerCase();
         return resourceList.stream().anyMatch(resource -> resource.getId().equals(key));
     }
@@ -464,6 +474,7 @@ public class DataRegistry {
             // Every pool rolls, so a mob with both drop lists gets both, and a mob
             // with none simply drops nothing
             List<LootPool> pools = buildPools(model.independent, model.choices, true);
+            addArmoryDrops(model, displayName);
             LootPool drops = looting -> pools.stream()
                     .flatMap(pool -> pool.roll(looting).stream())
                     .toList();
@@ -472,6 +483,27 @@ public class DataRegistry {
                     model.attack_cooldown, equipment, attributes, drops);
             mobs.put(id.toLowerCase(), mobData);
         });
+    }
+
+    // Every gear drop is unlockable in the Armory, the first mob listed claims it
+    private void addArmoryDrops(MobModel model, Component mobName) {
+        List<String> ids = new ArrayList<>();
+        if (model.independent != null) model.independent.forEach(drop -> ids.add(drop.id));
+        if (model.choices != null) model.choices.options.forEach(choice -> ids.add(choice.id));
+
+        for (String id : ids) {
+            if (items.containsKey(id) && !isResource(id)) armory.putIfAbsent(id, mobName);
+        }
+    }
+
+    // Menu actions by id, the same ones ACTION components in the GUI files use
+    public void runAction(String id, Player player) {
+        Consumer<Player> action = actions.get(id);
+        if (action != null) action.accept(player);
+    }
+
+    public Map<String, Component> getArmory() {
+        return Collections.unmodifiableMap(armory);
     }
 
     private void loadIcons() {

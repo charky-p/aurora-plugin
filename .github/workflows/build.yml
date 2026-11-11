@@ -30,3 +30,13 @@ jobs:
       # package also runs the tests
       - name: Build and test
         run: mvn -B package
+
+      # The plugin jar, ready to drop into a server's plugins folder
+      - name: Upload plugin jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: aurora-plugin
+          path: |
+            target/Aurora-*.jar
+            !target/*-shaded.jar
+          retention-days: 30

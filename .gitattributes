@@ -1,0 +1,10 @@
+# Stored as LF in git whatever the OS, checked out to suit it
+* text=auto
+
+# bash needs LF, cmd needs CRLF for labels like :start to work
+*.sh eol=lf
+*.bat eol=crlf
+
+*.jar binary
+*.png binary
+*.db binary

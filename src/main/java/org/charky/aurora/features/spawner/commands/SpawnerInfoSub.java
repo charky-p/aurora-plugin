@@ -25,7 +25,8 @@ public class SpawnerInfoSub extends SpawnerSub {
         }
 
         String spawnerName = args[0];
-        // TODO: spawnername and minename should be lowercase for existence
+        // TODO: names are case sensitive, make mine and spawner names case insensitive
+        // with the subcommand helper, which will parse names in one place
         if (!spawnerManager.spawnerExists(spawnerName)) {
             TextUtils.error(sender, "Spawner '" + spawnerName + "' does not exist");
             return;

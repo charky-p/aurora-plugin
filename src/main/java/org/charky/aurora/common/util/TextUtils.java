@@ -39,7 +39,6 @@ public class TextUtils {
         send(sender, "<red>Usage: " + usage);
     }
 
-    // TODO: Add @NotNull?
     public static void error(CommandSender sender, String error) {
         send(sender, "<red>" + error);
     }

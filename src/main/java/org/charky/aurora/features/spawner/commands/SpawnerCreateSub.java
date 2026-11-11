@@ -1,5 +1,6 @@
 package org.charky.aurora.features.spawner.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Axis;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -42,8 +43,9 @@ public class SpawnerCreateSub extends SpawnerSub {
                 return;
             }
 
-            // TODO: console world support
-            String world = (sender instanceof Player player) ? player.getWorld().getName() : "world";
+            // The console has no world of its own, it places spawners in the main world
+            String world = (sender instanceof Player player)
+                    ? player.getWorld().getName() : Bukkit.getWorlds().getFirst().getName();
 
             try {
                 // Default limit = 3, radius = 5

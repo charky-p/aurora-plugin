@@ -79,15 +79,16 @@ public class SpawnerManager {
         return new ArrayList<>(spawnerMap.keySet());
     }
 
-    public void tpSpawner(Player player, String spawnerName) {
+    // False when the spawner's world is not loaded
+    public boolean tpSpawner(Player player, String spawnerName) {
         MobSpawner spawner = spawnerMap.get(spawnerName);
-        if (spawner == null) return;
+        if (spawner == null) return false;
 
         Location location = spawner.getLocation();
-        if (location != null && location.getWorld() != null) {
-            player.teleport(location.add(0, 1, 0));
-        }
-        // TODO: deal with error, maybe nothing, but it is done differently in MineManager tpMine
+        if (location.getWorld() == null) return false;
+
+        player.teleport(location.add(0, 1, 0));
+        return true;
     }
 
     public MobSpawner getSpawner(String spawnerName) {
@@ -224,7 +225,7 @@ public class SpawnerManager {
         return active;
     }
 
-    // TODO: make cache most consistent with server restarts
+    // Counted from the world, which is the truth since spawner mobs are never saved
     private Map<String, Integer> countAll() {
         Map<String, Integer> counts = new HashMap<>();
         for (World world : Bukkit.getWorlds()) {

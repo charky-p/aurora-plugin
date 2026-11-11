@@ -50,7 +50,6 @@ public class Mine {
         data.setName(name);
     }
 
-    // TODO: Can return interface with only getters
     public MineData getData() {
         return data;
     }

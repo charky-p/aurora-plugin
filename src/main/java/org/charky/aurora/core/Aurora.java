@@ -11,7 +11,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.common.menu.PagedMenuListener;
 import org.charky.aurora.common.util.DataKeys;
-import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.combat.SustenanceTask;
@@ -145,21 +144,8 @@ public class Aurora extends JavaPlugin implements Listener {
         SustenanceTask.start(this);
         LeftoverMobListener.sweepLoaded();
 
-        // FIXME: temporary refresh command
         PluginCommand refresh = getCommand("refresh");
-        if (refresh != null) {
-            refresh.setExecutor((sender, cmd, label, args) -> {
-                try {
-                    registry.loadAll();
-                    spawnerManager.reloadMobs();
-                    TextUtils.success(sender, "Registry reloaded");
-                } catch (Exception e) {
-                    TextUtils.error(sender, "Reload failed: " + e.getMessage());
-                    getLogger().log(Level.SEVERE, "Registry reload failed", e);
-                }
-                return true;
-            });
-        }
+        if (refresh != null) refresh.setExecutor(new RefreshCommand(this));
 
         // Mines setup
         getLogger().info("AuroraMines has been enabled!");

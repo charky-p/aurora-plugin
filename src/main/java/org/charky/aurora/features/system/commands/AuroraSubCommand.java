@@ -23,13 +23,8 @@ public interface AuroraSubCommand {
         return "/aurora " + getName() + " " + getUsage();
     }
 
-    // Default detailed info to description TODO: remove default
+    // Detailed info for /aurora info, most commands need no more than the description
     default List<String> getInfo() {
         return List.of(getDescription());
-    }
-
-    // TODO: default to a member permission after permissiosn are addes and add permission support
-    default String getPermission() {
-        return null;
     }
 }

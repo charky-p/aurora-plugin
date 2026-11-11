@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * Mine sub command to list all mines in database
- * TODO: Add list pages, with /aurora mine list [page], with maybe max 20 mines per page
  */
 public class MineListSub extends MineSub {
     private static final int PAGE_SIZE = 10;

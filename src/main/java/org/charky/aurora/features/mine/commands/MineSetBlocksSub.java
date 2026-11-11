@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO: I removed native support for vanilla blocks
- * Mine sub command to set blocks of a mine from the registry
+ * Mine sub command to set blocks of a mine from the registry.
+ * Only registry blocks are accepted, plain vanilla block names were dropped
  */
 public class MineSetBlocksSub extends MineSub {
     public MineSetBlocksSub(Aurora plugin) {

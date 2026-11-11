@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * Mine sub command to set the teleport point of a mine, used for tp and mine reset teleports
- * TODO: @NotNull for these sub commands
  */
 public class MineSetTpSub extends MineSub {
     public MineSetTpSub(Aurora plugin) {

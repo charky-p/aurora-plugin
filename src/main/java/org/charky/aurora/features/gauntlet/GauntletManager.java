@@ -117,7 +117,7 @@ public class GauntletManager {
         Bukkit.broadcastMessage("§c" + player.getName() + " has fallen!");
 
         if (players.isEmpty()) {
-            Bukkit.broadcastMessage("All players dead TODO");
+            Bukkit.broadcast(TextUtils.parse("<red>Everyone has fallen, the gauntlet is over"));
             stopGame();
         }
     }

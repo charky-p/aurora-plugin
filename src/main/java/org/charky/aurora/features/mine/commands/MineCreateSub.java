@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO: Currently overlapping mines, decide whether this is a feature or error
  * Mine subcommand to create mines manually by coordinates.
  */
 public class MineCreateSub extends MineSub {

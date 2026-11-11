@@ -45,7 +45,10 @@ public class SpawnerTpSub extends SpawnerSub {
             target = player;
         }
 
-        spawnerManager.tpSpawner(target, spawnerName);
+        if (!spawnerManager.tpSpawner(target, spawnerName)) {
+            TextUtils.error(sender, "Spawner '" + spawnerName + "' is in a world that is not loaded");
+            return;
+        }
         TextUtils.success(target, "Teleported to " + spawnerName + " successfully");
         if (target != sender) {
             TextUtils.success(sender, "Teleported player '" + target.getName() + "' to '" + spawnerName + "' successfully");

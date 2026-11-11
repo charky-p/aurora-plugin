@@ -14,7 +14,6 @@ public class SpawnerCommand implements AuroraSubCommand {
     private final Map<String, AuroraSubCommand> subCommands = new HashMap<>();
 
     public SpawnerCommand(Aurora plugin) {
-        // TODO: Separate commands into types, such as query, update, utility
         register(new SpawnerCreateSub(plugin));
         register(new SpawnerDeleteSub(plugin));
         register(new SpawnerListSub(plugin));
@@ -35,7 +34,6 @@ public class SpawnerCommand implements AuroraSubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        // TODO: add activation radius hidden by player, stop mob lag
         // TODO: no mob or trade regions, where mobs will be deleted (not traders)
         if (args.length == 0) {
             HelpCommand.showList(sender, "SPAWNER COMMANDS", "/aurora spawner", subCommands.values());

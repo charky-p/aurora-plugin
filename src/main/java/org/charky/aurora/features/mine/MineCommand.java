@@ -18,7 +18,6 @@ public class MineCommand implements AuroraSubCommand {
     private final Map<String, AuroraSubCommand> subCommands = new HashMap<>();
 
     public MineCommand(Aurora plugin) {
-        // TODO: Separate commands into types, such as query, update, utility
         register(new MineCreateSub(plugin));
         register(new MineDeleteSub(plugin));
         register(new MineListSub(plugin));

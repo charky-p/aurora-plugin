@@ -9,7 +9,6 @@ import org.charky.aurora.core.DataRegistry;
 import java.util.*;
 
 public class BackpackData {
-    // TODO: Add player to be attached here
     private final Map<String, Long> backpack = new HashMap<>();
     private final DataRegistry registry;
 

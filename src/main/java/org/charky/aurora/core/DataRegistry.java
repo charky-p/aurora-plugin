@@ -373,29 +373,44 @@ public class DataRegistry {
         data.forEach((id, model) -> {
             Material material = Material.matchMaterial(model.material);
 
-            List<LootPool> pools = new ArrayList<>();
-            if (!model.independent.isEmpty()) {
-                IndependentLootPool pool = new IndependentLootPool();
-                for (BlockModel.IndependentPoolModel choice : model.independent) {
-                    if (!items.containsKey(choice.id)) continue;
-
-                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max), choice.chance);
-                }
-                pools.add(pool);
-            }
-
-            if (model.choices != null) {
-                CumulativeLootPool pool = new CumulativeLootPool(model.choices.chance);
-                for (BlockModel.ChoiceModel choice : model.choices.options) {
-                    if (!items.containsKey(choice.id)) continue;
-
-                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max), choice.weight);
-                }
-                pools.add(pool);
-            }
-
+            // Blocks scale with Fortune instead, so nothing here is lootable
+            List<LootPool> pools = buildPools(model.independent, model.choices, false);
             blocks.put(id.toLowerCase(), new BlockData(material, model.density, pools));
         });
+    }
+
+    // Shared by blocks and mobs. With lootable on, resources can be widened by Looting
+    private List<LootPool> buildPools(List<BlockModel.IndependentPoolModel> independent,
+                                      BlockModel.CumulativeLootPoolModel choices, boolean lootable) {
+        List<LootPool> pools = new ArrayList<>();
+
+        if (independent != null && !independent.isEmpty()) {
+            IndependentLootPool pool = new IndependentLootPool();
+            for (BlockModel.IndependentPoolModel drop : independent) {
+                if (!items.containsKey(drop.id)) continue;
+                pool.add(itemDrop(drop.id, drop.min, drop.max, lootable), drop.chance);
+            }
+            pools.add(pool);
+        }
+
+        if (choices != null) {
+            CumulativeLootPool pool = new CumulativeLootPool(choices.chance);
+            for (BlockModel.ChoiceModel choice : choices.options) {
+                if (!items.containsKey(choice.id)) continue;
+                pool.add(itemDrop(choice.id, choice.min, choice.max, lootable), choice.weight);
+            }
+            pools.add(pool);
+        }
+
+        return pools;
+    }
+
+    private ItemDrop itemDrop(String id, int min, int max, boolean lootable) {
+        return new ItemDrop(new MenuItem(id, items.get(id)), min, max, lootable && isResource(id));
+    }
+
+    private void equip(Map<EquipmentSlot, ItemStack> equipment, EquipmentSlot slot, String itemId) {
+        if (itemId != null && items.containsKey(itemId)) equipment.put(slot, items.get(itemId));
     }
 
     private void loadMobs(String file) {
@@ -406,29 +421,12 @@ public class DataRegistry {
             Component displayName = MiniMessage.miniMessage().deserialize(model.display);
             Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
             if (model.equip != null) {
-                if (model.equip.head != null && items.containsKey(model.equip.head)) {
-                    equipment.put(EquipmentSlot.HEAD, items.get(model.equip.head));
-                }
-
-                if (model.equip.chest != null && items.containsKey(model.equip.chest)) {
-                    equipment.put(EquipmentSlot.CHEST, items.get(model.equip.chest));
-                }
-
-                if (model.equip.legs != null && items.containsKey(model.equip.legs)) {
-                    equipment.put(EquipmentSlot.LEGS, items.get(model.equip.legs));
-                }
-
-                if (model.equip.feet != null && items.containsKey(model.equip.feet)) {
-                    equipment.put(EquipmentSlot.FEET, items.get(model.equip.feet));
-                }
-
-                if (model.equip.hand != null && items.containsKey(model.equip.hand)) {
-                    equipment.put(EquipmentSlot.HAND, items.get(model.equip.hand));
-                }
-
-                if (model.equip.off_hand != null && items.containsKey(model.equip.off_hand)) {
-                    equipment.put(EquipmentSlot.OFF_HAND, items.get(model.equip.off_hand));
-                }
+                equip(equipment, EquipmentSlot.HEAD, model.equip.head);
+                equip(equipment, EquipmentSlot.CHEST, model.equip.chest);
+                equip(equipment, EquipmentSlot.LEGS, model.equip.legs);
+                equip(equipment, EquipmentSlot.FEET, model.equip.feet);
+                equip(equipment, EquipmentSlot.HAND, model.equip.hand);
+                equip(equipment, EquipmentSlot.OFF_HAND, model.equip.off_hand);
             }
 
             Map<Attribute, Double> attributes = new HashMap<>();
@@ -445,33 +443,15 @@ public class DataRegistry {
                 }
             }
 
-            List<LootPool> pools = new ArrayList<>();
-            if (!model.independent.isEmpty()) {
-                IndependentLootPool pool = new IndependentLootPool();
-                for (BlockModel.IndependentPoolModel choice : model.independent) {
-                    if (!items.containsKey(choice.id)) continue;
+            // Every pool rolls, so a mob with both drop lists gets both, and a mob
+            // with none simply drops nothing
+            List<LootPool> pools = buildPools(model.independent, model.choices, true);
+            LootPool drops = looting -> pools.stream()
+                    .flatMap(pool -> pool.roll(looting).stream())
+                    .toList();
 
-                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max, isResource(choice.id)), choice.chance);
-                }
-                pools.add(pool);
-            }
-
-            if (model.choices != null) {
-                CumulativeLootPool pool = new CumulativeLootPool(model.choices.chance);
-                for (BlockModel.ChoiceModel choice : model.choices.options) {
-                    if (!items.containsKey(choice.id)) continue;
-
-                    pool.add(new ItemDrop(new MenuItem(choice.id, items.get(choice.id)), choice.min, choice.max, isResource(choice.id)), choice.weight);
-                }
-                pools.add(pool);
-            }
-
-            // A mob with no drops still needs a pool, getFirst() on nothing throws
-            if (pools.isEmpty()) pools.add(new IndependentLootPool());
-
-            // TODO: Not implemented with multiple pools, only one
             MobData mobData = new MobData(id, type, displayName, model.health, model.defence, model.attack,
-                    model.attack_cooldown, equipment, attributes, pools.getFirst());
+                    model.attack_cooldown, equipment, attributes, drops);
             mobs.put(id.toLowerCase(), mobData);
         });
     }

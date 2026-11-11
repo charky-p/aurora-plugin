@@ -46,7 +46,8 @@ start() {
     : > "$CONSOLE"
     : > "$OUTPUT"
     cd "$SERVER"
-    tail -n 0 -f "$CONSOLE" | "$SERVER_JAVA" -Xmx2G -Xms2G -jar "$PAPER_JAR" nogui > "$OUTPUT" 2>&1 &
+    # Detached from this script's output, or anything piping it would wait on the server
+    tail -n 0 -f "$CONSOLE" 2>/dev/null < /dev/null | "$SERVER_JAVA" -Xmx2G -Xms2G -jar "$PAPER_JAR" nogui > "$OUTPUT" 2>&1 &
     echo $! > "$PIDFILE"
 
     for _ in $(seq 1 180); do

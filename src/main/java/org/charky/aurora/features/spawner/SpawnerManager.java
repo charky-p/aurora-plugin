@@ -36,6 +36,19 @@ public class SpawnerManager {
         }
     }
 
+    // After a registry reload, so spawners use the new mob stats instead of the old copy
+    public void reloadMobs() {
+        for (MobSpawner spawner : spawnerMap.values()) {
+            MobData data = registry.getMob(spawner.getMobName());
+            if (data == null) {
+                plugin.getLogger().warning("Spawner '" + spawner.getName() + "': mob '"
+                        + spawner.getMobName() + "' is gone after reload, it keeps the old one");
+                continue;
+            }
+            spawner.setMob(data);
+        }
+    }
+
     public boolean spawnerExists(String name) {
         return this.spawnerMap.containsKey(name);
     }
@@ -49,7 +62,7 @@ public class SpawnerManager {
         if (!this.mobExists(mob)) return;
 
         MobData data = registry.getMob(mob);
-        MobSpawner spawner = new MobSpawner(this.plugin, name, world, x, y, z, data, radius, limit, delay);
+        MobSpawner spawner = new MobSpawner(this.plugin, name, world, x, y, z, data, radius, limit, delay, true);
         store.save(spawner);
         spawnerMap.put(name, spawner);
     }
@@ -136,6 +149,9 @@ public class SpawnerManager {
             }
 
             living.setRemoveWhenFarAway(false);
+            // Never saved with the chunk, so a crash can't leave mobs behind to count
+            // towards limits, the spawner refills whenever a player is near
+            living.setPersistent(false);
         });
 
         countSpawned(spawner);
@@ -203,8 +219,9 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return false;
 
-        // TODO: toggle in database too
-        return spawner.toggle();
+        boolean active = spawner.toggle();
+        store.setActive(spawnerName, active);
+        return active;
     }
 
     // TODO: make cache most consistent with server restarts

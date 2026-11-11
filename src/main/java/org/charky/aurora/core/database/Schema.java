@@ -51,7 +51,8 @@ public final class Schema {
                     "mob TEXT, " +
                     "radius DOUBLE, " +
                     "mob_limit INTEGER, " +
-                    "delay INTEGER)",
+                    "delay INTEGER, " +
+                    "active INTEGER DEFAULT 1)",
 
             // TODO: Traders
             "CREATE TABLE IF NOT EXISTS traders (" +
@@ -68,6 +69,12 @@ public final class Schema {
                     "yaw FLOAT, pitch FLOAT)"
     );
 
+    // Columns added after a table first shipped, CREATE TABLE IF NOT EXISTS skips
+    // tables that already exist so older databases get them here
+    private static final List<String[]> ADDED_COLUMNS = List.<String[]>of(
+            new String[]{"spawners", "active", "INTEGER DEFAULT 1"}
+    );
+
     private Schema() {
     }
 
@@ -75,5 +82,19 @@ public final class Schema {
         for (String table : TABLES) {
             db.update(table, pst -> {});
         }
+
+        for (String[] column : ADDED_COLUMNS) {
+            if (!hasColumn(db, column[0], column[1])) {
+                db.update("ALTER TABLE " + column[0] + " ADD COLUMN " + column[1] + " " + column[2], pst -> {});
+            }
+        }
+    }
+
+    private static boolean hasColumn(Database db, String table, String column) {
+        boolean[] found = {false};
+        db.query("PRAGMA table_info(" + table + ")", pst -> {}, rs -> {
+            if (rs.getString("name").equalsIgnoreCase(column)) found[0] = true;
+        });
+        return found[0];
     }
 }

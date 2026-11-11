@@ -54,7 +54,8 @@ public class SpawnerStore {
                     data,
                     rs.getDouble("radius"),
                     rs.getInt("mob_limit"),
-                    rs.getInt("delay")));
+                    rs.getInt("delay"),
+                    rs.getInt("active") != 0));
         });
         return spawners;
     }
@@ -69,6 +70,10 @@ public class SpawnerStore {
 
     public void setLimit(String spawnerName, int limit) {
         updateColumn("mob_limit", spawnerName, pst -> pst.setInt(1, limit));
+    }
+
+    public void setActive(String spawnerName, boolean active) {
+        updateColumn("active", spawnerName, pst -> pst.setInt(1, active ? 1 : 0));
     }
 
     public void setDelay(String spawnerName, int delay) {

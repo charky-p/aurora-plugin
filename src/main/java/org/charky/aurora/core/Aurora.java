@@ -28,6 +28,7 @@ import org.charky.aurora.features.system.WandListener;
 import org.charky.aurora.features.system.WandManager;
 import org.charky.aurora.features.mine.MineListener;
 import org.charky.aurora.features.mine.MineManager;
+import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
 import org.charky.aurora.features.trader.TraderListener;
@@ -142,6 +143,7 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new MineListener(this), this);
         getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboard), this);
         getServer().getPluginManager().registerEvents(new MobDeathListener(this), this);
+        getServer().getPluginManager().registerEvents(new LeftoverMobListener(), this);
         getServer().getPluginManager().registerEvents(new TraderListener(this), this);
         getServer().getPluginManager().registerEvents(new WandListener(this), this);
         getServer().getPluginManager().registerEvents(new SpawnListener(this), this);
@@ -152,6 +154,7 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PagedMenuListener(), this);
 
         SustenanceTask.start(this);
+        LeftoverMobListener.sweepLoaded();
 
         // FIXME: temporary refresh command
         PluginCommand refresh = getCommand("refresh");
@@ -159,6 +162,7 @@ public class Aurora extends JavaPlugin implements Listener {
             refresh.setExecutor((sender, cmd, label, args) -> {
                 try {
                     registry.loadAll();
+                    spawnerManager.reloadMobs();
                     TextUtils.success(sender, "Registry reloaded");
                 } catch (Exception e) {
                     TextUtils.error(sender, "Reload failed: " + e.getMessage());

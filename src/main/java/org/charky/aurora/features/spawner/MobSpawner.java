@@ -28,7 +28,8 @@ public class MobSpawner {
     private static final double ACTIVATION_RANGE = 64.0;
     private int consecutiveFailures = 0;
 
-    public MobSpawner(Aurora plugin, String name, String world, int x, int y, int z, MobData mob, double radius, int limit, int delay) {
+    public MobSpawner(Aurora plugin, String name, String world, int x, int y, int z, MobData mob,
+                      double radius, int limit, int delay, boolean active) {
         this.plugin = plugin;
         this.name = name;
         this.world = world;
@@ -39,9 +40,10 @@ public class MobSpawner {
         this.radius = radius;
         this.limit = limit;
         this.delay = delay;
+        this.active = active;
 
         // Spawn mob with delay offset
-        this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
+        if (active) this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
     }
 
     public String getName() {
@@ -97,6 +99,7 @@ public class MobSpawner {
         info.add("Radius: " + this.radius);
         info.add("Limit: " + this.limit);
         info.add("Delay: " + this.delay);
+        info.add("Active: " + this.active);
         return info;
     }
 

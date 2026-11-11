@@ -1,0 +1,57 @@
+# ===========================================================
+# AURORA MOB TEMPLATE - generated from CSV
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  chicken:
+    display: "<white><b>Isle Chicken"
+    entity: CHICKEN
+    health: 20.0
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+    independent:
+      - id: feather
+        max: 3
+
+  sheep:
+    display: "<white><b>Isle Sheep"
+    entity: SHEEP
+    health: 30.0
+    independent:
+      - id: wool
+        max: 3
+
+  cow:
+    display: "<#8B5A2B><b>Isle Cow"
+    entity: COW
+    health: 40.0
+    independent:
+      - id: leather
+        max: 3

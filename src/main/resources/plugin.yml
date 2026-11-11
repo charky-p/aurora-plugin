@@ -9,10 +9,6 @@ commands:
     description: Refresh databases
     usage: /refresh
     permission: aurora.admin
-  getCustoms:
-    description: Get custom made items for testing purposes
-    usage: /getCustoms
-    permission: aurora.admin
   heal:
     description: Restores health, hunger and removes fire ticks
     usage: /heal [player]

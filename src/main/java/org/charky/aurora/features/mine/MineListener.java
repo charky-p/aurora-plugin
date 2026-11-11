@@ -16,7 +16,6 @@ import org.bukkit.util.RayTraceResult;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.player.Essence;
@@ -38,14 +37,12 @@ public class MineListener implements Listener {
 
     private final MineManager manager;
     private final ScoreboardManager scoreboard;
-    private final InventoryManager inventoryManager;
     private final BackpackManager backpackManager;
     private final DataRegistry registry;
 
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
         this.scoreboard = plugin.getScoreboardManager();
-        this.inventoryManager = plugin.getInventoryManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
     }
@@ -56,26 +53,24 @@ public class MineListener implements Listener {
         Player player = event.getPlayer();
         event.setDropItems(false);
         // TODO: temp for building
-        if (!player.isOp()) event.setCancelled(true);
+        if (!player.hasPermission("aurora.admin")) event.setCancelled(true);
 
         ItemStack pick = player.getInventory().getItemInMainHand();
-        List<MenuItem> drops = new ArrayList<>();
-        processBlock(player, pick, event.getBlock(), drops);
+        processBlock(player, pick, event.getBlock());
 
         int blast = Enchants.level(pick, "blast");
         if (blast > 0) {
             for (Block target : blastArea(player, event.getBlock(), blast)) {
                 if (target.getType() != Material.BEDROCK && target.getType() != Material.AIR) {
-                    processBlock(player, pick, target, drops);
+                    processBlock(player, pick, target);
                 }
             }
         }
 
         scoreboard.updateBoard(player);
-        inventoryManager.addToInventory(player, drops);
     }
 
-    private void processBlock(Player player, ItemStack pick, Block block, List<MenuItem> drops) {
+    private void processBlock(Player player, ItemStack pick, Block block) {
         manager.handleBlockBreak(player, block.getLocation());
 
         String dropId = manager.getBlockIdAt(block.getLocation());

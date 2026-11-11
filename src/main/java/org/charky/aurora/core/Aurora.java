@@ -9,7 +9,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.menu.PagedMenuListener;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
@@ -49,7 +48,6 @@ public class Aurora extends JavaPlugin implements Listener {
     private SpawnerManager spawnerManager;
     private TabManager tabManager;
     private TraderManager traderManager;
-    private InventoryManager inventoryManager;
     private WandManager wandManager;
     private BackpackManager backpackManager;
     private ArmoryManager armoryManager;
@@ -99,17 +97,12 @@ public class Aurora extends JavaPlugin implements Listener {
         this.manager = new MineManager(this, new MineStore(db), scoreboard);
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.traderManager = new TraderManager(this);
-        this.inventoryManager = new InventoryManager();
         this.wandManager = new WandManager();
 
         // temp
         GauntletManager gauntletManager = new GauntletManager(this);
 
         // Plugin startup logic, /refresh is registered further down
-        if (this.getCommand("getCustoms") != null) {
-            this.getCommand("getCustoms").setExecutor(new GiveCustomsCommand());
-        }
-
         if (this.getCommand("heal") != null) {
             this.getCommand("heal").setExecutor(new HealCommand());
         }
@@ -190,10 +183,6 @@ public class Aurora extends JavaPlugin implements Listener {
 
     public TraderManager getTraderManager() {
         return this.traderManager;
-    }
-
-    public InventoryManager getInventoryManager() {
-        return inventoryManager;
     }
 
     public WandManager getWandManager() {

@@ -12,7 +12,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.common.loot.InventoryManager;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.features.armory.ArmoryManager;
@@ -26,7 +25,6 @@ import java.util.List;
 
 public class MobDeathListener implements Listener {
     private final SpawnerManager spawnerManager;
-    private final InventoryManager inventoryManager;
     private final DataRegistry registry;
     private final BackpackManager backpackManager;
     private final ArmoryManager armoryManager;
@@ -34,7 +32,6 @@ public class MobDeathListener implements Listener {
 
     public MobDeathListener(Aurora plugin) {
         this.spawnerManager = plugin.getMobManager();
-        this.inventoryManager = plugin.getInventoryManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
         this.armoryManager = plugin.getArmoryManager();

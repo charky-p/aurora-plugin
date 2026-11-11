@@ -100,7 +100,7 @@ public class ScoreboardManager {
     private void renderLines(Scoreboard board, Objective obj, List<Component> lines) {
         for (int i = 0; i < lines.size(); i++) {
             // Unique identifier, color codes have no display
-            String entryId = org.bukkit.ChatColor.values()[i].toString() + org.bukkit.ChatColor.RESET;
+            String entryId = "§" + Integer.toHexString(i) + "§r";
 
             org.bukkit.scoreboard.Team team = board.getTeam("line_" + i);
             if (team == null) team = board.registerNewTeam("line_" + i);

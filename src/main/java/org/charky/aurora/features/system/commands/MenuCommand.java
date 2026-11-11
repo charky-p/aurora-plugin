@@ -11,7 +11,8 @@ import org.charky.aurora.features.trader.TraderManager;
 import org.jetbrains.annotations.NotNull;
 
 public class MenuCommand implements CommandExecutor {
-    private static final String HUB_ID = "aurora_hub";
+    // The main player menu, also the back button of every other menu
+    public static final String HUB_ID = "aurora_hub";
 
     private final TraderManager manager;
     private final DataRegistry registry;

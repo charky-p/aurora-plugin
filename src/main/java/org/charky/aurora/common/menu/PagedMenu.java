@@ -10,6 +10,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.system.commands.MenuCommand;
 import org.charky.aurora.features.trader.TraderMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +21,6 @@ import java.util.List;
 // View only, PagedMenuListener cancels every click and passes it here
 public abstract class PagedMenu implements InventoryHolder {
     private static final int SIZE = 54;
-    private static final String HUB_ID = "aurora_hub";
 
     // Bottom row controls, slots 46 and 52 are left free for subclass buttons
     private static final int BACK_SLOT = 45;
@@ -68,7 +68,7 @@ public abstract class PagedMenu implements InventoryHolder {
             case NEXT_SLOT -> turnPage(player, page + 1);
             case CLOSE_SLOT -> player.closeInventory();
             case BACK_SLOT -> {
-                TraderMenu hub = registry.getGui(HUB_ID);
+                TraderMenu hub = registry.getGui(MenuCommand.HUB_ID);
                 if (hub != null) hub.onClick(player);
             }
             default -> {
@@ -101,7 +101,7 @@ public abstract class PagedMenu implements InventoryHolder {
         if (page > 0) inventory.setItem(PREVIOUS_SLOT, button(Material.ARROW, "<yellow>Previous Page"));
         if (page < pages - 1) inventory.setItem(NEXT_SLOT, button(Material.ARROW, "<yellow>Next Page"));
 
-        TraderMenu hub = registry.getGui(HUB_ID);
+        TraderMenu hub = registry.getGui(MenuCommand.HUB_ID);
         if (hub != null) inventory.setItem(BACK_SLOT, hub.getDisplayItem(player));
 
         List<Component> lore = new ArrayList<>(info(player, entries));

@@ -49,12 +49,10 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        // TODO: TEMPORARY PERMISSION
-        if (!sender.isOp()) {
+        if (!sender.hasPermission("aurora.admin")) {
             TextUtils.error(sender, "This is an administrator-only command");
             return true;
         }
-        // TODO: if (!player.hasPermission("aurora.admin")) return true
         AuroraSubCommand subCommand = subCommands.get(args[0].toLowerCase());
         if (subCommand == null) {
             TextUtils.error(sender, "Unknown subcommand: " + args[0]);
@@ -71,7 +69,7 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
                                                 @NotNull String alias, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) return Collections.emptyList();
         // Players only use the bare command, so they get no subcommand hints
-        if (!player.isOp()) return Collections.emptyList();
+        if (!player.hasPermission("aurora.admin")) return Collections.emptyList();
 
         if (args.length == 1) {
             return subCommands.keySet()

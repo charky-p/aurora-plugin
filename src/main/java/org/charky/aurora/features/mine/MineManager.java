@@ -226,7 +226,7 @@ public class MineManager {
         if (mine == null) return;
 
         mine.setTp(x, y, z);
-        store.setTp(mineName, x, y, z);
+        store.setTp(mine.getData().getName(), x, y, z);
     }
 
     public void shutdown() {

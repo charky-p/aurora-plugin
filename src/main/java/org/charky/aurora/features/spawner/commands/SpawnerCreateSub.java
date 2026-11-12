@@ -53,10 +53,16 @@ public class SpawnerCreateSub extends SpawnerSub {
                 double radius = (args.length < 7) ? 5 : Double.parseDouble(args[6]);
                 int delay = (args.length < 8) ? 200 : Integer.parseInt(args[7]);
 
+                // Same limits as the set commands, a delay of 0 would spawn every tick
+                if (limit < 1 || radius <= 0 || delay < 1) {
+                    TextUtils.error(sender, "Limit and delay must be at least 1, radius above 0");
+                    return;
+                }
+
                 spawnerManager.addSpawner(spawnerName, world, x, y, z, mobName, limit, radius, delay);
                 TextUtils.success(sender, "Spawner '" + spawnerName + "' has been successfully added");
             } catch (NumberFormatException e) {
-                TextUtils.error(sender, "Limit and radius must be valid numbers");
+                TextUtils.error(sender, "Limit, radius and delay must be valid numbers");
             }
         } catch (NumberFormatException e) {
             TextUtils.error(sender, "Invalid coordinates: " + e.getMessage());

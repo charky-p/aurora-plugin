@@ -1,6 +1,5 @@
 package org.charky.aurora.features.spawner.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Axis;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -73,11 +72,7 @@ public class SpawnerCreateSub extends SpawnerSub {
         if (args.length >= 2 && args.length <= 4) {
             return List.of("~");
         } else if (args.length == 5) {
-            return registry.getMobs()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[4].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return TextUtils.getCompletions(args[4], registry.getMobs());
         }
 
         return Collections.emptyList();

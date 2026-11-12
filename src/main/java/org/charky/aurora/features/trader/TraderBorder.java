@@ -12,6 +12,6 @@ public class TraderBorder implements TraderNode {
 
     @Override
     public void onClick(Player player) {
-        return;
+        // Display only
     }
 }

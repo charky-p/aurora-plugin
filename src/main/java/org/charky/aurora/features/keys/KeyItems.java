@@ -83,7 +83,7 @@ public final class KeyItems {
 
     // The closest spawner of this mob in the player's world, within SUMMON_RANGE
     private static MobSpawner nearestSpawner(Player player, String mobId) {
-        SpawnerManager spawners = JavaPlugin.getPlugin(Aurora.class).getMobManager();
+        SpawnerManager spawners = JavaPlugin.getPlugin(Aurora.class).getSpawnerManager();
         Location here = player.getLocation();
         MobSpawner nearest = null;
         double best = SUMMON_RANGE * SUMMON_RANGE;

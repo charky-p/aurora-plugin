@@ -2,6 +2,7 @@ package org.charky.aurora.features.system;
 
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,92 +13,31 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
-import org.charky.aurora.core.Aurora;
-import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.core.Aurora;
 
-import java.util.*;
-
+// The admin wand: left and right click a block for the two corners of a selection,
+// right click a trader to remove it
 public class WandListener implements Listener {
-    private final NamespacedKey dataKey;
     private final NamespacedKey wandKey;
-    private final Map<UUID, MobData> clipboard = new HashMap<>();
     private final WandManager wandManager;
     private final Aurora plugin;
 
     public WandListener(Aurora plugin) {
-        this.dataKey = new NamespacedKey(plugin, "copied_entity");
-        this.wandKey = new NamespacedKey(plugin, "is_wand");
+        this.wandKey = WandManager.wandKey(plugin);
         this.wandManager = plugin.getWandManager();
         this.plugin = plugin;
     }
 
-//    @EventHandler
-//    public void onCopy(EntityDamageByEntityEvent event) {
-//        if (!(event.getDamager() instanceof Player player)) return;
-//        ItemStack item = player.getInventory().getItemInMainHand();
-//        if (!isWand(item)) return;
-//
-//        event.setCancelled(true);
-//        Entity target = event.getEntity();
-//
-//        if (target instanceof LivingEntity living) {
-//            UUID tempId = UUID.randomUUID();
-//            Component name = living.customName();
-//            if (name == null) {
-//                name = Component.translatable(living.getType().translationKey());
-//            }
-//
-//            Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
-//            for (EquipmentSlot slot : EquipmentSlot.values()) {
-//                ItemStack equipped = living.getEquipment().getItem(slot);
-//
-//                if (equipped.getType() != Material.AIR) {
-//                    equipment.put(slot, equipped.clone());
-//                }
-//            }
-//
-//            Map<Attribute, Double> attributes = new HashMap<>();
-//            for (Attribute attr : Registry.ATTRIBUTE) {
-//                var instance = living.getAttribute(attr);
-//                if (instance != null) {
-//                    attributes.put(attr, instance.getBaseValue());
-//                }
-//            }
-//
-//            MobData data = new MobData(tempId.toString(), living.getType(), name, equipment, attributes, new IndependentLootPool());
-//            clipboard.put(tempId, data);
-//
-//            item.editMeta(meta -> {
-//                meta.getPersistentDataContainer().set(dataKey, PersistentDataType.STRING, tempId.toString());
-//                meta.lore(List.of(Component.text("Clipboard ID: " + tempId.toString().substring(0, 8)).color(NamedTextColor.YELLOW)));
-//            });
-//
-//            player.sendMessage("Entity copied to wand clipboard!");
-//        }
-//    }
-
     @EventHandler
-    public void onPaste(PlayerInteractEvent event) {
-//        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-
+    public void onSelect(PlayerInteractEvent event) {
         ItemStack wand = event.getItem();
         if (!isWand(wand)) return;
 
-//        String idString = wand.getItemMeta().getPersistentDataContainer().get(dataKey, PersistentDataType.STRING);
-//        if (idString == null) return;
-//
-//        UUID tempId = UUID.fromString(idString);
-//        MobData data = clipboard.get(tempId);
-//
-//        if (data == null) {
-//            event.getPlayer().sendMessage(Component.text("Clipboard data expired or not found!").color(NamedTextColor.RED));
-//            return;
-//        }
-
+        // A wand never does what the blaze rod under it would
         event.setCancelled(true);
-
         if (event.getClickedBlock() == null) return;
+
         Player player = event.getPlayer();
         Location loc = event.getClickedBlock().getLocation();
 
@@ -108,14 +48,6 @@ public class WandListener implements Listener {
             wandManager.setPos2(player.getUniqueId(), loc);
             TextUtils.send(player, "<aqua>Position 2 set to: " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
         }
-        // For paste, temporarily adding other thing
-//        Location spawnLoc = event.getClickedBlock().getRelative(event.getBlockFace()).getLocation().add(0.5, 0, 0.5);
-//
-//        Entity spawned = spawnLoc.getWorld().spawnEntity(spawnLoc, data.type());
-//        if (spawned instanceof LivingEntity living) {
-//            data.apply(living);
-//            event.getPlayer().sendMessage(Component.text("Entity pasted successfully!").color(NamedTextColor.GREEN));
-//        }
     }
 
     @EventHandler
@@ -126,20 +58,20 @@ public class WandListener implements Listener {
         if (!isWand(item)) return;
 
         Entity target = event.getRightClicked();
+        String traderId = target.getPersistentDataContainer().get(DataKeys.TRADER_KEY, PersistentDataType.STRING);
+        if (traderId == null) return;
 
-        if (target.getPersistentDataContainer().has(DataKeys.TRADER_KEY, PersistentDataType.STRING)) {
-            event.setCancelled(true);
+        event.setCancelled(true);
 
-            String traderId = target.getPersistentDataContainer().get(DataKeys.TRADER_KEY, PersistentDataType.STRING);
-            Integer spotId = target.getPersistentDataContainer().get(DataKeys.TRADER_SPOT_KEY, PersistentDataType.INTEGER);
-            // A trader from before the traders table has no spot, only the entity goes
-            if (spotId != null) plugin.getTraderManager().removeSpot(spotId);
-            target.remove();
+        Integer spotId = target.getPersistentDataContainer().get(DataKeys.TRADER_SPOT_KEY, PersistentDataType.INTEGER);
 
-            String spot = spotId == null ? "" : " <gray>(spot <white>#" + spotId + "<gray>)";
-            TextUtils.send(player, "<red><b>ZAP!</b> <gray>Trader <white>" + traderId + spot + " <gray>has been removed.");
-            player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_GENERIC_EXPLODE, 0.5f, 2.0f);
-        }
+        // A trader from before the traders table has no spot, only the entity goes
+        if (spotId != null) plugin.getTraderManager().removeSpot(spotId);
+        target.remove();
+
+        String spot = spotId == null ? "" : " <gray>(spot <white>#" + spotId + "<gray>)";
+        TextUtils.send(player, "<red><b>ZAP!</b> <gray>Trader <white>" + traderId + spot + " <gray>has been removed.");
+        player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.5f, 2.0f);
     }
 
     private boolean isWand(ItemStack item) {

@@ -2,13 +2,15 @@ package org.charky.aurora.common.util;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.List;
 
-public class TextUtils {
-    private static final String NAME ="<gradient:#7F7FD5:#91EAE4><b>AURORA</b></gradient>";
+public final class TextUtils {
+    private static final String NAME = "<gradient:#7F7FD5:#91EAE4><b>AURORA</b></gradient>";
     private static final String SERVER = "<gradient:#7F7FD5:#91EAE4><bold>AURORAMINES</bold></gradient>";
     private static final String PREFIX = "<gray>[" + NAME + "<gray>] <white>";
     private static final MiniMessage mm = MiniMessage.miniMessage();
@@ -53,6 +55,11 @@ public class TextUtils {
 
     public static void line(CommandSender sender, String color) {
         display(sender, color + "<st>                                                                                 </st>");
+    }
+
+    // Online players whose name starts with the input, for tab completion
+    public static List<String> playerCompletions(String input) {
+        return getCompletions(input, Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
     }
 
     public static List<String> getCompletions(String input, Collection<String> options) {

@@ -10,7 +10,7 @@ import org.charky.aurora.common.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class SpawnCommand implements CommandExecutor {
-    private Aurora plugin;
+    private final Aurora plugin;
 
     public SpawnCommand(Aurora plugin) {
         this.plugin = plugin;
@@ -24,7 +24,7 @@ public class SpawnCommand implements CommandExecutor {
             return true;
         }
 
-        Location location =  plugin.getSpawn(player.getWorld());
+        Location location = plugin.getSpawn(player.getWorld());
         if (location == null) {
             TextUtils.error(sender, "Spawn location is not set");
             return true;

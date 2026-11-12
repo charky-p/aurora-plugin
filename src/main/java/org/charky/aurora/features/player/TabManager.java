@@ -4,15 +4,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.charky.aurora.core.Aurora;
 
 public class TabManager {
-    private final Aurora plugin;
     private final MiniMessage mm = MiniMessage.miniMessage();
-
-    public TabManager(Aurora plugin) {
-        this.plugin = plugin;
-    }
 
     public void updateAll() {
         String headerStr = "<gradient:#7F7FD5:#91EAE4><bold>AURORAMINES</bold></gradient>\n" +

@@ -141,7 +141,7 @@ public class WorldCommand implements AuroraSubCommand {
             };
         }
         if (args.length == 3 && args[0].equalsIgnoreCase("tp")) {
-            return TextUtils.getCompletions(args[2], Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
+            return TextUtils.playerCompletions(args[2]);
         }
         return Collections.emptyList();
     }

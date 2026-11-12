@@ -9,9 +9,14 @@ import org.charky.aurora.core.Aurora;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MobSpawner {
+    // Nothing spawns unless a player is this close, mobs nobody sees only cost ticks
+    private static final double ACTIVATION_RANGE = 64.0;
+    // The spawn column and its four neighbours
+    private static final int[][] SPAWN_COLUMNS = {{0, 0}, {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
     private final Aurora plugin;
     private String name;
     private String world;
@@ -22,10 +27,8 @@ public class MobSpawner {
     private double radius;
     private int limit;
     private int delay;
-    private boolean active = true;
+    private boolean active;
     private BukkitTask task;
-
-    private static final double ACTIVATION_RANGE = 64.0;
     private int consecutiveFailures = 0;
 
     public MobSpawner(Aurora plugin, String name, String world, int x, int y, int z, MobData mob,
@@ -42,8 +45,13 @@ public class MobSpawner {
         this.delay = delay;
         this.active = active;
 
-        // Spawn mob with delay offset
-        if (active) this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
+        if (active) start();
+    }
+
+    // The first spawn comes one delay after starting, not straight away
+    private void start() {
+        stop();
+        this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
     }
 
     public String getName() {
@@ -118,10 +126,7 @@ public class MobSpawner {
     // The running task still has the old period, so restart it on the new one
     public void setDelay(int delay) {
         this.delay = delay;
-        if (!this.active) return;
-
-        if (this.task != null) this.task.cancel();
-        this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
+        if (this.active) start();
     }
 
     public void redefine(int x, int y, int z) {
@@ -136,11 +141,8 @@ public class MobSpawner {
 
     public boolean toggle() {
         this.active = !this.active;
-        if (this.active) {
-            this.task = Bukkit.getScheduler().runTaskTimer(plugin, this::spawnMob, delay, delay);
-        } else if (this.task != null) {
-            this.task.cancel();
-        }
+        if (this.active) start();
+        else stop();
 
         return this.active;
     }
@@ -161,7 +163,7 @@ public class MobSpawner {
         if (!watched) return;
 
         if (!world.isChunkLoaded(this.x >> 4, this.z >> 4)) return;
-        if (plugin.getMobManager().countFor(this.name) >= limit) return;
+        if (plugin.getSpawnerManager().countFor(this.name) >= limit) return;
 
         Location spawnLocation = findSpawnLocation();
         if (spawnLocation == null) {
@@ -172,7 +174,7 @@ public class MobSpawner {
         }
 
         consecutiveFailures = 0;
-        plugin.getMobManager().spawnMob(this.mob.id(), spawnLocation, this.name);
+        plugin.getSpawnerManager().spawnMob(this.mob.id(), spawnLocation, this.name);
     }
 
     // Wakes this spawner's mob now, for a summon key. Null if it worked, otherwise why not
@@ -181,17 +183,17 @@ public class MobSpawner {
 
         World world = Bukkit.getWorld(this.world);
         if (world == null || !world.isChunkLoaded(this.x >> 4, this.z >> 4)) return "This spawner is not loaded";
-        if (plugin.getMobManager().countFor(this.name) >= limit) return "It is already awake";
+        if (plugin.getSpawnerManager().countFor(this.name) >= limit) return "It is already awake";
 
         Location spawnLocation = findSpawnLocation();
         if (spawnLocation == null) return "There is no room for it to rise";
 
-        plugin.getMobManager().spawnMob(this.mob.id(), spawnLocation, this.name);
+        plugin.getSpawnerManager().spawnMob(this.mob.id(), spawnLocation, this.name);
         return null;
     }
 
     private Location findSpawnLocation() {
-        Random random = new Random();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         World world = Bukkit.getWorld(this.world);
 
         // Attempt to find location up to 10 times
@@ -212,8 +214,6 @@ public class MobSpawner {
         return null;
     }
 
-    private static final int[][] SPAWN_COLUMNS = {{0, 0}, {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-
     // A solid floor with the spawn column and its four neighbours free to the given
     // height. Passable rather than air, so grass and flowers don't block spawns
     public boolean isSafeSpot(Location floor, int height) {
@@ -231,5 +231,6 @@ public class MobSpawner {
 
     public void stop() {
         if (task != null) task.cancel();
+        task = null;
     }
 }

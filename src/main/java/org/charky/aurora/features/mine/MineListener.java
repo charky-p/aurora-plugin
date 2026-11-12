@@ -109,7 +109,7 @@ public class MineListener implements Listener {
             if (!blockDrops.isEmpty()) {
                 players.addMined(player);
                 block.setType(Material.AIR, false);
-                manager.handleBlockBreak(player, block.getLocation());
+                manager.handleBlockBreak(block.getLocation());
             }
         }
     }

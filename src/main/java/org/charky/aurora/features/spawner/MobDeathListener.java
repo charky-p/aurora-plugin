@@ -33,7 +33,7 @@ public class MobDeathListener implements Listener {
     private final ScoreboardManager scoreboard;
 
     public MobDeathListener(Aurora plugin) {
-        this.spawnerManager = plugin.getMobManager();
+        this.spawnerManager = plugin.getSpawnerManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
         this.armoryManager = plugin.getArmoryManager();

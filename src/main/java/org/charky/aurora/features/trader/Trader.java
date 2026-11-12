@@ -2,9 +2,10 @@ package org.charky.aurora.features.trader;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
 
 public class Trader {
@@ -13,7 +14,7 @@ public class Trader {
     private final EntityType type;
     private final TraderMenu menu;
 
-    public Trader(NamespacedKey traderKey, String traderId, Component displayName, EntityType type, TraderMenu menu) {
+    public Trader(String traderId, Component displayName, EntityType type, TraderMenu menu) {
         this.traderId = traderId;
         this.displayName = displayName;
         this.type = type;
@@ -42,19 +43,19 @@ public class Trader {
             entity.setSilent(true);
             entity.setGravity(false);
 
-            if (entity instanceof org.bukkit.entity.LivingEntity living) {
+            if (entity instanceof LivingEntity living) {
                 living.setAI(false);
                 living.setCollidable(false);
             }
 
             entity.getPersistentDataContainer().set(
                     DataKeys.TRADER_KEY,
-                    org.bukkit.persistence.PersistentDataType.STRING,
+                    PersistentDataType.STRING,
                     this.traderId
             );
             entity.getPersistentDataContainer().set(
                     DataKeys.TRADER_SPOT_KEY,
-                    org.bukkit.persistence.PersistentDataType.INTEGER,
+                    PersistentDataType.INTEGER,
                     spotId
             );
         });

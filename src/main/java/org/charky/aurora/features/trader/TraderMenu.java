@@ -14,11 +14,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 
 public class TraderMenu implements TraderNode, InventoryHolder {
-    private String menuId;
-    private Component title;
-    private int rows;
+    private final String menuId;
+    private final Component title;
+    private final int rows;
+    private final ItemStack displayItem;
+    // Filled after every menu exists, so menus can link to each other
     private Map<Integer, TraderNode> contents;
-    private ItemStack displayItem;
 
     public TraderMenu(String menuId, Component title, int rows, Map<Integer, TraderNode> contents, ItemStack displayItem) {
         this.menuId = menuId;

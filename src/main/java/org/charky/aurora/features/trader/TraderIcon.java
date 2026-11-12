@@ -18,6 +18,6 @@ public class TraderIcon implements TraderNode {
 
     @Override
     public void onClick(Player player) {
-        return;
+        // Display only
     }
 }

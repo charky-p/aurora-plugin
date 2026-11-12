@@ -47,10 +47,7 @@ public class InfoCommand implements AuroraSubCommand {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) {
-            return subCommands.keySet().stream()
-                    .filter(name -> name.startsWith(args[0].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return TextUtils.getCompletions(args[0], subCommands.keySet());
         }
         return Collections.emptyList();
     }

@@ -142,7 +142,7 @@ class StoresTest {
     @Test
     void renamedMineKeepsItsBlocks() {
         MineStore store = new MineStore(db);
-        store.add(mine("coal"));
+        store.save(mine("coal"));
         store.setBlocks("coal", List.of(new MineBlock(Material.COAL_ORE, 60, "coal_ore")));
 
         store.rename("coal", "Coal");
@@ -155,7 +155,7 @@ class StoresTest {
     @Test
     void removedMineTakesItsBlocks() {
         MineStore store = new MineStore(db);
-        store.add(mine("coal"));
+        store.save(mine("coal"));
         store.setBlocks("coal", List.of(new MineBlock(Material.COAL_ORE, 60, "coal_ore")));
 
         store.remove("coal");

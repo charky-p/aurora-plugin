@@ -43,11 +43,7 @@ public class SpawnerSetMobSub extends SpawnerSub {
         }
 
         if (args.length == 2) {
-            return registry.getMobs()
-                    .stream()
-                    .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return TextUtils.getCompletions(args[1], registry.getMobs());
         }
 
         return Collections.emptyList();

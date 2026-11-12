@@ -26,7 +26,7 @@ public class RefreshCommand implements CommandExecutor {
         try {
             plugin.getRegistry().loadAll();
             // Spawners keep their own copy of the mob, point them at the new one
-            plugin.getMobManager().reloadMobs();
+            plugin.getSpawnerManager().reloadMobs();
             // Traders respawn with their new name and type on the next check
             plugin.getTraderManager().respawnAll();
             TextUtils.success(sender, "Registry reloaded");

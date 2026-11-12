@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.core.Aurora;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -21,7 +20,6 @@ public class Mine {
     private List<MineBlock> blocks;
     private BukkitTask task;
     private int blocksBroken;
-    private int volume;
     private long lastResetTick = -1;
 
     public Mine(Aurora plugin, MineManager manager, MineData data, List<MineBlock> blocks) {
@@ -29,9 +27,6 @@ public class Mine {
         this.manager = manager;
         this.data = data;
         this.blocks = blocks;
-        this.volume = (Math.abs(data.getX1() - data.getX2()) + 1) *
-                      (Math.abs(data.getY1() - data.getY2()) + 1) *
-                      (Math.abs(data.getZ1() - data.getZ2()) + 1);
     }
 
     public void setBlocks(List<MineBlock> blocks) {
@@ -56,9 +51,6 @@ public class Mine {
 
     public void setLocations(Location location1, Location location2) {
         data.setLocations(location1, location2);
-        this.volume = (Math.abs(data.getX1() - data.getX2()) + 1) *
-                      (Math.abs(data.getY1() - data.getY2()) + 1) *
-                      (Math.abs(data.getZ1() - data.getZ2()) + 1);
     }
 
     public void startTimer() {
@@ -94,7 +86,7 @@ public class Mine {
 
     public void handleBlockBreak() {
         this.blocksBroken++;
-        if (((double) blocksBroken) / volume * 100 < data.getThreshold()) return;
+        if ((double) blocksBroken / data.volume() * 100 < data.getThreshold()) return;
 
         // Ensure we only reset at most once a tick, e.g. blast pickaxe
         if (this.lastResetTick == Bukkit.getCurrentTick()) return;

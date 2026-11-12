@@ -41,7 +41,7 @@ public class HealSub implements AuroraSubCommand {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length != 1) return List.of();
-        return TextUtils.getCompletions(args[0], Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
+        return TextUtils.playerCompletions(args[0]);
     }
 
     @Override

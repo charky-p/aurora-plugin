@@ -27,6 +27,9 @@ public final class CustomHealth {
 
     private static final Set<UUID> finishing = ConcurrentHashMap.newKeySet();
 
+    private CustomHealth() {
+    }
+
     public static void initialise(LivingEntity entity, MobData data) {
         PersistentDataContainer pdc = entity.getPersistentDataContainer();
         pdc.set(DataKeys.MAX_HEALTH_KEY, PersistentDataType.DOUBLE, data.health());

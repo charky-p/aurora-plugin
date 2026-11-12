@@ -10,7 +10,10 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class LocationUtils {
+public final class LocationUtils {
+    private LocationUtils() {
+    }
+
     // Set by /aurora -w <world> for the one command it runs, commands run on the
     // main thread one at a time so a plain field is enough
     private static World commandWorld;

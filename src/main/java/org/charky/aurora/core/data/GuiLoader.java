@@ -1,6 +1,5 @@
 package org.charky.aurora.core.data;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

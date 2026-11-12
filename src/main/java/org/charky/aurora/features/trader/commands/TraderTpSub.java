@@ -65,7 +65,7 @@ public class TraderTpSub extends TraderSub {
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) return TextUtils.getCompletions(args[0], traderManager.getSpotIds());
         if (args.length == 2) {
-            return TextUtils.getCompletions(args[1], Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
+            return TextUtils.playerCompletions(args[1]);
         }
         return Collections.emptyList();
     }

@@ -31,7 +31,7 @@ public class SpawnListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        World mineWorld = Bukkit.getWorld("aurora_mines");
+        World mineWorld = Bukkit.getWorld(Aurora.MAIN_WORLD);
 
         if (mineWorld != null) {
             Location spawnLoc = plugin.getSpawn(mineWorld);

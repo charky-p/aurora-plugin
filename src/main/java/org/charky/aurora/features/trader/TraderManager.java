@@ -15,7 +15,7 @@ public class TraderManager {
     private static final long CHECK_TICKS = 40;
 
     private final Aurora plugin;
-    public DataRegistry registry;
+    private final DataRegistry registry;
     private final TraderStore store;
     // Sorted by id, so lists come out in the order traders were placed
     private final Map<Integer, TraderSpot> spots = new TreeMap<>();

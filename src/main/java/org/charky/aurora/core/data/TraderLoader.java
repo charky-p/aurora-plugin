@@ -4,7 +4,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.entity.EntityType;
-import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.models.TraderModel;
 import org.charky.aurora.features.trader.Trader;
 import org.charky.aurora.features.trader.TraderMenu;
@@ -31,7 +30,7 @@ public class TraderLoader {
                 type = EntityType.VILLAGER;
             }
 
-            traders.put(id, new Trader(DataKeys.TRADER_KEY, id,
+            traders.put(id, new Trader(id,
                     MiniMessage.miniMessage().deserialize(model.display), type, guis.get(model.gui)));
         });
         return traders;

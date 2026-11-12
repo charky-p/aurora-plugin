@@ -10,7 +10,7 @@ public abstract class SpawnerSub implements AuroraSubCommand {
     protected final SpawnerManager spawnerManager;
 
     public SpawnerSub(Aurora plugin) {
-        this.spawnerManager = plugin.getMobManager();
+        this.spawnerManager = plugin.getSpawnerManager();
         this.registry = plugin.getRegistry();
     }
 

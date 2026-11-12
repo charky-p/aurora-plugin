@@ -56,11 +56,7 @@ public class MineTpSub extends MineSub {
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) return TextUtils.getCompletions(args[0], mineManager.getMines());
         else if (args.length == 2) {
-            return Bukkit.getOnlinePlayers()
-                    .stream()
-                    .map(Player::getName)
-                    .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
-                    .toList();
+            return TextUtils.playerCompletions(args[1]);
         }
 
         return Collections.emptyList();

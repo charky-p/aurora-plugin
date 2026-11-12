@@ -121,10 +121,7 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 1) {
-            return subCommands.keySet()
-                    .stream()
-                    .filter(s -> s.startsWith(args[0].toLowerCase()))
-                    .toList();
+            return TextUtils.getCompletions(args[0], subCommands.keySet());
         }
 
         AuroraSubCommand subCommand = subCommands.get(args[0].toLowerCase());

@@ -37,7 +37,7 @@ public class BackpackData {
 
             if (inBackpack > 0) {
                 long takenFromBackpack = Math.min(inBackpack, amountNeeded);
-                removeItem(cost.getId(), (int) takenFromBackpack);
+                removeItem(cost.getId(), takenFromBackpack);
                 amountNeeded -= takenFromBackpack;
             }
 

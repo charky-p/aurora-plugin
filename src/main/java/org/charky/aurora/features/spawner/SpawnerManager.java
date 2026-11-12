@@ -3,7 +3,6 @@ package org.charky.aurora.features.spawner;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
@@ -70,10 +69,9 @@ public class SpawnerManager {
     }
 
     public void removeSpawner(String spawnerName) {
-        if (!this.spawnerExists(spawnerName)) return;
-
         // Its spawn task would otherwise keep spawning until the next restart
         MobSpawner spawner = spawnerMap.remove(spawnerName);
+        if (spawner == null) return;
         spawner.stop();
         store.remove(spawner.getName());
     }
@@ -162,7 +160,6 @@ public class SpawnerManager {
     }
 
     public void setMob(String spawnerName, String mobName) {
-        if (!this.spawnerExists(spawnerName)) return;
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
@@ -173,7 +170,6 @@ public class SpawnerManager {
     }
 
     public void setRadius(String spawnerName, double radius) {
-        if (!this.spawnerExists(spawnerName)) return;
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
@@ -182,7 +178,6 @@ public class SpawnerManager {
     }
 
     public void setLimit(String spawnerName, int limit) {
-        if (!this.spawnerExists(spawnerName)) return;
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
@@ -191,7 +186,6 @@ public class SpawnerManager {
     }
 
     public void setDelay(String spawnerName, int delay) {
-        if (!this.spawnerExists(spawnerName)) return;
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
@@ -200,7 +194,6 @@ public class SpawnerManager {
     }
 
     public void redefine(String spawnerName, int x, int y, int z) {
-        if (!this.spawnerExists(spawnerName)) return;
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
@@ -209,7 +202,6 @@ public class SpawnerManager {
     }
 
     public void rename(String oldName, String newName) {
-        if (!this.spawnerExists(oldName)) return;
         MobSpawner spawner = spawnerMap.get(oldName);
         if (spawner == null) return;
 
@@ -220,7 +212,6 @@ public class SpawnerManager {
     }
 
     public boolean spawnerToggle(String spawnerName) {
-        if (!this.spawnerExists(spawnerName)) return false;
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return false;
 

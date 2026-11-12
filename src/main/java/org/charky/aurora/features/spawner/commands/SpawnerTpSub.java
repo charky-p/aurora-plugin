@@ -62,7 +62,7 @@ public class SpawnerTpSub extends SpawnerSub {
         }
 
         if (args.length == 2) {
-            return TextUtils.getCompletions(args[1], Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
+            return TextUtils.playerCompletions(args[1]);
         }
 
         return Collections.emptyList();

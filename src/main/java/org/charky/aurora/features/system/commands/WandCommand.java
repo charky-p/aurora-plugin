@@ -3,13 +3,13 @@ package org.charky.aurora.features.system.commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.features.system.WandManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class WandCommand implements AuroraSubCommand {
 
             // Marker tag so the listener knows this is a wand
             meta.getPersistentDataContainer().set(
-                    new NamespacedKey(this.plugin, "is_wand"),
+                    WandManager.wandKey(this.plugin),
                     PersistentDataType.BOOLEAN,
                     true
             );

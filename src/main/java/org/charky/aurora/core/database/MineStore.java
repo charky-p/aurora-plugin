@@ -22,10 +22,6 @@ public class MineStore {
         this.db = db;
     }
 
-    public void add(MineData data) {
-        db.update(REPLACE_MINE, pst -> bind(pst, data));
-    }
-
     public void remove(String name) {
         db.transaction(conn -> {
             Database.execute(conn, "DELETE FROM mines WHERE name = ?", pst -> pst.setString(1, name));
@@ -33,6 +29,7 @@ public class MineStore {
         });
     }
 
+    // Insert or overwrite, by name
     public void save(MineData data) {
         db.update(REPLACE_MINE, pst -> bind(pst, data));
     }

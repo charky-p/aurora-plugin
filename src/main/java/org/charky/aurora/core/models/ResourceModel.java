@@ -1,7 +1,5 @@
 package org.charky.aurora.core.models;
 
-import org.bukkit.Material;
-
 import java.util.ArrayList;
 import java.util.List;
 

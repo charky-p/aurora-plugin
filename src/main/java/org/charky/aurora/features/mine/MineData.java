@@ -33,6 +33,15 @@ public class MineData {
         this.tpZ = tpZ;
     }
 
+    // A new mine between two corners given in any order. It teleports to just
+    // outside its lowest corner until /aurora mine settp says otherwise
+    public static MineData between(String name, Location location1, Location location2, double threshold, int delay) {
+        MineData data = new MineData(name, null, 0, 0, 0, 0, 0, 0, threshold, delay, 0, 0, 0);
+        data.setLocations(location1, location2);
+        data.updateTeleport(data.x1 - 0.5, data.y1 + 1, data.z1 - 0.5);
+        return data;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -62,6 +71,15 @@ public class MineData {
                 && x1 <= this.x2 && x2 >= this.x1
                 && y1 <= this.y2 && y2 >= this.y1
                 && z1 <= this.z2 && z2 >= this.z1;
+    }
+
+    public boolean overlaps(MineData other) {
+        return overlaps(other.world, other.x1, other.y1, other.z1, other.x2, other.y2, other.z2);
+    }
+
+    // Blocks in the box, corners included
+    public long volume() {
+        return (long) (x2 - x1 + 1) * (y2 - y1 + 1) * (z2 - z1 + 1);
     }
 
     public void updateTeleport(double tpX, double tpY, double tpZ) {

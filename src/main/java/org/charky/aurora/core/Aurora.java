@@ -43,7 +43,6 @@ import org.charky.aurora.features.portal.PortalManager;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
-import org.charky.aurora.features.spawner.WeaponListener;
 import org.charky.aurora.features.system.SpawnListener;
 import org.charky.aurora.features.system.VoidGenerator;
 import org.charky.aurora.features.system.WandListener;
@@ -143,7 +142,6 @@ public class Aurora extends JavaPlugin {
         command("refresh", new RefreshCommand(this));
 
         List<Listener> listeners = List.of(
-                new WeaponListener(),
                 new MineListener(this),
                 new PlayerSessionListener(this, players, scoreboard, tabManager),
                 new MobDeathListener(this),

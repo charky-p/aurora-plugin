@@ -81,7 +81,7 @@ items:
   dune_scout:
     display: "<yellow><b>Dune Scout"
     entity: HUSK
-    health: 100.0
+    health: 80.0
     defence: 4.0
     attack: 15.0
     equip:
@@ -108,7 +108,7 @@ items:
     entity: WITHER_SKELETON
     health: 130.0
     defence: 5.0
-    attack: 15.0
+    attack: 11.0
     equip:
       head: stalker_helmet_1
       chest: stalker_chestplate_1
@@ -116,13 +116,12 @@ items:
       hand: stalker_fang
     attributes:
       - attr: MOVEMENT_SPEED
-        value: 0.36
+        value: 0.25
       - attr: FOLLOW_RANGE
         value: 48.0
     independent:
       - id: ancient_bone
-        min: 4
-        max: 9
+        max: 3
       - id: ancient_flesh
         chance: 30
         max: 3

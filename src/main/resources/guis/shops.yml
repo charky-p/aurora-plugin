@@ -120,49 +120,49 @@ items:
         cost:
           - id: starter_pick_0
           - id: cobblestone
-            amount: 8
+            amount: 16
       '2':
         type: TRADE
         id: cobble_pick_2
         cost:
           - id: cobble_pick_1
           - id: cobblestone
-            amount: 14
+            amount: 28
       '3':
         type: TRADE
         id: cobble_pick_3
         cost:
           - id: cobble_pick_2
           - id: cobblestone
-            amount: 22
+            amount: 44
       '4':
         type: TRADE
         id: cobble_pick_4
         cost:
           - id: cobble_pick_3
           - id: cobblestone
-            amount: 35
+            amount: 70
       '5':
         type: TRADE
         id: cobble_pick_5
         cost:
           - id: cobble_pick_4
           - id: cobblestone
-            amount: 55
+            amount: 110
       q:
         type: TRADE
         id: cobble_sword_1
         cost:
           - id: starter_sword_0
           - id: cobblestone
-            amount: 7
+            amount: 14
       w:
         type: TRADE
         id: cobble_sword_2
         cost:
           - id: cobble_sword_1
           - id: cobblestone
-            amount: 11
+            amount: 22
       A:
         type: GUI
         id: cobble_armor
@@ -187,49 +187,49 @@ items:
         cost:
           - id: cobble_pick_5
           - id: coal
-            amount: 33
+            amount: 66
       '2':
         type: TRADE
         id: coal_pick_2
         cost:
           - id: coal_pick_1
           - id: coal
-            amount: 53
+            amount: 106
       '3':
         type: TRADE
         id: coal_pick_3
         cost:
           - id: coal_pick_2
           - id: coal
-            amount: 85
+            amount: 170
       '4':
         type: TRADE
         id: coal_pick_4
         cost:
           - id: coal_pick_3
           - id: coal
-            amount: 137
+            amount: 274
       '5':
         type: TRADE
         id: coal_pick_5
         cost:
           - id: coal_pick_4
           - id: coal
-            amount: 218
+            amount: 436
       q:
         type: TRADE
         id: coal_sword_1
         cost:
           - id: cobble_sword_2
           - id: coal
-            amount: 27
+            amount: 54
       w:
         type: TRADE
         id: coal_sword_2
         cost:
           - id: coal_sword_1
           - id: coal
-            amount: 43
+            amount: 86
       A:
         type: GUI
         id: coal_armor
@@ -254,14 +254,14 @@ items:
         cost:
           - id: coal_pick_5
           - id: copper
-            amount: 41
+            amount: 82
       '2':
         type: TRADE
         id: copper_pick_2
         cost:
           - id: copper_pick_1
           - id: copper
-            amount: 65
+            amount: 130
       '3':
         type: TRADE
         id: copper_pick_3
@@ -282,7 +282,7 @@ items:
         cost:
           - id: copper_pick_4
           - id: copper
-            amount: 107
+            amount: 214
           - id: feather
             amount: 3
       q:
@@ -291,14 +291,14 @@ items:
         cost:
           - id: coal_sword_2
           - id: copper
-            amount: 33
+            amount: 66
       w:
         type: TRADE
         id: copper_sword_2
         cost:
           - id: copper_sword_1
           - id: copper
-            amount: 52
+            amount: 104
       e:
         type: TRADE
         id: copper_sword_3
@@ -319,7 +319,7 @@ items:
         cost:
           - id: copper_sword_4
           - id: copper
-            amount: 86
+            amount: 172
           - id: feather
             amount: 2
       A:
@@ -346,14 +346,14 @@ items:
         cost:
           - id: copper_pick_5
           - id: iron
-            amount: 83
+            amount: 166
       '2':
         type: TRADE
         id: iron_pick_2
         cost:
           - id: iron_pick_1
           - id: iron
-            amount: 133
+            amount: 266
       '3':
         type: TRADE
         id: iron_pick_3
@@ -374,7 +374,7 @@ items:
         cost:
           - id: iron_pick_4
           - id: iron
-            amount: 218
+            amount: 436
           - id: wool
             amount: 6
       q:
@@ -383,14 +383,14 @@ items:
         cost:
           - id: copper_sword_5
           - id: iron
-            amount: 66
+            amount: 132
       w:
         type: TRADE
         id: iron_sword_2
         cost:
           - id: iron_sword_1
           - id: iron
-            amount: 106
+            amount: 212
       e:
         type: TRADE
         id: iron_sword_3
@@ -411,7 +411,7 @@ items:
         cost:
           - id: iron_sword_4
           - id: iron
-            amount: 174
+            amount: 348
           - id: wool
             amount: 4
       A:
@@ -438,14 +438,14 @@ items:
         cost:
           - id: iron_pick_5
           - id: gold
-            amount: 180
+            amount: 360
       '2':
         type: TRADE
         id: gold_pick_2
         cost:
           - id: gold_pick_1
           - id: gold
-            amount: 288
+            amount: 576
       '3':
         type: TRADE
         id: gold_pick_3
@@ -466,7 +466,7 @@ items:
         cost:
           - id: gold_pick_4
           - id: gold
-            amount: 470
+            amount: 940
           - id: leather
             amount: 14
       q:
@@ -475,14 +475,14 @@ items:
         cost:
           - id: iron_sword_5
           - id: gold
-            amount: 143
+            amount: 286
       w:
         type: TRADE
         id: gold_sword_2
         cost:
           - id: gold_sword_1
           - id: gold
-            amount: 230
+            amount: 460
       e:
         type: TRADE
         id: gold_sword_3
@@ -503,7 +503,7 @@ items:
         cost:
           - id: gold_sword_4
           - id: gold
-            amount: 377
+            amount: 754
           - id: leather
             amount: 10
       A:
@@ -973,28 +973,28 @@ items:
         cost:
           - id: starter_helmet_0
           - id: cobblestone
-            amount: 4
+            amount: 8
       '6':
         type: TRADE
         id: cobble_chestplate_1
         cost:
           - id: starter_chestplate_0
           - id: cobblestone
-            amount: 4
+            amount: 8
       a:
         type: TRADE
         id: cobble_leggings_1
         cost:
           - id: starter_leggings_0
           - id: cobblestone
-            amount: 4
+            amount: 8
       f:
         type: TRADE
         id: cobble_boots_1
         cost:
           - id: starter_boots_0
           - id: cobblestone
-            amount: 4
+            amount: 8
       z:
         type: GUI
         id: cobble_shop
@@ -1017,28 +1017,28 @@ items:
         cost:
           - id: cobble_helmet_1
           - id: coal
-            amount: 17
+            amount: 34
       '6':
         type: TRADE
         id: coal_chestplate_1
         cost:
           - id: cobble_chestplate_1
           - id: coal
-            amount: 17
+            amount: 34
       a:
         type: TRADE
         id: coal_leggings_1
         cost:
           - id: cobble_leggings_1
           - id: coal
-            amount: 17
+            amount: 34
       f:
         type: TRADE
         id: coal_boots_1
         cost:
           - id: cobble_boots_1
           - id: coal
-            amount: 17
+            amount: 34
       z:
         type: GUI
         id: coal_shop
@@ -1061,14 +1061,14 @@ items:
         cost:
           - id: coal_helmet_1
           - id: copper
-            amount: 21
+            amount: 42
       '2':
         type: TRADE
         id: copper_helmet_2
         cost:
           - id: copper_helmet_1
           - id: copper
-            amount: 33
+            amount: 66
       '3':
         type: TRADE
         id: copper_helmet_3
@@ -1082,14 +1082,14 @@ items:
         cost:
           - id: coal_chestplate_1
           - id: copper
-            amount: 21
+            amount: 42
       '7':
         type: TRADE
         id: copper_chestplate_2
         cost:
           - id: copper_chestplate_1
           - id: copper
-            amount: 33
+            amount: 66
       '8':
         type: TRADE
         id: copper_chestplate_3
@@ -1103,14 +1103,14 @@ items:
         cost:
           - id: coal_leggings_1
           - id: copper
-            amount: 21
+            amount: 42
       b:
         type: TRADE
         id: copper_leggings_2
         cost:
           - id: copper_leggings_1
           - id: copper
-            amount: 33
+            amount: 66
       c:
         type: TRADE
         id: copper_leggings_3
@@ -1124,14 +1124,14 @@ items:
         cost:
           - id: coal_boots_1
           - id: copper
-            amount: 21
+            amount: 42
       g:
         type: TRADE
         id: copper_boots_2
         cost:
           - id: copper_boots_1
           - id: copper
-            amount: 33
+            amount: 66
       h:
         type: TRADE
         id: copper_boots_3
@@ -1161,14 +1161,14 @@ items:
         cost:
           - id: copper_helmet_3
           - id: iron
-            amount: 41
+            amount: 82
       '2':
         type: TRADE
         id: iron_helmet_2
         cost:
           - id: iron_helmet_1
           - id: iron
-            amount: 66
+            amount: 132
       '3':
         type: TRADE
         id: iron_helmet_3
@@ -1182,14 +1182,14 @@ items:
         cost:
           - id: copper_chestplate_3
           - id: iron
-            amount: 41
+            amount: 82
       '7':
         type: TRADE
         id: iron_chestplate_2
         cost:
           - id: iron_chestplate_1
           - id: iron
-            amount: 66
+            amount: 132
       '8':
         type: TRADE
         id: iron_chestplate_3
@@ -1203,14 +1203,14 @@ items:
         cost:
           - id: copper_leggings_3
           - id: iron
-            amount: 41
+            amount: 82
       b:
         type: TRADE
         id: iron_leggings_2
         cost:
           - id: iron_leggings_1
           - id: iron
-            amount: 66
+            amount: 132
       c:
         type: TRADE
         id: iron_leggings_3
@@ -1224,14 +1224,14 @@ items:
         cost:
           - id: copper_boots_3
           - id: iron
-            amount: 41
+            amount: 82
       g:
         type: TRADE
         id: iron_boots_2
         cost:
           - id: iron_boots_1
           - id: iron
-            amount: 66
+            amount: 132
       h:
         type: TRADE
         id: iron_boots_3
@@ -1261,14 +1261,14 @@ items:
         cost:
           - id: iron_helmet_3
           - id: gold
-            amount: 89
+            amount: 178
       '2':
         type: TRADE
         id: gold_helmet_2
         cost:
           - id: gold_helmet_1
           - id: gold
-            amount: 143
+            amount: 286
       '3':
         type: TRADE
         id: gold_helmet_3
@@ -1282,14 +1282,14 @@ items:
         cost:
           - id: iron_chestplate_3
           - id: gold
-            amount: 89
+            amount: 178
       '7':
         type: TRADE
         id: gold_chestplate_2
         cost:
           - id: gold_chestplate_1
           - id: gold
-            amount: 143
+            amount: 286
       '8':
         type: TRADE
         id: gold_chestplate_3
@@ -1303,14 +1303,14 @@ items:
         cost:
           - id: iron_leggings_3
           - id: gold
-            amount: 89
+            amount: 178
       b:
         type: TRADE
         id: gold_leggings_2
         cost:
           - id: gold_leggings_1
           - id: gold
-            amount: 143
+            amount: 286
       c:
         type: TRADE
         id: gold_leggings_3
@@ -1324,14 +1324,14 @@ items:
         cost:
           - id: iron_boots_3
           - id: gold
-            amount: 89
+            amount: 178
       g:
         type: TRADE
         id: gold_boots_2
         cost:
           - id: gold_boots_1
           - id: gold
-            amount: 143
+            amount: 286
       h:
         type: TRADE
         id: gold_boots_3

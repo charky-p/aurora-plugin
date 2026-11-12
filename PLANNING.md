@@ -111,6 +111,7 @@ quarry is mob fight in quarry
 gormak region:
 - abandoned city: scavenger husk, hollowed serf
 - dunes: sand stalker (skeleton bowman), dune scout (gormak minion)
+  - TODO when building it: obstacles and parkour across the dunes, so it plays differently from the city
 - temple: tomb guard, vizier mage
 - royal tomb: royal myrmidon, pharaoh, gormak the eternal
 

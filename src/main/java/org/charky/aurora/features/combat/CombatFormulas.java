@@ -6,6 +6,10 @@ public final class CombatFormulas {
     // Every sword hits for this before Sharpness
     public static final double BASE_DAMAGE = 10.0;
 
+    // A jump crit multiplies the hit, as in vanilla. The balance sim leaves crits out,
+    // so its kill times are what a player gets without them
+    public static final double CRIT_MULTIPLIER = 1.5;
+
     // Mob hits are dealt in real hearts, set by how many tiers the mob's attack
     // level sits above the player's protection level. Each zone spans this many
     // protection levels

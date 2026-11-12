@@ -82,6 +82,7 @@ REGIONS = [("origin", ORIGIN, "aurora_test"), ("gormak", GORMAK, "aurora_test_go
            ("verdant", VERDANT, "aurora_test_verdant")]
 LINKS = [("origin", "gormak"), ("gormak", "verdant")]
 Z = 0  # every strip runs along x from z 0
+SAFE_Z = Z - 12  # far edge of the safe platforms beside hostile zones
 
 
 def ids(name):
@@ -121,23 +122,41 @@ def run(world, cmd):
     return f"execute in minecraft:{world} run {cmd}"
 
 
+def hostile(spawners, kinds):
+    return any(kinds.get(mob) not in PASSIVE for mob, _ in spawners)
+
+
 # Fence posts with carpet on top, too high to jump, across the strip on both sides of
-# every zone with a hostile mob. A fence gate on the walking line lets players through
+# every zone with a hostile mob, running on past the safe platform. A fence gate on
+# the walking line lets players through
 def fences(world, zones):
     kinds = entities()
     edges = set()
     for i, (_, _, _, spawners) in enumerate(zones):
-        if any(kinds.get(mob) not in PASSIVE for mob, _ in spawners):
+        if hostile(spawners, kinds):
             edges |= {i * ZONE - 2, (i + 1) * ZONE - 2}
     out = []
     for x in sorted(edges):
         out += [
-            run(world, f"fill {x} {FLOOR_Y + 1} {Z - 4} {x} {FLOOR_Y + 1} {Z + PAD + 3} {FENCE}[north=true,south=true]"),
+            run(world, f"fill {x} {FLOOR_Y + 1} {SAFE_Z} {x} {FLOOR_Y + 1} {Z + PAD + 3} {FENCE}[north=true,south=true]"),
             run(world, f"setblock {x} {FLOOR_Y + 1} {Z + 14} {GATE}[facing=east]"),
-            run(world, f"fill {x} {FLOOR_Y + 2} {Z - 4} {x} {FLOOR_Y + 2} {Z + PAD + 3} {CARPET}"),
+            run(world, f"fill {x} {FLOOR_Y + 2} {SAFE_Z} {x} {FLOOR_Y + 2} {Z + PAD + 3} {CARPET}"),
             run(world, f"setblock {x} {FLOOR_Y + 2} {Z + 14} air"),
         ]
     return out
+
+
+# A platform off the left side of a hostile zone, walking along the strip, fenced off
+# from the zone. Its trader stands back from the fence, out of reach of mobs at it
+def safe_platform(world, x0):
+    front = Z - 5
+    return [
+        run(world, f"fill {x0 - 2} {FLOOR_Y} {SAFE_Z} {x0 + ZONE - 2} {FLOOR_Y} {front} {FLOOR}"),
+        run(world, f"fill {x0 - 1} {FLOOR_Y + 1} {front} {x0 + ZONE - 3} {FLOOR_Y + 1} {front} {FENCE}[east=true,west=true]"),
+        run(world, f"setblock {x0 + 14} {FLOOR_Y + 1} {front} {GATE}[facing=south]"),
+        run(world, f"fill {x0 - 1} {FLOOR_Y + 2} {front} {x0 + ZONE - 3} {FLOOR_Y + 2} {front} {CARPET}"),
+        run(world, f"setblock {x0 + 14} {FLOOR_Y + 2} {front} air"),
+    ], (x0 + 14.5, Z - 9.5)
 
 
 # Both ends of a region's strip along x
@@ -149,6 +168,7 @@ def commands(only):
     out = []
     worlds = {name: world for name, _, world in REGIONS}
     ends = {name: strip(zones) for name, zones, _ in REGIONS}
+    kinds = entities()
 
     for name, zones, world in REGIONS:
         if name not in only:
@@ -161,7 +181,7 @@ def commands(only):
             run(world, "gamerule advance_time false"), run(world, "gamerule spawn_mobs false"),
             # Gamerules are per world in 26.x, dying must not drop your gear here either
             run(world, "gamerule keep_inventory true"),
-            run(world, f"forceload add {x1} {Z - 4} {x2} {Z + PAD + 4}"),
+            run(world, f"forceload add {x1} {SAFE_Z} {x2} {Z + PAD + 4}"),
             run(world, f"fill {x1} {FLOOR_Y} {Z - 4} {x2} {FLOOR_Y} {Z + PAD + 3} {FLOOR}"),
         ]
 
@@ -178,9 +198,14 @@ def commands(only):
             for s, (mob, limit) in enumerate(spawners):
                 sx = x0 + 5 + s * 9
                 out.append(f"aurora spawner create t_{mob} {sx} {FLOOR_Y + 1} {Z + 20} {mob} {limit} 3 100 -w {world}")
-            # Right beside the zone's last mine, or near the stripe for a zone without one
-            tx = x0 + 10 * len(mines) + 0.5 if mines else x0 + 4.5
-            out.append(f"aurora trader create {trader} {tx} {FLOOR_Y + 1} {Z + 5.5} -w {world}")
+            # On the safe platform in a hostile zone, otherwise right beside the zone's
+            # last mine, or near the stripe for a zone without one
+            if hostile(spawners, kinds):
+                pen, (tx, tz) = safe_platform(world, x0)
+                out += pen
+            else:
+                tx, tz = (x0 + 10 * len(mines) + 0.5 if mines else x0 + 4.5), Z + 5.5
+            out.append(f"aurora trader create {trader} {tx} {FLOOR_Y + 1} {tz} -w {world}")
 
         out += fences(world, zones)
 

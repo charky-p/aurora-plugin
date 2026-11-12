@@ -45,7 +45,8 @@ public class CombatListener implements Listener {
             return;
         }
 
-        double dealt = playerDamage.dealt(attacker, registry.mobOf(victim));
+        // Vanilla decides what a crit is (falling, not sprinting, not in water), we scale it
+        double dealt = playerDamage.dealt(attacker, registry.mobOf(victim), event.isCritical());
         event.setDamage(CustomHealth.NOMINAL_DAMAGE);
         CustomHealth.apply(victim, dealt, attacker, registry);
         indicator.show(victim, dealt);

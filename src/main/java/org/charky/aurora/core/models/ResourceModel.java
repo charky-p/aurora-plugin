@@ -13,4 +13,6 @@ public class ResourceModel {
     public String region;
     // Tag given when the item is right clicked and used up, null for none
     public String unlocks;
+    // Mob summoned at its spawner when the item is right clicked, null for none
+    public String summons;
 }

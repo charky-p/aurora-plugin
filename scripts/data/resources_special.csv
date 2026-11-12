@@ -1,2 +1,3 @@
-id,display,material,world,region,lore,unlocks
-gormak_key,<gold><b>Gormak Key,TRIPWIRE_HOOK,overworld,origin_isles,<gray>Opens the portal to Gormak|<dark_gray>Right click to use,gormak
+id,display,material,world,region,lore,unlocks,summons
+gormak_key,<gold><b>Gormak Key,TRIPWIRE_HOOK,overworld,origin_isles,<gray>Opens the portal to Gormak|<dark_gray>Right click to use,gormak,
+tomb_key,<gold><b>Tomb Key,TRIAL_KEY,overworld,gormak_tomb,<gray>Summons Gormak the Eternal|<dark_gray>Right click by the Golden Throne,,gormak_eternal

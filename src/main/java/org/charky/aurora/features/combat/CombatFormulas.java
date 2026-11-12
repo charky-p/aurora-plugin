@@ -10,6 +10,12 @@ public final class CombatFormulas {
     // so its kill times are what a player gets without them
     public static final double CRIT_MULTIPLIER = 1.5;
 
+    // Every mob hit is this share of heartsPerHit, tuned down after the first
+    // playtest, and arrows and other projectiles take a share of that again since
+    // they land from range and with no swing to dodge
+    public static final double MOB_DAMAGE_SCALE = 0.6;
+    public static final double RANGED_SCALE = 0.5;
+
     // Mob hits are dealt in real hearts, set by how many tiers the mob's attack
     // level sits above the player's protection level. Each zone spans this many
     // protection levels

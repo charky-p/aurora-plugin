@@ -21,7 +21,6 @@ ancient_nugget,<gold><b>Ancient Nugget,GOLD_NUGGET,overworld,gormak_temple,<dark
 vizier_scroll,<yellow><b>Vizier Scroll,PAPER,overworld,gormak_temple,<dark_gray>Dropped by Vizier Mages
 eternal_soul,<dark_purple><b>Eternal Soul,ECHO_SHARD,overworld,gormak_tomb,<dark_gray>Dropped by Royal Myrmidons
 royal_seal,<gold><b>Royal Seal,HEART_OF_THE_SEA,overworld,gormak_tomb,<dark_gray>Dropped by Pharaohs
-tomb_key,<gold><b>Tomb Key,TRIAL_KEY,overworld,gormak_tomb,<gray>Summons Gormak the Eternal|<dark_gray>Use at the Golden Throne
 ancient_heart,<dark_red><b>Ancient Heart,NETHER_STAR,overworld,gormak_tomb,<dark_gray>Dropped by Gormak the Eternal
 mirage_shard,<light_purple><b>Mirage Shard,AMETHYST_SHARD,overworld,gormak,<gray>Shimmers as though it isn't there.|<dark_gray>Dropped by the Mirage
 oak_log,<#7BA05B>Oak Log,OAK_LOG,overworld,verdant_oak,<dark_gray>Verdant Groves - Oak Grove

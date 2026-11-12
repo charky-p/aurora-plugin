@@ -45,6 +45,10 @@ public class DataRegistry {
     private final Set<String> resourceIds = new HashSet<>();
     // Key items, item id to the tag right clicking it gives
     private final Map<String, String> unlocks = new LinkedHashMap<>();
+    // Item id to the mob right clicking it summons
+    private final Map<String, String> summons = new LinkedHashMap<>();
+    // resources_special.csv, keys are never boosted by Looting
+    private final Set<String> specialIds = new HashSet<>();
     // Gear that mobs drop, in mob load order (progression), with the mob that drops it
     private final Map<String, Component> armory = new LinkedHashMap<>();
 
@@ -73,10 +77,12 @@ public class DataRegistry {
         resourceList.clear();
         resourceIds.clear();
         unlocks.clear();
+        summons.clear();
+        specialIds.clear();
         armory.clear();
 
         actions = new MenuActions(backpackManager, armoryManager);
-        LootPoolBuilder loot = new LootPoolBuilder(items, this::isResource);
+        LootPoolBuilder loot = new LootPoolBuilder(items, this::isLootable);
 
         loadResources();
         loadEnchants();
@@ -101,13 +107,16 @@ public class DataRegistry {
     // when right clicked
     private void loadResources() {
         Map<String, ResourceModel> models = new LinkedHashMap<>(yaml.load("resources.yml", ResourceModel.class));
-        models.putAll(yaml.load("resources_special.yml", ResourceModel.class));
+        Map<String, ResourceModel> special = yaml.load("resources_special.yml", ResourceModel.class);
+        special.keySet().forEach(id -> specialIds.add(id.toLowerCase()));
+        models.putAll(special);
         models.forEach((id, model) -> {
             ItemStack item = itemFactory.createResource(model);
             putItem(id, item);
             resourceList.add(new MenuItem(id.toLowerCase(), item));
             resourceIds.add(id.toLowerCase());
             if (model.unlocks != null && !model.unlocks.isBlank()) unlocks.put(id.toLowerCase(), model.unlocks.toLowerCase());
+            if (model.summons != null && !model.summons.isBlank()) summons.put(id.toLowerCase(), model.summons.toLowerCase());
         });
     }
 
@@ -199,14 +208,42 @@ public class DataRegistry {
         return Collections.unmodifiableMap(armory);
     }
 
-    // Resources stack in the backpack, so only they are boosted by Looting
+    // Resources stack in the backpack
     public boolean isResource(String id) {
         return resourceIds.contains(id.toLowerCase());
+    }
+
+    // Looting widens resource drops, never keys, or a 1 in 12 key becomes 8 a kill
+    public boolean isLootable(String id) {
+        return isResource(id) && !specialIds.contains(id.toLowerCase());
     }
 
     // The tag a key item gives, null if it is not a key
     public String getUnlock(String itemId) {
         return itemId == null ? null : unlocks.get(itemId.toLowerCase());
+    }
+
+    // The mob a key item summons, null if it summons nothing
+    public String getSummon(String itemId) {
+        return itemId == null ? null : summons.get(itemId.toLowerCase());
+    }
+
+    // Summoned mobs only come from their key, their spawners never spawn them
+    public boolean isSummoned(String mobId) {
+        return mobId != null && summons.containsValue(mobId.toLowerCase());
+    }
+
+    // The item that summons a mob, for telling players what wakes it
+    public String getSummonKey(String mobId) {
+        return summons.entrySet().stream()
+                .filter(entry -> entry.getValue().equalsIgnoreCase(mobId))
+                .map(Map.Entry::getKey)
+                .findFirst().orElse(null);
+    }
+
+    // Any key, something that does a thing when right clicked
+    public boolean isKey(String itemId) {
+        return getUnlock(itemId) != null || getSummon(itemId) != null;
     }
 
     // The items that give a tag, for telling players what they are missing

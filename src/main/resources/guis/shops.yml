@@ -643,7 +643,7 @@ items:
         cost:
           - id: dunes_pick_2
           - id: ancient_bone
-            amount: 6
+            amount: 7
       q:
         type: TRADE
         id: dunes_sword_1
@@ -664,25 +664,25 @@ items:
         cost:
           - id: dunes_sword_2
           - id: ancient_bone
-            amount: 5
+            amount: 6
       r:
         type: TRADE
         id: dunes_sword_4
         cost:
           - id: dunes_sword_3
           - id: ancient_bone
-            amount: 8
+            amount: 9
       t:
         type: TRADE
         id: dunes_sword_5
         cost:
           - id: dunes_sword_4
           - id: ancient_flesh
-            amount: 5
+            amount: 6
           - id: ancient_bone
-            amount: 5
+            amount: 6
           - id: sunbaked_sand
-            amount: 122
+            amount: 140
       A:
         type: GUI
         id: dunes_armor
@@ -1541,7 +1541,7 @@ items:
         cost:
           - id: dunes_helmet_3
           - id: ancient_bone
-            amount: 5
+            amount: 6
       '5':
         type: TRADE
         id: dunes_helmet_5
@@ -1552,7 +1552,7 @@ items:
           - id: ancient_bone
             amount: 3
           - id: sunbaked_sand
-            amount: 77
+            amount: 89
       '6':
         type: TRADE
         id: dunes_chestplate_1
@@ -1579,7 +1579,7 @@ items:
         cost:
           - id: dunes_chestplate_3
           - id: ancient_bone
-            amount: 5
+            amount: 6
       '0':
         type: TRADE
         id: dunes_chestplate_5
@@ -1590,7 +1590,7 @@ items:
           - id: ancient_bone
             amount: 3
           - id: sunbaked_sand
-            amount: 77
+            amount: 89
       a:
         type: TRADE
         id: dunes_leggings_1
@@ -1617,7 +1617,7 @@ items:
         cost:
           - id: dunes_leggings_3
           - id: ancient_bone
-            amount: 5
+            amount: 6
       e:
         type: TRADE
         id: dunes_leggings_5
@@ -1628,7 +1628,7 @@ items:
           - id: ancient_bone
             amount: 3
           - id: sunbaked_sand
-            amount: 77
+            amount: 89
       f:
         type: TRADE
         id: dunes_boots_1
@@ -1655,7 +1655,7 @@ items:
         cost:
           - id: dunes_boots_3
           - id: ancient_bone
-            amount: 5
+            amount: 6
       j:
         type: TRADE
         id: dunes_boots_5
@@ -1666,7 +1666,7 @@ items:
           - id: ancient_bone
             amount: 3
           - id: sunbaked_sand
-            amount: 77
+            amount: 89
       z:
         type: GUI
         id: dunes_shop
@@ -2196,7 +2196,7 @@ items:
         cost:
           - id: dunes_shield_2
           - id: ancient_bone
-            amount: 6
+            amount: 7
       z:
         type: GUI
         id: dunes_shop

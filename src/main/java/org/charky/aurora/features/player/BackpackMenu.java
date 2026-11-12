@@ -8,7 +8,7 @@ import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.features.portal.PortalKeys;
+import org.charky.aurora.features.keys.KeyItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class BackpackMenu extends PagedMenu {
 
         String id = ids.get(index);
         if (backpack.getItems().getOrDefault(id, 0L) <= 0) return;
-        if (PortalKeys.use(player, registry, id)) {
+        if (KeyItems.use(player, registry, id)) {
             backpack.removeItem(id, 1);
             render(player);
         }

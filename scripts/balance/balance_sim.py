@@ -32,6 +32,7 @@ DATA = ROOT / "scripts" / "data"
 PLAYER_HEARTS = 10.0           # damage is dealt in real hearts
 LEVELS_PER_TIER = 4.0          # protection levels per zone tier (CombatListener)
 LOG_A, LOG_B = 1 / math.log(1.15), 0.15   # shape of the hearts curve above your tier
+MOB_DAMAGE_SCALE, RANGED_SCALE = 0.6, 0.5  # CombatFormulas, every mob hit, and arrows on top
 HUMAN_BLOCKS_PER_SEC = 5.0     # cap when blocks insta-break
 MINING_EFFICIENCY = 0.8        # aiming and walking inside the mine
 BLAST_FILL = 0.5               # share of blast neighbours still solid when you swing
@@ -202,7 +203,8 @@ def damage_taken(mob, armour):
     atk = MOBS[mob]["atk"]
     if atk <= 0:
         return 0.0
-    return hearts((atk - defence(armour)) / LEVELS_PER_TIER)
+    scale = MOB_DAMAGE_SCALE * (RANGED_SCALE if MOBS[mob]["entity"] in RANGED else 1.0)
+    return hearts((atk - defence(armour)) / LEVELS_PER_TIER) * scale
 
 
 def mob_rate(mob):
@@ -295,7 +297,8 @@ def source_of(resource, zone):
 def kill_drops(mob, sword):
     """Expected resources per kill, every one the mob drops, boosted by Looting."""
     looting = ench(sword, "looting")
-    return {rid: c * (avg + looting) for rid, c, avg in MOBS[mob]["drops"] if rid in RESOURCES}
+    # Looting.java: +1 to the range per two levels, rounded up
+    return {rid: c * (avg + (looting + 1) // 2) for rid, c, avg in MOBS[mob]["drops"] if rid in RESOURCES}
 
 
 def gather(resource, amount, owned, zone, warnings, stock):

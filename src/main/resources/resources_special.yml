@@ -4,7 +4,9 @@
 # Resources that are used up by right clicking them, in the backpack or the hand
 # [resource_id]:
 #   display, material, lore, world, region: as in resources.yml
-#   unlocks: gormak (the tag it gives, portals locked to that tag let the player through)
+#   unlocks: gormak (Optional, the tag it gives, portals locked to that tag let the player through)
+#   summons: gormak_eternal (Optional, the mob it wakes at that mob's spawner, which never spawns it by itself)
+#   Each needs unlocks or summons. Special resources are never boosted by Looting
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
@@ -19,3 +21,13 @@ items:
       - "<gray>Opens the portal to Gormak"
       - "<dark_gray>Right click to use"
     unlocks: gormak
+
+  tomb_key:
+    display: "<gold><b>Tomb Key"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "gormak_tomb"
+    lore:
+      - "<gray>Summons Gormak the Eternal"
+      - "<dark_gray>Right click by the Golden Throne"
+    summons: gormak_eternal

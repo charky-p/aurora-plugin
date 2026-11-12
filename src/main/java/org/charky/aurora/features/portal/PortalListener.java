@@ -14,6 +14,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.util.Vector;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.keys.KeyItems;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,9 +59,9 @@ public class PortalListener implements Listener {
         inside.put(player.getUniqueId(), portal.getName());
 
         String tag = portal.getRequiredTag();
-        if (tag != null && !PortalKeys.has(player, tag)) {
+        if (tag != null && !KeyItems.has(player, tag)) {
             knockBack(player, event.getFrom(), to);
-            player.sendActionBar(PortalKeys.missing(registry, tag));
+            player.sendActionBar(KeyItems.missing(registry, tag));
             return;
         }
 

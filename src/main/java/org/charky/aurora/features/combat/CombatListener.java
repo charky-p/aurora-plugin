@@ -71,7 +71,7 @@ public class CombatListener implements Listener {
             return;
         }
 
-        double damage = MobDamage.dealt(mob, player);
+        double damage = MobDamage.dealt(mob, player, event.getDamager() instanceof Projectile);
         thorns.reflect(player, source);
 
         // Vanilla would stop a blocked hit fully and knock the player back, so the

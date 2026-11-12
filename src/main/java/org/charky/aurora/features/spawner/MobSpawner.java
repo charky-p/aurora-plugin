@@ -147,6 +147,8 @@ public class MobSpawner {
 
     public void spawnMob() {
         if (!active) return;
+        // A boss waits for its key, see summon()
+        if (plugin.getRegistry().isSummoned(mob.id())) return;
 
         World world = Bukkit.getWorld(this.world);
         if (world == null) return;
@@ -171,6 +173,21 @@ public class MobSpawner {
 
         consecutiveFailures = 0;
         plugin.getMobManager().spawnMob(this.mob.id(), spawnLocation, this.name);
+    }
+
+    // Wakes this spawner's mob now, for a summon key. Null if it worked, otherwise why not
+    public String summon() {
+        if (!active) return "This spawner is turned off";
+
+        World world = Bukkit.getWorld(this.world);
+        if (world == null || !world.isChunkLoaded(this.x >> 4, this.z >> 4)) return "This spawner is not loaded";
+        if (plugin.getMobManager().countFor(this.name) >= limit) return "It is already awake";
+
+        Location spawnLocation = findSpawnLocation();
+        if (spawnLocation == null) return "There is no room for it to rise";
+
+        plugin.getMobManager().spawnMob(this.mob.id(), spawnLocation, this.name);
+        return null;
     }
 
     private Location findSpawnLocation() {

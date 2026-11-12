@@ -189,15 +189,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Pharaohs"
 
-  tomb_key:
-    display: "<gold><b>Tomb Key"
-    material: TRIAL_KEY
-    world: "overworld"
-    region: "gormak_tomb"
-    lore:
-      - "<gray>Summons Gormak the Eternal"
-      - "<dark_gray>Use at the Golden Throne"
-
   ancient_heart:
     display: "<dark_red><b>Ancient Heart"
     material: NETHER_STAR

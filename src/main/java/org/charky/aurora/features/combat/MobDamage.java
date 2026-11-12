@@ -20,8 +20,10 @@ public final class MobDamage {
     }
 
     // In vanilla health points, one heart is two
-    public static double dealt(MobData mob, Player player) {
-        return CombatFormulas.heartsPerHit(mob.attack(), protection(player)) * 2.0;
+    public static double dealt(MobData mob, Player player, boolean ranged) {
+        double hearts = CombatFormulas.heartsPerHit(mob.attack(), protection(player)) * CombatFormulas.MOB_DAMAGE_SCALE;
+        if (ranged) hearts *= CombatFormulas.RANGED_SCALE;
+        return hearts * 2.0;
     }
 
     // Average protection over the four slots, plus Defence from the best shield

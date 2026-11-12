@@ -12,8 +12,10 @@ class LootingTest {
     }
 
     @Test
-    void eachLevelShiftsTheWholeRangeUpByOne() {
+    void everyTwoLevelsShiftTheWholeRangeUpByOne() {
         assertEquals(new Looting.Range(2, 4), Looting.apply(1, 3, 1));
-        assertEquals(new Looting.Range(6, 8), Looting.apply(1, 3, 5));
+        assertEquals(new Looting.Range(2, 4), Looting.apply(1, 3, 2));
+        assertEquals(new Looting.Range(4, 6), Looting.apply(1, 3, 5));
+        assertEquals(new Looting.Range(5, 7), Looting.apply(1, 3, 8));
     }
 }

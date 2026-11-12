@@ -234,7 +234,9 @@ SPECIAL_HEADER = """\
 # Resources that are used up by right clicking them, in the backpack or the hand
 # [resource_id]:
 #   display, material, lore, world, region: as in resources.yml
-#   unlocks: gormak (the tag it gives, portals locked to that tag let the player through)
+#   unlocks: gormak (Optional, the tag it gives, portals locked to that tag let the player through)
+#   summons: gormak_eternal (Optional, the mob it wakes at that mob's spawner, which never spawns it by itself)
+#   Each needs unlocks or summons. Special resources are never boosted by Looting
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ==========================================================="""
@@ -423,7 +425,8 @@ SCHEMAS["resources_special"] = {
     "out": "resources_special.yml",
     "header": SPECIAL_HEADER,
     "fields": OrderedDict(list(SCHEMAS["resources"]["fields"].items()) + [
-        ("unlocks",  Str(required=True)),
+        ("unlocks",  Str()),
+        ("summons",  Str()),
     ]),
 }
 
@@ -674,6 +677,12 @@ def validate(built):
         if name.startswith("mobs_"):
             mobs.update(get(name))
 
+    for rid, entry in get("resources_special").items():
+        if not entry.get("unlocks") and not entry.get("summons"):
+            errors.append(f"special resource '{rid}' needs unlocks or summons")
+        if entry.get("summons") and entry["summons"] not in mobs:
+            errors.append(f"special resource '{rid}' summons unknown mob '{entry['summons']}'")
+
     for gid, entry in gear.items():
         for enchant in (entry.get("enchants") or {}):
             if enchant not in enchants:
@@ -755,7 +764,7 @@ def validate(built):
         if rid not in mined and rid not in dropped and rid not in sold:
             warnings.append(f"resource '{rid}' is never mined, dropped or sold")
         # A key is used up by right clicking it, not spent in a shop
-        elif rid not in costs_used and not resources[rid].get("unlocks"):
+        elif rid not in costs_used and rid not in get("resources_special"):
             warnings.append(f"resource '{rid}' is never used as a cost")
 
     return errors, warnings

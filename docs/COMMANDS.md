@@ -57,7 +57,9 @@ A box like a mine. Walking in sends you to its destination, which can be in anot
 | `/a portal info <portal>` | Its box and destination |
 | `/a portal tp <portal> [player]` | Teleport into it |
 
-**Locked portals.** Players get a tag by right clicking a key item, in their backpack or their hand, which uses it up. Key items are in `scripts/data/resources_special.csv`, the `unlocks` column is the tag they give, e.g. `gormak_key` gives `gormak`. Tags are vanilla scoreboard tags, so from the console `/tag <player> add gormak`, `/tag <player> remove gormak` and `/tag <player> list` give, take and show them.
+**Locked portals.** Players get a tag by right clicking a key item, in their backpack or their hand, which uses it up. Key items are in `scripts/data/resources_special.csv`, the `unlocks` column is the tag they give, e.g. `gormak_key` gives `gormak`.
+
+**Summoned bosses.** A key with a `summons` column, e.g. `tomb_key` summons `gormak_eternal`, wakes that mob at its spawner when right clicked within 24 blocks of it. Spawners of a summoned mob never spawn it by themselves, so place the boss's spawner with `/a spawner create` as usual, where it should rise. Its limit is how many can be awake at once. Tags are vanilla scoreboard tags, so from the console `/tag <player> add gormak`, `/tag <player> remove gormak` and `/tag <player> list` give, take and show them.
 
 ## Mines
 

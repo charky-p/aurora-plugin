@@ -65,7 +65,7 @@ public class Mine {
         stopTimer();
         // A delay of 0 or less would reset the mine every tick
         long delayTicks = Math.max(MIN_DELAY_TICKS, this.data.getDelay());
-        this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, this::resetMine, delayTicks, delayTicks);
+        this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, this::timedReset, delayTicks, delayTicks);
     }
 
     public void stopTimer() {
@@ -73,6 +73,23 @@ public class Mine {
             this.task.cancel();
             this.task = null;
         }
+    }
+
+    // Filling unloaded chunks would load them on the main thread every delay, for a
+    // mine nobody is near. Skipped, the next timer resets it once someone is close
+    private void timedReset() {
+        World world = Bukkit.getWorld(this.data.getWorld());
+        if (world == null || !chunksLoaded(world)) return;
+        resetMine();
+    }
+
+    private boolean chunksLoaded(World world) {
+        for (int cx = this.data.getX1() >> 4; cx <= this.data.getX2() >> 4; cx++) {
+            for (int cz = this.data.getZ1() >> 4; cz <= this.data.getZ2() >> 4; cz++) {
+                if (!world.isChunkLoaded(cx, cz)) return false;
+            }
+        }
+        return true;
     }
 
     public void handleBlockBreak() {

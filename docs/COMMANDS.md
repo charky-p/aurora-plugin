@@ -27,7 +27,9 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 
 ## Test world
 
-`python scripts/build_test_world.py --send` builds a playable skeleton of every region in a void world, `aurora_test`, on the running local server, from console commands only. Plain platforms, one square per zone with its mines, spawners and trader, and obsidian gates linking Origin, Gormak and Verdant both ways. Everything it names starts with `t_`. Go there with `/a world tp aurora_test`. Without `--send` it prints the commands instead.
+`python scripts/build_test_world.py --send` builds a playable skeleton of every region on the running local server, from console commands only. Each region is its own void world with its own spawn, like the real server, so dying respawns you in that region: `aurora_test` (Origin), `aurora_test_gormak`, `aurora_test_verdant`. Plain platforms, one square per zone with its mines, spawners and a trader beside the mine, and obsidian gates linking the regions both ways. The gate to Gormak is locked to `gormak`, with the Gate Warden beside it. Everything it names starts with `t_`. Go there with `/a world tp aurora_test`.
+
+Without `--send` it prints the commands instead. `--regions gormak,verdant` builds only those, and `--teardown --send` deletes everything it built so it can be built again.
 
 ## Worlds
 

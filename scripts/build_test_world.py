@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
 """
-Builds a playable skeleton of every region in a fresh void world, aurora_test, with
-nothing but console commands. Plain 1 block thick platforms, one square per zone with
-its mines, spawners and trader, and portal gates linking the regions both ways.
+Builds a playable skeleton of every region with nothing but console commands, each
+region in its own fresh void world like the real server, so dying respawns you at that
+region's spawn. Plain 1 block thick platforms, one square per zone with its mines,
+spawners and trader, and portal gates linking the regions both ways.
 Every name starts with t_ so nothing clashes with the mines and spawners you built.
 
-  python scripts/build_test_world.py              print the commands
-  python scripts/build_test_world.py --send       send them to the running local server
+  python scripts/build_test_world.py                       print the commands
+  python scripts/build_test_world.py --send                send them to the running local server
+  python scripts/build_test_world.py --regions gormak      only build these, portals to them included
+  python scripts/build_test_world.py --teardown --send     delete what it built, to build again
 
 Ids are checked against scripts/data/*.csv first. Go there with /aurora world tp aurora_test.
-Run it once: a second run fails on names that already exist.
+Run it once per region: a second run fails on names that already exist.
 """
 import argparse
 import csv
+import sqlite3
 import sys
 import time
 from pathlib import Path
@@ -20,9 +24,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "scripts" / "data"
 CONSOLE = ROOT / "LocalServer" / "console.in"
+DB = ROOT / "LocalServer" / "plugins" / "Aurora" / "mines.db"
 
-WORLD = "aurora_test"
-DIM = f"minecraft:{WORLD}"
 FLOOR_Y = 64            # the 1 block thick floor, players stand at 65
 ZONE = 32               # each zone is a 28 x 28 square, 32 apart along x
 PAD = 28
@@ -69,8 +72,11 @@ VERDANT = [
 # Gates that need a tag, with the trader beside them that sells its key
 LOCKED = {("origin", "gormak"): ("gormak", "gate_trader")}
 
-# region name, its zones, z of the strip
-REGIONS = [("origin", ORIGIN, 0), ("gormak", GORMAK, 200), ("verdant", VERDANT, 400)]
+# region name, its zones, its world
+REGIONS = [("origin", ORIGIN, "aurora_test"), ("gormak", GORMAK, "aurora_test_gormak"),
+           ("verdant", VERDANT, "aurora_test_verdant")]
+LINKS = [("origin", "gormak"), ("gormak", "verdant")]
+Z = 0  # every strip runs along x from z 0
 
 
 def ids(name):
@@ -98,76 +104,126 @@ def check():
         sys.exit("Not in the CSVs: " + ", ".join(missing))
 
 
-def run(cmd):
-    return f"execute in {DIM} run {cmd}"
+def run(world, cmd):
+    return f"execute in minecraft:{world} run {cmd}"
 
 
-def commands():
-    out = [
-        f"aurora world create {WORLD}",
-        # Time stands still and nothing spawns by itself, so only spawner mobs are
-        # about. Not /time set: in 26.x it moves the overworld clock other worlds share
-        run("gamerule advance_time false"), run("gamerule spawn_mobs false"),
-    ]
+# Both ends of a region's strip along x
+def strip(zones):
+    return -10, len(zones) * ZONE + 2
 
-    strip = {}
-    for name, zones, z in REGIONS:
-        x1, x2 = -10, len(zones) * ZONE + 2
-        strip[name] = (x1, x2, z)
-        out.append(run(f"forceload add {x1} {z - 4} {x2} {z + PAD + 4}"))
-        out.append(run(f"fill {x1} {FLOOR_Y} {z - 4} {x2} {FLOOR_Y} {z + PAD + 3} {FLOOR}"))
+
+def commands(only):
+    out = []
+    worlds = {name: world for name, _, world in REGIONS}
+    ends = {name: strip(zones) for name, zones, _ in REGIONS}
+
+    for name, zones, world in REGIONS:
+        if name not in only:
+            continue
+        x1, x2 = ends[name]
+        out += [
+            f"aurora world create {world}",
+            # Time stands still and nothing spawns by itself, so only spawner mobs are
+            # about. Not /time set: in 26.x it moves the overworld clock other worlds share
+            run(world, "gamerule advance_time false"), run(world, "gamerule spawn_mobs false"),
+            run(world, f"forceload add {x1} {Z - 4} {x2} {Z + PAD + 4}"),
+            run(world, f"fill {x1} {FLOOR_Y} {Z - 4} {x2} {FLOOR_Y} {Z + PAD + 3} {FLOOR}"),
+        ]
 
         for i, (zone, trader, mines, spawners) in enumerate(zones):
             x0 = i * ZONE
             # A coloured stripe across the strip marks where each zone starts
-            out.append(run(f"fill {x0 - 2} {FLOOR_Y} {z - 4} {x0 - 2} {FLOOR_Y} {z + PAD + 3} black_concrete"))
+            out.append(run(world, f"fill {x0 - 2} {FLOOR_Y} {Z - 4} {x0 - 2} {FLOOR_Y} {Z + PAD + 3} black_concrete"))
             for m, (mine, mix) in enumerate(mines):
                 mx = x0 + 2 + m * 10
-                mz = z + 2
-                out.append(f"aurora mine create t_{mine} {mx} {FLOOR_Y + 1} {mz} {mx + 6} {FLOOR_Y + 4} {mz + 6} 101 1200 -w {WORLD}")
+                mz = Z + 2
+                out.append(f"aurora mine create t_{mine} {mx} {FLOOR_Y + 1} {mz} {mx + 6} {FLOOR_Y + 4} {mz + 6} 101 1200 -w {world}")
                 out.append(f"aurora mine setblocks t_{mine} " + " ".join(f"{b} {p}" for b, p in mix.items()))
                 out.append(f"aurora mine settp t_{mine} {mx + 3.5} {FLOOR_Y + 1} {mz + 8.5}")
             for s, (mob, limit) in enumerate(spawners):
                 sx = x0 + 5 + s * 9
-                out.append(f"aurora spawner create t_{mob} {sx} {FLOOR_Y + 1} {z + 20} {mob} {limit} 3 100 -w {WORLD}")
-            out.append(f"aurora trader create {trader} {x0 + 24.5} {FLOOR_Y + 1} {z + 4.5} -w {WORLD}")
+                out.append(f"aurora spawner create t_{mob} {sx} {FLOOR_Y + 1} {Z + 20} {mob} {limit} 3 100 -w {world}")
+            # Right beside the zone's last mine, or near the stripe for a zone without one
+            tx = x0 + 10 * len(mines) + 0.5 if mines else x0 + 4.5
+            out.append(f"aurora trader create {trader} {tx} {FLOOR_Y + 1} {Z + 5.5} -w {world}")
 
-    # Gates: the end of each strip leads to the start of the next, and back
+        # Arrive and respawn at the start of the strip, facing along it
+        out.append(f"aurora setspawn {x1 + 5.5} {FLOOR_Y + 1} {Z + 14.5} -90 -w {world}")
+
+    # Gates: the end of each strip leads to the start of the next region's, and back.
     # A 5 wide, 4 high opening standing on the floor, framed on the sides and top
-    def gate(x, z):
-        out.append(run(f"fill {x} {FLOOR_Y + 1} {z + 11} {x} {FLOOR_Y + 5} {z + 17} {FRAME}"))
-        out.append(run(f"fill {x} {FLOOR_Y + 1} {z + 12} {x} {FLOOR_Y + 4} {z + 16} air"))
-        return f"{x} {FLOOR_Y + 1} {z + 12} {x} {FLOOR_Y + 4} {z + 16}"
+    touched = set()
 
-    for (a, b) in [("origin", "gormak"), ("gormak", "verdant")]:
-        _, ax2, az = strip[a]
-        bx1, _, bz = strip[b]
-        forward = gate(ax2 - 2, az)
-        back = gate(bx1 + 2, bz)
-        out.append(f"aurora portal create t_{a}_to_{b} {forward} -w {WORLD}")
-        out.append(f"aurora portal setdest t_{a}_to_{b} {WORLD} {bx1 + 5.5} {FLOOR_Y + 1} {bz + 14.5} -90 0")
+    def gate(world, x):
+        touched.add(world)
+        out.append(run(world, f"forceload add {x} {Z + 11} {x} {Z + 17}"))
+        out.append(run(world, f"fill {x} {FLOOR_Y + 1} {Z + 11} {x} {FLOOR_Y + 5} {Z + 17} {FRAME}"))
+        out.append(run(world, f"fill {x} {FLOOR_Y + 1} {Z + 12} {x} {FLOOR_Y + 4} {Z + 16} air"))
+        return f"{x} {FLOOR_Y + 1} {Z + 12} {x} {FLOOR_Y + 4} {Z + 16}"
+
+    for a, b in LINKS:
+        if a not in only and b not in only:
+            continue
+        aw, bw = worlds[a], worlds[b]
+        _, ax2 = ends[a]
+        bx1, _ = ends[b]
+        forward = gate(aw, ax2 - 2)
+        back = gate(bw, bx1 + 2)
+        out.append(f"aurora portal create t_{a}_to_{b} {forward} -w {aw}")
+        out.append(f"aurora portal setdest t_{a}_to_{b} {bw} {bx1 + 5.5} {FLOOR_Y + 1} {Z + 14.5} -90 0")
         if (a, b) in LOCKED:
             tag, trader = LOCKED[(a, b)]
             out.append(f"aurora portal settag t_{a}_to_{b} {tag}")
-            out.append(f"aurora trader create {trader} {ax2 - 5.5} {FLOOR_Y + 1} {az + 19.5} -w {WORLD}")
-        out.append(f"aurora portal create t_{b}_to_{a} {back} -w {WORLD}")
-        out.append(f"aurora portal setdest t_{b}_to_{a} {WORLD} {ax2 - 5.5} {FLOOR_Y + 1} {az + 14.5} 90 0")
+            if a in only:
+                out.append(f"aurora trader create {trader} {ax2 - 5.5} {FLOOR_Y + 1} {Z + 19.5} -w {aw}")
+        out.append(f"aurora portal create t_{b}_to_{a} {back} -w {bw}")
+        out.append(f"aurora portal setdest t_{b}_to_{a} {aw} {ax2 - 5.5} {FLOOR_Y + 1} {Z + 14.5} 90 0")
 
-    ox1, _, oz = strip["origin"]
-    out.append(f"aurora setspawn {ox1 + 4.5} {FLOOR_Y + 1} {oz + 14.5} -90 -w {WORLD}")
     # Mines are filled and every placement saved, chunks can unload again
-    for name, (x1, x2, z) in strip.items():
-        out.append(run(f"forceload remove {x1} {z - 4} {x2} {z + PAD + 4}"))
+    for name, _, world in REGIONS:
+        if name in only or world in touched:
+            out.append(run(world, "forceload remove all"))
+    return out
+
+
+# Deletes everything commands() makes for these regions. Trader spots are numbered, so
+# they are read from the local database, every spot in a region's world goes
+def teardown(only):
+    worlds = {world for name, _, world in REGIONS if name in only}
+    out = []
+    for name, zones, _ in REGIONS:
+        if name not in only:
+            continue
+        for _, _, mines, spawners in zones:
+            out += [f"aurora mine delete t_{mine}" for mine, _ in mines]
+            out += [f"aurora spawner delete t_{mob}" for mob, _ in spawners]
+    for a, b in LINKS:
+        if a in only or b in only:
+            out += [f"aurora portal delete t_{a}_to_{b}", f"aurora portal delete t_{b}_to_{a}"]
+    if DB.exists():
+        with sqlite3.connect(DB) as db:
+            for world in sorted(worlds):
+                spots = db.execute("SELECT id FROM traders WHERE world = ? ORDER BY id", (world,)).fetchall()
+                out += [f"aurora trader delete {spot}" for (spot,) in spots]
     return out
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.strip().split("\n")[0])
     ap.add_argument("--send", action="store_true", help="send to the server started by scripts/server.sh")
+    ap.add_argument("--teardown", action="store_true", help="delete what the build makes instead")
+    ap.add_argument("--regions", default=",".join(name for name, _, _ in REGIONS),
+                    help="comma separated, default all: " + ", ".join(name for name, _, _ in REGIONS))
     args = ap.parse_args()
 
+    only = {r.strip() for r in args.regions.split(",") if r.strip()}
+    unknown = only - {name for name, _, _ in REGIONS}
+    if unknown:
+        sys.exit("Unknown region: " + ", ".join(sorted(unknown)))
+
     check()
-    cmds = commands()
+    cmds = teardown(only) if args.teardown else commands(only)
     if not args.send:
         print("\n".join(cmds))
         return
@@ -179,7 +235,7 @@ def main():
             console.write(cmd + "\n")
             console.flush()
             # World creation and forceloading take a moment, the rest are quick
-            time.sleep(4 if cmd.startswith(("aurora world", "execute in " + DIM + " run forceload add")) else 0.3)
+            time.sleep(4 if cmd.startswith("aurora world") or " run forceload add " in cmd else 0.3)
     print(f"Sent {len(cmds)} commands")
 
 

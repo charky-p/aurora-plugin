@@ -70,9 +70,18 @@ public class CombatListener implements Listener {
             return;
         }
 
-        event.setDamage(MobDamage.dealt(mob, player));
-        // TODO: deflection, shield blocks still use vanilla and stop the hit fully
+        double damage = MobDamage.dealt(mob, player);
         thorns.reflect(player, source);
+
+        // Vanilla would stop a blocked hit fully and knock the player back, so the
+        // hit is cancelled and ShieldBlock deals what gets through itself
+        if (ShieldBlock.blocks(player, event.getDamager())) {
+            event.setCancelled(true);
+            ShieldBlock.take(player, mob, damage);
+            return;
+        }
+
+        event.setDamage(damage);
     }
 
     @EventHandler

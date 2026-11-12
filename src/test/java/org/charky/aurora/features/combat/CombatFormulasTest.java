@@ -64,4 +64,46 @@ class CombatFormulasTest {
         assertEquals(1.0, CombatFormulas.chargeMultiplier(625), EPSILON);
         assertEquals(1.0, CombatFormulas.chargeMultiplier(5000), EPSILON);
     }
+
+    // Each zone's shields against each zone's mobs: Abandoned City 11, Dunes 15,
+    // Canyons 19, Sun Temple 23, Royal Tomb 25
+    @Test
+    void shieldOfTheZoneStopsItsOwnMobs() {
+        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(11, 0)), EPSILON);
+        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(15, 3)), EPSILON);
+        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(19, 6)), EPSILON);
+        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(23, 9)), EPSILON);
+    }
+
+    @Test
+    void sameTierShieldIsExactlyCovered() {
+        assertEquals(0.0, CombatFormulas.deflectionGap(15, 3), EPSILON);
+        assertEquals(-1.0, CombatFormulas.deflectionGap(11, 3), EPSILON);
+    }
+
+    @Test
+    void oneZoneUpLetsPartOfTheHitThrough() {
+        // City shield against Dunes mobs, one tier above
+        double through = CombatFormulas.throughShield(CombatFormulas.deflectionGap(15, 0));
+        assertTrue(through > 0 && through < 1, "got " + through);
+        assertFalse(CombatFormulas.breaksShield(CombatFormulas.deflectionGap(15, 0)));
+    }
+
+    @Test
+    void twoZonesUpBreaksTheShield() {
+        // City shield against Canyon mobs
+        assertTrue(CombatFormulas.breaksShield(CombatFormulas.deflectionGap(19, 0)));
+        assertEquals(1.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(19, 0)), EPSILON);
+    }
+
+    @Test
+    void moreGetsThroughTheHigherTheAttack() {
+        double previous = -1;
+        for (int attack = 11; attack <= 30; attack++) {
+            double through = CombatFormulas.throughShield(CombatFormulas.deflectionGap(attack, 3));
+            assertTrue(through >= previous, "attack " + attack);
+            assertTrue(through >= 0 && through <= 1);
+            previous = through;
+        }
+    }
 }

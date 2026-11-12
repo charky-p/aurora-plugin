@@ -19,6 +19,15 @@ public final class CombatFormulas {
 
     private static final double FULL_CHARGE_MS = 625.0;
 
+    // A raised shield fully covers attacks up to this level at Deflection 0, the
+    // Abandoned City's, and each zone's 3 Deflection levels cover its 4 attack levels
+    static final double DEFLECTION_BASE_ATTACK = 11.0;
+    static final double ATTACK_PER_DEFLECTION = 4.0 / 3.0;
+    // Tiers above what the shield covers: up to FREE nothing gets through, from
+    // BREAK the hit breaks through in full and the shield goes on cooldown
+    static final double DEFLECT_FREE_TIERS = 0.5;
+    static final double DEFLECT_BREAK_TIERS = 2.0;
+
     private CombatFormulas() {
     }
 
@@ -55,6 +64,24 @@ public final class CombatFormulas {
     public static double chargeMultiplier(long sinceLastSwingMs) {
         double charge = Math.min(1.0, sinceLastSwingMs / FULL_CHARGE_MS);
         return 0.2 + 0.8 * charge * charge;
+    }
+
+    // How many tiers a hit sits above what the shield covers, negative when below
+    public static double deflectionGap(double attackLevel, int deflection) {
+        double covered = DEFLECTION_BASE_ATTACK + deflection * ATTACK_PER_DEFLECTION;
+        return (attackLevel - covered) / LEVELS_PER_TIER;
+    }
+
+    public static boolean breaksShield(double gap) {
+        return gap >= DEFLECT_BREAK_TIERS;
+    }
+
+    // Share of the unblocked hit that gets through a raised shield: none for a
+    // similar tier, rising evenly to all of it where the shield breaks
+    public static double throughShield(double gap) {
+        if (gap <= DEFLECT_FREE_TIERS) return 0.0;
+        if (breaksShield(gap)) return 1.0;
+        return (gap - DEFLECT_FREE_TIERS) / (DEFLECT_BREAK_TIERS - DEFLECT_FREE_TIERS);
     }
 
     private static int bonusForBracket(int bracket) {

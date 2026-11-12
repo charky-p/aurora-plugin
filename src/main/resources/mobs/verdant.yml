@@ -29,6 +29,58 @@
 # ===========================================================
 
 items:
+  grove_horse:
+    display: "<#7BA05B><b>Grove Horse"
+    entity: HORSE
+    health: 400.0
+    defence: 15.0
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.2
+    independent:
+      - id: horsehair
+        min: 2
+        max: 4
+
+  hollow_fox:
+    display: "<#D9D3B0><b>Hollow Fox"
+    entity: FOX
+    health: 450.0
+    defence: 17.0
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.25
+    independent:
+      - id: fox_fur
+        min: 2
+        max: 4
+
+  ridge_wolf:
+    display: "<#4F7A4A><b>Ridge Wolf"
+    entity: WOLF
+    health: 520.0
+    defence: 19.0
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.28
+    independent:
+      - id: wolf_pelt
+        min: 2
+        max: 4
+
+  thicket_sniffer:
+    display: "<#6B4F35><b>Thicket Sniffer"
+    entity: SNIFFER
+    health: 700.0
+    defence: 21.0
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.1
+    independent:
+      - id: ancient_seed
+        min: 2
+        max: 4
+
   tree_zombee:
     display: "<#7BA05B><b>Tree Zombee"
     entity: ZOMBIE

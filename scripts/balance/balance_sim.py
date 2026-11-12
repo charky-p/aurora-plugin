@@ -64,6 +64,9 @@ BLOCK = {
     "OAK_LOG": (2.0, 0), "OAK_WOOD": (2.0, 0), "BIRCH_LOG": (2.0, 0), "BIRCH_WOOD": (2.0, 0),
     "SPRUCE_LOG": (2.0, 0), "SPRUCE_WOOD": (2.0, 0), "DARK_OAK_LOG": (2.0, 0), "DARK_OAK_WOOD": (2.0, 0),
     "LIGHT_GRAY_CONCRETE": (1.8, 0), "BROWN_CONCRETE": (1.8, 0), "GRAY_CONCRETE": (1.8, 0),
+    "STRIPPED_OAK_LOG": (2.0, 0), "STRIPPED_BIRCH_LOG": (2.0, 0), "STRIPPED_SPRUCE_LOG": (2.0, 0),
+    "STRIPPED_DARK_OAK_LOG": (2.0, 0), "LIGHT_GRAY_GLAZED_TERRACOTTA": (1.4, 0), "BROWN_GLAZED_TERRACOTTA": (1.4, 0),
+    "GRAY_GLAZED_TERRACOTTA": (1.4, 0), "WHITE_GLAZED_TERRACOTTA": (1.4, 0),
 }
 RANGED = {"SKELETON"}
 
@@ -78,11 +81,13 @@ MINES = {
     "sunbaked_sand": {"sunbaked_sand": .8, "cut_sunbaked_sand": .2},
     "crimson_sand": {"crimson_sand": .8, "cut_crimson_sand": .2},
     "raw_gold": {"raw_gold_block": .2, "gilded_stone": .8},
-    # Verdant Groves, assumed until the mines are built: logs 70/30 log/wood, metal one block
-    "oak_log": {"oak_log": .7, "oak_wood": .3}, "tin": {"tin_ore": 1.0},
-    "birch_log": {"birch_log": .7, "birch_wood": .3}, "bronze": {"bronze_ore": 1.0},
-    "spruce_log": {"spruce_log": .7, "spruce_wood": .3}, "lead": {"lead_ore": 1.0},
-    "dark_oak_log": {"dark_oak_log": .7, "darkoak_wood": .3}, "silver": {"silver_ore": 1.0},
+    # Verdant Groves, assumed until the mines are built: logs 60/25/15 log/wood/stripped,
+    # metals 60/40 ore/glazed like the Origin mines
+    "oak_log": {"oak_log": .6, "oak_wood": .25, "stripped_oak_log": .15}, "tin": {"tin_ore": .6, "tin_rich": .4},
+    "birch_log": {"birch_log": .6, "birch_wood": .25, "stripped_birch_log": .15}, "bronze": {"bronze_ore": .6, "bronze_rich": .4},
+    "spruce_log": {"spruce_log": .6, "spruce_wood": .25, "stripped_spruce_log": .15}, "lead": {"lead_ore": .6, "lead_rich": .4},
+    "dark_oak_log": {"dark_oak_log": .6, "darkoak_wood": .25, "stripped_dark_oak_log": .15},
+    "silver": {"silver_ore": .6, "silver_rich": .4},
 }
 PLACED = {"gilded_stone": "GILDED_BLACKSTONE"}  # material actually placed by the raw_gold mine
 
@@ -94,6 +99,7 @@ ZONE_MOBS = {
     "city": ["hollowed_serf", "scavenger_husk"], "dunes": ["dune_scout", "sand_stalker"],
     "canyons": ["scarab_zealot", "hollowed_legionnaire"], "temple": ["tomb_guard", "vizier_mage"],
     "tomb": ["royal_myrmidon", "pharaoh", "gormak_eternal"],
+    "oak": ["grove_horse"], "birch": ["hollow_fox"], "spruce": ["ridge_wolf"], "darkoak": ["thicket_sniffer"],
     "treehouse": ["tree_zombee", "treant"],
 }
 BOSS = "gormak_eternal"
@@ -279,7 +285,7 @@ def armour_set(owned):
 
 
 def source_of(resource, zone):
-    everyone = ZONE_MOBS.get(zone, []) + [m for z in GORMAK + ["treehouse"] for m in ZONE_MOBS[z]] + ["chicken", "sheep", "cow"]
+    everyone = ZONE_MOBS.get(zone, []) + [m for mobs in ZONE_MOBS.values() for m in mobs] + ["chicken", "sheep", "cow"]
     for mob in everyone:
         if any(d[0] == resource for d in MOBS[mob]["drops"]):
             return "mob", mob

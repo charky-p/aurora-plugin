@@ -231,6 +231,14 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Oak Grove"
 
+  horsehair:
+    display: "<#7BA05B>Horsehair"
+    material: BROWN_WOOL
+    world: "overworld"
+    region: "verdant_oak"
+    lore:
+      - "<dark_gray>Dropped by Grove Horses"
+
   birch_log:
     display: "<#D9D3B0>Birch Log"
     material: BIRCH_LOG
@@ -246,6 +254,14 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  fox_fur:
+    display: "<#D9D3B0>Fox Fur"
+    material: ORANGE_WOOL
+    world: "overworld"
+    region: "verdant_birch"
+    lore:
+      - "<dark_gray>Dropped by Hollow Foxs"
 
   spruce_log:
     display: "<#4F7A4A>Spruce Log"
@@ -263,6 +279,14 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Spruce Ridge"
 
+  wolf_pelt:
+    display: "<#4F7A4A>Wolf Pelt"
+    material: RABBIT_HIDE
+    world: "overworld"
+    region: "verdant_spruce"
+    lore:
+      - "<dark_gray>Dropped by Ridge Wolfs"
+
   dark_oak_log:
     display: "<#6B4F35>Dark Oak Log"
     material: DARK_OAK_LOG
@@ -278,6 +302,14 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  ancient_seed:
+    display: "<#6B4F35>Ancient Seed"
+    material: TORCHFLOWER_SEEDS
+    world: "overworld"
+    region: "verdant_darkoak"
+    lore:
+      - "<dark_gray>Dropped by Thicket Sniffers"
 
   tree_sap:
     display: "<gold>Tree Sap"

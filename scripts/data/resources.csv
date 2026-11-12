@@ -26,11 +26,15 @@ ancient_heart,<dark_red><b>Ancient Heart,NETHER_STAR,overworld,gormak_tomb,<dark
 mirage_shard,<light_purple><b>Mirage Shard,AMETHYST_SHARD,overworld,gormak,<gray>Shimmers as though it isn't there.|<dark_gray>Dropped by the Mirage
 oak_log,<#7BA05B>Oak Log,OAK_LOG,overworld,verdant_oak,<dark_gray>Verdant Groves - Oak Grove
 tin,<#7BA05B><b>Tin,LIGHT_GRAY_CONCRETE,overworld,verdant_oak,<dark_gray>Verdant Groves - Oak Grove
+horsehair,<#7BA05B>Horsehair,BROWN_WOOL,overworld,verdant_oak,<dark_gray>Dropped by Grove Horses
 birch_log,<#D9D3B0>Birch Log,BIRCH_LOG,overworld,verdant_birch,<dark_gray>Verdant Groves - Birch Hollow
 bronze,<#D9D3B0><b>Bronze,BROWN_CONCRETE,overworld,verdant_birch,<dark_gray>Verdant Groves - Birch Hollow
+fox_fur,<#D9D3B0>Fox Fur,ORANGE_WOOL,overworld,verdant_birch,<dark_gray>Dropped by Hollow Foxs
 spruce_log,<#4F7A4A>Spruce Log,SPRUCE_LOG,overworld,verdant_spruce,<dark_gray>Verdant Groves - Spruce Ridge
 lead,<#4F7A4A><b>Lead,GRAY_CONCRETE,overworld,verdant_spruce,<dark_gray>Verdant Groves - Spruce Ridge
+wolf_pelt,<#4F7A4A>Wolf Pelt,RABBIT_HIDE,overworld,verdant_spruce,<dark_gray>Dropped by Ridge Wolfs
 dark_oak_log,<#6B4F35>Dark Oak Log,DARK_OAK_LOG,overworld,verdant_darkoak,<dark_gray>Verdant Groves - Dark Oak Thicket
 silver,<#6B4F35><b>Silver,IRON_BLOCK,overworld,verdant_darkoak,<dark_gray>Verdant Groves - Dark Oak Thicket
+ancient_seed,<#6B4F35>Ancient Seed,TORCHFLOWER_SEEDS,overworld,verdant_darkoak,<dark_gray>Dropped by Thicket Sniffers
 tree_sap,<gold>Tree Sap,HONEYCOMB,overworld,verdant_treehouse,<dark_gray>Dropped by Tree Zombees
 heartwood,<dark_green><b>Heartwood,CREAKING_HEART,overworld,verdant_treehouse,<dark_gray>Dropped by the Treant

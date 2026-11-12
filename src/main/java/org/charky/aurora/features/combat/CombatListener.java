@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -61,8 +62,9 @@ public class CombatListener implements Listener {
 
         MobData mob = registry.mobOf(source);
         if (mob == null || mob.attack() <= 0) {
-            // Passive mobs, returning here would let vanilla damage through
-            event.setDamage(0.0);
+            // Passive mobs never hurt or knock anyone back, returning here would let
+            // vanilla damage through
+            event.setCancelled(true);
             return;
         }
 
@@ -83,6 +85,17 @@ public class CombatListener implements Listener {
         }
 
         event.setDamage(damage);
+    }
+
+    // Passive mobs never go for a player, so a wolf that is hit stays calm instead of
+    // chasing you down to bite for nothing
+    @EventHandler(ignoreCancelled = true)
+    public void onTarget(EntityTargetLivingEntityEvent event) {
+        if (!(event.getTarget() instanceof Player)) return;
+        if (!(event.getEntity() instanceof LivingEntity mob) || !CustomHealth.isTracked(mob)) return;
+
+        MobData data = registry.mobOf(mob);
+        if (data == null || data.attack() <= 0) event.setCancelled(true);
     }
 
     @EventHandler

@@ -28,6 +28,10 @@ feature/purpose directory structure
 combine axe, pickaxe, shovel, etc progression together, one linear path, since no
 need to have more than 1 progression line, armor increases through
 
+god tool (name TBD): later, combine the pick, axe (and shovel) lines into one tool. Each tool's
+blocks are a rule on its tool component (ItemFactory.makeRightTool), one rule per kind, so the
+god tool is just one item with all the rules, and MineListener gives Fortune on any of them
+
 fortune multiplier, various blast enchantments
 
 bunch of new mines from non mine blocks to be named smthin else

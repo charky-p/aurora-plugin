@@ -29,6 +29,7 @@ DB = ROOT / "LocalServer" / "plugins" / "Aurora" / "mines.db"
 FLOOR_Y = 64            # the 1 block thick floor, players stand at 65
 ZONE = 32               # each zone is a 28 x 28 square, 32 apart along x
 PAD = 28
+MINE_W, MINE_H, MINE_GAP = 9, 5, 2   # every mine 9 x 9 and 5 deep, 2 apart
 FLOOR = "smooth_stone"
 FRAME = "obsidian"
 FENCE = "dark_oak_fence"
@@ -190,11 +191,14 @@ def commands(only):
             # A coloured stripe across the strip marks where each zone starts
             out.append(run(world, f"fill {x0 - 2} {FLOOR_Y} {Z - 4} {x0 - 2} {FLOOR_Y} {Z + PAD + 3} black_concrete"))
             for m, (mine, mix) in enumerate(mines):
-                mx = x0 + 2 + m * 10
+                mx = x0 + 2 + m * (MINE_W + MINE_GAP)
                 mz = Z + 2
-                out.append(f"aurora mine create t_{mine} {mx} {FLOOR_Y + 1} {mz} {mx + 6} {FLOOR_Y + 4} {mz + 6} 101 1200 -w {world}")
+                # Threshold 100: refills the moment the last block is mined, and every
+                # minute anyway
+                out.append(f"aurora mine create t_{mine} {mx} {FLOOR_Y + 1} {mz} {mx + MINE_W - 1} "
+                           f"{FLOOR_Y + MINE_H} {mz + MINE_W - 1} 100 1200 -w {world}")
                 out.append(f"aurora mine setblocks t_{mine} " + " ".join(f"{b} {p}" for b, p in mix.items()))
-                out.append(f"aurora mine settp t_{mine} {mx + 3.5} {FLOOR_Y + 1} {mz + 8.5}")
+                out.append(f"aurora mine settp t_{mine} {mx + MINE_W / 2} {FLOOR_Y + 1} {mz + MINE_W + 1.5}")
             for s, (mob, limit) in enumerate(spawners):
                 sx = x0 + 5 + s * 9
                 out.append(f"aurora spawner create t_{mob} {sx} {FLOOR_Y + 1} {Z + 20} {mob} {limit} 3 100 -w {world}")
@@ -204,7 +208,8 @@ def commands(only):
                 pen, (tx, tz) = safe_platform(world, x0)
                 out += pen
             else:
-                tx, tz = (x0 + 10 * len(mines) + 0.5 if mines else x0 + 4.5), Z + 5.5
+                tx = x0 + 2 + len(mines) * (MINE_W + MINE_GAP) - MINE_GAP + 1.5 if mines else x0 + 4.5
+                tz = Z + 2 + MINE_W / 2
             out.append(f"aurora trader create {trader} {tx} {FLOOR_Y + 1} {tz} -w {world}")
 
         out += fences(world, zones)

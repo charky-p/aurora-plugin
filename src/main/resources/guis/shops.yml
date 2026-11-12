@@ -2387,7 +2387,7 @@ items:
     rows: 5
     layout:
       - "BBBBIBBBB"
-      - "B  123  B"
+      - "B123 456B"
       - "B  qw   B"
       - "B   A   B"
       - "zBBBBBBBX"
@@ -2398,23 +2398,45 @@ items:
         cost:
           - id: tomb_pick_2
           - id: tin
-            amount: 1603
+            amount: 994
       '2':
         type: TRADE
         id: oak_pick_2
         cost:
           - id: oak_pick_1
           - id: oak_log
-            amount: 2138
+            amount: 1326
       '3':
         type: TRADE
         id: oak_pick_3
         cost:
           - id: oak_pick_2
           - id: tin
-            amount: 1603
+            amount: 994
           - id: oak_log
-            amount: 1603
+            amount: 994
+      '4':
+        type: TRADE
+        id: oak_axe_1
+        cost:
+          - id: tin
+            amount: 497
+      '5':
+        type: TRADE
+        id: oak_axe_2
+        cost:
+          - id: oak_axe_1
+          - id: oak_log
+            amount: 663
+      '6':
+        type: TRADE
+        id: oak_axe_3
+        cost:
+          - id: oak_axe_2
+          - id: tin
+            amount: 497
+          - id: oak_log
+            amount: 497
       q:
         type: TRADE
         id: oak_sword_1
@@ -2430,7 +2452,7 @@ items:
           - id: horsehair
             amount: 86
           - id: tin
-            amount: 1069
+            amount: 663
       A:
         type: GUI
         id: oak_armor
@@ -2456,7 +2478,7 @@ items:
         cost:
           - id: tomb_helmet_4
           - id: tin
-            amount: 855
+            amount: 530
       '2':
         type: TRADE
         id: oak_helmet_2
@@ -2465,14 +2487,14 @@ items:
           - id: horsehair
             amount: 43
           - id: oak_log
-            amount: 641
+            amount: 397
       '6':
         type: TRADE
         id: oak_chestplate_1
         cost:
           - id: tomb_chestplate_4
           - id: tin
-            amount: 855
+            amount: 530
       '7':
         type: TRADE
         id: oak_chestplate_2
@@ -2481,14 +2503,14 @@ items:
           - id: horsehair
             amount: 43
           - id: oak_log
-            amount: 641
+            amount: 397
       a:
         type: TRADE
         id: oak_leggings_1
         cost:
           - id: tomb_leggings_4
           - id: tin
-            amount: 855
+            amount: 530
       b:
         type: TRADE
         id: oak_leggings_2
@@ -2497,14 +2519,14 @@ items:
           - id: horsehair
             amount: 43
           - id: oak_log
-            amount: 641
+            amount: 397
       f:
         type: TRADE
         id: oak_boots_1
         cost:
           - id: tomb_boots_4
           - id: tin
-            amount: 855
+            amount: 530
       g:
         type: TRADE
         id: oak_boots_2
@@ -2513,7 +2535,7 @@ items:
           - id: horsehair
             amount: 43
           - id: oak_log
-            amount: 641
+            amount: 397
       z:
         type: GUI
         id: oak_shop
@@ -2524,7 +2546,7 @@ items:
     rows: 5
     layout:
       - "BBBBIBBBB"
-      - "B  123  B"
+      - "B123 456B"
       - "B  qw   B"
       - "B   A   B"
       - "zBBBBBBBX"
@@ -2535,23 +2557,46 @@ items:
         cost:
           - id: oak_pick_3
           - id: bronze
-            amount: 2107
+            amount: 1306
       '2':
         type: TRADE
         id: birch_pick_2
         cost:
           - id: birch_pick_1
           - id: birch_log
-            amount: 2810
+            amount: 1742
       '3':
         type: TRADE
         id: birch_pick_3
         cost:
           - id: birch_pick_2
           - id: bronze
-            amount: 2107
+            amount: 1306
           - id: birch_log
-            amount: 2107
+            amount: 1306
+      '4':
+        type: TRADE
+        id: birch_axe_1
+        cost:
+          - id: oak_axe_3
+          - id: bronze
+            amount: 653
+      '5':
+        type: TRADE
+        id: birch_axe_2
+        cost:
+          - id: birch_axe_1
+          - id: birch_log
+            amount: 871
+      '6':
+        type: TRADE
+        id: birch_axe_3
+        cost:
+          - id: birch_axe_2
+          - id: bronze
+            amount: 653
+          - id: birch_log
+            amount: 653
       q:
         type: TRADE
         id: birch_sword_1
@@ -2567,7 +2612,7 @@ items:
           - id: fox_fur
             amount: 112
           - id: bronze
-            amount: 1405
+            amount: 871
       A:
         type: GUI
         id: birch_armor
@@ -2593,7 +2638,7 @@ items:
         cost:
           - id: oak_helmet_2
           - id: bronze
-            amount: 1124
+            amount: 697
       '2':
         type: TRADE
         id: birch_helmet_2
@@ -2602,14 +2647,14 @@ items:
           - id: fox_fur
             amount: 56
           - id: birch_log
-            amount: 843
+            amount: 523
       '6':
         type: TRADE
         id: birch_chestplate_1
         cost:
           - id: oak_chestplate_2
           - id: bronze
-            amount: 1124
+            amount: 697
       '7':
         type: TRADE
         id: birch_chestplate_2
@@ -2618,14 +2663,14 @@ items:
           - id: fox_fur
             amount: 56
           - id: birch_log
-            amount: 843
+            amount: 523
       a:
         type: TRADE
         id: birch_leggings_1
         cost:
           - id: oak_leggings_2
           - id: bronze
-            amount: 1124
+            amount: 697
       b:
         type: TRADE
         id: birch_leggings_2
@@ -2634,14 +2679,14 @@ items:
           - id: fox_fur
             amount: 56
           - id: birch_log
-            amount: 843
+            amount: 523
       f:
         type: TRADE
         id: birch_boots_1
         cost:
           - id: oak_boots_2
           - id: bronze
-            amount: 1124
+            amount: 697
       g:
         type: TRADE
         id: birch_boots_2
@@ -2650,7 +2695,7 @@ items:
           - id: fox_fur
             amount: 56
           - id: birch_log
-            amount: 843
+            amount: 523
       z:
         type: GUI
         id: birch_shop
@@ -2661,7 +2706,7 @@ items:
     rows: 5
     layout:
       - "BBBBIBBBB"
-      - "B  123  B"
+      - "B123 456B"
       - "B  qw   B"
       - "B   A   B"
       - "zBBBBBBBX"
@@ -2672,23 +2717,46 @@ items:
         cost:
           - id: birch_pick_3
           - id: lead
-            amount: 2169
+            amount: 1345
       '2':
         type: TRADE
         id: spruce_pick_2
         cost:
           - id: spruce_pick_1
           - id: spruce_log
-            amount: 2892
+            amount: 1793
       '3':
         type: TRADE
         id: spruce_pick_3
         cost:
           - id: spruce_pick_2
           - id: lead
-            amount: 2169
+            amount: 1345
           - id: spruce_log
-            amount: 2169
+            amount: 1345
+      '4':
+        type: TRADE
+        id: spruce_axe_1
+        cost:
+          - id: birch_axe_3
+          - id: lead
+            amount: 672
+      '5':
+        type: TRADE
+        id: spruce_axe_2
+        cost:
+          - id: spruce_axe_1
+          - id: spruce_log
+            amount: 897
+      '6':
+        type: TRADE
+        id: spruce_axe_3
+        cost:
+          - id: spruce_axe_2
+          - id: lead
+            amount: 672
+          - id: spruce_log
+            amount: 672
       q:
         type: TRADE
         id: spruce_sword_1
@@ -2704,7 +2772,7 @@ items:
           - id: wolf_pelt
             amount: 116
           - id: lead
-            amount: 1446
+            amount: 897
       A:
         type: GUI
         id: spruce_armor
@@ -2730,7 +2798,7 @@ items:
         cost:
           - id: birch_helmet_2
           - id: lead
-            amount: 1157
+            amount: 717
       '2':
         type: TRADE
         id: spruce_helmet_2
@@ -2739,14 +2807,14 @@ items:
           - id: wolf_pelt
             amount: 58
           - id: spruce_log
-            amount: 867
+            amount: 538
       '6':
         type: TRADE
         id: spruce_chestplate_1
         cost:
           - id: birch_chestplate_2
           - id: lead
-            amount: 1157
+            amount: 717
       '7':
         type: TRADE
         id: spruce_chestplate_2
@@ -2755,14 +2823,14 @@ items:
           - id: wolf_pelt
             amount: 58
           - id: spruce_log
-            amount: 867
+            amount: 538
       a:
         type: TRADE
         id: spruce_leggings_1
         cost:
           - id: birch_leggings_2
           - id: lead
-            amount: 1157
+            amount: 717
       b:
         type: TRADE
         id: spruce_leggings_2
@@ -2771,14 +2839,14 @@ items:
           - id: wolf_pelt
             amount: 58
           - id: spruce_log
-            amount: 867
+            amount: 538
       f:
         type: TRADE
         id: spruce_boots_1
         cost:
           - id: birch_boots_2
           - id: lead
-            amount: 1157
+            amount: 717
       g:
         type: TRADE
         id: spruce_boots_2
@@ -2787,7 +2855,7 @@ items:
           - id: wolf_pelt
             amount: 58
           - id: spruce_log
-            amount: 867
+            amount: 538
       z:
         type: GUI
         id: spruce_shop
@@ -2798,7 +2866,7 @@ items:
     rows: 5
     layout:
       - "BBBBIBBBB"
-      - "B  123  B"
+      - "B123 456B"
       - "B  qw   B"
       - "B   A   B"
       - "zBBBBBBBX"
@@ -2809,23 +2877,46 @@ items:
         cost:
           - id: spruce_pick_3
           - id: silver
-            amount: 2357
+            amount: 1461
       '2':
         type: TRADE
         id: darkoak_pick_2
         cost:
           - id: darkoak_pick_1
           - id: dark_oak_log
-            amount: 3143
+            amount: 1949
       '3':
         type: TRADE
         id: darkoak_pick_3
         cost:
           - id: darkoak_pick_2
           - id: silver
-            amount: 2357
+            amount: 1461
           - id: dark_oak_log
-            amount: 2357
+            amount: 1461
+      '4':
+        type: TRADE
+        id: darkoak_axe_1
+        cost:
+          - id: spruce_axe_3
+          - id: silver
+            amount: 730
+      '5':
+        type: TRADE
+        id: darkoak_axe_2
+        cost:
+          - id: darkoak_axe_1
+          - id: dark_oak_log
+            amount: 975
+      '6':
+        type: TRADE
+        id: darkoak_axe_3
+        cost:
+          - id: darkoak_axe_2
+          - id: silver
+            amount: 730
+          - id: dark_oak_log
+            amount: 730
       q:
         type: TRADE
         id: darkoak_sword_1
@@ -2841,7 +2932,7 @@ items:
           - id: ancient_seed
             amount: 126
           - id: silver
-            amount: 1571
+            amount: 974
       A:
         type: GUI
         id: darkoak_armor
@@ -2867,7 +2958,7 @@ items:
         cost:
           - id: spruce_helmet_2
           - id: silver
-            amount: 1257
+            amount: 779
       '2':
         type: TRADE
         id: darkoak_helmet_2
@@ -2876,14 +2967,14 @@ items:
           - id: ancient_seed
             amount: 63
           - id: dark_oak_log
-            amount: 943
+            amount: 585
       '6':
         type: TRADE
         id: darkoak_chestplate_1
         cost:
           - id: spruce_chestplate_2
           - id: silver
-            amount: 1257
+            amount: 779
       '7':
         type: TRADE
         id: darkoak_chestplate_2
@@ -2892,14 +2983,14 @@ items:
           - id: ancient_seed
             amount: 63
           - id: dark_oak_log
-            amount: 943
+            amount: 585
       a:
         type: TRADE
         id: darkoak_leggings_1
         cost:
           - id: spruce_leggings_2
           - id: silver
-            amount: 1257
+            amount: 779
       b:
         type: TRADE
         id: darkoak_leggings_2
@@ -2908,14 +2999,14 @@ items:
           - id: ancient_seed
             amount: 63
           - id: dark_oak_log
-            amount: 943
+            amount: 585
       f:
         type: TRADE
         id: darkoak_boots_1
         cost:
           - id: spruce_boots_2
           - id: silver
-            amount: 1257
+            amount: 779
       g:
         type: TRADE
         id: darkoak_boots_2
@@ -2924,7 +3015,7 @@ items:
           - id: ancient_seed
             amount: 63
           - id: dark_oak_log
-            amount: 943
+            amount: 585
       z:
         type: GUI
         id: darkoak_shop

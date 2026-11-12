@@ -129,32 +129,34 @@ public class ItemFactory {
     }
 
     // Vanilla wood and gold tiers cannot harvest ores, so they dig them three
-    // times slower. Our picks are the right tool for every pickaxe block, at
-    // their tier's own speed, so every upgrade digs faster. One progression for
-    // every tool, so they are an axe too, for the Verdant Groves log mines
+    // times slower. Our tools are the right tool for every block of their kind, at
+    // their tier's own speed, so every upgrade digs faster. Picks mine pickaxe
+    // blocks, axes the Verdant Groves logs. The rules are what MineListener checks
+    // before Fortune counts, so a tool with both rules (a god tool) would do both
     private static void makeRightTool(ItemStack item, ItemMeta meta) {
-        if (!Tag.ITEMS_PICKAXES.isTagged(item.getType())) return;
+        Tag<Material> blocks;
+        if (Tag.ITEMS_PICKAXES.isTagged(item.getType())) blocks = Tag.MINEABLE_PICKAXE;
+        else if (Tag.ITEMS_AXES.isTagged(item.getType())) blocks = Tag.MINEABLE_AXE;
+        else return;
 
-        float speed = pickaxeSpeed(item.getType());
         ToolComponent tool = meta.getTool();
         tool.setRules(new ArrayList<>());
-        tool.addRule(Tag.MINEABLE_PICKAXE, speed, true);
-        tool.addRule(Tag.MINEABLE_AXE, speed, true);
+        tool.addRule(blocks, tierSpeed(item.getType()), true);
         meta.setTool(tool);
     }
 
-    // Vanilla tier speeds, Efficiency still adds on top through the enchant
-    private static float pickaxeSpeed(Material material) {
-        return switch (material) {
-            case WOODEN_PICKAXE -> 2f;
-            case STONE_PICKAXE -> 4f;
-            case COPPER_PICKAXE -> 5f;
-            case IRON_PICKAXE -> 6f;
-            case DIAMOND_PICKAXE -> 8f;
-            case NETHERITE_PICKAXE -> 9f;
-            case GOLDEN_PICKAXE -> 12f;
-            default -> 1f;
-        };
+    // Vanilla tier speeds, the same for every tool of a tier. Efficiency still adds
+    // on top through the enchant
+    private static float tierSpeed(Material material) {
+        String name = material.name();
+        if (name.startsWith("WOODEN_")) return 2f;
+        if (name.startsWith("STONE_")) return 4f;
+        if (name.startsWith("COPPER_")) return 5f;
+        if (name.startsWith("IRON_")) return 6f;
+        if (name.startsWith("DIAMOND_")) return 8f;
+        if (name.startsWith("NETHERITE_")) return 9f;
+        if (name.startsWith("GOLDEN_")) return 12f;
+        return 1f;
     }
 
     private static Component type(String type) {

@@ -61,7 +61,7 @@ BLOCK = {
     "CRACKED_STONE_BRICKS": (1.5, 0), "SANDSTONE": (0.8, 0), "CUT_SANDSTONE": (0.8, 0),
     "RED_SANDSTONE": (0.8, 0), "CUT_RED_SANDSTONE": (0.8, 0), "RAW_GOLD_BLOCK": (5.0, 1),
     "GILDED_BLACKSTONE": (1.5, 0),
-    # Verdant Groves, picks are an axe too (ItemFactory.makeRightTool)
+    # Verdant Groves, logs need an axe for Fortune (MineListener.rightTool), metals a pick
     "OAK_LOG": (2.0, 0), "OAK_WOOD": (2.0, 0), "BIRCH_LOG": (2.0, 0), "BIRCH_WOOD": (2.0, 0),
     "SPRUCE_LOG": (2.0, 0), "SPRUCE_WOOD": (2.0, 0), "DARK_OAK_LOG": (2.0, 0), "DARK_OAK_WOOD": (2.0, 0),
     "LIGHT_GRAY_CONCRETE": (1.8, 0), "BROWN_CONCRETE": (1.8, 0), "GRAY_CONCRETE": (1.8, 0),
@@ -251,6 +251,12 @@ def blocks_per_swing(pick):
     return 1 + (x * y * z - 1) * BLAST_FILL
 
 
+def tool_kind(mine):
+    """Which tool line mines this, axes for wood (Tag.MINEABLE_AXE), picks for the rest."""
+    wood = any(w in PLACED.get(b, BLOCKS[b]["material"]) for b in MINES[mine] for w in ("LOG", "WOOD"))
+    return "_axe_" if wood else "_pick_"
+
+
 def mine_rate(pick, mine):
     """(resource per second, density that blocks this pick or None)."""
     fortune = ench(pick, "fortune")
@@ -269,9 +275,12 @@ def mine_rate(pick, mine):
 
 def zone_items(zone):
     shop = SHOPS.get(f"{zone}_shop", [])
-    picks = [x for x in shop if "_pick_" in x[0]]
+    # Picks and axes by tier, each axe right after its pick: the first axe costs the
+    # metal the pick mines, and later picks cost logs only an axe can get
+    tools = sorted((x for x in shop if "_pick_" in x[0] or "_axe_" in x[0]),
+                   key=lambda x: (int(x[0].rsplit("_", 1)[1]), "_axe_" in x[0]))
     swords = [x for x in shop if "_sword_" in x[0]]
-    return picks + swords + SHOPS.get(f"{zone}_armor", []) + SHOPS.get(f"{zone}_shields", [])
+    return tools + swords + SHOPS.get(f"{zone}_armor", []) + SHOPS.get(f"{zone}_shields", [])
 
 
 ORDER = {z: n for n, z in enumerate(["starter"] + ORIGIN + GORMAK + VERDANT)}
@@ -313,7 +322,11 @@ def gather(resource, amount, owned, zone, warnings, stock):
 
     kind, what = source_of(resource, zone)
     if kind == "mine":
-        pick = best(owned, "_pick_")
+        line = tool_kind(what)
+        if not any(line in i for i in owned):
+            warnings.append(f"nothing owned mines {what}, it needs an{line.strip('_').replace('pick', ' pick').replace('axe', ' axe')}")
+            return math.inf
+        pick = best(owned, line)
         rate, blocked = mine_rate(pick, what)
         if blocked is not None:
             warnings.append(f"{pick} cannot mine {what} (needs Fortune {blocked})")

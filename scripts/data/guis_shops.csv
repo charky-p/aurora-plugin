@@ -32,13 +32,13 @@ tomb_utility,<gold><b>Royal Tomb <dark_gray>| <gray>Utility,icon_utility,3,BBBBI
 aurora_hub,<aqua><b>Aurora,icon_menu,3,BBBBIBBBB|B123456 B|BBBBBBBBX
 howto_menu,<aqua><b>How to Play,icon_howto,3,BBBBIBBBB|B 12345 B|zBBBBBBBX
 verdant_hub,<dark_green><b>Verdant Groves,icon_verdant,3,BBBBIBBBB|B 12345 B|BBBBBBBBX
-oak_shop,<gold><b>Oak Grove,icon_oak,5,BBBBIBBBB|B  123  B|B  qw   B|B   A   B|zBBBBBBBX
+oak_shop,<gold><b>Oak Grove,icon_oak,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|zBBBBBBBX
 oak_armor,<gold><b>Oak Grove <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   12  B|B   67  B|B   ab  B|B   fg  B|zBBBBBBBX
-birch_shop,<gold><b>Birch Hollow,icon_birch,5,BBBBIBBBB|B  123  B|B  qw   B|B   A   B|zBBBBBBBX
+birch_shop,<gold><b>Birch Hollow,icon_birch,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|zBBBBBBBX
 birch_armor,<gold><b>Birch Hollow <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   12  B|B   67  B|B   ab  B|B   fg  B|zBBBBBBBX
-spruce_shop,<gold><b>Spruce Ridge,icon_spruce,5,BBBBIBBBB|B  123  B|B  qw   B|B   A   B|zBBBBBBBX
+spruce_shop,<gold><b>Spruce Ridge,icon_spruce,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|zBBBBBBBX
 spruce_armor,<gold><b>Spruce Ridge <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   12  B|B   67  B|B   ab  B|B   fg  B|zBBBBBBBX
-darkoak_shop,<gold><b>Dark Oak Thicket,icon_darkoak,5,BBBBIBBBB|B  123  B|B  qw   B|B   A   B|zBBBBBBBX
+darkoak_shop,<gold><b>Dark Oak Thicket,icon_darkoak,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|zBBBBBBBX
 darkoak_armor,<gold><b>Dark Oak Thicket <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   12  B|B   67  B|B   ab  B|B   fg  B|zBBBBBBBX
 treehouse_shop,<gold><b>Great Treehouse,icon_treehouse,5,BBBBIBBBB|B  12   B|B  qwe  B|B   A   B|zBBBBBBBX
 treehouse_armor,<gold><b>Great Treehouse <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B  123  B|B  678  B|B  abc  B|B  fgh  B|zBBBBBBBX

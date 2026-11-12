@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -13,7 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.RayTraceResult;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
@@ -28,9 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MineListener implements Listener {
-    // Blast level -> width, height, depth broken, laid flat against the face you
-    // mine. Even sizes grow to your right and upward. Past the table the last holds.
-    // Kept in step with BLAST_SHAPES in scripts/balance/balance_sim.py
+    // Blast level -> width, length, depth broken, always a flat layer at the height of
+    // the block you mine, whichever face you hit. Width runs to your right, length
+    // away from you, depth down. Even sizes grow to your right and away. Past the
+    // table the last holds. Kept in step with BLAST_SHAPES in scripts/balance/balance_sim.py
     private static final int[][] BLAST_SHAPES = {
             {2, 1, 1},
             {2, 2, 1},
@@ -87,9 +88,12 @@ public class MineListener implements Listener {
 
         if (registry.hasBlock(dropId)) {
             int density = registry.getDensity(dropId);
-            int fortune = Enchants.level(pick, "fortune");
+            // Fortune only counts with the right tool, a pick on a log mines like a hand
+            int fortune = rightTool(pick, block.getType()) ? Enchants.level(pick, "fortune") : 0;
             if (fortune + 1 - density <= 0) {
-                player.sendActionBar(Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD));
+                player.sendActionBar(rightTool(pick, block.getType())
+                        ? Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD)
+                        : Component.text("Wrong tool, Fortune " + density + " " + toolFor(block.getType()) + " needed", NamedTextColor.RED, TextDecoration.BOLD));
                 return;
             }
 
@@ -110,19 +114,32 @@ public class MineListener implements Listener {
         }
     }
 
-    // Every block blast breaks besides the one mined. Width runs to your right,
-    // height runs up a wall, or away from you across a floor or ceiling, depth
-    // runs into the block
+    // Does this tool's own rules cover the block. Read from the registry's copy of
+    // the item, so tools made before a rule changed follow the current rules
+    private boolean rightTool(ItemStack tool, Material block) {
+        String id = DataRegistry.itemId(tool);
+        ItemStack template = id == null ? null : registry.getAllItems().get(id);
+        ItemStack source = template != null ? template : tool;
+        if (source == null || !source.hasItemMeta() || !source.getItemMeta().hasTool()) return false;
+        return source.getItemMeta().getTool().getRules().stream()
+                .anyMatch(rule -> rule.getBlocks().contains(block));
+    }
+
+    private static String toolFor(Material block) {
+        if (Tag.MINEABLE_AXE.isTagged(block)) return "axe";
+        if (Tag.MINEABLE_SHOVEL.isTagged(block)) return "shovel";
+        return "pickaxe";
+    }
+
+    // Every block blast breaks besides the one mined, a flat layer whatever face
+    // was hit. Width runs to your right, length away from you, depth down
     private List<Block> blastArea(Player player, Block center, int level) {
         int[] shape = BLAST_SHAPES[Math.min(level, BLAST_SHAPES.length) - 1];
-        BlockFace face = minedFace(player);
-        boolean flat = face == BlockFace.UP || face == BlockFace.DOWN;
-
-        int[] depth = {-face.getModX(), -face.getModY(), -face.getModZ()};
         BlockFace facing = player.getFacing();
-        int[] forward = flat ? new int[]{facing.getModX(), 0, facing.getModZ()} : depth;
+        int[] forward = {facing.getModX(), 0, facing.getModZ()};
         int[] right = {-forward[2], 0, forward[0]};
-        int[] up = flat ? forward : new int[]{0, 1, 0};
+        int[] length = forward;
+        int[] depth = {0, -1, 0};
 
         List<Block> area = new ArrayList<>();
         for (int w = -(shape[0] - 1) / 2; w <= shape[0] / 2; w++) {
@@ -130,23 +147,12 @@ public class MineListener implements Listener {
                 for (int d = 0; d < shape[2]; d++) {
                     if (w == 0 && h == 0 && d == 0) continue;
                     area.add(center.getRelative(
-                            w * right[0] + h * up[0] + d * depth[0],
-                            w * right[1] + h * up[1] + d * depth[1],
-                            w * right[2] + h * up[2] + d * depth[2]));
+                            w * right[0] + h * length[0] + d * depth[0],
+                            w * right[1] + h * length[1] + d * depth[1],
+                            w * right[2] + h * length[2] + d * depth[2]));
                 }
             }
         }
         return area;
-    }
-
-    // The face the player is looking at, falling back to their pitch if the ray misses
-    private static BlockFace minedFace(Player player) {
-        RayTraceResult hit = player.rayTraceBlocks(6.0);
-        if (hit != null && hit.getHitBlockFace() != null) return hit.getHitBlockFace();
-
-        float pitch = player.getLocation().getPitch();
-        if (pitch > 45) return BlockFace.UP;
-        if (pitch < -45) return BlockFace.DOWN;
-        return player.getFacing().getOppositeFace();
     }
 }

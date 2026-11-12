@@ -8,6 +8,7 @@ import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.portal.PortalKeys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ public class BackpackMenu extends PagedMenu {
     private static final int ARMORY_SLOT = 52;
 
     private final BackpackData backpack;
+    // The resource id in each entry, from the last draw
+    private final List<String> ids = new ArrayList<>();
 
     public BackpackMenu(BackpackData backpack, DataRegistry registry) {
         super(registry, "Backpack");
@@ -31,6 +34,7 @@ public class BackpackMenu extends PagedMenu {
         Map<String, Long> held = backpack.getItems();
 
         List<ItemStack> items = new ArrayList<>();
+        ids.clear();
         for (MenuItem resource : registry.getItems()) {
             long amount = held.getOrDefault(resource.getId(), 0L);
             if (amount <= 0) continue;
@@ -43,8 +47,22 @@ public class BackpackMenu extends PagedMenu {
                 meta.lore(lore);
             });
             items.add(display);
+            ids.add(resource.getId());
         }
         return items;
+    }
+
+    // Right clicking a key uses one up
+    @Override
+    protected void onEntryClick(Player player, int index, boolean rightClick) {
+        if (!rightClick || index >= ids.size()) return;
+
+        String id = ids.get(index);
+        if (backpack.getItems().getOrDefault(id, 0L) <= 0) return;
+        if (PortalKeys.use(player, registry, id)) {
+            backpack.removeItem(id, 1);
+            render(player);
+        }
     }
 
     @Override

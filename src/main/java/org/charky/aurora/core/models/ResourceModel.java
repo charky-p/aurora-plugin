@@ -11,4 +11,6 @@ public class ResourceModel {
     public List<String> lore = new ArrayList<>();
     public String world;
     public String region;
+    // Tag given when the item is right clicked and used up, null for none
+    public String unlocks;
 }

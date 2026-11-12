@@ -87,7 +87,8 @@ public final class Schema {
     // Columns added after a table first shipped, CREATE TABLE IF NOT EXISTS skips
     // tables that already exist so older databases get them here
     private static final List<String[]> ADDED_COLUMNS = List.<String[]>of(
-            new String[]{"spawners", "active", "INTEGER DEFAULT 1"}
+            new String[]{"spawners", "active", "INTEGER DEFAULT 1"},
+            new String[]{"portals", "required_tag", "TEXT"}
     );
 
     private Schema() {

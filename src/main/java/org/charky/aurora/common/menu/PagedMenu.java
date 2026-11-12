@@ -52,6 +52,11 @@ public abstract class PagedMenu implements InventoryHolder {
     // Index into entries, across all pages
     protected void onEntryClick(Player player, int index) {}
 
+    // For menus where a right click does something else, like using a key
+    protected void onEntryClick(Player player, int index, boolean rightClick) {
+        onEntryClick(player, index);
+    }
+
     // Extra buttons in the free slots
     protected void decorate(Player player, Inventory inventory) {}
 
@@ -62,7 +67,7 @@ public abstract class PagedMenu implements InventoryHolder {
         player.openInventory(inventory);
     }
 
-    public void handleClick(Player player, int slot) {
+    public void handleClick(Player player, int slot, boolean rightClick) {
         switch (slot) {
             case PREVIOUS_SLOT -> turnPage(player, page - 1);
             case NEXT_SLOT -> turnPage(player, page + 1);
@@ -73,7 +78,7 @@ public abstract class PagedMenu implements InventoryHolder {
             }
             default -> {
                 int position = entryPosition(slot);
-                if (position >= 0) onEntryClick(player, page * ENTRY_SLOTS.length + position);
+                if (position >= 0) onEntryClick(player, page * ENTRY_SLOTS.length + position, rightClick);
                 else onButtonClick(player, slot);
             }
         }

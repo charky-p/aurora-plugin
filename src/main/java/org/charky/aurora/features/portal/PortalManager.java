@@ -57,6 +57,15 @@ public class PortalManager {
         store.save(portal);
     }
 
+    // Null or blank opens it to everyone
+    public void setRequiredTag(String name, String tag) {
+        Portal portal = portals.get(name);
+        if (portal == null) return;
+
+        portal.setRequiredTag(tag);
+        store.save(portal);
+    }
+
     public void remove(String name) {
         Portal portal = portals.remove(name);
         if (portal != null) store.remove(portal.getName());

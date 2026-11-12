@@ -20,6 +20,7 @@ public class PortalCommand implements AuroraSubCommand {
     public PortalCommand(Aurora plugin) {
         register(new PortalCreateSub(plugin));
         register(new PortalSetDestSub(plugin));
+        register(new PortalSetTagSub(plugin));
         register(new PortalDeleteSub(plugin));
         register(new PortalRenameSub(plugin));
         register(new PortalListSub(plugin));

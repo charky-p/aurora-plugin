@@ -43,6 +43,8 @@ public class DataRegistry {
     // Resources in resources.csv order, which is progression order
     private final List<MenuItem> resourceList = new ArrayList<>();
     private final Set<String> resourceIds = new HashSet<>();
+    // Key items, item id to the tag right clicking it gives
+    private final Map<String, String> unlocks = new LinkedHashMap<>();
     // Gear that mobs drop, in mob load order (progression), with the mob that drops it
     private final Map<String, Component> armory = new LinkedHashMap<>();
 
@@ -70,6 +72,7 @@ public class DataRegistry {
         traders.clear();
         resourceList.clear();
         resourceIds.clear();
+        unlocks.clear();
         armory.clear();
 
         actions = new MenuActions(backpackManager, armoryManager);
@@ -94,12 +97,17 @@ public class DataRegistry {
         traders.putAll(new TraderLoader(plugin.getLogger()).load(yaml.load("traders.yml", TraderModel.class), guis));
     }
 
+    // Special resources go after the rest, they are the same items but do something
+    // when right clicked
     private void loadResources() {
-        yaml.load("resources.yml", ResourceModel.class).forEach((id, model) -> {
+        Map<String, ResourceModel> models = new LinkedHashMap<>(yaml.load("resources.yml", ResourceModel.class));
+        models.putAll(yaml.load("resources_special.yml", ResourceModel.class));
+        models.forEach((id, model) -> {
             ItemStack item = itemFactory.createResource(model);
             putItem(id, item);
             resourceList.add(new MenuItem(id.toLowerCase(), item));
             resourceIds.add(id.toLowerCase());
+            if (model.unlocks != null && !model.unlocks.isBlank()) unlocks.put(id.toLowerCase(), model.unlocks.toLowerCase());
         });
     }
 
@@ -194,6 +202,19 @@ public class DataRegistry {
     // Resources stack in the backpack, so only they are boosted by Looting
     public boolean isResource(String id) {
         return resourceIds.contains(id.toLowerCase());
+    }
+
+    // The tag a key item gives, null if it is not a key
+    public String getUnlock(String itemId) {
+        return itemId == null ? null : unlocks.get(itemId.toLowerCase());
+    }
+
+    // The items that give a tag, for telling players what they are missing
+    public List<String> getKeysFor(String tag) {
+        return unlocks.entrySet().stream()
+                .filter(entry -> entry.getValue().equalsIgnoreCase(tag))
+                .map(Map.Entry::getKey)
+                .toList();
     }
 
     public List<MenuItem> getItems() {

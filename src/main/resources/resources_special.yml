@@ -1,0 +1,21 @@
+# ===========================================================
+# AURORA SPECIAL RESOURCE TEMPLATE - generated from data/resources_special.csv
+# ===========================================================
+# Resources that are used up by right clicking them, in the backpack or the hand
+# [resource_id]:
+#   display, material, lore, world, region: as in resources.yml
+#   unlocks: gormak (the tag it gives, portals locked to that tag let the player through)
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  gormak_key:
+    display: "<gold><b>Gormak Key"
+    material: TRIPWIRE_HOOK
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<gray>Opens the portal to Gormak"
+      - "<dark_gray>Right click to use"
+    unlocks: gormak

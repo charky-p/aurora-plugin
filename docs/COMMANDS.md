@@ -48,11 +48,14 @@ A box like a mine. Walking in sends you to its destination, which can be in anot
 |---|---|
 | `/a portal create <name> [<x1> <y1> <z1> <x2> <y2> <z2>]` | Create from the wand selection, or two corners |
 | `/a portal setdest <portal> [<world> <x> <y> <z> [yaw] [pitch]]` | Where it leads, defaults to where you stand and face |
+| `/a portal settag <portal> [tag]` | Lock it to players with a tag, players without it are thrown back. No tag unlocks it |
 | `/a portal delete <portal>` | Delete it |
 | `/a portal rename <portal> <new name>` | Rename it |
 | `/a portal list` | Every portal and where it leads |
 | `/a portal info <portal>` | Its box and destination |
 | `/a portal tp <portal> [player]` | Teleport into it |
+
+**Locked portals.** Players get a tag by right clicking a key item, in their backpack or their hand, which uses it up. Key items are in `scripts/data/resources_special.csv`, the `unlocks` column is the tag they give, e.g. `gormak_key` gives `gormak`. Tags are vanilla scoreboard tags, so from the console `/tag <player> add gormak`, `/tag <player> remove gormak` and `/tag <player> list` give, take and show them.
 
 ## Mines
 

@@ -189,6 +189,21 @@ class StoresTest {
     }
 
     @Test
+    void portalRequiredTagRoundTripsAndClears() {
+        PortalStore store = new PortalStore(db);
+        Portal portal = new Portal("to_gormak", "aurora_mines", 0, 70, 0, 2, 72, 0);
+        assertNull(store.loadAll().stream().findFirst().map(Portal::getRequiredTag).orElse(null));
+
+        portal.setRequiredTag("Gormak");
+        store.save(portal);
+        assertEquals("gormak", store.loadAll().getFirst().getRequiredTag());
+
+        portal.setRequiredTag(null);
+        store.save(portal);
+        assertNull(store.loadAll().getFirst().getRequiredTag());
+    }
+
+    @Test
     void portalDestinationRoundTripsAndRenames() {
         PortalStore store = new PortalStore(db);
         Portal portal = new Portal("to_gormak", "aurora_mines", 0, 70, 0, 2, 72, 0);

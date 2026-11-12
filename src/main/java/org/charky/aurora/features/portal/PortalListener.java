@@ -11,7 +11,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.util.Vector;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.core.DataRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,14 +23,20 @@ import java.util.UUID;
 // only triggers it again after stepping out, so arriving inside the return portal
 // does not bounce them straight back
 public class PortalListener implements Listener {
+    // How hard a locked portal throws a player back, and up so they clear the floor
+    private static final double KNOCKBACK = 1.6;
+    private static final double KNOCKBACK_UP = 0.55;
+
     private final Aurora plugin;
     private final PortalManager portals;
+    private final DataRegistry registry;
     // The portal each player is standing in right now, missing for none
     private final Map<UUID, String> inside = new HashMap<>();
 
     public PortalListener(Aurora plugin) {
         this.plugin = plugin;
         this.portals = plugin.getPortalManager();
+        this.registry = plugin.getRegistry();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -48,6 +56,13 @@ public class PortalListener implements Listener {
 
         if (portal.getName().equals(inside.get(player.getUniqueId()))) return;
         inside.put(player.getUniqueId(), portal.getName());
+
+        String tag = portal.getRequiredTag();
+        if (tag != null && !PortalKeys.has(player, tag)) {
+            knockBack(player, event.getFrom(), to);
+            player.sendActionBar(PortalKeys.missing(registry, tag));
+            return;
+        }
 
         Location destination = portal.getDestination();
         if (destination == null) {
@@ -96,6 +111,21 @@ public class PortalListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onEntityVanillaPortal(EntityPortalEvent event) {
         if (portals.portalAt(event.getFrom()) != null) event.setCancelled(true);
+    }
+
+    // Back the way they came, or away from where they face if they did not move sideways
+    private void knockBack(Player player, Location from, Location to) {
+        Vector back = from.toVector().subtract(to.toVector()).setY(0);
+        if (back.lengthSquared() < 1.0E-4) back = player.getLocation().getDirection().multiply(-1).setY(0);
+        if (back.lengthSquared() < 1.0E-4) back = new Vector(1, 0, 0);
+
+        Vector velocity = back.normalize().multiply(KNOCKBACK).setY(KNOCKBACK_UP);
+        // Next tick, velocity set inside a move event can be lost to the move itself
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            if (!player.isOnline()) return;
+            player.setVelocity(velocity);
+            player.playSound(player.getLocation(), Sound.ENTITY_WIND_CHARGE_WIND_BURST, 0.8f, 0.8f);
+        });
     }
 
     private void track(Player player, Location location) {

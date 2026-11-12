@@ -15,6 +15,7 @@ import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
+import org.charky.aurora.features.portal.PortalKeyListener;
 import org.charky.aurora.features.portal.PortalListener;
 import org.charky.aurora.features.portal.PortalManager;
 import org.charky.aurora.features.world.WorldManager;
@@ -146,6 +147,7 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new WandListener(this), this);
         getServer().getPluginManager().registerEvents(new SpawnListener(this), this);
         getServer().getPluginManager().registerEvents(new PortalListener(this), this);
+        getServer().getPluginManager().registerEvents(new PortalKeyListener(this), this);
         getServer().getPluginManager().registerEvents(new CombatListener(this), this);
         getServer().getPluginManager().registerEvents(this, this);
 

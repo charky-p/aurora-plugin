@@ -227,6 +227,18 @@ RESOURCE_HEADER = """\
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ==========================================================="""
 
+SPECIAL_HEADER = """\
+# ===========================================================
+# AURORA SPECIAL RESOURCE TEMPLATE - generated from data/resources_special.csv
+# ===========================================================
+# Resources that are used up by right clicking them, in the backpack or the hand
+# [resource_id]:
+#   display, material, lore, world, region: as in resources.yml
+#   unlocks: gormak (the tag it gives, portals locked to that tag let the player through)
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ==========================================================="""
+
 BLOCK_HEADER = """\
 # ===========================================================
 # AURORA BLOCK TEMPLATE - generated from data/blocks.csv
@@ -402,6 +414,16 @@ SCHEMAS["resources"] = {
         ("world",    Str(quote=True, default="overworld", always=True)),
         ("region",   Str(quote=True, default="", always=True)),
         ("lore",     StrList()),
+    ]),
+}
+
+# Resources that do something when right clicked, in the backpack or the hand
+SCHEMAS["resources_special"] = {
+    "csv": "resources_special.csv",
+    "out": "resources_special.yml",
+    "header": SPECIAL_HEADER,
+    "fields": OrderedDict(list(SCHEMAS["resources"]["fields"].items()) + [
+        ("unlocks",  Str(required=True)),
     ]),
 }
 
@@ -635,7 +657,11 @@ def validate(built):
     errors, warnings = [], []
     get = lambda name: built.get(name) or {}
 
-    resources = get("resources")
+    resources = dict(get("resources"))
+    for rid in get("resources_special"):
+        if rid in resources:
+            errors.append(f"resource '{rid}' is in both resources.csv and resources_special.csv")
+    resources.update(get("resources_special"))
     gear = {}
     for name in ("picks", "armor", "weapons", "other"):
         gear.update(get(name))
@@ -728,7 +754,8 @@ def validate(built):
     for rid in resources:
         if rid not in mined and rid not in dropped:
             warnings.append(f"resource '{rid}' is never mined or dropped")
-        elif rid not in costs_used:
+        # A key is used up by right clicking it, not spent in a shop
+        elif rid not in costs_used and not resources[rid].get("unlocks"):
             warnings.append(f"resource '{rid}' is never used as a cost")
 
     return errors, warnings

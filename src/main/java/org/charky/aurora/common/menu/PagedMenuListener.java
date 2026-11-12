@@ -16,7 +16,7 @@ public class PagedMenuListener implements Listener {
         if (!(event.getWhoClicked() instanceof Player player)) return;
         if (event.getRawSlot() >= event.getView().getTopInventory().getSize()) return;
 
-        menu.handleClick(player, event.getRawSlot());
+        menu.handleClick(player, event.getRawSlot(), event.isRightClick());
     }
 
     // A drag is its own event, without this an item dragged in is gone when it closes

@@ -11,7 +11,7 @@ import java.util.List;
 // The portals table, one row per portal with its box and destination
 public class PortalStore {
     private static final String REPLACE_PORTAL = "REPLACE INTO portals (name, world, x1, y1, z1, x2, y2, z2, "
-            + "dest_world, dest_x, dest_y, dest_z, dest_yaw, dest_pitch) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "dest_world, dest_x, dest_y, dest_z, dest_yaw, dest_pitch, required_tag) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private final Database db;
 
@@ -49,6 +49,7 @@ public class PortalStore {
                         rs.getDouble("dest_x"), rs.getDouble("dest_y"), rs.getDouble("dest_z"),
                         rs.getFloat("dest_yaw"), rs.getFloat("dest_pitch"));
             }
+            portal.setRequiredTag(rs.getString("required_tag"));
             portals.add(portal);
         });
         return portals;
@@ -73,5 +74,7 @@ public class PortalStore {
         } else {
             for (int i = 9; i <= 14; i++) pst.setNull(i, Types.NULL);
         }
+        if (portal.getRequiredTag() != null) pst.setString(15, portal.getRequiredTag());
+        else pst.setNull(15, Types.NULL);
     }
 }

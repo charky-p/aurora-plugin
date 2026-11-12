@@ -39,6 +39,8 @@ public class PortalInfoSub extends PortalSub {
         TextUtils.display(sender, " <dark_gray>» <aqua>From: <white>" + portal.getX1() + "<gray>, <white>" + portal.getY1() + "<gray>, <white>" + portal.getZ1());
         TextUtils.display(sender, " <dark_gray>» <aqua>To: <white>" + portal.getX2() + "<gray>, <white>" + portal.getY2() + "<gray>, <white>" + portal.getZ2());
         TextUtils.display(sender, " <dark_gray>» <aqua>Leads to: " + destination);
+        TextUtils.display(sender, " <dark_gray>» <aqua>Needs tag: " + (portal.getRequiredTag() == null
+                ? "<gray>None, anyone can enter" : "<white>" + portal.getRequiredTag()));
         TextUtils.line(sender, "<aqua>");
     }
 

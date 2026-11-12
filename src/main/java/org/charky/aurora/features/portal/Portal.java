@@ -13,6 +13,8 @@ public class Portal {
     private String destWorld;
     private double destX, destY, destZ;
     private float destYaw, destPitch;
+    // Only players with this tag get through, null for anyone
+    private String requiredTag;
 
     // Corners in any order, stored sorted
     public Portal(String name, String world, int ax, int ay, int az, int bx, int by, int bz) {
@@ -68,6 +70,10 @@ public class Portal {
         return new Location(bukkitWorld, (x1 + x2 + 1) / 2.0, y1, (z1 + z2 + 1) / 2.0);
     }
 
+    public void setRequiredTag(String tag) {
+        this.requiredTag = tag == null || tag.isBlank() ? null : tag.toLowerCase();
+    }
+
     public void rename(String name) {
         this.name = name;
     }
@@ -86,4 +92,5 @@ public class Portal {
     public double getDestZ() { return destZ; }
     public float getDestYaw() { return destYaw; }
     public float getDestPitch() { return destPitch; }
+    public String getRequiredTag() { return requiredTag; }
 }

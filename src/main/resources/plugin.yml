@@ -16,7 +16,7 @@ commands:
   spawn:
     description: Teleport to world spawn
     usage: /spawn
-  gauntlet: # TODO, admin only while it is in progress, it clears the inventory
+  gauntlet: # admin only and hidden from players while in progress, it clears the inventory
     description: Gauntlet gamemode
     usage: /gauntlet
     permission: aurora.admin

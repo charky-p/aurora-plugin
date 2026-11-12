@@ -21,8 +21,10 @@ public class SpawnerManager {
     private final Aurora plugin;
     private final DataRegistry registry;
     private final SpawnerStore store;
-    private final Map<String, MobSpawner> spawnerMap = new HashMap<>();
-    private Map<String, Integer> cachedCounts = new HashMap<>();
+    // Case-insensitive, so commands find a spawner however its name is typed.
+    // The store keys on the saved casing, so store calls use the spawner's own name
+    private final Map<String, MobSpawner> spawnerMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private Map<String, Integer> cachedCounts = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private long cacheExpiry = 0;
 
     public SpawnerManager(Aurora plugin, SpawnerStore store) {
@@ -71,8 +73,9 @@ public class SpawnerManager {
         if (!this.spawnerExists(spawnerName)) return;
 
         // Its spawn task would otherwise keep spawning until the next restart
-        spawnerMap.remove(spawnerName).stop();
-        store.remove(spawnerName);
+        MobSpawner spawner = spawnerMap.remove(spawnerName);
+        spawner.stop();
+        store.remove(spawner.getName());
     }
 
     public List<String> getSpawners() {
@@ -164,7 +167,7 @@ public class SpawnerManager {
         if (spawner == null) return;
 
         MobData mob = registry.getMob(mobName);
-        store.setMob(spawnerName, mobName);
+        store.setMob(spawner.getName(), mobName);
         spawner.setMob(mob);
     }
 
@@ -173,7 +176,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
-        store.setRadius(spawnerName, radius);
+        store.setRadius(spawner.getName(), radius);
         spawner.setRadius(radius);
     }
 
@@ -182,7 +185,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
-        store.setLimit(spawnerName, limit);
+        store.setLimit(spawner.getName(), limit);
         spawner.setLimit(limit);
     }
 
@@ -191,7 +194,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
-        store.setDelay(spawnerName, delay);
+        store.setDelay(spawner.getName(), delay);
         spawner.setDelay(delay);
     }
 
@@ -200,7 +203,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(spawnerName);
         if (spawner == null) return;
 
-        store.redefine(spawnerName, x, y, z);
+        store.redefine(spawner.getName(), x, y, z);
         spawner.redefine(x, y, z);
     }
 
@@ -209,7 +212,7 @@ public class SpawnerManager {
         MobSpawner spawner = spawnerMap.get(oldName);
         if (spawner == null) return;
 
-        store.rename(oldName, newName);
+        store.rename(spawner.getName(), newName);
         spawner.rename(newName);
         spawnerMap.remove(oldName);
         spawnerMap.put(newName, spawner);
@@ -221,13 +224,13 @@ public class SpawnerManager {
         if (spawner == null) return false;
 
         boolean active = spawner.toggle();
-        store.setActive(spawnerName, active);
+        store.setActive(spawner.getName(), active);
         return active;
     }
 
     // Counted from the world, which is the truth since spawner mobs are never saved
     private Map<String, Integer> countAll() {
-        Map<String, Integer> counts = new HashMap<>();
+        Map<String, Integer> counts = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (entity.isDead() || !(entity instanceof LivingEntity)) continue;

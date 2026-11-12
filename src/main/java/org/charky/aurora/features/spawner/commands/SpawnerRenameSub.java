@@ -27,7 +27,8 @@ public class SpawnerRenameSub extends SpawnerSub {
         }
 
         String newName = args[1];
-        if (spawnerManager.spawnerExists(newName)) {
+        // A case change of its own name is a valid rename
+        if (!newName.equalsIgnoreCase(oldName) && spawnerManager.spawnerExists(newName)) {
             TextUtils.error(sender, "Spawner '" + newName + "' already exists");
             return;
         }

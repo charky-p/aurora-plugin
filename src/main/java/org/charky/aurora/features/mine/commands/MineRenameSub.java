@@ -30,7 +30,8 @@ public class MineRenameSub extends MineSub {
         }
 
         String newName = args[1];
-        if (mineManager.exists(newName)) {
+        // A case change of its own name is a valid rename
+        if (!newName.equalsIgnoreCase(oldName) && mineManager.exists(newName)) {
             TextUtils.error(sender, "Mine '" + newName + "' already exists");
             return;
         }

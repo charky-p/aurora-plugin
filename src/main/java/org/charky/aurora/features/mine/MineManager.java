@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MineManager {
     private static final int MAX_MINE_VOLUME = 100000;
@@ -21,7 +22,9 @@ public class MineManager {
 
     private final Aurora plugin;
     private final MineStore store;
-    private final Map<String, Mine> mineMap = new HashMap<>();
+    // Case-insensitive, so commands find a mine however its name is typed.
+    // The store keys on the saved casing, so store calls use the mine's own name
+    private final Map<String, Mine> mineMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private final Map<Location, String> blockIdMap = new HashMap<>();
 
     public MineManager(Aurora plugin, MineStore store) {
@@ -82,7 +85,7 @@ public class MineManager {
 
         for (Mine other : mineMap.values()) {
             MineData data = other.getData();
-            if (data.getName().equals(name)) continue;
+            if (data.getName().equalsIgnoreCase(name)) continue;
             if (data.overlaps(world, x1, y1, z1, x2, y2, z2)) throw new MineException("Overlaps mine '" + data.getName() + "'");
         }
     }
@@ -95,7 +98,7 @@ public class MineManager {
         forgetBlocks(mine);
 
         this.mineMap.remove(name);
-        this.store.remove(name);
+        this.store.remove(mine.getData().getName());
     }
 
     // Registered blocks outlive their mine, so a removed or moved mine would keep
@@ -121,7 +124,7 @@ public class MineManager {
         if (mine == null) return;
 
         mine.setBlocks(blocks);
-        this.store.setBlocks(name, blocks);
+        this.store.setBlocks(mine.getData().getName(), blocks);
     }
 
     public void setThreshold(String name, double threshold) {
@@ -157,10 +160,11 @@ public class MineManager {
         Mine mine = this.mineMap.get(oldName);
         if (mine == null) return;
 
+        String savedName = mine.getData().getName();
         mine.rename(newName);
         mineMap.remove(oldName);
         mineMap.put(newName, mine);
-        this.store.rename(oldName, newName);
+        this.store.rename(savedName, newName);
     }
 
     public void resetMine(String name) {

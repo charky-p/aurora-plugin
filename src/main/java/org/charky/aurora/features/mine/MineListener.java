@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 import org.charky.aurora.common.util.Enchants;
@@ -74,9 +75,14 @@ public class MineListener implements Listener {
         scoreboard.updateBoard(player);
     }
 
-    private void processBlock(Player player, ItemStack pick, Block block) {
-        manager.handleBlockBreak(player, block.getLocation());
+    // Players can't break anything outside a mine, so a placed block would stay for
+    // good, and one placed in a mined out spot would pay out that mine's drop
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onPlace(BlockPlaceEvent event) {
+        if (!event.getPlayer().hasPermission("aurora.admin")) event.setCancelled(true);
+    }
 
+    private void processBlock(Player player, ItemStack pick, Block block) {
         String dropId = manager.getBlockIdAt(block.getLocation());
 
         if (registry.hasBlock(dropId)) {
@@ -94,10 +100,12 @@ public class MineListener implements Listener {
 
             Essence.roll(player, Enchants.level(pick, "luck"), players);
 
-            // Only break if it is a block with a drop
+            // Only break if it is a block with a drop. Counted towards the reset only
+            // once broken, or swinging at a block you can't mine would reset the mine
             if (!blockDrops.isEmpty()) {
                 players.addMined(player);
                 block.setType(Material.AIR, false);
+                manager.handleBlockBreak(player, block.getLocation());
             }
         }
     }

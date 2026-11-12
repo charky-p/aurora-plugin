@@ -125,6 +125,30 @@ cobalt for cave world
 
 drop calculation: `base * (1 + Math.max(0, fortune + 1 - density))`
 
+#### The Great Canopy (region after Verdant Groves)
+jungle region around one huge treehouse tree, reached by portal from the Dark Oak Thicket.
+you climb it: each level up the tree is a zone, levels linked by portals (vine lifts / ladders)
+
+| Level | Zone          | Mine                                   | Mobs                                        |
+|-------|---------------|----------------------------------------|---------------------------------------------|
+| 0     | Jungle Floor  | jungle log, jungle wood, stripped      | panda, ocelot (passive, like the groves)    |
+| 1     | The Roots     | mud, rooted dirt, moss block           | sapling zombee (small weak tree zombee)     |
+| 2     | Vine Halls    | mossy cobblestone, mossy stone bricks  | tree zombee, canopy spider                  |
+| 3     | The Treehouse | bamboo block, bamboo mosaic            | tree zombee, treehouse sentry (archer)      |
+| 4     | Upper Canopy  | azalea leaves, flowering azalea leaves | treant                                      |
+| 5     | The Crown     | none                                   | elder treant (boss)                         |
+
+- main mobs are a ladder up the tree: sapling zombee -> tree zombee -> treant -> elder treant
+- gated twice per level: block density (more fortune each level) and mob strength
+- gear like gormak: picks from the level's mine, swords and armour from its mobs, shields carry on with deflection
+- avoid melon, pale oak, mangrove (emerald peaks / ironbound quarry use them)
+- avoid mobs that don't melee or shoot arrows (witch, creeper, slime, evoker), the combat system only handles those
+- once built, the tree zombee, treant and great treehouse gear move out of verdant groves, verdant ends at the dark oak thicket
+
+optional features (code, not data):
+- locked lifts: a level's portal only works once you own that level's gear, so levels can't be skipped
+- elder treant summon key + bossbar (see boss keys / bossbar ideas above), could also give gormak's unused tomb_key a use
+
 #### OOP Design
 
 #### Run Instructions

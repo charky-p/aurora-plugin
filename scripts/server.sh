@@ -6,6 +6,7 @@
 #   scripts/server.sh restart          stop, build, start
 #   scripts/server.sh cmd "<command>"  runs a console command, e.g. "op Charky"
 #   scripts/server.sh status
+#   scripts/server.sh backup           database and worlds into LocalServer/aurora-backups
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -87,6 +88,20 @@ stop() {
     exit 1
 }
 
+# Saving is paused while the worlds are copied, so no file is caught mid-write
+backup() {
+    if running; then
+        echo "save-off" >> "$CONSOLE"
+        echo "save-all flush" >> "$CONSOLE"
+        for _ in $(seq 1 60); do
+            grep -q "Saved the game" "$OUTPUT" && break
+            sleep 1
+        done
+    fi
+    python "$ROOT/scripts/deploy.py" backup "$SERVER" || true
+    if running; then echo "save-on" >> "$CONSOLE"; fi
+}
+
 case "${1:-}" in
     build)   build ;;
     start)   start ;;
@@ -96,6 +111,7 @@ case "${1:-}" in
         running || { echo "Not running"; exit 1; }
         echo "${2:?usage: server.sh cmd \"<command>\"}" >> "$CONSOLE"
         ;;
+    backup)  backup ;;
     status)  if running; then echo "Running (pid $(cat "$PIDFILE"))"; else echo "Not running"; fi ;;
-    *)       sed -n '2,8p' "$0"; exit 1 ;;
+    *)       sed -n '2,9p' "$0"; exit 1 ;;
 esac

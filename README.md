@@ -42,6 +42,23 @@ scripts/server.sh restart   # stop, build, start
 
 With the server running, data-only changes can be loaded live with `python scripts/generate.py --live` then `/refresh` in game.
 
+## Deploying
+
+```bash
+scripts/server.sh build
+python scripts/deploy.py bundle      # target/aurora-deploy.zip
+```
+
+Stop the live server, unzip `aurora-deploy.zip` over its folder, start it. The zip holds the jar and the game data YAML: the plugin only writes its YAML when a file is missing, so copying the jar alone keeps the old data.
+
+Back up before every deploy. On the live server's host, after `save-off` and `save-all flush` in the console (then `save-on`):
+
+```bash
+python scripts/deploy.py backup <server folder>
+```
+
+This writes the database and worlds to `<server folder>/aurora-backups/` and keeps the newest 14. For the local server, `scripts/server.sh backup` does the saving steps itself. To restore, stop the server and unzip a backup over its folder.
+
 ## Tests
 
 ```bash

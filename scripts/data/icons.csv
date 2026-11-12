@@ -29,3 +29,9 @@ icon_howto_backpack,<yellow><b>2. Your Backpack,CHEST,false,<gray>Resources stac
 icon_howto_gear,<yellow><b>3. Upgrading,ANVIL,false,<gray>Trade resources at shop NPCs for better gear.|<gray>One linear path - each pick beats the last.|<gray>Better gear unlocks harder blocks.
 icon_howto_combat,<yellow><b>4. Combat,IRON_SWORD,false,<gray>Mobs spawn in their own areas.|<gray>Some upgrades need mob drops as well as ore.
 icon_howto_regions,<yellow><b>5. Regions,GRASS_BLOCK,false,<gray>Each island is a region with its own blocks.|<gray>Clear a region to unlock the next one.
+icon_verdant,<dark_green><b>Verdant Groves,OAK_SAPLING,true,<gray>Forest islands of wood and metal.
+icon_oak,<#7BA05B><b>Oak Grove,OAK_LOG,false,<gray>Oak logs and tin.
+icon_birch,<#D9D3B0><b>Birch Hollow,BIRCH_LOG,false,<gray>Birch logs and bronze.
+icon_spruce,<#4F7A4A><b>Spruce Ridge,SPRUCE_LOG,false,<gray>Spruce logs and lead.
+icon_darkoak,<#6B4F35><b>Dark Oak Thicket,DARK_OAK_LOG,false,<gray>Dark oak logs and silver.
+icon_treehouse,<#2E8B57><b>Great Treehouse,JUNGLE_LEAVES,false,<gray>Tree Zombees, and the Treant.

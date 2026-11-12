@@ -230,3 +230,45 @@ items:
     lore:
       - "<gray>Each island is a region with its own blocks."
       - "<gray>Clear a region to unlock the next one."
+
+  icon_verdant:
+    display: "<dark_green><b>Verdant Groves"
+    material: OAK_SAPLING
+    glow: true
+    lore:
+      - "<gray>Forest islands of wood and metal."
+
+  icon_oak:
+    display: "<#7BA05B><b>Oak Grove"
+    material: OAK_LOG
+    glow: false
+    lore:
+      - "<gray>Oak logs and tin."
+
+  icon_birch:
+    display: "<#D9D3B0><b>Birch Hollow"
+    material: BIRCH_LOG
+    glow: false
+    lore:
+      - "<gray>Birch logs and bronze."
+
+  icon_spruce:
+    display: "<#4F7A4A><b>Spruce Ridge"
+    material: SPRUCE_LOG
+    glow: false
+    lore:
+      - "<gray>Spruce logs and lead."
+
+  icon_darkoak:
+    display: "<#6B4F35><b>Dark Oak Thicket"
+    material: DARK_OAK_LOG
+    glow: false
+    lore:
+      - "<gray>Dark oak logs and silver."
+
+  icon_treehouse:
+    display: "<#2E8B57><b>Great Treehouse"
+    material: JUNGLE_LEAVES
+    glow: false
+    lore:
+      - "<gray>Tree Zombees"

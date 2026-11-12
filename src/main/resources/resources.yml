@@ -214,3 +214,83 @@ items:
     lore:
       - "<gray>Shimmers as though it isn't there."
       - "<dark_gray>Dropped by the Mirage"
+
+  oak_log:
+    display: "<#7BA05B>Oak Log"
+    material: OAK_LOG
+    world: "overworld"
+    region: "verdant_oak"
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  tin:
+    display: "<#7BA05B><b>Tin"
+    material: LIGHT_GRAY_CONCRETE
+    world: "overworld"
+    region: "verdant_oak"
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  birch_log:
+    display: "<#D9D3B0>Birch Log"
+    material: BIRCH_LOG
+    world: "overworld"
+    region: "verdant_birch"
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  bronze:
+    display: "<#D9D3B0><b>Bronze"
+    material: BROWN_CONCRETE
+    world: "overworld"
+    region: "verdant_birch"
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  spruce_log:
+    display: "<#4F7A4A>Spruce Log"
+    material: SPRUCE_LOG
+    world: "overworld"
+    region: "verdant_spruce"
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  lead:
+    display: "<#4F7A4A><b>Lead"
+    material: GRAY_CONCRETE
+    world: "overworld"
+    region: "verdant_spruce"
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  dark_oak_log:
+    display: "<#6B4F35>Dark Oak Log"
+    material: DARK_OAK_LOG
+    world: "overworld"
+    region: "verdant_darkoak"
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  silver:
+    display: "<#6B4F35><b>Silver"
+    material: IRON_BLOCK
+    world: "overworld"
+    region: "verdant_darkoak"
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  tree_sap:
+    display: "<gold>Tree Sap"
+    material: HONEYCOMB
+    world: "overworld"
+    region: "verdant_treehouse"
+    lore:
+      - "<dark_gray>Dropped by Tree Zombees"
+
+  heartwood:
+    display: "<dark_green><b>Heartwood"
+    material: CREAKING_HEART
+    world: "overworld"
+    region: "verdant_treehouse"
+    lore:
+      - "<dark_gray>Dropped by the Treant"

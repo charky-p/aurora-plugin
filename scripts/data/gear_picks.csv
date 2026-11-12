@@ -39,3 +39,17 @@ temple_pick_2,<gold><b>Sunward Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,gormak_
 temple_pick_3,<gold><b>Sunward Pickaxe,GOLDEN_PICKAXE,3,mining,overworld,gormak_temple,efficiency:11|fortune:9|luck:11|blast:3,<dark_gray>Gormak - Sun Temple
 tomb_pick_1,<dark_purple><b>Royal Pickaxe,GOLDEN_PICKAXE,1,mining,overworld,gormak_tomb,efficiency:12|fortune:9|luck:11|blast:3,<dark_gray>Gormak - Royal Tomb
 tomb_pick_2,<dark_purple><b>Royal Pickaxe,GOLDEN_PICKAXE,2,mining,overworld,gormak_tomb,efficiency:12|fortune:10|luck:11|blast:3,<dark_gray>Gormak - Royal Tomb
+oak_pick_1,<#7BA05B><b>Grove Pickaxe,DIAMOND_PICKAXE,1,mining,overworld,verdant_oak,efficiency:13|fortune:11|luck:11|blast:3,<dark_gray>Verdant Groves - Oak Grove
+oak_pick_2,<#7BA05B><b>Grove Pickaxe,DIAMOND_PICKAXE,2,mining,overworld,verdant_oak,efficiency:13|fortune:11|luck:12|blast:3,<dark_gray>Verdant Groves - Oak Grove
+oak_pick_3,<#7BA05B><b>Grove Pickaxe,DIAMOND_PICKAXE,3,mining,overworld,verdant_oak,efficiency:14|fortune:12|luck:12|blast:3,<dark_gray>Verdant Groves - Oak Grove
+birch_pick_1,<#D9D3B0><b>Hollow Pickaxe,DIAMOND_PICKAXE,1,mining,overworld,verdant_birch,efficiency:14|fortune:12|luck:12|blast:3,<dark_gray>Verdant Groves - Birch Hollow
+birch_pick_2,<#D9D3B0><b>Hollow Pickaxe,DIAMOND_PICKAXE,2,mining,overworld,verdant_birch,efficiency:15|fortune:13|luck:12|blast:3,<dark_gray>Verdant Groves - Birch Hollow
+birch_pick_3,<#D9D3B0><b>Hollow Pickaxe,DIAMOND_PICKAXE,3,mining,overworld,verdant_birch,efficiency:15|fortune:13|luck:13|blast:3,<dark_gray>Verdant Groves - Birch Hollow
+spruce_pick_1,<#4F7A4A><b>Ridge Pickaxe,DIAMOND_PICKAXE,1,mining,overworld,verdant_spruce,efficiency:16|fortune:13|luck:13|blast:3,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_pick_2,<#4F7A4A><b>Ridge Pickaxe,DIAMOND_PICKAXE,2,mining,overworld,verdant_spruce,efficiency:16|fortune:14|luck:13|blast:3,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_pick_3,<#4F7A4A><b>Ridge Pickaxe,DIAMOND_PICKAXE,3,mining,overworld,verdant_spruce,efficiency:17|fortune:14|luck:14|blast:3,<dark_gray>Verdant Groves - Spruce Ridge
+darkoak_pick_1,<#6B4F35><b>Thicket Pickaxe,DIAMOND_PICKAXE,1,mining,overworld,verdant_darkoak,efficiency:17|fortune:14|luck:14|blast:3,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_pick_2,<#6B4F35><b>Thicket Pickaxe,DIAMOND_PICKAXE,2,mining,overworld,verdant_darkoak,efficiency:18|fortune:15|luck:14|blast:3,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_pick_3,<#6B4F35><b>Thicket Pickaxe,DIAMOND_PICKAXE,3,mining,overworld,verdant_darkoak,efficiency:18|fortune:15|luck:15|blast:3,<dark_gray>Verdant Groves - Dark Oak Thicket
+treehouse_pick_1,<#2E8B57><b>Canopy Pickaxe,NETHERITE_PICKAXE,1,mining,overworld,verdant_treehouse,efficiency:19|fortune:16|luck:15|blast:3,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_pick_2,<#2E8B57><b>Canopy Pickaxe,NETHERITE_PICKAXE,2,mining,overworld,verdant_treehouse,efficiency:20|fortune:17|luck:16|blast:3,<dark_gray>Verdant Groves - Great Treehouse

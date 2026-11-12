@@ -86,6 +86,7 @@ public class DataRegistry {
         MobLoader mobLoader = new MobLoader(plugin.getLogger(), items, loot, this::isResource);
         mobLoader.load(yaml.load("mobs/gormak.yml", MobModel.class), mobs, armory);
         mobLoader.load(yaml.load("mobs/origin.yml", MobModel.class), mobs, armory);
+        mobLoader.load(yaml.load("mobs/verdant.yml", MobModel.class), mobs, armory);
 
         yaml.load("icons.yml", IconModel.class).forEach((id, model) -> icons.put(id, itemFactory.createIcon(model)));
         guis.putAll(new GuiLoader(plugin.getLogger(), items, icons, actions, backpackManager)

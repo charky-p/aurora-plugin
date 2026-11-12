@@ -838,3 +838,168 @@ items:
     lore:
       - "<gray>You are not certain you are holding it."
       - "<dark_gray>Dropped by the Mirage"
+
+  oak_sword_1:
+    display: "<#7BA05B><b>Grove Sword"
+    material: DIAMOND_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      sharpness: 19
+      luck: 10
+      looting: 8
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  oak_sword_2:
+    display: "<#7BA05B><b>Grove Sword"
+    material: DIAMOND_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      sharpness: 20
+      luck: 10
+      looting: 8
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  birch_sword_1:
+    display: "<#D9D3B0><b>Hollow Sword"
+    material: DIAMOND_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      sharpness: 20
+      luck: 10
+      looting: 8
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  birch_sword_2:
+    display: "<#D9D3B0><b>Hollow Sword"
+    material: DIAMOND_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      sharpness: 21
+      luck: 10
+      looting: 9
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  spruce_sword_1:
+    display: "<#4F7A4A><b>Ridge Sword"
+    material: DIAMOND_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      sharpness: 21
+      luck: 11
+      looting: 9
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  spruce_sword_2:
+    display: "<#4F7A4A><b>Ridge Sword"
+    material: DIAMOND_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      sharpness: 22
+      luck: 11
+      looting: 9
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  darkoak_sword_1:
+    display: "<#6B4F35><b>Thicket Sword"
+    material: DIAMOND_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      sharpness: 22
+      luck: 11
+      looting: 9
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  darkoak_sword_2:
+    display: "<#6B4F35><b>Thicket Sword"
+    material: DIAMOND_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      sharpness: 23
+      luck: 11
+      looting: 9
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  treehouse_sword_1:
+    display: "<#2E8B57><b>Canopy Sword"
+    material: NETHERITE_SWORD
+    tier: 1
+    type: "combat"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      sharpness: 24
+      luck: 12
+      looting: 9
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_sword_2:
+    display: "<#2E8B57><b>Canopy Sword"
+    material: NETHERITE_SWORD
+    tier: 2
+    type: "combat"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      sharpness: 25
+      luck: 12
+      looting: 10
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_sword_3:
+    display: "<#2E8B57><b>Canopy Sword"
+    material: NETHERITE_SWORD
+    tier: 3
+    type: "combat"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      sharpness: 26
+      luck: 12
+      looting: 10
+      bloodlust: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"

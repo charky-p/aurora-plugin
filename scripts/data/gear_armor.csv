@@ -191,3 +191,47 @@ mirage_helmet_1,<light_purple>Mirage Helmet,GOLDEN_HELMET,1,armor,overworld,gorm
 mirage_chestplate_1,<light_purple>Mirage Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak,protection:15,<dark_gray>Worn by the fallen.
 mirage_leggings_1,<light_purple>Mirage Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak,protection:15,<dark_gray>Worn by the fallen.
 mirage_boots_1,<light_purple>Mirage Boots,GOLDEN_BOOTS,1,armor,overworld,gormak,protection:15,<dark_gray>Worn by the fallen.
+oak_helmet_1,<#7BA05B><b>Grove Helmet,DIAMOND_HELMET,1,armor,overworld,verdant_oak,protection:26|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Oak Grove
+oak_chestplate_1,<#7BA05B><b>Grove Chestplate,DIAMOND_CHESTPLATE,1,armor,overworld,verdant_oak,protection:26|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Oak Grove
+oak_leggings_1,<#7BA05B><b>Grove Leggings,DIAMOND_LEGGINGS,1,armor,overworld,verdant_oak,protection:26|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Oak Grove
+oak_boots_1,<#7BA05B><b>Grove Boots,DIAMOND_BOOTS,1,armor,overworld,verdant_oak,protection:26|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Oak Grove
+oak_helmet_2,<#7BA05B><b>Grove Helmet,DIAMOND_HELMET,2,armor,overworld,verdant_oak,protection:27|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Oak Grove
+oak_chestplate_2,<#7BA05B><b>Grove Chestplate,DIAMOND_CHESTPLATE,2,armor,overworld,verdant_oak,protection:27|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Oak Grove
+oak_leggings_2,<#7BA05B><b>Grove Leggings,DIAMOND_LEGGINGS,2,armor,overworld,verdant_oak,protection:27|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Oak Grove
+oak_boots_2,<#7BA05B><b>Grove Boots,DIAMOND_BOOTS,2,armor,overworld,verdant_oak,protection:27|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Oak Grove
+birch_helmet_1,<#D9D3B0><b>Hollow Helmet,DIAMOND_HELMET,1,armor,overworld,verdant_birch,protection:28|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Birch Hollow
+birch_chestplate_1,<#D9D3B0><b>Hollow Chestplate,DIAMOND_CHESTPLATE,1,armor,overworld,verdant_birch,protection:28|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Birch Hollow
+birch_leggings_1,<#D9D3B0><b>Hollow Leggings,DIAMOND_LEGGINGS,1,armor,overworld,verdant_birch,protection:28|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Birch Hollow
+birch_boots_1,<#D9D3B0><b>Hollow Boots,DIAMOND_BOOTS,1,armor,overworld,verdant_birch,protection:28|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Birch Hollow
+birch_helmet_2,<#D9D3B0><b>Hollow Helmet,DIAMOND_HELMET,2,armor,overworld,verdant_birch,protection:29|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Birch Hollow
+birch_chestplate_2,<#D9D3B0><b>Hollow Chestplate,DIAMOND_CHESTPLATE,2,armor,overworld,verdant_birch,protection:29|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Birch Hollow
+birch_leggings_2,<#D9D3B0><b>Hollow Leggings,DIAMOND_LEGGINGS,2,armor,overworld,verdant_birch,protection:29|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Birch Hollow
+birch_boots_2,<#D9D3B0><b>Hollow Boots,DIAMOND_BOOTS,2,armor,overworld,verdant_birch,protection:29|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Birch Hollow
+spruce_helmet_1,<#4F7A4A><b>Ridge Helmet,DIAMOND_HELMET,1,armor,overworld,verdant_spruce,protection:30|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_chestplate_1,<#4F7A4A><b>Ridge Chestplate,DIAMOND_CHESTPLATE,1,armor,overworld,verdant_spruce,protection:30|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_leggings_1,<#4F7A4A><b>Ridge Leggings,DIAMOND_LEGGINGS,1,armor,overworld,verdant_spruce,protection:30|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_boots_1,<#4F7A4A><b>Ridge Boots,DIAMOND_BOOTS,1,armor,overworld,verdant_spruce,protection:30|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_helmet_2,<#4F7A4A><b>Ridge Helmet,DIAMOND_HELMET,2,armor,overworld,verdant_spruce,protection:31|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_chestplate_2,<#4F7A4A><b>Ridge Chestplate,DIAMOND_CHESTPLATE,2,armor,overworld,verdant_spruce,protection:31|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_leggings_2,<#4F7A4A><b>Ridge Leggings,DIAMOND_LEGGINGS,2,armor,overworld,verdant_spruce,protection:31|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_boots_2,<#4F7A4A><b>Ridge Boots,DIAMOND_BOOTS,2,armor,overworld,verdant_spruce,protection:31|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Spruce Ridge
+darkoak_helmet_1,<#6B4F35><b>Thicket Helmet,DIAMOND_HELMET,1,armor,overworld,verdant_darkoak,protection:32|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_chestplate_1,<#6B4F35><b>Thicket Chestplate,DIAMOND_CHESTPLATE,1,armor,overworld,verdant_darkoak,protection:32|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_leggings_1,<#6B4F35><b>Thicket Leggings,DIAMOND_LEGGINGS,1,armor,overworld,verdant_darkoak,protection:32|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_boots_1,<#6B4F35><b>Thicket Boots,DIAMOND_BOOTS,1,armor,overworld,verdant_darkoak,protection:32|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_helmet_2,<#6B4F35><b>Thicket Helmet,DIAMOND_HELMET,2,armor,overworld,verdant_darkoak,protection:33|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_chestplate_2,<#6B4F35><b>Thicket Chestplate,DIAMOND_CHESTPLATE,2,armor,overworld,verdant_darkoak,protection:33|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_leggings_2,<#6B4F35><b>Thicket Leggings,DIAMOND_LEGGINGS,2,armor,overworld,verdant_darkoak,protection:33|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_boots_2,<#6B4F35><b>Thicket Boots,DIAMOND_BOOTS,2,armor,overworld,verdant_darkoak,protection:33|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Dark Oak Thicket
+treehouse_helmet_1,<#2E8B57><b>Canopy Helmet,NETHERITE_HELMET,1,armor,overworld,verdant_treehouse,protection:34|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_chestplate_1,<#2E8B57><b>Canopy Chestplate,NETHERITE_CHESTPLATE,1,armor,overworld,verdant_treehouse,protection:34|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_leggings_1,<#2E8B57><b>Canopy Leggings,NETHERITE_LEGGINGS,1,armor,overworld,verdant_treehouse,protection:34|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_boots_1,<#2E8B57><b>Canopy Boots,NETHERITE_BOOTS,1,armor,overworld,verdant_treehouse,protection:34|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_helmet_2,<#2E8B57><b>Canopy Helmet,NETHERITE_HELMET,2,armor,overworld,verdant_treehouse,protection:35|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_chestplate_2,<#2E8B57><b>Canopy Chestplate,NETHERITE_CHESTPLATE,2,armor,overworld,verdant_treehouse,protection:35|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_leggings_2,<#2E8B57><b>Canopy Leggings,NETHERITE_LEGGINGS,2,armor,overworld,verdant_treehouse,protection:35|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_boots_2,<#2E8B57><b>Canopy Boots,NETHERITE_BOOTS,2,armor,overworld,verdant_treehouse,protection:35|sustenance:5|thorns:1,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_helmet_3,<#2E8B57><b>Canopy Helmet,NETHERITE_HELMET,3,armor,overworld,verdant_treehouse,protection:36|sustenance:5|thorns:2,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_chestplate_3,<#2E8B57><b>Canopy Chestplate,NETHERITE_CHESTPLATE,3,armor,overworld,verdant_treehouse,protection:36|sustenance:5|thorns:2,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_leggings_3,<#2E8B57><b>Canopy Leggings,NETHERITE_LEGGINGS,3,armor,overworld,verdant_treehouse,protection:36|sustenance:5|thorns:2,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_boots_3,<#2E8B57><b>Canopy Boots,NETHERITE_BOOTS,3,armor,overworld,verdant_treehouse,protection:36|sustenance:5|thorns:2,<dark_gray>Verdant Groves - Great Treehouse

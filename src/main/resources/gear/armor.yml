@@ -2400,3 +2400,619 @@ items:
       protection: 15
     lore:
       - "<dark_gray>Worn by the fallen."
+
+  oak_helmet_1:
+    display: "<#7BA05B><b>Grove Helmet"
+    material: DIAMOND_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      protection: 26
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  oak_chestplate_1:
+    display: "<#7BA05B><b>Grove Chestplate"
+    material: DIAMOND_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      protection: 26
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  oak_leggings_1:
+    display: "<#7BA05B><b>Grove Leggings"
+    material: DIAMOND_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      protection: 26
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  oak_boots_1:
+    display: "<#7BA05B><b>Grove Boots"
+    material: DIAMOND_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      protection: 26
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  oak_helmet_2:
+    display: "<#7BA05B><b>Grove Helmet"
+    material: DIAMOND_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      protection: 27
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  oak_chestplate_2:
+    display: "<#7BA05B><b>Grove Chestplate"
+    material: DIAMOND_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      protection: 27
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  oak_leggings_2:
+    display: "<#7BA05B><b>Grove Leggings"
+    material: DIAMOND_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      protection: 27
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  oak_boots_2:
+    display: "<#7BA05B><b>Grove Boots"
+    material: DIAMOND_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_oak"
+    enchants:
+      protection: 27
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Oak Grove"
+
+  birch_helmet_1:
+    display: "<#D9D3B0><b>Hollow Helmet"
+    material: DIAMOND_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      protection: 28
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  birch_chestplate_1:
+    display: "<#D9D3B0><b>Hollow Chestplate"
+    material: DIAMOND_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      protection: 28
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  birch_leggings_1:
+    display: "<#D9D3B0><b>Hollow Leggings"
+    material: DIAMOND_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      protection: 28
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  birch_boots_1:
+    display: "<#D9D3B0><b>Hollow Boots"
+    material: DIAMOND_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      protection: 28
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  birch_helmet_2:
+    display: "<#D9D3B0><b>Hollow Helmet"
+    material: DIAMOND_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      protection: 29
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  birch_chestplate_2:
+    display: "<#D9D3B0><b>Hollow Chestplate"
+    material: DIAMOND_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      protection: 29
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  birch_leggings_2:
+    display: "<#D9D3B0><b>Hollow Leggings"
+    material: DIAMOND_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      protection: 29
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  birch_boots_2:
+    display: "<#D9D3B0><b>Hollow Boots"
+    material: DIAMOND_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_birch"
+    enchants:
+      protection: 29
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Birch Hollow"
+
+  spruce_helmet_1:
+    display: "<#4F7A4A><b>Ridge Helmet"
+    material: DIAMOND_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      protection: 30
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  spruce_chestplate_1:
+    display: "<#4F7A4A><b>Ridge Chestplate"
+    material: DIAMOND_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      protection: 30
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  spruce_leggings_1:
+    display: "<#4F7A4A><b>Ridge Leggings"
+    material: DIAMOND_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      protection: 30
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  spruce_boots_1:
+    display: "<#4F7A4A><b>Ridge Boots"
+    material: DIAMOND_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      protection: 30
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  spruce_helmet_2:
+    display: "<#4F7A4A><b>Ridge Helmet"
+    material: DIAMOND_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      protection: 31
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  spruce_chestplate_2:
+    display: "<#4F7A4A><b>Ridge Chestplate"
+    material: DIAMOND_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      protection: 31
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  spruce_leggings_2:
+    display: "<#4F7A4A><b>Ridge Leggings"
+    material: DIAMOND_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      protection: 31
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  spruce_boots_2:
+    display: "<#4F7A4A><b>Ridge Boots"
+    material: DIAMOND_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_spruce"
+    enchants:
+      protection: 31
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Spruce Ridge"
+
+  darkoak_helmet_1:
+    display: "<#6B4F35><b>Thicket Helmet"
+    material: DIAMOND_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      protection: 32
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  darkoak_chestplate_1:
+    display: "<#6B4F35><b>Thicket Chestplate"
+    material: DIAMOND_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      protection: 32
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  darkoak_leggings_1:
+    display: "<#6B4F35><b>Thicket Leggings"
+    material: DIAMOND_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      protection: 32
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  darkoak_boots_1:
+    display: "<#6B4F35><b>Thicket Boots"
+    material: DIAMOND_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      protection: 32
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  darkoak_helmet_2:
+    display: "<#6B4F35><b>Thicket Helmet"
+    material: DIAMOND_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      protection: 33
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  darkoak_chestplate_2:
+    display: "<#6B4F35><b>Thicket Chestplate"
+    material: DIAMOND_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      protection: 33
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  darkoak_leggings_2:
+    display: "<#6B4F35><b>Thicket Leggings"
+    material: DIAMOND_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      protection: 33
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  darkoak_boots_2:
+    display: "<#6B4F35><b>Thicket Boots"
+    material: DIAMOND_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_darkoak"
+    enchants:
+      protection: 33
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Dark Oak Thicket"
+
+  treehouse_helmet_1:
+    display: "<#2E8B57><b>Canopy Helmet"
+    material: NETHERITE_HELMET
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 34
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_chestplate_1:
+    display: "<#2E8B57><b>Canopy Chestplate"
+    material: NETHERITE_CHESTPLATE
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 34
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_leggings_1:
+    display: "<#2E8B57><b>Canopy Leggings"
+    material: NETHERITE_LEGGINGS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 34
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_boots_1:
+    display: "<#2E8B57><b>Canopy Boots"
+    material: NETHERITE_BOOTS
+    tier: 1
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 34
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_helmet_2:
+    display: "<#2E8B57><b>Canopy Helmet"
+    material: NETHERITE_HELMET
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 35
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_chestplate_2:
+    display: "<#2E8B57><b>Canopy Chestplate"
+    material: NETHERITE_CHESTPLATE
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 35
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_leggings_2:
+    display: "<#2E8B57><b>Canopy Leggings"
+    material: NETHERITE_LEGGINGS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 35
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_boots_2:
+    display: "<#2E8B57><b>Canopy Boots"
+    material: NETHERITE_BOOTS
+    tier: 2
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 35
+      sustenance: 5
+      thorns: 1
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_helmet_3:
+    display: "<#2E8B57><b>Canopy Helmet"
+    material: NETHERITE_HELMET
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 36
+      sustenance: 5
+      thorns: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_chestplate_3:
+    display: "<#2E8B57><b>Canopy Chestplate"
+    material: NETHERITE_CHESTPLATE
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 36
+      sustenance: 5
+      thorns: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_leggings_3:
+    display: "<#2E8B57><b>Canopy Leggings"
+    material: NETHERITE_LEGGINGS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 36
+      sustenance: 5
+      thorns: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"
+
+  treehouse_boots_3:
+    display: "<#2E8B57><b>Canopy Boots"
+    material: NETHERITE_BOOTS
+    tier: 3
+    type: "armor"
+    world: "overworld"
+    region: "verdant_treehouse"
+    enchants:
+      protection: 36
+      sustenance: 5
+      thorns: 2
+    lore:
+      - "<dark_gray>Verdant Groves - Great Treehouse"

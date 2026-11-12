@@ -143,3 +143,83 @@ items:
       - id: raw_gold
         min: 2
         max: 4
+
+  oak_log:
+    material: OAK_LOG
+    density: 10
+    independent:
+      - id: oak_log
+
+  oak_wood:
+    material: OAK_WOOD
+    density: 10
+    independent:
+      - id: oak_log
+        min: 2
+        max: 4
+
+  tin_ore:
+    material: LIGHT_GRAY_CONCRETE
+    density: 10
+    independent:
+      - id: tin
+
+  birch_log:
+    material: BIRCH_LOG
+    density: 11
+    independent:
+      - id: birch_log
+
+  birch_wood:
+    material: BIRCH_WOOD
+    density: 11
+    independent:
+      - id: birch_log
+        min: 2
+        max: 4
+
+  bronze_ore:
+    material: BROWN_CONCRETE
+    density: 11
+    independent:
+      - id: bronze
+
+  spruce_log:
+    material: SPRUCE_LOG
+    density: 12
+    independent:
+      - id: spruce_log
+
+  spruce_wood:
+    material: SPRUCE_WOOD
+    density: 12
+    independent:
+      - id: spruce_log
+        min: 2
+        max: 4
+
+  lead_ore:
+    material: GRAY_CONCRETE
+    density: 12
+    independent:
+      - id: lead
+
+  dark_oak_log:
+    material: DARK_OAK_LOG
+    density: 13
+    independent:
+      - id: dark_oak_log
+
+  darkoak_wood:
+    material: DARK_OAK_WOOD
+    density: 13
+    independent:
+      - id: dark_oak_log
+        min: 2
+        max: 4
+
+  silver_ore:
+    material: IRON_BLOCK
+    density: 13
+    independent:
+      - id: silver

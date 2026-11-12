@@ -130,13 +130,16 @@ public class ItemFactory {
 
     // Vanilla wood and gold tiers cannot harvest ores, so they dig them three
     // times slower. Our picks are the right tool for every pickaxe block, at
-    // their tier's own speed, so every upgrade digs faster
+    // their tier's own speed, so every upgrade digs faster. One progression for
+    // every tool, so they are an axe too, for the Verdant Groves log mines
     private static void makeRightTool(ItemStack item, ItemMeta meta) {
         if (!Tag.ITEMS_PICKAXES.isTagged(item.getType())) return;
 
+        float speed = pickaxeSpeed(item.getType());
         ToolComponent tool = meta.getTool();
         tool.setRules(new ArrayList<>());
-        tool.addRule(Tag.MINEABLE_PICKAXE, pickaxeSpeed(item.getType()), true);
+        tool.addRule(Tag.MINEABLE_PICKAXE, speed, true);
+        tool.addRule(Tag.MINEABLE_AXE, speed, true);
         meta.setTool(tool);
     }
 

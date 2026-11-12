@@ -56,3 +56,14 @@ myrmidon_blade,<dark_purple><b>Myrmidon Blade,GOLDEN_SWORD,5,combat,overworld,go
 pharaoh_scepter,<gold><b>Pharaoh's Scepter,GOLDEN_SWORD,5,combat,overworld,gormak_tomb,sharpness:17|luck:10|looting:8|bloodlust:1,<gray>It ruled before it killed.|<dark_gray>Dropped by Pharaohs
 gormak_blade,<dark_red><b>Blade of the Eternal,GOLDEN_SWORD,5,combat,overworld,gormak_tomb,sharpness:19|luck:12|looting:9|bloodlust:2,<gray>The only thing that outlasted him.|<dark_gray>Dropped by Gormak the Eternal
 mirage_edge,<light_purple><b>Mirage Edge,GOLDEN_SWORD,5,combat,overworld,gormak,sharpness:16|luck:15|looting:8|bloodlust:1,<gray>You are not certain you are holding it.|<dark_gray>Dropped by the Mirage
+oak_sword_1,<#7BA05B><b>Grove Sword,DIAMOND_SWORD,1,combat,overworld,verdant_oak,sharpness:19|luck:10|looting:8|bloodlust:2,<dark_gray>Verdant Groves - Oak Grove
+oak_sword_2,<#7BA05B><b>Grove Sword,DIAMOND_SWORD,2,combat,overworld,verdant_oak,sharpness:20|luck:10|looting:8|bloodlust:2,<dark_gray>Verdant Groves - Oak Grove
+birch_sword_1,<#D9D3B0><b>Hollow Sword,DIAMOND_SWORD,1,combat,overworld,verdant_birch,sharpness:20|luck:10|looting:8|bloodlust:2,<dark_gray>Verdant Groves - Birch Hollow
+birch_sword_2,<#D9D3B0><b>Hollow Sword,DIAMOND_SWORD,2,combat,overworld,verdant_birch,sharpness:21|luck:10|looting:9|bloodlust:2,<dark_gray>Verdant Groves - Birch Hollow
+spruce_sword_1,<#4F7A4A><b>Ridge Sword,DIAMOND_SWORD,1,combat,overworld,verdant_spruce,sharpness:21|luck:11|looting:9|bloodlust:2,<dark_gray>Verdant Groves - Spruce Ridge
+spruce_sword_2,<#4F7A4A><b>Ridge Sword,DIAMOND_SWORD,2,combat,overworld,verdant_spruce,sharpness:22|luck:11|looting:9|bloodlust:2,<dark_gray>Verdant Groves - Spruce Ridge
+darkoak_sword_1,<#6B4F35><b>Thicket Sword,DIAMOND_SWORD,1,combat,overworld,verdant_darkoak,sharpness:22|luck:11|looting:9|bloodlust:2,<dark_gray>Verdant Groves - Dark Oak Thicket
+darkoak_sword_2,<#6B4F35><b>Thicket Sword,DIAMOND_SWORD,2,combat,overworld,verdant_darkoak,sharpness:23|luck:11|looting:9|bloodlust:2,<dark_gray>Verdant Groves - Dark Oak Thicket
+treehouse_sword_1,<#2E8B57><b>Canopy Sword,NETHERITE_SWORD,1,combat,overworld,verdant_treehouse,sharpness:24|luck:12|looting:9|bloodlust:2,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_sword_2,<#2E8B57><b>Canopy Sword,NETHERITE_SWORD,2,combat,overworld,verdant_treehouse,sharpness:25|luck:12|looting:10|bloodlust:2,<dark_gray>Verdant Groves - Great Treehouse
+treehouse_sword_3,<#2E8B57><b>Canopy Sword,NETHERITE_SWORD,3,combat,overworld,verdant_treehouse,sharpness:26|luck:12|looting:10|bloodlust:2,<dark_gray>Verdant Groves - Great Treehouse

@@ -64,3 +64,28 @@ items:
     display: "<dark_purple><b>Tomb Broker"
     entity: WANDERING_TRADER
     gui: tomb_shop
+
+  oak_trader:
+    display: "<#7BA05B><b>Grove Warden"
+    entity: VILLAGER
+    gui: oak_shop
+
+  birch_trader:
+    display: "<#D9D3B0><b>Hollow Smith"
+    entity: VILLAGER
+    gui: birch_shop
+
+  spruce_trader:
+    display: "<#4F7A4A><b>Ridge Forester"
+    entity: VILLAGER
+    gui: spruce_shop
+
+  darkoak_trader:
+    display: "<#6B4F35><b>Thicket Hermit"
+    entity: VILLAGER
+    gui: darkoak_shop
+
+  treehouse_trader:
+    display: "<#2E8B57><b>Canopy Keeper"
+    entity: VILLAGER
+    gui: treehouse_shop

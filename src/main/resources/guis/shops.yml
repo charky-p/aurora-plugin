@@ -2334,3 +2334,741 @@ items:
       z:
         type: GUI
         id: aurora_hub
+
+  verdant_hub:
+    title: "<dark_green><b>Verdant Groves"
+    icon: icon_verdant
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B 12345 B"
+      - "BBBBBBBBX"
+    components:
+      '1':
+        type: GUI
+        id: oak_shop
+      '2':
+        type: GUI
+        id: birch_shop
+      '3':
+        type: GUI
+        id: spruce_shop
+      '4':
+        type: GUI
+        id: darkoak_shop
+      '5':
+        type: GUI
+        id: treehouse_shop
+
+  oak_shop:
+    title: "<gold><b>Oak Grove"
+    icon: icon_oak
+    rows: 5
+    layout:
+      - "BBBBIBBBB"
+      - "B  123  B"
+      - "B  qw   B"
+      - "B   A   B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: oak_pick_1
+        cost:
+          - id: tomb_pick_2
+          - id: tin
+            amount: 1361
+      '2':
+        type: TRADE
+        id: oak_pick_2
+        cost:
+          - id: oak_pick_1
+          - id: oak_log
+            amount: 1815
+      '3':
+        type: TRADE
+        id: oak_pick_3
+        cost:
+          - id: oak_pick_2
+          - id: tin
+            amount: 1361
+          - id: oak_log
+            amount: 1361
+      q:
+        type: TRADE
+        id: oak_sword_1
+        cost:
+          - id: tomb_sword_5
+          - id: tin
+            amount: 1089
+      w:
+        type: TRADE
+        id: oak_sword_2
+        cost:
+          - id: oak_sword_1
+          - id: tin
+            amount: 907
+          - id: oak_log
+            amount: 907
+      A:
+        type: GUI
+        id: oak_armor
+      z:
+        type: GUI
+        id: verdant_hub
+
+  oak_armor:
+    title: "<gold><b>Oak Grove <dark_gray>| <gray>Armour"
+    icon: icon_armor
+    rows: 6
+    layout:
+      - "BBBBIBBBB"
+      - "B   12  B"
+      - "B   67  B"
+      - "B   ab  B"
+      - "B   fg  B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: oak_helmet_1
+        cost:
+          - id: tomb_helmet_4
+          - id: tin
+            amount: 726
+      '2':
+        type: TRADE
+        id: oak_helmet_2
+        cost:
+          - id: oak_helmet_1
+          - id: tin
+            amount: 544
+          - id: oak_log
+            amount: 544
+      '6':
+        type: TRADE
+        id: oak_chestplate_1
+        cost:
+          - id: tomb_chestplate_4
+          - id: tin
+            amount: 726
+      '7':
+        type: TRADE
+        id: oak_chestplate_2
+        cost:
+          - id: oak_chestplate_1
+          - id: tin
+            amount: 544
+          - id: oak_log
+            amount: 544
+      a:
+        type: TRADE
+        id: oak_leggings_1
+        cost:
+          - id: tomb_leggings_4
+          - id: tin
+            amount: 726
+      b:
+        type: TRADE
+        id: oak_leggings_2
+        cost:
+          - id: oak_leggings_1
+          - id: tin
+            amount: 544
+          - id: oak_log
+            amount: 544
+      f:
+        type: TRADE
+        id: oak_boots_1
+        cost:
+          - id: tomb_boots_4
+          - id: tin
+            amount: 726
+      g:
+        type: TRADE
+        id: oak_boots_2
+        cost:
+          - id: oak_boots_1
+          - id: tin
+            amount: 544
+          - id: oak_log
+            amount: 544
+      z:
+        type: GUI
+        id: oak_shop
+
+  birch_shop:
+    title: "<gold><b>Birch Hollow"
+    icon: icon_birch
+    rows: 5
+    layout:
+      - "BBBBIBBBB"
+      - "B  123  B"
+      - "B  qw   B"
+      - "B   A   B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: birch_pick_1
+        cost:
+          - id: oak_pick_3
+          - id: bronze
+            amount: 1974
+      '2':
+        type: TRADE
+        id: birch_pick_2
+        cost:
+          - id: birch_pick_1
+          - id: birch_log
+            amount: 2633
+      '3':
+        type: TRADE
+        id: birch_pick_3
+        cost:
+          - id: birch_pick_2
+          - id: bronze
+            amount: 1974
+          - id: birch_log
+            amount: 1974
+      q:
+        type: TRADE
+        id: birch_sword_1
+        cost:
+          - id: oak_sword_2
+          - id: bronze
+            amount: 1580
+      w:
+        type: TRADE
+        id: birch_sword_2
+        cost:
+          - id: birch_sword_1
+          - id: bronze
+            amount: 1316
+          - id: birch_log
+            amount: 1316
+      A:
+        type: GUI
+        id: birch_armor
+      z:
+        type: GUI
+        id: verdant_hub
+
+  birch_armor:
+    title: "<gold><b>Birch Hollow <dark_gray>| <gray>Armour"
+    icon: icon_armor
+    rows: 6
+    layout:
+      - "BBBBIBBBB"
+      - "B   12  B"
+      - "B   67  B"
+      - "B   ab  B"
+      - "B   fg  B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: birch_helmet_1
+        cost:
+          - id: oak_helmet_2
+          - id: bronze
+            amount: 1053
+      '2':
+        type: TRADE
+        id: birch_helmet_2
+        cost:
+          - id: birch_helmet_1
+          - id: bronze
+            amount: 790
+          - id: birch_log
+            amount: 790
+      '6':
+        type: TRADE
+        id: birch_chestplate_1
+        cost:
+          - id: oak_chestplate_2
+          - id: bronze
+            amount: 1053
+      '7':
+        type: TRADE
+        id: birch_chestplate_2
+        cost:
+          - id: birch_chestplate_1
+          - id: bronze
+            amount: 790
+          - id: birch_log
+            amount: 790
+      a:
+        type: TRADE
+        id: birch_leggings_1
+        cost:
+          - id: oak_leggings_2
+          - id: bronze
+            amount: 1053
+      b:
+        type: TRADE
+        id: birch_leggings_2
+        cost:
+          - id: birch_leggings_1
+          - id: bronze
+            amount: 790
+          - id: birch_log
+            amount: 790
+      f:
+        type: TRADE
+        id: birch_boots_1
+        cost:
+          - id: oak_boots_2
+          - id: bronze
+            amount: 1053
+      g:
+        type: TRADE
+        id: birch_boots_2
+        cost:
+          - id: birch_boots_1
+          - id: bronze
+            amount: 790
+          - id: birch_log
+            amount: 790
+      z:
+        type: GUI
+        id: birch_shop
+
+  spruce_shop:
+    title: "<gold><b>Spruce Ridge"
+    icon: icon_spruce
+    rows: 5
+    layout:
+      - "BBBBIBBBB"
+      - "B  123  B"
+      - "B  qw   B"
+      - "B   A   B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: spruce_pick_1
+        cost:
+          - id: birch_pick_3
+          - id: lead
+            amount: 1974
+      '2':
+        type: TRADE
+        id: spruce_pick_2
+        cost:
+          - id: spruce_pick_1
+          - id: spruce_log
+            amount: 2633
+      '3':
+        type: TRADE
+        id: spruce_pick_3
+        cost:
+          - id: spruce_pick_2
+          - id: lead
+            amount: 1974
+          - id: spruce_log
+            amount: 1974
+      q:
+        type: TRADE
+        id: spruce_sword_1
+        cost:
+          - id: birch_sword_2
+          - id: lead
+            amount: 1580
+      w:
+        type: TRADE
+        id: spruce_sword_2
+        cost:
+          - id: spruce_sword_1
+          - id: lead
+            amount: 1316
+          - id: spruce_log
+            amount: 1316
+      A:
+        type: GUI
+        id: spruce_armor
+      z:
+        type: GUI
+        id: verdant_hub
+
+  spruce_armor:
+    title: "<gold><b>Spruce Ridge <dark_gray>| <gray>Armour"
+    icon: icon_armor
+    rows: 6
+    layout:
+      - "BBBBIBBBB"
+      - "B   12  B"
+      - "B   67  B"
+      - "B   ab  B"
+      - "B   fg  B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: spruce_helmet_1
+        cost:
+          - id: birch_helmet_2
+          - id: lead
+            amount: 1053
+      '2':
+        type: TRADE
+        id: spruce_helmet_2
+        cost:
+          - id: spruce_helmet_1
+          - id: lead
+            amount: 790
+          - id: spruce_log
+            amount: 790
+      '6':
+        type: TRADE
+        id: spruce_chestplate_1
+        cost:
+          - id: birch_chestplate_2
+          - id: lead
+            amount: 1053
+      '7':
+        type: TRADE
+        id: spruce_chestplate_2
+        cost:
+          - id: spruce_chestplate_1
+          - id: lead
+            amount: 790
+          - id: spruce_log
+            amount: 790
+      a:
+        type: TRADE
+        id: spruce_leggings_1
+        cost:
+          - id: birch_leggings_2
+          - id: lead
+            amount: 1053
+      b:
+        type: TRADE
+        id: spruce_leggings_2
+        cost:
+          - id: spruce_leggings_1
+          - id: lead
+            amount: 790
+          - id: spruce_log
+            amount: 790
+      f:
+        type: TRADE
+        id: spruce_boots_1
+        cost:
+          - id: birch_boots_2
+          - id: lead
+            amount: 1053
+      g:
+        type: TRADE
+        id: spruce_boots_2
+        cost:
+          - id: spruce_boots_1
+          - id: lead
+            amount: 790
+          - id: spruce_log
+            amount: 790
+      z:
+        type: GUI
+        id: spruce_shop
+
+  darkoak_shop:
+    title: "<gold><b>Dark Oak Thicket"
+    icon: icon_darkoak
+    rows: 5
+    layout:
+      - "BBBBIBBBB"
+      - "B  123  B"
+      - "B  qw   B"
+      - "B   A   B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: darkoak_pick_1
+        cost:
+          - id: spruce_pick_3
+          - id: silver
+            amount: 2278
+      '2':
+        type: TRADE
+        id: darkoak_pick_2
+        cost:
+          - id: darkoak_pick_1
+          - id: dark_oak_log
+            amount: 3037
+      '3':
+        type: TRADE
+        id: darkoak_pick_3
+        cost:
+          - id: darkoak_pick_2
+          - id: silver
+            amount: 2278
+          - id: dark_oak_log
+            amount: 2278
+      q:
+        type: TRADE
+        id: darkoak_sword_1
+        cost:
+          - id: spruce_sword_2
+          - id: silver
+            amount: 1822
+      w:
+        type: TRADE
+        id: darkoak_sword_2
+        cost:
+          - id: darkoak_sword_1
+          - id: silver
+            amount: 1518
+          - id: dark_oak_log
+            amount: 1518
+      A:
+        type: GUI
+        id: darkoak_armor
+      z:
+        type: GUI
+        id: verdant_hub
+
+  darkoak_armor:
+    title: "<gold><b>Dark Oak Thicket <dark_gray>| <gray>Armour"
+    icon: icon_armor
+    rows: 6
+    layout:
+      - "BBBBIBBBB"
+      - "B   12  B"
+      - "B   67  B"
+      - "B   ab  B"
+      - "B   fg  B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: darkoak_helmet_1
+        cost:
+          - id: spruce_helmet_2
+          - id: silver
+            amount: 1215
+      '2':
+        type: TRADE
+        id: darkoak_helmet_2
+        cost:
+          - id: darkoak_helmet_1
+          - id: silver
+            amount: 911
+          - id: dark_oak_log
+            amount: 911
+      '6':
+        type: TRADE
+        id: darkoak_chestplate_1
+        cost:
+          - id: spruce_chestplate_2
+          - id: silver
+            amount: 1215
+      '7':
+        type: TRADE
+        id: darkoak_chestplate_2
+        cost:
+          - id: darkoak_chestplate_1
+          - id: silver
+            amount: 911
+          - id: dark_oak_log
+            amount: 911
+      a:
+        type: TRADE
+        id: darkoak_leggings_1
+        cost:
+          - id: spruce_leggings_2
+          - id: silver
+            amount: 1215
+      b:
+        type: TRADE
+        id: darkoak_leggings_2
+        cost:
+          - id: darkoak_leggings_1
+          - id: silver
+            amount: 911
+          - id: dark_oak_log
+            amount: 911
+      f:
+        type: TRADE
+        id: darkoak_boots_1
+        cost:
+          - id: spruce_boots_2
+          - id: silver
+            amount: 1215
+      g:
+        type: TRADE
+        id: darkoak_boots_2
+        cost:
+          - id: darkoak_boots_1
+          - id: silver
+            amount: 911
+          - id: dark_oak_log
+            amount: 911
+      z:
+        type: GUI
+        id: darkoak_shop
+
+  treehouse_shop:
+    title: "<gold><b>Great Treehouse"
+    icon: icon_treehouse
+    rows: 5
+    layout:
+      - "BBBBIBBBB"
+      - "B  12   B"
+      - "B  qwe  B"
+      - "B   A   B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: treehouse_pick_1
+        cost:
+          - id: darkoak_pick_3
+          - id: tree_sap
+            amount: 19
+      '2':
+        type: TRADE
+        id: treehouse_pick_2
+        cost:
+          - id: treehouse_pick_1
+          - id: tree_sap
+            amount: 19
+          - id: heartwood
+            amount: 6
+      q:
+        type: TRADE
+        id: treehouse_sword_1
+        cost:
+          - id: darkoak_sword_2
+          - id: tree_sap
+            amount: 16
+      w:
+        type: TRADE
+        id: treehouse_sword_2
+        cost:
+          - id: treehouse_sword_1
+          - id: tree_sap
+            amount: 26
+      e:
+        type: TRADE
+        id: treehouse_sword_3
+        cost:
+          - id: treehouse_sword_2
+          - id: tree_sap
+            amount: 32
+          - id: heartwood
+            amount: 10
+      A:
+        type: GUI
+        id: treehouse_armor
+      z:
+        type: GUI
+        id: verdant_hub
+
+  treehouse_armor:
+    title: "<gold><b>Great Treehouse <dark_gray>| <gray>Armour"
+    icon: icon_armor
+    rows: 6
+    layout:
+      - "BBBBIBBBB"
+      - "B  123  B"
+      - "B  678  B"
+      - "B  abc  B"
+      - "B  fgh  B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: treehouse_helmet_1
+        cost:
+          - id: darkoak_helmet_2
+          - id: tree_sap
+            amount: 13
+      '2':
+        type: TRADE
+        id: treehouse_helmet_2
+        cost:
+          - id: treehouse_helmet_1
+          - id: tree_sap
+            amount: 19
+      '3':
+        type: TRADE
+        id: treehouse_helmet_3
+        cost:
+          - id: treehouse_helmet_2
+          - id: tree_sap
+            amount: 19
+          - id: heartwood
+            amount: 6
+      '6':
+        type: TRADE
+        id: treehouse_chestplate_1
+        cost:
+          - id: darkoak_chestplate_2
+          - id: tree_sap
+            amount: 13
+      '7':
+        type: TRADE
+        id: treehouse_chestplate_2
+        cost:
+          - id: treehouse_chestplate_1
+          - id: tree_sap
+            amount: 19
+      '8':
+        type: TRADE
+        id: treehouse_chestplate_3
+        cost:
+          - id: treehouse_chestplate_2
+          - id: tree_sap
+            amount: 19
+          - id: heartwood
+            amount: 6
+      a:
+        type: TRADE
+        id: treehouse_leggings_1
+        cost:
+          - id: darkoak_leggings_2
+          - id: tree_sap
+            amount: 13
+      b:
+        type: TRADE
+        id: treehouse_leggings_2
+        cost:
+          - id: treehouse_leggings_1
+          - id: tree_sap
+            amount: 19
+      c:
+        type: TRADE
+        id: treehouse_leggings_3
+        cost:
+          - id: treehouse_leggings_2
+          - id: tree_sap
+            amount: 19
+          - id: heartwood
+            amount: 6
+      f:
+        type: TRADE
+        id: treehouse_boots_1
+        cost:
+          - id: darkoak_boots_2
+          - id: tree_sap
+            amount: 13
+      g:
+        type: TRADE
+        id: treehouse_boots_2
+        cost:
+          - id: treehouse_boots_1
+          - id: tree_sap
+            amount: 19
+      h:
+        type: TRADE
+        id: treehouse_boots_3
+        cost:
+          - id: treehouse_boots_2
+          - id: tree_sap
+            amount: 19
+          - id: heartwood
+            amount: 6
+      z:
+        type: GUI
+        id: treehouse_shop

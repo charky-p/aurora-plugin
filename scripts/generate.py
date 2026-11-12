@@ -451,6 +451,9 @@ SCHEMAS["mobs_gormak"] = {
     ] + loot_fields()),
 }
 
+# Same columns as Gormak
+SCHEMAS["mobs_verdant"] = dict(SCHEMAS["mobs_gormak"], csv="mobs_verdant.csv", out="mobs/verdant.yml")
+
 SCHEMAS["icons"] = {
     "csv": "icons.csv",
     "out": "icons.yml",
@@ -640,7 +643,10 @@ def validate(built):
     enchants = set(get("enchants"))
     icons = set(get("icons"))
     guis = get("gui_shops")
-    mobs = {**get("mobs_origin"), **get("mobs_gormak")}
+    mobs = {}
+    for name in built:
+        if name.startswith("mobs_"):
+            mobs.update(get(name))
 
     for gid, entry in gear.items():
         for enchant in (entry.get("enchants") or {}):

@@ -95,7 +95,7 @@ public class Aurora extends JavaPlugin implements Listener {
         this.scoreboard = new ScoreboardManager(players);
         this.manager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
-        this.traderManager = new TraderManager(this);
+        this.traderManager = new TraderManager(this, new TraderStore(db));
         this.wandManager = new WandManager();
 
         // temp
@@ -143,6 +143,7 @@ public class Aurora extends JavaPlugin implements Listener {
 
         SustenanceTask.start(this);
         LeftoverMobListener.sweepLoaded();
+        traderManager.startRespawning();
 
         PluginCommand refresh = getCommand("refresh");
         if (refresh != null) refresh.setExecutor(new RefreshCommand(this));
@@ -213,6 +214,7 @@ public class Aurora extends JavaPlugin implements Listener {
         if (manager != null) manager.shutdown();
         if (players != null) players.shutdown();
         if (spawnerManager != null) spawnerManager.shutdown();
+        if (traderManager != null) traderManager.shutdown();
         if (backpackManager != null) backpackManager.shutdown();
 
         // Last, so the saves above and any still queued finish first

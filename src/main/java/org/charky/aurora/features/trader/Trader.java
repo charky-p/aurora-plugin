@@ -3,6 +3,7 @@ package org.charky.aurora.features.trader;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.charky.aurora.common.util.DataKeys;
 
@@ -27,15 +28,17 @@ public class Trader {
         return traderId;
     }
 
-    public void spawn(Location location) {
-        if (location.getWorld() == null) return;
+    // Never saved with the chunk, the traders table is what keeps them, so a trader
+    // is respawned at its spot instead of being lost or duplicated
+    public Entity spawn(Location location, int spotId) {
+        if (location.getWorld() == null) return null;
 
-        location.getWorld().spawn(location, this.type.getEntityClass(), entity -> {
+        return location.getWorld().spawn(location, this.type.getEntityClass(), entity -> {
             entity.customName(displayName);
             entity.setCustomNameVisible(true);
 
             entity.setInvulnerable(true);
-            entity.setPersistent(true);
+            entity.setPersistent(false);
             entity.setSilent(true);
             entity.setGravity(false);
 
@@ -48,6 +51,11 @@ public class Trader {
                     DataKeys.TRADER_KEY,
                     org.bukkit.persistence.PersistentDataType.STRING,
                     this.traderId
+            );
+            entity.getPersistentDataContainer().set(
+                    DataKeys.TRADER_SPOT_KEY,
+                    org.bukkit.persistence.PersistentDataType.INTEGER,
+                    spotId
             );
         });
     }

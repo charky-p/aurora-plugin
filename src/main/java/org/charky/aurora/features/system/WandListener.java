@@ -23,11 +23,13 @@ public class WandListener implements Listener {
     private final NamespacedKey wandKey;
     private final Map<UUID, MobData> clipboard = new HashMap<>();
     private final WandManager wandManager;
+    private final Aurora plugin;
 
     public WandListener(Aurora plugin) {
         this.dataKey = new NamespacedKey(plugin, "copied_entity");
         this.wandKey = new NamespacedKey(plugin, "is_wand");
         this.wandManager = plugin.getWandManager();
+        this.plugin = plugin;
     }
 
 //    @EventHandler
@@ -129,9 +131,13 @@ public class WandListener implements Listener {
             event.setCancelled(true);
 
             String traderId = target.getPersistentDataContainer().get(DataKeys.TRADER_KEY, PersistentDataType.STRING);
+            Integer spotId = target.getPersistentDataContainer().get(DataKeys.TRADER_SPOT_KEY, PersistentDataType.INTEGER);
+            // A trader from before the traders table has no spot, only the entity goes
+            if (spotId != null) plugin.getTraderManager().removeSpot(spotId);
             target.remove();
 
-            TextUtils.send(player, "<red><b>ZAP!</b> <gray>Trader <white>" + traderId + " <gray>has been removed.");
+            String spot = spotId == null ? "" : " <gray>(spot <white>#" + spotId + "<gray>)";
+            TextUtils.send(player, "<red><b>ZAP!</b> <gray>Trader <white>" + traderId + spot + " <gray>has been removed.");
             player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_GENERIC_EXPLODE, 0.5f, 2.0f);
         }
     }

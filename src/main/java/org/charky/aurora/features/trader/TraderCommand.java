@@ -1,75 +1,73 @@
 package org.charky.aurora.features.trader;
 
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.charky.aurora.common.util.LocationUtils;
+import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.system.commands.AuroraSubCommand;
-import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.features.system.commands.HelpCommand;
+import org.charky.aurora.features.trader.commands.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
- * Spawns an npc trader at a location, or where the player stands facing them.
- * Traders are removed by right clicking them with the wand
+ * Trader commands. Traders are saved by spot in the traders table and respawn there,
+ * they can also be removed by right clicking them with the wand
  */
 public class TraderCommand implements AuroraSubCommand {
-    public TraderManager manager;
+    private final Map<String, AuroraSubCommand> subCommands = new HashMap<>();
 
     public TraderCommand(Aurora plugin) {
-        this.manager = plugin.getTraderManager();
+        register(new TraderCreateSub(plugin));
+        register(new TraderDeleteSub(plugin));
+        register(new TraderListSub(plugin));
+        register(new TraderTpSub(plugin));
+    }
+
+    private void register(AuroraSubCommand command) {
+        subCommands.put(command.getName().toLowerCase(), command);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (args.length != 1 && args.length < 4) {
-            TextUtils.usage(sender, getFullUsage());
+        if (args.length == 0) {
+            HelpCommand.showList(sender, "TRADER COMMANDS", "/aurora trader", subCommands.values());
             return;
         }
 
-        String traderId = args[0];
-        if (!manager.traderExists(traderId)) {
-            TextUtils.error(sender, "Trader '" + traderId + "' does not exist!");
+        String subCommandName = args[0].toLowerCase();
+        AuroraSubCommand subCommand = subCommands.get(subCommandName);
+
+        if (subCommand == null) {
+            TextUtils.error(sender, "Unknown trader command: " + subCommandName);
+            HelpCommand.showList(sender, "TRADER COMMANDS", "/aurora trader", subCommands.values());
             return;
         }
 
-        Location location;
-        if (args.length == 1) {
-            if (!(sender instanceof Player player)) {
-                TextUtils.error(sender, "Console must give coordinates");
-                return;
-            }
-
-            // Where you stand, turned round to face you
-            location = player.getLocation().getBlock().getLocation().add(0.5, 0, 0.5);
-            location.setYaw(player.getLocation().getYaw() + 180);
-        } else {
-            try {
-                location = LocationUtils.parseLocation(sender, args[1], args[2], args[3]);
-            } catch (NumberFormatException e) {
-                TextUtils.error(sender, "Invalid Coordinates: " + e.getMessage());
-                return;
-            }
-        }
-
-        manager.spawnTrader(traderId, location);
-        TextUtils.success(sender, "Trader '" + traderId + "' successfully created, remove it by right clicking with the wand");
+        subCommand.execute(sender, Arrays.copyOfRange(args, 1, args.length));
     }
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        if (args.length == 1) return TextUtils.getCompletions(args[0], manager.getTraders());
-        if (args.length >= 2 && args.length <= 4) {
-            return LocationUtils.relativeCoordinates(player, args.length - 2);
+        if (args.length == 1) {
+            String input = args[0].toLowerCase();
+            return subCommands.keySet().stream()
+                    .filter(name -> name.startsWith(input))
+                    .sorted()
+                    .toList();
         }
+
+        AuroraSubCommand subCommand = subCommands.get(args[0].toLowerCase());
+        if (subCommand != null) {
+            return subCommand.tabComplete(player, Arrays.copyOfRange(args, 1, args.length));
+        }
+
         return Collections.emptyList();
     }
 
     @Override
     public String getUsage() {
-        return "<trader> [<x> <y> <z>]";
+        return "<subcommand>";
     }
 
     @Override
@@ -79,6 +77,6 @@ public class TraderCommand implements AuroraSubCommand {
 
     @Override
     public String getDescription() {
-        return "Spawn an npc trader for shops, where you stand or at coordinates";
+        return "Place traders that respawn at their spot";
     }
 }

@@ -114,3 +114,6 @@ run/
 
 # Local Host Development Server
 LocalServer
+
+# Python bytecode from the scripts
+__pycache__/

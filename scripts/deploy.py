@@ -18,7 +18,6 @@ Aurora deploy helpers, plain Python so they run on the live server's host too.
 Restore: stop the server, unzip a backup over the server folder, start it.
 """
 import argparse
-import os
 import sqlite3
 import sys
 import tempfile

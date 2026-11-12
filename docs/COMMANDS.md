@@ -4,6 +4,8 @@
 
 Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own position. Names of mines, spawners and portals are case-insensitive.
 
+**`-w <world>`** can go anywhere in any `/aurora` command to pick the world it works in, e.g. `/a mine create coal 0 60 0 8 64 8 -w aurora_test`. Without it, commands use your own world, or the main world from the console. Everything can be set up from the console this way, as long as coordinates are given instead of `~` or the wand.
+
 ## Player commands
 
 | Command | Does |
@@ -103,7 +105,7 @@ Right clicking a trader with the wand also removes it and its spot.
 | Command | Does |
 |---|---|
 | `/a wand` | Wand: left click a block for corner 1, right click for corner 2, right click a trader to remove it |
-| `/a setspawn [<x> <y> <z>]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. The `aurora_mines` spawn is where every player lands on join |
+| `/a setspawn [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. The `aurora_mines` spawn is where every player lands on join |
 | `/a heal [player]` | Restore health and hunger, put out fire |
 | `/a help`, `/a info <command>` | Command list, one command in detail |
 | `/refresh` | Reload all game data from the YAML, after `python scripts/generate.py --live` |

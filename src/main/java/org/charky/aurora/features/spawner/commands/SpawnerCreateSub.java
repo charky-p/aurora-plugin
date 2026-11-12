@@ -43,9 +43,8 @@ public class SpawnerCreateSub extends SpawnerSub {
                 return;
             }
 
-            // The console has no world of its own, it places spawners in the main world
-            String world = (sender instanceof Player player)
-                    ? player.getWorld().getName() : Bukkit.getWorlds().getFirst().getName();
+            // The -w world, the player's own, or the main world for the console
+            String world = LocationUtils.commandWorld(sender).getName();
 
             try {
                 // Default limit = 3, radius = 5

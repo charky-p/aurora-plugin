@@ -11,6 +11,28 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class LocationUtils {
+    // Set by /aurora -w <world> for the one command it runs, commands run on the
+    // main thread one at a time so a plain field is enough
+    private static World commandWorld;
+
+    // The world a command works in: the -w world if given, else the player's own,
+    // else the main world, since the console has no world of its own
+    public static World commandWorld(CommandSender sender) {
+        if (commandWorld != null) return commandWorld;
+        if (sender instanceof Player player) return player.getWorld();
+        return Bukkit.getWorlds().getFirst();
+    }
+
+    public static void runIn(World world, Runnable command) {
+        World previous = commandWorld;
+        commandWorld = world;
+        try {
+            command.run();
+        } finally {
+            commandWorld = previous;
+        }
+    }
+
     public static double parseCoordinate(CommandSender sender, String input, Axis axis) throws NumberFormatException {
         if (input.startsWith("~")) {
             if (!(sender instanceof Player player)) {
@@ -47,8 +69,7 @@ public class LocationUtils {
     }
 
     public static Location parseLocation(CommandSender sender, String xStr, String yStr, String zStr) throws NumberFormatException {
-        String worldName = (sender instanceof Player p) ? p.getWorld().getName() : "world";
-        return parseLocation(sender, worldName, xStr, yStr, zStr);
+        return parseLocation(sender, commandWorld(sender).getName(), xStr, yStr, zStr);
     }
 
     public static Location parseLocation(CommandSender sender, String worldName, String xStr, String yStr, String zStr) throws NumberFormatException {

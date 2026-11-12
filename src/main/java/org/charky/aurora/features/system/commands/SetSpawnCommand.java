@@ -2,6 +2,7 @@ package org.charky.aurora.features.system.commands;
 
 import org.bukkit.Axis;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.LocationUtils;
@@ -23,37 +24,44 @@ public class SetSpawnCommand implements AuroraSubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player player)) {
-            TextUtils.error(sender, "Console cannot execute this command!");
-            return;
-        }
-
         if (args.length == 0) {
+            if (!(sender instanceof Player player)) {
+                TextUtils.error(sender, "Console must give coordinates");
+                return;
+            }
             plugin.setSpawn(player.getLocation());
             TextUtils.success(sender, "Spawn set for " + player.getWorld().getName() + " at " + player.getLocation());
             return;
         }
 
         if (args.length < 3) {
-            TextUtils.usage(player, getFullUsage());
+            TextUtils.usage(sender, getFullUsage());
             return;
         }
 
         try {
-            double x = LocationUtils.parseCoordinate(player, args[0], Axis.X);
-            double y = LocationUtils.parseCoordinate(player, args[1], Axis.Y);
-            double z = LocationUtils.parseCoordinate(player, args[2], Axis.Z);
+            double x = LocationUtils.parseCoordinate(sender, args[0], Axis.X);
+            double y = LocationUtils.parseCoordinate(sender, args[1], Axis.Y);
+            double z = LocationUtils.parseCoordinate(sender, args[2], Axis.Z);
 
-            // Default to south
-            float yaw = switch (player.getFacing()) {
-                case NORTH -> 180;
-                case EAST -> 270;
-                case WEST -> 90;
-                default -> 0;
-            };
+            // Given, or the way the player faces snapped to a side, south for the console
+            float yaw;
+            if (args.length >= 4) {
+                yaw = Float.parseFloat(args[3]);
+            } else if (sender instanceof Player player) {
+                yaw = switch (player.getFacing()) {
+                    case NORTH -> 180;
+                    case EAST -> 270;
+                    case WEST -> 90;
+                    default -> 0;
+                };
+            } else {
+                yaw = 0;
+            }
 
-            plugin.setSpawn(new Location(player.getWorld(), x, y, z, yaw, 0));
-            TextUtils.success(sender, "Spawn set for " + player.getWorld().getName() + " at " + x + ", " + y + ", " + z);
+            World world = LocationUtils.commandWorld(sender);
+            plugin.setSpawn(new Location(world, x, y, z, yaw, 0));
+            TextUtils.success(sender, "Spawn set for " + world.getName() + " at " + x + ", " + y + ", " + z);
         } catch (NumberFormatException e) {
             TextUtils.error(sender, "Invalid coordinates: " + e.getMessage());
         }
@@ -69,7 +77,7 @@ public class SetSpawnCommand implements AuroraSubCommand {
 
     @Override
     public String getUsage() {
-        return "[<x> <y> <z>]";
+        return "[<x> <y> <z> [yaw]]";
     }
 
     @Override

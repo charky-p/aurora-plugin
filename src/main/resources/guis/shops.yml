@@ -120,49 +120,49 @@ items:
         cost:
           - id: starter_pick_0
           - id: cobblestone
-            amount: 36
+            amount: 8
       '2':
         type: TRADE
         id: cobble_pick_2
         cost:
           - id: cobble_pick_1
           - id: cobblestone
-            amount: 58
+            amount: 14
       '3':
         type: TRADE
         id: cobble_pick_3
         cost:
           - id: cobble_pick_2
           - id: cobblestone
-            amount: 93
+            amount: 22
       '4':
         type: TRADE
         id: cobble_pick_4
         cost:
           - id: cobble_pick_3
           - id: cobblestone
-            amount: 148
+            amount: 35
       '5':
         type: TRADE
         id: cobble_pick_5
         cost:
           - id: cobble_pick_4
           - id: cobblestone
-            amount: 237
+            amount: 55
       q:
         type: TRADE
         id: cobble_sword_1
         cost:
           - id: starter_sword_0
           - id: cobblestone
-            amount: 29
+            amount: 7
       w:
         type: TRADE
         id: cobble_sword_2
         cost:
           - id: cobble_sword_1
           - id: cobblestone
-            amount: 46
+            amount: 11
       A:
         type: GUI
         id: cobble_armor
@@ -187,49 +187,49 @@ items:
         cost:
           - id: cobble_pick_5
           - id: coal
-            amount: 72
+            amount: 33
       '2':
         type: TRADE
         id: coal_pick_2
         cost:
           - id: coal_pick_1
           - id: coal
-            amount: 116
+            amount: 53
       '3':
         type: TRADE
         id: coal_pick_3
         cost:
           - id: coal_pick_2
           - id: coal
-            amount: 185
+            amount: 85
       '4':
         type: TRADE
         id: coal_pick_4
         cost:
           - id: coal_pick_3
           - id: coal
-            amount: 297
+            amount: 137
       '5':
         type: TRADE
         id: coal_pick_5
         cost:
           - id: coal_pick_4
           - id: coal
-            amount: 474
+            amount: 218
       q:
         type: TRADE
         id: coal_sword_1
         cost:
           - id: cobble_sword_2
           - id: coal
-            amount: 58
+            amount: 27
       w:
         type: TRADE
         id: coal_sword_2
         cost:
           - id: coal_sword_1
           - id: coal
-            amount: 93
+            amount: 43
       A:
         type: GUI
         id: coal_armor
@@ -254,74 +254,74 @@ items:
         cost:
           - id: coal_pick_5
           - id: copper
-            amount: 56
+            amount: 41
       '2':
         type: TRADE
         id: copper_pick_2
         cost:
           - id: copper_pick_1
           - id: copper
-            amount: 89
+            amount: 65
       '3':
         type: TRADE
         id: copper_pick_3
         cost:
           - id: copper_pick_2
           - id: feather
-            amount: 8
+            amount: 6
       '4':
         type: TRADE
         id: copper_pick_4
         cost:
           - id: copper_pick_3
           - id: feather
-            amount: 13
+            amount: 10
       '5':
         type: TRADE
         id: copper_pick_5
         cost:
           - id: copper_pick_4
           - id: copper
-            amount: 146
+            amount: 107
           - id: feather
-            amount: 4
+            amount: 3
       q:
         type: TRADE
         id: copper_sword_1
         cost:
           - id: coal_sword_2
           - id: copper
-            amount: 45
+            amount: 33
       w:
         type: TRADE
         id: copper_sword_2
         cost:
           - id: copper_sword_1
           - id: copper
-            amount: 71
+            amount: 52
       e:
         type: TRADE
         id: copper_sword_3
         cost:
           - id: copper_sword_2
           - id: feather
-            amount: 6
+            amount: 4
       r:
         type: TRADE
         id: copper_sword_4
         cost:
           - id: copper_sword_3
           - id: feather
-            amount: 10
+            amount: 7
       t:
         type: TRADE
         id: copper_sword_5
         cost:
           - id: copper_sword_4
           - id: copper
-            amount: 117
+            amount: 86
           - id: feather
-            amount: 3
+            amount: 2
       A:
         type: GUI
         id: copper_armor
@@ -346,72 +346,72 @@ items:
         cost:
           - id: copper_pick_5
           - id: iron
-            amount: 74
+            amount: 83
       '2':
         type: TRADE
         id: iron_pick_2
         cost:
           - id: iron_pick_1
           - id: iron
-            amount: 119
+            amount: 133
       '3':
         type: TRADE
         id: iron_pick_3
         cost:
           - id: iron_pick_2
           - id: wool
-            amount: 11
+            amount: 12
       '4':
         type: TRADE
         id: iron_pick_4
         cost:
           - id: iron_pick_3
           - id: wool
-            amount: 17
+            amount: 19
       '5':
         type: TRADE
         id: iron_pick_5
         cost:
           - id: iron_pick_4
           - id: iron
-            amount: 195
+            amount: 218
           - id: wool
-            amount: 5
+            amount: 6
       q:
         type: TRADE
         id: iron_sword_1
         cost:
           - id: copper_sword_5
           - id: iron
-            amount: 59
+            amount: 66
       w:
         type: TRADE
         id: iron_sword_2
         cost:
           - id: iron_sword_1
           - id: iron
-            amount: 95
+            amount: 106
       e:
         type: TRADE
         id: iron_sword_3
         cost:
           - id: iron_sword_2
           - id: wool
-            amount: 8
+            amount: 9
       r:
         type: TRADE
         id: iron_sword_4
         cost:
           - id: iron_sword_3
           - id: wool
-            amount: 14
+            amount: 16
       t:
         type: TRADE
         id: iron_sword_5
         cost:
           - id: iron_sword_4
           - id: iron
-            amount: 156
+            amount: 174
           - id: wool
             amount: 4
       A:
@@ -438,74 +438,74 @@ items:
         cost:
           - id: iron_pick_5
           - id: gold
-            amount: 93
+            amount: 180
       '2':
         type: TRADE
         id: gold_pick_2
         cost:
           - id: gold_pick_1
           - id: gold
-            amount: 149
+            amount: 288
       '3':
         type: TRADE
         id: gold_pick_3
         cost:
           - id: gold_pick_2
           - id: leather
-            amount: 13
+            amount: 25
       '4':
         type: TRADE
         id: gold_pick_4
         cost:
           - id: gold_pick_3
           - id: leather
-            amount: 21
+            amount: 41
       '5':
         type: TRADE
         id: gold_pick_5
         cost:
           - id: gold_pick_4
           - id: gold
-            amount: 243
+            amount: 470
           - id: leather
-            amount: 7
+            amount: 14
       q:
         type: TRADE
         id: gold_sword_1
         cost:
           - id: iron_sword_5
           - id: gold
-            amount: 74
+            amount: 143
       w:
         type: TRADE
         id: gold_sword_2
         cost:
           - id: gold_sword_1
           - id: gold
-            amount: 119
+            amount: 230
       e:
         type: TRADE
         id: gold_sword_3
         cost:
           - id: gold_sword_2
           - id: leather
-            amount: 11
+            amount: 21
       r:
         type: TRADE
         id: gold_sword_4
         cost:
           - id: gold_sword_3
           - id: leather
-            amount: 17
+            amount: 33
       t:
         type: TRADE
         id: gold_sword_5
         cost:
           - id: gold_sword_4
           - id: gold
-            amount: 195
+            amount: 377
           - id: leather
-            amount: 5
+            amount: 10
       A:
         type: GUI
         id: gold_armor
@@ -530,60 +530,57 @@ items:
         cost:
           - id: gold_pick_5
           - id: ancient_scrap
-            amount: 2
       '2':
         type: TRADE
         id: city_pick_2
         cost:
           - id: city_pick_1
           - id: ancient_scrap
-            amount: 3
+            amount: 2
       '3':
         type: TRADE
         id: city_pick_3
         cost:
           - id: city_pick_2
           - id: tattered_cloth
-            amount: 5
+            amount: 4
       q:
         type: TRADE
         id: city_sword_1
         cost:
           - id: gold_sword_5
           - id: ancient_scrap
-            amount: 2
       w:
         type: TRADE
         id: city_sword_2
         cost:
           - id: city_sword_1
           - id: ancient_scrap
-            amount: 2
       e:
         type: TRADE
         id: city_sword_3
         cost:
           - id: city_sword_2
           - id: tattered_cloth
-            amount: 4
+            amount: 3
       r:
         type: TRADE
         id: city_sword_4
         cost:
           - id: city_sword_3
           - id: tattered_cloth
-            amount: 6
+            amount: 4
       t:
         type: TRADE
         id: city_sword_5
         cost:
           - id: city_sword_4
           - id: ancient_scrap
-            amount: 4
+            amount: 3
           - id: tattered_cloth
-            amount: 4
+            amount: 3
           - id: carved_brick
-            amount: 98
+            amount: 69
       A:
         type: GUI
         id: city_armor
@@ -625,7 +622,7 @@ items:
         cost:
           - id: dunes_pick_2
           - id: ancient_bone
-            amount: 5
+            amount: 6
       q:
         type: TRADE
         id: dunes_sword_1
@@ -646,25 +643,25 @@ items:
         cost:
           - id: dunes_sword_2
           - id: ancient_bone
-            amount: 4
+            amount: 5
       r:
         type: TRADE
         id: dunes_sword_4
         cost:
           - id: dunes_sword_3
           - id: ancient_bone
-            amount: 7
+            amount: 8
       t:
         type: TRADE
         id: dunes_sword_5
         cost:
           - id: dunes_sword_4
           - id: ancient_flesh
-            amount: 4
+            amount: 5
           - id: ancient_bone
-            amount: 4
+            amount: 5
           - id: sunbaked_sand
-            amount: 107
+            amount: 122
       A:
         type: GUI
         id: dunes_armor
@@ -692,60 +689,58 @@ items:
         cost:
           - id: dunes_pick_3
           - id: scarab_shell
-            amount: 2
       '2':
         type: TRADE
         id: canyons_pick_2
         cost:
           - id: canyons_pick_1
           - id: scarab_shell
-            amount: 4
+            amount: 3
       '3':
         type: TRADE
         id: canyons_pick_3
         cost:
           - id: canyons_pick_2
           - id: legion_plate
-            amount: 6
+            amount: 4
       q:
         type: TRADE
         id: canyons_sword_1
         cost:
           - id: dunes_sword_5
           - id: scarab_shell
-            amount: 2
       w:
         type: TRADE
         id: canyons_sword_2
         cost:
           - id: canyons_sword_1
           - id: scarab_shell
-            amount: 3
+            amount: 2
       e:
         type: TRADE
         id: canyons_sword_3
         cost:
           - id: canyons_sword_2
           - id: legion_plate
-            amount: 5
+            amount: 4
       r:
         type: TRADE
         id: canyons_sword_4
         cost:
           - id: canyons_sword_3
           - id: legion_plate
-            amount: 8
+            amount: 6
       t:
         type: TRADE
         id: canyons_sword_5
         cost:
           - id: canyons_sword_4
           - id: scarab_shell
-            amount: 5
+            amount: 4
           - id: legion_plate
-            amount: 5
+            amount: 4
           - id: crimson_sand
-            amount: 116
+            amount: 86
       A:
         type: GUI
         id: canyons_armor
@@ -773,60 +768,60 @@ items:
         cost:
           - id: canyons_pick_3
           - id: ancient_nugget
-            amount: 2
+            amount: 4
       '2':
         type: TRADE
         id: temple_pick_2
         cost:
           - id: temple_pick_1
           - id: ancient_nugget
-            amount: 4
+            amount: 8
       '3':
         type: TRADE
         id: temple_pick_3
         cost:
           - id: temple_pick_2
           - id: vizier_scroll
-            amount: 6
+            amount: 11
       q:
         type: TRADE
         id: temple_sword_1
         cost:
           - id: canyons_sword_5
           - id: ancient_nugget
-            amount: 2
+            amount: 4
       w:
         type: TRADE
         id: temple_sword_2
         cost:
           - id: temple_sword_1
           - id: ancient_nugget
-            amount: 3
+            amount: 6
       e:
         type: TRADE
         id: temple_sword_3
         cost:
           - id: temple_sword_2
           - id: vizier_scroll
-            amount: 5
+            amount: 9
       r:
         type: TRADE
         id: temple_sword_4
         cost:
           - id: temple_sword_3
           - id: vizier_scroll
-            amount: 8
+            amount: 15
       t:
         type: TRADE
         id: temple_sword_5
         cost:
           - id: temple_sword_4
           - id: ancient_nugget
-            amount: 5
+            amount: 9
           - id: vizier_scroll
-            amount: 5
+            amount: 9
           - id: raw_gold
-            amount: 126
+            amount: 237
       A:
         type: GUI
         id: temple_armor
@@ -854,52 +849,53 @@ items:
         cost:
           - id: temple_pick_3
           - id: eternal_soul
-            amount: 4
+            amount: 11
       '2':
         type: TRADE
         id: tomb_pick_2
         cost:
           - id: tomb_pick_1
           - id: eternal_soul
-            amount: 7
+            amount: 19
       q:
         type: TRADE
         id: tomb_sword_1
         cost:
           - id: temple_sword_5
           - id: eternal_soul
-            amount: 3
+            amount: 8
       w:
         type: TRADE
         id: tomb_sword_2
         cost:
           - id: tomb_sword_1
           - id: eternal_soul
-            amount: 5
+            amount: 13
       e:
         type: TRADE
         id: tomb_sword_3
         cost:
           - id: tomb_sword_2
           - id: royal_seal
+            amount: 3
       r:
         type: TRADE
         id: tomb_sword_4
         cost:
           - id: tomb_sword_3
           - id: royal_seal
-            amount: 2
+            amount: 5
       t:
         type: TRADE
         id: tomb_sword_5
         cost:
           - id: tomb_sword_4
           - id: eternal_soul
-            amount: 9
+            amount: 24
           - id: royal_seal
-            amount: 3
+            amount: 8
           - id: ancient_nugget
-            amount: 5
+            amount: 13
       A:
         type: GUI
         id: tomb_armor
@@ -956,28 +952,28 @@ items:
         cost:
           - id: starter_helmet_0
           - id: cobblestone
-            amount: 18
+            amount: 4
       '6':
         type: TRADE
         id: cobble_chestplate_1
         cost:
           - id: starter_chestplate_0
           - id: cobblestone
-            amount: 18
+            amount: 4
       a:
         type: TRADE
         id: cobble_leggings_1
         cost:
           - id: starter_leggings_0
           - id: cobblestone
-            amount: 18
+            amount: 4
       f:
         type: TRADE
         id: cobble_boots_1
         cost:
           - id: starter_boots_0
           - id: cobblestone
-            amount: 18
+            amount: 4
       z:
         type: GUI
         id: cobble_shop
@@ -1000,28 +996,28 @@ items:
         cost:
           - id: cobble_helmet_1
           - id: coal
-            amount: 36
+            amount: 17
       '6':
         type: TRADE
         id: coal_chestplate_1
         cost:
           - id: cobble_chestplate_1
           - id: coal
-            amount: 36
+            amount: 17
       a:
         type: TRADE
         id: coal_leggings_1
         cost:
           - id: cobble_leggings_1
           - id: coal
-            amount: 36
+            amount: 17
       f:
         type: TRADE
         id: coal_boots_1
         cost:
           - id: cobble_boots_1
           - id: coal
-            amount: 36
+            amount: 17
       z:
         type: GUI
         id: coal_shop
@@ -1044,84 +1040,84 @@ items:
         cost:
           - id: coal_helmet_1
           - id: copper
-            amount: 28
+            amount: 21
       '2':
         type: TRADE
         id: copper_helmet_2
         cost:
           - id: copper_helmet_1
           - id: copper
-            amount: 45
+            amount: 33
       '3':
         type: TRADE
         id: copper_helmet_3
         cost:
           - id: copper_helmet_2
           - id: feather
-            amount: 4
+            amount: 3
       '6':
         type: TRADE
         id: copper_chestplate_1
         cost:
           - id: coal_chestplate_1
           - id: copper
-            amount: 28
+            amount: 21
       '7':
         type: TRADE
         id: copper_chestplate_2
         cost:
           - id: copper_chestplate_1
           - id: copper
-            amount: 45
+            amount: 33
       '8':
         type: TRADE
         id: copper_chestplate_3
         cost:
           - id: copper_chestplate_2
           - id: feather
-            amount: 4
+            amount: 3
       a:
         type: TRADE
         id: copper_leggings_1
         cost:
           - id: coal_leggings_1
           - id: copper
-            amount: 28
+            amount: 21
       b:
         type: TRADE
         id: copper_leggings_2
         cost:
           - id: copper_leggings_1
           - id: copper
-            amount: 45
+            amount: 33
       c:
         type: TRADE
         id: copper_leggings_3
         cost:
           - id: copper_leggings_2
           - id: feather
-            amount: 4
+            amount: 3
       f:
         type: TRADE
         id: copper_boots_1
         cost:
           - id: coal_boots_1
           - id: copper
-            amount: 28
+            amount: 21
       g:
         type: TRADE
         id: copper_boots_2
         cost:
           - id: copper_boots_1
           - id: copper
-            amount: 45
+            amount: 33
       h:
         type: TRADE
         id: copper_boots_3
         cost:
           - id: copper_boots_2
           - id: feather
-            amount: 4
+            amount: 3
       z:
         type: GUI
         id: copper_shop
@@ -1144,84 +1140,84 @@ items:
         cost:
           - id: copper_helmet_3
           - id: iron
-            amount: 37
+            amount: 41
       '2':
         type: TRADE
         id: iron_helmet_2
         cost:
           - id: iron_helmet_1
           - id: iron
-            amount: 59
+            amount: 66
       '3':
         type: TRADE
         id: iron_helmet_3
         cost:
           - id: iron_helmet_2
           - id: wool
-            amount: 5
+            amount: 6
       '6':
         type: TRADE
         id: iron_chestplate_1
         cost:
           - id: copper_chestplate_3
           - id: iron
-            amount: 37
+            amount: 41
       '7':
         type: TRADE
         id: iron_chestplate_2
         cost:
           - id: iron_chestplate_1
           - id: iron
-            amount: 59
+            amount: 66
       '8':
         type: TRADE
         id: iron_chestplate_3
         cost:
           - id: iron_chestplate_2
           - id: wool
-            amount: 5
+            amount: 6
       a:
         type: TRADE
         id: iron_leggings_1
         cost:
           - id: copper_leggings_3
           - id: iron
-            amount: 37
+            amount: 41
       b:
         type: TRADE
         id: iron_leggings_2
         cost:
           - id: iron_leggings_1
           - id: iron
-            amount: 59
+            amount: 66
       c:
         type: TRADE
         id: iron_leggings_3
         cost:
           - id: iron_leggings_2
           - id: wool
-            amount: 5
+            amount: 6
       f:
         type: TRADE
         id: iron_boots_1
         cost:
           - id: copper_boots_3
           - id: iron
-            amount: 37
+            amount: 41
       g:
         type: TRADE
         id: iron_boots_2
         cost:
           - id: iron_boots_1
           - id: iron
-            amount: 59
+            amount: 66
       h:
         type: TRADE
         id: iron_boots_3
         cost:
           - id: iron_boots_2
           - id: wool
-            amount: 5
+            amount: 6
       z:
         type: GUI
         id: iron_shop
@@ -1244,84 +1240,84 @@ items:
         cost:
           - id: iron_helmet_3
           - id: gold
-            amount: 46
+            amount: 89
       '2':
         type: TRADE
         id: gold_helmet_2
         cost:
           - id: gold_helmet_1
           - id: gold
-            amount: 74
+            amount: 143
       '3':
         type: TRADE
         id: gold_helmet_3
         cost:
           - id: gold_helmet_2
           - id: leather
-            amount: 7
+            amount: 14
       '6':
         type: TRADE
         id: gold_chestplate_1
         cost:
           - id: iron_chestplate_3
           - id: gold
-            amount: 46
+            amount: 89
       '7':
         type: TRADE
         id: gold_chestplate_2
         cost:
           - id: gold_chestplate_1
           - id: gold
-            amount: 74
+            amount: 143
       '8':
         type: TRADE
         id: gold_chestplate_3
         cost:
           - id: gold_chestplate_2
           - id: leather
-            amount: 7
+            amount: 14
       a:
         type: TRADE
         id: gold_leggings_1
         cost:
           - id: iron_leggings_3
           - id: gold
-            amount: 46
+            amount: 89
       b:
         type: TRADE
         id: gold_leggings_2
         cost:
           - id: gold_leggings_1
           - id: gold
-            amount: 74
+            amount: 143
       c:
         type: TRADE
         id: gold_leggings_3
         cost:
           - id: gold_leggings_2
           - id: leather
-            amount: 7
+            amount: 14
       f:
         type: TRADE
         id: gold_boots_1
         cost:
           - id: iron_boots_3
           - id: gold
-            amount: 46
+            amount: 89
       g:
         type: TRADE
         id: gold_boots_2
         cost:
           - id: gold_boots_1
           - id: gold
-            amount: 74
+            amount: 143
       h:
         type: TRADE
         id: gold_boots_3
         cost:
           - id: gold_boots_2
           - id: leather
-            amount: 7
+            amount: 14
       z:
         type: GUI
         id: gold_shop
@@ -1350,32 +1346,30 @@ items:
         cost:
           - id: city_helmet_1
           - id: ancient_scrap
-            amount: 2
       '3':
         type: TRADE
         id: city_helmet_3
         cost:
           - id: city_helmet_2
           - id: tattered_cloth
-            amount: 2
       '4':
         type: TRADE
         id: city_helmet_4
         cost:
           - id: city_helmet_3
           - id: tattered_cloth
-            amount: 4
+            amount: 3
       '5':
         type: TRADE
         id: city_helmet_5
         cost:
           - id: city_helmet_4
           - id: ancient_scrap
-            amount: 3
+            amount: 2
           - id: tattered_cloth
-            amount: 3
+            amount: 2
           - id: carved_brick
-            amount: 61
+            amount: 43
       '6':
         type: TRADE
         id: city_chestplate_1
@@ -1388,32 +1382,30 @@ items:
         cost:
           - id: city_chestplate_1
           - id: ancient_scrap
-            amount: 2
       '8':
         type: TRADE
         id: city_chestplate_3
         cost:
           - id: city_chestplate_2
           - id: tattered_cloth
-            amount: 2
       '9':
         type: TRADE
         id: city_chestplate_4
         cost:
           - id: city_chestplate_3
           - id: tattered_cloth
-            amount: 4
+            amount: 3
       '0':
         type: TRADE
         id: city_chestplate_5
         cost:
           - id: city_chestplate_4
           - id: ancient_scrap
-            amount: 3
+            amount: 2
           - id: tattered_cloth
-            amount: 3
+            amount: 2
           - id: carved_brick
-            amount: 61
+            amount: 43
       a:
         type: TRADE
         id: city_leggings_1
@@ -1426,32 +1418,30 @@ items:
         cost:
           - id: city_leggings_1
           - id: ancient_scrap
-            amount: 2
       c:
         type: TRADE
         id: city_leggings_3
         cost:
           - id: city_leggings_2
           - id: tattered_cloth
-            amount: 2
       d:
         type: TRADE
         id: city_leggings_4
         cost:
           - id: city_leggings_3
           - id: tattered_cloth
-            amount: 4
+            amount: 3
       e:
         type: TRADE
         id: city_leggings_5
         cost:
           - id: city_leggings_4
           - id: ancient_scrap
-            amount: 3
+            amount: 2
           - id: tattered_cloth
-            amount: 3
+            amount: 2
           - id: carved_brick
-            amount: 61
+            amount: 43
       f:
         type: TRADE
         id: city_boots_1
@@ -1464,32 +1454,30 @@ items:
         cost:
           - id: city_boots_1
           - id: ancient_scrap
-            amount: 2
       h:
         type: TRADE
         id: city_boots_3
         cost:
           - id: city_boots_2
           - id: tattered_cloth
-            amount: 2
       i:
         type: TRADE
         id: city_boots_4
         cost:
           - id: city_boots_3
           - id: tattered_cloth
-            amount: 4
+            amount: 3
       j:
         type: TRADE
         id: city_boots_5
         cost:
           - id: city_boots_4
           - id: ancient_scrap
-            amount: 3
+            amount: 2
           - id: tattered_cloth
-            amount: 3
+            amount: 2
           - id: carved_brick
-            amount: 61
+            amount: 43
       z:
         type: GUI
         id: city_shop
@@ -1532,7 +1520,7 @@ items:
         cost:
           - id: dunes_helmet_3
           - id: ancient_bone
-            amount: 4
+            amount: 5
       '5':
         type: TRADE
         id: dunes_helmet_5
@@ -1543,7 +1531,7 @@ items:
           - id: ancient_bone
             amount: 3
           - id: sunbaked_sand
-            amount: 67
+            amount: 77
       '6':
         type: TRADE
         id: dunes_chestplate_1
@@ -1570,7 +1558,7 @@ items:
         cost:
           - id: dunes_chestplate_3
           - id: ancient_bone
-            amount: 4
+            amount: 5
       '0':
         type: TRADE
         id: dunes_chestplate_5
@@ -1581,7 +1569,7 @@ items:
           - id: ancient_bone
             amount: 3
           - id: sunbaked_sand
-            amount: 67
+            amount: 77
       a:
         type: TRADE
         id: dunes_leggings_1
@@ -1608,7 +1596,7 @@ items:
         cost:
           - id: dunes_leggings_3
           - id: ancient_bone
-            amount: 4
+            amount: 5
       e:
         type: TRADE
         id: dunes_leggings_5
@@ -1619,7 +1607,7 @@ items:
           - id: ancient_bone
             amount: 3
           - id: sunbaked_sand
-            amount: 67
+            amount: 77
       f:
         type: TRADE
         id: dunes_boots_1
@@ -1646,7 +1634,7 @@ items:
         cost:
           - id: dunes_boots_3
           - id: ancient_bone
-            amount: 4
+            amount: 5
       j:
         type: TRADE
         id: dunes_boots_5
@@ -1657,7 +1645,7 @@ items:
           - id: ancient_bone
             amount: 3
           - id: sunbaked_sand
-            amount: 67
+            amount: 77
       z:
         type: GUI
         id: dunes_shop
@@ -1686,32 +1674,31 @@ items:
         cost:
           - id: canyons_helmet_1
           - id: scarab_shell
-            amount: 2
       '3':
         type: TRADE
         id: canyons_helmet_3
         cost:
           - id: canyons_helmet_2
           - id: legion_plate
-            amount: 3
+            amount: 2
       '4':
         type: TRADE
         id: canyons_helmet_4
         cost:
           - id: canyons_helmet_3
           - id: legion_plate
-            amount: 5
+            amount: 4
       '5':
         type: TRADE
         id: canyons_helmet_5
         cost:
           - id: canyons_helmet_4
           - id: scarab_shell
-            amount: 3
+            amount: 2
           - id: legion_plate
-            amount: 3
+            amount: 2
           - id: crimson_sand
-            amount: 73
+            amount: 54
       '6':
         type: TRADE
         id: canyons_chestplate_1
@@ -1724,32 +1711,31 @@ items:
         cost:
           - id: canyons_chestplate_1
           - id: scarab_shell
-            amount: 2
       '8':
         type: TRADE
         id: canyons_chestplate_3
         cost:
           - id: canyons_chestplate_2
           - id: legion_plate
-            amount: 3
+            amount: 2
       '9':
         type: TRADE
         id: canyons_chestplate_4
         cost:
           - id: canyons_chestplate_3
           - id: legion_plate
-            amount: 5
+            amount: 4
       '0':
         type: TRADE
         id: canyons_chestplate_5
         cost:
           - id: canyons_chestplate_4
           - id: scarab_shell
-            amount: 3
+            amount: 2
           - id: legion_plate
-            amount: 3
+            amount: 2
           - id: crimson_sand
-            amount: 73
+            amount: 54
       a:
         type: TRADE
         id: canyons_leggings_1
@@ -1762,32 +1748,31 @@ items:
         cost:
           - id: canyons_leggings_1
           - id: scarab_shell
-            amount: 2
       c:
         type: TRADE
         id: canyons_leggings_3
         cost:
           - id: canyons_leggings_2
           - id: legion_plate
-            amount: 3
+            amount: 2
       d:
         type: TRADE
         id: canyons_leggings_4
         cost:
           - id: canyons_leggings_3
           - id: legion_plate
-            amount: 5
+            amount: 4
       e:
         type: TRADE
         id: canyons_leggings_5
         cost:
           - id: canyons_leggings_4
           - id: scarab_shell
-            amount: 3
+            amount: 2
           - id: legion_plate
-            amount: 3
+            amount: 2
           - id: crimson_sand
-            amount: 73
+            amount: 54
       f:
         type: TRADE
         id: canyons_boots_1
@@ -1800,32 +1785,31 @@ items:
         cost:
           - id: canyons_boots_1
           - id: scarab_shell
-            amount: 2
       h:
         type: TRADE
         id: canyons_boots_3
         cost:
           - id: canyons_boots_2
           - id: legion_plate
-            amount: 3
+            amount: 2
       i:
         type: TRADE
         id: canyons_boots_4
         cost:
           - id: canyons_boots_3
           - id: legion_plate
-            amount: 5
+            amount: 4
       j:
         type: TRADE
         id: canyons_boots_5
         cost:
           - id: canyons_boots_4
           - id: scarab_shell
-            amount: 3
+            amount: 2
           - id: legion_plate
-            amount: 3
+            amount: 2
           - id: crimson_sand
-            amount: 73
+            amount: 54
       z:
         type: GUI
         id: canyons_shop
@@ -1848,152 +1832,156 @@ items:
         cost:
           - id: canyons_helmet_5
           - id: ancient_nugget
+            amount: 2
       '2':
         type: TRADE
         id: temple_helmet_2
         cost:
           - id: temple_helmet_1
           - id: ancient_nugget
-            amount: 2
+            amount: 4
       '3':
         type: TRADE
         id: temple_helmet_3
         cost:
           - id: temple_helmet_2
           - id: vizier_scroll
-            amount: 2
+            amount: 4
       '4':
         type: TRADE
         id: temple_helmet_4
         cost:
           - id: temple_helmet_3
           - id: vizier_scroll
-            amount: 3
+            amount: 6
       '5':
         type: TRADE
         id: temple_helmet_5
         cost:
           - id: temple_helmet_4
           - id: ancient_nugget
-            amount: 3
+            amount: 6
           - id: vizier_scroll
-            amount: 2
+            amount: 4
           - id: raw_gold
-            amount: 79
+            amount: 148
       '6':
         type: TRADE
         id: temple_chestplate_1
         cost:
           - id: canyons_chestplate_5
           - id: ancient_nugget
+            amount: 2
       '7':
         type: TRADE
         id: temple_chestplate_2
         cost:
           - id: temple_chestplate_1
           - id: ancient_nugget
-            amount: 2
+            amount: 4
       '8':
         type: TRADE
         id: temple_chestplate_3
         cost:
           - id: temple_chestplate_2
           - id: vizier_scroll
-            amount: 2
+            amount: 4
       '9':
         type: TRADE
         id: temple_chestplate_4
         cost:
           - id: temple_chestplate_3
           - id: vizier_scroll
-            amount: 3
+            amount: 6
       '0':
         type: TRADE
         id: temple_chestplate_5
         cost:
           - id: temple_chestplate_4
           - id: ancient_nugget
-            amount: 3
+            amount: 6
           - id: vizier_scroll
-            amount: 2
+            amount: 4
           - id: raw_gold
-            amount: 79
+            amount: 148
       a:
         type: TRADE
         id: temple_leggings_1
         cost:
           - id: canyons_leggings_5
           - id: ancient_nugget
+            amount: 2
       b:
         type: TRADE
         id: temple_leggings_2
         cost:
           - id: temple_leggings_1
           - id: ancient_nugget
-            amount: 2
+            amount: 4
       c:
         type: TRADE
         id: temple_leggings_3
         cost:
           - id: temple_leggings_2
           - id: vizier_scroll
-            amount: 2
+            amount: 4
       d:
         type: TRADE
         id: temple_leggings_4
         cost:
           - id: temple_leggings_3
           - id: vizier_scroll
-            amount: 3
+            amount: 6
       e:
         type: TRADE
         id: temple_leggings_5
         cost:
           - id: temple_leggings_4
           - id: ancient_nugget
-            amount: 3
+            amount: 6
           - id: vizier_scroll
-            amount: 2
+            amount: 4
           - id: raw_gold
-            amount: 79
+            amount: 148
       f:
         type: TRADE
         id: temple_boots_1
         cost:
           - id: canyons_boots_5
           - id: ancient_nugget
+            amount: 2
       g:
         type: TRADE
         id: temple_boots_2
         cost:
           - id: temple_boots_1
           - id: ancient_nugget
-            amount: 2
+            amount: 4
       h:
         type: TRADE
         id: temple_boots_3
         cost:
           - id: temple_boots_2
           - id: vizier_scroll
-            amount: 2
+            amount: 4
       i:
         type: TRADE
         id: temple_boots_4
         cost:
           - id: temple_boots_3
           - id: vizier_scroll
-            amount: 3
+            amount: 6
       j:
         type: TRADE
         id: temple_boots_5
         cost:
           - id: temple_boots_4
           - id: ancient_nugget
-            amount: 3
+            amount: 6
           - id: vizier_scroll
-            amount: 2
+            amount: 4
           - id: raw_gold
-            amount: 79
+            amount: 148
       z:
         type: GUI
         id: temple_shop
@@ -2016,108 +2004,112 @@ items:
         cost:
           - id: temple_helmet_5
           - id: eternal_soul
-            amount: 2
+            amount: 5
       '2':
         type: TRADE
         id: tomb_helmet_2
         cost:
           - id: tomb_helmet_1
           - id: eternal_soul
-            amount: 3
+            amount: 8
       '3':
         type: TRADE
         id: tomb_helmet_3
         cost:
           - id: tomb_helmet_2
           - id: royal_seal
+            amount: 3
       '4':
         type: TRADE
         id: tomb_helmet_4
         cost:
           - id: tomb_helmet_3
           - id: royal_seal
-            amount: 3
+            amount: 8
       '6':
         type: TRADE
         id: tomb_chestplate_1
         cost:
           - id: temple_chestplate_5
           - id: eternal_soul
-            amount: 2
+            amount: 5
       '7':
         type: TRADE
         id: tomb_chestplate_2
         cost:
           - id: tomb_chestplate_1
           - id: eternal_soul
-            amount: 3
+            amount: 8
       '8':
         type: TRADE
         id: tomb_chestplate_3
         cost:
           - id: tomb_chestplate_2
           - id: royal_seal
+            amount: 3
       '9':
         type: TRADE
         id: tomb_chestplate_4
         cost:
           - id: tomb_chestplate_3
           - id: royal_seal
-            amount: 3
+            amount: 8
       a:
         type: TRADE
         id: tomb_leggings_1
         cost:
           - id: temple_leggings_5
           - id: eternal_soul
-            amount: 2
+            amount: 5
       b:
         type: TRADE
         id: tomb_leggings_2
         cost:
           - id: tomb_leggings_1
           - id: eternal_soul
-            amount: 3
+            amount: 8
       c:
         type: TRADE
         id: tomb_leggings_3
         cost:
           - id: tomb_leggings_2
           - id: royal_seal
+            amount: 3
       d:
         type: TRADE
         id: tomb_leggings_4
         cost:
           - id: tomb_leggings_3
           - id: royal_seal
-            amount: 3
+            amount: 8
       f:
         type: TRADE
         id: tomb_boots_1
         cost:
           - id: temple_boots_5
           - id: eternal_soul
-            amount: 2
+            amount: 5
       g:
         type: TRADE
         id: tomb_boots_2
         cost:
           - id: tomb_boots_1
           - id: eternal_soul
-            amount: 3
+            amount: 8
       h:
         type: TRADE
         id: tomb_boots_3
         cost:
           - id: tomb_boots_2
           - id: royal_seal
+            amount: 3
       i:
         type: TRADE
         id: tomb_boots_4
         cost:
           - id: tomb_boots_3
           - id: royal_seal
-            amount: 3
+            amount: 8
       z:
         type: GUI
         id: tomb_shop
@@ -2136,21 +2128,20 @@ items:
         id: city_shield_1
         cost:
           - id: ancient_scrap
-            amount: 2
       '2':
         type: TRADE
         id: city_shield_2
         cost:
           - id: city_shield_1
           - id: ancient_scrap
-            amount: 3
+            amount: 2
       '3':
         type: TRADE
         id: city_shield_3
         cost:
           - id: city_shield_2
           - id: tattered_cloth
-            amount: 4
+            amount: 3
       z:
         type: GUI
         id: city_shop
@@ -2184,7 +2175,7 @@ items:
         cost:
           - id: dunes_shield_2
           - id: ancient_bone
-            amount: 5
+            amount: 6
       z:
         type: GUI
         id: dunes_shop
@@ -2204,21 +2195,20 @@ items:
         cost:
           - id: dunes_shield_3
           - id: scarab_shell
-            amount: 2
       '2':
         type: TRADE
         id: canyons_shield_2
         cost:
           - id: canyons_shield_1
           - id: scarab_shell
-            amount: 3
+            amount: 2
       '3':
         type: TRADE
         id: canyons_shield_3
         cost:
           - id: canyons_shield_2
           - id: legion_plate
-            amount: 5
+            amount: 4
       z:
         type: GUI
         id: canyons_shop
@@ -2238,21 +2228,21 @@ items:
         cost:
           - id: canyons_shield_3
           - id: ancient_nugget
-            amount: 2
+            amount: 4
       '2':
         type: TRADE
         id: temple_shield_2
         cost:
           - id: temple_shield_1
           - id: ancient_nugget
-            amount: 4
+            amount: 8
       '3':
         type: TRADE
         id: temple_shield_3
         cost:
           - id: temple_shield_2
           - id: vizier_scroll
-            amount: 6
+            amount: 11
       z:
         type: GUI
         id: temple_shop
@@ -2271,16 +2261,17 @@ items:
         id: totem
         cost:
           - id: ancient_nugget
-            amount: 64
+            amount: 170
           - id: eternal_soul
-            amount: 2
+            amount: 5
       '2':
         type: TRADE
         id: gormak_talisman
         cost:
           - id: ancient_heart
+            amount: 3
           - id: royal_seal
-            amount: 2
+            amount: 5
       z:
         type: GUI
         id: tomb_shop

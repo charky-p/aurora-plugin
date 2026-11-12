@@ -272,7 +272,22 @@ def source_of(resource, zone):
     return "mine", resource
 
 
-def gather(resource, amount, owned, zone, warnings):
+def kill_drops(mob, sword):
+    """Expected resources per kill, every one the mob drops, boosted by Looting."""
+    looting = ench(sword, "looting")
+    return {rid: c * (avg + looting) for rid, c, avg in MOBS[mob]["drops"] if rid in RESOURCES}
+
+
+def gather(resource, amount, owned, zone, warnings, stock):
+    """Seconds to have `amount` more of a resource. Leftovers from earlier kills are
+    used first, and every kill's extra drops go back into stock, as in the backpack."""
+    held = stock.get(resource, 0.0)
+    if held >= amount:
+        stock[resource] = held - amount
+        return 0.0
+    amount -= held
+    stock[resource] = 0.0
+
     kind, what = source_of(resource, zone)
     if kind == "mine":
         pick = best(owned, "_pick_")
@@ -282,18 +297,20 @@ def gather(resource, amount, owned, zone, warnings):
             return math.inf
         return amount / rate
     sword = best(owned, "_sword_")
-    looting = ench(sword, "looting") if resource in RESOURCES else 0
-    per_kill = next(c * (avg + looting) for rid, c, avg in MOBS[what]["drops"] if rid == resource)
-    cycle = kill_cycle_time(sword, armour_set(owned), what)
-    return math.ceil(amount / per_kill) * cycle
+    drops = kill_drops(what, sword)
+    kills = math.ceil(amount / drops[resource])
+    for rid, per_kill in drops.items():
+        stock[rid] = stock.get(rid, 0.0) + kills * per_kill
+    stock[resource] -= amount
+    return kills * kill_cycle_time(sword, armour_set(owned), what)
 
 
-def play(zones, owned):
+def play(zones, owned, stock):
     total, warnings = 0.0, []
     for zone in zones:
         zone_time, items = 0.0, zone_items(zone)
         for item, cost in items:
-            zone_time += sum(gather(r, a, owned, zone, warnings) for r, a in cost.items() if r not in GEAR)
+            zone_time += sum(gather(r, a, owned, zone, warnings, stock) for r, a in cost.items() if r not in GEAR)
             owned.add(item)
         total += zone_time
         print(f"  {zone:<8}{len(items):>4} buys {zone_time / 60:8.1f} min   cumulative {total / 60:7.1f} min")
@@ -318,7 +335,8 @@ def main():
 
     owned = {"starter_pick_0", "starter_sword_0"} | {f"starter_{s}_0" for s in SLOTS}
     print("ORIGIN ISLES playthrough")
-    t_origin = play(ORIGIN, owned)
+    stock = {}  # the backpack, leftovers carry from one purchase to the next
+    t_origin = play(ORIGIN, owned, stock)
 
     print("\nMining income, first and last pick of each zone")
     prev = "starter_pick_0"
@@ -333,7 +351,7 @@ def main():
         prev = picks[-1]
 
     print("\nGORMAK playthrough")
-    t_gormak = play(GORMAK, owned)
+    t_gormak = play(GORMAK, owned, stock)
 
     print("\nCOMBAT - arriving / mid-zone / exit gear (face-tanking, no dodging)")
     print(f"  {'mob':<21}{'atk':>4}{'hp':>6}   {'hearts per hit':<18}{'time to kill it':<20}{'hearts left after 1v1':<22}")

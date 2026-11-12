@@ -186,10 +186,7 @@ public class MobSpawner {
             for (int offset = -4; offset <= 4; offset++) {
                 Location floor = new Location(world, x, this.y + offset, z);
 
-                // Check if box of size 3 x 3 and height 2 is empty for spawn
-                // space enough to fit a ravager
-                // TODO: just check that adjacent blocks are free
-                if (isSafeBox(floor, 3, 2)) {
+                if (isSafeSpot(floor, 2)) {
                     return floor.add(0, 1, 0);
                 }
             }
@@ -198,15 +195,17 @@ public class MobSpawner {
         return null;
     }
 
-    public boolean isSafeBox(Location floor, int width, int height) {
-        if (floor.getBlock().getType().isAir()) return false;
+    private static final int[][] SPAWN_COLUMNS = {{0, 0}, {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-        for (int x = - width / 2; x <= width / 2; x++) {
-            for (int z = - width / 2; z <= width / 2; z++) {
-                for (int y = 1; y <= height; y++) {
-                    Block block = floor.clone().add(x, y, z).getBlock();
-                    if (!block.getType().isAir()) return false;
-                }
+    // A solid floor with the spawn column and its four neighbours free to the given
+    // height. Passable rather than air, so grass and flowers don't block spawns
+    public boolean isSafeSpot(Location floor, int height) {
+        if (!floor.getBlock().getType().isSolid()) return false;
+
+        for (int[] column : SPAWN_COLUMNS) {
+            for (int y = 1; y <= height; y++) {
+                Block block = floor.clone().add(column[0], y, column[1]).getBlock();
+                if (!block.isPassable() || block.isLiquid()) return false;
             }
         }
 

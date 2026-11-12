@@ -54,15 +54,6 @@ public final class Schema {
                     "delay INTEGER, " +
                     "active INTEGER DEFAULT 1)",
 
-            // TODO: unused, traders persist as entities. Use it if traders should be
-            // respawned from the database, or drop it
-            "CREATE TABLE IF NOT EXISTS traders (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "trader TEXT, " +
-                    "world TEXT, " +
-                    "x DOUBLE, y DOUBLE, z DOUBLE, " +
-                    "yaw FLOAT)",
-
             // Spawns
             "CREATE TABLE IF NOT EXISTS spawns (" +
                     "world TEXT PRIMARY KEY, " +

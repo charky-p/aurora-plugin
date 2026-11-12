@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.charky.aurora.features.mine.MineBlock;
 import org.charky.aurora.features.mine.MineData;
 import org.charky.aurora.features.player.PlayerData;
+import org.charky.aurora.features.portal.Portal;
 import org.charky.aurora.features.trader.TraderSpot;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -161,6 +162,55 @@ class StoresTest {
 
         assertTrue(store.loadAll().isEmpty());
         assertTrue(store.loadBlocks().isEmpty());
+    }
+
+    @Test
+    void worldsAreStoredOnceAndRemoved() {
+        WorldStore store = new WorldStore(db);
+        store.add("gormak");
+        store.add("gormak");
+        store.add("verdant");
+        assertEquals(List.of("gormak", "verdant"), store.loadAll());
+
+        store.remove("gormak");
+        assertEquals(List.of("verdant"), store.loadAll());
+    }
+
+    @Test
+    void portalWithoutDestinationRoundTrips() {
+        PortalStore store = new PortalStore(db);
+        store.save(new Portal("to_gormak", "aurora_mines", 5, 70, 5, 3, 72, 6));
+
+        Portal loaded = store.loadAll().getFirst();
+        assertEquals("to_gormak", loaded.getName());
+        assertEquals(3, loaded.getX1());
+        assertEquals(5, loaded.getX2());
+        assertFalse(loaded.hasDestination());
+    }
+
+    @Test
+    void portalDestinationRoundTripsAndRenames() {
+        PortalStore store = new PortalStore(db);
+        Portal portal = new Portal("to_gormak", "aurora_mines", 0, 70, 0, 2, 72, 0);
+        portal.setDestination("gormak", 10.5, 64, -3.5, 90f, 10f);
+        store.save(portal);
+        store.rename("to_gormak", "gormak_gate");
+
+        Portal loaded = store.loadAll().getFirst();
+        assertEquals("gormak_gate", loaded.getName());
+        assertEquals("gormak", loaded.getDestWorld());
+        assertEquals(10.5, loaded.getDestX());
+        assertEquals(-3.5, loaded.getDestZ());
+        assertEquals(90f, loaded.getDestYaw());
+    }
+
+    @Test
+    void portalBoxIncludesItsEdges() {
+        Portal portal = new Portal("p", "world", 2, 70, 2, 0, 72, 0);
+        assertTrue(portal.contains("world", 0, 70, 0));
+        assertTrue(portal.contains("world", 2, 72, 2));
+        assertFalse(portal.contains("world", 3, 70, 0));
+        assertFalse(portal.contains("gormak", 1, 71, 1));
     }
 
     private static MineData mine(String name) {

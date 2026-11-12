@@ -11,7 +11,7 @@ commands:
     permission: aurora.admin
   aurora:
     description: Open the Aurora menu, admins also get the subcommands
-    usage: /aurora [mine|spawner|trader|wand|setspawn|heal|help|info]
+    usage: /aurora [mine|spawner|trader|portal|world|wand|setspawn|heal|help|info]
     aliases: [a, aura]
   spawn:
     description: Teleport to world spawn

@@ -9,6 +9,8 @@ import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.mine.MineCommand;
 import org.charky.aurora.features.spawner.SpawnerCommand;
 import org.charky.aurora.features.trader.TraderCommand;
+import org.charky.aurora.features.portal.PortalCommand;
+import org.charky.aurora.features.world.WorldCommand;
 import org.charky.aurora.common.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +31,8 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
         register(new WandCommand(plugin));
         register(new SpawnerCommand(plugin));
         register(new TraderCommand(plugin));
+        register(new PortalCommand(plugin));
+        register(new WorldCommand(plugin));
         register(new MineCommand(plugin));
         register(new SetSpawnCommand(plugin));
         register(new HealSub());

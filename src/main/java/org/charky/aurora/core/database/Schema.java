@@ -63,6 +63,20 @@ public final class Schema {
                     "x DOUBLE, y DOUBLE, z DOUBLE, " +
                     "yaw FLOAT)",
 
+            // Extra void worlds, created by command and loaded on every startup
+            "CREATE TABLE IF NOT EXISTS worlds (" +
+                    "name TEXT PRIMARY KEY)",
+
+            // Portals, a box that sends whoever walks in to its destination
+            "CREATE TABLE IF NOT EXISTS portals (" +
+                    "name TEXT PRIMARY KEY, " +
+                    "world TEXT, " +
+                    "x1 INTEGER, y1 INTEGER, z1 INTEGER, " +
+                    "x2 INTEGER, y2 INTEGER, z2 INTEGER, " +
+                    "dest_world TEXT, " +
+                    "dest_x DOUBLE, dest_y DOUBLE, dest_z DOUBLE, " +
+                    "dest_yaw FLOAT, dest_pitch FLOAT)",
+
             // Spawns
             "CREATE TABLE IF NOT EXISTS spawns (" +
                     "world TEXT PRIMARY KEY, " +

@@ -15,6 +15,9 @@ import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
+import org.charky.aurora.features.portal.PortalListener;
+import org.charky.aurora.features.portal.PortalManager;
+import org.charky.aurora.features.world.WorldManager;
 import org.charky.aurora.features.gauntlet.GauntletListener;
 import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.player.*;
@@ -48,6 +51,8 @@ public class Aurora extends JavaPlugin implements Listener {
     private TabManager tabManager;
     private TraderManager traderManager;
     private WandManager wandManager;
+    private WorldManager worldManager;
+    private PortalManager portalManager;
     private BackpackManager backpackManager;
     private ArmoryManager armoryManager;
     private DataRegistry registry;
@@ -86,6 +91,10 @@ public class Aurora extends JavaPlugin implements Listener {
         armoryManager.load(db, new UnlockStore(db));
         armoryManager.migrateFrom(backpackManager);
 
+        // Extra worlds first, spawns and portals look worlds up by name
+        this.worldManager = new WorldManager(this, new WorldStore(db));
+        worldManager.loadAll();
+
         // Spawn map
         this.spawnMap = spawnStore.loadAll();
 
@@ -97,6 +106,7 @@ public class Aurora extends JavaPlugin implements Listener {
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.traderManager = new TraderManager(this, new TraderStore(db));
         this.wandManager = new WandManager();
+        this.portalManager = new PortalManager(new PortalStore(db));
 
         // temp
         GauntletManager gauntletManager = new GauntletManager(this);
@@ -135,6 +145,7 @@ public class Aurora extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new TraderListener(this), this);
         getServer().getPluginManager().registerEvents(new WandListener(this), this);
         getServer().getPluginManager().registerEvents(new SpawnListener(this), this);
+        getServer().getPluginManager().registerEvents(new PortalListener(this), this);
         getServer().getPluginManager().registerEvents(new CombatListener(this), this);
         getServer().getPluginManager().registerEvents(this, this);
 
@@ -174,6 +185,14 @@ public class Aurora extends JavaPlugin implements Listener {
 
     public WandManager getWandManager() {
         return wandManager;
+    }
+
+    public WorldManager getWorldManager() {
+        return worldManager;
+    }
+
+    public PortalManager getPortalManager() {
+        return portalManager;
     }
 
     public BackpackManager getBackpackManager() {

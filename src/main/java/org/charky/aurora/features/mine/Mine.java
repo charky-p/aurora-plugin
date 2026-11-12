@@ -144,12 +144,11 @@ public class Mine {
         }
 
         for (Player player : world.getPlayers()) {
-            if (isInside(player.getLocation())) {
-                Location tpLocation = getTpLocation();
-                tpLocation.setPitch(player.getLocation().getPitch());
-                tpLocation.setYaw(player.getLocation().getYaw());
-                player.teleport(tpLocation);
-            }
+            if (!isInside(player.getLocation())) continue;
+
+            Location tpLocation = new Location(world, data.getTpX(), data.getTpY(), data.getTpZ(),
+                    player.getLocation().getYaw(), player.getLocation().getPitch());
+            player.teleport(tpLocation);
         }
     }
 

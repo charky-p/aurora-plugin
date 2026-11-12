@@ -24,9 +24,9 @@ commands:
     description: Open the backpack
     usage: /backpack
     aliases: [bp]
-  dump: # TODO
-    description: Give shulkers of every registry item
-    usage: /dump [items|icons|all]
+  dump:
+    description: Give shulkers of every registry item, or clear your backpack and inventory
+    usage: /dump [items|icons|all|clear]
     permission: aurora.admin
   menu:
     description: Open the main Aurora menu

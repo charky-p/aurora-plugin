@@ -82,7 +82,7 @@ public class DataRegistry {
         armory.clear();
 
         actions = new MenuActions(backpackManager, armoryManager);
-        LootPoolBuilder loot = new LootPoolBuilder(items, this::isLootable);
+        LootPoolBuilder loot = new LootPoolBuilder(plugin.getLogger(), items, this::isLootable);
 
         loadResources();
         loadEnchants();
@@ -132,7 +132,7 @@ public class DataRegistry {
     // Blocks scale with Fortune instead, so nothing here is lootable
     private void loadBlocks(LootPoolBuilder loot) {
         yaml.load("blocks.yml", BlockModel.class).forEach((id, model) -> blocks.put(id.toLowerCase(), new BlockData(
-                Material.matchMaterial(model.material), model.density, loot.build(model.independent, model.choices, false))));
+                Material.matchMaterial(model.material), model.density, loot.build(id, model.independent, model.choices, false))));
     }
 
     // Every registry item carries its id, so costs match what an item is rather than
@@ -173,13 +173,16 @@ public class DataRegistry {
         BlockData block = blocks.get(id);
         if (block == null) return new ArrayList<>();
 
+        // Each roll is a fresh copy, so scaling it never touches the pool's own item
         int multiplier = Math.max(0, fortune + 1 - block.density());
-        return block.pools().stream()
-                .map(LootPool::roll)
-                .filter(Objects::nonNull)
-                .flatMap(List::stream)
-                .peek(item -> item.setAmount(item.getAmount() * multiplier))
-                .toList();
+        List<MenuItem> drops = new ArrayList<>();
+        for (LootPool pool : block.pools()) {
+            for (MenuItem item : pool.roll()) {
+                item.setAmount(item.getAmount() * multiplier);
+                drops.add(item);
+            }
+        }
+        return drops;
     }
 
     public boolean hasMob(String id) {

@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 // Reads one generated YAML file into its model class, keyed by id
 public class YamlLoader {
@@ -42,7 +43,7 @@ public class YamlLoader {
             return result;
         } catch (Exception e) {
             // Any malformed file, one bad file should not stop the rest loading
-            plugin.getLogger().severe("Failed to load " + fileName + ": " + e.getMessage());
+            plugin.getLogger().log(Level.SEVERE, "Failed to load " + fileName, e);
             return Collections.emptyMap();
         }
     }

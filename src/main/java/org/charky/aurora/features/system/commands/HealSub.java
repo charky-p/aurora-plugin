@@ -2,6 +2,7 @@ package org.charky.aurora.features.system.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.TextUtils;
@@ -28,7 +29,8 @@ public class HealSub implements AuroraSubCommand {
             return;
         }
 
-        target.setHealth(target.getAttribute(Attribute.MAX_HEALTH).getValue());
+        AttributeInstance maxHealth = target.getAttribute(Attribute.MAX_HEALTH);
+        if (maxHealth != null) target.setHealth(maxHealth.getValue());
         target.setFoodLevel(20);
         target.setFireTicks(0);
 

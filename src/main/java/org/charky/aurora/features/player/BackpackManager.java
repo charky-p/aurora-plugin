@@ -61,6 +61,8 @@ public class BackpackManager {
 
     public void shutdown() {
         if (autosave != null) autosave.cancel();
+        // Never loaded, enabling failed before the database was ready
+        if (store == null || backpacks == null) return;
         store.saveAll(snapshot());
     }
 

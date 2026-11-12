@@ -121,5 +121,5 @@ Right clicking a trader with the wand also removes it and its spot.
 | `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
 | `/a help`, `/a info <command>` | Command list, one command in detail |
 | `/refresh` | Reload all game data from the YAML, after `python scripts/generate.py --live` |
-| `/dump [items\|icons\|all]` | Shulkers of every registry item or icon, for checking how they look |
+| `/dump [items\|icons\|all\|clear]` | Shulkers of every registry item or icon, for checking how they look. `clear` empties your own backpack and inventory |
 | `/gauntlet` | Gauntlet test mode, unfinished, clears your inventory |

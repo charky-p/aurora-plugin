@@ -1,9 +1,9 @@
 package org.charky.aurora.features.gauntlet;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -12,15 +12,28 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
+// Unfinished wave mode behind /gauntlet, admin only. The arena is still a fixed
+// spot in the main world
 public class GauntletManager {
+    private static final String ARENA_WORLD = "world";
+    private static final int LOBBY_SECONDS = 15;
+    private static final long WAVE_GAP_TICKS = 100L;
+
     private final Aurora plugin;
     private final Set<UUID> players = new HashSet<>();
+    private final List<Entity> activeMobs = new ArrayList<>();
     private GameState state = GameState.WAITING;
     private int waveNumber = 0;
-    private int countdown = 15;
-    private final List<Entity> activeMobs = new ArrayList<>();
+    private int countdown = LOBBY_SECONDS;
+    // Set while the next wave is on its way, so several deaths in the gap between
+    // waves start one wave, not one each
+    private boolean waveQueued = false;
 
     public GauntletManager(Aurora plugin) {
         this.plugin = plugin;
@@ -30,6 +43,12 @@ public class GauntletManager {
         WAITING, STARTING, ACTIVE, CLEANUP
     }
 
+    // Null when the arena's world is not loaded
+    public Location lobby() {
+        World world = Bukkit.getWorld(ARENA_WORLD);
+        return world == null ? null : new Location(world, -246, -59, 207);
+    }
+
     public void joinQueue(Player player) {
         if (state == GameState.ACTIVE) {
             TextUtils.error(player, "Gauntlet is already in progress");
@@ -37,7 +56,7 @@ public class GauntletManager {
         }
 
         players.add(player.getUniqueId());
-        Bukkit.broadcast(Component.text(player.getName() + " joined the gauntlet"));
+        broadcast("<white>" + player.getName() + " joined the gauntlet");
 
         if (state == GameState.WAITING) {
             startLobbyCooldown();
@@ -46,16 +65,24 @@ public class GauntletManager {
 
     public void startLobbyCooldown() {
         state = GameState.STARTING;
+
         new BukkitRunnable() {
             @Override
             public void run() {
+                // Everyone left during the countdown
+                if (state != GameState.STARTING) {
+                    this.cancel();
+                    return;
+                }
+
                 if (countdown <= 0) {
                     startGame();
                     this.cancel();
                     return;
                 }
+
                 if (countdown % 10 == 0 || countdown <= 5) {
-                    Bukkit.broadcastMessage("§eGauntlet starting in §f" + countdown + "s...");
+                    broadcast("<yellow>Gauntlet starting in <white>" + countdown + "s...");
                 }
                 countdown--;
             }
@@ -64,12 +91,14 @@ public class GauntletManager {
 
     public void startGame() {
         state = GameState.ACTIVE;
+
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
                 preparePlayer(player);
             }
         }
+
         startNextWave();
     }
 
@@ -83,41 +112,45 @@ public class GauntletManager {
     }
 
     public void startNextWave() {
+        waveQueued = false;
+        if (state != GameState.ACTIVE) return;
+
+        World world = Bukkit.getWorld(ARENA_WORLD);
+        if (world == null) {
+            broadcast("<red>The gauntlet arena is not loaded, the gauntlet is over");
+            stopGame();
+            return;
+        }
+
         waveNumber++;
-        Bukkit.broadcastMessage("§4§lWAVE " + waveNumber + " §7is starting!");
+        broadcast("<dark_red><b>WAVE " + waveNumber + "</b> <gray>is starting!");
 
         // Basic logic: spawn zombies equal to waveNumber * 2
-        Location spawnLoc = new Location(Bukkit.getWorld("world"), -250, -59, 210);
+        Location spawnLoc = new Location(world, -250, -59, 210);
         for (int i = 0; i < (waveNumber * 2); i++) {
-            Entity mob = spawnLoc.getWorld().spawnEntity(spawnLoc, EntityType.ZOMBIE);
-            activeMobs.add(mob);
+            activeMobs.add(world.spawnEntity(spawnLoc, EntityType.ZOMBIE));
         }
     }
 
-    // You will call this from an EntityDeathEvent listener!
+    // Called on every entity death while a game is on
     public void checkWaveComplete() {
+        if (state != GameState.ACTIVE || waveQueued) return;
+
         activeMobs.removeIf(entity -> entity.isDead() || !entity.isValid());
+        if (!activeMobs.isEmpty()) return;
 
-        if (activeMobs.isEmpty()) {
-            Bukkit.broadcastMessage("§aWave Clear! Next wave in 5 seconds...");
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    startNextWave();
-                }
-            }.runTaskLater(plugin, 100);
-        }
+        waveQueued = true;
+        broadcast("<green>Wave Clear! Next wave in 5 seconds...");
+        Bukkit.getScheduler().runTaskLater(plugin, this::startNextWave, WAVE_GAP_TICKS);
     }
 
     public void handlePlayerDeath(Player player) {
-        if (!players.contains(player.getUniqueId())) return;
+        if (!players.remove(player.getUniqueId())) return;
 
-        players.remove(player.getUniqueId());
-        Bukkit.broadcastMessage("§c" + player.getName() + " has fallen!");
+        broadcast("<red>" + player.getName() + " has fallen!");
 
         if (players.isEmpty()) {
-            Bukkit.broadcast(TextUtils.parse("<red>Everyone has fallen, the gauntlet is over"));
+            broadcast("<red>Everyone has fallen, the gauntlet is over");
             stopGame();
         }
     }
@@ -127,16 +160,21 @@ public class GauntletManager {
     }
 
     public void stopGame() {
-        state =  GameState.WAITING;
+        state = GameState.WAITING;
 
         for (Entity entity : activeMobs) {
             if (entity != null && entity.isValid()) {
                 entity.remove();
             }
         }
-        activeMobs.clear();
 
+        activeMobs.clear();
+        players.clear();
         waveNumber = 0;
-        countdown = 15;
+        countdown = LOBBY_SECONDS;
+    }
+
+    private static void broadcast(String message) {
+        Bukkit.broadcast(TextUtils.parse(message));
     }
 }

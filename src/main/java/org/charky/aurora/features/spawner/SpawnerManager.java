@@ -167,6 +167,7 @@ public class SpawnerManager {
         if (spawner == null) return;
 
         MobData mob = registry.getMob(mobName);
+        if (mob == null) return;
         store.setMob(spawner.getName(), mobName);
         spawner.setMob(mob);
     }

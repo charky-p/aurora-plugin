@@ -33,20 +33,35 @@ public class MobLoader {
 
     public void load(Map<String, MobModel> data, Map<String, MobData> mobs, Map<String, Component> armory) {
         data.forEach((id, model) -> {
+            EntityType type = entityType(model.entity);
+            if (type == null || type.getEntityClass() == null) {
+                logger.severe("Mob '" + id + "': unknown entity '" + model.entity + "', skipped");
+                return;
+            }
+
             Component displayName = MiniMessage.miniMessage().deserialize(model.display);
 
             // Every pool rolls, so a mob with both drop lists gets both, and a mob
             // with none simply drops nothing
-            List<LootPool> pools = loot.build(model.independent, model.choices, true);
+            List<LootPool> pools = loot.build(id, model.independent, model.choices, true);
             LootPool drops = looting -> pools.stream()
                     .flatMap(pool -> pool.roll(looting).stream())
                     .toList();
 
-            mobs.put(id.toLowerCase(), new MobData(id, EntityType.fromName(model.entity), displayName,
+            mobs.put(id.toLowerCase(), new MobData(id, type, displayName,
                     model.health, model.defence, model.attack, model.attack_cooldown,
                     equipment(model), attributes(id, model), drops));
             addArmoryDrops(model, displayName, armory);
         });
+    }
+
+    // By registry key, with the old name lookup kept for ids that differ from it
+    @SuppressWarnings("deprecation")
+    private static EntityType entityType(String name) {
+        if (name == null) return null;
+        NamespacedKey key = NamespacedKey.fromString(name.toLowerCase());
+        EntityType type = key == null ? null : Registry.ENTITY_TYPE.get(key);
+        return type != null ? type : EntityType.fromName(name);
     }
 
     private Map<EquipmentSlot, ItemStack> equipment(MobModel model) {

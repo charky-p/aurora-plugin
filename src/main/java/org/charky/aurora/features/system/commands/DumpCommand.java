@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * /dump [items|icons|all]
+ * /dump [items|icons|all|clear]
  *
  * Packs every ItemStack the registry knows about into shulker boxes and hands
  * them over. Each item gets its registry id appended as lore, since display
@@ -70,7 +70,7 @@ public class DumpCommand implements CommandExecutor, TabCompleter {
                 source.addAll(registry.getAllIcons().entrySet());
             }
             default -> {
-                TextUtils.usage(player, "/" + label + " [items|icons|all]");
+                TextUtils.usage(player, "/" + label + " [items|icons|all|clear]");
                 return true;
             }
         }
@@ -136,7 +136,7 @@ public class DumpCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                                 @NotNull String label, @NotNull String @NotNull [] args) {
         if (args.length == 1) {
-            return TextUtils.getCompletions(args[0], List.of("items", "icons", "all"));
+            return TextUtils.getCompletions(args[0], List.of("items", "icons", "all", "clear"));
         }
         return List.of();
     }

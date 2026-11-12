@@ -25,6 +25,10 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 7. `/a portal create <name>` from the wand selection, then stand at the arrival point and `/a portal setdest <name>`. Make a second portal for the way back.
 8. `scripts/server.sh backup` (local) or `python scripts/deploy.py backup <server>` (live).
 
+## Test world
+
+`python scripts/build_test_world.py --send` builds a playable skeleton of every region in a void world, `aurora_test`, on the running local server, from console commands only. Plain platforms, one square per zone with its mines, spawners and trader, and obsidian gates linking Origin, Gormak and Verdant both ways. Everything it names starts with `t_`. Go there with `/a world tp aurora_test`. Without `--send` it prints the commands instead.
+
 ## Worlds
 
 Extra void worlds, saved so they load on every startup.

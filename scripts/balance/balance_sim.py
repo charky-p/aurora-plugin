@@ -50,7 +50,8 @@ BLAST_SHAPES = {
 }
 
 # ------------------------------------------------------------- vanilla tables
-TOOL = {"WOODEN": (0, 2), "STONE": (1, 4), "COPPER": (1, 5), "IRON": (2, 6), "GOLDEN": (0, 12)}
+TOOL = {"WOODEN": (0, 2), "STONE": (1, 4), "COPPER": (1, 5), "IRON": (2, 6), "GOLDEN": (0, 12),
+        "DIAMOND": (3, 8), "NETHERITE": (4, 9)}
 # material: (hardness, harvest tier needed: 0 wood, 1 stone, 2 iron)
 BLOCK = {
     "COBBLESTONE": (2.0, 0), "STONE": (1.5, 0), "COAL_ORE": (3.0, 0), "COAL_BLOCK": (5.0, 0),
@@ -59,6 +60,10 @@ BLOCK = {
     "CRACKED_STONE_BRICKS": (1.5, 0), "SANDSTONE": (0.8, 0), "CUT_SANDSTONE": (0.8, 0),
     "RED_SANDSTONE": (0.8, 0), "CUT_RED_SANDSTONE": (0.8, 0), "RAW_GOLD_BLOCK": (5.0, 1),
     "GILDED_BLACKSTONE": (1.5, 0),
+    # Verdant Groves, picks are an axe too (ItemFactory.makeRightTool)
+    "OAK_LOG": (2.0, 0), "OAK_WOOD": (2.0, 0), "BIRCH_LOG": (2.0, 0), "BIRCH_WOOD": (2.0, 0),
+    "SPRUCE_LOG": (2.0, 0), "SPRUCE_WOOD": (2.0, 0), "DARK_OAK_LOG": (2.0, 0), "DARK_OAK_WOOD": (2.0, 0),
+    "LIGHT_GRAY_CONCRETE": (1.8, 0), "BROWN_CONCRETE": (1.8, 0), "GRAY_CONCRETE": (1.8, 0),
 }
 RANGED = {"SKELETON"}
 
@@ -73,16 +78,23 @@ MINES = {
     "sunbaked_sand": {"sunbaked_sand": .8, "cut_sunbaked_sand": .2},
     "crimson_sand": {"crimson_sand": .8, "cut_crimson_sand": .2},
     "raw_gold": {"raw_gold_block": .2, "gilded_stone": .8},
+    # Verdant Groves, assumed until the mines are built: logs 70/30 log/wood, metal one block
+    "oak_log": {"oak_log": .7, "oak_wood": .3}, "tin": {"tin_ore": 1.0},
+    "birch_log": {"birch_log": .7, "birch_wood": .3}, "bronze": {"bronze_ore": 1.0},
+    "spruce_log": {"spruce_log": .7, "spruce_wood": .3}, "lead": {"lead_ore": 1.0},
+    "dark_oak_log": {"dark_oak_log": .7, "darkoak_wood": .3}, "silver": {"silver_ore": 1.0},
 }
 PLACED = {"gilded_stone": "GILDED_BLACKSTONE"}  # material actually placed by the raw_gold mine
 
 ORIGIN = ["cobble", "coal", "copper", "iron", "gold"]
 ORIGIN_MINE = dict(zip(ORIGIN, ["cobblestone", "coal", "copper", "iron", "gold"]))
 GORMAK = ["city", "dunes", "canyons", "temple", "tomb"]
+VERDANT = ["oak", "birch", "spruce", "darkoak", "treehouse"]
 ZONE_MOBS = {
     "city": ["hollowed_serf", "scavenger_husk"], "dunes": ["dune_scout", "sand_stalker"],
     "canyons": ["scarab_zealot", "hollowed_legionnaire"], "temple": ["tomb_guard", "vizier_mage"],
     "tomb": ["royal_myrmidon", "pharaoh", "gormak_eternal"],
+    "treehouse": ["tree_zombee", "treant"],
 }
 BOSS = "gormak_eternal"
 SLOTS = ("helmet", "chestplate", "leggings", "boots")
@@ -95,6 +107,8 @@ ZONE_GEAR = {
     "temple": [("canyons_sword_5", "canyons_{}_5"), ("temple_sword_3", "temple_{}_3"),
                ("temple_sword_5", "temple_{}_5")],
     "tomb": [("temple_sword_5", "temple_{}_5"), ("tomb_sword_3", "tomb_{}_2"), ("tomb_sword_5", "tomb_{}_4")],
+    "treehouse": [("darkoak_sword_2", "darkoak_{}_2"), ("treehouse_sword_2", "treehouse_{}_2"),
+                  ("treehouse_sword_3", "treehouse_{}_3")],
 }
 
 # --------------------------------------------------------------------- data
@@ -134,8 +148,8 @@ BLOCKS = {r["id"]: {"material": r["material"], "density": int(r["density"]),
                     "drops": parse_drops(r["independent"])} for r in rows("blocks")}
 MOBS = {r["id"]: {"entity": r["entity"], "hp": float(r["health"]), "def": float(r["defence"]),
                   "atk": float(r["attack"]), "drops": parse_drops(r["independent"])}
-        for f in ("mobs_origin", "mobs_gormak") for r in rows(f)}
-for f in ("mobs_origin", "mobs_gormak"):
+        for f in ("mobs_origin", "mobs_gormak", "mobs_verdant") for r in rows(f)}
+for f in ("mobs_origin", "mobs_gormak", "mobs_verdant"):
     for r in rows(f):
         if float(r.get("attack_cooldown") or 0) > 0:
             ATTACK_COOLDOWN[r["id"]] = float(r["attack_cooldown"])
@@ -252,7 +266,7 @@ def zone_items(zone):
     return picks + swords + SHOPS.get(f"{zone}_armor", []) + SHOPS.get(f"{zone}_shields", [])
 
 
-ORDER = {z: n for n, z in enumerate(["starter"] + ORIGIN + GORMAK)}
+ORDER = {z: n for n, z in enumerate(["starter"] + ORIGIN + GORMAK + VERDANT)}
 
 
 def best(owned, kind):
@@ -265,7 +279,7 @@ def armour_set(owned):
 
 
 def source_of(resource, zone):
-    everyone = ZONE_MOBS.get(zone, []) + [m for z in GORMAK for m in ZONE_MOBS[z]] + ["chicken", "sheep", "cow"]
+    everyone = ZONE_MOBS.get(zone, []) + [m for z in GORMAK + ["treehouse"] for m in ZONE_MOBS[z]] + ["chicken", "sheep", "cow"]
     for mob in everyone:
         if any(d[0] == resource for d in MOBS[mob]["drops"]):
             return "mob", mob
@@ -353,6 +367,9 @@ def main():
     print("\nGORMAK playthrough")
     t_gormak = play(GORMAK, owned, stock)
 
+    print("\nVERDANT GROVES playthrough")
+    t_verdant = play(VERDANT, owned, stock)
+
     print("\nCOMBAT - arriving / mid-zone / exit gear (face-tanking, no dodging)")
     print(f"  {'mob':<21}{'atk':>4}{'hp':>6}   {'hearts per hit':<18}{'time to kill it':<20}{'hearts left after 1v1':<22}")
     for zone, tiers in ZONE_GEAR.items():
@@ -365,7 +382,7 @@ def main():
             print(f"  {mob:<21}{MOBS[mob]['atk']:>4.0f}{MOBS[mob]['hp']:>6.0f}   {per_hit:<18}{ttk:<20}{left:<22}{flag}")
         print()
 
-    print(f"TOTAL   Origin {t_origin / 3600:.2f} h   Gormak {t_gormak / 3600:.2f} h")
+    print(f"TOTAL   Origin {t_origin / 3600:.2f} h   Gormak {t_gormak / 3600:.2f} h   Verdant {t_verdant / 3600:.2f} h")
 
 
 if __name__ == "__main__":

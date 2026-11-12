@@ -50,9 +50,13 @@ public class Database {
     }
 
     public Database(Aurora plugin, String path) {
-        File dbFile = new File(path, "mines.db");
+        this(new File(path, "mines.db"), plugin.getLogger());
+    }
+
+    // Any database file, the tests use a temporary one
+    Database(File dbFile, Logger logger) {
         this.url = "jdbc:sqlite:" + dbFile.getAbsolutePath();
-        this.logger = plugin.getLogger();
+        this.logger = logger;
     }
 
     // Runs the task on the database thread, after anything already queued.

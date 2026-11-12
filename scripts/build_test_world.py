@@ -31,6 +31,11 @@ ZONE = 32               # each zone is a 28 x 28 square, 32 apart along x
 PAD = 28
 FLOOR = "smooth_stone"
 FRAME = "obsidian"
+FENCE = "dark_oak_fence"
+GATE = "dark_oak_fence_gate"
+CARPET = "red_carpet"
+# Zones with only these mobs stay open, the rest are fenced in so their mobs stay put
+PASSIVE = {"CHICKEN", "SHEEP", "COW", "PIG", "RABBIT", "HORSE", "FOX", "WOLF", "SNIFFER", "PANDA", "OCELOT"}
 
 # zone: trader, [(mine, {block: %})], [(mob, limit)]
 ORIGIN = [
@@ -84,6 +89,14 @@ def ids(name):
         return {row["id"] for row in csv.DictReader(f)}
 
 
+def entities():
+    found = {}
+    for name in ("mobs_origin", "mobs_gormak", "mobs_verdant"):
+        with open(DATA / f"{name}.csv", newline="", encoding="utf-8") as f:
+            found.update({row["id"]: row["entity"].upper() for row in csv.DictReader(f)})
+    return found
+
+
 def check():
     traders, blocks = ids("traders"), ids("blocks")
     keys = {}
@@ -108,6 +121,25 @@ def run(world, cmd):
     return f"execute in minecraft:{world} run {cmd}"
 
 
+# Fence posts with carpet on top, too high to jump, across the strip on both sides of
+# every zone with a hostile mob. A fence gate on the walking line lets players through
+def fences(world, zones):
+    kinds = entities()
+    edges = set()
+    for i, (_, _, _, spawners) in enumerate(zones):
+        if any(kinds.get(mob) not in PASSIVE for mob, _ in spawners):
+            edges |= {i * ZONE - 2, (i + 1) * ZONE - 2}
+    out = []
+    for x in sorted(edges):
+        out += [
+            run(world, f"fill {x} {FLOOR_Y + 1} {Z - 4} {x} {FLOOR_Y + 1} {Z + PAD + 3} {FENCE}[north=true,south=true]"),
+            run(world, f"setblock {x} {FLOOR_Y + 1} {Z + 14} {GATE}[facing=east]"),
+            run(world, f"fill {x} {FLOOR_Y + 2} {Z - 4} {x} {FLOOR_Y + 2} {Z + PAD + 3} {CARPET}"),
+            run(world, f"setblock {x} {FLOOR_Y + 2} {Z + 14} air"),
+        ]
+    return out
+
+
 # Both ends of a region's strip along x
 def strip(zones):
     return -10, len(zones) * ZONE + 2
@@ -127,6 +159,8 @@ def commands(only):
             # Time stands still and nothing spawns by itself, so only spawner mobs are
             # about. Not /time set: in 26.x it moves the overworld clock other worlds share
             run(world, "gamerule advance_time false"), run(world, "gamerule spawn_mobs false"),
+            # Gamerules are per world in 26.x, dying must not drop your gear here either
+            run(world, "gamerule keep_inventory true"),
             run(world, f"forceload add {x1} {Z - 4} {x2} {Z + PAD + 4}"),
             run(world, f"fill {x1} {FLOOR_Y} {Z - 4} {x2} {FLOOR_Y} {Z + PAD + 3} {FLOOR}"),
         ]
@@ -147,6 +181,8 @@ def commands(only):
             # Right beside the zone's last mine, or near the stripe for a zone without one
             tx = x0 + 10 * len(mines) + 0.5 if mines else x0 + 4.5
             out.append(f"aurora trader create {trader} {tx} {FLOOR_Y + 1} {Z + 5.5} -w {world}")
+
+        out += fences(world, zones)
 
         # Arrive and respawn at the start of the strip, facing along it
         out.append(f"aurora setspawn {x1 + 5.5} {FLOOR_Y + 1} {Z + 14.5} -90 -w {world}")

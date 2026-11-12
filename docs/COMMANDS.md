@@ -27,7 +27,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 
 ## Test world
 
-`python scripts/build_test_world.py --send` builds a playable skeleton of every region on the running local server, from console commands only. Each region is its own void world with its own spawn, like the real server, so dying respawns you in that region: `aurora_test` (Origin), `aurora_test_gormak`, `aurora_test_verdant`. Plain platforms, one square per zone with its mines, spawners and a trader beside the mine, and obsidian gates linking the regions both ways. The gate to Gormak is locked to `gormak`, with the Gate Warden beside it. Everything it names starts with `t_`. Go there with `/a world tp aurora_test`.
+`python scripts/build_test_world.py --send` builds a playable skeleton of every region on the running local server, from console commands only. Each region is its own void world with its own spawn and keep inventory on, like the real server, so dying respawns you in that region: `aurora_test` (Origin), `aurora_test_gormak`, `aurora_test_verdant`. Plain platforms, one square per zone with its mines, spawners and a trader beside the mine, fences with carpet around zones with hostile mobs (a gate on the walking line), and obsidian gates linking the regions both ways. The gate to Gormak is locked to `gormak`, with the Gate Warden beside it. Everything it names starts with `t_`. Go there with `/a world tp aurora_test`.
 
 Without `--send` it prints the commands instead. `--regions gormak,verdant` builds only those, and `--teardown --send` deletes everything it built so it can be built again.
 
@@ -116,6 +116,7 @@ Right clicking a trader with the wand also removes it and its spot.
 | `/a wand` | Wand: left click a block for corner 1, right click for corner 2, right click a trader to remove it |
 | `/a setspawn [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. The `aurora_mines` spawn is where every player lands on join |
 | `/a heal [player]` | Restore health and hunger, put out fire |
+| `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
 | `/a help`, `/a info <command>` | Command list, one command in detail |
 | `/refresh` | Reload all game data from the YAML, after `python scripts/generate.py --live` |
 | `/dump [items\|icons\|all]` | Shulkers of every registry item or icon, for checking how they look |

@@ -128,21 +128,16 @@ drop calculation: `base * (1 + Math.max(0, fortune + 1 - density))`
 #### OOP Design
 
 #### Run Instructions
-Download Paper 1.21
+Setup: put the Paper 26.3 jar at `LocalServer/versions/26.3/`, run the server once,
+set `eula=true` in `LocalServer/eula.txt`.
 
-Add a start.bat file, with:
+From Git Bash, `scripts/server.sh` handles the rest (it has the Maven and JDK paths):
+- `scripts/server.sh build` builds and copies the jar and YAML into LocalServer
+- `scripts/server.sh start` / `stop` / `restart` / `status`
+- `scripts/server.sh cmd "<command>"` runs a console command
 
-Add a new directory LocalServer
-
-Run Maven build, which puts plugin in LocalServer, so make sure dir is created
-
-`cd LocalServer` then run `./start.bat`
-
-if `start.bat` fails, go to `eula.txt` and change `false` to `true`
-
-rerun `start.bat`, join `127.0.0.1` on minecraft in server list
-
-to stop server, first write `stop`, then `CTRL + C` after server starts to reboot
+`LocalServer/start.bat` still works for running the server in a window.
+Join `127.0.0.1` from Minecraft.
 
 Note: Turn off named entity console alerts in `spigot.yml`, `log-named-deaths: false`
 
@@ -153,4 +148,4 @@ Player health is real, mob health is pseudo, run `/data get entity @s Health`
 
 Reload CSV Data: run `generate.py --live`
 
-Server Transfer: use `target/Aurora-1.0.java`, use FileZilla FTP to transfer world files.
+Server Transfer: use `target/Aurora-1.0.jar`, use FileZilla FTP to transfer world files.

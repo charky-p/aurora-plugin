@@ -19,6 +19,10 @@ A sky-mining RPG plugin for Paper 26.3. Mine resources, trade them up for better
 - Maven
 - Python 3 with PyYAML, for the game data
 
+## Commands
+
+Every command, and the order to build a region in, is in [docs/COMMANDS.md](docs/COMMANDS.md).
+
 ## Game data
 
 All gear, mobs, blocks and shops live in `scripts/data/*.csv`. Edit the CSVs, then generate the YAML:

@@ -66,6 +66,9 @@ VERDANT = [
     ("treehouse", "treehouse_trader", [], [("tree_zombee", 4), ("treant", 1)]),
 ]
 
+# Gates that need a tag, with the trader beside them that sells its key
+LOCKED = {("origin", "gormak"): ("gormak", "gate_trader")}
+
 # region name, its zones, z of the strip
 REGIONS = [("origin", ORIGIN, 0), ("gormak", GORMAK, 200), ("verdant", VERDANT, 400)]
 
@@ -77,6 +80,10 @@ def ids(name):
 
 def check():
     traders, blocks = ids("traders"), ids("blocks")
+    keys = {}
+    with open(DATA / "resources_special.csv", newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            keys[row["unlocks"]] = row["id"]
     mobs = ids("mobs_origin") | ids("mobs_gormak") | ids("mobs_verdant")
     missing = []
     for _, zones, _ in REGIONS:
@@ -84,6 +91,9 @@ def check():
             missing += [f"trader {trader}" for _ in [0] if trader not in traders]
             missing += [f"block {b}" for _, mix in mines for b in mix if b not in blocks]
             missing += [f"mob {m}" for m, _ in spawners if m not in mobs]
+    for tag, trader in LOCKED.values():
+        missing += [f"trader {trader}" for _ in [0] if trader not in traders]
+        missing += [f"key for tag {tag}" for _ in [0] if tag not in keys]
     if missing:
         sys.exit("Not in the CSVs: " + ", ".join(missing))
 
@@ -136,6 +146,10 @@ def commands():
         back = gate(bx1 + 2, bz)
         out.append(f"aurora portal create t_{a}_to_{b} {forward} -w {WORLD}")
         out.append(f"aurora portal setdest t_{a}_to_{b} {WORLD} {bx1 + 5.5} {FLOOR_Y + 1} {bz + 14.5} -90 0")
+        if (a, b) in LOCKED:
+            tag, trader = LOCKED[(a, b)]
+            out.append(f"aurora portal settag t_{a}_to_{b} {tag}")
+            out.append(f"aurora trader create {trader} {ax2 - 5.5} {FLOOR_Y + 1} {az + 19.5} -w {WORLD}")
         out.append(f"aurora portal create t_{b}_to_{a} {back} -w {WORLD}")
         out.append(f"aurora portal setdest t_{b}_to_{a} {WORLD} {ax2 - 5.5} {FLOOR_Y + 1} {az + 14.5} 90 0")
 

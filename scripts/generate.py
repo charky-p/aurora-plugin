@@ -752,8 +752,8 @@ def validate(built):
         if gid not in sold and gid not in dropped and gid not in worn and not gid.startswith("starter_"):
             warnings.append(f"gear '{gid}' is never sold, dropped or worn")
     for rid in resources:
-        if rid not in mined and rid not in dropped:
-            warnings.append(f"resource '{rid}' is never mined or dropped")
+        if rid not in mined and rid not in dropped and rid not in sold:
+            warnings.append(f"resource '{rid}' is never mined, dropped or sold")
         # A key is used up by right clicking it, not spent in a shop
         elif rid not in costs_used and not resources[rid].get("unlocks"):
             warnings.append(f"resource '{rid}' is never used as a cost")

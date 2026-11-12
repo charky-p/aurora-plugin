@@ -40,6 +40,11 @@ items:
     entity: VILLAGER
     gui: gold_shop
 
+  gate_trader:
+    display: "<gold><b>Gate Warden"
+    entity: VILLAGER
+    gui: gate_shop
+
   city_trader:
     display: "<gray><b>City Scavenger"
     entity: WANDERING_TRADER

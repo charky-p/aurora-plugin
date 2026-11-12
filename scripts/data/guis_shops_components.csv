@@ -68,6 +68,8 @@ gold_shop,r,TRADE,gold_sword_4,1,gold_sword_3*1+leather*33
 gold_shop,t,TRADE,gold_sword_5,1,gold_sword_4*1+gold*377+leather*10
 gold_shop,A,GUI,gold_armor,,
 gold_shop,z,GUI,origin_hub,,
+gate_shop,1,TRADE,gormak_key,1,gold*300+leather*20
+gate_shop,z,GUI,origin_hub,,
 city_shop,1,TRADE,city_pick_1,1,gold_pick_5*1+ancient_scrap*1
 city_shop,2,TRADE,city_pick_2,1,city_pick_1*1+ancient_scrap*2
 city_shop,3,TRADE,city_pick_3,1,city_pick_2*1+tattered_cloth*4

@@ -513,6 +513,27 @@ items:
         type: GUI
         id: origin_hub
 
+  gate_shop:
+    title: "<gold><b>Gormak Gate"
+    icon: icon_gormak
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B   1   B"
+      - "zBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: gormak_key
+        cost:
+          - id: gold
+            amount: 300
+          - id: leather
+            amount: 20
+      z:
+        type: GUI
+        id: origin_hub
+
   city_shop:
     title: "<gold><b>Abandoned City"
     icon: icon_city

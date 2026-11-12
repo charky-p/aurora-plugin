@@ -5,6 +5,7 @@ coal_trader,<dark_gray><b>Coal Broker,VILLAGER,coal_shop
 copper_trader,<#D94110><b>Copper Smith,VILLAGER,copper_shop
 iron_trader,<white><b>Iron Smith,VILLAGER,iron_shop
 gold_trader,<gold><b>Gold Assayer,VILLAGER,gold_shop
+gate_trader,<gold><b>Gate Warden,VILLAGER,gate_shop
 city_trader,<gray><b>City Scavenger,WANDERING_TRADER,city_shop
 dunes_trader,<yellow><b>Dune Nomad,WANDERING_TRADER,dunes_shop
 canyons_trader,<#B4462A><b>Canyon Hermit,WANDERING_TRADER,canyons_shop

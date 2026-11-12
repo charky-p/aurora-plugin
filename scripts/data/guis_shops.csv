@@ -7,6 +7,7 @@ coal_shop,<gold><b>Coal Seam,icon_coal,5,BBBBIBBBB|B 12345 B|B  qw   B|B   A   B
 copper_shop,<gold><b>Copper Vein,icon_copper,5,BBBBIBBBB|B 12345 B|B qwert B|B   A   B|zBBBBBBBX
 iron_shop,<gold><b>Iron Deposit,icon_iron,5,BBBBIBBBB|B 12345 B|B qwert B|B   A   B|zBBBBBBBX
 gold_shop,<gold><b>Gold Reef,icon_gold,5,BBBBIBBBB|B 12345 B|B qwert B|B   A   B|zBBBBBBBX
+gate_shop,<gold><b>Gormak Gate,icon_gormak,3,BBBBIBBBB|B   1   B|zBBBBBBBX
 city_shop,<gold><b>Abandoned City,icon_city,5,BBBBIBBBB|B  123  B|B qwert B|B  AS   B|zBBBBBBBX
 dunes_shop,<gold><b>The Dunes,icon_dunes,5,BBBBIBBBB|B  123  B|B qwert B|B  AS   B|zBBBBBBBX
 canyons_shop,<gold><b>Howling Canyons,icon_canyons,5,BBBBIBBBB|B  123  B|B qwert B|B  AS   B|zBBBBBBBX

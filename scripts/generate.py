@@ -611,15 +611,133 @@ def represent_ordered(dumper, data):
 _Dumper.add_representer(OrderedDict, represent_ordered)
 _Dumper.add_representer(Quoted, _quoted_representer)
 
+
+# ------------------------------------------------------------------ cross checks
+# Each CSV is checked on its own while it builds. These check that the files agree
+# with each other, the way the plugin reads them: every id points at something real,
+# every cost can be earned, every menu cell has a component. Errors fail the run,
+# warnings are data that is never used.
+
+GUI_SPECIAL = set("BIX ")
+ACTIONS = {"backpack", "armory", "spawn"}       # MenuActions.java
+EQUIP_SLOTS = {"head", "chest", "legs", "feet", "hand", "off_hand"}
+
+def _drop_ids(entry):
+    ids = [d["id"] for d in entry.get("independent") or []]
+    choices = entry.get("choices") or {}
+    ids += [d["id"] for d in choices.get("options") or []]
+    return ids
+
+def validate(built):
+    errors, warnings = [], []
+    get = lambda name: built.get(name) or {}
+
+    resources = get("resources")
+    gear = {}
+    for name in ("picks", "armor", "weapons", "other"):
+        gear.update(get(name))
+    items = set(resources) | set(gear)
+    enchants = set(get("enchants"))
+    icons = set(get("icons"))
+    guis = get("gui_shops")
+    mobs = {**get("mobs_origin"), **get("mobs_gormak")}
+
+    for gid, entry in gear.items():
+        for enchant in (entry.get("enchants") or {}):
+            if enchant not in enchants:
+                errors.append(f"gear '{gid}': unknown enchant '{enchant}'")
+
+    mined = set()
+    for bid, entry in get("blocks").items():
+        for drop in _drop_ids(entry):
+            mined.add(drop)
+            if drop not in items:
+                errors.append(f"block '{bid}': drops unknown item '{drop}'")
+
+    dropped, worn = set(), set()
+    for mid, entry in mobs.items():
+        for slot, item in (entry.get("equip") or {}).items():
+            worn.add(item)
+            if slot not in EQUIP_SLOTS:
+                errors.append(f"mob '{mid}': unknown equip slot '{slot}'")
+            if item not in items:
+                errors.append(f"mob '{mid}': wears unknown item '{item}'")
+        for drop in _drop_ids(entry):
+            dropped.add(drop)
+            if drop not in items:
+                errors.append(f"mob '{mid}': drops unknown item '{drop}'")
+
+    sold, costs_used = set(), {}
+    for gui_id, gui in guis.items():
+        if gui.get("icon") and gui["icon"] not in icons:
+            errors.append(f"gui '{gui_id}': unknown icon '{gui['icon']}'")
+        layout = gui.get("layout") or []
+        if len(layout) != gui.get("rows"):
+            errors.append(f"gui '{gui_id}': {len(layout)} layout rows for rows {gui.get('rows')}")
+        components = gui.get("components") or {}
+        used = set()
+        for row in layout:
+            if len(row) != 9:
+                errors.append(f"gui '{gui_id}': layout row '{row}' is not 9 wide")
+            for key in row:
+                if key in GUI_SPECIAL:
+                    continue
+                used.add(key)
+                if key not in components:
+                    errors.append(f"gui '{gui_id}': '{key}' in the layout has no component")
+        for key, comp in components.items():
+            if key not in used:
+                warnings.append(f"gui '{gui_id}': component '{key}' is not in the layout")
+            ctype, cid = comp.get("type"), comp.get("id")
+            if comp.get("icon") and comp["icon"] not in icons:
+                errors.append(f"gui '{gui_id}/{key}': unknown icon '{comp['icon']}'")
+            if ctype == "GUI" and cid not in guis:
+                errors.append(f"gui '{gui_id}/{key}': unknown menu '{cid}'")
+            elif ctype == "ICON" and cid not in icons:
+                errors.append(f"gui '{gui_id}/{key}': unknown icon '{cid}'")
+            elif ctype == "ACTION" and cid not in ACTIONS:
+                errors.append(f"gui '{gui_id}/{key}': unknown action '{cid}'")
+            elif ctype == "TRADE":
+                if cid not in items:
+                    errors.append(f"gui '{gui_id}/{key}': sells unknown item '{cid}'")
+                sold.add(cid)
+                for cost in comp.get("cost") or []:
+                    costs_used.setdefault(cost["id"], []).append(f"{gui_id}/{key}")
+
+    for tid, entry in get("traders").items():
+        if entry.get("gui") not in guis:
+            errors.append(f"trader '{tid}': unknown gui '{entry.get('gui')}'")
+
+    # Shop gear is earned by buying it, mob gear by killing for it, starter gear is given
+    earned = mined | dropped | sold
+    for cost_id, where in costs_used.items():
+        if cost_id not in items:
+            errors.append(f"shop {where[0]}: costs unknown item '{cost_id}'")
+        elif cost_id not in earned and not cost_id.startswith("starter_"):
+            errors.append(f"'{cost_id}' is a cost ({where[0]}) but no block, mob or shop gives it")
+
+    for gid in gear:
+        if gid not in sold and gid not in dropped and gid not in worn and not gid.startswith("starter_"):
+            warnings.append(f"gear '{gid}' is never sold, dropped or worn")
+    for rid in resources:
+        if rid not in mined and rid not in dropped:
+            warnings.append(f"resource '{rid}' is never mined or dropped")
+        elif rid not in costs_used:
+            warnings.append(f"resource '{rid}' is never used as a cost")
+
+    return errors, warnings
+
 def main(check_only=False):
     print("Generating CSV to YAML Conversion")
     changed, skipped, errors = [], [], []
+    built = {}
     for name, schema in SCHEMAS.items():
         try:
             items = build(schema)
         except (ValueError, KeyError) as exc:
             errors.append(f"{name}: {exc}")
             continue
+        built[name] = items
 
         if items is None:
             skipped.append(f"{name} (no {schema['csv']})")
@@ -645,6 +763,13 @@ def main(check_only=False):
             with open(target, "w", encoding="utf-8") as f:
                 f.write(text)
             print(f"  > {schema['out']:<24} {len(items)} entries")
+
+    # Only when every file built, a missing one would report everything it holds
+    if not errors and not skipped:
+        cross_errors, warnings = validate(built)
+        for warning in warnings:
+            print(f"  ? {warning}")
+        errors += cross_errors
 
     for item in skipped:
         print(f"  - skipped {item}")

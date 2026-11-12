@@ -54,6 +54,15 @@ public final class Schema {
                     "delay INTEGER, " +
                     "active INTEGER DEFAULT 1)",
 
+            // Trader placements, so traders can be respawned at their spots instead
+            // of placed by hand on every server
+            "CREATE TABLE IF NOT EXISTS traders (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "trader TEXT, " +
+                    "world TEXT, " +
+                    "x DOUBLE, y DOUBLE, z DOUBLE, " +
+                    "yaw FLOAT)",
+
             // Spawns
             "CREATE TABLE IF NOT EXISTS spawns (" +
                     "world TEXT PRIMARY KEY, " +

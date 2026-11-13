@@ -3,7 +3,8 @@
 Builds a playable skeleton of every region with nothing but console commands, each
 region in its own fresh void world like the real server, so dying respawns you at that
 region's spawn. Plain 1 block thick platforms, one square per zone with its mines,
-spawners and trader, and portal gates linking the regions both ways.
+spawners and trader, and portal gates linking the regions both ways. A boss, any mob
+a key summons, gets a walled arena of its own off the right side of its zone.
 Every name starts with t_ so nothing clashes with the mines and spawners you built.
 
   python scripts/build_test_world.py                       print the commands
@@ -35,6 +36,9 @@ FRAME = "obsidian"
 FENCE = "dark_oak_fence"
 GATE = "dark_oak_fence_gate"
 CARPET = "red_carpet"
+WALL = "cut_sandstone"
+WALL_H = 4              # too high to be thrown over by a boss
+ARENA_DEPTH = 28        # how far a boss arena reaches out from the strip
 # Zones with only these mobs stay open, the rest are fenced in so their mobs stay put
 PASSIVE = {"CHICKEN", "SHEEP", "COW", "PIG", "RABBIT", "HORSE", "FOX", "WOLF", "SNIFFER", "PANDA", "OCELOT"}
 
@@ -119,6 +123,13 @@ def check():
         sys.exit("Not in the CSVs: " + ", ".join(missing))
 
 
+# Mobs a key summons, the bosses. Each gets an arena of its own instead of a spawner
+# out on the strip with the zone's other mobs
+def summoned():
+    with open(DATA / "resources_special.csv", newline="", encoding="utf-8") as f:
+        return {row["summons"] for row in csv.DictReader(f) if row.get("summons")}
+
+
 def run(world, cmd):
     return f"execute in minecraft:{world} run {cmd}"
 
@@ -160,6 +171,27 @@ def safe_platform(world, x0):
     ], (x0 + 14.5, Z - 9.5)
 
 
+# A walled platform off the right side of a boss's zone, walking along the strip. Cut
+# off from the zone's other mobs by the wall, the only way in is a fence gate in a
+# doorway on the walking side. Returns its commands and where the boss rises, its centre
+def arena(world, x0):
+    x1, x2 = x0, x0 + ZONE - 4
+    z1 = Z + PAD + 4
+    z2 = z1 + ARENA_DEPTH
+    y1, y2 = FLOOR_Y + 1, FLOOR_Y + WALL_H
+    door = x0 + 14
+    return [
+        run(world, f"forceload add {x1} {z1} {x2} {z2}"),
+        run(world, f"fill {x1} {FLOOR_Y} {z1} {x2} {FLOOR_Y} {z2} {FLOOR}"),
+        run(world, f"fill {x1} {y1} {z1} {x2} {y2} {z1} {WALL}"),
+        run(world, f"fill {x1} {y1} {z2} {x2} {y2} {z2} {WALL}"),
+        run(world, f"fill {x1} {y1} {z1} {x1} {y2} {z2} {WALL}"),
+        run(world, f"fill {x2} {y1} {z1} {x2} {y2} {z2} {WALL}"),
+        run(world, f"setblock {door} {y1} {z1} {GATE}[facing=south]"),
+        run(world, f"setblock {door} {y1 + 1} {z1} air"),
+    ], (door, (z1 + z2) // 2)
+
+
 # Both ends of a region's strip along x
 def strip(zones):
     return -10, len(zones) * ZONE + 2
@@ -170,6 +202,7 @@ def commands(only):
     worlds = {name: world for name, _, world in REGIONS}
     ends = {name: strip(zones) for name, zones, _ in REGIONS}
     kinds = entities()
+    bosses = summoned()
 
     for name, zones, world in REGIONS:
         if name not in only:
@@ -199,9 +232,13 @@ def commands(only):
                            f"{FLOOR_Y + MINE_H} {mz + MINE_W - 1} 100 1200 -w {world}")
                 out.append(f"aurora mine setblocks t_{mine} " + " ".join(f"{b} {p}" for b, p in mix.items()))
                 out.append(f"aurora mine settp t_{mine} {mx + MINE_W / 2} {FLOOR_Y + 1} {mz + MINE_W + 1.5}")
-            for s, (mob, limit) in enumerate(spawners):
+            for s, (mob, limit) in enumerate(m for m in spawners if m[0] not in bosses):
                 sx = x0 + 5 + s * 9
                 out.append(f"aurora spawner create t_{mob} {sx} {FLOOR_Y + 1} {Z + 20} {mob} {limit} 3 100 -w {world}")
+            for mob, limit in (m for m in spawners if m[0] in bosses):
+                walls, (bx, bz) = arena(world, x0)
+                out += walls
+                out.append(f"aurora spawner create t_{mob} {bx} {FLOOR_Y + 1} {bz} {mob} {limit} 3 100 -w {world}")
             # On the safe platform in a hostile zone, otherwise right beside the zone's
             # last mine, or near the stripe for a zone without one
             if hostile(spawners, kinds):

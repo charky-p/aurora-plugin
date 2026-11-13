@@ -10,6 +10,8 @@ public final class GormakPhases {
     static final int WAVE_SIZE = 3;
     // Never more than this many alive at once, a wave is cut short to fit
     static final int MAX_GHOULS = 6;
+    // Gormak Guardians that rise beside him when the totem pops
+    static final int GUARDIANS = 2;
     // Share of his health the totem brings him back with
     static final double REVIVE_SHARE = 0.35;
 

@@ -31,7 +31,7 @@ public class BossFight {
     public BossFight(LivingEntity boss, MobData mob, BossAbilities abilities) {
         this.boss = boss;
         this.abilities = abilities;
-        this.bar = BossBar.bossBar(mob.displayName(), 1f, BossBar.Color.RED, BossBar.Overlay.PROGRESS);
+        this.bar = BossBar.bossBar(mob.displayName(), 1f, BossBar.Color.YELLOW, BossBar.Overlay.NOTCHED_10);
     }
 
     // False once the boss is dead or gone, the fight is over

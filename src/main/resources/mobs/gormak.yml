@@ -332,6 +332,26 @@ items:
       - attr: FOLLOW_RANGE
         value: 48.0
 
+  gormak_guardian:
+    display: "<gold><b>Gormak Guardian"
+    entity: WITHER_SKELETON
+    health: 500.0
+    defence: 16.0
+    attack: 25.0
+    equip:
+      head: guard_helmet_1
+      chest: eternal_chestplate_1
+      legs: eternal_leggings_1
+      feet: eternal_boots_1
+      hand: tomb_halberd
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.27
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
   mirage:
     display: "<light_purple><b>Mirage"
     entity: HUSK

@@ -1,17 +1,15 @@
 package org.charky.aurora.common.loot;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
+// At most one of the drops, picked by weight, and only chance% of the time
 public class CumulativeLootPool implements LootPool {
-    // Cumulative loot pool means only 1 of the drops occurs with a given weight
     private final Map<ItemDrop, Double> drops = new HashMap<>();
-    private double totalWeight = 0;
     private final double chance;
+    private double totalWeight = 0;
 
     public CumulativeLootPool(double chance) {
         this.chance = chance;
@@ -23,20 +21,16 @@ public class CumulativeLootPool implements LootPool {
     }
 
     @Override
-    public @Nullable List<MenuItem> roll(int looting) {
-        if (Math.random() * 100 > chance) {
-            return Collections.emptyList();
-        }
+    public List<MenuItem> roll(int looting) {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        if (random.nextDouble() * 100 > chance) return List.of();
 
-        double rand = Math.random() * totalWeight;
+        double rand = random.nextDouble() * totalWeight;
         double current = 0;
 
         for (Map.Entry<ItemDrop, Double> entry : drops.entrySet()) {
             current += entry.getValue();
-            if (rand <= current) {
-                MenuItem rolled = entry.getKey().rollAmt(looting);
-                if (rolled != null) return List.of(rolled);
-            }
+            if (rand <= current) return List.of(entry.getKey().rollAmt(looting));
         }
 
         return List.of();

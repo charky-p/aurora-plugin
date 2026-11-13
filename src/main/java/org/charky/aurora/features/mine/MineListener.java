@@ -17,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.player.Essence;
 import org.charky.aurora.features.player.PlayerManager;
@@ -85,33 +84,32 @@ public class MineListener implements Listener {
 
     private void processBlock(Player player, ItemStack pick, Block block) {
         String dropId = manager.getBlockIdAt(block.getLocation());
+        if (!registry.hasBlock(dropId)) return;
 
-        if (registry.hasBlock(dropId)) {
-            int density = registry.getDensity(dropId);
-            // Fortune only counts with the right tool, a pick on a log mines like a hand
-            int fortune = rightTool(pick, block.getType()) ? Enchants.level(pick, "fortune") : 0;
-            if (fortune + 1 - density <= 0) {
-                player.sendActionBar(rightTool(pick, block.getType())
-                        ? Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD)
-                        : Component.text("Wrong tool, Fortune " + density + " " + toolFor(block.getType()) + " needed", NamedTextColor.RED, TextDecoration.BOLD));
-                return;
-            }
-
-            List<MenuItem> blockDrops = registry.getBlockDrops(dropId, fortune);
-            BackpackData backpack = backpackManager.get(player.getUniqueId());
-            backpack.addItems(blockDrops);
-            if (!blockDrops.isEmpty()) player.sendActionBar(blockDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(player, blockDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
-
-            Essence.roll(player, Enchants.level(pick, "luck"), players);
-
-            // Only break if it is a block with a drop. Counted towards the reset only
-            // once broken, or swinging at a block you can't mine would reset the mine
-            if (!blockDrops.isEmpty()) {
-                players.addMined(player);
-                block.setType(Material.AIR, false);
-                manager.handleBlockBreak(block.getLocation());
-            }
+        int density = registry.getDensity(dropId);
+        // Fortune only counts with the right tool, a pick on a log mines like a hand
+        boolean rightTool = rightTool(pick, block.getType());
+        int fortune = rightTool ? Enchants.level(pick, "fortune") : 0;
+        if (fortune + 1 - density <= 0) {
+            String needed = rightTool
+                    ? "Requires Fortune " + density
+                    : "Wrong tool, Fortune " + density + " " + toolFor(block.getType()) + " needed";
+            player.sendActionBar(Component.text(needed, NamedTextColor.RED, TextDecoration.BOLD));
+            return;
         }
+
+        List<MenuItem> blockDrops = registry.getBlockDrops(dropId, fortune);
+        backpackManager.get(player.getUniqueId()).collect(player, blockDrops);
+
+        Essence.roll(player, Enchants.level(pick, "luck"), players);
+
+        // Only break if it is a block with a drop. Counted towards the reset only
+        // once broken, or swinging at a block you can't mine would reset the mine
+        if (blockDrops.isEmpty()) return;
+
+        players.addMined(player);
+        block.setType(Material.AIR, false);
+        manager.handleBlockBreak(block.getLocation());
     }
 
     // Does this tool's own rules cover the block. Read from the registry's copy of

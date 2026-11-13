@@ -1,13 +1,11 @@
 package org.charky.aurora.features.spawner;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.core.Aurora;
@@ -15,7 +13,6 @@ import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.features.armory.ArmoryManager;
-import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.player.Essence;
 import org.charky.aurora.features.player.PlayerManager;
@@ -63,25 +60,21 @@ public class MobDeathListener implements Listener {
         if (killer == null) return;
 
         String mobId = victim.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
+        if (mobId == null || !registry.hasMob(mobId)) return;
 
-        if (mobId != null && registry.hasMob(mobId)) {
-            players.addKill(killer);
-            // Same roll as mining, with the sword's Luck
-            Essence.roll(killer, Enchants.level(killer.getInventory().getItemInMainHand(), "luck"), players);
-            scoreboard.updateBoard(killer);
+        ItemStack weapon = killer.getInventory().getItemInMainHand();
+        players.addKill(killer);
+        // Same roll as mining, with the sword's Luck
+        Essence.roll(killer, Enchants.level(weapon, "luck"), players);
+        scoreboard.updateBoard(killer);
 
-            BackpackData backpack = backpackManager.get(killer.getUniqueId());
-            int looting = Enchants.level(killer.getInventory().getItemInMainHand(), "looting");
-
-            // Resources stack in the backpack, gear is unlocked in the Armory
-            List<MenuItem> mobDrops = new ArrayList<>();
-            for (MenuItem drop : registry.getMobDrops(mobId, looting)) {
-                if (registry.isResource(drop.getId())) mobDrops.add(drop);
-                else armoryManager.handleDrop(killer, drop.getId());
-            }
-
-            backpack.addItems(mobDrops);
-            if (!mobDrops.isEmpty()) killer.sendActionBar(mobDrops.getLast().getItem().displayName().append(Component.text(" " + backpack.getAmount(killer, mobDrops.getLast().getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
+        // Resources stack in the backpack, gear is unlocked in the Armory
+        List<MenuItem> mobDrops = new ArrayList<>();
+        for (MenuItem drop : registry.getMobDrops(mobId, Enchants.level(weapon, "looting"))) {
+            if (registry.isResource(drop.getId())) mobDrops.add(drop);
+            else armoryManager.handleDrop(killer, drop.getId());
         }
+
+        backpackManager.get(killer.getUniqueId()).collect(killer, mobDrops);
     }
 }

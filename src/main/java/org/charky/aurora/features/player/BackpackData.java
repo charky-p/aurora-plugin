@@ -1,5 +1,8 @@
 package org.charky.aurora.features.player;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.loot.MenuItem;
@@ -28,6 +31,17 @@ public class BackpackData {
         for (MenuItem item : drops) {
             addItem(item.getId(), item.getAmount());
         }
+    }
+
+    // Adds mined or looted drops and shows the last one on the action bar with the
+    // total the player now holds
+    public void collect(Player player, List<MenuItem> drops) {
+        addItems(drops);
+        if (drops.isEmpty()) return;
+
+        MenuItem last = drops.getLast();
+        player.sendActionBar(last.getItem().displayName().append(
+                Component.text(" " + getAmount(player, last.getId()), NamedTextColor.GRAY, TextDecoration.BOLD)));
     }
 
     public void removeItems(Player player, List<MenuItem> costs) {

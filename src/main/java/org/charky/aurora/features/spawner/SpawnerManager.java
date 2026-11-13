@@ -59,10 +59,9 @@ public class SpawnerManager {
     }
 
     public void addSpawner(String name, String world, int x, int y, int z, String mob, int limit, double radius, int delay) {
-        if (this.spawnerExists(name)) return;
-        if (!this.mobExists(mob)) return;
-
         MobData data = registry.getMob(mob);
+        if (data == null || this.spawnerExists(name)) return;
+
         MobSpawner spawner = new MobSpawner(this.plugin, name, world, x, y, z, data, radius, limit, delay, true);
         store.save(spawner);
         spawnerMap.put(name, spawner);
@@ -104,10 +103,8 @@ public class SpawnerManager {
     }
 
     public void spawnMob(String mob, Location spawnLocation, String spawner) {
-        if (!this.spawnerExists(spawner)) return;
-        if (!this.mobExists(mob)) return;
-
         MobData data = registry.getMob(mob);
+        if (data == null || !this.spawnerExists(spawner)) return;
 
         spawnLocation.getWorld().spawn(spawnLocation, data.type().getEntityClass(), entity -> {
             // Remove jockeys

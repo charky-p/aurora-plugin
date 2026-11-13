@@ -823,6 +823,16 @@ items:
       - "<gray>The only thing that outlasted him."
       - "<dark_gray>Dropped by Gormak the Eternal"
 
+  ghost_scythe:
+    display: "<gray><b>Ghost Scythe"
+    material: IRON_HOE
+    type: "combat"
+    world: "overworld"
+    region: "gormak_tomb"
+    lore:
+      - "<gray>It reaps appetite before anything else."
+      - "<dark_gray>Carried by Ghost Husks"
+
   mirage_edge:
     display: "<light_purple><b>Mirage Edge"
     material: GOLDEN_SWORD

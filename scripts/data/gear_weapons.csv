@@ -55,6 +55,7 @@ vizier_bow,<yellow><b>Vizier Longbow,BOW,5,combat,overworld,gormak_temple,sharpn
 myrmidon_blade,<dark_purple><b>Myrmidon Blade,GOLDEN_SWORD,5,combat,overworld,gormak_tomb,sharpness:17|luck:10|looting:7|bloodlust:1,<gray>Forged for the ones who never left.|<dark_gray>Dropped by Royal Myrmidons
 pharaoh_scepter,<gold><b>Pharaoh's Scepter,GOLDEN_SWORD,5,combat,overworld,gormak_tomb,sharpness:17|luck:10|looting:8|bloodlust:1,<gray>It ruled before it killed.|<dark_gray>Dropped by Pharaohs
 gormak_blade,<dark_red><b>Blade of the Eternal,GOLDEN_SWORD,5,combat,overworld,gormak_tomb,sharpness:19|luck:12|looting:9|bloodlust:2,<gray>The only thing that outlasted him.|<dark_gray>Dropped by Gormak the Eternal
+ghost_scythe,<gray><b>Ghost Scythe,IRON_HOE,0,combat,overworld,gormak_tomb,,<gray>It reaps appetite before anything else.|<dark_gray>Carried by Ghost Husks
 mirage_edge,<light_purple><b>Mirage Edge,GOLDEN_SWORD,5,combat,overworld,gormak,sharpness:16|luck:15|looting:8|bloodlust:1,<gray>You are not certain you are holding it.|<dark_gray>Dropped by the Mirage
 oak_sword_1,<#7BA05B><b>Grove Sword,DIAMOND_SWORD,1,combat,overworld,verdant_oak,sharpness:19|luck:10|looting:8|bloodlust:2,<dark_gray>Verdant Groves - Oak Grove
 oak_sword_2,<#7BA05B><b>Grove Sword,DIAMOND_SWORD,2,combat,overworld,verdant_oak,sharpness:20|luck:10|looting:8|bloodlust:2,<dark_gray>Verdant Groves - Oak Grove

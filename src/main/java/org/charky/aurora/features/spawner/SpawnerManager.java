@@ -102,11 +102,12 @@ public class SpawnerManager {
         return spawner.getInfo();
     }
 
-    public void spawnMob(String mob, Location spawnLocation, String spawner) {
+    // The mob it spawned, null if the mob or the spawner does not exist
+    public LivingEntity spawnMob(String mob, Location spawnLocation, String spawner) {
         MobData data = registry.getMob(mob);
-        if (data == null || !this.spawnerExists(spawner)) return;
+        if (data == null || !this.spawnerExists(spawner)) return null;
 
-        spawnLocation.getWorld().spawn(spawnLocation, data.type().getEntityClass(), entity -> {
+        Entity spawned = spawnLocation.getWorld().spawn(spawnLocation, data.type().getEntityClass(), entity -> {
             // Remove jockeys
             entity.getPassengers().forEach(entity::removePassenger);
 
@@ -154,6 +155,7 @@ public class SpawnerManager {
         });
 
         countSpawned(spawner);
+        return spawned instanceof LivingEntity living ? living : null;
     }
 
     public void setMob(String spawnerName, String mobName) {

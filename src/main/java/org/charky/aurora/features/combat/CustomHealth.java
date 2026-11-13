@@ -15,6 +15,7 @@ import org.charky.aurora.features.spawner.MobData;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 // Custom health is stored on the entity itself in its PDC, so it survives
 // chunk unload and server restart with no save or load code.
@@ -26,6 +27,9 @@ public final class CustomHealth {
     static final double NOMINAL_DAMAGE = 0.5;
 
     private static final Set<UUID> finishing = ConcurrentHashMap.newKeySet();
+    // Asked when a hit would kill. True means the mob saved itself and set its own
+    // health, a boss with a second wind. Null when nothing can
+    private static Predicate<LivingEntity> lastStand;
 
     private CustomHealth() {
     }
@@ -43,6 +47,10 @@ public final class CustomHealth {
 
         entity.setCustomNameVisible(true);
         refreshName(entity, data.displayName());
+    }
+
+    public static void setLastStand(Predicate<LivingEntity> lastStand) {
+        CustomHealth.lastStand = lastStand;
     }
 
     public static boolean isTracked(LivingEntity entity) {
@@ -72,7 +80,10 @@ public final class CustomHealth {
                 .set(DataKeys.HEALTH_KEY, PersistentDataType.DOUBLE, remaining);
         refreshName(entity, baseName(entity, registry));
 
-        if (remaining <= 0.0) finish(entity, source);
+        if (remaining <= 0.0) {
+            if (lastStand != null && lastStand.test(entity)) return current(entity);
+            finish(entity, source);
+        }
         return remaining;
     }
 

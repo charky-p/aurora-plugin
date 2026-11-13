@@ -24,6 +24,7 @@ import org.charky.aurora.core.database.TraderStore;
 import org.charky.aurora.core.database.UnlockStore;
 import org.charky.aurora.core.database.WorldStore;
 import org.charky.aurora.features.armory.ArmoryManager;
+import org.charky.aurora.features.boss.BossManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
@@ -78,6 +79,7 @@ public class Aurora extends JavaPlugin {
     private PortalManager portalManager;
     private BackpackManager backpackManager;
     private ArmoryManager armoryManager;
+    private BossManager bossManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
 
@@ -126,6 +128,7 @@ public class Aurora extends JavaPlugin {
         this.scoreboard = new ScoreboardManager(players);
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
+        this.bossManager = new BossManager(this);
         this.traderManager = new TraderManager(this, new TraderStore(db));
         this.wandManager = new WandManager();
         this.portalManager = new PortalManager(new PortalStore(db));
@@ -152,6 +155,7 @@ public class Aurora extends JavaPlugin {
                 new PortalListener(this),
                 new KeyItemListener(this),
                 new CombatListener(this),
+                bossManager,
                 new GauntletListener(gauntletManager),
                 new PagedMenuListener());
         for (Listener listener : listeners) {
@@ -244,6 +248,7 @@ public class Aurora extends JavaPlugin {
         getLogger().info("Purged " + count + " mobs before shutdown.");
         if (mineManager != null) mineManager.shutdown();
         if (players != null) players.shutdown();
+        if (bossManager != null) bossManager.shutdown();
         if (spawnerManager != null) spawnerManager.shutdown();
         if (traderManager != null) traderManager.shutdown();
         if (backpackManager != null) backpackManager.shutdown();

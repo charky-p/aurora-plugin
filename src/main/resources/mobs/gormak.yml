@@ -319,13 +319,13 @@ items:
         min: 3
         max: 6
 
-  ghost_husk:
-    display: "<gray><b>Ghost Husk"
+  gormak_ghoul:
+    display: "<gray><b>Gormak Ghoul"
     entity: HUSK
     health: 60.0
     attack: 21.0
     equip:
-      hand: ghost_scythe
+      hand: ghoul_scythe
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.4

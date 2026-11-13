@@ -29,10 +29,10 @@ class GormakPhasesTest {
 
     @Test
     void aWaveIsCutShortAtTheCap() {
-        assertEquals(3, GormakPhases.ghostsToSummon(3, 0));
-        assertEquals(2, GormakPhases.ghostsToSummon(3, 4));
-        assertEquals(0, GormakPhases.ghostsToSummon(3, 6));
-        assertEquals(0, GormakPhases.ghostsToSummon(3, 9));
+        assertEquals(3, GormakPhases.ghoulsToSummon(3, 0));
+        assertEquals(2, GormakPhases.ghoulsToSummon(3, 4));
+        assertEquals(0, GormakPhases.ghoulsToSummon(3, 6));
+        assertEquals(0, GormakPhases.ghoulsToSummon(3, 9));
     }
 
     // He has to come back with less than the last threshold, or the totem would

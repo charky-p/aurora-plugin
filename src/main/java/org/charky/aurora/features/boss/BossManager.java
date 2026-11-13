@@ -59,7 +59,7 @@ public class BossManager implements Listener {
         if (!(event.getDamager() instanceof LivingEntity attacker) || attacker instanceof Projectile) return;
 
         MobData mob = registry.mobOf(attacker);
-        if (mob != null && GormakEternal.GHOST_ID.equalsIgnoreCase(mob.id())) GormakEternal.reap(player);
+        if (mob != null && GormakEternal.GHOUL_ID.equalsIgnoreCase(mob.id())) GormakEternal.reap(player);
     }
 
     private void tick() {

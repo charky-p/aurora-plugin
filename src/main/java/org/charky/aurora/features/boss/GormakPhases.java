@@ -3,14 +3,13 @@ package org.charky.aurora.features.boss;
 // When Gormak the Eternal does what, by how much health he has left. Pure numbers,
 // so the pacing of the fight is tested without a server
 public final class GormakPhases {
-    // He calls a wave of Ghost Husks each time his health falls past one of these.
+    // He calls a wave of Gormak Ghouls each time his health falls past one of these.
     // By health and not by time, so a strong player still sees every wave
     static final double[] WAVE_THRESHOLDS = {0.75, 0.50, 0.25};
-    // Ghost Husks in one of those waves, and in the one his totem calls
+    // Gormak Ghouls in each of those waves
     static final int WAVE_SIZE = 3;
-    static final int LAST_STAND_WAVE_SIZE = 4;
     // Never more than this many alive at once, a wave is cut short to fit
-    static final int MAX_GHOSTS = 6;
+    static final int MAX_GHOULS = 6;
     // Share of his health the totem brings him back with
     static final double REVIVE_SHARE = 0.35;
 
@@ -27,7 +26,7 @@ public final class GormakPhases {
     }
 
     // How many of a wave fit under the cap
-    public static int ghostsToSummon(int waveSize, int alive) {
-        return Math.clamp(MAX_GHOSTS - alive, 0, waveSize);
+    public static int ghoulsToSummon(int waveSize, int alive) {
+        return Math.clamp(MAX_GHOULS - alive, 0, waveSize);
     }
 }

@@ -28,13 +28,13 @@ import java.util.concurrent.ThreadLocalRandom;
 // Gormak the Eternal's fight, on top of his slow heavy swing:
 //  - Stomp: he hops, then slams. Everyone standing near him is thrown back, a
 //    player in the air when he lands is not
-//  - Ghost Husks: a wave each time his health passes a threshold. Fast, a hit or
-//    two to kill, and their scythes take hunger instead of much health
+//  - Gormak Ghouls: three waves, one each time his health passes a threshold. Fast,
+//    a hit or two to kill, and their scythes take hunger instead of much health
 //  - Totem: the first killing blow pops the totem he holds. He comes back with
-//    part of his health, faster, stomping more often, with one more wave
+//    part of his health, faster and stomping more often
 public class GormakEternal implements BossAbilities {
     public static final String BOSS_ID = "gormak_eternal";
-    public static final String GHOST_ID = "ghost_husk";
+    public static final String GHOUL_ID = "gormak_ghoul";
 
     // Seconds between slams while someone is in reach, and once the totem has popped
     private static final int STOMP_INTERVAL_TICKS = 120;
@@ -51,12 +51,10 @@ public class GormakEternal implements BossAbilities {
     private static final double STOMP_LIFT = 0.75;
 
     // How far from him a wave appears
-    private static final double GHOST_MIN_DISTANCE = 3.0;
-    private static final double GHOST_MAX_DISTANCE = 5.0;
-    // A ghost nobody killed fades by itself
-    private static final int GHOST_LIFETIME_TICKS = 600;
-    // Invisible but for the scythe and the name over it
-    private static final boolean GHOSTS_INVISIBLE = true;
+    private static final double GHOUL_MIN_DISTANCE = 3.0;
+    private static final double GHOUL_MAX_DISTANCE = 5.0;
+    // A ghoul nobody killed fades by itself
+    private static final int GHOUL_LIFETIME_TICKS = 600;
     // What a scythe hit takes: food points straight away, and the Hunger effect
     private static final int SCYTHE_FOOD_LOSS = 2;
     private static final int SCYTHE_HUNGER_TICKS = 120;
@@ -66,15 +64,15 @@ public class GormakEternal implements BossAbilities {
     private static final double ANNOUNCE_RANGE = 64.0;
 
     private final Aurora plugin;
-    // Each living ghost and the fight tick it was called on
-    private final Map<UUID, Integer> ghosts = new HashMap<>();
+    // Each living ghoul and the fight tick it was called on
+    private final Map<UUID, Integer> ghouls = new HashMap<>();
     private int age = 0;
     private int nextStomp = FIRST_STOMP_TICKS;
     // The tick he lands on, -1 while he is not mid stomp
     private int slamAt = -1;
     private int wavesSent = 0;
     private boolean totemUsed = false;
-    private boolean warnedNoGhost = false;
+    private boolean warnedNoGhoul = false;
 
     public GormakEternal(Aurora plugin) {
         this.plugin = plugin;
@@ -83,14 +81,14 @@ public class GormakEternal implements BossAbilities {
     @Override
     public void tick(BossFight fight) {
         age += BossManager.TICKS;
-        fadeOldGhosts(fight);
+        fadeOldGhouls();
 
-        if (!totemUsed) {
-            int due = GormakPhases.wavesDue(fight.healthRatio());
-            while (wavesSent < due) {
-                summonWave(fight, GormakPhases.WAVE_SIZE);
-                wavesSent++;
-            }
+        // Three waves in all. Coming back with the totem never calls one again,
+        // wavesSent already covers every threshold he is under
+        int due = GormakPhases.wavesDue(fight.healthRatio());
+        while (wavesSent < due) {
+            summonWave(fight, GormakPhases.WAVE_SIZE);
+            wavesSent++;
         }
 
         if (slamAt >= 0) {
@@ -148,52 +146,49 @@ public class GormakEternal implements BossAbilities {
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
         List<Player> targets = fight.playersWithin(ANNOUNCE_RANGE);
-        int count = GormakPhases.ghostsToSummon(size, ghosts.size());
+        int count = GormakPhases.ghoulsToSummon(size, ghouls.size());
 
         for (int i = 0; i < count; i++) {
             double angle = random.nextDouble(2 * Math.PI);
-            double distance = random.nextDouble(GHOST_MIN_DISTANCE, GHOST_MAX_DISTANCE);
+            double distance = random.nextDouble(GHOUL_MIN_DISTANCE, GHOUL_MAX_DISTANCE);
             Location at = boss.getLocation().add(Math.cos(angle) * distance, 0, Math.sin(angle) * distance);
             // Never inside a wall, beside him is always free
             if (!at.getBlock().isPassable() || !at.clone().add(0, 1, 0).getBlock().isPassable()) at = boss.getLocation();
 
-            LivingEntity ghost = plugin.getSpawnerManager().spawnMob(GHOST_ID, at, spawner);
-            if (ghost == null) {
-                if (!warnedNoGhost) {
-                    plugin.getLogger().warning("Gormak has no '" + GHOST_ID + "' mob in the registry to summon");
-                    warnedNoGhost = true;
+            LivingEntity ghoul = plugin.getSpawnerManager().spawnMob(GHOUL_ID, at, spawner);
+            if (ghoul == null) {
+                if (!warnedNoGhoul) {
+                    plugin.getLogger().warning("Gormak has no '" + GHOUL_ID + "' mob in the registry to summon");
+                    warnedNoGhoul = true;
                 }
                 return;
             }
 
-            if (GHOSTS_INVISIBLE) {
-                ghost.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, PotionEffect.INFINITE_DURATION, 0, false, false));
-            }
-            if (ghost instanceof Mob mob && !targets.isEmpty()) {
+            if (ghoul instanceof Mob mob && !targets.isEmpty()) {
                 mob.setTarget(targets.get(random.nextInt(targets.size())));
             }
 
-            ghosts.put(ghost.getUniqueId(), age);
+            ghouls.put(ghoul.getUniqueId(), age);
             at.getWorld().spawnParticle(Particle.SOUL, at.clone().add(0, 1, 0), 20, 0.3, 0.6, 0.3, 0.02);
         }
 
         if (count > 0) boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1.2f, 0.5f);
     }
 
-    private void fadeOldGhosts(BossFight fight) {
-        ghosts.entrySet().removeIf(entry -> {
-            Entity ghost = plugin.getServer().getEntity(entry.getKey());
-            if (ghost == null || !ghost.isValid()) return true;
-            if (age - entry.getValue() < GHOST_LIFETIME_TICKS) return false;
+    private void fadeOldGhouls() {
+        ghouls.entrySet().removeIf(entry -> {
+            Entity ghoul = plugin.getServer().getEntity(entry.getKey());
+            if (ghoul == null || !ghoul.isValid()) return true;
+            if (age - entry.getValue() < GHOUL_LIFETIME_TICKS) return false;
 
-            fade(ghost);
+            fade(ghoul);
             return true;
         });
     }
 
-    private static void fade(Entity ghost) {
-        ghost.getWorld().spawnParticle(Particle.SOUL, ghost.getLocation().add(0, 1, 0), 10, 0.3, 0.6, 0.3, 0.02);
-        ghost.remove();
+    private static void fade(Entity ghoul) {
+        ghoul.getWorld().spawnParticle(Particle.SOUL, ghoul.getLocation().add(0, 1, 0), 10, 0.3, 0.6, 0.3, 0.02);
+        ghoul.remove();
     }
 
     @Override
@@ -217,20 +212,19 @@ public class GormakEternal implements BossAbilities {
                 .append(TextUtils.parse("<reset><gray> refuses to die"));
         for (Player player : fight.playersWithin(ANNOUNCE_RANGE)) player.sendMessage(message);
 
-        // He comes back swinging: no waiting for the next stomp, and one more wave
+        // He comes back swinging, no waiting for the next stomp
         nextStomp = age;
-        summonWave(fight, GormakPhases.LAST_STAND_WAVE_SIZE);
         return true;
     }
 
-    // His ghosts go with him
+    // His ghouls go with him
     @Override
     public void end(BossFight fight) {
-        for (UUID uuid : ghosts.keySet()) {
-            Entity ghost = plugin.getServer().getEntity(uuid);
-            if (ghost != null && ghost.isValid()) fade(ghost);
+        for (UUID uuid : ghouls.keySet()) {
+            Entity ghoul = plugin.getServer().getEntity(uuid);
+            if (ghoul != null && ghoul.isValid()) fade(ghoul);
         }
-        ghosts.clear();
+        ghouls.clear();
     }
 
     // A scythe that lands takes food, a blocked one takes nothing

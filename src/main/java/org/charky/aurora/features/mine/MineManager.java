@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.charky.aurora.common.util.Box;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.database.MineStore;
 import org.charky.aurora.features.mine.commands.MineException;
@@ -64,7 +65,7 @@ public class MineManager {
             throw new MineException("Positions must be in the same world");
         }
 
-        MineData area = MineData.between(name, location1, location2, 0, 0);
+        Box area = Box.between(location1, location2);
         if (area.volume() > MAX_MINE_VOLUME) {
             throw new MineException("Mine volume exceeds limit of " + MAX_MINE_VOLUME);
         }
@@ -72,7 +73,7 @@ public class MineManager {
         for (Mine other : mineMap.values()) {
             MineData data = other.getData();
             if (data.getName().equalsIgnoreCase(name)) continue;
-            if (data.overlaps(area)) throw new MineException("Overlaps mine '" + data.getName() + "'");
+            if (data.getBox().overlaps(area)) throw new MineException("Overlaps mine '" + data.getName() + "'");
         }
     }
 

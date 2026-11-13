@@ -86,7 +86,7 @@ public class Mine {
 
     public void handleBlockBreak() {
         this.blocksBroken++;
-        if ((double) blocksBroken / data.volume() * 100 < data.getThreshold()) return;
+        if ((double) blocksBroken / data.getBox().volume() * 100 < data.getThreshold()) return;
 
         // Ensure we only reset at most once a tick, e.g. blast pickaxe
         if (this.lastResetTick == Bukkit.getCurrentTick()) return;
@@ -96,14 +96,7 @@ public class Mine {
     }
 
     public boolean atLoc(Location location) {
-        if (!this.data.getWorld().equals(location.getWorld().getName())) return false;
-        int x = location.getBlockX();
-        int y = location.getBlockY();
-        int z = location.getBlockZ();
-
-        if (x < this.data.getX1() || x > this.data.getX2()) return false;
-        if (y < this.data.getY1() || y > this.data.getY2()) return false;
-        return z >= this.data.getZ1() && z <= this.data.getZ2();
+        return data.getBox().contains(location);
     }
 
     public Location getTpLocation() {

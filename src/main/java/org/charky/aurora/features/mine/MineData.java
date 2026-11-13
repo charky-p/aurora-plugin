@@ -1,16 +1,11 @@
 package org.charky.aurora.features.mine;
 
 import org.bukkit.Location;
+import org.charky.aurora.common.util.Box;
 
 public class MineData {
     private String name;
-    private String world;
-    private int x1;
-    private int y1;
-    private int z1;
-    private int x2;
-    private int y2;
-    private int z2;
+    private Box box;
     private double threshold;
     private int delay;
     private double tpX;
@@ -19,13 +14,7 @@ public class MineData {
 
     public MineData(String name, String world, int x1, int y1, int z1, int x2, int y2, int z2, double threshold, int delay, double tpX, double tpY, double tpZ) {
         this.name = name;
-        this.world = world;
-        this.x1 = x1;
-        this.y1 = y1;
-        this.z1 = z1;
-        this.x2 = x2;
-        this.y2 = y2;
-        this.z2 = z2;
+        this.box = new Box(world, x1, y1, z1, x2, y2, z2);
         this.threshold = threshold;
         this.delay = delay;
         this.tpX = tpX;
@@ -36,10 +25,9 @@ public class MineData {
     // A new mine between two corners given in any order. It teleports to just
     // outside its lowest corner until /aurora mine settp says otherwise
     public static MineData between(String name, Location location1, Location location2, double threshold, int delay) {
-        MineData data = new MineData(name, null, 0, 0, 0, 0, 0, 0, threshold, delay, 0, 0, 0);
-        data.setLocations(location1, location2);
-        data.updateTeleport(data.x1 - 0.5, data.y1 + 1, data.z1 - 0.5);
-        return data;
+        Box box = Box.between(location1, location2);
+        return new MineData(name, box.world(), box.x1(), box.y1(), box.z1(), box.x2(), box.y2(), box.z2(),
+                threshold, delay, box.x1() - 0.5, box.y1() + 1, box.z1() - 0.5);
     }
 
     public void setName(String name) {
@@ -54,32 +42,17 @@ public class MineData {
         this.delay = delay;
     }
 
-    // Corners are sorted so x1 <= x2 etc, atLoc relies on it
+    // Corners in any order, the box sorts them
     public void setLocations(Location location1, Location location2) {
-        this.world = location1.getWorld().getName();
-        this.x1 = Math.min(location1.getBlockX(), location2.getBlockX());
-        this.y1 = Math.min(location1.getBlockY(), location2.getBlockY());
-        this.z1 = Math.min(location1.getBlockZ(), location2.getBlockZ());
-        this.x2 = Math.max(location1.getBlockX(), location2.getBlockX());
-        this.y2 = Math.max(location1.getBlockY(), location2.getBlockY());
-        this.z2 = Math.max(location1.getBlockZ(), location2.getBlockZ());
+        this.box = Box.between(location1, location2);
     }
 
-    // Boxes share at least one block, touching faces count since that block is in both
     public boolean overlaps(String world, int x1, int y1, int z1, int x2, int y2, int z2) {
-        return this.world.equals(world)
-                && x1 <= this.x2 && x2 >= this.x1
-                && y1 <= this.y2 && y2 >= this.y1
-                && z1 <= this.z2 && z2 >= this.z1;
+        return box.overlaps(new Box(world, x1, y1, z1, x2, y2, z2));
     }
 
-    public boolean overlaps(MineData other) {
-        return overlaps(other.world, other.x1, other.y1, other.z1, other.x2, other.y2, other.z2);
-    }
-
-    // Blocks in the box, corners included
-    public long volume() {
-        return (long) (x2 - x1 + 1) * (y2 - y1 + 1) * (z2 - z1 + 1);
+    public Box getBox() {
+        return box;
     }
 
     public void updateTeleport(double tpX, double tpY, double tpZ) {
@@ -93,31 +66,31 @@ public class MineData {
     }
 
     public String getWorld() {
-        return world;
+        return box.world();
     }
 
     public int getX1() {
-        return x1;
+        return box.x1();
     }
 
     public int getY1() {
-        return y1;
+        return box.y1();
     }
 
     public int getZ1() {
-        return z1;
+        return box.z1();
     }
 
     public int getX2() {
-        return x2;
+        return box.x2();
     }
 
     public int getY2() {
-        return y2;
+        return box.y2();
     }
 
     public int getZ2() {
-        return z2;
+        return box.z2();
     }
 
     public double getThreshold() {

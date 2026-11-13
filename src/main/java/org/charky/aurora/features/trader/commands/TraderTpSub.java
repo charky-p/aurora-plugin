@@ -1,11 +1,11 @@
 package org.charky.aurora.features.trader.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import org.charky.aurora.features.trader.TraderSpot;
 
 import java.util.Collections;
@@ -29,20 +29,8 @@ public class TraderTpSub extends TraderSub {
         TraderSpot spot = parseSpot(sender, args[0]);
         if (spot == null) return;
 
-        Player target;
-        if (args.length >= 2) {
-            target = Bukkit.getPlayer(args[1]);
-            if (target == null) {
-                TextUtils.error(sender, "Player '" + args[1] + "' is not online");
-                return;
-            }
-        } else {
-            if (!(sender instanceof Player player)) {
-                TextUtils.error(sender, "Console must specify a player to teleport");
-                return;
-            }
-            target = player;
-        }
+        Player target = AuroraSubCommand.targetPlayer(sender, args, 1);
+        if (target == null) return;
 
         Location location = spot.toLocation();
         if (location == null) {

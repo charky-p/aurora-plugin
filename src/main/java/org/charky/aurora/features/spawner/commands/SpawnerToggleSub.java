@@ -21,10 +21,7 @@ public class SpawnerToggleSub extends SpawnerSub {
         }
 
         String spawnerName = args[0];
-        if (!spawnerManager.spawnerExists(spawnerName)) {
-            TextUtils.error(sender, "Spawner '" + spawnerName + "' does not exist");
-            return;
-        }
+        if (find(sender, spawnerName) == null) return;
 
         boolean toggle = spawnerManager.spawnerToggle(spawnerName);
         if (toggle) {

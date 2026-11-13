@@ -24,10 +24,7 @@ public class SpawnerRedefineSub extends SpawnerSub {
         }
 
         String spawnerName = args[0];
-        if (!spawnerManager.spawnerExists(spawnerName)) {
-            TextUtils.error(sender, "Spawner '" + spawnerName + "' does not exist");
-            return;
-        }
+        if (find(sender, spawnerName) == null) return;
 
         if (args.length == 1 && !(sender instanceof Player)) {
             TextUtils.error(sender, "Console must give coordinates");

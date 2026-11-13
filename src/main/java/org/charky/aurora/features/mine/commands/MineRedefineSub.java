@@ -27,10 +27,7 @@ public class MineRedefineSub extends MineSub {
         }
 
         String mineName = args[0];
-        if (!mineManager.exists(mineName)) {
-            TextUtils.error(sender, "Mine '" + mineName + "' does not exist");
-            return;
-        }
+        if (find(sender, mineName) == null) return;
 
         Location location1;
         Location location2;

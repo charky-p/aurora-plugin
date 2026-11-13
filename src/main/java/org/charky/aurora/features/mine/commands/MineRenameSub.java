@@ -24,10 +24,7 @@ public class MineRenameSub extends MineSub {
         }
 
         String oldName = args[0];
-        if (!mineManager.exists(oldName)) {
-            TextUtils.error(sender, "Mine '" + oldName + "' does not exist");
-            return;
-        }
+        if (find(sender, oldName) == null) return;
 
         String newName = args[1];
         // A case change of its own name is a valid rename

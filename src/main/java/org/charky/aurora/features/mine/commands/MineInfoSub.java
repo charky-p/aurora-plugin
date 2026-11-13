@@ -25,10 +25,7 @@ public class MineInfoSub extends MineSub {
         }
 
         String mineName = args[0];
-        if (!mineManager.exists(mineName)) {
-            TextUtils.error(sender, "Mine '" + mineName + "' does not exist");
-            return;
-        }
+        if (find(sender, mineName) == null) return;
 
         MineData data = mineManager.getMine(mineName).getData();
         TextUtils.display(sender, "<aqua><st>                                </st> <b>MINE INFO</b> <st>                                </st>");

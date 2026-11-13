@@ -24,10 +24,7 @@ public class MineResetSub extends MineSub {
         }
 
         String mineName = args[0];
-        if (!mineManager.exists(mineName)) {
-            TextUtils.error(sender, "Mine '" + mineName + "' does not exist");
-            return;
-        }
+        if (find(sender, mineName) == null) return;
 
         mineManager.resetMine(mineName);
         TextUtils.success(sender, "Mine '" + mineName + "' successfully reset");

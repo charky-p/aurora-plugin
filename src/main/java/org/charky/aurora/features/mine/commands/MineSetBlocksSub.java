@@ -26,10 +26,7 @@ public class MineSetBlocksSub extends MineSub {
         }
 
         String mineName = args[0];
-        if (!mineManager.exists(mineName)) {
-            TextUtils.error(sender, "Mine '" + mineName + "' does not exist");
-            return;
-        }
+        if (find(sender, mineName) == null) return;
 
         List<MineBlock> blocks = new ArrayList<>();
         int totalPercent = 0;

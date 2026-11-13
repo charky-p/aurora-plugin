@@ -25,10 +25,7 @@ public class SpawnerInfoSub extends SpawnerSub {
         }
 
         String spawnerName = args[0];
-        if (!spawnerManager.spawnerExists(spawnerName)) {
-            TextUtils.error(sender, "Spawner '" + spawnerName + "' does not exist");
-            return;
-        }
+        if (find(sender, spawnerName) == null) return;
 
         MobSpawner spawner = spawnerManager.getSpawner(spawnerName);
         String state = spawner.isActive() ? "<green>On" : "<red>Off";

@@ -1,11 +1,11 @@
 package org.charky.aurora.features.portal.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import org.charky.aurora.features.portal.Portal;
 
 import java.util.Collections;
@@ -30,19 +30,8 @@ public class PortalTpSub extends PortalSub {
         Portal portal = find(sender, args[0]);
         if (portal == null) return;
 
-        Player target;
-        if (args.length >= 2) {
-            target = Bukkit.getPlayer(args[1]);
-            if (target == null) {
-                TextUtils.error(sender, "Player '" + args[1] + "' is not online");
-                return;
-            }
-        } else if (sender instanceof Player player) {
-            target = player;
-        } else {
-            TextUtils.error(sender, "Console must specify a player to teleport");
-            return;
-        }
+        Player target = AuroraSubCommand.targetPlayer(sender, args, 1);
+        if (target == null) return;
 
         Location centre = portal.getCentre();
         if (centre == null) {

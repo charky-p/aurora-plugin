@@ -98,19 +98,8 @@ public class WorldCommand implements AuroraSubCommand {
             return;
         }
 
-        Player target;
-        if (args.length >= 2) {
-            target = Bukkit.getPlayer(args[1]);
-            if (target == null) {
-                TextUtils.error(sender, "Player '" + args[1] + "' is not online");
-                return;
-            }
-        } else if (sender instanceof Player player) {
-            target = player;
-        } else {
-            TextUtils.error(sender, "Console must specify a player to teleport");
-            return;
-        }
+        Player target = AuroraSubCommand.targetPlayer(sender, args, 1);
+        if (target == null) return;
 
         // The spawn set with /aurora setspawn, or the world's own
         Location spawn = plugin.getSpawn(world);

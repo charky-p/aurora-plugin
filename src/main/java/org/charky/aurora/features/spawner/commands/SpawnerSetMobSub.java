@@ -21,10 +21,7 @@ public class SpawnerSetMobSub extends SpawnerSub {
         }
 
         String spawnerName = args[0];
-        if (!spawnerManager.spawnerExists(spawnerName)) {
-            TextUtils.error(sender, "Spawner '" + spawnerName + "' does not exist");
-            return;
-        }
+        if (find(sender, spawnerName) == null) return;
 
         String mobName = args[1];
         if (!registry.hasMob(mobName)) {

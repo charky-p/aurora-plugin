@@ -24,10 +24,7 @@ public class SpawnerDeleteSub extends SpawnerSub {
         }
 
         String spawnerName = args[0];
-        if (!spawnerManager.spawnerExists(spawnerName)) {
-            TextUtils.error(sender, "Spawner '" + spawnerName + "' does not exist!");
-            return;
-        }
+        if (find(sender, spawnerName) == null) return;
 
         spawnerManager.removeSpawner(spawnerName);
         TextUtils.success(sender, "Spawner '" + spawnerName + "' has been successfully removed");

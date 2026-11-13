@@ -1,9 +1,9 @@
 package org.charky.aurora.features.mine.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import org.charky.aurora.common.util.TextUtils;
 
 import java.util.Collections;
@@ -25,25 +25,10 @@ public class MineTpSub extends MineSub {
         }
 
         String mineName = args[0];
-        if (!mineManager.exists(mineName)) {
-            TextUtils.error(sender, "Mine '" + mineName + "' does not exist!");
-            return;
-        }
+        if (find(sender, mineName) == null) return;
 
-        Player target;
-        if (args.length >= 2) {
-            target = Bukkit.getPlayer(args[1]);
-            if (target == null) {
-                TextUtils.error(sender, "Player '" + args[1] + "' is not online");
-                return;
-            }
-        } else {
-            if (!(sender instanceof Player player)) {
-                TextUtils.error(sender, "Console must specify a player to teleport");
-                return;
-            }
-            target = player;
-        }
+        Player target = AuroraSubCommand.targetPlayer(sender, args, 1);
+        if (target == null) return;
 
         mineManager.tpMine(target, mineName);
         TextUtils.success(target, "Teleported to " + mineName + " successfully");

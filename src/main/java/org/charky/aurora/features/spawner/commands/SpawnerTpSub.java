@@ -1,9 +1,9 @@
 package org.charky.aurora.features.spawner.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import org.charky.aurora.common.util.TextUtils;
 
 import java.util.Collections;
@@ -25,25 +25,10 @@ public class SpawnerTpSub extends SpawnerSub {
         }
 
         String spawnerName = args[0];
-        if (!spawnerManager.spawnerExists(spawnerName)) {
-            TextUtils.error(sender, "Spawner '" + spawnerName + "' does not exist!");
-            return;
-        }
+        if (find(sender, spawnerName) == null) return;
 
-        Player target;
-        if (args.length >= 2) {
-            target = Bukkit.getPlayer(args[1]);
-            if (target == null) {
-                TextUtils.error(sender, "Player '" + args[1] + "' is not online");
-                return;
-            }
-        } else {
-            if (!(sender instanceof Player player)) {
-                TextUtils.error(sender, "Console must specify a player to teleport");
-                return;
-            }
-            target = player;
-        }
+        Player target = AuroraSubCommand.targetPlayer(sender, args, 1);
+        if (target == null) return;
 
         if (!spawnerManager.tpSpawner(target, spawnerName)) {
             TextUtils.error(sender, "Spawner '" + spawnerName + "' is in a world that is not loaded");

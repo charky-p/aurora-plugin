@@ -115,8 +115,9 @@ public class CombatListener implements Listener {
 
     // Terrain damage would move vanilla health without moving the nameplate, so
     // it is refused. KILL and CUSTOM stay through or the mobs survive /kill and
-    // there is no way to clear them. VOID stays through so a mob that clips out
-    // of the world does not hold a spawner slot forever.
+    // there is no way to clear them. A mob in the void is removed outright: with
+    // vanilla health decoupled the void would take two minutes to kill it, and it
+    // holds its spawner's slot the whole time.
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEnvironmental(EntityDamageEvent event) {
         if (event instanceof EntityDamageByEntityEvent) return;
@@ -125,8 +126,11 @@ public class CombatListener implements Listener {
         if (CustomHealth.isFinishing(victim)) return;
 
         EntityDamageEvent.DamageCause cause = event.getCause();
-        if (cause == EntityDamageEvent.DamageCause.VOID
-                || cause == EntityDamageEvent.DamageCause.KILL
+        if (cause == EntityDamageEvent.DamageCause.VOID) {
+            victim.remove();
+            return;
+        }
+        if (cause == EntityDamageEvent.DamageCause.KILL
                 || cause == EntityDamageEvent.DamageCause.CUSTOM) return;
 
         event.setCancelled(true);

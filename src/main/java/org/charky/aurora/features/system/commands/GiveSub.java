@@ -82,7 +82,7 @@ public class GiveSub implements AuroraSubCommand {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) return TextUtils.playerCompletions(args[0]);
-        if (args.length == 2) return TextUtils.getCompletions(args[1], registry.getAllItems().keySet());
+        if (args.length == 2) return TextUtils.searchCompletions(args[1], registry.getAllItems().keySet());
         return List.of();
     }
 

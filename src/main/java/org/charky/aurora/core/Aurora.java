@@ -34,6 +34,7 @@ import org.charky.aurora.features.keys.KeyItemListener;
 import org.charky.aurora.features.mine.MineListener;
 import org.charky.aurora.features.mine.MineManager;
 import org.charky.aurora.features.player.BackpackCommand;
+import org.charky.aurora.features.player.BackpackItemListener;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.PlayerSessionListener;
@@ -154,6 +155,7 @@ public class Aurora extends JavaPlugin {
                 new SpawnListener(this),
                 new PortalListener(this),
                 new KeyItemListener(this),
+                new BackpackItemListener(this),
                 new CombatListener(this),
                 bossManager,
                 new GauntletListener(gauntletManager),

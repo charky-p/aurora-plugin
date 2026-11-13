@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -60,6 +61,18 @@ public final class TextUtils {
     // Online players whose name starts with the input, for tab completion
     public static List<String> playerCompletions(String input) {
         return getCompletions(input, Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
+    }
+
+    // Options that start with the input, then those that only contain it, so "scythe"
+    // finds ghoul_scythe. For long lists nobody knows the first letters of
+    public static List<String> searchCompletions(String input, Collection<String> options) {
+        String typed = input.toLowerCase();
+        List<String> found = new ArrayList<>(getCompletions(input, options));
+        options.stream()
+                .filter(name -> !name.toLowerCase().startsWith(typed) && name.toLowerCase().contains(typed))
+                .sorted(String.CASE_INSENSITIVE_ORDER)
+                .forEach(found::add);
+        return found;
     }
 
     public static List<String> getCompletions(String input, Collection<String> options) {

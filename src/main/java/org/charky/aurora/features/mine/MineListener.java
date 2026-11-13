@@ -27,15 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MineListener implements Listener {
-    // Blast level -> width, length, depth broken, always a flat layer at the height of
-    // the block you mine, whichever face you hit. Width runs to your right, length
-    // away from you, depth down. Even sizes grow to your right and away. Past the
-    // table the last holds. Kept in step with BLAST_SHAPES in scripts/balance/balance_sim.py
-    private static final int[][] BLAST_SHAPES = {
-            {2, 1, 1},
-            {2, 2, 1},
-            {3, 3, 1},
-    };
+    // How far the block a player is mining can be from them
+    private static final int REACH = 6;
 
     private final MineManager manager;
     private final PlayerManager players;
@@ -129,28 +122,30 @@ public class MineListener implements Listener {
         return "pickaxe";
     }
 
-    // Every block blast breaks besides the one mined, a flat layer whatever face
-    // was hit. Width runs to your right, length away from you, depth down
+    // Every block blast breaks besides the one mined, a patch on the face that was
+    // hit, see BlastShape
     private List<Block> blastArea(Player player, Block center, int level) {
-        int[] shape = BLAST_SHAPES[Math.min(level, BLAST_SHAPES.length) - 1];
+        BlockFace face = hitFace(player);
         BlockFace facing = player.getFacing();
-        int[] forward = {facing.getModX(), 0, facing.getModZ()};
-        int[] right = {-forward[2], 0, forward[0]};
-        int[] length = forward;
-        int[] depth = {0, -1, 0};
 
         List<Block> area = new ArrayList<>();
-        for (int w = -(shape[0] - 1) / 2; w <= shape[0] / 2; w++) {
-            for (int h = -(shape[1] - 1) / 2; h <= shape[1] / 2; h++) {
-                for (int d = 0; d < shape[2]; d++) {
-                    if (w == 0 && h == 0 && d == 0) continue;
-                    area.add(center.getRelative(
-                            w * right[0] + h * length[0] + d * depth[0],
-                            w * right[1] + h * length[1] + d * depth[1],
-                            w * right[2] + h * length[2] + d * depth[2]));
-                }
-            }
+        for (int[] offset : BlastShape.offsets(level, face.getModX(), face.getModY(), face.getModZ(),
+                facing.getModX(), facing.getModZ())) {
+            area.add(center.getRelative(offset[0], offset[1], offset[2]));
         }
         return area;
+    }
+
+    // The side of the block the player is looking at. If that can't be traced it is
+    // worked out from where they look: steeply down is the top of a block, steeply up
+    // the bottom, otherwise the side facing them
+    private static BlockFace hitFace(Player player) {
+        BlockFace traced = player.getTargetBlockFace(REACH);
+        if (traced != null && traced.isCartesian()) return traced;
+
+        float pitch = player.getLocation().getPitch();
+        if (pitch > 45) return BlockFace.UP;
+        if (pitch < -45) return BlockFace.DOWN;
+        return player.getFacing().getOppositeFace();
     }
 }

@@ -219,7 +219,9 @@ public class SpawnerManager {
         return active;
     }
 
-    // Counted from the world, which is the truth since spawner mobs are never saved
+    // Counted from the world, which is the truth since spawner mobs are never saved.
+    // A mob knocked off its island is removed here instead of counted, or it holds
+    // its spawner's slot for as long as it keeps falling
     private Map<String, Integer> countAll() {
         Map<String, Integer> counts = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         for (World world : Bukkit.getWorlds()) {
@@ -227,7 +229,10 @@ public class SpawnerManager {
                 if (entity.isDead() || !(entity instanceof LivingEntity)) continue;
                 String owner = entity.getPersistentDataContainer()
                         .get(DataKeys.SPAWNER_KEY, PersistentDataType.STRING);
-                if (owner != null) counts.merge(owner, 1, Integer::sum);
+                if (owner == null) continue;
+
+                if (entity.getLocation().getY() < world.getMinHeight()) entity.remove();
+                else counts.merge(owner, 1, Integer::sum);
             }
         }
         return counts;

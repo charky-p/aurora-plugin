@@ -290,7 +290,7 @@ items:
     entity: HUSK
     health: 1500.0
     defence: 18.0
-    attack: 25.0
+    attack: 29.0
     attack_cooldown: 3.0
     equip:
       head: eternal_helmet_1
@@ -334,7 +334,7 @@ items:
 
   gormak_guardian:
     display: "<gold><b>Gormak Guardian"
-    entity: WITHER_SKELETON
+    entity: SKELETON
     health: 500.0
     defence: 16.0
     attack: 25.0

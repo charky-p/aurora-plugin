@@ -195,3 +195,13 @@ items:
       - "<gray>Held in the off hand."
       - "<gray>Carries the weight of the tomb."
       - "<dark_gray>Gormak - Royal Tomb"
+
+  starter_backpack:
+    display: "<gold><b>Backpack"
+    material: BUNDLE
+    type: ''
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<gray>Everything you mine and loot is kept here."
+      - "<dark_gray>Right click to open"

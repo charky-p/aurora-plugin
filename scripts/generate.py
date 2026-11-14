@@ -717,6 +717,14 @@ def validate(built):
             errors.append(f"gui '{gui_id}': {len(layout)} layout rows for rows {gui.get('rows')}")
         components = gui.get("components") or {}
         used = set()
+        # Every menu is framed and can be closed: no empty slot on the outer ring,
+        # and the Close button sits bottom right where players look for it
+        if layout and all(len(row) == 9 for row in layout):
+            ring = layout[0] + layout[-1] + "".join(row[0] + row[-1] for row in layout[1:-1])
+            if " " in ring:
+                errors.append(f"gui '{gui_id}': the border has an empty slot")
+            if layout[-1][-1] != "X":
+                errors.append(f"gui '{gui_id}': no Close button (X) in the bottom right")
         for row in layout:
             if len(row) != 9:
                 errors.append(f"gui '{gui_id}': layout row '{row}' is not 9 wide")

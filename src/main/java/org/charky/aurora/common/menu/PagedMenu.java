@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.system.commands.MenuCommand;
+import org.charky.aurora.features.trader.TraderClose;
 import org.charky.aurora.features.trader.TraderMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -71,7 +72,7 @@ public abstract class PagedMenu implements InventoryHolder {
         switch (slot) {
             case PREVIOUS_SLOT -> turnPage(player, page - 1);
             case NEXT_SLOT -> turnPage(player, page + 1);
-            case CLOSE_SLOT -> player.closeInventory();
+            case CLOSE_SLOT -> TraderClose.close(player);
             case BACK_SLOT -> {
                 TraderMenu hub = registry.getGui(MenuCommand.HUB_ID);
                 if (hub != null) hub.onClick(player);

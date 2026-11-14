@@ -74,10 +74,13 @@ public class TraderListener implements Listener {
         TraderNode node = menu.getNode(event.getSlot());
         if (node == null) return;
 
-        int now = Bukkit.getCurrentTick();
-        Integer previous = lastClickTick.get(player.getUniqueId());
-        if (previous != null && now - previous < CLICK_GAP_TICKS) return;
-        lastClickTick.put(player.getUniqueId(), now);
+        // Only buying is throttled, Close and the menu links always answer
+        if (node instanceof TraderItem) {
+            int now = Bukkit.getCurrentTick();
+            Integer previous = lastClickTick.get(player.getUniqueId());
+            if (previous != null && now - previous < CLICK_GAP_TICKS) return;
+            lastClickTick.put(player.getUniqueId(), now);
+        }
 
         node.onClick(player);
     }

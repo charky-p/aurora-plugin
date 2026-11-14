@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.keys.KeyItems;
 
 import java.util.*;
 
@@ -43,6 +44,7 @@ public class BackpackData {
                 continue;
             }
 
+            KeyItems.obtained(player, drop.getId());
             ItemStack key = registry.getAllItems().get(drop.getId()).clone();
             key.setAmount(drop.getAmount());
             player.getInventory().addItem(key).values()

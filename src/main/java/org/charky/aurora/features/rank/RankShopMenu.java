@@ -3,6 +3,7 @@ package org.charky.aurora.features.rank;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
@@ -43,6 +44,7 @@ public class RankShopMenu extends PagedMenu {
         ItemStack item = new ItemStack(perk.icon());
         item.editMeta(meta -> {
             meta.displayName(TextUtils.parse("<!italic>" + perk.display()));
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
             List<Component> lore = new ArrayList<>();
             lore.add(TextUtils.parse("<!italic><gray>A permanent upgrade: " + perk.effect() + "."));
@@ -58,7 +60,7 @@ public class RankShopMenu extends PagedMenu {
 
             if (maxed) meta.setEnchantmentGlintOverride(true);
         });
-        item.setAmount(Math.max(1, level));
+        item.setAmount(Math.clamp(level, 1, 64));
         return item;
     }
 

@@ -4,6 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
+import org.charky.aurora.features.perk.PerkManager;
+import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -40,6 +42,9 @@ public class MineListener implements Listener {
     private final LevelManager levels;
     private final CollectionManager collections;
 
+    private final PerkManager perks;
+    private static final int CRIT_MULTIPLIER = 2;
+
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
         this.players = plugin.getPlayerManager();
@@ -48,6 +53,7 @@ public class MineListener implements Listener {
         this.backpackManager = plugin.getBackpackManager();
         this.levels = plugin.getLevelManager();
         this.collections = plugin.getCollectionManager();
+        this.perks = plugin.getPerkManager();
     }
 
     // HIGH, not MONITOR: this changes the event, and MONITOR is for watching only
@@ -98,6 +104,11 @@ public class MineListener implements Listener {
         }
 
         List<MenuItem> blockDrops = registry.getBlockDrops(dropId, fortune);
+        // The Crit Rate perk, on top of Fortune and never a way past density
+        if (!blockDrops.isEmpty() && perks.rollCrit(player)) {
+            blockDrops.forEach(drop -> drop.setAmount(drop.getAmount() * CRIT_MULTIPLIER));
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.3f, 1.8f);
+        }
         backpackManager.get(player.getUniqueId()).collect(player, blockDrops);
 
         Essence.roll(player, Enchants.level(pick, "luck"), players);

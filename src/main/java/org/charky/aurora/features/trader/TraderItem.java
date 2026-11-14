@@ -14,6 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.features.keys.KeyItems;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
 
@@ -80,6 +81,7 @@ public class TraderItem implements TraderNode {
         }
 
         backpack.removeItems(player, costs);
+        KeyItems.obtained(player, item.getId());
 
         ItemStack purchase = this.item.getItem();
         purchase.editMeta(meta -> meta.getPersistentDataContainer().remove(DataKeys.MENU_KEY));

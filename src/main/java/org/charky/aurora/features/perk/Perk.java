@@ -7,7 +7,13 @@ import org.bukkit.Material;
 public enum Perk {
     // Half a heart a level, 20 levels doubles the player's health
     VITALITY("vitality", "<red><b>Vitality", Material.GOLDEN_APPLE, 20, 50,
-            "+half a heart of health per level");
+            "+half a heart of health per level"),
+    // A crit doubles what a mined block drops, 100 levels makes every block a crit
+    CRIT_RATE("crit_rate", "<yellow><b>Crit Rate", Material.DIAMOND_PICKAXE, 100, 10,
+            "+1% chance per level for a mined block to drop double"),
+    // Bought once. Keys found before can then be taken from the Armory again
+    KEYRING("keyring", "<gold><b>Keyring", Material.TRIAL_KEY, 1, 5_000,
+            "take any key you have found before from the Armory");
 
     private final String id;
     private final String display;

@@ -305,6 +305,11 @@ public class DataRegistry {
     }
 
     // Any key, something that does a thing when right clicked
+    // Every key in data order
+    public List<String> getKeyIds() {
+        return resourceList.stream().map(MenuItem::getId).filter(this::isKey).toList();
+    }
+
     public boolean isKey(String itemId) {
         return getUnlock(itemId) != null || getSummon(itemId) != null;
     }

@@ -26,12 +26,20 @@ public final class KeyItems {
     private KeyItems() {
     }
 
+    // Remembers that a player has had this key, for the Keyring perk. Anything
+    // that is not a key is ignored
+    public static void obtained(Player player, String itemId) {
+        Aurora plugin = JavaPlugin.getPlugin(Aurora.class);
+        if (plugin.getRegistry().isKey(itemId)) plugin.getArmoryManager().rememberKey(player.getUniqueId(), itemId);
+    }
+
     public static boolean has(Player player, String tag) {
         return player.getScoreboardTags().contains(tag);
     }
 
     // True when the key was used and one should be taken away
     public static boolean use(Player player, DataRegistry registry, String itemId) {
+        obtained(player, itemId);
         if (registry.getUnlock(itemId) != null) return unlock(player, registry, itemId);
         if (registry.getSummon(itemId) != null) return summon(player, registry, itemId);
         return false;

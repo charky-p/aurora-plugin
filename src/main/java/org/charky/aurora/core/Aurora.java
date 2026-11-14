@@ -41,6 +41,7 @@ import org.charky.aurora.features.mine.MineManager;
 import org.charky.aurora.features.player.BackpackCommand;
 import org.charky.aurora.features.player.BackpackItemListener;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.features.player.ChatShowcase;
 import org.charky.aurora.features.player.LevelManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.PlayerSessionListener;
@@ -95,6 +96,7 @@ public class Aurora extends JavaPlugin {
     private LevelManager levelManager;
     private RankManager rankManager;
     private CollectionManager collectionManager;
+    private PerkManager perkManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
 
@@ -146,7 +148,8 @@ public class Aurora extends JavaPlugin {
         this.collectionManager = new CollectionManager(this, registry, db, new CollectionStore(db), players, scoreboard);
         registry.registerAction("collections", collectionManager::open);
         registry.registerAction("ranks", rankManager::openRanks);
-        PerkManager perkManager = new PerkManager(this, db, new PerkStore(db), players, scoreboard);
+        this.perkManager = new PerkManager(this, db, new PerkStore(db), players, scoreboard);
+        armoryManager.setKeyring(perkManager::hasKeyring);
         Consumer<Player> openShop = player -> new RankShopMenu(rankManager, perkManager, registry).open(player);
         registry.registerAction("shop", openShop);
         registry.registerAction("warps", player -> new WarpMenu(this).open(player));
@@ -184,6 +187,7 @@ public class Aurora extends JavaPlugin {
                 new PortalListener(this),
                 new KeyItemListener(this),
                 new BackpackItemListener(this),
+                new ChatShowcase(),
                 new CombatListener(this),
                 bossManager,
                 new GauntletListener(gauntletManager),
@@ -254,6 +258,10 @@ public class Aurora extends JavaPlugin {
 
     public CollectionManager getCollectionManager() {
         return collectionManager;
+    }
+
+    public PerkManager getPerkManager() {
+        return perkManager;
     }
 
     public ArmoryManager getArmoryManager() {

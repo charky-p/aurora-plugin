@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-// Every mob gear drop in progression order, locked ones hint at the mob that drops them
+// Every mob gear drop in progression order, locked ones hint at the mob that drops
+// them. Keys the player has had come last, the Keyring perk lets them be taken again
 public class ArmoryMenu extends PagedMenu {
     private final ArmoryManager armory;
     private List<String> ids = List.of();
@@ -44,6 +45,28 @@ public class ArmoryMenu extends PagedMenu {
             });
             items.add(display);
         }
+
+        boolean keyring = armory.hasKeyring(player);
+        for (String id : registry.getKeyIds()) {
+            ids.add(id);
+            if (!armory.isUnlocked(player.getUniqueId(), id)) {
+                ItemStack unknown = button(Material.GRAY_DYE, "<dark_gray>???");
+                unknown.editMeta(meta -> meta.lore(List.of(TextUtils.parse("<!italic><gray>A key you have not found yet"))));
+                items.add(unknown);
+                continue;
+            }
+
+            ItemStack display = registry.getAllItems().get(id).clone();
+            String hint = !keyring ? "<red>Needs the Keyring perk from /shop"
+                    : armory.carries(player, id) ? "<gray>You have this one" : "<yellow>Click to take one";
+            display.editMeta(meta -> {
+                List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
+                lore.add(Component.empty());
+                lore.add(TextUtils.parse("<!italic>" + hint));
+                meta.lore(lore);
+            });
+            items.add(display);
+        }
         return items;
     }
 
@@ -57,7 +80,7 @@ public class ArmoryMenu extends PagedMenu {
     @Override
     protected List<Component> info(Player player, List<ItemStack> entries) {
         return List.of(TextUtils.parse("<!italic><gray>Unlocked: <white>"
-                + armory.unlockedCount(player.getUniqueId()) + "/" + entries.size()));
+                + armory.unlockedCount(player.getUniqueId()) + "/" + registry.getArmory().size()));
     }
 
     @Override

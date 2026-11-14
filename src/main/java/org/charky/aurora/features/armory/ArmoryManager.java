@@ -12,6 +12,7 @@ import org.charky.aurora.core.database.UnlockStore;
 import org.charky.aurora.features.player.BackpackManager;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 // Gear dropped by mobs is unlocked once, then any copy can be taken from the Armory.
 // Only mob drops, shop gear is consumed by upgrades so it can never be unlimited
@@ -20,6 +21,8 @@ public class ArmoryManager {
     private Map<UUID, Set<String>> unlocks;
     private Database db;
     private UnlockStore store;
+    // Who has bought the Keyring perk, nobody until it is set
+    private Predicate<Player> keyring = player -> false;
 
     public ArmoryManager(DataRegistry registry) {
         this.registry = registry;
@@ -29,6 +32,19 @@ public class ArmoryManager {
         this.unlocks = store.loadAll();
         this.db = db;
         this.store = store;
+    }
+
+    public void setKeyring(Predicate<Player> keyring) {
+        this.keyring = keyring;
+    }
+
+    public boolean hasKeyring(Player player) {
+        return keyring.test(player);
+    }
+
+    // Keys are remembered for everyone, the Keyring perk is what hands them back
+    public void rememberKey(UUID uuid, String itemId) {
+        unlock(uuid, itemId);
     }
 
     public void open(Player player) {
@@ -65,6 +81,10 @@ public class ArmoryManager {
     // Gives one copy, a second is pointless as gear never breaks
     public void retrieve(Player player, String itemId) {
         if (!isUnlocked(player.getUniqueId(), itemId)) return;
+        if (registry.isKey(itemId) && !hasKeyring(player)) {
+            TextUtils.error(player, "Buy the Keyring perk in /shop to take keys.");
+            return;
+        }
 
         if (carries(player, itemId)) {
             TextUtils.error(player, "You already have one.");

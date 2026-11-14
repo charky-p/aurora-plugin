@@ -20,6 +20,7 @@ import org.charky.aurora.features.player.ScoreboardManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 // The perk levels each player has bought, and what those levels do
 public class PerkManager implements Listener {
@@ -44,6 +45,15 @@ public class PerkManager implements Listener {
 
     public int level(Player player, Perk perk) {
         return levels.getOrDefault(player.getUniqueId(), Map.of()).getOrDefault(perk.id(), 0);
+    }
+
+    // A crit doubles a mined block's drops, one roll a block
+    public boolean rollCrit(Player player) {
+        return ThreadLocalRandom.current().nextInt(100) < level(player, Perk.CRIT_RATE);
+    }
+
+    public boolean hasKeyring(Player player) {
+        return level(player, Perk.KEYRING) > 0;
     }
 
     // Null if the next level was bought, otherwise why not

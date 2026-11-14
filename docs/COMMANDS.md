@@ -17,6 +17,8 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
 | `/spawn` | Teleport to this world's spawn |
 
+**In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.
+
 ## Building a region, in order
 
 1. `/a world create <name>` for a new void world, then `/a world tp <name>` and build.

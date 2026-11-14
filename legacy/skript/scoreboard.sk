@@ -1,0 +1,74 @@
+on join:
+	if {kills::%player's uuid%} is not set:
+		set {kills::%player's uuid%} to 0
+	if {mined::%player's uuid%} is not set:
+		set {mined::%player's uuid%} to 0
+	if {level::%player's uuid%} is not set:
+		set {level::%player's uuid%} to 0
+	if {exp::%player's uuid%} is not set:
+		set {exp::%player's uuid%} to 0
+	if {essence::%player's uuid%} is not set:
+		set {essence::%player's uuid%} to 0
+	while player is online:
+		set title of player's scoreboard to "&b&lᴀᴜʀᴏʀᴀᴍɪɴᴇꜱ"
+		set line 15 of player's scoreboard to "&f&l&m                           &r"
+		set line 14 of player's scoreboard to "&f&lᴘʟᴀʏᴇʀ: &r&7&o%player%"
+		set line 13 of player's scoreboard to "&7 • &f👑 &7ʀᴀɴᴋ: %{scoreboardRank::%player's uuid%}%"
+		set line 12 of player's scoreboard to "&7 • &f🌟 &7ʟᴇᴠᴇʟ: %{level::%player's uuid%}%"
+		set line 11 of player's scoreboard to "&a "
+		set line 10 of player's scoreboard to "&f&lꜱᴛᴀᴛꜱ:"
+		set line 9 of player's scoreboard to "&7 • &f🗡 &7ᴋɪʟʟꜱ: %{kills::%player's uuid%}%"
+		set line 8 of player's scoreboard to "&7 • &f⛏ &7ʙʟᴏᴄᴋꜱ ᴍɪɴᴇᴅ: %{mined::%player's uuid%}%"
+		set line 7 of player's scoreboard to "&7 • &b🔥 &7ᴇꜱꜱᴇɴᴄᴇ: %{essence::%player's uuid%}%"
+		set line 6 of player's scoreboard to "&a "
+		set line 5 of player's scoreboard to "&f&lꜱᴇʀᴠᴇʀ:"
+		set line 4 of player's scoreboard to "&7 • &e☀ &7ᴏɴʟɪɴᴇ: %number of all players%"
+		set line 3 of player's scoreboard to "&7 • &f🎮 &7ᴇᴠᴇɴᴛ: ᴅᴇᴠᴇʟᴏᴘᴍᴇɴᴛ"
+		set line 2 of player's scoreboard to "&a "
+		set line 1 of player's scoreboard to "&7ɪᴘ: ᴀᴜʀᴏʀᴀᴍɪɴᴇꜱ.ᴍɪɴᴇʜᴜᴛ.ɢɢ"
+		wait 1 second
+
+on death:
+	if attacker is a player:
+		if victim is a player:
+			add 1 to {kills::%attacker's uuid%}
+
+function levelUp(n: integer, min: integer, max: integer, p: player):
+	if {exp::%{_p}'s uuid%} >= {_min} + {_max} * ({level::%{_p}'s uuid%} - {_n}):
+		play sound "entity.player.levelup" to {_p}
+		subtract {_min} + {_max}*({level::%{_p}'s uuid%}-{_n}) from {exp::%{_p}'s uuid%}
+		add 1 to {level::%{_p}'s uuid%}
+		send title "&eLEVEL UP" with subtitle "&eYou are now level %{level::%{_p}'s uuid%}% and gained &b10 essence" to {_p} for 3 second
+		add 10 to {essence::%{_p}'s uuid%}
+		send action bar "&bEXP: %{exp::%{_p}'s uuid%}%/%{_min} + {_max}*({level::%{_p}'s uuid%}-{_n})%" to {_p}
+	else:
+		send action bar "&bEXP: %{exp::%{_p}'s uuid%}%/%{_min} + {_max}*({level::%{_p}'s uuid%}-{_n})%" to {_p}
+
+on break:
+	if {level::%player's uuid%} < 10:
+		levelUp(0, 50, 50, player)
+	else if {level::%player's uuid%} < 50:
+		levelUp(10, 750, 250, player)
+	else if {level::%player's uuid%} < 100:
+		levelUp(50, 11000, 500, player)
+	else:
+		send action bar "&bMAX" to player
+
+command /reset exp:
+	permission: op
+	trigger:
+		set {exp::%player's uuid%} to 0
+		set {level::%player's uuid%} to 0
+
+command /top:
+	trigger:
+		set {_top::*} to sorted indices of {level::*} in descending order
+		set {_n} to 1
+		send "&e&lLEVEL LEADERBOARD" and "&e&l-----------------" to player
+		loop 10 times:
+			set {_lvl} to {level::%{_top::%{_n}%}%}
+			send "&a&l%{_n}%. &7%{_top::%{_n}%} parsed as offline player% | &eLevel: &e&l%{_lvl}%" to player
+			add 1 to {_n}
+
+on disconnect:
+	clear player's scoreboard

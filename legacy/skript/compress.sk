@@ -1,0 +1,59 @@
+command /compress:
+	trigger:
+		send "&bCompressing..." to player
+		loop items in player's inventory:
+			if loop-item is 64 cobblestone named "&eCobblestone":
+				remove 64 cobblestone named "&eCobblestone" from player
+				give 1 of cobblestone of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eCobblestone" to player
+			else if loop-item is 64 coal named "&eCoal":
+				remove 64 coal named "&eCoal" from player
+				give 1 of coal of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eCoal" to player
+			else if loop-item is 64 iron ingot named "&eIron Ingot":
+				remove 64 iron ingot named "&eIron Ingot" from player
+				give 1 of iron ingot of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eIron" to player
+			else if loop-item is 64 gold ingot named "&eGold Ingot":
+				remove 64 gold ingot named "&eGold Ingot" from player
+				give 1 of gold ingot of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eGold" to player
+			else if loop-item is 64 diamond named "&eDiamond":
+				remove 64 diamond named "&eDiamond" from player
+				give 1 of diamond of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eDiamond" to player
+			else if loop-item is 64 redstone named "&eRedstone":
+				remove 64 redstone named "&eRedstone" from player
+				give 1 of redstone of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eRedstone" to player
+			else if loop-item is 64 lapis named "&eLapis":
+				remove 64 lapis named "&eLapis" from player
+				give 1 of lapis of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eLapis" to player
+			else if loop-item is 64 emerald named "&eEmerald":
+				remove 64 emerald named "&eEmerald" from player
+				give 1 of emerald of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eEmerald" to player
+			else if loop-item is 64 copper ingot named "&eCopper":
+				remove 64 copper ingot named "&eCopper" from player
+				give 1 of copper ingot of mending with all flags hidden named "&7[&lCOMPRESSED&7] &eCopper" to player
+#SUPER COMPRESSED
+			if loop-item is 64 cobblestone named "&7[&lCOMPRESSED&7] &eCobblestone":
+				remove 64 cobblestone named "&7[&lCOMPRESSED&7] &eCobblestone" from player
+				give 1 of cobblestone of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eCobblestone" to player
+			else if loop-item is 64 coal named "&7[&lCOMPRESSED&7] &eCoal":
+				remove 64 coal named "&7[&lCOMPRESSED&7] &eCoal" from player
+				give 1 of coal of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eCoal" to player
+			else if loop-item is 64 iron ingot named "&7[&lCOMPRESSED&7] &eIron":
+				remove 64 iron ingot named "&7[&lCOMPRESSED&7] &eIron" from player
+				give 1 of iron ingot of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eIron" to player
+			else if loop-item is 64 gold ingot named "&7[&lCOMPRESSED&7] &eGold":
+				remove 64 gold ingot named "&7[&lCOMPRESSED&7] &eGold" from player
+				give 1 of gold ingot of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eGold" to player
+			else if loop-item is 64 diamond named "&7[&lCOMPRESSED&7] &eDiamond":
+				remove 64 diamond named "&7[&lCOMPRESSED&7] &eDiamond" from player
+				give 1 of diamond of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eDiamond" to player
+			else if loop-item is 64 redstone named "&7[&lCOMPRESSED&7] &eRedstone":
+				remove 64 redstone named "&7[&lCOMPRESSED&7] &eRedstone" from player
+				give 1 of redstone of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eRedstone" to player
+			else if loop-item is 64 lapis named "&7[&lCOMPRESSED&7] &eLapis":
+				remove 64 lapis named "&7[&lCOMPRESSED&7] &eLapis" from player
+				give 1 of lapis of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eLapis" to player
+			else if loop-item is 64 emerald named "&7[&lCOMPRESSED&7] &eEmerald":
+				remove 64 emerald named "&7[&lCOMPRESSED&7] &eEmerald" from player
+				give 1 of emerald of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eEmerald" to player
+			else if loop-item is 64 copper ingot named "&7[&lCOMPRESSED&7] &eCopper":
+				remove 64 copper ingot named "&7[&lCOMPRESSED&7] &eCopper" from player
+				give 1 of copper ingot of mending with all flags hidden named "&7[&2&lSUPER COMPRESSED&7] &eCopper" to player

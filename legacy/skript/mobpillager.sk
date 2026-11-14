@@ -1,0 +1,174 @@
+# Ravager Boss
+
+on right click with tripwire hook:
+  cancel event
+  if name of event-item is "&7&lRavager Key":
+    if {ravagerExists} is false:
+      set {ravagerSpawned} to player
+      remove 1 of event-item from player
+      send "&7&lRavager boss has spawned" to player
+      set {ravagerExists} to true
+      play sound "entity.lightning_bolt.thunder"
+      play sound "entity.lightning_bolt.impact"
+      summon ravager at location(-279.5, -24, -232.5, world "world")
+      set {_e} to last spawned entity
+      summon pillager at location(-279.5, -24, -232.5,world "world")
+      set {_e2} to last spawned entity
+      make {_e2} ride {_e}
+      set {_e2}'s helmet to eye of ender
+      set {_e}'s display name to "&7&lRavager"
+      set {_e2}'s display name to "&f&lPillager Captain"
+      apply glowing to {_e2} for 10000 year
+      set {_e}'s generic max health attribute to 600
+      set {_e2}'s generic max health attribute to 250
+      heal {_e} and {_e2}
+      set {_e}'s generic attack damage attribute to 20
+      set bar progress of {barPillager} to 100
+      set bossbar visibility of {barPillager} to false
+      remove all players from {barPillager}
+      loop all players in radius 50 of {_e2}:
+        add loop-player to {barPillager}
+        set bossbar visibility of {barPillager} to true
+      while {_e2} is alive:
+        remove all players from {barPillager}
+        set bossbar visibility of {barPillager} to false
+        loop all players in radius 50 of {_e2}:
+          set bossbar visibility of {barPillager} to true
+          add loop-player to {barPillager}
+        loop all players in radius 10 of {_e2}:
+          set {_loc} to block above {_e2}
+          set {_v} to vector between {_e2} and loop-player
+          spawn an arrow at {_loc}
+          push last spawned arrow {_v} at speed 3
+        wait 1 second
+      while {_e} is alive:
+        loop all players in radius 5 of {_e}:
+          set {_v} to vector between {_e} and loop-player
+          push loop-player {_v} at speed 2
+          apply slowness 5 to loop-player for 2 second
+          apply weakness 3 to loop-player for 2 second
+          send "&7You have been dazed" to loop-player
+        wait 10 second
+    else:
+      send "&f[Console]: &7You cannot summon Pillager Captain again until you defeat him"
+
+on damage of pillager:
+  if name of victim is "&f&lPillager Captain":
+    wait 1 tick
+    set {_health} to health of victim
+    set {_maxHealth} to max health of victim
+    set {_maxHealthPercent} to {_health} / {_maxHealth} * 100
+    if {_health} is not 0:
+      set bossbar progress of {barPillager} to {_maxHealthPercent}
+
+on death of pillager:
+  if name of victim is "&f&lPillager Captain":
+    set bossbar visibility of {barPillager} to false
+    set {ravagerExists} to false
+    if (all entities where [name of input is "&7&lRavager"]) is alive:
+      apply speed 1 without particles to all entities where [name of input is "&7&lRavager"] for 10000 year
+      apply strength 3 without particles to all entities where [name of input is "&7&lRavager"] for 10000 year
+      send "&cRavager has gone berserk" to attacker
+
+# Loottable for Pillager Mobs
+
+on death:
+  cancel drops
+  if victim is a pillager:
+    if name of victim is "&f&lPillager Scout":
+      set {_loot} to the level of looting on attacker's tool
+      set {_int} to random integer between 1+{_loot} and 100+{_loot}
+      set {_lootChance} to {_loot} / 10
+      if {_int} > 100:
+        customItem(flint, "&8&lPillager Shard", "loot", 4, attacker)
+      else if {_int} > 60:
+        customItem(flint, "&8&lPillager Shard", "loot", 3, attacker)
+      else if {_int} > 20:
+        customItem(flint, "&8&lPillager Shard", "loot", 2, attacker)
+      else:
+        customItem(flint, "&8&lPillager Shard", "loot", 1, attacker)
+      chance of {_lootChance}%:
+        customItem(tripwire hook, "&7&lRavager Key", "key", 1, attacker)
+    else if name of victim is "&f&lPillager Captain":
+      chance of 0.1%:
+        customItem(ender eye, "&5&lMystical Eye", "rare", 1, {ravagerSpanwed})
+  else if victim is a vindicator:
+    if name of victim is "&7&lVindicator":
+      set {_loot} to the level of looting on attacker's tool
+      set {_int} to random integer between 1+{_loot} and 100+{_loot}
+      set {_lootChance} to {_loot} / 10
+      if {_int} > 100:
+        customItem(iron nugget, "&f&lPillager Nugget", "loot", 7, attacker)
+      else if {_int} > 80:
+        customItem(iron nugget, "&f&lPillager Nugget", "loot", 6, attacker)
+      else if {_int} > 60:
+        customItem(iron nugget, "&f&lPillager Nugget", "loot", 5, attacker)
+      else if {_int} > 40:
+        customItem(iron nugget, "&f&lPillager Nugget", "loot", 4, attacker)
+      else if {_int} > 20:
+        customItem(iron nugget, "&f&lPillager Nugget", "loot", 3, attacker)
+      else if {_int} > 10:
+        customItem(iron nugget, "&f&lPillager Nugget", "loot", 2, attacker)
+      chance of 0.1% + {_lootChance}%:
+        customItem(tripwire hook, "&7&lRavager Key", "key", 1, attacker)
+  else if victim is a evoker:
+    if name of victim is "&e&lEvoker":
+      set {_loot} to the level of looting on attacker's tool
+      set {_int} to random integer between 1+{_loot} and 100+{_loot}
+      set {_lootChance} to {_loot} / 10
+      if {_int} > 110:
+        customItem(emerald, "&a&lPillager Emerald", "loot", 4, attacker)
+      else if {_int} > 80:
+        customItem(emerald, "&a&lPillager Emerald", "loot", 3, attacker)
+      else if {_int} > 40:
+        customItem(emerald, "&a&lPillager Emerald", "loot", 2, attacker)
+      else:
+        customItem(emerald, "&a&lPillager Emerald", "loot", 1, attacker)
+      chance of 0.5% + {_lootChance}%:
+        customItem(tripwire hook, "&7&lRavager Key", "key", 1, attacker)
+
+  else if victim is a ravager:
+    if name of victim is "&7&lRavager":
+      set {_loot} to the level of looting on attacker's tool
+      set {_int} to random integer between 1+{_loot} and 100+{_loot}
+      set {_lootChance} to {_loot} / 10
+      if {_int} > 80:
+        customItem(goat horn, "&7&lRavager Horn", "loot", 2, {ravagerSpawned})
+      else if {_int} > 20:
+        customItem(goat horn, "&7&lRavager Horn", "loot", 1, {ravagerSpawned})
+
+# Mob Spawning Pillager
+
+on death of pillager:
+	if name of victim is "&f&lPillager Scout":
+		wait 8 second
+		set {_loc} to location(-319.5, -23, -290.5, world "world") or location(-327.5, -23, -288.5, world "world") or location(-333.5, -23, -292.5, world "world") or location(-332.5, -23, -304.5, world "world") or location(-323.5, -23, -307.5, world "world") or location(-316.5, -23, -299.5, world "world")
+		summon pillager at {_loc}
+		set {_e} to last spawned entity
+		set {_e}'s display name to "&f&lPillager Scout"
+		set {_e}'s generic max health attribute to 200
+		set {_e}'s held item to crossbow of power 10
+		heal {_e}
+
+on death of vindicator:
+	if name of victim is "&7&lVindicator":
+		wait 5 second
+		set {_loc} to location(-285.5, -24, -305.5, world "world") or location(-277.5, -24, -305.5, world "world") or location(-274.5, -24, -297.5, world "world") or location(-282.5, -24, -298.5, world "world")
+		summon vindicator at {_loc}
+		set {_e} to last spawned entity
+		set {_e}'s display name to "&7&lVindicator"
+		set {_e}'s generic max health attribute to 100
+		set {_e}'s held item to diamond axe of sharpness 10
+		set {_e}'s generic movement speed attribute to 0.4
+		heal {_e}
+
+on death of evoker:
+	if name of victim is "&e&lEvoker":
+		wait 12 second
+		set {_loc} to location(-284.5, -24, -259.5, world "world") or location(-264.5, -24, -243.5, world "world") or location(-288.5, 24, -236.5, world "world")
+		summon evoker at {_loc}
+		set {_e} to last spawned entity
+		set {_e}'s display name to "&e&lEvoker"
+		set {_e}'s generic max health attribute to 80
+		set {_e}'s off hand item to totem of undying
+		heal {_e}

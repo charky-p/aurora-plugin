@@ -1,0 +1,46 @@
+options:
+	g: &7[&f&lExodia Gatekeeper&7]
+	b: &7[&6&lBalthazar's Guard&7]
+	c: &7[&f&lTravelling Villager&7]
+	d: &7[&f&lGormak Pass Seller&7]
+on right click on an entity:
+	if entity's display name is "&f&lExodia Gatekeeper":
+		if {talking} is false:
+			set {talking} to true
+			message "{@g}:&fHello %player%, I am the Gatekeeper to Exodia" to player
+			wait 3 seconds
+			message "{@g}:&fExodia is a dangerous place, I only let the worthy inside" to player
+			wait 3 seconds
+			message "{@g}:&fCome back to me when you have obtained &428x &9[&3Angel Tears&9]" to player
+			set {talking} to false
+
+on right click on an entity:
+	if entity's display name is "&6&lBalthazar's Guard":
+		if {talking} is false:
+			set {talking} to true
+			message "{@b}:&fPlease go Kill yourself" to player
+			wait 3 seconds
+			message "{@b}:&fThe game is not finished, Balthazar is waiting to EXIST" to player
+			wait 3 seconds
+			message "{@b}:&fOnce he rises, my power will be released. and you will all die." to player
+			set {talking} to false
+
+on right click on an entity:
+	set {_waited} to difference between {cooldown::%player's uuid%::rightclick} and now
+	if entity's display name is "&f&lTravelling Villager":
+		if {_waited} > 3 seconds:
+			set {cooldown::%player's uuid%::rightclick} to now
+			message "{@c}:&f Beware %player%, these are the sandstone caves where Gormak lies" to player
+			wait 3 seconds
+			message "{@c}:&f Go to Ben at the camp nearby to buy a bow and shield" to player
+			wait 3 seconds
+			message "{@c}:&f If you get a key, you can summon Gormak, good luck on your journey" to player
+
+
+#use proper cooldown, global variable includes every player
+#bug with "you already have gormak's pass"
+
+
+
+
+

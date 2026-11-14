@@ -1,0 +1,191 @@
+# Arachne Boss
+
+on right click with tripwire hook:
+  cancel event
+  if name of event-item is "&7&lArachne Key":
+    if {arachneExists} is false:
+      remove 1 of event-item from player
+      set {arachneSpawn} to player
+      set {arachneExists} to true
+      send "&a&lArachne boss has spawned" to player #color
+      play sound "entity.lightning_bolt.thunder"
+      play sound "entity.lightning_bolt.impact"
+      summon spider at location(-173.5, -16, 258.5, world "world")
+      set {_e} to last spawned entity
+      summon skeleton at location(-173.5, -16, 258.5, world "world")
+      set {_e2} to last spawned entity
+      make {_e2} ride {_e}
+      set {_e}'s display name to "&a&lArachne The Crimson Widow"
+      set {_e2}'s display name to "&e&lArachne Skeletal Summon"
+      equip {_e2} with golden helmet of mending and iron chestplate of mending
+      set {_e2}'s held item to bow of power 25
+      set {_e2}'s generic max health attribute to 1
+      heal {_e2}
+      apply glowing to {_e} for 10000 year
+      set {_e}'s generic max health attribute to 200
+      set {_e}'s generic armor attribute to 20
+      set {_e}'s generic attack damage attribute to 60
+      heal {_e}
+      set {_e}'s target to player
+      set bar progress of {barArachne} to 100
+      set bar visibility of {barArachne} to false
+      remove all players from {barArachne}
+      loop all players in radius 50 of {_e2}:
+        set bar visibility of {barArachne} to true
+        add loop-player to {barArachne}
+      wait 2 second
+      while {_e2} is alive:
+        if {_e} is alive:
+          loop all players in radius 12 of {_e}:
+            set {_loc1} to location of loop-player
+            set {_block1} to block of {_loc1}
+            set {_loc2} to location above {_loc1}
+            set {_block2} to block of {_loc2}
+            set block at {_loc1} to cobweb
+            set block at {_loc2} to cobweb
+            send "&aArachne spat out a cobweb" to loop-player
+            wait 5 second
+            send {_block1} and {_block2} to loop-player
+            set block at {_loc1} to {_block1}
+            set block at {_loc2} to {_block2}
+            wait 1 second
+          set bar visibility of {barArachne} to false
+          remove all players from {barArachne}
+          if {_e} is alive:
+            loop all players in radius 50 of {_e2}:
+              set bar visibility of {barArachne} to true
+              add loop-player to {barArachne}
+        wait 3 second
+      while {_e} is alive:
+        loop all players in radius 50 of {_e}:
+          send "&aArachne has went invisible" to loop-player
+          set {_e}'s target to loop-player
+        apply invisibility without particles to {_e} for 3 second
+        remove glowing from potion effects of {_e}
+        apply speed 2 without particles to {_e} for 10000 year
+        wait 3 second
+        apply glowing to {_e} for 10000 year
+        remove all players from {barArachne}
+        if {_e} is alive:
+          loop all players in radius 50 of {_e2}:
+            add loop-player to {barArachne}
+        wait 5 second
+    else:
+      send "&7You cannot summon Arachne until you defeat them"
+
+on damage of spider:
+  if name of victim is "&a&lArachne The Crimson Widow":
+    wait 1 tick
+    set {_health} to health of victim
+    set {_maxHealth} to max health of victim
+    set {_maxHealthPercent} to {_health} / {_maxHealth} * 100
+    if {_health} is not 0:
+      set bossbar progress of {barArachne} to {_maxHealthPercent}
+
+on damage of player:
+  if name of attacker is "&a&lArachne The Crimson Widow":
+    apply poison 3 without particles to victim for 3 second
+    apply slowness 1 without particles to victim for 1 second
+
+on death of spider:
+  if name of victim is "&a&lArachne The Crimson Widow":
+    set bossbar visibility of {barArachne} to false
+    set {arachneExists} to false
+    send "&aArachne spat out a poison goo" to attacker
+    apply poison 10 without particles to attacker for 8 second
+    apply slowness 1 without particles to attacker for 3 second
+    chance of 0.1%:
+      customItem(iron sword, "&x&F&F&F&F&F&F&lS&x&F&8&F&8&F&9&lI&x&F&0&F&2&F&3&lL&x&E&9&E&B&E&C&lK&x&E&2&E&4&E&6 &x&D&B&D&E&E&0&lB&x&D&3&D&7&D&A&lL&x&C&C&D&0&D&3&lA&x&C&4&C&A&C&D&lD&x&B&D&C&3&C&7&lE", "combat", 1, attacker, 80, 20, 46.5)
+
+# Loottable for Arachne Mobs
+
+on death of cave spider:
+	if victim's display name is "&2&lToxic Weaverling":
+		add 500 to {exp::%attacker's uuid%}
+		cancel drops
+		set {_loot} to the level of looting on attacker's tool
+		set {_int} to random integer between 1+{_loot} and 100+{_loot}
+		set {_lootChance} to {_loot} / 10
+		if {_int} > 90:
+			customItem(spider eye, "&2&lToxic Eye", "loot", 3, attacker)
+		else if {_int} > 40:
+			customItem(spider eye, "&2&lToxic Eye", "loot", 2, attacker)
+		else:
+			customItem(spider eye, "&2&lToxic Eye", "loot", 1, attacker)
+		chance of {_lootChance}%:
+			customItem(tripwire hook, "&7&lArachne Key", "key", 1, attacker)
+
+on death of spider:
+	if victim's display name is "&f&lSilk Spindler":
+		add 750 to {exp::%attacker's uuid%}
+		cancel drops
+		set {_loot} to the level of looting on attacker's tool
+		set {_int} to random integer between 1+{_loot} and 100+{_loot}
+		set {_lootChance} to {_loot} / 10
+		if {_int} > 90:
+			customItem(string, "&f&lSpider Silk", "loot", 5, attacker)
+		else if {_int} > 60:
+			customItem(string, "&f&lSpider Silk", "loot", 4, attacker)
+		else if {_int} > 30:
+			customItem(string, "&f&lSpider Silk", "loot", 3, attacker)
+		else:
+			customItem(string, "&f&lSpider Silk", "loot", 2, attacker)
+		chance of 0.1% + {_lootChance}%:
+			customItem(tripwire hook, "&7&lArachne Key", "key", 1, attacker)
+
+on death of skeleton:
+	if victim's display name is "&e&lArachne's Skeletal Summon":
+		add 1100 to {exp::%attacker's uuid%}
+		cancel drops
+		set {_loot} to the level of looting on attacker's tool
+		set {_int} to random integer between 1+{_loot} and 100+{_loot}
+		set {_lootChance} to {_loot} / 10
+		if {_int} > 90:
+			customItem(bone, "&f&lArachne Bone", "loot", 8, attacker)
+		else if {_int} > 50:
+			customItem(bone, "&f&lArachne Bone", "loot", 7, attacker)
+		else:
+			customItem(bone, "&f&lArachne Bone", "loot", 6, attacker)
+		chance of 0.5% + {_lootChance}%:
+			customItem(tripwire hook, "&7&lArachne Key", "key", 1, attacker)
+
+# Arachne Mob Spawning
+
+on death of cave spider:
+	if victim's display name is "&2&lToxic Weaverling":
+		wait 4 seconds
+		set {_loc} to location(-230.5, -30, 240.5, world "world") or location(-230.5, -30, 246.5, world "world") or location(-238.5, -30, 246.5, world "world") or location(-238.5, -30, 240.5, world "world")
+		spawn cave spider at {_loc}
+		set {_toxic} to last spawned entity
+		set {_toxic}'s display name to "&2&lToxic Weaverling"
+		set {_toxic}'s generic attack damage attribute to 15
+		set {_toxic}'s generic armor attribute to 5
+		set max health of {_toxic} to 10
+		heal {_toxic}
+		set target of {_toxic} to attacker
+
+
+on death of spider:
+	if victim's display name is "&f&lSilk Spindler":
+		wait 3 seconds
+		set {_loc} to location(-200.5, -29, 259.5, world "world") or location(-199.5, -29, 263.5, world "world") or location(-202.5, -29, 263.5, world "world") or location(-205.5, -29, 265.5, world "world") or location(-204.5, -29, 259.5, world "world")
+		spawn spider at {_loc}
+		set {_Silk} to last spawned entity
+		set {_Silk}'s display name to "&f&lSilk Spindler"
+		set {_Silk}'s generic attack damage attribute to 15
+		set {_Silk}'s generic armor attribute to 10
+		set max health of {_Silk} to 10
+		heal {_Silk}
+		set target of {_Silk} to attacker
+
+on death of skeleton:
+	if victim's display name is "&e&lArachne's Skeletal Summon":
+		wait 3 seconds
+		set {_loc} to location(-184.5, -16, 254.5, world "world") or location(-184.5, -16, 263.5, world "world")
+		spawn skeleton at {_loc}
+		set {_skeletal} to last spawned entity
+		set {_skeletal}'s display name to "&e&lArachne's Skeletal Summon"
+		set max health of {_skeletal} to 50
+		equip {_skeletal} with golden helmet of mending and golden chestplate of mending
+		set {_skeletal}'s held item to bow of power 40
+		heal {_skeletal}

@@ -25,13 +25,7 @@ god tool (name TBD): later, combine the pick, axe (and shovel) lines into one to
 blocks are a rule on its tool component (ItemFactory.makeRightTool), one rule per kind, so the
 god tool is just one item with all the rules, and MineListener gives Fortune on any of them
 
-fortune multiplier, various blast enchantments
-
-bunch of new mines from non mine blocks to be named smthin else
-
 overworld pickaxe, and world pickaxes
-
-blocks have a density factor, which reduces the effectiveness of fortune, as well as efficiency (`-density` to efficiency)
 
 talismans
 
@@ -43,42 +37,30 @@ player scoreboard underneath name, health | mana | pvp on/off
 
 reforge and enchant, replace with shop and permanent upgrades with essence
 
-bestiary for mobs
-
 crates
-
-ranks have perks, e.g. 1.1x resoures, coins, xp
 
 currencies: coins + essence
 
-send inventory or item in chat
-
 grapple for movement early on, movement items category like elytra, dash
-
-extra inventory for priority items go when full inventory
-
-rank ups based off playtime + blocks mined, perhaps essence cost or gain essence on rank up
-[PLAYER, ROOKIE, APPRENTICE, NOVICE, EXPERT, NOBLE, LORD, DUKE, MASTER, GRANDMASTER]
 
 mine tierlists?
 
 world ideas: space, farm, void, twilight, candy, wasteland, sakura, volcano, mushroom
 
-turn off block drops for specific mines, make fortune go crazy but block density will negate some
-fortune levels, efficiency will be gradual at the start, but upgrades
-like more essence, 1 blast level, double drops, etc
-
-collections rewards: mine 100000 of a block, get stat buff (+ fortune)
-collection thing is from low drop rate, if unlocked get essence
-
 mounts, with the ghast saddle
 
 #### Server Design
-world 1 (overworld): 4 regions
+world 1 (overworld): 5 main regions
 1. Origin Isles - plains like sky islands (stone, coal, copper, iron, gold, gormak)
-2. Verdant Groves - forest island, grapple unlockable (oak log, birch log, spruce log, dark oak log, tin, bronze, lead, silver, treant or tree zombee in large treehouse)
-3. Emerald Peaks  - large mountain island, elytra unlockable (snow, dirt, pumpkin, melon, redstone, lapis, emerald, arachne)
-4. Ironbound Quarry - detached quarry island, need elytra to go to (pale log, maple, gravel, clay, ashen soil, tungston, platinum, titanium, diamond, pillager, quarry, world boss (overworld golem))
+2. Gormak - desert "mini world"
+3. Verdant Groves - forest island, grapple unlockable (oak log, birch log, spruce log, dark oak log, tin, bronze, lead, silver, treant or tree zombee in large treehouse), 2 large island
+4. Elderwood Roots - forest "mini world", huge world tree in the middle, this region only deals with around it
+5. Sunken Marsh - swamp area with 1 big island, hydra
+6. Khorvath - desert "mini world" region 2
+7. Emerald Peaks  - large mountain island, elytra unlockable (snow, dirt, pumpkin, melon, redstone, lapis, emerald, arachne)
+8. Elderwood Roots pt2 - inside the huge world tree now
+9. Ironbound Quarry - detached quarry island, need elytra to go to (pale log, maple, gravel, clay, ashen soil, tungston, platinum, titanium, diamond, pillager, quarry, world boss (overworld golem))
+10. Duat - finale of the desert "mini world" in the duat
 
 world boss spawns retroactively every 5 minutes, there are also temple guards that drop overworld shards, 
 can combine to overworld core, dropped by overworld golem

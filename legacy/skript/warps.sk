@@ -1,0 +1,8 @@
+command /setwarp <text>:
+	trigger:
+		if arg-1 is "gormak":
+			set {warpGormak} to player's location
+		else if arg-1 is "arachne":
+			set {warpArachne} to player's location
+		else if arg-1 is "pillager":
+			set {warpPillager} to player's location

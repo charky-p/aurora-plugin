@@ -1,0 +1,557 @@
+#rank.sk
+# Staff ranks: owner, [manager, senior_admin, co-owner], [admin, senior_mod], head_dev, head_builder, dev, mod, junior_mod, builder, helper, trainee
+# Donator ranks: Luminary, Celestial, Aurora
+# Donator packages: Luminary (supporter, donor, investor, VIP), Celestial (rich, patron, VIP+, MVP), Aurora (MVP+, maestro)
+
+# donor suffix: supporter, donor, investor, rich, patron, VIP, VIP+, MVP, MVP+, maestro
+# Player playtime suffixes: new, regular, veteran
+# Player upgradable suffixes: N/A advanced, elite, legend, titan, immortal, divine, eternal, ultimate, supreme, legendary, champion, collosal, hero, warrior, apex, invincible, nexus, radiant, paragon, ascendant
+# misc suffixes: overworld, caverns, etc.
+# more misc suffixes: angelic, demonic, beast, spirit, archangel, christmas 2023, halloween 2023, etc overlord, soverign
+# fishing/ ranks: beginner, novice, rookie, amateur, apprentice, intermediate, adept, experienced, skilled, advanced, proficient, expert, veteran, elite, master, grandmaster
+
+# COMMANDS --------------------------------------------------------------------------------
+command /rank <player> <text> <text>:
+	permission: op
+	cooldown: 1 second
+	usage: /rank <player> <type> <rank>
+	trigger:
+		if arg-2 is "staff":
+			if {TstaffRankList::*} contains arg-3:
+				set {rank::%arg-1's uuid%::%arg-3%} to true
+				send "&7%arg-1% now has %arg-3% rank" to player
+		else if arg-2 is "donor":
+			if {TdonorRankList::*} contains arg-3:
+				set {rank::%arg-1's uuid%::%arg-3%} to true
+				send "&7%arg-1% now has %arg-3% rank" to player
+		else if arg-2 is "player":
+			if {TplayerRankList::*} contains arg-3:
+				set {rank::%arg-1's uuid%::%arg-3%} to true
+				send "&7%arg-1% now has %arg-3% rank" to player
+
+command /unrank <player> <text> <text>:
+	permission: op
+	cooldown: 1 second
+	usage: /unrank <player> <type> <rank>
+	trigger:
+		if arg-2 is "staff":
+			if {TstaffRankList::*} contains arg-3:
+				set {rank::%arg-1's uuid%::%arg-3%} to false
+				send "&7%arg-1% no longer has %arg-3% rank" to player
+		else if arg-2 is "donor":
+			if {TdonorRankList::*} contains arg-3:
+				set {rank::%arg-1's uuid%::%arg-3%} to false
+				send "&7%arg-1% no longer has %arg-3% rank" to player
+		else if arg-2 is "player":
+			if {TplayerRankList::*} contains arg-3:
+				set {rank::%arg-1's uuid%::%arg-3%} to false
+				send "&7%arg-1% no longer has %arg-3% rank" to player
+
+command /checkrank <player> <text>:
+	permission: op
+	cooldown: 1 second
+	usage: /checkrank <player> <rank>
+	trigger:
+		if {rank::%arg-1's uuid%::%arg-2%} is true:
+			send "&7%arg-1% has %arg-2% rank" to player
+		else:
+			send "&7%arg-1% does not have %arg-2% rank" to player
+
+command /suffix <player> <text>:
+	permission: op
+	cooldown: 1 second
+	usage: /suffix <player> <suffix>
+	trigger:
+		if {suffixesList::*} contains arg-2:
+			set {suffix::%arg-1's uuid%::%arg-2%} to true
+			send "&7%arg-1% now has %arg-2% suffix" to player
+		else:
+			send "&7Invalid suffix" to player
+
+command /removesuffix <player> <text>:
+	permission: op
+	cooldown: 1 second
+	usage: /removesuffix <player> <suffix>
+	trigger:
+		if {suffixesList::*} contains arg-2:
+			set {suffix::%arg-1's uuid%::%arg-2%} to false
+			send "&7%arg-1% no longer has %arg-2% suffix" to player
+		else:
+			send "&7Invalid suffix" to player
+
+command /checksuffix <player> <text>:
+	permission: op
+	cooldown: 1 second
+	usage: /checksuffix <player> <suffix>
+	trigger:
+		if {suffixesList::*} contains arg-2:
+			if {suffix::%arg-1's uuid%::%arg-2%} is true:
+				send "&7%arg-1% has %arg-2% suffix" to player
+			else:
+				send "&7%arg-1% does not have %arg-2% suffix" to player
+		else:
+			send "&7Invalid suffix" to player
+
+command /customise:
+	trigger:
+		openGui("Customise", player)
+		set slot 4 of player's current inventory to book named "&b&lInfo" with lore "&7Customise your chat format and tablist"
+		set slot 20 of player's current inventory to nametag of mending with all flags hidden named "&e&lRANKS"
+		set slot 22 of player's current inventory to lime stained glass pane of mending with all flags hidden named "&7[&lSUFFIXES&7]"
+		set slot 24 of player's current inventory to blue dye of mending with all flags hidden named "&c&lC&6&lh&e&la&a&lt &9&lC&5&lo&d&ll&c&lo&6&lr&e&ls"
+
+command /donor <player> <text>:
+	permission: op
+	usage: /donor <player> <add|remove>
+	trigger:
+		if arg-2 is "add":
+			set {suffix2Perms::%arg-1's uuid%} to true
+			send "&7%arg-1% now has suffix 2 perms"
+		else if arg-2 is "remove":
+			set {suffix2Perms::%arg-1's uuid%} to false
+			send "&7%arg-1% no longer has suffix 2 perm"
+
+command /color <player> <text>:
+	permission: op
+	usage: /color <player> <color>
+	trigger:
+		loop {colorsList::*}:
+			if arg-2 is loop-value:
+				set {color::%player's uuid%::%loop-value%} to true
+				send "&7%arg-1% now has %{color::%loop-value%}%%arg-2% color" to player
+		if {colorsList::*} does not contain arg-2:
+			send "&7Invalid Color" to player
+
+command /uncolor <player> <text>:
+	permission: op
+	usage: /uncolor <player> <color>
+	trigger:
+		loop {colorsList::*}:
+			if arg-2 is loop-value:
+				delete {color::%player's uuid%::%loop-value%}
+				send "&7%arg-1% no longer has %{color::%loop-value%}%%arg-2% color" to player
+		if {colorsList::*} does not contain arg-2:
+			send "&7Invalid Color" to player
+
+command /var [<text>]:
+	permission: op
+	usage: /var reset
+	trigger:
+		if arg-1 is "reset":
+			set {suffixesList::*} to "new", "regular", "veteran", "supporter", "donor", "investor", "rich", "patron", "maestro", "VIP", "VIP+", "MVP" and "MVP+"
+			set {suffix::supporter} to "&a[SUPPORTER]"
+			set {suffix::donor} to "&5[DONOR]"
+			set {suffix::investor} to "&a[INVESTOR]"
+			set {suffix::rich} to "&a[$RICH$]"
+			set {suffix::patron} to "&d[PATRON]"
+			set {suffix::maestro} to "&6[MAESTRO]"
+			set {suffix::VIP} to "&2[VIP]"
+			set {suffix::VIP+} to "&2[VIP+]"
+			set {suffix::MVP} to "&b[MVP]"
+			set {suffix::MVP+} to "&b[MVP+]"
+			set {suffix::new} to "&7[&8NEW&7]"
+			set {suffix::regular} to "&7[&8REGULAR&7]"
+			set {suffix::veteran} to "&7[&8VETERAN&7]"
+			set {suffix::description::supporter} to "&7Obtainable through the Luminary Donor Package with /buy"
+			set {suffix::description::donor} to "&7Obtainable through the Luminary Donor Package with /buy"
+			set {suffix::description::investor} to "&7Obtainable through the Luminary Donor Package with /buy"
+			set {suffix::description::VIP} to "&7Obtainable through the Luminary Donor Package with /buy"
+			set {suffix::description::rich} to "&7Obtainable through the Celestial Donor Package with /buy"
+			set {suffix::description::patron} to "&7Obtainable through the Celestial Donor Package with /buy"
+			set {suffix::description::VIP+} to "&7Obtainable through the Celestial Donor Package with /buy"
+			set {suffix::description::MVP} to "&7Obtainable through the Celestial Donor Package with /buy"
+			set {suffix::description::MVP+} to "&7Obtainable through the Aurora Donor Package with /buy"
+			set {suffix::description::Maestro} to "&7Obtainable through the Aurora Donor Package with /buy"
+			set {suffix::description::new} to "&7Obtained when you first joined the server"
+			set {suffix::description::regular} to "&7Obtained by playing for more than 10 hours"
+			set {suffix::description::veteran} to "&7Obtained by playing for more than 100 hours!"
+
+			set {TstaffRankList::*} to "trainee", "helper", "builder", "junior_mod", "mod", "dev", "head_builder", "head_dev", "senior_mod", "admin", "co_owner", "senior_admin", "manager" and "owner"
+			set {rank::string::owner} to "&x&A&A&0&0&0&0&lO&x&C&0&1&6&1&6&lW&x&D&5&2&B&2&B&lN&x&E&A&4&0&4&0&lE&x&F&F&5&5&5&5&lR"
+			set {rank::string::admin} to "&4&lADMIN"
+			set {rank::string::mod} to "&a&lMOD"
+			set {rank::string::builder} to "&b&lBUILDER"
+			set {rank::string::senior_mod} to "&a&lSENIOR MOD"
+			set {rank::string::co_owner} to "&4&lCO OWNER"
+			set {rank::string::senior_admin} to "&4&lSENIOR ADMIN"
+			set {rank::string::manager} to "&4&lMANAGER"
+			set {rank::string::head_dev} to "&d&lHEAD DEV"
+			set {rank::string::head_builder} to "&b&lHEAD BUILDER"
+			set {rank::string::junior_mod} to "&a&lJUNIOR MOD"
+			set {rank::string::helper} to "&9&lHELPER"
+			set {rank::string::trainee} to "&7&lTRAINEE"
+			set {rank::string::dev} to "&d&lDEV"
+			set {TdonorRankList::*} to "luminary", "celestial" and "aurora"
+			set {rank::string::luminary} to "&x&F&F&F&F&5&5&lL&x&F&F&F&3&4&9&lU&x&F&F&E&7&3&D&lM&x&F&F&D&B&3&1&lI&x&F&F&C&E&2&4&lN&x&F&F&C&2&1&8&lA&x&F&F&B&6&0&C&lR&x&F&F&A&A&0&0&lY"
+			set {rank::string::celestial} to "&x&6&5&4&E&A&3&lC&x&7&6&5&A&A&8&lE&x&8&7&6&7&A&D&lL&x&9&7&7&2&B&1&lE&x&A&8&7&F&B&6&lS&x&B&8&8&B&B&A&lT&x&C&9&9&7&B&F&lI&x&D&9&A&3&C&3&lA&x&E&A&A&F&C&8&lL"
+			set {rank::string::aurora} to "&x&7&F&7&F&D&5&lA&x&8&2&9&0&D&C&lU&x&8&5&A&0&E&3&lR&x&8&8&B&5&E&6&lO&x&8&C&C&F&E&5&lR&x&9&1&E&A&E&4&lA"
+			set {TplayerRankList::*} to "member", "vanguard" and "guardian"
+			set {rank::string::member} to "&8&lMEMBER"
+			set {rank::string::vanguard} to "&3&lVANGUARD"
+			set {rank::string::guardian} to "&6&lGUARDIAN"
+			set {rank::score::senior_mod} to "ꜱᴇɴɪᴏʀ ᴍᴏᴅ"
+			set {rank::score::senior_admin} to "ꜱᴇɴɪᴏʀ ᴀᴅᴍɪɴ"
+			set {rank::score::manager} to "ᴍᴀɴᴀɢᴇʀ"
+			set {rank::score::head_dev} to "ʜᴇᴀᴅ ᴅᴇᴠ"
+			set {rank::score::co_owner} to "ᴄᴏ ᴏᴡɴᴇʀ"
+			set {rank::score::head_builder} to "ʜᴇᴀᴅ ʙᴜɪʟᴅᴇʀ"
+			set {rank::score::dev} to "ᴅᴇᴠ"
+			set {rank::score::junior_mod} to "ᴊᴜɴɪᴏʀ ᴍᴏᴅ"
+			set {rank::score::helper} to "ʜᴇʟᴘᴇʀ"
+			set {rank::score::trainee} to "ᴛʀᴀɪɴᴇᴇ"
+			set {rank::score::owner} to "ᴏᴡɴᴇʀ"
+			set {rank::score::admin} to "ᴀᴅᴍɪɴ"
+			set {rank::score::mod} to "ᴍᴏᴅ"
+			set {rank::score::builder} to "ʙᴜɪʟᴅᴇʀ"
+			set {rank::score::luminary} to "ʟᴜᴍɪɴᴀʀʏ"
+			set {rank::score::celestial} to "ᴄᴇʟᴇꜱᴛɪᴀʟ"
+			set {rank::score::aurora} to "ᴀᴜʀᴏʀᴀ"
+			set {rank::score::member} to "ᴍᴇᴍʙᴇʀ"
+			set {rank::score::guardian} to "ɢᴜᴀʀᴅɪᴀɴ"
+			set {rank::score::vanguard} to "ᴠᴀɴɢᴜᴀʀᴅ"
+			set {rank::description::member::*} to "&7Default rank you get when you first join Auroramines"
+			set {rank::description::vanguard::*} to "&7Purchasable with essence through /shop"
+			set {rank::description::guardian::*} to "&7Purchasable with essence through /shop"
+			set {rank::description::luminary::*} to "&7Benefits include:" and "&7+ VIP mines" and "&7+ Suffixes: Supporter, Donor, Investor and VIP" and "Buy now for $2.99 USD with /buy"
+			set {rank::description::celestial::*} to "&7Benefits include:" and "&7+ Warps" and "&7+ 2nd Suffix Slot" and "&7+ Suffixes: Rich, Patron, VIP+ and MVP" and "&7+ Luminary benefits" and "Buy now for $4.99 USD with /buy"
+			set {rank::description::aurora::*} to "&7Benefits include:" and "&7+ Access to all Chat Colors" and "&7+ Suffixes: MVP+ and Maestro" and "&7+ /fly" and "&7+ 5000 Essence" and "&7+ Luminary and Celestial benefits" and "Buy now for $9.99 USD with /buy"
+			set {rank::description::trainee::*} to "&7Trainees are able to learn moderating skills" and "&7while accompanied by a moderator" and "&bUse /discord to apply"
+			set {rank::description::helper::*} to "&7Helpers assist the server with what the owner or admin want" and "&bUse /discord to apply"
+			set {rank::description::builder::*} to "&7Builders are important in making the server aesthetically pleasing" and "&bUse /discord to apply"
+			set {rank::description::junior_mod::*} to "&7Junior Mod's are trusted members" and "&7Commands: /mute for up to 1 week" and "&7You may be a helper before becoming a Junior Mod" and "&bUse /discord to apply"
+			set {rank::description::mod::*} to "&7Mod's have more power than Junior Mod's" and "&7Commands: /clearchat, /mute for up to 1 month, /ban for up to 1 week" and "&7You may be a Junior Mod before becoming a Mod" and "&bUse /discord to apply"
+			set {rank::description::dev::*} to "&7Dev's help make the server function" and "&bUse /discord to apply"
+			set {rank::description::head_builder::*} to "&7Head Builder's are highly experienced builders" and "&7They can be in charge of build projects" and "&7You may be a Builder before becoming a Head Builder" and "&bUse /discord to apply"
+			set {rank::description::head_dev::*} to "&7Head Dev's are highly experienced devs" and "&7They can be in charge of dev projects" and "&7You may be a Dev before becoming a Head Dev" and "&bUse /discord to apply"
+			set {rank::description::senior_mod::*} to "&7Senior Mod's are highly experienced mods" and "&7Commands: /mute permanently, /ban for up to 1 month" and "&7You may be a Mod before becoming a Senior Mod" and "&bUse /discord to apply"
+			set {rank::description::admin::*} to "&7Admin's are similar to Senior Mod's, however will assist the owner" and "&7Commands: /mute permanently, /ban for up to 1 month" and "&7You may be a Senior Mod or Mod before becoming an Admin" and "&bUse /discord to apply"
+			set {rank::description::co_owner::*} to "&7Co owners are those integrated with the server" and "&7You cannot apply for this role"
+			set {rank::description::senior_admin::*} to "&7Senior Admins moderate severe punishments" and "&7Commands: /mute permanently, /ban permanently" and "&bUse /discord to apply"
+			set {rank::description::manager::*} to "&7Managers organise most things in a server" and "&bUse /discord to apply"
+			set {rank::description::owner::*} to "&7This role is only owned by Chleo32, the owner of Auroramines" and "&7You cannot apply for this role"
+
+			set {colorsList::*} to "light gray", "white", "yellow", "orange", "red", "lime", "green", "pink", "purple", "light blue", "cyan" and "blue"
+			set {color::blue} to "&9"
+			set {color::cyan} to "&3"
+			set {color::light blue} to "&b"
+			set {color::purple} to "&5"
+			set {color::pink} to "&d"
+			set {color::green} to "&2"
+			set {color::lime} to "&a"
+			set {color::red} to "&c"
+			set {color::orange} to "&6"
+			set {color::yellow} to "&e"
+			set {color::white} to "&f"
+			set {color::light gray} to "&7"
+			set {color::item::blue} to "Blue Dye"
+			set {color::item::cyan} to "Cyan Dye"
+			set {color::item::light blue} to "Light Blue Dye"
+			set {color::item::purple} to "Purple Dye"
+			set {color::item::pink} to "Pink Dye"
+			set {color::item::green} to "Green Dye"
+			set {color::item::lime} to "Lime Dye"
+			set {color::item::red} to "Red Dye"
+			set {color::item::orange} to "Orange Dye"
+			set {color::item::yellow} to "Yellow Dye"
+			set {color::item::white} to "White Dye"
+			set {color::item::light gray} to "Light Gray Dye"
+			send "&7Variables have been reset" to player
+		else if arg-1 is not set:
+			send "&7Rank List: %{TstaffRanklist::*}% | %{TdonorRanklist::*}% | %{TplayerRanklist::*}%" to player
+			send "&7Suffix List: %{suffixesList::*}%" to player
+			send "&7Color List: %{colorsList::*}%" to player
+
+# FUNCTIONS ----------------------------------------------------------------------------------
+function openGui(t: text, p: player):
+	set {_gui} to a new chest inventory with 5 rows named "%{_t}%"
+	open {_gui} to {_p}
+	set slot 1,2,3,4,5,6,7 and 8 of {_gui} to black stained glass pane named " "
+	set slot 9,17,18,26,27 and 35 of {_gui} to black stained glass pane named " "
+	set slot 37,38,39,40,41,42 and 43 of {_gui} to black stained glass pane named " "
+	set slot 0,8 and 36 of {_gui} to gray stained glass pane named " "
+	set slot 44 of {_gui} to barrier named "&c&lBack"
+	set slot 10,11,12,13,14,15,16,19,21,23,25,28,29,30,31,32,33 and 34 of {_gui} to light gray stained glass pane named " "
+
+function setRankGui(gui: inventory):
+	set slot 1,2,3,4,5,6,7 and 8 of {_gui} to black stained glass pane named " "
+	set slot 9,17,18,26,27 and 35 of {_gui} to black stained glass pane named " "
+	set slot 37,38,39,40,41,42 and 43 of {_gui} to black stained glass pane named " "
+	set slot 0,8 and 36 of {_gui} to gray stained glass pane named " "
+	set slot 10,11,12,13,14,15,16,19,21,23,25,28,29,30,31,32,33 and 34 of {_gui} to light gray stained glass pane named " "
+	set slot 44 of {_gui} to barrier named "&c&lBack"
+	set slot 4 of {_gui} to book named "&b&lInfo" with lore "&7Ranks are equiped in front of your name in chat" and "&7You can only equip 1 rank"
+	set slot 20 of {_gui} to name tag of mending with all flags hidden named "&7&lPlayer Ranks" with lore "&7Click to check options"
+	set slot 22 of {_gui} to name tag of mending with all flags hidden named "&5&lDonor Ranks" with lore "&7Click to check options"
+	set slot 24 of {_gui} to name tag of mending with all flags hidden named "&b&lStaff Ranks" with lore "&7Click to check options"
+	set name of {_gui} to "Ranks"
+
+function subRankGui(name: text, t: text, p: player):
+	set {_gui} to a new chest inventory with 5 rows named "%{_name}%"
+	open {_gui} to {_p}
+	set {_n} to 0
+	loop {T%{_t}%RankList::*}:
+		if {displayRank::%{_p}'s uuid%} is {rank::string::%loop-value%}:
+			set slot {_n} of {_gui} to name tag of mending with all flags hidden named "%{rank::string::%loop-value%}%" with lore "&eEQUIPED" and " " and "&aUNLOCKED"
+		else if {rank::%{_p}'s uuid%::%loop-value%} is true:
+			set slot {_n} of {_gui} to name tag named "%{rank::string::%loop-value%}%" with lore "&eClick to equip this rank" and " " and "&aUNLOCKED"
+		else:
+			set slot {_n} of {_gui} to gray stained glass pane named "%{rank::string::%loop-value%}%" with lore {rank::description::%loop-value%::*} and " " and "&8LOCKED"
+		add 1 to {_n}
+	loop (44-{_n}) times:
+		set slot {_n} of {_gui} to black stained glass pane named " "
+		add 1 to {_n}
+	set slot 44 of {_gui} to barrier named "&c&lBack"
+
+function setSuffixGui(gui: inventory, p: player):
+	set slot 1,2,3,4,5,6,7,8,37,38,39,40,41,42 and 43 of {_gui} to black stained glass pane named " "
+	set slot 4 of {_gui} to book named "&b&lInfo" with lore "&7Suffixes are equiped in front of your name in chat" and "&7You can equip 2 Suffixes with the Celestial or Aurora rank"
+	set {_n} to 9
+	loop {suffixesList::*}:
+		if {displaySuffix1::%{_p}'s uuid%} is {suffix::%loop-value%}:
+			set slot {_n} of {_gui} to lime stained glass pane of mending with all flags hidden named "%{suffix::%loop-value%}%" with lore "&eEQUIPED" and " " and "&aUNLOCKED"
+		else if {displaySuffix2::%{_p}'s uuid%} is {suffix::%loop-value%}:
+			set slot {_n} of {_gui} to lime stained glass pane of mending with all flags hidden named "%{suffix::%loop-value%}%" with lore "&eEQUIPED" and " " and "&aUNLOCKED"
+		else if {suffix::%{_p}'s uuid%::%loop-value%} is true:
+			set slot {_n} of {_gui} to lime stained glass pane named "%{suffix::%loop-value%}%" with lore "&eClick to equip this suffix" and " " and "&aUNLOCKED"
+		else:
+			set slot {_n} of {_gui} to yellow stained glass pane named "%{suffix::%loop-value%}%" with lore "%{suffix::description::%loop-value%}%" and " " and "&8LOCKED"
+		add 1 to {_n}
+	loop (36-{_n}) times:
+		set slot {_n} of {_gui} to black stained glass pane named " "
+		add 1 to {_n}
+	set name of {_gui} to "Suffixes"
+
+function setColorGui(gui: inventory):
+	set slot 1,2,3,4,5,6 and 7 of {_gui} to black stained glass pane named " "
+	set slot 9,17,18,26,27 and 35 of {_gui} to black stained glass pane named " "
+	set slot 37,38,39,40,41,42 and 43 of {_gui} to black stained glass pane named " "
+	set slot 0,8 and 36 of {_gui} to gray stained glass pane named " "
+	set slot 10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33 and 34 of {_gui} to light gray stained glass pane named " "
+	set slot 4 of {_gui} to book named "&b&lInfo" with lore "&7Chat colors enable extra customisation" and "&7Aurora rank will unlock all colors through /buy"
+	set slot 44 of {_gui} to barrier named "&c&lBack"
+	set name of {_gui} to "Chat Colors"
+
+function setCustomiseGui( gui:inventory):
+	set slot 1,2,3,4,5,6,7 and 8 of {_gui} to black stained glass pane named " "
+	set slot 9,17,18,26,27 and 35 of {_gui} to black stained glass pane named " "
+	set slot 37,38,39,40,41,42 and 43 of {_gui} to black stained glass pane named " "
+	set slot 0,8 and 36 of {_gui} to gray stained glass pane named " "
+	set slot 44 of {_gui} to barrier named "&c&lBack"
+	set slot 10,11,12,13,14,15,16,19,21,23,25,28,29,30,31,32,33 and 34 of {_gui} to light gray stained glass pane named " "
+	set slot 4 of {_gui} to book named "&b&lInfo" with lore "&7Customise your chat format and tablist"
+	set slot 20 of {_gui} to nametag of mending with all flags hidden named "&e&lRANKS"
+	set slot 22 of {_gui} to lime stained glass pane of mending with all flags hidden named "&7[&lSUFFIXES&7]"
+	set slot 24 of {_gui} to blue dye of mending with all flags hidden named "&c&lC&6&lh&e&la&a&lt &9&lC&5&lo&d&ll&c&lo&6&lr&e&ls"
+	set name of {_gui} to "Customise"
+
+# OTHER ------------------------------------------------------------------------------------
+
+on inventory click:
+	if name of event-inventory is "Customise":
+		if clicked inventory is not player's inventory:
+			cancel event
+			if index of event-slot is 44:
+				close player's inventory
+			else if index of event-slot is 20:
+				setRankGui(event-inventory)
+			else if index of event-slot is 22:
+				setSuffixGui(event-inventory, player)
+			else if index of event-slot is 24:
+				setColorGui(event-inventory)
+				set {_n} to 10
+				loop {colorsList::*}:
+					set {_dye} to ("%loop-value% dye" parsed as itemtype) with all flags hidden
+					if {displayColor::%player's uuid%} is {color::%loop-value%}:
+						enchant {_dye} with mending
+						if loop-value is "light gray":
+							set slot {_n} of player's current inventory to {_dye} named "%{color::%loop-value%}%%{color::item::%loop-value%}% Chat Color" with lore "&eEQUIPED" and " " and "&7DEFAULT COLOR"
+						else if loop-value is "white":
+							set slot {_n} of player's current inventory to {_dye} named "%{color::%loop-value%}%%{color::item::%loop-value%}% Chat Color" with lore "&eEQUIPED" and " " and "&7VETERAN COLOR"
+						else:
+							set slot {_n} of player's current inventory to {_dye} named "%{color::%loop-value%}%%{color::item::%loop-value%}% Chat Color" with lore "&eEQUIPED" and " " and "&7AURORA COLOR"
+					else if {color::%player's uuid%::%loop-value%} is true:
+						if loop-value is "light gray":
+							set slot {_n} of player's current inventory to {_dye} named "%{color::%loop-value%}%%{color::item::%loop-value%}% Chat Color" with lore "&aUNLOCKED" and " " and "&7DEFAULT COLOR"
+						else if loop-value is "white":
+							set slot {_n} of player's current inventory to {_dye} named "%{color::%loop-value%}%%{color::item::%loop-value%}% Chat Color" with lore "&aUNLOCKED" and " " and "&7VETERAN COLOR"
+						else:
+							set slot {_n} of player's current inventory to {_dye} named "%{color::%loop-value%}%%{color::item::%loop-value%}% Chat Color" with lore "&aUNLOCKED" and " " and "&7AURORA COLOR"
+					else:
+						if loop-value is "white":
+							set slot {_n} of player's current inventory to {_dye} named "%{color::%loop-value%}%%{color::item::%loop-value%}% Chat Color" with lore "&8LOCKED" and " " and "&7VETERAN COLOR"
+						else:
+							set slot {_n} of player's current inventory to {_dye} named "%{color::%loop-value%}%%{color::item::%loop-value%}% Chat Color" with lore "&8LOCKED" and " " and "&7AURORA COLOR"
+					if {_n} is 16:
+						add 3 to {_n}
+					else:
+						add 1 to {_n}
+	else if name of event-inventory is "Suffixes":
+		if clicked inventory is not player's inventory:
+			cancel event
+			if index of event-slot is 44:
+				setCustomiseGui(event-inventory)
+			else:
+				set {_n} to 9
+				loop {suffixesList::*}:
+					if index of event-slot is {_n}:
+						if {suffix::%player's uuid%::%loop-value%} is true:
+							set slot 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34 and 35 of event-inventory to air
+							set slot 9,17,18,26,27 and 35 of event-inventory to black stained glass pane named " "
+							set slot 4 of event-inventory to lime stained glass pane named "%{suffix::%loop-value%}%" with lore "&eCurrent Selection"
+							set slot 20 of event-inventory to book named "&eChoose as Suffix 1" with lore "&7This will be the first suffix displayed when you chat"
+							set slot 22 of event-inventory to book named "&eChoose as Suffix 2" with lore "&7This will be the second suffix displayed when you chat" and "&7Requires Celestial or Aurora, do /buy"
+							set slot 24 of event-inventory to barrier named "&eUnequip" with lore "&7This will unequip this suffix"
+							set name of event-inventory to "Suffix Selection"
+						else:
+							send "&7You do not have %{suffix::%loop-value%}% &7suffix" to player
+					add 1 to {_n}
+	else if name of event-inventory is "Suffix Selection":
+		if clicked inventory is not player's inventory:
+			cancel event
+			if index of event-slot is 44:
+				setSuffixGui(event-inventory, player)
+			else if index of event-slot is 20:
+				loop {suffixesList::*}:
+					if name of slot 4 of event-inventory contains loop-value:
+						set {displaySuffix1::%player's uuid%} to {suffix::%loop-value%}
+						send "%{suffix::%loop-value%}% suffix has been equiped as suffix 1" to player
+						close player's inventory
+			else if index of event-slot is 22:
+				loop {suffixesList::*}:
+					if name of slot 4 of event-inventory contains loop-value:
+						if {suffix2Perms::%player's uuid%} is true:
+							set {displaySuffix2::%player's uuid%} to {suffix::%loop-value%}
+							send "%{suffix::%loop-value%}% suffix has been equiped as suffix 2" to player
+							close player's inventory
+						else:
+							send "&7You do not have a donor rank, do /buy to get one"
+			else if index of event-slot is 24:
+				loop {suffixesList::*}:
+					if name of slot 4 of event-inventory contains loop-value:
+						if {displaySuffix1::%player's uuid%} is {suffix::%loop-value%}:
+							delete {displaySuffix1::%player's uuid%}
+							send "%{suffix::%loop-value%}% suffix has been unequiped" to player
+							close player's inventory
+						else if {displaySuffix2::%player's uuid%} is {suffix::%loop-value%}:
+							delete {displaySuffix2::%player's uuid%}
+							send "%{suffix::%loop-value%}% suffix has been unequiped" to player
+							close player's inventory
+						else:
+							send "&7This suffix is not equiped"
+	else if name of event-inventory is "Ranks":
+		if clicked inventory is not player's inventory:
+			cancel event
+			if index of event-slot is 44:
+				setCustomiseGui(event-inventory)
+			else if index of event-slot is 24:
+				subRankGui( "&bStaff Ranks", "staff", player)
+			else if index of event-slot is 22:
+				subRankGui("&5Donor Ranks", "donor", player)
+			else if index of event-slot is 20:
+				subRankGui("&7Player Ranks", "player", player)
+	else if name of event-inventory is "&bStaff Ranks":
+		cancel event
+		if clicked inventory is not player's inventory:
+			set {_n} to 0
+			if index of event-slot is not 44:
+				loop {TstaffRankList::*}:
+					if index of event-slot is {_n}:
+						if {rank::%player's uuid%::%loop-value%} is true:
+							set {displayRank::%player's uuid%} to {rank::string::%loop-value%}
+							set {scoreboardRank::%player's uuid%} to {rank::score::%loop-value%}
+							send "&7You equiped %{rank::string::%loop-value%}% &7rank" to player
+							close player's inventory
+							set the player's tablist name to "%{displayRank::%player's uuid%}% &r%player%"
+						else:
+							send "&7You do not have %{rank::string::%loop-value%}% &7rank" to player
+					add 1 to {_n}
+			else:
+				setRankGui(event-inventory)
+	else if name of event-inventory is "&5Donor Ranks":
+		cancel event
+		if clicked inventory is not player's inventory:
+			set {_n} to 0
+			if index of event-slot is not 44:
+				loop {TdonorRankList::*}:
+					if index of event-slot is {_n}:
+						if {rank::%player's uuid%::%loop-value%} is true:
+							set {displayRank::%player's uuid%} to {rank::string::%loop-value%}
+							set {scoreboardRank::%player's uuid%} to {rank::score::%loop-value%}
+							send "&7You equiped %{rank::string::%loop-value%}% &7rank" to player
+							close player's inventory
+							set the player's tablist name to "%{displayRank::%player's uuid%}% &r%player%"
+						else:
+							send "&7You do not have %{rank::string::%loop-value%}% &7rank" to player
+					add 1 to {_n}
+			else:
+				setRankGui(event-inventory)
+	else if name of event-inventory is "&7Player Ranks":
+		cancel event
+		if clicked inventory is not player's inventory:
+			set {_n} to 0
+			if index of event-slot is not 44:
+				loop {TplayerRankList::*}:
+					if index of event-slot is {_n}:
+						if {rank::%player's uuid%::%loop-value%} is true:
+							set {displayRank::%player's uuid%} to {rank::string::%loop-value%}
+							set {scoreboardRank::%player's uuid%} to {rank::score::%loop-value%}
+							send "&7You equiped %{rank::string::%loop-value%}% &7rank" to player
+							close player's inventory
+							set the player's tablist name to "%{displayRank::%player's uuid%}% &r%player%"
+						else:
+							send "&7You do not have %{rank::string::%loop-value%}% &7rank" to player
+					add 1 to {_n}
+			else:
+				setRankGui(event-inventory)
+	else if name of event-inventory is "Chat Colors":
+		if clicked inventory is not player's inventory:
+			cancel event
+			set {_n} to 10
+			if index of event-slot is not 44:
+				loop {colorsList::*}:
+					if index of event-slot is {_n}:
+						if {color::%player's uuid%::%loop-value%} is true:
+							set {displayColor::%player's uuid%} to {color::%loop-value%}
+							send "&7You equiped the %{color::item::%loop-value%}% Chat Color" to player
+							close player's inventory
+						else:
+							send "&7You do not have the %{color::item::%loop-value%}% Chat Color" to player
+					if {_n} is 16:
+						add 3 to {_n}
+					else:
+						add 1 to {_n}
+			else:
+				setCustomiseGui(event-inventory)
+
+on chat:
+	if {displayColor::%player's uuid%} is set:
+		if {displaySuffix1::%player's uuid%} is set:
+			if {displaySuffix2::%player's uuid%} is set:
+				set chat format to "%{displayRank::%player's uuid%}% &7[player] %{displaySuffix1::%player's uuid%}% %{displaySuffix2::%player's uuid%}% &7» %{displayColor::%player's uuid%}%[message]"
+			else:
+				set chat format to "%{displayRank::%player's uuid%}% &7[player] %{displaySuffix1::%player's uuid%}% &7» %{displayColor::%player's uuid%}%[message]"
+		else:
+			if {displaySuffix2::%player's uuid%} is set:
+				set chat format to "%{displayRank::%player's uuid%}% &7[player] %{displaySuffix2::%player's uuid%}% &7» %{displayColor::%player's uuid%}%[message]"
+			else:
+				set chat format to "%{displayRank::%player's uuid%}% &7[player] &7» %{displayColor::%player's uuid%}%[message]"
+	else:
+		if {displaySuffix1::%player's uuid%} is set:
+			if {displaySuffix2::%player's uuid%} is set:
+				set chat format to "%{displayRank::%player's uuid%}% &7[player] %{displaySuffix1::%player's uuid%}% %{displaySuffix2::%player's uuid%}% &7» &6[message]"
+			else:
+				set chat format to "%{displayRank::%player's uuid%}% &7[player] %{displaySuffix1::%player's uuid%}% &7» &6[message]"
+		else:
+			if {displaySuffix2::%player's uuid%} is set:
+				set chat format to "%{displayRank::%player's uuid%}% &7[player] %{displaySuffix2::%player's uuid%}% &7» &6[message]"
+			else:
+				set chat format to "%{displayRank::%player's uuid%}% &7[player] &7» &6[message]"
+
+on join:
+	if {displayRank::%player's uuid%} is not set:
+		set {displayRank::%player's uuid%} to {rank::string::member}
+		set {rank::%player's uuid%::member} to true
+		set {displaySuffix1::%player's uuid%} to {suffix::new}
+		set {suffix::%player's uuid%::new} to true
+		set {displayColor::%player's uuid%} to {color::light gray}
+		set {color::%player's uuid%::light gray} to true

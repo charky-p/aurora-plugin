@@ -1,0 +1,194 @@
+# Gormak Boss
+
+on right click with tripwire hook:
+	cancel event
+	if name of event-item is "&7&lGormak Key":
+		if {gormakExists} is false:
+			remove 1 of event-item from player
+			set {gormakSpawn} to player
+			send "&7&lGormak Boss has spawned" to player
+			set {gormakExists} to true
+			play sound "entity.lightning_bolt.thunder"
+			play sound "entity.lightning_bolt.impact"
+			spawn adult husk at location(-300, -54, 36, world "world")
+			set {_e} to last spawned entity
+			set {_e}'s display name to "&e&lGormak The Ancient One"
+			set {_e}'s generic max health attribute to 240
+			set {_e}'s generic attack damage attribute to 25
+			heal {_e}
+			equip {_e} with golden helmet of mending and golden chestplate of mending and golden leggings of mending and golden boots of mending
+			set {_e}'s held item to golden sword of fire aspect 1
+			set {_e}'s off hand item to totem of undying
+			apply glowing to {_e} for 10000 seconds
+			set bar progress of {barGormak} to 100
+			set bossbar visibility of {barGormak} to false
+			remove all players from {barGormak}
+			loop all players in radius 50 of {_e}:
+				set bossbar visibility of {barGormak} to true
+				add loop-player to {barGormak}
+			wait 3 second
+			while {_e} is alive:
+				spawn adult husk at {_e}
+				set {_e1} to last spawned entity
+				spawn adult husk at {_e}
+				set {_e2} to last spawned entity
+				spawn adult husk at {_e}
+				set {_e3} to last spawned entity
+				spawn adult husk at {_e}
+				set {_e4} to last spawned entity
+				set {_e1} and {_e2} and {_e3} and {_e4}'s display name to "&8&lGormak's Summon"
+				equip {_e1} and {_e2} and {_e3} and {_e4} with leather tunic and leather pants
+				set {_e1} and {_e2} and {_e3} and {_e4}'s held item to golden hoe
+				set {_e1} and {_e2} and {_e3} and {_e4}'s generic max health attribute to 3
+				set {_e1} and {_e2} and {_e3} and {_e4}'s generic attack damage attribute to 15
+				set {_e1} and {_e2} and {_e3} and {_e4}'s generic movement speed attribute to 0.4
+				heal {_e1} and {_e2} and {_e3} and {_e4}
+				loop all players in radius 20 of {_e}:
+					send "&eGormak has summoned souls" to player
+				wait 5 seconds
+				teleport {_e1} and {_e2} and {_e3} and {_e4} to location(0,0,0,world "world")
+				kill {_e1} and {_e2} and {_e3} and {_e4}
+				set {_v} to vector between {_e} and player
+				push {_e} {_v} with speed 3
+				wait 8 second
+				remove all players from {barGormak}
+				set bossbar visibility of {barGormak} to false
+				if {_e} is alive:
+					loop all players in radius 50 of {_e}:
+						set bossbar visibility of {barGormak} to true
+						add loop-player to {barGormak}
+		else:
+			send "&7You cannot summon Gormak again until you defeat him"
+
+on damage of husk:
+  if name of victim is "&e&lGormak The Ancient One":
+    wait 1 tick
+    if {cooldown::%attacker's uuid%} is not set:
+      set {cooldown::%attacker's uuid%} to false
+    set {_health} to health of victim
+    set {_maxHealth} to max health of victim
+    set {_maxHealthPercent} to {_health} / {_maxHealth} * 100
+    if {_health} is not 0:
+      set bossbar progress of {barGormak} to {_maxHealthPercent}
+    if {cooldown::%attacker's uuid%} is false:
+      loop all players in radius 5 of victim:
+        set {cooldown::%attacker's uuid%} to true
+        set {_v} to vector between victim and loop-player
+        push loop-player {_v} with speed 1
+        send "&eGormak stomped the ground" to attacker
+        wait 5 second
+        set {cooldown::%attacker's uuid%} to false
+
+on death of husk:
+  if name of victim is "&e&lGormak The Ancient One":
+    set bossbar visibility of {barGormak} to false
+    remove all players from {barGormak}
+    set {gormakExists} to false
+    chance of 1%:
+      customItem(golden sword, "&x&F&7&9&7&1&E&lG&x&F&8&9&C&1&C&lO&x&F&8&A&0&1&9&lR&x&F&9&A&4&1&7&lM&x&F&A&A&9&1&5&lA&x&F&A&A&E&1&3&lK&x&F&B&B&2&1&0&l'&x&F&B&B&7&0&E&lS&x&F&C&B&B&0&C &x&F&D&C&0&0&9&lB&x&F&D&C&5&0&7&lL&x&F&E&C&9&0&5&lA&x&F&F&C&E&0&3&lD&x&F&F&D&2&0&0&lE", "combat", 1, attacker, 60, 15, 34.5)
+
+# Lootable for Gormak Mobs
+
+on death of husk:
+	if victim's display name is "&7&lMinion of Gormak":
+		add 50 to {exp::%attacker's uuid%}
+		cancel drops
+		set {_loot} to level of looting of attacker's tool
+		set {_int} to random integer between 1+{_loot} to 100+{_loot}
+		set {_lootChance} to {_loot} / 10
+		if {_int} > 90:
+			customItem(rotten flesh, "&e&lAncient Flesh", "loot", 6, attacker)
+		else if {_int} > 40:
+			customItem(rotten flesh, "&e&lAncient Flesh", "loot", 5, attacker)
+		else:
+			customItem(rotten flesh, "&e&lAncient Flesh", "loot", 4, attacker)
+		chance of 0.1% + {_lootChance}%:
+			customItem(tripwire hook, "&7&lGormak Key", "key", 1, attacker)
+
+on death of skeleton:
+	if victim's display name is "&e&lGormak's Bowman":
+		add 75 to {exp::%attacker's uuid%}
+		cancel drops
+		set {_loot} to level of looting of attacker's tool
+		set {_int} to random integer between 1+{_loot} to 100+{_loot}
+		set {_lootChance} to {_loot} / 10
+		if {_int} > 80:
+			customItem(bone, "&e&lAncient Bone", "loot", 6, attacker)
+		else if {_int} > 50:
+			customItem(bone, "&e&lAncient Bone", "loot", 5, attacker)
+		else if {_int} > 20:
+			customItem(bone, "&e&lAncient Bone", "loot", 4, attacker)
+		else:
+			customItem(bone, "&e&lAncient Bone", "loot", 3, attacker)
+		chance of 0.3% + {_lootChance}%:
+			customItem(tripwire hook, "&7&lGormak Key", "key", 1, attacker)
+
+on death of husk:
+	if victim's display name is "&e&lGormak's Guard":
+		add 100 to {exp::%attacker's uuid%}
+		cancel drops
+		set {_loot} to level of looting of attacker's tool
+		set {_int} to random integer between 1+{_loot} to 100+{_loot}
+		set {_lootChance} to {_loot} / 10
+		if {_int} > 90:
+			customItem(golden nugget, "&e&lAncient Nugget", "loot", 12, attacker)
+		else if {_int} > 60:
+			customItem(golden nugget, "&e&lAncient Nugget", "loot", 11, attacker)
+		else if {_int} > 20:
+			customItem(golden nugget, "&e&lAncient Nugget", "loot", 10, attacker)
+		else:
+			customItem(golden nugget, "&e&lAncient Nugget", "loot", 9, attacker)
+		chance of 0.8% + {_lootChance}%:
+			customItem(tripwire hook, "&7&lGormak Key", "key", 1, attacker)
+
+on death of husk:
+  if victim's display name is "&e&lGormak The Ancient One":
+    add 1000 to {exp::%attacker's uuid%}
+    set {_loot} to level of looting of attacker's tool
+    cancel drops
+    set {_rng} to random integer between 1+{_loot} to 100+{_loot}
+    if {_rng} > 60:
+      customItem(yellow dye, "&e&lAncient Heart", "loot", 2, {gormakSpawn})
+    else:
+      customItem(yellow dye, "&e&lAncient Heart", "loot", 1, {gormakSpawn})
+
+# Gormak Mob Spawning
+
+on death of husk:
+	if victim's display name is "&7&lMinion of Gormak":
+		wait 3 seconds
+		set {_loc} to location(-217.5, -60, -7.5, world "world") or location(-226.5, -60, -7.5, world "world") or location(-220.5, -60, -15.5, world "world") or location(-229.5,-60,-15.5,world)
+		summon adult husk at {_loc}
+		set {_Minion} to last spawned entity
+		set {_Minion}'s display name to "&7&lMinion of Gormak"
+		equip {_Minion} with iron helmet and iron chestplate and leather leggings and leather boots
+		set {_Minion}'s held item to wooden sword
+		set {_Minion}'s generic attack damage attribute to 10
+		set max health of {_Minion} to 15
+		heal {_Minion}
+
+on death of skeleton:
+	if victim's display name is "&e&lGormak's Bowman":
+		wait 5 seconds
+		set {_loc} to location(-219.5, -60, 42.5, world "world") or location(-227.5, -60, 43.5, world "world") or location(-227.5, -60, 34.5, world "world") or location(-219.5, -60, 33.5, world "world")
+		summon skeleton at {_loc}
+		set {_Bowman} to last spawned entity
+		set {_Bowman}'s display name to "&e&lGormak's Bowman"
+		equip {_Bowman} with leather helmet of mending and golden chestplate of mending and leather leggings of mending and leather boots of mending
+		set {_Bowman}'s held item to bow of power 12
+		set {_Bowman}'s generic max health attribute to 18
+		heal {_Bowman}
+
+on death of husk:
+	if victim's display name is "&e&lGormak's Guard":
+		wait 10 seconds
+		set {_loc} to location(-281.5, -60, 45.5, world "world") or location(-281.5, -60, 36.5, world "world") or location(-281.5, -60, 29.5, world "world")
+		summon adult husk at {_loc}
+		set {_Guard} to last spawned entity
+		set {_Guard}'s display name to "&e&lGormak's Guard"
+		equip {_Guard} with iron helmet of mending and golden chestplate of mending and golden leggings of mending and iron boots of mending
+		set {_Guard}'s held item to golden sword of mending
+		set {_Guard}'s off hand item to shield
+		set max health of {_Guard1} to 30
+		set {_Guard}'s generic attack damage attribute to 20
+		heal {_Guard}

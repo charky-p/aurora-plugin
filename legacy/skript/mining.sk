@@ -1,0 +1,129 @@
+# Mining Skript
+
+# Fortune Level
+# 0: 1 MAX (1)
+# 1: 1-4 MIN {_f}*{_intMin} (1-4)
+# 2: 6-10 LOW {_f}*{_intLow} (2-4) + 2
+# 3: 8-14 LOW
+# 4: 22-30 MID {_f}*{_intMid} (3-5) + 10
+# 5: 25-35 MID
+# 6: 28-40 MID
+# 7: 38-52 HIGH {_f}*{_intHigh} (4-6) + 10
+# 8: 42-58 HIGH
+# 9: 46-64 HIGH
+# 10: 64 MAX (1)
+
+function blockBreak(b: itemtype, c: text, multi: integer, n: integer, p: player):
+	add 1 to {mined::%{_p}'s uuid%}
+	add {_n} to {exp::%{_p}'s uuid%}
+	set {_f} to level of fortune of {_p}'s tool
+	set {_item} to {_b} with all flags hidden
+	if {_f} >= 10:
+		enchant {_item} with mending
+	if {_f} >= 61:
+		set {_itemName} to "&7[&9&lPETA COMRPESSED&7] &e%{_c}%"
+		subtract 60 from {_f}
+	else if {_f} >= 51:
+		set {_itemName} to "&7[&4&lTERA COMRPESSED&7] &e%{_c}%"
+		subtract 50 from {_f}
+	else if {_f} >= 41:
+		set {_itemName} to "&7[&6&lGIGA COMRPESSED&7] &e%{_c}%"
+		subtract 40 from {_f}
+	else if {_f} >= 31:
+		set {_itemName} to "&7[&3&lMEGA COMPRESSED&7] &e%{_c}%"
+		subtract 30 from {_f}
+	else if {_f} >= 21:
+		set {_itemName} to "&7[&2&lSUPER COMPRESSED&7] &e%{_c}%"
+		subtract 20 from {_f}
+	else if {_f} >= 11:
+		set {_itemName} to "&7[&lCOMPRESSED&7] &e%{_c}%"
+		subtract 10 from {_f}
+	else:
+		set {_itemName} to "&e%{_c}%"
+	if tool of {_p} is not enchanted with fortune: # No Fortune
+		give 1 of {_item} named {_itemName} to {_p}
+	else if {_f} is 1: # Min Fortune
+		set {_intMin} to random integer between 1 to 4
+		set {_amt} to {_f}*{_intMin}*{_multi}
+		give {_amt} of {_item} named {_itemName} to {_p}
+	else if {_f} is 2 or 3: # Low Fortune
+		set {_intLow} to random integer between 2 to 4
+		set {_amt} to ({_f}*{_intLow}+2)*{_multi}
+		give {_amt} of {_item} named {_itemName} to {_p}
+	else if {_f} is 4,5 or 6: # Mid Fortune
+		set {_intMid} to random integer between 3 to 5
+		set {_amt} to ({_f}*{_intMid}+10)*{_multi}
+		give {_amt} of {_item} named {_itemName} to {_p}
+	else if {_f} is 7,8 or 9: # High Fortune
+		set {_intHigh} to random integer between 4 to 6
+		set {_amt} to ({_f}*{_intHigh}+10)*{_multi}
+		give {_amt} of {_item} named {_itemName} to {_p}
+	else if {_f} is 10: # Max Fortune
+		set {_amt} to {_multi}
+		give {_amt} of {_item} named {_itemName} to {_p}
+
+function mining(b: text, p: player):
+	if name of {_p}'s tool contains "Pickaxe":
+		if blockContains("PickaxeBlocks1x", "%{_b}%") is true:
+			if "%{_b}%" is "cobblestone block":
+				blockBreak(cobblestone, "Cobblestone", 1, 1, {_p})
+			else if "%{_b}%" is "stone block":
+				blockBreak(cobblestone, "Cobblestone", 1, 1, {_p})
+			else if "%{_b}%" is "coal ore":
+				blockBreak(coal, "Coal", 1, 2, {_p})
+			else if "%{_b}%" is "iron ore":
+				blockBreak(iron ingot, "Iron Ingot", 1, 3, {_p})
+			else if "%{_b}%" is "gold ore":
+				blockBreak(gold ingot, "Gold Ingot", 1, 4, {_p})
+			else if "%{_b}%" is "diamond ore":
+				blockBreak(diamond, "Diamond", 1, 5, {_p})
+			else if "%{_b}%" is "redstone ore":
+				blockBreak(redstone, "Redstone", 1, 6, {_p})
+			else if "%{_b}%" is "lapis ore":
+				blockBreak(lapis, "Lapis", 1, 7, {_p})
+			else if "%{_b}%" is "emerald ore":
+				blockBreak(emerald, "Emerald", 1, 8, {_p})
+			else if "%{_b}%" is "copper ore":
+				blockBreak(copper ingot, "Copper Ingot", 1, 9, {_p})
+
+		else if blockContains("PickaxeBlocks3x","%{_b}%") is true:
+			if "%{_b}%" is "coal block":
+				blockBreak(coal, "Coal", 9, 2, {_p})
+			else if "%{_b}%" is "iron block":
+				blockBreak(iron ingot, "Iron Ingot", 9, 3, {_p})
+			else if "%{_b}%" is "gold block":
+				blockBreak(gold ingot, "Gold Ingot", 9, 4, {_p})
+			else if "%{_b}%" is "diamond block":
+				blockBreak(diamond, "Diamond", 9, 5, {_p})
+			else if "%{_b}%" is "redstone block":
+				blockBreak(redstone, "Redstone", 9, 6, {_p})
+			else if "%{_b}%" is "lapis block":
+				blockBreak(lapis, "Lapis", 9, 7, {_p})
+			else if "%{_b}%" is "emerald block":
+				blockBreak(emerald, "Emerald", 9, 8, {_p})
+			else if "%{_b}%" is "waxed copper block":
+				blockBreak(copper ingot, "Copper Ingot", 9, 9, {_p})
+
+function blockContains(list: text, search: text)::boolean:
+	loop {mine::%{_list}%::*}:
+		if loop-value is "%{_search}%":
+			return true
+	return false
+
+on break:
+	cancel drops
+	mining("%type of event-block%", player)
+
+on break of dirt:
+	cancel drops
+	give 1 dirt to player
+
+command /list [<string>]:
+	permission: op
+	trigger:
+		if arg-1 is not set:
+			send "&e%{mine::PickaxeBlocks1x::*}%" to player
+		else if arg-1 is "reset":
+			set {mine::PickaxeBlocks1x::*} to "cobblestone block", "stone block", "coal ore", "iron ore", "gold ore", "diamond ore", "redstone ore", "lapis ore", "emerald ore" and "copper ore"
+			set {mine::PickaxeBlocks3x::*} to "coal block", "iron block", "gold block", "diamond block", "redstone block", "lapis block", "emerald block", and "waxed copper block"
+			send "&eLists have been reset" to player

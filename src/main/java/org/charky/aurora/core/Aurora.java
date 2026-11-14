@@ -56,11 +56,11 @@ import org.charky.aurora.features.system.WandListener;
 import org.charky.aurora.features.system.WandManager;
 import org.charky.aurora.features.system.commands.AuroraCommand;
 import org.charky.aurora.features.system.commands.DumpCommand;
-import org.charky.aurora.features.system.commands.MenuCommand;
 import org.charky.aurora.features.system.commands.OpenMenuCommand;
 import org.charky.aurora.features.system.commands.RefreshCommand;
 import org.charky.aurora.features.system.commands.SpawnCommand;
 import org.charky.aurora.features.trader.TraderListener;
+import org.charky.aurora.features.warp.WarpMenu;
 import org.charky.aurora.features.trader.TraderManager;
 import org.charky.aurora.features.world.WorldManager;
 
@@ -142,6 +142,7 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("collections", collectionManager::open);
         registry.registerAction("ranks", rankManager::openRanks);
         registry.registerAction("shop", rankManager::openShop);
+        registry.registerAction("warps", player -> new WarpMenu(this).open(player));
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.bossManager = new BossManager(this);
@@ -157,7 +158,6 @@ public class Aurora extends JavaPlugin {
         command("gauntlet", new GauntletCommand(gauntletManager));
         command("backpack", new BackpackCommand(backpackManager));
         command("dump", new DumpCommand(this));
-        command("menu", new MenuCommand(this));
         command("refresh", new RefreshCommand(this));
         command("shop", new OpenMenuCommand(rankManager::openShop));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));

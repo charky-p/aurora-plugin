@@ -17,6 +17,8 @@ import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.trader.Trader;
+import org.charky.aurora.features.warp.Warp;
+import org.charky.aurora.core.models.WarpModel;
 import org.charky.aurora.features.trader.TraderMenu;
 
 import java.util.*;
@@ -40,6 +42,7 @@ public class DataRegistry {
     private final Map<String, ItemStack> icons = new HashMap<>();
     private final Map<String, TraderMenu> guis = new HashMap<>();
     private final Map<String, Trader> traders = new HashMap<>();
+    private final List<Warp> warps = new ArrayList<>();
 
     // Resources in resources.csv order, which is progression order
     private final List<MenuItem> resourceList = new ArrayList<>();
@@ -82,6 +85,7 @@ public class DataRegistry {
         icons.clear();
         guis.clear();
         traders.clear();
+        warps.clear();
         resourceList.clear();
         resourceIds.clear();
         unlocks.clear();
@@ -108,6 +112,24 @@ public class DataRegistry {
         guis.putAll(new GuiLoader(plugin.getLogger(), items, icons, actions, backpackManager)
                 .load(yaml.load("guis/shops.yml", GuiModel.class)));
         traders.putAll(new TraderLoader(plugin.getLogger()).load(yaml.load("traders.yml", TraderModel.class), guis));
+        loadWarps();
+    }
+
+    private void loadWarps() {
+        yaml.load("warps.yml", WarpModel.class).forEach((id, model) -> {
+            ItemStack icon = model.icon == null ? null : icons.get(model.icon.toLowerCase());
+            if (icon == null || model.world == null) {
+                plugin.getLogger().severe("WARP ERROR: '" + id + "' needs a world and a known icon");
+                return;
+            }
+            String tag = model.tag == null || model.tag.isBlank() ? null : model.tag.toLowerCase();
+            warps.add(new Warp(id.toLowerCase(), icon, model.world, tag));
+        });
+    }
+
+    // In warps.csv order, which is the order players reach the regions
+    public List<Warp> getWarps() {
+        return List.copyOf(warps);
     }
 
     // Special resources go after the rest, they are the same items but do something

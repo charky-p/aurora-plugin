@@ -23,6 +23,7 @@ icon_howto,<yellow><b>How to Play,BOOK,false,<gray>New here? Start here.
 icon_backpack,<gold><b>Backpack,CHEST,false,<gray>Everything you have mined.
 icon_armory,<red><b>Armory,IRON_SWORD,false,<gray>Weapons unlocked from mobs.
 icon_spawn,<green><b>Spawn,ENDER_PEARL,false,<gray>Return to the hub island.
+icon_warps,<light_purple><b>Warps,COMPASS,false,<gray>Travel to a region you have reached.
 icon_collections,<gold><b>Collections,BOOKSHELF,false,<gray>Everything you have ever gathered.|<gray>Each milestone pays Essence.
 icon_ranks,<light_purple><b>Ranks,NAME_TAG,false,<gray>Choose the rank shown by your name.
 icon_shop,<aqua><b>Essence Shop,EMERALD,true,<gray>Spend Essence on ranks.

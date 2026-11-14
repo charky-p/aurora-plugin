@@ -2305,7 +2305,7 @@ items:
       - "BBBBIBBBB"
       - "B 1 2 3 B"
       - "B 45678 B"
-      - "BBBB9BBBX"
+      - "BBB9BwBBX"
     components:
       '1':
         type: GUI
@@ -2340,6 +2340,10 @@ items:
         type: ACTION
         id: spawn
         icon: icon_spawn
+      w:
+        type: ACTION
+        id: warps
+        icon: icon_warps
 
   howto_menu:
     title: "<aqua><b>How to Play"

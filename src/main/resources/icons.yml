@@ -180,6 +180,13 @@ items:
     lore:
       - "<gray>Return to the hub island."
 
+  icon_warps:
+    display: "<light_purple><b>Warps"
+    material: COMPASS
+    glow: false
+    lore:
+      - "<gray>Travel to a region you have reached."
+
   icon_collections:
     display: "<gold><b>Collections"
     material: BOOKSHELF

@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 // before most managers exist, so an action is looked up when it is clicked, not when
 // the menu loads. Kept in step with ACTIONS in scripts/generate.py
 public class MenuActions {
-    private static final Set<String> KNOWN = Set.of("backpack", "armory", "spawn", "collections", "ranks", "shop");
+    private static final Set<String> KNOWN = Set.of("backpack", "armory", "spawn", "collections", "ranks", "shop", "warps");
 
     private final Map<String, Consumer<Player>> actions = new HashMap<>();
 

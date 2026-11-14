@@ -502,6 +502,28 @@ SCHEMAS["traders"] = {
     ]),
 }
 
+WARP_HEADER = """\
+# ===========================================================
+# AURORA WARP TEMPLATE - generated from data/warps.csv
+# ===========================================================
+# [warp_id]:
+#   icon: [icon_id] (Its name and look in the Warps menu)
+#   world: [world_name] (Leads to that world's /aurora setspawn)
+#   tag: gormak (Optional, locked until the player has used the key giving this tag)
+# ===========================================================
+"""
+
+SCHEMAS["warps"] = {
+    "csv": "warps.csv",
+    "out": "warps.yml",
+    "header": WARP_HEADER,
+    "fields": OrderedDict([
+        ("icon",  Str(required=True)),
+        ("world", Str(required=True)),
+        ("tag",   Str()),
+    ]),
+}
+
 SCHEMAS["enchants"] = {
     "csv": "enchants.csv",
     "out": "enchants.yml",
@@ -647,7 +669,7 @@ _Dumper.add_representer(Quoted, _quoted_representer)
 # warnings are data that is never used.
 
 GUI_SPECIAL = set("BIX ")
-ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop"}       # MenuActions.java
+ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps"}       # MenuActions.java
 EQUIP_SLOTS = {"head", "chest", "legs", "feet", "hand", "off_hand"}
 
 def _drop_ids(entry):
@@ -752,6 +774,13 @@ def validate(built):
                 sold.add(cid)
                 for cost in comp.get("cost") or []:
                     costs_used.setdefault(cost["id"], []).append(f"{gui_id}/{key}")
+
+    tags = {entry.get("unlocks") for entry in get("resources_special").values()}
+    for wid, entry in get("warps").items():
+        if entry.get("icon") not in icons:
+            errors.append(f"warp '{wid}': unknown icon '{entry.get('icon')}'")
+        if entry.get("tag") and entry["tag"] not in tags:
+            errors.append(f"warp '{wid}': no key unlocks the tag '{entry['tag']}'")
 
     for tid, entry in get("traders").items():
         if entry.get("gui") not in guis:

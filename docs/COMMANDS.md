@@ -10,7 +10,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 
 | Command | Does |
 |---|---|
-| `/aurora`, `/menu`, `/hub` | Open the Aurora menu |
+| `/a`, `/aurora` | Open the Aurora menu |
 | `/backpack`, `/bp` | Open your backpack |
 | `/shop` | Spend Essence on ranks |
 | `/ranks`, `/rank`, `/customise`, `/customize` | Choose the rank shown by your name, from the ones you have unlocked |

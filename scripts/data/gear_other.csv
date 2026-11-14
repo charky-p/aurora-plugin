@@ -13,4 +13,4 @@ temple_shield_2,<gold><b>Sunward Shield,SHIELD,2,armor,overworld,gormak_temple,d
 temple_shield_3,<gold><b>Sunward Shield,SHIELD,3,armor,overworld,gormak_temple,deflection:10|defence:1,<gray>Raise to deflect. Fully negates weaker blows.|<dark_gray>Gormak - Sun Temple
 totem,<gold><b>Totem of Undying,TOTEM_OF_UNDYING,0,,overworld,gormak_tomb,,<gray>Survives one killing blow.|<dark_gray>Consumed on use
 gormak_talisman,<dark_red><b>Gormak Talisman,NETHER_STAR,0,,overworld,gormak_tomb,luck:10|bloodlust:1,<gray>Held in the off hand.|<gray>Carries the weight of the tomb.|<dark_gray>Gormak - Royal Tomb
-starter_backpack,<gold><b>Backpack,BUNDLE,0,,overworld,origin_isles,,<gray>Everything you mine and loot is kept here.|<dark_gray>Right click to open
+starter_backpack,<gold><b>Backpack,PAPER,0,,overworld,origin_isles,,<gray>Everything you mine and loot is kept here.|<dark_gray>Right click to open

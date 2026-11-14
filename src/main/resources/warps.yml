@@ -1,0 +1,19 @@
+# ===========================================================
+# AURORA WARP TEMPLATE - generated from data/warps.csv
+# ===========================================================
+# [warp_id]:
+#   icon: [icon_id] (Its name and look in the Warps menu)
+#   world: [world_name] (Leads to that world's /aurora setspawn)
+#   tag: gormak (Optional, locked until the player has used the key giving this tag)
+# ===========================================================
+
+
+items:
+  origin:
+    icon: icon_origin
+    world: aurora_test
+
+  gormak:
+    icon: icon_gormak
+    world: aurora_test_gormak
+    tag: gormak

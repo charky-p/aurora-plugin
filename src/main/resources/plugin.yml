@@ -28,10 +28,6 @@ commands:
     description: Give shulkers of every registry item, or clear your backpack and inventory
     usage: /dump [items|icons|all|clear]
     permission: aurora.admin
-  menu:
-    description: Open the main Aurora menu
-    usage: /menu
-    aliases: [ hub ]
   shop:
     description: Spend Essence on ranks
     usage: /shop

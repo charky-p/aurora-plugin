@@ -1,6 +1,7 @@
 package org.charky.aurora.features.player;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,8 +16,10 @@ import org.bukkit.inventory.PlayerInventory;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
 
-// The Backpack item every player carries: a bundle that opens the backpack menu,
-// the same as /backpack. It is only a button, it never holds anything itself
+// The Backpack item every player carries, it opens the backpack menu the same as
+// /backpack. It only looks like a bundle: a real one swallows whatever it is clicked
+// with and the client predicts that, so it is plain paper wearing the bundle's model
+// and moves around like any other item
 public class BackpackItemListener implements Listener {
     // In gear_other.csv, so its name and lore are data like any other item
     public static final String ITEM_ID = "starter_backpack";
@@ -49,17 +52,34 @@ public class BackpackItemListener implements Listener {
 
     // A full inventory gets it on the next join instead
     private void giveIfMissing(Player player) {
-        ItemStack template = registry.getAllItems().get(ITEM_ID);
-        if (template == null) return;
+        ItemStack backpack = create();
+        if (backpack == null) return;
 
         PlayerInventory inventory = player.getInventory();
-        for (ItemStack slot : inventory.getContents()) {
-            if (isBackpack(slot)) return;
+        boolean found = false;
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            if (!isBackpack(inventory.getItem(slot))) continue;
+            // Also swaps out the real bundle handed out before
+            inventory.setItem(slot, found ? null : backpack);
+            found = true;
         }
+        if (found) return;
 
         ItemStack held = inventory.getItem(PREFERRED_SLOT);
-        if (held == null || held.getType().isAir()) inventory.setItem(PREFERRED_SLOT, template.clone());
-        else inventory.addItem(template.clone());
+        if (held == null || held.getType().isAir()) inventory.setItem(PREFERRED_SLOT, backpack);
+        else inventory.addItem(backpack);
+    }
+
+    private ItemStack create() {
+        ItemStack template = registry.getAllItems().get(ITEM_ID);
+        if (template == null) return null;
+
+        ItemStack item = template.clone();
+        item.editMeta(meta -> {
+            meta.setItemModel(NamespacedKey.minecraft("bundle"));
+            meta.setMaxStackSize(1);
+        });
+        return item;
     }
 
     @EventHandler
@@ -67,32 +87,22 @@ public class BackpackItemListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (!isBackpack(event.getItem())) return;
 
-        // Or vanilla tries to empty the bundle onto the ground
         event.setCancelled(true);
         backpacks.open(event.getPlayer());
     }
 
-    // Right clicking it in the inventory opens the backpack too. Any click that
-    // would put an item into the bundle is refused, vanilla bundles swallow whatever
-    // they are clicked with or onto
+    // Right clicking it in the inventory opens the backpack too, every other click
+    // moves it like any item
     @EventHandler(ignoreCancelled = true)
     public void onClick(InventoryClickEvent event) {
-        ItemStack clicked = event.getCurrentItem();
-        ItemStack cursor = event.getCursor();
-        boolean onBackpack = isBackpack(clicked);
-        boolean holding = isBackpack(cursor);
-        if (!onBackpack && !holding) return;
+        if (!event.isRightClick() || !isBackpack(event.getCurrentItem()) || !isEmpty(event.getCursor())) return;
+        if (!(event.getWhoClicked() instanceof Player player)) return;
 
-        if (onBackpack && event.isRightClick() && isEmpty(cursor) && event.getWhoClicked() instanceof Player player) {
-            event.setCancelled(true);
-            // Next tick, a menu can't be opened from inside a click
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                if (player.isOnline()) backpacks.open(player);
-            });
-            return;
-        }
-
-        if ((onBackpack && !isEmpty(cursor)) || (holding && !isEmpty(clicked))) event.setCancelled(true);
+        event.setCancelled(true);
+        // Next tick, a menu can't be opened from inside a click
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            if (player.isOnline()) backpacks.open(player);
+        });
     }
 
     // It can't be thrown away, there is no shop that sells another

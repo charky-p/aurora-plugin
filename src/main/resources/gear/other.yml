@@ -198,7 +198,7 @@ items:
 
   starter_backpack:
     display: "<gold><b>Backpack"
-    material: BUNDLE
+    material: PAPER
     type: ''
     world: "overworld"
     region: "origin_isles"

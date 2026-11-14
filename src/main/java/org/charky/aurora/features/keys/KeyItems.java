@@ -22,8 +22,6 @@ import java.util.List;
 public final class KeyItems {
     // How close to the spawner a summon key must be used
     private static final double SUMMON_RANGE = 24.0;
-    // Who hears that a boss was summoned
-    private static final double ANNOUNCE_RANGE = 64.0;
 
     private KeyItems() {
     }
@@ -71,13 +69,9 @@ public final class KeyItems {
             return false;
         }
 
-        Location at = spawner.getLocation();
-        Component message = TextUtils.parse("<gold>" + player.getName() + " <gray>has awoken ").append(mob.displayName());
-        for (Player nearby : at.getWorld().getPlayers()) {
-            if (nearby.getLocation().distanceSquared(at) > ANNOUNCE_RANGE * ANNOUNCE_RANGE) continue;
-            nearby.sendMessage(message);
-            nearby.playSound(nearby.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.6f, 1f);
-        }
+        // Only the summoner is told, the boss bar is enough for anyone else nearby
+        player.sendMessage(TextUtils.parse("<gray>You have awoken ").append(mob.displayName()));
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.6f, 1f);
         return true;
     }
 

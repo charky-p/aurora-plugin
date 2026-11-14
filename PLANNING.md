@@ -2,10 +2,6 @@
 
 ### Features
 
-- Mines
-- Scoreboards
-- etc TODO
-
 #### System Architecture
 Groups: Commands, Listeners, Database, Registry, YAML, Trader, Mining, Spawners, Models, Player Data, Aurora, Managers
 
@@ -25,9 +21,6 @@ Managers links to Objects, Database and Registry
 feature/purpose directory structure
 
 #### Ideas list
-combine axe, pickaxe, shovel, etc progression together, one linear path, since no
-need to have more than 1 progression line, armor increases through
-
 god tool (name TBD): later, combine the pick, axe (and shovel) lines into one tool. Each tool's
 blocks are a rule on its tool component (ItemFactory.makeRightTool), one rule per kind, so the
 god tool is just one item with all the rules, and MineListener gives Fortune on any of them
@@ -40,17 +33,11 @@ overworld pickaxe, and world pickaxes
 
 blocks have a density factor, which reduces the effectiveness of fortune, as well as efficiency (`-density` to efficiency)
 
-GUI compressor? or maybe just have one upgradable compressor 
-
-mine tps, mine should tp to a set location, or maybe just middle
-
 talismans
 
 overworld block combination of all overworld blocks
 
 feather=speed, blind=1, sunder?
-
-custom shopkeepers with gui
 
 player scoreboard underneath name, health | mana | pvp on/off
 
@@ -63,10 +50,6 @@ crates
 ranks have perks, e.g. 1.1x resoures, coins, xp
 
 currencies: coins + essence
-
-under mob names: level | mob name | health
-
-add borders enum to trader guis
 
 send inventory or item in chat
 
@@ -85,16 +68,10 @@ turn off block drops for specific mines, make fortune go crazy but block density
 fortune levels, efficiency will be gradual at the start, but upgrades
 like more essence, 1 blast level, double drops, etc
 
-/menu brings up gui with everything in the game on one screen, block drops, ranks, warps, etc
-
-need boss: yaml in mobs, boss null if not boss, otherwise bossbar configuration
-
-boss keys to force summon with no summon message in global chat
-
 collections rewards: mine 100000 of a block, get stat buff (+ fortune)
 collection thing is from low drop rate, if unlocked get essence
 
-transition to backback inventory system, so amounts are variables
+mounts, with the ghast saddle
 
 #### Server Design
 world 1 (overworld): 4 regions
@@ -153,6 +130,52 @@ you climb it: each level up the tree is a zone, levels linked by portals (vine l
 optional features (code, not data):
 - locked lifts: a level's portal only works once you own that level's gear, so levels can't be skipped
 - elder treant summon key + bossbar (see boss keys / bossbar ideas above), could also give gormak's unused tomb_key a use
+
+Gormak - Fallen King
+1. Abandoned City
+- Scavenger Husk
+- Hollowed Serf
+2. Dunes
+- Sand Stalker
+- Dune Scout
+- Mirage
+3. Temple
+- Tomb Guard
+- Vizier Mage
+4. Royal Tomb
+- Gormak Minion
+- Gormak Guardian
+- Gormak The Eternal: Summons Gormak Ghoul
+
+Khorvath - Avatar Of The Sun (WIP)
+1. Canyons
+- Hollowed Legionnaire
+- Nomad Deserter
+2. Ancient Ruins
+- Scarab Zealot
+- Relic Warrior
+3. Catacombs
+- Royal Myrmidon
+- Pharaoh
+4. Sanctuary
+- Sphinx / Soul Weaver
+- Anubite Executioner
+- Khorvath
+
+Sol, The Undying Sun
+Location: Duat Realm
+12 Gods? 12 mini zone
+1. Ashen River
+- Anubis
+- Ferrymen, etc
+2. Hall of Judgement
+- Anubite exec?
+- Acolytes
+- Justice theme
+3. Obsidian? Forge
+- Solar Golems
+- Eclipse Covenants
+4. Throne, Darkness, Pits of Hell?
 
 #### OOP Design
 

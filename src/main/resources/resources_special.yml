@@ -13,8 +13,8 @@
 
 items:
   gormak_key:
-    display: "<gold><b>Gormak Key"
-    material: TRIPWIRE_HOOK
+    display: "<gold><b>Gormak Pass"
+    material: PAPER
     world: "overworld"
     region: "origin_isles"
     lore:

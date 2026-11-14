@@ -41,7 +41,7 @@ public final class KeyItems {
         String tag = registry.getUnlock(itemId);
         Component name = itemName(registry, itemId);
         if (has(player, tag)) {
-            player.sendActionBar(TextUtils.parse("<gray>You have already used a ").append(name));
+            player.sendActionBar(TextUtils.parse("<gray>You have already unlocked this portal"));
             return false;
         }
 

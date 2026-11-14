@@ -29,7 +29,7 @@ commands:
     usage: /dump [items|icons|all|clear]
     permission: aurora.admin
   shop:
-    description: Spend Essence on ranks
+    description: Spend Essence on perks and ranks
     usage: /shop
   ranks:
     description: Choose the rank shown by your name

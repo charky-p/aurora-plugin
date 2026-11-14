@@ -143,10 +143,6 @@ public class RankManager implements Listener {
         new RankMenu(this, plugin.getRegistry()).open(player);
     }
 
-    public void openShop(Player player) {
-        new RankShopMenu(this, plugin.getRegistry()).open(player);
-    }
-
     // Rank, name, then what they said. The renderer runs off the main thread, the
     // profile's getters are safe to read from it
     @EventHandler

@@ -12,7 +12,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 |---|---|
 | `/a`, `/aurora` | Open the Aurora menu |
 | `/backpack`, `/bp` | Open your backpack |
-| `/shop` | Spend Essence on ranks |
+| `/shop` | Spend Essence on perks and ranks |
 | `/ranks`, `/rank`, `/customise`, `/customize` | Choose the rank shown by your name, from the ones you have unlocked |
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
 | `/spawn` | Teleport to this world's spawn |

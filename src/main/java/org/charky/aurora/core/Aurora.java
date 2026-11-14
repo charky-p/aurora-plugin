@@ -7,6 +7,7 @@ import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,7 @@ import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.CollectionStore;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.MineStore;
+import org.charky.aurora.core.database.PerkStore;
 import org.charky.aurora.core.database.PlayerStore;
 import org.charky.aurora.core.database.PortalStore;
 import org.charky.aurora.core.database.RankStore;
@@ -46,7 +48,9 @@ import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.features.player.TabManager;
 import org.charky.aurora.features.portal.PortalListener;
 import org.charky.aurora.features.portal.PortalManager;
+import org.charky.aurora.features.perk.PerkManager;
 import org.charky.aurora.features.rank.RankManager;
+import org.charky.aurora.features.rank.RankShopMenu;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
@@ -68,6 +72,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 public class Aurora extends JavaPlugin {
@@ -141,7 +146,9 @@ public class Aurora extends JavaPlugin {
         this.collectionManager = new CollectionManager(this, registry, db, new CollectionStore(db), players, scoreboard);
         registry.registerAction("collections", collectionManager::open);
         registry.registerAction("ranks", rankManager::openRanks);
-        registry.registerAction("shop", rankManager::openShop);
+        PerkManager perkManager = new PerkManager(this, db, new PerkStore(db), players, scoreboard);
+        Consumer<Player> openShop = player -> new RankShopMenu(rankManager, perkManager, registry).open(player);
+        registry.registerAction("shop", openShop);
         registry.registerAction("warps", player -> new WarpMenu(this).open(player));
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
@@ -159,7 +166,7 @@ public class Aurora extends JavaPlugin {
         command("backpack", new BackpackCommand(backpackManager));
         command("dump", new DumpCommand(this));
         command("refresh", new RefreshCommand(this));
-        command("shop", new OpenMenuCommand(rankManager::openShop));
+        command("shop", new OpenMenuCommand(openShop));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
         command("collections", new OpenMenuCommand(collectionManager::open));
 
@@ -168,6 +175,7 @@ public class Aurora extends JavaPlugin {
                 new PlayerSessionListener(this, players, scoreboard, tabManager, levelManager),
                 levelManager,
                 rankManager,
+                perkManager,
                 new MobDeathListener(this),
                 new LeftoverMobListener(),
                 new TraderListener(this),

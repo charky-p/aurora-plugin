@@ -38,6 +38,13 @@ public final class Schema {
                     "rank_id TEXT NOT NULL, " +
                     "PRIMARY KEY (uuid, rank_id))",
 
+            // The level of each perk a player has bought
+            "CREATE TABLE IF NOT EXISTS player_perks (" +
+                    "uuid VARCHAR(36) NOT NULL, " +
+                    "perk_id TEXT NOT NULL, " +
+                    "level INTEGER NOT NULL, " +
+                    "PRIMARY KEY (uuid, perk_id))",
+
             // How many of each resource a player has ever gathered
             "CREATE TABLE IF NOT EXISTS collections (" +
                     "uuid VARCHAR(36) NOT NULL, " +

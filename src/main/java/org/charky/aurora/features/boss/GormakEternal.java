@@ -29,14 +29,17 @@ import java.util.concurrent.ThreadLocalRandom;
 // Gormak the Eternal's fight, on top of his slow heavy swing:
 //  - Stomp: he hops, then slams. Everyone standing near him is thrown back, a
 //    player in the air when he lands is not
-//  - Gormak Ghouls: three waves, one each time his health passes a threshold. Fast,
-//    a hit or two to kill, and their scythes take hunger instead of much health
+//  - Waves: one each time his health passes three quarters, half and a quarter.
+//    Gormak Ghouls every time: fast, a hit or two to kill, and their scythes take
+//    hunger instead of much health. At half his Gormak Minions come with them
 //  - Totem: the first killing blow pops the totem he holds. He comes back with
-//    part of his health, faster and stomping more often, with two Gormak
-//    Guardians at his side. They stay until they are killed or he is
+//    part of his health, faster and stomping more often, and calls the last and
+//    biggest wave: ghouls, minions and two Gormak Guardians
+//  Ghouls fade by themselves, minions and guardians stay until killed or he is
 public class GormakEternal implements BossAbilities {
     public static final String BOSS_ID = "gormak_eternal";
     public static final String GHOUL_ID = "gormak_ghoul";
+    public static final String MINION_ID = "gormak_minion";
     public static final String GUARDIAN_ID = "gormak_guardian";
 
     // Seconds between slams while someone is in reach, and once the totem has popped
@@ -69,7 +72,8 @@ public class GormakEternal implements BossAbilities {
     private final Aurora plugin;
     // Each living ghoul and the fight tick it was called on
     private final Map<UUID, Integer> ghouls = new HashMap<>();
-    private final Set<UUID> guardians = new HashSet<>();
+    // His minions and guardians, which never fade
+    private final Set<UUID> retinue = new HashSet<>();
     private int age = 0;
     private int nextStomp = FIRST_STOMP_TICKS;
     // The tick he lands on, -1 while he is not mid stomp
@@ -88,11 +92,11 @@ public class GormakEternal implements BossAbilities {
         age += BossManager.TICKS;
         fadeOldGhouls();
 
-        // Three waves in all. Coming back with the totem never calls one again,
-        // wavesSent already covers every threshold he is under
+        // Coming back with the totem never calls one of these again, wavesSent
+        // already covers every threshold he is under
         int due = GormakPhases.wavesDue(fight.healthRatio());
         while (wavesSent < due) {
-            summonWave(fight, GormakPhases.WAVE_SIZE);
+            summonWave(fight, GormakPhases.WAVES[wavesSent]);
             wavesSent++;
         }
 
@@ -144,10 +148,11 @@ public class GormakEternal implements BossAbilities {
         return !player.getLocation().subtract(0, 0.25, 0).getBlock().isPassable();
     }
 
-    private void summonWave(BossFight fight, int size) {
-        int count = GormakPhases.ghoulsToSummon(size, ghouls.size());
+    private void summonWave(BossFight fight, GormakPhases.Wave wave) {
         boolean any = false;
-        for (int i = 0; i < count; i++) {
+
+        int ghoulCount = GormakPhases.ghoulsToSummon(wave.ghouls(), ghouls.size());
+        for (int i = 0; i < ghoulCount; i++) {
             LivingEntity ghoul = summon(fight, GHOUL_ID, Particle.SOUL);
             if (ghoul == null) break;
 
@@ -155,16 +160,22 @@ public class GormakEternal implements BossAbilities {
             any = true;
         }
 
+        any |= summonRetinue(fight, MINION_ID, wave.minions(), Particle.SOUL);
+        any |= summonRetinue(fight, GUARDIAN_ID, wave.guardians(), Particle.TOTEM_OF_UNDYING);
+
         if (any) fight.boss().getWorld().playSound(fight.boss().getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1.2f, 0.5f);
     }
 
-    private void summonGuardians(BossFight fight) {
-        for (int i = 0; i < GormakPhases.GUARDIANS; i++) {
-            LivingEntity guardian = summon(fight, GUARDIAN_ID, Particle.TOTEM_OF_UNDYING);
-            if (guardian == null) return;
+    private boolean summonRetinue(BossFight fight, String mobId, int count, Particle particle) {
+        boolean any = false;
+        for (int i = 0; i < count; i++) {
+            LivingEntity mob = summon(fight, mobId, particle);
+            if (mob == null) break;
 
-            guardians.add(guardian.getUniqueId());
+            retinue.add(mob.getUniqueId());
+            any = true;
         }
+        return any;
     }
 
     // One of his mobs near him, already after a player in the fight. Spawned as his
@@ -234,21 +245,21 @@ public class GormakEternal implements BossAbilities {
 
         // He comes back swinging, no waiting for the next stomp, and not alone
         nextStomp = age;
-        summonGuardians(fight);
+        summonWave(fight, GormakPhases.LAST_STAND);
         return true;
     }
 
-    // His ghouls and guardians go with him
+    // Everything he called goes with him
     @Override
     public void end(BossFight fight) {
         Set<UUID> minions = new HashSet<>(ghouls.keySet());
-        minions.addAll(guardians);
+        minions.addAll(retinue);
         for (UUID uuid : minions) {
             Entity minion = plugin.getServer().getEntity(uuid);
             if (minion != null && minion.isValid()) fade(minion);
         }
         ghouls.clear();
-        guardians.clear();
+        retinue.clear();
     }
 
     // A scythe that lands takes food, a blocked one takes nothing

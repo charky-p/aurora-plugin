@@ -18,7 +18,9 @@ import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.player.Essence;
+import org.charky.aurora.features.player.LevelManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.common.loot.MenuItem;
@@ -35,6 +37,8 @@ public class MineListener implements Listener {
     private final ScoreboardManager scoreboard;
     private final BackpackManager backpackManager;
     private final DataRegistry registry;
+    private final LevelManager levels;
+    private final CollectionManager collections;
 
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
@@ -42,6 +46,8 @@ public class MineListener implements Listener {
         this.scoreboard = plugin.getScoreboardManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
+        this.levels = plugin.getLevelManager();
+        this.collections = plugin.getCollectionManager();
     }
 
     // HIGH, not MONITOR: this changes the event, and MONITOR is for watching only
@@ -101,6 +107,8 @@ public class MineListener implements Listener {
         if (blockDrops.isEmpty()) return;
 
         players.addMined(player);
+        levels.addXp(player, registry.getBlockXp(dropId));
+        collections.add(player, blockDrops);
         block.setType(Material.AIR, false);
         manager.handleBlockBreak(block.getLocation());
     }

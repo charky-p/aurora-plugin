@@ -7,24 +7,28 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-// Join and quit for the profile, sidebar and tab list
+// Join and quit for the profile, sidebar, XP bar and tab list
 public class PlayerSessionListener implements Listener {
     private final Plugin plugin;
     private final PlayerManager players;
     private final ScoreboardManager scoreboard;
     private final TabManager tab;
+    private final LevelManager levels;
 
-    public PlayerSessionListener(Plugin plugin, PlayerManager players, ScoreboardManager scoreboard, TabManager tab) {
+    public PlayerSessionListener(Plugin plugin, PlayerManager players, ScoreboardManager scoreboard,
+                                 TabManager tab, LevelManager levels) {
         this.plugin = plugin;
         this.players = players;
         this.scoreboard = scoreboard;
         this.tab = tab;
+        this.levels = levels;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         players.handleJoin(event.getPlayer(), () -> {
             scoreboard.setupBoard(event.getPlayer());
+            levels.show(event.getPlayer());
             tab.updateAll();
         });
     }

@@ -288,7 +288,7 @@ items:
   gormak_eternal:
     display: "<dark_red><b>Gormak the Eternal"
     entity: HUSK
-    health: 1500.0
+    health: 1800.0
     defence: 18.0
     attack: 29.0
     attack_cooldown: 3.0
@@ -329,6 +329,21 @@ items:
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.4
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  gormak_minion:
+    display: "<yellow><b>Gormak Minion"
+    entity: ZOMBIE
+    health: 120.0
+    defence: 4.0
+    attack: 21.0
+    equip:
+      head: serf_helmet_1
+      hand: serf_cleaver
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.28
       - attr: FOLLOW_RANGE
         value: 48.0
 

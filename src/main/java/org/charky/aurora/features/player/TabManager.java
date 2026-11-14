@@ -1,12 +1,20 @@
 package org.charky.aurora.features.player;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.charky.aurora.features.rank.Ranks;
 
+// The tab list: a header with who is online, and each player under their rank
 public class TabManager {
     private final MiniMessage mm = MiniMessage.miniMessage();
+    private final PlayerManager players;
+
+    public TabManager(PlayerManager players) {
+        this.players = players;
+    }
 
     public void updateAll() {
         String headerStr = "<gradient:#7F7FD5:#91EAE4><bold>AURORAMINES</bold></gradient>\n" +
@@ -19,7 +27,11 @@ public class TabManager {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendPlayerListHeaderAndFooter(header, footer);
-            player.playerListName(mm.deserialize("<gray>[MEMBER] <white>" + player.getName()));
+
+            // MEMBER while the profile is still loading
+            PlayerData data = players.get(player);
+            Component rank = Ranks.get(data == null ? null : data.getRank()).component();
+            player.playerListName(rank.append(Component.text(" " + player.getName(), NamedTextColor.WHITE)));
         }
     }
 

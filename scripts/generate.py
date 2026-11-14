@@ -647,7 +647,7 @@ _Dumper.add_representer(Quoted, _quoted_representer)
 # warnings are data that is never used.
 
 GUI_SPECIAL = set("BIX ")
-ACTIONS = {"backpack", "armory", "spawn"}       # MenuActions.java
+ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop"}       # MenuActions.java
 EQUIP_SLOTS = {"head", "chest", "legs", "feet", "hand", "off_hand"}
 
 def _drop_ids(entry):

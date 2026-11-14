@@ -2300,11 +2300,12 @@ items:
   aurora_hub:
     title: "<aqua><b>Aurora"
     icon: icon_menu
-    rows: 3
+    rows: 4
     layout:
       - "BBBBIBBBB"
-      - "B123456 B"
-      - "BBBBBBBBX"
+      - "B 1 2 3 B"
+      - "B 45678 B"
+      - "BBBB9BBBX"
     components:
       '1':
         type: GUI
@@ -2313,20 +2314,32 @@ items:
         type: GUI
         id: origin_hub
       '3':
+        type: GUI
+        id: gormak_hub
+      '4':
         type: ACTION
         id: backpack
         icon: icon_backpack
-      '4':
+      '5':
         type: ACTION
         id: armory
         icon: icon_armory
-      '5':
+      '6':
+        type: ACTION
+        id: collections
+        icon: icon_collections
+      '7':
+        type: ACTION
+        id: ranks
+        icon: icon_ranks
+      '8':
+        type: ACTION
+        id: shop
+        icon: icon_shop
+      '9':
         type: ACTION
         id: spawn
         icon: icon_spawn
-      '6':
-        type: ICON
-        id: icon_progress
 
   howto_menu:
     title: "<aqua><b>How to Play"

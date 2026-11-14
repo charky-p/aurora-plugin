@@ -9,6 +9,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.features.rank.Ranks;
 
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class ScoreboardManager {
 
         return List.of(
                 TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>PROFILE</b></gradient>"),
-                TextUtils.parse("<gray>• RANK: <white>" + data.getRank()),
+                TextUtils.parse("<gray>• RANK: ").append(Ranks.get(data.getRank()).component()),
                 TextUtils.parse("<gray>• LEVEL: <white>" + data.getLevel()),
                 Component.empty(),
                 TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>STATS</b></gradient>"),

@@ -13,10 +13,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.common.menu.PagedMenuListener;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.database.BackpackStore;
+import org.charky.aurora.core.database.CollectionStore;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.MineStore;
 import org.charky.aurora.core.database.PlayerStore;
 import org.charky.aurora.core.database.PortalStore;
+import org.charky.aurora.core.database.RankStore;
 import org.charky.aurora.core.database.Schema;
 import org.charky.aurora.core.database.SpawnStore;
 import org.charky.aurora.core.database.SpawnerStore;
@@ -25,6 +27,7 @@ import org.charky.aurora.core.database.UnlockStore;
 import org.charky.aurora.core.database.WorldStore;
 import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.boss.BossManager;
+import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
@@ -36,12 +39,14 @@ import org.charky.aurora.features.mine.MineManager;
 import org.charky.aurora.features.player.BackpackCommand;
 import org.charky.aurora.features.player.BackpackItemListener;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.features.player.LevelManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.PlayerSessionListener;
 import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.features.player.TabManager;
 import org.charky.aurora.features.portal.PortalListener;
 import org.charky.aurora.features.portal.PortalManager;
+import org.charky.aurora.features.rank.RankManager;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
@@ -52,6 +57,7 @@ import org.charky.aurora.features.system.WandManager;
 import org.charky.aurora.features.system.commands.AuroraCommand;
 import org.charky.aurora.features.system.commands.DumpCommand;
 import org.charky.aurora.features.system.commands.MenuCommand;
+import org.charky.aurora.features.system.commands.OpenMenuCommand;
 import org.charky.aurora.features.system.commands.RefreshCommand;
 import org.charky.aurora.features.system.commands.SpawnCommand;
 import org.charky.aurora.features.trader.TraderListener;
@@ -81,6 +87,9 @@ public class Aurora extends JavaPlugin {
     private BackpackManager backpackManager;
     private ArmoryManager armoryManager;
     private BossManager bossManager;
+    private LevelManager levelManager;
+    private RankManager rankManager;
+    private CollectionManager collectionManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
 
@@ -124,9 +133,15 @@ public class Aurora extends JavaPlugin {
         this.spawnMap = spawnStore.loadAll();
 
         // Managers
-        TabManager tabManager = new TabManager();
         this.players = new PlayerManager(this, db, new PlayerStore(db));
         this.scoreboard = new ScoreboardManager(players);
+        TabManager tabManager = new TabManager(players);
+        this.levelManager = new LevelManager(this, players, scoreboard);
+        this.rankManager = new RankManager(this, db, new RankStore(db), players, scoreboard, tabManager);
+        this.collectionManager = new CollectionManager(this, registry, db, new CollectionStore(db), players, scoreboard);
+        registry.registerAction("collections", collectionManager::open);
+        registry.registerAction("ranks", rankManager::openRanks);
+        registry.registerAction("shop", rankManager::openShop);
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.bossManager = new BossManager(this);
@@ -144,10 +159,15 @@ public class Aurora extends JavaPlugin {
         command("dump", new DumpCommand(this));
         command("menu", new MenuCommand(this));
         command("refresh", new RefreshCommand(this));
+        command("shop", new OpenMenuCommand(rankManager::openShop));
+        command("ranks", new OpenMenuCommand(rankManager::openRanks));
+        command("collections", new OpenMenuCommand(collectionManager::open));
 
         List<Listener> listeners = List.of(
                 new MineListener(this),
-                new PlayerSessionListener(this, players, scoreboard, tabManager),
+                new PlayerSessionListener(this, players, scoreboard, tabManager, levelManager),
+                levelManager,
+                rankManager,
                 new MobDeathListener(this),
                 new LeftoverMobListener(),
                 new TraderListener(this),
@@ -216,6 +236,18 @@ public class Aurora extends JavaPlugin {
         return backpackManager;
     }
 
+    public LevelManager getLevelManager() {
+        return levelManager;
+    }
+
+    public RankManager getRankManager() {
+        return rankManager;
+    }
+
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
     public ArmoryManager getArmoryManager() {
         return armoryManager;
     }
@@ -254,6 +286,8 @@ public class Aurora extends JavaPlugin {
         if (spawnerManager != null) spawnerManager.shutdown();
         if (traderManager != null) traderManager.shutdown();
         if (backpackManager != null) backpackManager.shutdown();
+        if (rankManager != null) rankManager.shutdown();
+        if (collectionManager != null) collectionManager.shutdown();
 
         // Last, so the saves above and any still queued finish first
         try {

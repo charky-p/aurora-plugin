@@ -23,12 +23,14 @@ icon_howto,<yellow><b>How to Play,BOOK,false,<gray>New here? Start here.
 icon_backpack,<gold><b>Backpack,CHEST,false,<gray>Everything you have mined.
 icon_armory,<red><b>Armory,IRON_SWORD,false,<gray>Weapons unlocked from mobs.
 icon_spawn,<green><b>Spawn,ENDER_PEARL,false,<gray>Return to the hub island.
-icon_progress,<light_purple><b>Your Progress,PLAYER_HEAD,false,"<gray>Rank, level and stats.|<dark_gray>Coming soon."
+icon_collections,<gold><b>Collections,BOOKSHELF,false,<gray>Everything you have ever gathered.|<gray>Each milestone pays Essence.
+icon_ranks,<light_purple><b>Ranks,NAME_TAG,false,<gray>Choose the rank shown by your name.
+icon_shop,<aqua><b>Essence Shop,EMERALD,true,<gray>Spend Essence on ranks.
 icon_howto_mining,<yellow><b>1. Mining,IRON_PICKAXE,false,<gray>Break blocks in any mine.|<gray>Drops go straight to your backpack.|<gray>Fortune multiplies drops - block density cancels it out.
 icon_howto_backpack,<yellow><b>2. Your Backpack,CHEST,false,<gray>Resources stack without limit.|<gray>Open it with /backpack or from the menu.|<gray>Shops spend from it directly.
 icon_howto_gear,<yellow><b>3. Upgrading,ANVIL,false,<gray>Trade resources at shop NPCs for better gear.|<gray>One linear path - each pick beats the last.|<gray>Better gear unlocks harder blocks.
 icon_howto_combat,<yellow><b>4. Combat,IRON_SWORD,false,<gray>Mobs spawn in their own areas.|<gray>Some upgrades need mob drops as well as ore.
-icon_howto_regions,<yellow><b>5. Regions,GRASS_BLOCK,false,<gray>Each island is a region with its own blocks.|<gray>Clear a region to unlock the next one.
+icon_howto_regions,<yellow><b>5. Regions,GRASS_BLOCK,false,<gray>Each island is a region with its own blocks.|<gray>Clear a region to unlock the next one.|<gray>Mining and kills give XP. Each level pays Essence.
 icon_verdant,<dark_green><b>Verdant Groves,OAK_SAPLING,true,<gray>Forest islands of wood and metal.
 icon_oak,<#7BA05B><b>Oak Grove,OAK_LOG,false,<gray>Oak logs and tin.
 icon_birch,<#D9D3B0><b>Birch Hollow,BIRCH_LOG,false,<gray>Birch logs and bronze.

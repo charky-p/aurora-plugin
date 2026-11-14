@@ -32,6 +32,17 @@ commands:
     description: Open the main Aurora menu
     usage: /menu
     aliases: [ hub ]
+  shop:
+    description: Spend Essence on ranks
+    usage: /shop
+  ranks:
+    description: Choose the rank shown by your name
+    usage: /ranks
+    aliases: [ rank, customise, customize ]
+  collections:
+    description: Every resource you have gathered and what the next milestone pays
+    usage: /collections
+    aliases: [ collection ]
 permissions:
   aurora.admin:
     description: Admin and testing commands

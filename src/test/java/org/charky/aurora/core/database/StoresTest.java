@@ -228,6 +228,53 @@ class StoresTest {
         assertFalse(portal.contains("gormak", 1, 71, 1));
     }
 
+    @Test
+    void playerXpAndPlaytimeRoundTrip() {
+        PlayerStore store = new PlayerStore(db);
+        UUID uuid = UUID.randomUUID();
+        store.save(uuid, new PlayerData("AURORA", 12, 345, 30, 400, 7, 7_260));
+
+        PlayerData loaded = store.load(uuid);
+        assertEquals("AURORA", loaded.getRank());
+        assertEquals(12, loaded.getLevel());
+        assertEquals(345, loaded.getXp());
+        assertEquals(7_260, loaded.getPlaytime());
+    }
+
+    @Test
+    void essenceCanOnlyBeSpentIfThereIsEnough() {
+        PlayerData data = new PlayerData("MEMBER", 0, 0, 0, 100);
+
+        assertFalse(data.spendEssence(101));
+        assertEquals(100, data.getEssence());
+        assertTrue(data.spendEssence(100));
+        assertEquals(0, data.getEssence());
+    }
+
+    @Test
+    void boughtRanksAreStoredOnce() {
+        RankStore store = new RankStore(db);
+        UUID uuid = UUID.randomUUID();
+        store.add(uuid, "EMBER");
+        store.add(uuid, "EMBER");
+        store.add(uuid, "AURORA");
+
+        assertEquals(Set.of("EMBER", "AURORA"), store.loadAll().get(uuid));
+    }
+
+    @Test
+    void collectionsSaveOverTheLastTotal() {
+        CollectionStore store = new CollectionStore(db);
+        UUID uuid = UUID.randomUUID();
+        store.saveAll(Map.of(uuid, Map.of("coal", 300L, "iron", 12L)));
+        store.saveAll(Map.of(uuid, Map.of("coal", 2_600L)));
+
+        Map<String, Long> loaded = store.loadAll().get(uuid);
+        assertEquals(2_600L, loaded.get("coal"));
+        // A resource the later save did not mention keeps its total
+        assertEquals(12L, loaded.get("iron"));
+    }
+
     private static MineData mine(String name) {
         return new MineData(name, "aurora_mines", 0, 0, 0, 5, 5, 5, 50, 600, 0, 1, 0);
     }

@@ -42,4 +42,14 @@ class GormakPhasesTest {
         assertTrue(GormakPhases.REVIVE_SHARE > 0.25);
         assertTrue(GormakPhases.REVIVE_SHARE < 0.5);
     }
+
+    @Test
+    void thereAreFourWavesAndTwoOfThemAreBig() {
+        assertEquals(GormakPhases.WAVE_THRESHOLDS.length, GormakPhases.WAVES.length);
+
+        assertEquals(new GormakPhases.Wave(3, 0, 0), GormakPhases.WAVES[0]);
+        assertEquals(new GormakPhases.Wave(3, 5, 0), GormakPhases.WAVES[1]);
+        assertEquals(new GormakPhases.Wave(3, 0, 0), GormakPhases.WAVES[2]);
+        assertEquals(new GormakPhases.Wave(3, 5, 2), GormakPhases.LAST_STAND);
+    }
 }

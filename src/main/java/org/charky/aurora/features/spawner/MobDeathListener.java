@@ -14,7 +14,9 @@ import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.player.Essence;
+import org.charky.aurora.features.player.LevelManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 
@@ -22,12 +24,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MobDeathListener implements Listener {
+    private static final long MIN_KILL_XP = 10;
+
     private final SpawnerManager spawnerManager;
     private final DataRegistry registry;
     private final BackpackManager backpackManager;
     private final ArmoryManager armoryManager;
     private final PlayerManager players;
     private final ScoreboardManager scoreboard;
+    private final LevelManager levels;
+    private final CollectionManager collections;
 
     public MobDeathListener(Aurora plugin) {
         this.spawnerManager = plugin.getSpawnerManager();
@@ -36,6 +42,8 @@ public class MobDeathListener implements Listener {
         this.armoryManager = plugin.getArmoryManager();
         this.players = plugin.getPlayerManager();
         this.scoreboard = plugin.getScoreboardManager();
+        this.levels = plugin.getLevelManager();
+        this.collections = plugin.getCollectionManager();
     }
 
     @EventHandler
@@ -64,6 +72,8 @@ public class MobDeathListener implements Listener {
 
         ItemStack weapon = killer.getInventory().getItemInMainHand();
         players.addKill(killer);
+        // A kill is worth the mob's health in XP, far more than a block
+        levels.addXp(killer, Math.max(MIN_KILL_XP, Math.round(registry.getMob(mobId).health())));
         // Same roll as mining, with the sword's Luck
         Essence.roll(killer, Enchants.level(weapon, "luck"), players);
         scoreboard.updateBoard(killer);
@@ -76,5 +86,6 @@ public class MobDeathListener implements Listener {
         }
 
         backpackManager.get(killer.getUniqueId()).collect(killer, mobDrops);
+        collections.add(killer, mobDrops);
     }
 }

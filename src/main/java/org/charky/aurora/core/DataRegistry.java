@@ -20,17 +20,18 @@ import org.charky.aurora.features.trader.Trader;
 import org.charky.aurora.features.trader.TraderMenu;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 // All game data from the generated YAML, loaded through core.data and looked up here
 public class DataRegistry {
-    private record BlockData(Material material, int density, List<LootPool> pools) {}
+    private record BlockData(Material material, int density, int xp, List<LootPool> pools) {}
 
     private final Aurora plugin;
     private final YamlLoader yaml;
     private final ItemFactory itemFactory = new ItemFactory();
     private BackpackManager backpackManager;
     private ArmoryManager armoryManager;
-    private MenuActions actions;
+    private final MenuActions actions = new MenuActions();
 
     private final Map<String, ItemStack> items = new HashMap<>(); // resources + gear
     private final Map<String, EnchantData> enchants = new HashMap<>();
@@ -59,10 +60,17 @@ public class DataRegistry {
 
     public void setBackpackManager(BackpackManager backpackManager) {
         this.backpackManager = backpackManager;
+        registerAction("backpack", backpackManager::open);
     }
 
     public void setArmoryManager(ArmoryManager armoryManager) {
         this.armoryManager = armoryManager;
+        registerAction("armory", armoryManager::open);
+    }
+
+    // What an ACTION component of a menu does when clicked
+    public void registerAction(String id, Consumer<Player> action) {
+        actions.register(id, action);
     }
 
     // Order matters: gear needs enchants, drops need items, menus need icons and items
@@ -81,7 +89,6 @@ public class DataRegistry {
         specialIds.clear();
         armory.clear();
 
-        actions = new MenuActions(backpackManager, armoryManager);
         LootPoolBuilder loot = new LootPoolBuilder(plugin.getLogger(), items, this::isLootable);
 
         loadResources();
@@ -131,8 +138,22 @@ public class DataRegistry {
 
     // Blocks scale with Fortune instead, so nothing here is lootable
     private void loadBlocks(LootPoolBuilder loot) {
-        yaml.load("blocks.yml", BlockModel.class).forEach((id, model) -> blocks.put(id.toLowerCase(), new BlockData(
-                Material.matchMaterial(model.material), model.density, loot.build(id, model.independent, model.choices, false))));
+        // Each resource a block gives is one mine, numbered in the order blocks.csv
+        // first mentions it: cobblestone 1, coal 2, and so on. The plain and the rich
+        // block of a mine share its number, which is the XP either gives
+        Map<String, Integer> mines = new HashMap<>();
+        yaml.load("blocks.yml", BlockModel.class).forEach((id, model) -> {
+            String resource = firstDrop(model);
+            int mine = resource == null ? 1 : mines.computeIfAbsent(resource, k -> mines.size() + 1);
+            blocks.put(id.toLowerCase(), new BlockData(Material.matchMaterial(model.material), model.density, mine,
+                    loot.build(id, model.independent, model.choices, false)));
+        });
+    }
+
+    private static String firstDrop(BlockModel model) {
+        if (model.independent != null && !model.independent.isEmpty()) return model.independent.getFirst().id;
+        if (model.choices != null && !model.choices.options.isEmpty()) return model.choices.options.getFirst().id;
+        return null;
     }
 
     // Every registry item carries its id, so costs match what an item is rather than
@@ -167,6 +188,12 @@ public class DataRegistry {
     public int getDensity(String id) {
         BlockData block = blocks.get(id);
         return block == null ? 0 : block.density();
+    }
+
+    // XP for mining it, the number of the mine it belongs to
+    public int getBlockXp(String id) {
+        BlockData block = blocks.get(id);
+        return block == null ? 0 : block.xp();
     }
 
     public List<MenuItem> getBlockDrops(String id, int fortune) {

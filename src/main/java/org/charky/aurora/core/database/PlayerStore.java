@@ -14,14 +14,16 @@ import java.util.logging.Level;
 // The playerData table behind the scoreboard
 public class PlayerStore {
     private static final String UPSERT_PLAYER = """
-            INSERT INTO playerData (uuid, rank, level, kills, mined, essence)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO playerData (uuid, rank, level, kills, mined, essence, xp, playtime)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(uuid) DO UPDATE SET
                 rank = excluded.rank,
                 level = excluded.level,
                 kills = excluded.kills,
                 mined = excluded.mined,
-                essence = excluded.essence;
+                essence = excluded.essence,
+                xp = excluded.xp,
+                playtime = excluded.playtime;
             """;
 
     private final Database db;
@@ -66,9 +68,11 @@ public class PlayerStore {
                 rs -> found.add(new PlayerData(
                         rs.getString("rank"),
                         rs.getInt("level"),
+                        rs.getLong("xp"),
                         rs.getInt("kills"),
                         rs.getInt("mined"),
-                        rs.getInt("essence"))));
+                        rs.getInt("essence"),
+                        rs.getLong("playtime"))));
 
         return found.isEmpty() ? new PlayerData("MEMBER", 0, 0, 0, 0) : found.getFirst();
     }
@@ -80,5 +84,7 @@ public class PlayerStore {
         pst.setInt(4, data.getKills());
         pst.setInt(5, data.getMined());
         pst.setInt(6, data.getEssence());
+        pst.setLong(7, data.getXp());
+        pst.setLong(8, data.getPlaytime());
     }
 }

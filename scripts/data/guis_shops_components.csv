@@ -300,10 +300,13 @@ tomb_utility,2,TRADE,gormak_talisman,1,ancient_heart*3+royal_seal*5
 tomb_utility,z,GUI,tomb_shop,,
 aurora_hub,1,GUI,howto_menu,,,
 aurora_hub,2,GUI,origin_hub,,,
-aurora_hub,3,ACTION,backpack,,,icon_backpack
-aurora_hub,4,ACTION,armory,,,icon_armory
-aurora_hub,5,ACTION,spawn,,,icon_spawn
-aurora_hub,6,ICON,icon_progress,,,
+aurora_hub,3,GUI,gormak_hub,,,
+aurora_hub,4,ACTION,backpack,,,icon_backpack
+aurora_hub,5,ACTION,armory,,,icon_armory
+aurora_hub,6,ACTION,collections,,,icon_collections
+aurora_hub,7,ACTION,ranks,,,icon_ranks
+aurora_hub,8,ACTION,shop,,,icon_shop
+aurora_hub,9,ACTION,spawn,,,icon_spawn
 howto_menu,1,ICON,icon_howto_mining,,,
 howto_menu,2,ICON,icon_howto_backpack,,,
 howto_menu,3,ICON,icon_howto_gear,,,

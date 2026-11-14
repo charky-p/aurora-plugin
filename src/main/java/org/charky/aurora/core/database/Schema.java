@@ -28,7 +28,22 @@ public final class Schema {
                     "level INTEGER DEFAULT 0, " +
                     "kills INTEGER DEFAULT 0, " +
                     "mined INTEGER DEFAULT 0, " +
-                    "essence INTEGER DEFAULT 0)",
+                    "essence INTEGER DEFAULT 0, " +
+                    "xp INTEGER DEFAULT 0, " +
+                    "playtime INTEGER DEFAULT 0)",
+
+            // Shop ranks each player has bought
+            "CREATE TABLE IF NOT EXISTS player_ranks (" +
+                    "uuid VARCHAR(36) NOT NULL, " +
+                    "rank_id TEXT NOT NULL, " +
+                    "PRIMARY KEY (uuid, rank_id))",
+
+            // How many of each resource a player has ever gathered
+            "CREATE TABLE IF NOT EXISTS collections (" +
+                    "uuid VARCHAR(36) NOT NULL, " +
+                    "item_id TEXT NOT NULL, " +
+                    "amount BIGINT NOT NULL, " +
+                    "PRIMARY KEY (uuid, item_id))",
 
             // Player backpacks
             "CREATE TABLE IF NOT EXISTS backpack_data (" +
@@ -88,7 +103,9 @@ public final class Schema {
     // tables that already exist so older databases get them here
     private static final List<String[]> ADDED_COLUMNS = List.<String[]>of(
             new String[]{"spawners", "active", "INTEGER DEFAULT 1"},
-            new String[]{"portals", "required_tag", "TEXT"}
+            new String[]{"portals", "required_tag", "TEXT"},
+            new String[]{"playerData", "xp", "INTEGER DEFAULT 0"},
+            new String[]{"playerData", "playtime", "INTEGER DEFAULT 0"}
     );
 
     private Schema() {

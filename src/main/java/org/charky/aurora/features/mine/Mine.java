@@ -86,7 +86,9 @@ public class Mine {
 
     public void handleBlockBreak() {
         this.blocksBroken++;
-        if ((double) blocksBroken / data.getBox().volume() * 100 < data.getThreshold()) return;
+        // A mined out mine always refills, even with the threshold off (above 100)
+        long volume = data.getBox().volume();
+        if (blocksBroken < volume && (double) blocksBroken / volume * 100 < data.getThreshold()) return;
 
         // Ensure we only reset at most once a tick, e.g. blast pickaxe
         if (this.lastResetTick == Bukkit.getCurrentTick()) return;

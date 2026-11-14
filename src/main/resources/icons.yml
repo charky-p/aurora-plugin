@@ -180,13 +180,27 @@ items:
     lore:
       - "<gray>Return to the hub island."
 
-  icon_progress:
-    display: "<light_purple><b>Your Progress"
-    material: PLAYER_HEAD
+  icon_collections:
+    display: "<gold><b>Collections"
+    material: BOOKSHELF
     glow: false
     lore:
-      - "<gray>Rank, level and stats."
-      - "<dark_gray>Coming soon."
+      - "<gray>Everything you have ever gathered."
+      - "<gray>Each milestone pays Essence."
+
+  icon_ranks:
+    display: "<light_purple><b>Ranks"
+    material: NAME_TAG
+    glow: false
+    lore:
+      - "<gray>Choose the rank shown by your name."
+
+  icon_shop:
+    display: "<aqua><b>Essence Shop"
+    material: EMERALD
+    glow: true
+    lore:
+      - "<gray>Spend Essence on ranks."
 
   icon_howto_mining:
     display: "<yellow><b>1. Mining"
@@ -230,6 +244,7 @@ items:
     lore:
       - "<gray>Each island is a region with its own blocks."
       - "<gray>Clear a region to unlock the next one."
+      - "<gray>Mining and kills give XP. Each level pays Essence."
 
   icon_verdant:
     display: "<dark_green><b>Verdant Groves"

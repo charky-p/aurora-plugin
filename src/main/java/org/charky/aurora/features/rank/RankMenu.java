@@ -16,7 +16,8 @@ import java.util.List;
 // get them: hours played, or the price in /shop
 public class RankMenu extends PagedMenu {
     private final RankManager ranks;
-    private final List<Rank> all = Ranks.all();
+    // Staff ranks are only listed for the people who have them
+    private List<Rank> all = List.of();
 
     public RankMenu(RankManager ranks, DataRegistry registry) {
         super(registry, "Ranks");
@@ -26,6 +27,8 @@ public class RankMenu extends PagedMenu {
     @Override
     protected List<ItemStack> entries(Player player) {
         Rank worn = ranks.worn(player);
+        all = Ranks.all().stream()
+                .filter(rank -> rank.kind() != Rank.Kind.STAFF || ranks.owns(player, rank)).toList();
         List<ItemStack> items = new ArrayList<>();
         for (Rank rank : all) {
             boolean owned = ranks.owns(player, rank);
@@ -53,11 +56,14 @@ public class RankMenu extends PagedMenu {
             case DEFAULT -> "Everyone starts with this";
             case PLAYTIME -> "Earned by playing for " + hours(rank.requirement()) + "h";
             case SHOP -> "Bought for " + String.format("%,d", rank.requirement()) + " Essence in /shop";
+            case DONOR -> "A donor rank";
+            case STAFF -> "A staff rank";
         };
     }
 
     private String locked(Player player, Rank rank) {
         if (rank.kind() == Rank.Kind.SHOP) return "Buy it in /shop";
+        if (rank.kind() != Rank.Kind.PLAYTIME) return "Locked";
 
         long left = rank.requirement() - ranks.playtimeOf(player);
         return "Play " + (left >= 3600 ? hours(left) + " more hours" : Math.max(1, left / 60) + " more minutes");

@@ -25,7 +25,7 @@ icon_armory,<red><b>Armory,IRON_SWORD,false,<gray>Weapons unlocked from mobs.
 icon_spawn,<green><b>Spawn,ENDER_PEARL,false,<gray>Return to the hub island.
 icon_warps,<light_purple><b>Warps,COMPASS,false,<gray>Travel to a region you have reached.
 icon_collections,<gold><b>Collections,BOOKSHELF,false,<gray>Everything you have ever gathered.|<gray>Each milestone pays Essence.
-icon_ranks,<light_purple><b>Ranks,NAME_TAG,false,<gray>Choose the rank shown by your name.
+icon_customise,<light_purple><b>Customise,NAME_TAG,false,<gray>Ranks, suffixes, colours, trails and more.
 icon_shop,<aqua><b>Essence Shop,EMERALD,true,<gray>Spend Essence on ranks.
 icon_howto_mining,<yellow><b>1. Mining,IRON_PICKAXE,false,<gray>Break blocks in any mine.|<gray>Drops go straight to your backpack.|<gray>Fortune multiplies drops - block density cancels it out.
 icon_howto_backpack,<yellow><b>2. Your Backpack,CHEST,false,<gray>Resources stack without limit.|<gray>Open it with /backpack or from the menu.|<gray>Shops spend from it directly.

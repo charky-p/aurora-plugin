@@ -15,6 +15,7 @@ import org.charky.aurora.common.menu.PagedMenuListener;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.CollectionStore;
+import org.charky.aurora.core.database.CosmeticStore;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.MineStore;
 import org.charky.aurora.core.database.PerkStore;
@@ -31,6 +32,7 @@ import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.boss.BossManager;
 import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.combat.CombatListener;
+import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletListener;
@@ -97,6 +99,7 @@ public class Aurora extends JavaPlugin {
     private RankManager rankManager;
     private CollectionManager collectionManager;
     private PerkManager perkManager;
+    private CosmeticManager cosmeticManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
 
@@ -147,7 +150,9 @@ public class Aurora extends JavaPlugin {
         this.rankManager = new RankManager(this, db, new RankStore(db), players, scoreboard, tabManager);
         this.collectionManager = new CollectionManager(this, registry, db, new CollectionStore(db), players, scoreboard);
         registry.registerAction("collections", collectionManager::open);
+        this.cosmeticManager = new CosmeticManager(this, db, new CosmeticStore(db), players, rankManager, scoreboard, tabManager);
         registry.registerAction("ranks", rankManager::openRanks);
+        registry.registerAction("customise", cosmeticManager::openHub);
         this.perkManager = new PerkManager(this, db, new PerkStore(db), players, scoreboard);
         armoryManager.setKeyring(perkManager::hasKeyring);
         Consumer<Player> openShop = player -> new RankShopMenu(rankManager, perkManager, registry).open(player);
@@ -171,6 +176,7 @@ public class Aurora extends JavaPlugin {
         command("refresh", new RefreshCommand(this));
         command("shop", new OpenMenuCommand(openShop));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
+        command("customise", new OpenMenuCommand(cosmeticManager::openHub));
         command("collections", new OpenMenuCommand(collectionManager::open));
 
         List<Listener> listeners = List.of(
@@ -178,6 +184,7 @@ public class Aurora extends JavaPlugin {
                 new PlayerSessionListener(this, players, scoreboard, tabManager, levelManager),
                 levelManager,
                 rankManager,
+                cosmeticManager,
                 perkManager,
                 new MobDeathListener(this),
                 new LeftoverMobListener(),
@@ -260,6 +267,10 @@ public class Aurora extends JavaPlugin {
         return collectionManager;
     }
 
+    public CosmeticManager getCosmeticManager() {
+        return cosmeticManager;
+    }
+
     public PerkManager getPerkManager() {
         return perkManager;
     }
@@ -303,6 +314,7 @@ public class Aurora extends JavaPlugin {
         if (traderManager != null) traderManager.shutdown();
         if (backpackManager != null) backpackManager.shutdown();
         if (rankManager != null) rankManager.shutdown();
+        if (cosmeticManager != null) cosmeticManager.shutdown();
         if (collectionManager != null) collectionManager.shutdown();
 
         // Last, so the saves above and any still queued finish first

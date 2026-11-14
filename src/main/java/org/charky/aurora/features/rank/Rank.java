@@ -12,7 +12,11 @@ public record Rank(String id, String display, Kind kind, long requirement) {
         // Unlocked by time online
         PLAYTIME,
         // Bought with Essence in /shop
-        SHOP
+        SHOP,
+        // Handed out by an admin to donors
+        DONOR,
+        // Handed out by an admin to the people who run the server
+        STAFF
     }
 
     // The bold, coloured name

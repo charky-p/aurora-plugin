@@ -2330,8 +2330,8 @@ items:
         icon: icon_collections
       '7':
         type: ACTION
-        id: ranks
-        icon: icon_ranks
+        id: customise
+        icon: icon_customise
       '8':
         type: ACTION
         id: shop

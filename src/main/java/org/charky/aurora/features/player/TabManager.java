@@ -7,10 +7,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.charky.aurora.features.rank.Ranks;
 
+import java.util.function.Function;
+
 // The tab list: a header with who is online, and each player under their rank
 public class TabManager {
     private final MiniMessage mm = MiniMessage.miniMessage();
     private final PlayerManager players;
+    // The name as the player chose to colour it, plain white until cosmetics load
+    private Function<Player, Component> names = player -> Component.text(player.getName(), NamedTextColor.WHITE);
+
+    public void setNames(Function<Player, Component> names) {
+        this.names = names;
+    }
 
     public TabManager(PlayerManager players) {
         this.players = players;
@@ -31,7 +39,7 @@ public class TabManager {
             // MEMBER while the profile is still loading
             PlayerData data = players.get(player);
             Component rank = Ranks.get(data == null ? null : data.getRank()).component();
-            player.playerListName(rank.append(Component.text(" " + player.getName(), NamedTextColor.WHITE)));
+            player.playerListName(rank.append(Component.space()).append(names.apply(player)));
         }
     }
 

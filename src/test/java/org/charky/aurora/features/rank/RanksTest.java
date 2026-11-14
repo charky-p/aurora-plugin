@@ -40,6 +40,17 @@ class RanksTest {
         assertEquals(List.of(100L, 300L, 750L, 2_000L, 5_000L, 15_000L), prices);
     }
 
+    // Handed out by an admin, never earned or bought
+    @Test
+    void donorAndStaffRanksHaveNoRequirement() {
+        assertEquals(List.of("LUMINARY", "CELESTIAL"), ids(Rank.Kind.DONOR));
+        assertEquals(14, ids(Rank.Kind.STAFF).size());
+        assertEquals("OWNER", ids(Rank.Kind.STAFF).getLast());
+        for (Rank rank : Ranks.all()) {
+            if (rank.kind() == Rank.Kind.DONOR || rank.kind() == Rank.Kind.STAFF) assertEquals(0, rank.requirement());
+        }
+    }
+
     @Test
     void playtimeEarnsTheHighestRankReached() {
         assertNull(Ranks.earnedBy(0));
@@ -60,7 +71,7 @@ class RanksTest {
     @Test
     void everyRankShowsItsOwnNameInBold() {
         for (Rank rank : Ranks.all()) {
-            assertEquals(rank.id(), PlainTextComponentSerializer.plainText().serialize(rank.component()));
+            assertEquals(rank.id().replace('_', ' '), PlainTextComponentSerializer.plainText().serialize(rank.component()));
             assertTrue(rank.display().contains("<b>"), rank.id());
         }
     }

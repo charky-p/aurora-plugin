@@ -38,6 +38,18 @@ public final class Schema {
                     "rank_id TEXT NOT NULL, " +
                     "PRIMARY KEY (uuid, rank_id))",
 
+            // Cosmetics each player has bought or been given, and the one worn in each slot
+            "CREATE TABLE IF NOT EXISTS player_cosmetics (" +
+                    "uuid VARCHAR(36) NOT NULL, " +
+                    "cosmetic_id TEXT NOT NULL, " +
+                    "PRIMARY KEY (uuid, cosmetic_id))",
+
+            "CREATE TABLE IF NOT EXISTS player_equipped (" +
+                    "uuid VARCHAR(36) NOT NULL, " +
+                    "slot TEXT NOT NULL, " +
+                    "cosmetic_id TEXT NOT NULL, " +
+                    "PRIMARY KEY (uuid, slot))",
+
             // The level of each perk a player has bought
             "CREATE TABLE IF NOT EXISTS player_perks (" +
                     "uuid VARCHAR(36) NOT NULL, " +

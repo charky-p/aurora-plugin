@@ -23,6 +23,13 @@ public class RankStore {
         return results;
     }
 
+    public void remove(UUID uuid, String rankId) {
+        db.update("DELETE FROM player_ranks WHERE uuid = ? AND rank_id = ?", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setString(2, rankId);
+        });
+    }
+
     // A bought rank is kept for good, so each one is written once, straight away
     public void add(UUID uuid, String rankId) {
         db.update("INSERT OR IGNORE INTO player_ranks (uuid, rank_id) VALUES (?, ?)", pst -> {

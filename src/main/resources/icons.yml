@@ -195,12 +195,12 @@ items:
       - "<gray>Everything you have ever gathered."
       - "<gray>Each milestone pays Essence."
 
-  icon_ranks:
-    display: "<light_purple><b>Ranks"
+  icon_customise:
+    display: "<light_purple><b>Customise"
     material: NAME_TAG
     glow: false
     lore:
-      - "<gray>Choose the rank shown by your name."
+      - "<gray>Ranks"
 
   icon_shop:
     display: "<aqua><b>Essence Shop"

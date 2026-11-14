@@ -34,7 +34,11 @@ commands:
   ranks:
     description: Choose the rank shown by your name
     usage: /ranks
-    aliases: [ rank, customise, customize ]
+    aliases: [ rank ]
+  customise:
+    description: Ranks, suffixes, colours, join messages, trails and kill effects
+    usage: /customise
+    aliases: [ customize, cosmetics ]
   collections:
     description: Every resource you have gathered and what the next milestone pays
     usage: /collections

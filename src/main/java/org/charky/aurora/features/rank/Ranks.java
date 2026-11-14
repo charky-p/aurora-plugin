@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 // Every rank there is, in the order the menus show them: the one everyone starts
-// with, the ten earned by playtime, then the six bought with Essence
+// with, the ten earned by playtime, the six bought with Essence, then the donor
+// and staff ranks an admin hands out
 public final class Ranks {
     private static final long HOUR = 3600;
 
@@ -35,6 +36,25 @@ public final class Ranks {
         shop("ECLIPSE", "#B47CFF:#3A1C71", 5000);
         // The server's own colours, the best there is
         shop("AURORA", "#7F7FD5:#86A8E7:#91EAE4", 15000);
+
+        granted("LUMINARY", "#FFFF55:#FFAA00", Rank.Kind.DONOR);
+        granted("CELESTIAL", "#654EA3:#EAAFC8", Rank.Kind.DONOR);
+
+        // Lowest first, the way the team is laid out
+        granted("TRAINEE", "#BDBDBD:#757575", Rank.Kind.STAFF);
+        granted("HELPER", "#7986CB:#3F51B5", Rank.Kind.STAFF);
+        granted("BUILDER", "#80DEEA:#26C6DA", Rank.Kind.STAFF);
+        granted("JUNIOR_MOD", "#A5D6A7:#66BB6A", Rank.Kind.STAFF);
+        granted("MOD", "#81C784:#43A047", Rank.Kind.STAFF);
+        granted("DEV", "#F48FB1:#EC407A", Rank.Kind.STAFF);
+        granted("HEAD_BUILDER", "#4DD0E1:#00ACC1", Rank.Kind.STAFF);
+        granted("HEAD_DEV", "#F06292:#D81B60", Rank.Kind.STAFF);
+        granted("SENIOR_MOD", "#66BB6A:#2E7D32", Rank.Kind.STAFF);
+        granted("ADMIN", "#EF5350:#C62828", Rank.Kind.STAFF);
+        granted("CO_OWNER", "#E53935:#B71C1C", Rank.Kind.STAFF);
+        granted("SENIOR_ADMIN", "#E53935:#B71C1C", Rank.Kind.STAFF);
+        granted("MANAGER", "#D32F2F:#B71C1C", Rank.Kind.STAFF);
+        granted("OWNER", "#AA0000:#FF5555", Rank.Kind.STAFF);
     }
 
     private Ranks() {
@@ -52,8 +72,13 @@ public final class Ranks {
         add(new Rank(id, display(id, gradient), Rank.Kind.SHOP, essence));
     }
 
+    private static void granted(String id, String gradient, Rank.Kind kind) {
+        add(new Rank(id, display(id, gradient), kind, 0));
+    }
+
+    // SENIOR_MOD reads as SENIOR MOD
     private static String display(String id, String gradient) {
-        return "<gradient:" + gradient + "><b>" + id + "</b></gradient>";
+        return "<gradient:" + gradient + "><b>" + id.replace('_', ' ') + "</b></gradient>";
     }
 
     public static List<Rank> all() {

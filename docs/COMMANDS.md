@@ -13,7 +13,8 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/a`, `/aurora` | Open the Aurora menu |
 | `/backpack`, `/bp` | Open your backpack |
 | `/shop` | Spend Essence on perks and ranks |
-| `/ranks`, `/rank`, `/customise`, `/customize` | Choose the rank shown by your name, from the ones you have unlocked |
+| `/customise`, `/customize`, `/cosmetics` | Choose how you look: rank, suffixes, chat and name colour, join message, trail and kill effect. Cosmetics are bought here with Essence |
+| `/ranks`, `/rank` | Choose the rank shown by your name, from the ones you have unlocked |
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
 | `/spawn` | Teleport to this world's spawn |
 
@@ -124,6 +125,7 @@ Right clicking a trader with the wand also removes it and its spot.
 | `/a setspawn [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. The `aurora_mines` spawn is where every player lands on join |
 | `/a heal [player]` | Restore health and hunger, put out fire |
 | `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
+| `/a cosmetic <player> <give\|take> <id>` | Give or take a rank, a cosmetic or `suffix_slot_2`. The only way to the donor and staff ranks, the donor suffixes and the second suffix. Tab completes every id |
 | `/a grant <player> <essence\|xp\|hours> <amount>` | Give Essence, XP or hours of playtime, for testing the shop, levels and playtime ranks. Hours are counted within a minute, which is when a new playtime rank is handed out |
 | `/a help`, `/a info <command>` | Command list, one command in detail |
 | `/refresh` | Reload all game data from the YAML, after `python scripts/generate.py --live` |

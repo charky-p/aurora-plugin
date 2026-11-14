@@ -1,12 +1,10 @@
 package org.charky.aurora.features.rank;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.common.util.TextUtils;
@@ -25,7 +23,8 @@ import java.util.UUID;
 
 // Which ranks a player owns and which one they wear. Everyone has MEMBER, playtime
 // ranks come with hours online, shop ranks are bought with Essence. The worn rank
-// shows in chat, the tab list and the sidebar, and changes nothing else
+// shows in chat, the tab list and the sidebar, and changes nothing else. Donor and
+// staff ranks are handed out by an admin
 public class RankManager implements Listener {
     // Playtime is counted a minute at a time
     private static final long PLAYTIME_SECONDS = 60;
@@ -63,7 +62,7 @@ public class RankManager implements Listener {
         return switch (rank.kind()) {
             case DEFAULT -> true;
             case PLAYTIME -> playtimeOf(player) >= rank.requirement();
-            case SHOP -> bought.getOrDefault(player.getUniqueId(), Set.of()).contains(rank.id());
+            case SHOP, DONOR, STAFF -> bought.getOrDefault(player.getUniqueId(), Set.of()).contains(rank.id());
         };
     }
 
@@ -110,6 +109,32 @@ public class RankManager implements Listener {
         return null;
     }
 
+    // For admins, the only way to a donor or staff rank. True if it changed anything
+    public boolean grant(Player player, Rank rank) {
+        UUID uuid = player.getUniqueId();
+        if (!bought.computeIfAbsent(uuid, k -> new HashSet<>()).add(rank.id())) return false;
+        db.async(() -> store.add(uuid, rank.id()));
+
+        player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> ").append(rank.component())
+                .append(Component.text(" - put it on with /ranks", NamedTextColor.GRAY)));
+        return true;
+    }
+
+    public boolean revoke(Player player, Rank rank) {
+        UUID uuid = player.getUniqueId();
+        if (!bought.getOrDefault(uuid, Set.of()).remove(rank.id())) return false;
+        db.async(() -> store.remove(uuid, rank.id()));
+
+        // Back to the best rank their playtime has earned
+        PlayerData data = players.get(player);
+        if (data != null && rank.id().equals(data.getRank())) {
+            Rank earned = Ranks.earnedBy(data.getPlaytime());
+            data.setRank((earned == null ? Ranks.MEMBER : earned).id());
+            refresh(player);
+        }
+        return true;
+    }
+
     // Everywhere the rank shows
     private void refresh(Player player) {
         scoreboard.updateBoard(player);
@@ -128,7 +153,8 @@ public class RankManager implements Listener {
             Rank after = Ranks.earnedBy(data.getPlaytime());
             if (after == null || after == before) continue;
 
-            boolean wear = Ranks.get(data.getRank()).kind() != Rank.Kind.SHOP;
+            Rank.Kind worn = Ranks.get(data.getRank()).kind();
+            boolean wear = worn == Rank.Kind.DEFAULT || worn == Rank.Kind.PLAYTIME;
             if (wear) {
                 data.setRank(after.id());
                 refresh(player);
@@ -141,19 +167,6 @@ public class RankManager implements Listener {
 
     public void openRanks(Player player) {
         new RankMenu(this, plugin.getRegistry()).open(player);
-    }
-
-    // Rank, name, then what they said. The renderer runs off the main thread, the
-    // profile's getters are safe to read from it
-    @EventHandler
-    public void onChat(AsyncChatEvent event) {
-        Component rank = worn(event.getPlayer()).component();
-        event.renderer((source, displayName, message, viewer) -> Component.empty()
-                .append(rank)
-                .append(Component.space())
-                .append(displayName.colorIfAbsent(NamedTextColor.WHITE))
-                .append(Component.text(": ", NamedTextColor.DARK_GRAY))
-                .append(message.colorIfAbsent(NamedTextColor.WHITE)));
     }
 
     public void shutdown() {

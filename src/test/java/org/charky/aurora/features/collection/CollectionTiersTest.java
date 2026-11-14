@@ -5,53 +5,82 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CollectionTiersTest {
+    // Cobblestone, the first mine
+    private static final long BLOCK = 250;
+    // Feathers, a mob drop needs far fewer
+    private static final long DROP = 30;
+
+    @Test
+    void thereAreFiveTiers() {
+        assertEquals(5, CollectionTiers.count());
+    }
+
+    @Test
+    void everyTierIsAMultipleOfTheBase() {
+        assertEquals(250, CollectionTiers.threshold(BLOCK, 1));
+        assertEquals(1_000, CollectionTiers.threshold(BLOCK, 2));
+        assertEquals(3_750, CollectionTiers.threshold(BLOCK, 3));
+        assertEquals(12_500, CollectionTiers.threshold(BLOCK, 4));
+        assertEquals(50_000, CollectionTiers.threshold(BLOCK, 5));
+    }
+
+    @Test
+    void aSmallerBaseNeedsFewer() {
+        assertEquals(30, CollectionTiers.threshold(DROP, 1));
+        assertEquals(6_000, CollectionTiers.threshold(DROP, 5));
+        assertEquals(2, CollectionTiers.tier(DROP, 120));
+        assertEquals(0, CollectionTiers.tier(BLOCK, 120));
+    }
+
     @Test
     void tiersAreReachedAtTheirTotals() {
-        assertEquals(0, CollectionTiers.tier(0));
-        assertEquals(0, CollectionTiers.tier(249));
-        assertEquals(1, CollectionTiers.tier(250));
-        assertEquals(2, CollectionTiers.tier(2_500));
-        assertEquals(3, CollectionTiers.tier(25_000));
-        assertEquals(4, CollectionTiers.tier(250_000));
-        assertEquals(4, CollectionTiers.tier(9_000_000));
+        assertEquals(0, CollectionTiers.tier(BLOCK, 0));
+        assertEquals(0, CollectionTiers.tier(BLOCK, 249));
+        assertEquals(1, CollectionTiers.tier(BLOCK, 250));
+        assertEquals(2, CollectionTiers.tier(BLOCK, 1_000));
+        assertEquals(3, CollectionTiers.tier(BLOCK, 3_750));
+        assertEquals(4, CollectionTiers.tier(BLOCK, 12_500));
+        assertEquals(5, CollectionTiers.tier(BLOCK, 50_000));
+        assertEquals(5, CollectionTiers.tier(BLOCK, 9_000_000));
     }
 
     @Test
     void nothingIsPaidBetweenTiers() {
-        assertEquals(0, CollectionTiers.reward(0, 249));
-        assertEquals(0, CollectionTiers.reward(250, 2_499));
+        assertEquals(0, CollectionTiers.reward(BLOCK, 0, 249));
+        assertEquals(0, CollectionTiers.reward(BLOCK, 250, 999));
     }
 
     @Test
     void passingATierPaysItOnce() {
-        assertEquals(5, CollectionTiers.reward(249, 250));
-        assertEquals(25, CollectionTiers.reward(2_000, 2_600));
-        assertEquals(100, CollectionTiers.reward(24_999, 25_000));
-        assertEquals(400, CollectionTiers.reward(249_999, 250_001));
-        assertEquals(0, CollectionTiers.reward(250, 251));
+        assertEquals(5, CollectionTiers.reward(BLOCK, 249, 250));
+        assertEquals(25, CollectionTiers.reward(BLOCK, 900, 1_100));
+        assertEquals(100, CollectionTiers.reward(BLOCK, 3_749, 3_750));
+        assertEquals(400, CollectionTiers.reward(BLOCK, 12_499, 12_501));
+        assertEquals(1_500, CollectionTiers.reward(BLOCK, 49_999, 50_000));
+        assertEquals(0, CollectionTiers.reward(BLOCK, 250, 251));
     }
 
     // A big Blast swing at high Fortune can cross two at once
     @Test
     void oneDropCanPassSeveralTiers() {
-        assertEquals(5 + 25, CollectionTiers.reward(0, 2_500));
-        assertEquals(5 + 25 + 100 + 400, CollectionTiers.reward(0, 250_000));
+        assertEquals(5 + 25, CollectionTiers.reward(BLOCK, 0, 1_000));
+        assertEquals(5 + 25 + 100 + 400 + 1_500, CollectionTiers.reward(BLOCK, 0, 50_000));
     }
 
     @Test
     void theNextTierAndWhatItPays() {
-        assertEquals(250, CollectionTiers.nextThreshold(0));
-        assertEquals(5, CollectionTiers.nextReward(0));
-        assertEquals(25_000, CollectionTiers.nextThreshold(2_500));
-        assertEquals(100, CollectionTiers.nextReward(2_500));
-        assertEquals(-1, CollectionTiers.nextThreshold(250_000));
-        assertEquals(0, CollectionTiers.nextReward(250_000));
+        assertEquals(250, CollectionTiers.nextThreshold(BLOCK, 0));
+        assertEquals(5, CollectionTiers.nextReward(BLOCK, 0));
+        assertEquals(3_750, CollectionTiers.nextThreshold(BLOCK, 1_000));
+        assertEquals(100, CollectionTiers.nextReward(BLOCK, 1_000));
+        assertEquals(-1, CollectionTiers.nextThreshold(BLOCK, 50_000));
+        assertEquals(0, CollectionTiers.nextReward(BLOCK, 50_000));
     }
 
     @Test
     void tiersAreShownAsNumerals() {
         assertEquals("", CollectionTiers.numeral(0));
         assertEquals("I", CollectionTiers.numeral(1));
-        assertEquals("IV", CollectionTiers.numeral(4));
+        assertEquals("V", CollectionTiers.numeral(5));
     }
 }

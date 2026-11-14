@@ -34,9 +34,20 @@ public class BackpackData {
     }
 
     // Adds mined or looted drops and shows the last one on the action bar with the
-    // total the player now holds
+    // total the player now holds. A key is not a resource, it goes to the inventory
+    // where it is used, or to the ground when that is full
     public void collect(Player player, List<MenuItem> drops) {
-        addItems(drops);
+        for (MenuItem drop : drops) {
+            if (!registry.isKey(drop.getId())) {
+                addItem(drop.getId(), drop.getAmount());
+                continue;
+            }
+
+            ItemStack key = registry.getAllItems().get(drop.getId()).clone();
+            key.setAmount(drop.getAmount());
+            player.getInventory().addItem(key).values()
+                    .forEach(left -> player.getWorld().dropItemNaturally(player.getLocation(), left));
+        }
         if (drops.isEmpty()) return;
 
         MenuItem last = drops.getLast();

@@ -68,8 +68,9 @@ public class CollectionManager {
             totals.put(drop.getId(), after);
             changed.add(player.getUniqueId());
 
-            int essence = CollectionTiers.reward(before, after);
-            if (essence > 0) reward(player, drop.getId(), CollectionTiers.tier(after), essence);
+            int base = registry.getCollectionBase(drop.getId());
+            int essence = CollectionTiers.reward(base, before, after);
+            if (essence > 0) reward(player, drop.getId(), CollectionTiers.tier(base, after), essence);
         }
     }
 

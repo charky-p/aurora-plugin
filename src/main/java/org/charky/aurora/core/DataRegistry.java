@@ -52,7 +52,11 @@ public class DataRegistry {
     // Item id to the mob right clicking it summons
     private final Map<String, String> summons = new LinkedHashMap<>();
     // resources_special.csv, keys are never boosted by Looting
+    // For a resource whose data has no collection amount yet
+    private static final int DEFAULT_COLLECTION_BASE = 250;
+
     private final Set<String> specialIds = new HashSet<>();
+    private final Map<String, Integer> collectionBases = new HashMap<>();
     // Gear that mobs drop, in mob load order (progression), with the mob that drops it
     private final Map<String, Component> armory = new LinkedHashMap<>();
 
@@ -91,6 +95,7 @@ public class DataRegistry {
         unlocks.clear();
         summons.clear();
         specialIds.clear();
+        collectionBases.clear();
         armory.clear();
 
         LootPoolBuilder loot = new LootPoolBuilder(plugin.getLogger(), items, this::isLootable);
@@ -144,6 +149,7 @@ public class DataRegistry {
             putItem(id, item);
             resourceList.add(new MenuItem(id.toLowerCase(), item));
             resourceIds.add(id.toLowerCase());
+            if (model.collection > 0) collectionBases.put(id.toLowerCase(), model.collection);
             if (model.unlocks != null && !model.unlocks.isBlank()) unlocks.put(id.toLowerCase(), model.unlocks.toLowerCase());
             if (model.summons != null && !model.summons.isBlank()) summons.put(id.toLowerCase(), model.summons.toLowerCase());
         });
@@ -266,6 +272,11 @@ public class DataRegistry {
     }
 
     // Looting widens resource drops, never keys, or a 1 in 12 key becomes 8 a kill
+    // How many of a resource its first collection tier needs
+    public int getCollectionBase(String id) {
+        return collectionBases.getOrDefault(id.toLowerCase(), DEFAULT_COLLECTION_BASE);
+    }
+
     public boolean isLootable(String id) {
         return isResource(id) && !specialIds.contains(id.toLowerCase());
     }

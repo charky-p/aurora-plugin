@@ -28,8 +28,9 @@ public class CollectionMenu extends PagedMenu {
             if (!registry.isLootable(resource.getId())) continue;
 
             long amount = collections.get(player.getUniqueId(), resource.getId());
-            int tier = CollectionTiers.tier(amount);
-            long next = CollectionTiers.nextThreshold(amount);
+            int base = registry.getCollectionBase(resource.getId());
+            int tier = CollectionTiers.tier(base, amount);
+            long next = CollectionTiers.nextThreshold(base, amount);
 
             ItemStack display = resource.getItem();
             display.editMeta(meta -> {
@@ -40,7 +41,7 @@ public class CollectionMenu extends PagedMenu {
                 lore.add(Component.empty());
                 lore.add(TextUtils.parse(next < 0 ? "<!italic><green>Complete"
                         : "<!italic><gray>Next: <white>" + String.format("%,d", next)
-                        + " <dark_gray>(<gold>+" + CollectionTiers.nextReward(amount) + " Essence<dark_gray>)"));
+                        + " <dark_gray>(<gold>+" + CollectionTiers.nextReward(base, amount) + " Essence<dark_gray>)"));
                 meta.lore(lore);
                 if (next < 0) meta.setEnchantmentGlintOverride(true);
             });
@@ -54,7 +55,8 @@ public class CollectionMenu extends PagedMenu {
         int reached = 0;
         for (MenuItem resource : registry.getItems()) {
             if (registry.isLootable(resource.getId())) {
-                reached += CollectionTiers.tier(collections.get(player.getUniqueId(), resource.getId()));
+                reached += CollectionTiers.tier(registry.getCollectionBase(resource.getId()),
+                        collections.get(player.getUniqueId(), resource.getId()));
             }
         }
         return List.of(

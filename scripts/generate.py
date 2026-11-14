@@ -223,6 +223,7 @@ RESOURCE_HEADER = """\
 #     - "<color><b><i>Lore Line"
 #   world: "overworld" (Options: "overworld")
 #   region: "origin_isles" (Defaults to "")
+#   collection: 250 (How many the first collection tier needs, the rest are multiples)
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ==========================================================="""
@@ -429,6 +430,9 @@ SCHEMAS["resources_special"] = {
         ("summons",  Str()),
     ]),
 }
+
+# After the special schema copied the fields, keys are not collected
+SCHEMAS["resources"]["fields"]["collection"] = Int()
 
 SCHEMAS["blocks"] = {
     "csv": "blocks.csv",
@@ -683,6 +687,9 @@ def validate(built):
     get = lambda name: built.get(name) or {}
 
     resources = dict(get("resources"))
+    for rid, entry in resources.items():
+        if not entry.get("collection") or entry["collection"] < 1:
+            errors.append(f"resource '{rid}' needs a collection amount of 1 or more")
     for rid in get("resources_special"):
         if rid in resources:
             errors.append(f"resource '{rid}' is in both resources.csv and resources_special.csv")

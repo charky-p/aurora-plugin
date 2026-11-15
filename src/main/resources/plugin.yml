@@ -1,5 +1,5 @@
 name: Aurora
-version: '1.0'
+version: '0.1'
 main: org.charky.aurora.core.Aurora
 api-version: '1.21'
 authors: [ Charky ]

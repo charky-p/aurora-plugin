@@ -52,7 +52,7 @@ mounts, with the ghast saddle
 #### Server Design
 world 1 (overworld): 5 main regions
 1. Origin Isles - plains like sky islands (stone, coal, copper, iron, gold, gormak)
-2. Gormak - desert "mini world"
+2. Gormak - desert "mini world" (Duneworld)
 3. Verdant Groves - forest island, grapple unlockable (oak log, birch log, spruce log, dark oak log, tin, bronze, lead, silver, treant or tree zombee in large treehouse), 2 large island
 4. Elderwood Roots - forest "mini world", huge world tree in the middle, this region only deals with around it
 5. Sunken Marsh - swamp area with 1 big island, hydra
@@ -61,6 +61,18 @@ world 1 (overworld): 5 main regions
 8. Elderwood Roots pt2 - inside the huge world tree now
 9. Ironbound Quarry - detached quarry island, need elytra to go to (pale log, maple, gravel, clay, ashen soil, tungston, platinum, titanium, diamond, pillager, quarry, world boss (overworld golem))
 10. Duat - finale of the desert "mini world" in the duat
+
+NEW SYSTEM:
+- Create new versioning, say this is 1.0.0 version, finale
+- Create new version, say 2.0.0 or smthin, which will have a new system
+- New system is we split the mini worlds into their own sub worlds, essentially branching out progression
+- Buying upgrades is no longer buying a pickaxe item, it is now buying enchants like fortune and efficiency, etc
+- Each zone has a max amount for this, and has for each tool
+- We can now add more niche mini worlds like candy land or space world, even event worlds like christmas
+- Event worlds like christmas, halloween have special fortune that only apply to that world, and also add to the base fortune
+- Like Winter Fortune, Spooky Fortune
+- Threshold system to cap out the fortune, for example threshold at 50, then event fortune wont increase further than this
+- (need a better solution for this)
 
 world boss spawns retroactively every 5 minutes, there are also temple guards that drop overworld shards, 
 can combine to overworld core, dropped by overworld golem

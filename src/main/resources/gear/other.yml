@@ -196,6 +196,30 @@ items:
       - "<gray>Carries the weight of the tomb."
       - "<dark_gray>Gormak - Royal Tomb"
 
+  beginner_rod:
+    display: "<dark_aqua><b>Beginner Rod"
+    material: FISHING_ROD
+    type: ''
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<gray>Cast into any water."
+      - "<dark_gray>Fishing"
+
+  novice_rod:
+    display: "<dark_aqua><b>Novice Rod"
+    material: FISHING_ROD
+    tier: 1
+    type: ''
+    world: "overworld"
+    region: "fishing"
+    enchants:
+      luck: 5
+      fortune: 1
+    lore:
+      - "<gray>Cast into any water."
+      - "<dark_gray>Fishing"
+
   starter_backpack:
     display: "<gold><b>Backpack"
     material: PAPER

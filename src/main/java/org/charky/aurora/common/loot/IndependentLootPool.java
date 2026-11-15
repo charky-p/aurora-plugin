@@ -13,11 +13,15 @@ public class IndependentLootPool implements LootPool {
         this.drops.put(drop, chance);
     }
 
+    private static double chance(ItemDrop drop, double base, int luck) {
+        return drop.isLucky() ? Luck.chance(base, luck) : base;
+    }
+
     @Override
-    public List<MenuItem> roll(int looting) {
+    public List<MenuItem> roll(int looting, int luck) {
         return drops.entrySet()
                     .stream()
-                    .filter(e -> ThreadLocalRandom.current().nextDouble(100) <= e.getValue())
+                    .filter(e -> ThreadLocalRandom.current().nextDouble(100) <= chance(e.getKey(), e.getValue(), luck))
                     .map(e -> e.getKey().rollAmt(looting))
                     .toList();
     }

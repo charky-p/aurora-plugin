@@ -98,7 +98,7 @@ public class DataRegistry {
         collectionBases.clear();
         armory.clear();
 
-        LootPoolBuilder loot = new LootPoolBuilder(plugin.getLogger(), items, this::isLootable);
+        LootPoolBuilder loot = new LootPoolBuilder(plugin.getLogger(), items, this::isLootable, id -> !isResource(id));
 
         loadResources();
         loadEnchants();
@@ -258,8 +258,8 @@ public class DataRegistry {
         return new ArrayList<>(mobs.keySet());
     }
 
-    public List<MenuItem> getMobDrops(String id, int looting) {
-        return mobs.get(id).drops().roll(looting);
+    public List<MenuItem> getMobDrops(String id, int looting, int luck) {
+        return mobs.get(id).drops().roll(looting, luck);
     }
 
     public Map<String, Component> getArmory() {

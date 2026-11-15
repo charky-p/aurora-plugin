@@ -183,3 +183,14 @@ Player health is real, mob health is pseudo, run `/data get entity @s Health`
 Reload CSV Data: run `generate.py --live`
 
 Server Transfer: use `target/Aurora-1.0.jar`, use FileZilla FTP to transfer world files.
+
+## TODO, from the legacy Skript
+
+Not built yet, see `legacy/skript/` for how each one used to work.
+
+- `/vault` (`command.sk`): personal 6 row chests that keep items between sessions
+- `/trash` (`command.sk`): a chest that deletes whatever is left in it when closed
+- Arachne region (`mobarachne.sk`): spider boss with a skeleton rider, cobweb traps, invisibility
+- Pillager region (`mobpillager.sk`): Ravager and Pillager Captain, arrow volleys, berserk
+- Talking NPCs (`npc.sk`): timed dialogue lines
+- From `test.sk`: wheat farming with regrowth, Restock bows, a Haste enchant

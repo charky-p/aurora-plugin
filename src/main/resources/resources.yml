@@ -356,3 +356,75 @@ items:
     lore:
       - "<dark_gray>Dropped by the Treant"
     collection: 1
+
+  fishing_junk:
+    display: "<dark_gray>Junk"
+    material: ROTTEN_FLESH
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<dark_gray>Fished up, worth little"
+    collection: 100
+
+  catfish:
+    display: "<gray>Catfish"
+    material: COD
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<dark_gray>Caught with the Beginner Rod"
+    collection: 60
+
+  black_bass:
+    display: "<dark_gray><b>Black Bass"
+    material: COD
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<dark_gray>Caught with the Beginner Rod"
+    collection: 40
+
+  blackfin_tuna:
+    display: "<gold><b>Blackfin Tuna"
+    material: SALMON
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<dark_gray>A rare catch of the Beginner Rod"
+    collection: 5
+
+  pink_salmon:
+    display: "<light_purple>Pink Salmon"
+    material: SALMON
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<dark_gray>Caught with the Novice Rod"
+    collection: 150
+
+  sea_trout:
+    display: "<dark_aqua><b>Sea Trout"
+    material: COD
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<dark_gray>Caught with the Novice Rod"
+    collection: 60
+
+  spotted_pufferfish:
+    display: "<gold><b>Black Spotted Pufferfish"
+    material: PUFFERFISH
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<dark_gray>A rare catch of the Novice Rod"
+    collection: 5
+
+  fishing_treasure:
+    display: "<yellow><b>Treasure"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<dark_gray>One cast in two thousand"
+    collection: 1

@@ -8,13 +8,20 @@ public class ItemDrop {
     private final int minAmount;
     private final int maxAmount;
     private final boolean lootable;
+    private final boolean lucky;
 
-    // Lootable drops get their range widened by Looting, gear and keys do not
-    public ItemDrop(MenuItem item, int minAmount, int maxAmount, boolean lootable) {
+    // Lootable drops get their range widened by Looting, gear and keys do not.
+    // Lucky drops, a mob's gear, come more often with Luck
+    public ItemDrop(MenuItem item, int minAmount, int maxAmount, boolean lootable, boolean lucky) {
+        this.lucky = lucky;
         this.item = item;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
         this.lootable = lootable;
+    }
+
+    public boolean isLucky() {
+        return lucky;
     }
 
     // A fresh copy every time, so callers can change its amount

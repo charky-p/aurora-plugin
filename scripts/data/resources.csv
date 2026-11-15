@@ -37,3 +37,11 @@ silver,<#6B4F35><b>Silver,IRON_BLOCK,overworld,verdant_darkoak,8000,<dark_gray>V
 ancient_seed,<#6B4F35>Ancient Seed,TORCHFLOWER_SEEDS,overworld,verdant_darkoak,150,<dark_gray>Dropped by Thicket Sniffers
 tree_sap,<gold>Tree Sap,HONEYCOMB,overworld,verdant_treehouse,150,<dark_gray>Dropped by Tree Zombees
 heartwood,<dark_green><b>Heartwood,CREAKING_HEART,overworld,verdant_treehouse,1,<dark_gray>Dropped by the Treant
+fishing_junk,<dark_gray>Junk,ROTTEN_FLESH,overworld,fishing,100,"<dark_gray>Fished up, worth little"
+catfish,<gray>Catfish,COD,overworld,fishing,60,<dark_gray>Caught with the Beginner Rod
+black_bass,<dark_gray><b>Black Bass,COD,overworld,fishing,40,<dark_gray>Caught with the Beginner Rod
+blackfin_tuna,<gold><b>Blackfin Tuna,SALMON,overworld,fishing,5,<dark_gray>A rare catch of the Beginner Rod
+pink_salmon,<light_purple>Pink Salmon,SALMON,overworld,fishing,150,<dark_gray>Caught with the Novice Rod
+sea_trout,<dark_aqua><b>Sea Trout,COD,overworld,fishing,60,<dark_gray>Caught with the Novice Rod
+spotted_pufferfish,<gold><b>Black Spotted Pufferfish,PUFFERFISH,overworld,fishing,5,<dark_gray>A rare catch of the Novice Rod
+fishing_treasure,<yellow><b>Treasure,GOLD_NUGGET,overworld,fishing,1,<dark_gray>One cast in two thousand

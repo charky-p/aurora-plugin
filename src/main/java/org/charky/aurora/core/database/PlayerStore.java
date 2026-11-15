@@ -62,6 +62,15 @@ public class PlayerStore {
         }
     }
 
+    // The highest saved levels, best first. Each row is uuid, level, xp
+    public List<Object[]> topLevels(int limit) {
+        List<Object[]> rows = new ArrayList<>();
+        db.query("SELECT uuid, level, xp FROM playerData ORDER BY level DESC, xp DESC LIMIT ?",
+                pst -> pst.setInt(1, limit),
+                rs -> rows.add(new Object[]{UUID.fromString(rs.getString("uuid")), rs.getInt("level"), rs.getLong("xp")}));
+        return rows;
+    }
+
     public PlayerData load(UUID uuid) {
         List<PlayerData> found = new ArrayList<>();
         db.query("SELECT * FROM playerData WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()),

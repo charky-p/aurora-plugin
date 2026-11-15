@@ -20,11 +20,14 @@ public class LootPoolBuilder {
     private final Logger logger;
     private final Map<String, ItemStack> items;
     private final Predicate<String> isResource;
+    private final Predicate<String> isGear;
 
-    public LootPoolBuilder(Logger logger, Map<String, ItemStack> items, Predicate<String> isResource) {
+    public LootPoolBuilder(Logger logger, Map<String, ItemStack> items, Predicate<String> isResource,
+                           Predicate<String> isGear) {
         this.logger = logger;
         this.items = items;
         this.isResource = isResource;
+        this.isGear = isGear;
     }
 
     // With lootable on, resources can be widened by Looting. Owner is only for the log
@@ -60,6 +63,8 @@ public class LootPoolBuilder {
     }
 
     private ItemDrop itemDrop(String id, int min, int max, boolean lootable) {
-        return new ItemDrop(new MenuItem(id, items.get(id)), min, max, lootable && isResource.test(id));
+        // Blocks build with lootable off, so only a mob's gear answers to Luck
+        return new ItemDrop(new MenuItem(id, items.get(id)), min, max,
+                lootable && isResource.test(id), lootable && isGear.test(id));
     }
 }

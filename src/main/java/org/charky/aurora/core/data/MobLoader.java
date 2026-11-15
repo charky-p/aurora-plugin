@@ -44,8 +44,8 @@ public class MobLoader {
             // Every pool rolls, so a mob with both drop lists gets both, and a mob
             // with none simply drops nothing
             List<LootPool> pools = loot.build(id, model.independent, model.choices, true);
-            LootPool drops = looting -> pools.stream()
-                    .flatMap(pool -> pool.roll(looting).stream())
+            LootPool drops = (looting, luck) -> pools.stream()
+                    .flatMap(pool -> pool.roll(looting, luck).stream())
                     .toList();
 
             mobs.put(id.toLowerCase(), new MobData(id, type, displayName,

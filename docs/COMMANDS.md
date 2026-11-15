@@ -16,6 +16,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/customise`, `/customize`, `/cosmetics` | Choose how you look: rank, suffixes, chat and name colour, join message, trail and kill effect. Cosmetics are bought here with Essence |
 | `/ranks`, `/rank` | Choose the rank shown by your name, from the ones you have unlocked |
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
+| `/top`, `/leaderboard` | The ten highest levels on the server |
 | `/spawn` | Teleport to this world's spawn |
 
 **In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.

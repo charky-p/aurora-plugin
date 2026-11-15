@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.keys.KeyItems;
 
@@ -47,8 +48,9 @@ public class BackpackData {
             KeyItems.obtained(player, drop.getId());
             ItemStack key = registry.getAllItems().get(drop.getId()).clone();
             key.setAmount(drop.getAmount());
-            player.getInventory().addItem(key).values()
-                    .forEach(left -> player.getWorld().dropItemNaturally(player.getLocation(), left));
+            Map<Integer, ItemStack> left = player.getInventory().addItem(key);
+            if (!left.isEmpty()) TextUtils.warn(player, "Inventory full - dropped at your feet");
+            left.values().forEach(rest -> player.getWorld().dropItemNaturally(player.getLocation(), rest));
         }
         if (drops.isEmpty()) return;
 

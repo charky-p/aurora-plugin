@@ -75,12 +75,13 @@ public class MobDeathListener implements Listener {
         // A kill is worth the mob's health in XP, far more than a block
         levels.addXp(killer, Math.max(MIN_KILL_XP, Math.round(registry.getMob(mobId).health())));
         // Same roll as mining, with the sword's Luck
-        Essence.roll(killer, Enchants.level(weapon, "luck"), players);
+        int luck = Enchants.level(weapon, "luck");
+        Essence.roll(killer, luck, players);
         scoreboard.updateBoard(killer);
 
         // Resources stack in the backpack, gear is unlocked in the Armory
         List<MenuItem> mobDrops = new ArrayList<>();
-        for (MenuItem drop : registry.getMobDrops(mobId, Enchants.level(weapon, "looting"))) {
+        for (MenuItem drop : registry.getMobDrops(mobId, Enchants.level(weapon, "looting"), luck)) {
             if (registry.isResource(drop.getId())) mobDrops.add(drop);
             else armoryManager.handleDrop(killer, drop.getId());
         }

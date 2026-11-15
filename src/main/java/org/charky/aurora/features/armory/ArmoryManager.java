@@ -76,6 +76,7 @@ public class ArmoryManager {
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1f);
 
         if (player.getInventory().firstEmpty() != -1) player.getInventory().addItem(item.clone());
+        else TextUtils.warn(player, "Inventory full - take it from the Armory when you have room");
     }
 
     // Gives one copy, a second is pointless as gear never breaks

@@ -7,9 +7,14 @@ import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.PlayerStore;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 
 // Each online player's profile: loaded on join, saved on quit and every 10 minutes
 public class PlayerManager {
@@ -55,6 +60,32 @@ public class PlayerManager {
         UUID uuid = player.getUniqueId();
         PlayerData data = profiles.remove(uuid);
         if (data != null) db.async(() -> store.save(uuid, data));
+    }
+
+    public record Standing(UUID uuid, int level, long xp) {
+    }
+
+    // The top levels, handed to the callback on the main thread. Players online
+    // count with what they have right now, not what was last saved
+    public void topLevels(int size, Consumer<List<Standing>> then) {
+        db.async(() -> {
+            // Extra rows, in case some of them are online and have since fallen behind
+            List<Object[]> saved = store.topLevels(size + profiles.size());
+
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                Map<UUID, Standing> standings = new HashMap<>();
+                for (Object[] row : saved) {
+                    UUID uuid = (UUID) row[0];
+                    standings.put(uuid, new Standing(uuid, (int) row[1], (long) row[2]));
+                }
+                profiles.forEach((uuid, data) -> standings.put(uuid, new Standing(uuid, data.getLevel(), data.getXp())));
+
+                then.accept(standings.values().stream()
+                        .sorted(Comparator.comparingInt(Standing::level).thenComparingLong(Standing::xp).reversed())
+                        .limit(size)
+                        .toList());
+            });
+        });
     }
 
     // Null while the profile is still loading

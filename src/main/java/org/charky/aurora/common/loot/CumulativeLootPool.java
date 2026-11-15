@@ -21,7 +21,7 @@ public class CumulativeLootPool implements LootPool {
     }
 
     @Override
-    public List<MenuItem> roll(int looting) {
+    public List<MenuItem> roll(int looting, int luck) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         if (random.nextDouble() * 100 > chance) return List.of();
 

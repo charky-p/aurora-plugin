@@ -34,6 +34,7 @@ import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
+import org.charky.aurora.features.fishing.FishingListener;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletListener;
 import org.charky.aurora.features.gauntlet.GauntletManager;
@@ -48,6 +49,7 @@ import org.charky.aurora.features.player.LevelManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.PlayerSessionListener;
 import org.charky.aurora.features.player.ScoreboardManager;
+import org.charky.aurora.features.player.ServerMessages;
 import org.charky.aurora.features.player.TabManager;
 import org.charky.aurora.features.portal.PortalListener;
 import org.charky.aurora.features.portal.PortalManager;
@@ -66,6 +68,7 @@ import org.charky.aurora.features.system.commands.DumpCommand;
 import org.charky.aurora.features.system.commands.OpenMenuCommand;
 import org.charky.aurora.features.system.commands.RefreshCommand;
 import org.charky.aurora.features.system.commands.SpawnCommand;
+import org.charky.aurora.features.system.commands.TopCommand;
 import org.charky.aurora.features.trader.TraderListener;
 import org.charky.aurora.features.warp.WarpMenu;
 import org.charky.aurora.features.trader.TraderManager;
@@ -177,6 +180,7 @@ public class Aurora extends JavaPlugin {
         command("shop", new OpenMenuCommand(openShop));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
         command("customise", new OpenMenuCommand(cosmeticManager::openHub));
+        command("top", new TopCommand(players));
         command("collections", new OpenMenuCommand(collectionManager::open));
 
         List<Listener> listeners = List.of(
@@ -195,6 +199,8 @@ public class Aurora extends JavaPlugin {
                 new KeyItemListener(this),
                 new BackpackItemListener(this),
                 new ChatShowcase(),
+                new ServerMessages(registry),
+                new FishingListener(this),
                 new CombatListener(this),
                 bossManager,
                 new GauntletListener(gauntletManager),

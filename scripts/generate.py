@@ -31,6 +31,15 @@ args = parser.parse_args()
 
 CUR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(CUR, "data")
+
+
+# The CSVs are sorted into folders under data/: world, items, mobs, shops. A file is
+# found by its name alone, whichever folder it is in
+def data_path(name):
+    import glob
+    found = glob.glob(os.path.join(DATA_DIR, "**", name), recursive=True)
+    return found[0] if found else os.path.join(DATA_DIR, name)
+
 RESOURCE_PATH = "LocalServer/plugins/Aurora" if args.live else "src/main/resources"
 RESOURCE_DIR = os.path.join(CUR, "..", RESOURCE_PATH)
 
@@ -444,7 +453,6 @@ SCHEMAS["blocks"] = {
     ] + loot_fields()),
 }
 
-SCHEMAS["picks"] = gear_schema("gear_picks.csv", "gear/picks.yml", "mining")
 SCHEMAS["armor"] = gear_schema("gear_armor.csv", "gear/armor.yml", "armor")
 SCHEMAS["weapons"] = gear_schema("gear_weapons.csv", "gear/weapons.yml", "combat")
 SCHEMAS["other"] = gear_schema("gear_other.csv", "gear/other.yml", "")
@@ -653,7 +661,7 @@ def build_entry(row, fields, ctx):
 
 def build(schema):
     # Returns an OrderedDict of id -> entry in CSV row order.
-    rows = read_rows(os.path.join(DATA_DIR, schema["csv"]))
+    rows = read_rows(data_path(schema["csv"]))
     if rows is None:
         return None
 
@@ -671,7 +679,7 @@ def build(schema):
     if child:
         for column, field in child["fields"].items():
             field.bind(column)
-        child_rows = read_rows(os.path.join(DATA_DIR, child["csv"])) or []
+        child_rows = read_rows(data_path(child["csv"])) or []
         for row in child_rows:
             parent = row[child["parent_column"]].strip()
             if parent not in items:
@@ -746,7 +754,7 @@ def validate(built):
             errors.append(f"resource '{rid}' is in both resources.csv and resources_special.csv")
     resources.update(get("resources_special"))
     gear = {}
-    for name in ("picks", "armor", "weapons", "other"):
+    for name in ("armor", "weapons", "other"):
         gear.update(get(name))
     items = set(resources) | set(gear)
     enchants = set(get("enchants"))
@@ -789,7 +797,7 @@ def validate(built):
                 errors.append(f"mob '{mid}': drops unknown item '{drop}'")
 
     # upgrades:<zone> opens that zone's upgrade menu
-    upgrade_zones = {row["id"] for row in read_rows(os.path.join(DATA_DIR, "zones.csv")) or []}
+    upgrade_zones = {row["id"] for row in read_rows(data_path("zones.csv")) or []}
 
     sold, costs_used = set(), {}
     for gui_id, gui in guis.items():
@@ -907,7 +915,7 @@ UPGRADE_HEADER = """\
 
 def upgrades_text():
     """upgrades.yml as text, None without zones.csv. Raises on bad data."""
-    if not os.path.exists(os.path.join(DATA_DIR, "zones.csv")):
+    if not os.path.exists(data_path("zones.csv")):
         return None, 0
     sys.path.insert(0, os.path.join(CUR, "balance"))
     import price_zones

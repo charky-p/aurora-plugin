@@ -25,9 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ProgressionDataTest {
     private static final Path RESOURCES = Path.of("src", "main", "resources");
 
-    // The stat an upgrade must never lower, by gear file
+    // The gear files, and the stat each kind of gear is for
     private static final Map<String, List<String>> PRIMARY_STATS = Map.of(
-            "gear/picks.yml", List.of("fortune", "efficiency", "blast"),
             "gear/weapons.yml", List.of("sharpness"),
             "gear/armor.yml", List.of("protection"),
             "gear/other.yml", List.of("deflection"));
@@ -102,41 +101,17 @@ class ProgressionDataTest {
         assertNone(problems);
     }
 
-    // One linear path: an upgrade is never worse than the gear it takes away, in the
-    // stat that gear is for
+    // A block of density d needs Fortune d, so some upgrade must take a pick or an
+    // axe that far
     @Test
-    void anUpgradeNeverLowersThePrimaryStatOfWhatItCosts() {
-        List<String> problems = new ArrayList<>();
-        for (Trade trade : trades) {
-            String file = gearFile.get(trade.item());
-            if (file == null) continue;
-
-            for (String cost : trade.costs()) {
-                if (!file.equals(gearFile.get(cost))) continue;
-
-                for (String stat : PRIMARY_STATS.get(file)) {
-                    int before = gear.get(cost).getOrDefault(stat, 0);
-                    int after = gear.get(trade.item()).getOrDefault(stat, 0);
-                    if (after < before) {
-                        problems.add(trade.item() + " has " + stat + " " + after + ", less than the "
-                                + before + " of " + cost + " it costs");
-                    }
-                }
-            }
-        }
-        assertNone(problems);
-    }
-
-    // A block of density d needs Fortune d, so some pick or axe on sale must have it
-    @Test
-    void everyBlockCanBeMinedByAToolOnSale() {
-        Set<String> sold = new HashSet<>();
-        for (Trade trade : trades) sold.add(trade.item());
-
+    void everyBlockCanBeMinedByAToolTheUpgradesReach() throws IOException {
         int bestFortune = 0;
-        for (String id : sold) {
-            if ("gear/picks.yml".equals(gearFile.get(id))) {
-                bestFortune = Math.max(bestFortune, gear.get(id).getOrDefault("fortune", 0));
+        for (Map<String, Object> zone : items("upgrades.yml").values()) {
+            if (!(zone.get("steps") instanceof List<?> steps)) continue;
+            for (Object step : steps) {
+                if (step instanceof Map<?, ?> map && "fortune".equals(map.get("stat"))) {
+                    bestFortune = Math.max(bestFortune, Integer.parseInt(map.get("level").toString()));
+                }
             }
         }
 
@@ -144,7 +119,7 @@ class ProgressionDataTest {
         for (Map.Entry<String, Map<String, Object>> block : blocks.entrySet()) {
             int density = block.getValue().get("density") instanceof Number number ? number.intValue() : 0;
             if (density > bestFortune) {
-                problems.add(block.getKey() + " has density " + density + ", the best tool on sale is Fortune " + bestFortune);
+                problems.add(block.getKey() + " has density " + density + ", the upgrades stop at Fortune " + bestFortune);
             }
         }
         assertNone(problems);

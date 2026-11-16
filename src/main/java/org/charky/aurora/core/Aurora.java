@@ -56,6 +56,7 @@ import org.charky.aurora.features.portal.PortalListener;
 import org.charky.aurora.features.portal.PortalManager;
 import org.charky.aurora.features.perk.PerkManager;
 import org.charky.aurora.features.cosmetic.Cosmetic;
+import org.charky.aurora.features.cosmetic.Cosmetics;
 import org.charky.aurora.features.system.HowToPlay;
 import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.system.CommandFilter;
@@ -177,7 +178,8 @@ public class Aurora extends JavaPlugin {
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
         armoryManager.setTools(toolManager);
         cosmeticManager.setMaxed((player, cosmetic) -> cosmetic.source() == Cosmetic.Source.ZONE
-                ? toolManager.maxed(player, cosmetic.target()) : toolManager.maxedRegion(player, cosmetic.target()));
+                ? toolManager.maxed(player, cosmetic.target())
+                : Cosmetics.regions(cosmetic).stream().allMatch(region -> toolManager.maxedRegion(player, region)));
         toolManager.setOnMaxed(cosmeticManager::announceMaxed);
         rankManager.setOnPlaytime(cosmeticManager::playtimePassed);
         registry.registerAction("howto", HowToPlay::send);

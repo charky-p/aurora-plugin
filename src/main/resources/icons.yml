@@ -12,47 +12,12 @@
 # ===========================================================
 
 items:
-  icon_picks:
-    display: "<gray><b>Pickaxes"
-    material: DIAMOND_PICKAXE
-    glow: false
-    lore:
-      - "<gray>Mine faster, drop more."
-
-  icon_swords:
-    display: "<gray><b>Swords"
-    material: DIAMOND_SWORD
-    glow: false
-    lore:
-      - "<gray>Hit harder."
-
-  icon_armor:
-    display: "<gray><b>Armour"
-    material: DIAMOND_CHESTPLATE
-    glow: false
-    lore:
-      - "<gray>Take less."
-
-  icon_shields:
-    display: "<blue><b>Shields"
-    material: SHIELD
-    glow: false
-    lore:
-      - "<gray>Raise to deflect."
-
   icon_utility:
     display: "<gold><b>Utility"
     material: ENDER_CHEST
     glow: false
     lore:
       - "<gray>Everything else."
-
-  icon_back:
-    display: "<red><b>Back"
-    material: ARROW
-    glow: false
-    lore:
-      - "<gray>Return to the previous menu."
 
   icon_origin:
     display: "<green><b>Origin Isles"
@@ -74,69 +39,6 @@ items:
     glow: false
     lore:
       - "<gray>Free. Barely works."
-
-  icon_cobble:
-    display: "<gray><b>Cobblestone Quarry"
-    material: COBBLESTONE
-    glow: false
-    lore:
-      - "<gray>Zone 1"
-
-  icon_coal:
-    display: "<dark_gray><b>Coal Seam"
-    material: COAL_BLOCK
-    glow: false
-    lore:
-      - "<gray>Zone 2"
-
-  icon_copper:
-    display: "<#D94110><b>Copper Vein"
-    material: COPPER_BLOCK
-    glow: false
-    lore:
-      - "<gray>Zone 3 - chickens"
-
-  icon_iron:
-    display: "<white><b>Iron Deposit"
-    material: IRON_BLOCK
-    glow: false
-    lore:
-      - "<gray>Zone 4 - sheep"
-
-  icon_gold:
-    display: "<gold><b>Gold Reef"
-    material: GOLD_BLOCK
-    glow: false
-    lore:
-      - "<gray>Zone 5 - cows"
-
-  icon_city:
-    display: "<gray><b>Abandoned City"
-    material: STONE_BRICKS
-    glow: false
-    lore:
-      - "<gray>Serfs and scavengers"
-
-  icon_dunes:
-    display: "<yellow><b>The Dunes"
-    material: SANDSTONE
-    glow: false
-    lore:
-      - "<gray>Scouts and stalkers"
-
-  icon_canyons:
-    display: "<#B4462A><b>Howling Canyons"
-    material: RED_SANDSTONE
-    glow: false
-    lore:
-      - "<gray>Zealots and legionnaires"
-
-  icon_temple:
-    display: "<gold><b>Sun Temple"
-    material: RAW_GOLD_BLOCK
-    glow: false
-    lore:
-      - "<gray>Guards and viziers"
 
   icon_tomb:
     display: "<dark_purple><b>Royal Tomb"
@@ -223,48 +125,6 @@ items:
     glow: true
     lore:
       - "<gray>Spend Essence on ranks."
-
-  icon_verdant:
-    display: "<dark_green><b>Verdant Groves"
-    material: OAK_SAPLING
-    glow: true
-    lore:
-      - "<gray>Forest islands of wood and metal."
-
-  icon_oak:
-    display: "<#7BA05B><b>Oak Grove"
-    material: OAK_LOG
-    glow: false
-    lore:
-      - "<gray>Oak logs and tin."
-
-  icon_birch:
-    display: "<#D9D3B0><b>Birch Hollow"
-    material: BIRCH_LOG
-    glow: false
-    lore:
-      - "<gray>Birch logs and bronze."
-
-  icon_spruce:
-    display: "<#4F7A4A><b>Spruce Ridge"
-    material: SPRUCE_LOG
-    glow: false
-    lore:
-      - "<gray>Spruce logs and lead."
-
-  icon_darkoak:
-    display: "<#6B4F35><b>Dark Oak Thicket"
-    material: DARK_OAK_LOG
-    glow: false
-    lore:
-      - "<gray>Dark oak logs and silver."
-
-  icon_treehouse:
-    display: "<#2E8B57><b>Great Treehouse"
-    material: JUNGLE_LEAVES
-    glow: false
-    lore:
-      - "<gray>Tree Zombees"
 
   icon_food:
     display: "<gold><b>Camp Cook"

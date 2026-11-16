@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import price_zones   # noqa: E402
 import prices        # noqa: E402
 
-RESOURCES = price_zones.DATA / "resources.csv"
+RESOURCES = price_zones.sim.data_file("resources")
 
 
 def zone_totals():

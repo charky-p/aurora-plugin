@@ -17,161 +17,6 @@
 # ===========================================================
 
 items:
-  city_shield_1:
-    display: "<gray><b>Ashen Shield"
-    material: SHIELD
-    tier: 1
-    type: "armor"
-    world: "overworld"
-    region: "gormak_city"
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Abandoned City"
-
-  city_shield_2:
-    display: "<gray><b>Ashen Shield"
-    material: SHIELD
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "gormak_city"
-    enchants:
-      deflection: 1
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Abandoned City"
-
-  city_shield_3:
-    display: "<gray><b>Ashen Shield"
-    material: SHIELD
-    tier: 3
-    type: "armor"
-    world: "overworld"
-    region: "gormak_city"
-    enchants:
-      deflection: 2
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Abandoned City"
-
-  dunes_shield_1:
-    display: "<yellow><b>Dune Shield"
-    material: SHIELD
-    tier: 1
-    type: "armor"
-    world: "overworld"
-    region: "gormak_dunes"
-    enchants:
-      deflection: 3
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - The Dunes"
-
-  dunes_shield_2:
-    display: "<yellow><b>Dune Shield"
-    material: SHIELD
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "gormak_dunes"
-    enchants:
-      deflection: 4
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - The Dunes"
-
-  dunes_shield_3:
-    display: "<yellow><b>Dune Shield"
-    material: SHIELD
-    tier: 3
-    type: "armor"
-    world: "overworld"
-    region: "gormak_dunes"
-    enchants:
-      deflection: 5
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - The Dunes"
-
-  canyons_shield_1:
-    display: "<#B4462A><b>Canyon Shield"
-    material: SHIELD
-    tier: 1
-    type: "armor"
-    world: "overworld"
-    region: "gormak_canyons"
-    enchants:
-      deflection: 6
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Howling Canyons"
-
-  canyons_shield_2:
-    display: "<#B4462A><b>Canyon Shield"
-    material: SHIELD
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "gormak_canyons"
-    enchants:
-      deflection: 7
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Howling Canyons"
-
-  canyons_shield_3:
-    display: "<#B4462A><b>Canyon Shield"
-    material: SHIELD
-    tier: 3
-    type: "armor"
-    world: "overworld"
-    region: "gormak_canyons"
-    enchants:
-      deflection: 8
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Howling Canyons"
-
-  temple_shield_1:
-    display: "<gold><b>Sunward Shield"
-    material: SHIELD
-    tier: 1
-    type: "armor"
-    world: "overworld"
-    region: "gormak_temple"
-    enchants:
-      deflection: 9
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Sun Temple"
-
-  temple_shield_2:
-    display: "<gold><b>Sunward Shield"
-    material: SHIELD
-    tier: 2
-    type: "armor"
-    world: "overworld"
-    region: "gormak_temple"
-    enchants:
-      deflection: 10
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Sun Temple"
-
-  temple_shield_3:
-    display: "<gold><b>Sunward Shield"
-    material: SHIELD
-    tier: 3
-    type: "armor"
-    world: "overworld"
-    region: "gormak_temple"
-    enchants:
-      deflection: 10
-      defence: 1
-    lore:
-      - "<gray>Raise to deflect. Fully negates weaker blows."
-      - "<dark_gray>Gormak - Sun Temple"
-
   totem:
     display: "<gold><b>Totem of Undying"
     material: TOTEM_OF_UNDYING
@@ -195,30 +40,6 @@ items:
       - "<gray>Held in the off hand."
       - "<gray>Carries the weight of the tomb."
       - "<dark_gray>Gormak - Royal Tomb"
-
-  beginner_rod:
-    display: "<dark_aqua><b>Beginner Rod"
-    material: FISHING_ROD
-    type: ''
-    world: "overworld"
-    region: "fishing"
-    lore:
-      - "<gray>Cast into any water."
-      - "<dark_gray>Fishing"
-
-  novice_rod:
-    display: "<dark_aqua><b>Novice Rod"
-    material: FISHING_ROD
-    tier: 1
-    type: ''
-    world: "overworld"
-    region: "fishing"
-    enchants:
-      luck: 5
-      fortune: 1
-    lore:
-      - "<gray>Cast into any water."
-      - "<dark_gray>Fishing"
 
   starter_backpack:
     display: "<gold><b>Backpack"
@@ -274,3 +95,27 @@ items:
     region: "origin_isles"
     lore:
       - "<dark_gray>Food"
+
+  beginner_rod:
+    display: "<dark_aqua><b>Beginner Rod"
+    material: FISHING_ROD
+    type: ''
+    world: "overworld"
+    region: "fishing"
+    lore:
+      - "<gray>Cast into any water."
+      - "<dark_gray>Fishing"
+
+  novice_rod:
+    display: "<dark_aqua><b>Novice Rod"
+    material: FISHING_ROD
+    tier: 1
+    type: ''
+    world: "overworld"
+    region: "fishing"
+    enchants:
+      luck: 5
+      fortune: 1
+    lore:
+      - "<gray>Cast into any water."
+      - "<dark_gray>Fishing"

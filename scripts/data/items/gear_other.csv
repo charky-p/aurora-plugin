@@ -1,0 +1,11 @@
+id,display,material,tier,type,world,region,enchants,lore
+totem,<gold><b>Totem of Undying,TOTEM_OF_UNDYING,0,,overworld,gormak_tomb,,<gray>Survives one killing blow.|<dark_gray>Consumed on use
+gormak_talisman,<dark_red><b>Gormak Talisman,NETHER_STAR,0,,overworld,gormak_tomb,luck:10|bloodlust:1,<gray>Held in the off hand.|<gray>Carries the weight of the tomb.|<dark_gray>Gormak - Royal Tomb
+starter_backpack,<gold><b>Backpack,PAPER,0,,overworld,origin_isles,,<gray>Everything you mine and loot is kept here.|<dark_gray>Right click to open
+bread,<white>Bread,BREAD,0,,overworld,origin_isles,,<dark_gray>Food
+baked_potato,<white>Baked Potato,BAKED_POTATO,0,,overworld,origin_isles,,<dark_gray>Food
+cooked_chicken,<white>Roast Chicken,COOKED_CHICKEN,0,,overworld,origin_isles,,<dark_gray>Food
+steak,<white>Steak,COOKED_BEEF,0,,overworld,origin_isles,,<dark_gray>Food
+golden_carrot,<white>Golden Carrot,GOLDEN_CARROT,0,,overworld,origin_isles,,<dark_gray>Food
+beginner_rod,<dark_aqua><b>Beginner Rod,FISHING_ROD,0,,overworld,fishing,,<gray>Cast into any water.|<dark_gray>Fishing
+novice_rod,<dark_aqua><b>Novice Rod,FISHING_ROD,1,,overworld,fishing,luck:5|fortune:1,<gray>Cast into any water.|<dark_gray>Fishing

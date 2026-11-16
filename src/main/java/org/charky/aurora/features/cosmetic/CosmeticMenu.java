@@ -131,7 +131,7 @@ public class CosmeticMenu extends PagedMenu {
             case ESSENCE -> essence >= cosmetic.requirement() ? "<yellow>Click to buy"
                     : "<red>" + String.format("%,d", cosmetic.requirement() - essence) + " more Essence needed";
             case ZONE -> "<red>Buy every upgrade there";
-            case WORLD -> registry.getZonesOfRegion(cosmetic.target()).isEmpty()
+            case WORLD -> Cosmetics.regions(cosmetic).stream().allMatch(region -> registry.getZonesOfRegion(region).isEmpty())
                     ? "<red>Not open yet" : "<red>Max out every zone there";
             default -> "<red>Locked";
         };

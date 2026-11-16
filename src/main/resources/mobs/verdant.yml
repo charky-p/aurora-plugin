@@ -32,8 +32,8 @@ items:
   grove_horse:
     display: "<#7BA05B><b>Grove Horse"
     entity: HORSE
-    health: 400.0
-    defence: 15.0
+    health: 60.0
+    defence: 3.0
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.2
@@ -45,8 +45,8 @@ items:
   hollow_fox:
     display: "<#D9D3B0><b>Hollow Fox"
     entity: FOX
-    health: 450.0
-    defence: 17.0
+    health: 105.0
+    defence: 5.0
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.15
@@ -58,8 +58,8 @@ items:
   ridge_wolf:
     display: "<#4F7A4A><b>Ridge Wolf"
     entity: WOLF
-    health: 520.0
-    defence: 19.0
+    health: 190.0
+    defence: 7.0
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.28
@@ -71,8 +71,8 @@ items:
   thicket_sniffer:
     display: "<#6B4F35><b>Thicket Sniffer"
     entity: SNIFFER
-    health: 700.0
-    defence: 21.0
+    health: 235.0
+    defence: 11.0
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.1
@@ -84,9 +84,9 @@ items:
   tree_zombee:
     display: "<#7BA05B><b>Tree Zombee"
     entity: ZOMBIE
-    health: 450.0
-    defence: 20.0
-    attack: 33.0
+    health: 295.0
+    defence: 14.0
+    attack: 25.0
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.26
@@ -102,9 +102,9 @@ items:
   treant:
     display: "<dark_green><b>Treant"
     entity: ZOMBIE
-    health: 2400.0
-    defence: 24.0
-    attack: 37.0
+    health: 1800.0
+    defence: 18.0
+    attack: 29.0
     attack_cooldown: 2.0
     attributes:
       - attr: MOVEMENT_SPEED

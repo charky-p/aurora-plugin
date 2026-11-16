@@ -94,15 +94,20 @@ Z = 0  # every strip runs along x from z 0
 SAFE_Z = Z - 12  # far edge of the safe platforms beside hostile zones
 
 
+# The CSVs are sorted into folders under data/, a file is found by its name alone
+def data_file(name):
+    return next(DATA.rglob(f"{name}.csv"))
+
+
 def ids(name):
-    with open(DATA / f"{name}.csv", newline="", encoding="utf-8") as f:
+    with open(data_file(name), newline="", encoding="utf-8") as f:
         return {row["id"] for row in csv.DictReader(f)}
 
 
 def entities():
     found = {}
     for name in ("mobs_origin", "mobs_gormak", "mobs_verdant"):
-        with open(DATA / f"{name}.csv", newline="", encoding="utf-8") as f:
+        with open(data_file(name), newline="", encoding="utf-8") as f:
             found.update({row["id"]: row["entity"].upper() for row in csv.DictReader(f)})
     return found
 
@@ -110,7 +115,7 @@ def entities():
 def check():
     traders, blocks = ids("traders"), ids("blocks")
     keys = {}
-    with open(DATA / "resources_special.csv", newline="", encoding="utf-8") as f:
+    with open(data_file("resources_special"), newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             keys[row["unlocks"]] = row["id"]
     mobs = ids("mobs_origin") | ids("mobs_gormak") | ids("mobs_verdant")
@@ -130,7 +135,7 @@ def check():
 # Mobs a key summons, the bosses. Each gets an arena of its own instead of a spawner
 # out on the strip with the zone's other mobs
 def summoned():
-    with open(DATA / "resources_special.csv", newline="", encoding="utf-8") as f:
+    with open(data_file("resources_special"), newline="", encoding="utf-8") as f:
         return {row["summons"] for row in csv.DictReader(f) if row.get("summons")}
 
 

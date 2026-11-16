@@ -90,6 +90,9 @@ class CosmeticsTest {
         }
         assertEquals("suffix_cobble", Cosmetics.earnedIn(Source.ZONE, "cobble").getFirst().id());
         assertEquals("suffix_duneworld", Cosmetics.earnedIn(Source.WORLD, "gormak").getFirst().id());
+        // The Overworld is two regions, finishing either can be what completes it
+        assertEquals("suffix_overworld", Cosmetics.earnedIn(Source.WORLD, "verdant").getFirst().id());
+        assertEquals("suffix_overworld", Cosmetics.earnedIn(Source.WORLD, "origin_isles").getFirst().id());
     }
 
     // Light gray chat is free, white comes with time played, the rest cost real money

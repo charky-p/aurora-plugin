@@ -30,6 +30,8 @@ public final class Cosmetics {
     public static final String DEATH_SEP = "||";
 
     private static final String DONOR_NOTE = "From a donor package";
+    // Between the regions of a world cosmetic's target
+    public static final String REGION_SEP = "|";
 
     private static final Map<String, Cosmetic> ALL = new LinkedHashMap<>();
 
@@ -86,12 +88,18 @@ public final class Cosmetics {
         zone("canyons", "<#B4462A>", "canyons");
         zone("temple", "<gold>", "temple");
         zone("tomb", "<dark_purple>", "tomb");
+        zone("oak", "<#7BA05B>", "oak");
+        zone("birch", "<#D9D3B0>", "birch");
+        zone("spruce", "<#4F7A4A>", "spruce");
+        zone("dark oak", "<#6B4F35>", "darkoak");
+        zone("treehouse", "<#2E8B57>", "treehouse");
 
-        // One for every world, by the region its zones have in zones.csv, earned by
-        // doing that in every one of its zones
-        world("overworld", "<gradient:#56AB2F:#A8E063>", "OVERWORLD", "origin_isles");
+        // One for every world, by the regions its zones have in zones.csv, earned by
+        // doing that in every zone of every one of them. The Overworld is the Origin
+        // Isles and Verdant Groves
+        world("overworld", "<gradient:#56AB2F:#A8E063>", "OVERWORLD", "origin_isles" + REGION_SEP + "verdant");
         world("duneworld", "<gradient:#F7971E:#FFD200>", "DUNEWORLD", "gormak");
-        world("elderwood_roots", "<gradient:#0B8043:#A8FF78>", "ELDERWOOD ROOTS", "verdant");
+        world("elderwood_roots", "<gradient:#0B8043:#A8FF78>", "ELDERWOOD ROOTS", "elderwood");
 
         bought("advanced", "<green>", 100);
         bought("elite", "<aqua>", 150);
@@ -256,7 +264,7 @@ public final class Cosmetics {
 
     private static void zone(String name, String style, String zoneId) {
         String display = style + "[" + name.toUpperCase() + "]";
-        add("suffix_" + name, Type.SUFFIX, display, Material.NAME_TAG, Source.ZONE, 0, null, display, zoneId);
+        add("suffix_" + name.replace(' ', '_'), Type.SUFFIX, display, Material.NAME_TAG, Source.ZONE, 0, null, display, zoneId);
     }
 
     private static void world(String name, String style, String shown, String region) {
@@ -301,10 +309,15 @@ public final class Cosmetics {
         return ALL.values().stream().filter(cosmetic -> cosmetic.type() == type).toList();
     }
 
-    // What maxing out a zone, or every zone of a world's region, earns
+    // What maxing out a zone, or the last zone of a world in this region, earns
     public static List<Cosmetic> earnedIn(Source source, String target) {
         return ALL.values().stream()
-                .filter(cosmetic -> cosmetic.source() == source && target.equals(cosmetic.target())).toList();
+                .filter(cosmetic -> cosmetic.source() == source && regions(cosmetic).contains(target)).toList();
+    }
+
+    // The zone of a zone cosmetic, the regions of a world one
+    public static List<String> regions(Cosmetic cosmetic) {
+        return cosmetic.target() == null ? List.of() : List.of(cosmetic.target().split(java.util.regex.Pattern.quote(REGION_SEP)));
     }
 
     // Null for an id that is not a cosmetic, or not one any more

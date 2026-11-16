@@ -238,7 +238,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Verdant Groves - Oak Grove"
-    collection: 5000
+    collection: 1000
 
   tin:
     display: "<#7BA05B><b>Tin"
@@ -247,7 +247,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Verdant Groves - Oak Grove"
-    collection: 5000
+    collection: 4000
 
   horsehair:
     display: "<#7BA05B>Horsehair"
@@ -256,7 +256,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Dropped by Grove Horses"
-    collection: 120
+    collection: 64
 
   birch_log:
     display: "<#D9D3B0>Birch Log"
@@ -265,7 +265,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Verdant Groves - Birch Hollow"
-    collection: 6000
+    collection: 1500
 
   bronze:
     display: "<#D9D3B0><b>Bronze"
@@ -274,7 +274,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Verdant Groves - Birch Hollow"
-    collection: 6000
+    collection: 5000
 
   fox_fur:
     display: "<#D9D3B0>Fox Fur"
@@ -283,7 +283,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Dropped by Hollow Foxs"
-    collection: 130
+    collection: 48
 
   spruce_log:
     display: "<#4F7A4A>Spruce Log"
@@ -292,7 +292,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Verdant Groves - Spruce Ridge"
-    collection: 7000
+    collection: 2000
 
   lead:
     display: "<#4F7A4A><b>Lead"
@@ -301,7 +301,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Verdant Groves - Spruce Ridge"
-    collection: 7000
+    collection: 5000
 
   wolf_pelt:
     display: "<#4F7A4A>Wolf Pelt"
@@ -310,7 +310,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Dropped by Ridge Wolfs"
-    collection: 140
+    collection: 48
 
   dark_oak_log:
     display: "<#6B4F35>Dark Oak Log"
@@ -319,7 +319,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
-    collection: 8000
+    collection: 5000
 
   silver:
     display: "<#6B4F35><b>Silver"
@@ -328,7 +328,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
-    collection: 8000
+    collection: 7500
 
   ancient_seed:
     display: "<#6B4F35>Ancient Seed"
@@ -337,7 +337,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Dropped by Thicket Sniffers"
-    collection: 150
+    collection: 48
 
   tree_sap:
     display: "<gold>Tree Sap"
@@ -346,7 +346,7 @@ items:
     region: "verdant_treehouse"
     lore:
       - "<dark_gray>Dropped by Tree Zombees"
-    collection: 150
+    collection: 128
 
   heartwood:
     display: "<dark_green><b>Heartwood"

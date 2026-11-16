@@ -118,7 +118,6 @@ public class DataRegistry {
 
         loadResources();
         loadEnchants();
-        loadGear("picks.yml");
         loadGear("armor.yml");
         loadGear("weapons.yml");
         loadGear("other.yml");

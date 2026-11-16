@@ -11,9 +11,9 @@ dunes_trader,<yellow><b>Dune Nomad,WANDERING_TRADER,upgrades:dunes
 canyons_trader,<#B4462A><b>Canyon Hermit,WANDERING_TRADER,upgrades:canyons
 temple_trader,<gold><b>Temple Keeper,WANDERING_TRADER,upgrades:temple
 tomb_trader,<dark_purple><b>Tomb Broker,WANDERING_TRADER,tomb_shop
-oak_trader,<#7BA05B><b>Grove Warden,VILLAGER,oak_shop
-birch_trader,<#D9D3B0><b>Hollow Smith,VILLAGER,birch_shop
-spruce_trader,<#4F7A4A><b>Ridge Forester,VILLAGER,spruce_shop
-darkoak_trader,<#6B4F35><b>Thicket Hermit,VILLAGER,darkoak_shop
-treehouse_trader,<#2E8B57><b>Canopy Keeper,VILLAGER,treehouse_shop
+oak_trader,<#7BA05B><b>Grove Warden,VILLAGER,upgrades:oak
+birch_trader,<#D9D3B0><b>Hollow Smith,VILLAGER,upgrades:birch
+spruce_trader,<#4F7A4A><b>Ridge Forester,VILLAGER,upgrades:spruce
+darkoak_trader,<#6B4F35><b>Thicket Hermit,VILLAGER,upgrades:darkoak
+treehouse_trader,<#2E8B57><b>Canopy Keeper,VILLAGER,upgrades:treehouse
 food_trader,<gold><b>Camp Cook,VILLAGER,food_shop

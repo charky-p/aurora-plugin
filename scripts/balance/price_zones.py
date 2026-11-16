@@ -2,7 +2,8 @@
 """
 Prices every upgrade step in scripts/data/upgrades.csv with the price formula.
 
-  zones.csv      each zone's time target, its mine and its mobs, and two scales
+  zones.csv      each zone's time target, its mines and its mobs (more than one
+                 with |), the zone it comes after, and two scales
                  its prices are multiplied by: mine_scale for what is mined and
                  mob_scale for what mobs drop. 1 is the time target as it stands,
                  0.5 half the price, 1.5 half as much again
@@ -24,13 +25,14 @@ and the result is rounded to a number worth showing.
                  copper:0.8|feather:0.2 for four fifths mining and a fifth killing
 
 The player's tools are levels, not items: (tool, stat) -> level, carried from one
-zone into the next. Income is worked out from those levels with the same mining
+zone into the one that comes after it. Two zones can come after the same one: the
+Abandoned City and the Oak Grove both follow the Gold Reef, so Gormak and Verdant
+Groves are priced for the same player and either can be played first. Income is worked out from those levels with the same mining
 and combat numbers as balance_sim.py.
 
   python scripts/balance/price_zones.py          every zone
   python scripts/balance/price_zones.py copper   one zone
 """
-import csv
 import math
 import sys
 from pathlib import Path
@@ -42,22 +44,19 @@ import prices               # noqa: E402
 DATA = sim.DATA
 
 # What a new player holds: wooden tools, leather armour, nothing levelled
-START = {("pick", "material"): "WOODEN", ("sword", "material"): "WOODEN"}
+START = {("pick", "material"): "WOODEN", ("axe", "material"): "WOODEN", ("sword", "material"): "WOODEN"}
 
-
-def rows(name):
-    with open(DATA / f"{name}.csv", newline="", encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+rows = sim.rows
 
 
 def level(state, tool, stat):
     return state.get((tool, stat), 0)
 
 
-def dig_seconds(state, block_id):
-    """balance_sim.dig_seconds, from levels instead of a pick item."""
-    _, speed = sim.TOOL[state[("pick", "material")]]
-    eff = level(state, "pick", "efficiency")
+def dig_seconds(state, block_id, tool):
+    """Vanilla dig time with the tool that mines the block, from its levels."""
+    _, speed = sim.TOOL[state[(tool, "material")]]
+    eff = level(state, tool, "efficiency")
     speed += eff * eff + 1 if eff else 0
     hardness, _ = sim.BLOCK[sim.PLACED.get(block_id, sim.BLOCKS[block_id]["material"])]
     per_tick = speed / hardness / 30
@@ -66,8 +65,8 @@ def dig_seconds(state, block_id):
     return (math.ceil(1 / per_tick) + 5) / 20
 
 
-def blocks_per_swing(state):
-    blast = level(state, "pick", "blast")
+def blocks_per_swing(state, tool):
+    blast = level(state, tool, "blast")
     if not blast:
         return 1.0
     x, y, z = sim.BLAST_SHAPES[min(blast, max(sim.BLAST_SHAPES))]
@@ -76,18 +75,19 @@ def blocks_per_swing(state):
 
 def mine_income(state, mine):
     """Resource per second from a mine, 0 if a block's density is out of reach."""
-    fortune = level(state, "pick", "fortune")
+    tool = sim.tool_kind(mine)
+    fortune = level(state, tool, "fortune")
     per_block = seconds = 0.0
     for block_id, share in sim.MINES[mine].items():
         block = sim.BLOCKS[block_id]
         per_block += share * prices.block_income(1, sum(c * avg for _, c, avg in block["drops"]),
                                                  fortune, block["density"])
-        seconds += share * dig_seconds(state, block_id)
-    return per_block * blocks_per_swing(state) / (seconds / sim.MINING_EFFICIENCY)
+        seconds += share * dig_seconds(state, block_id, tool)
+    return per_block * blocks_per_swing(state, tool) / (seconds / sim.MINING_EFFICIENCY)
 
 
 def kill_seconds(state, mob_id):
-    """balance_sim.kill_cycle_time from levels: the fight, the walk to the next mob
+    """Seconds a kill takes: the fight, the walk to the next mob
     and the wait to heal what the fight cost. Infinite if the sword cannot hurt it."""
     mob = sim.MOBS[mob_id]
     hit = max(0, round(10 + sim.sharpness_bonus(level(state, "sword", "sharpness")) - mob["def"]))
@@ -120,8 +120,8 @@ def sources(zones):
     """resource -> ("mine", mine) or ("mob", [mobs that drop it]), from every zone."""
     found = {}
     for zone in zones:
-        if zone["mine"]:
-            found[zone["mine"]] = ("mine", zone["mine"])
+        for mine in filter(None, zone["mine"].split("|")):
+            found[mine] = ("mine", mine)
         for mob in filter(None, zone["mob"].split("|")):
             for drop, _, _ in sim.MOBS[mob]["drops"]:
                 if drop in sim.RESOURCES:
@@ -148,16 +148,17 @@ def price_all():
         # Whichever mob gives it fastest, the way a player would farm it
         return max(mob_income(state, mob, resource) for mob in source)
 
-    state = dict(START)
+    # What the player holds on leaving each zone, the next one starts from it
+    leaving = {"": dict(START)}
     result = []
     for zone in zones:
+        state = leaving[zone.get("after") or ""]
         def scale(resource, zone=zone):
             return float(zone.get("mine_scale" if where[resource][0] == "mine" else "mob_scale") or 1)
 
         priced = prices.zone_prices(int(zone["target_seconds"]), steps_by_zone.get(zone["id"], []), income, state,
                                     scale=scale)
-        if priced:
-            state = priced[-1]["state"]
+        leaving[zone["id"]] = priced[-1]["state"] if priced else state
         result.append((zone, priced))
     return result
 

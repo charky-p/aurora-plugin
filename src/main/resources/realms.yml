@@ -16,7 +16,6 @@ items:
     worlds:
       - "aurora_mines"
       - "aurora_test"
-      - "aurora_test_verdant"
 
   duneworld:
     name: "<gold><b>Duneworld"

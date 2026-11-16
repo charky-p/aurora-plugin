@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Every rank, /ranks. Click one you own to wear it. The ones you don't say how to
-// get them: hours played, or the price in /shop. With a second
-// slot, a right click wears a rank second
+// get them: hours played, or the price in /shop
 public class RankMenu extends PagedMenu {
     private final RankManager ranks;
     // Staff ranks are only listed for the people who have them
@@ -28,8 +27,6 @@ public class RankMenu extends PagedMenu {
     @Override
     protected List<ItemStack> entries(Player player) {
         Rank worn = ranks.worn(player);
-        Rank second = ranks.wornSecond(player);
-        boolean twoSlots = ranks.hasSecondSlot(player);
         all = Ranks.all().stream()
                 .filter(rank -> rank.kind() != Rank.Kind.STAFF || ranks.owns(player, rank)).toList();
         List<ItemStack> items = new ArrayList<>();
@@ -42,20 +39,12 @@ public class RankMenu extends PagedMenu {
                 List<Component> lore = new ArrayList<>();
                 lore.add(TextUtils.parse("<!italic><dark_gray>" + source(rank)));
                 lore.add(Component.empty());
-                if (rank == worn) {
-                    lore.add(TextUtils.parse("<!italic><green>You are wearing this" + (twoSlots ? " first" : "")));
-                } else if (rank == second) {
-                    lore.add(TextUtils.parse("<!italic><green>You are wearing this second"));
-                    lore.add(TextUtils.parse("<!italic><gray>Click to take it off"));
-                } else if (owned) {
-                    lore.add(TextUtils.parse(twoSlots ? "<!italic><yellow>Left click: first rank, right click: second"
-                            : "<!italic><yellow>Click to wear"));
-                } else {
-                    lore.add(TextUtils.parse("<!italic><red>" + locked(player, rank)));
-                }
+                if (rank == worn) lore.add(TextUtils.parse("<!italic><green>You are wearing this"));
+                else if (owned) lore.add(TextUtils.parse("<!italic><yellow>Click to wear"));
+                else lore.add(TextUtils.parse("<!italic><red>" + locked(player, rank)));
                 meta.lore(lore);
 
-                if (rank == worn || rank == second) meta.setEnchantmentGlintOverride(true);
+                if (rank == worn) meta.setEnchantmentGlintOverride(true);
             });
             items.add(item);
         }
@@ -89,27 +78,20 @@ public class RankMenu extends PagedMenu {
     protected List<Component> info(Player player, List<ItemStack> entries) {
         long owned = all.stream().filter(rank -> ranks.owns(player, rank)).count();
         long played = ranks.playtimeOf(player);
-        List<Component> lines = new ArrayList<>(List.of(
-                TextUtils.parse("<!italic><gray>Wearing: ").append(ranks.prefix(player)),
+        return List.of(
+                TextUtils.parse("<!italic><gray>Wearing: ").append(ranks.worn(player).component()),
                 TextUtils.parse("<!italic><gray>Unlocked: <white>" + owned + "/" + all.size()),
-                TextUtils.parse("<!italic><gray>Played: <white>" + played / 3600 + "h " + played % 3600 / 60 + "m")));
-        if (!ranks.hasSecondSlot(player)) {
-            lines.add(TextUtils.parse("<!italic><dark_gray>A second rank comes with a donor package"));
-        }
-        return lines;
+                TextUtils.parse("<!italic><gray>Played: <white>" + played / 3600 + "h " + played % 3600 / 60 + "m"));
     }
 
     @Override
-    protected void onEntryClick(Player player, int index, boolean rightClick) {
+    protected void onEntryClick(Player player, int index) {
         if (index >= all.size()) return;
 
         Rank rank = all.get(index);
         if (!ranks.owns(player, rank) || rank == ranks.worn(player)) return;
 
-        String problem = null;
-        if (rank == ranks.wornSecond(player)) ranks.takeOffSecond(player);
-        else if (rightClick && ranks.hasSecondSlot(player)) problem = ranks.wearSecond(player, rank);
-        else problem = ranks.wear(player, rank);
+        String problem = ranks.wear(player, rank);
         if (problem != null) {
             TextUtils.error(player, problem);
             return;

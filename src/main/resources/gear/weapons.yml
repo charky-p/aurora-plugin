@@ -658,7 +658,7 @@ items:
     world: "overworld"
     region: "gormak_city"
     enchants:
-      sharpness: 9
+      sharpness: 19
       luck: 6
       looting: 3
     lore:
@@ -673,7 +673,7 @@ items:
     world: "overworld"
     region: "gormak_city"
     enchants:
-      sharpness: 8
+      sharpness: 18
       luck: 7
       looting: 4
     lore:
@@ -688,7 +688,7 @@ items:
     world: "overworld"
     region: "gormak_dunes"
     enchants:
-      sharpness: 11
+      sharpness: 21
       luck: 7
       looting: 4
       bloodlust: 1
@@ -704,7 +704,7 @@ items:
     world: "overworld"
     region: "gormak_dunes"
     enchants:
-      sharpness: 12
+      sharpness: 22
       luck: 6
       looting: 5
       bloodlust: 1
@@ -720,7 +720,7 @@ items:
     world: "overworld"
     region: "gormak_canyons"
     enchants:
-      sharpness: 13
+      sharpness: 23
       luck: 8
       looting: 5
       bloodlust: 1
@@ -736,7 +736,7 @@ items:
     world: "overworld"
     region: "gormak_canyons"
     enchants:
-      sharpness: 14
+      sharpness: 24
       luck: 7
       looting: 5
       bloodlust: 1
@@ -752,7 +752,7 @@ items:
     world: "overworld"
     region: "gormak_temple"
     enchants:
-      sharpness: 15
+      sharpness: 25
       luck: 9
       looting: 6
       bloodlust: 1
@@ -768,7 +768,7 @@ items:
     world: "overworld"
     region: "gormak_temple"
     enchants:
-      sharpness: 15
+      sharpness: 25
       luck: 10
       looting: 6
     lore:
@@ -783,7 +783,7 @@ items:
     world: "overworld"
     region: "gormak_tomb"
     enchants:
-      sharpness: 17
+      sharpness: 27
       luck: 10
       looting: 7
       bloodlust: 1
@@ -799,7 +799,7 @@ items:
     world: "overworld"
     region: "gormak_tomb"
     enchants:
-      sharpness: 17
+      sharpness: 27
       luck: 10
       looting: 8
       bloodlust: 1
@@ -815,7 +815,7 @@ items:
     world: "overworld"
     region: "gormak_tomb"
     enchants:
-      sharpness: 19
+      sharpness: 29
       luck: 12
       looting: 9
       bloodlust: 2
@@ -841,7 +841,7 @@ items:
     world: "overworld"
     region: "gormak"
     enchants:
-      sharpness: 16
+      sharpness: 26
       luck: 15
       looting: 8
       bloodlust: 1

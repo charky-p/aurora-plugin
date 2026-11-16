@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
-Builds a playable skeleton of every region with nothing but console commands, each
-region in its own fresh void world like the real server, so dying respawns you at that
-region's spawn. Plain 1 block thick platforms, one square per zone with its mines,
+Builds a playable skeleton of every region with nothing but console commands. A
+region is a strip of zones in a void world. Regions of the same world follow each
+other along the strip, Verdant Groves straight after the Origin Isles, and dying
+respawns you at the world's spawn. Plain 1 block thick platforms, one square per zone with its mines,
 spawners and trader, and portal gates linking the regions both ways. A boss, any mob
 a key summons, gets a walled arena of its own off the right side of its zone.
 Every name starts with t_ so nothing clashes with the mines and spawners you built.
+Build regions of one world in order: --regions verdant alone needs origin built.
 
   python scripts/build_test_world.py                       print the commands
   python scripts/build_test_world.py --send                send them to the running local server
@@ -82,10 +84,12 @@ VERDANT = [
 # Gates that need a tag, with the trader beside them that sells its key
 LOCKED = {("origin", "gormak"): ("gormak", "gate_trader")}
 
-# region name, its zones, its world
-REGIONS = [("origin", ORIGIN, "aurora_test"), ("gormak", GORMAK, "aurora_test_gormak"),
-           ("verdant", VERDANT, "aurora_test_verdant")]
-LINKS = [("origin", "gormak"), ("gormak", "verdant")]
+# region name, its zones, its world. Regions that share a world are built one after
+# the other along x, in this order
+REGIONS = [("origin", ORIGIN, "aurora_test"), ("verdant", VERDANT, "aurora_test"),
+           ("gormak", GORMAK, "aurora_test_gormak")]
+# Portal gates between worlds. Regions of one world need none, you walk
+LINKS = [("origin", "gormak")]
 Z = 0  # every strip runs along x from z 0
 SAFE_Z = Z - 12  # far edge of the safe platforms beside hostile zones
 
@@ -141,12 +145,12 @@ def hostile(spawners, kinds):
 # Fence posts with carpet on top, too high to jump, across the strip on both sides of
 # every zone with a hostile mob, running on past the safe platform. A fence gate on
 # the walking line lets players through
-def fences(world, zones):
+def fences(world, zones, offset):
     kinds = entities()
     edges = set()
     for i, (_, _, _, spawners) in enumerate(zones):
         if hostile(spawners, kinds):
-            edges |= {i * ZONE - 2, (i + 1) * ZONE - 2}
+            edges |= {offset + i * ZONE - 2, offset + (i + 1) * ZONE - 2}
     out = []
     for x in sorted(edges):
         out += [
@@ -192,15 +196,26 @@ def arena(world, x0):
     ], (door, (z1 + z2) // 2)
 
 
+# Where each region's first zone starts along x: 0 for the first region of a world,
+# the others begin where the one before them ends
+def offsets():
+    found, taken = {}, {}
+    for name, zones, world in REGIONS:
+        found[name] = taken.get(world, 0)
+        taken[world] = found[name] + len(zones) * ZONE + 12
+    return found
+
+
 # Both ends of a region's strip along x
-def strip(zones):
-    return -10, len(zones) * ZONE + 2
+def strip(zones, offset):
+    return offset - 10, offset + len(zones) * ZONE + 2
 
 
 def commands(only):
     out = []
     worlds = {name: world for name, _, world in REGIONS}
-    ends = {name: strip(zones) for name, zones, _ in REGIONS}
+    starts = offsets()
+    ends = {name: strip(zones, starts[name]) for name, zones, _ in REGIONS}
     kinds = entities()
     bosses = summoned()
 
@@ -208,19 +223,24 @@ def commands(only):
         if name not in only:
             continue
         x1, x2 = ends[name]
+        # Only the first region of a world makes it and sets its spawn
+        first = starts[name] == 0
+        if first:
+            out += [
+                f"aurora world create {world}",
+                # Time stands still and nothing spawns by itself, so only spawner mobs are
+                # about. Not /time set: in 26.x it moves the overworld clock other worlds share
+                run(world, "gamerule advance_time false"), run(world, "gamerule spawn_mobs false"),
+                # Gamerules are per world in 26.x, dying must not drop your gear here either
+                run(world, "gamerule keep_inventory true"),
+            ]
         out += [
-            f"aurora world create {world}",
-            # Time stands still and nothing spawns by itself, so only spawner mobs are
-            # about. Not /time set: in 26.x it moves the overworld clock other worlds share
-            run(world, "gamerule advance_time false"), run(world, "gamerule spawn_mobs false"),
-            # Gamerules are per world in 26.x, dying must not drop your gear here either
-            run(world, "gamerule keep_inventory true"),
             run(world, f"forceload add {x1} {SAFE_Z} {x2} {Z + PAD + 4}"),
             run(world, f"fill {x1} {FLOOR_Y} {Z - 4} {x2} {FLOOR_Y} {Z + PAD + 3} {FLOOR}"),
         ]
 
         for i, (zone, trader, mines, spawners) in enumerate(zones):
-            x0 = i * ZONE
+            x0 = starts[name] + i * ZONE
             # A coloured stripe across the strip marks where each zone starts
             out.append(run(world, f"fill {x0 - 2} {FLOOR_Y} {Z - 4} {x0 - 2} {FLOOR_Y} {Z + PAD + 3} black_concrete"))
             for m, (mine, mix) in enumerate(mines):
@@ -249,10 +269,11 @@ def commands(only):
                 tz = Z + 2 + MINE_W / 2
             out.append(f"aurora trader create {trader} {tx} {FLOOR_Y + 1} {tz} -w {world}")
 
-        out += fences(world, zones)
+        out += fences(world, zones, starts[name])
 
         # Arrive and respawn at the start of the strip, facing along it
-        out.append(f"aurora setspawn {x1 + 5.5} {FLOOR_Y + 1} {Z + 14.5} -90 -w {world}")
+        if first:
+            out.append(f"aurora setspawn {x1 + 5.5} {FLOOR_Y + 1} {Z + 14.5} -90 -w {world}")
 
     # Gates: the end of each strip leads to the start of the next region's, and back.
     # A 5 wide, 4 high opening standing on the floor, framed on the sides and top
@@ -293,7 +314,7 @@ def commands(only):
 # Deletes everything commands() makes for these regions. Trader spots are numbered, so
 # they are read from the local database, every spot in a region's world goes
 def teardown(only):
-    worlds = {world for name, _, world in REGIONS if name in only}
+    starts = offsets()
     out = []
     for name, zones, _ in REGIONS:
         if name not in only:
@@ -306,8 +327,13 @@ def teardown(only):
             out += [f"aurora portal delete t_{a}_to_{b}", f"aurora portal delete t_{b}_to_{a}"]
     if DB.exists():
         with sqlite3.connect(DB) as db:
-            for world in sorted(worlds):
-                spots = db.execute("SELECT id FROM traders WHERE world = ? ORDER BY id", (world,)).fetchall()
+            # Only the spots along this region's part of its world's strip
+            for name, zones, world in REGIONS:
+                if name not in only:
+                    continue
+                x1, x2 = strip(zones, starts[name])
+                spots = db.execute("SELECT id FROM traders WHERE world = ? AND x >= ? AND x <= ? ORDER BY id",
+                                   (world, x1, x2)).fetchall()
                 out += [f"aurora trader delete {spot}" for (spot,) in spots]
     return out
 

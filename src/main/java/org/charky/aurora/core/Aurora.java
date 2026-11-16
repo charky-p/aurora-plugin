@@ -57,6 +57,8 @@ import org.charky.aurora.features.portal.PortalManager;
 import org.charky.aurora.features.perk.PerkManager;
 import org.charky.aurora.features.cosmetic.Cosmetic;
 import org.charky.aurora.features.system.HowToPlay;
+import org.charky.aurora.features.player.PlayerData;
+import org.charky.aurora.features.system.CommandFilter;
 import org.charky.aurora.features.rank.RankManager;
 import org.charky.aurora.features.rank.RankShopMenu;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
@@ -163,6 +165,12 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("customise", cosmeticManager::openHub);
         this.perkManager = new PerkManager(this, db, new PerkStore(db), players, scoreboard);
         armoryManager.setKeyring(perkManager::hasKeyring);
+        armoryManager.setEssence((player, amount) -> {
+            PlayerData data = players.get(player);
+            if (data == null) return;
+            data.addEssence(amount);
+            scoreboard.updateBoard(player);
+        });
         Consumer<Player> openShop = player -> new RankShopMenu(rankManager, perkManager, registry).open(player);
         registry.registerAction("shop", openShop);
         registry.registerAction("warps", player -> new WarpMenu(this).open(player));
@@ -221,7 +229,8 @@ public class Aurora extends JavaPlugin {
                 new CombatListener(this),
                 bossManager,
                 new GauntletListener(gauntletManager),
-                new PagedMenuListener());
+                new PagedMenuListener(),
+                new CommandFilter());
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
         }

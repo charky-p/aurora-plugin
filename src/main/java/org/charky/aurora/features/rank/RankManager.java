@@ -24,8 +24,7 @@ import java.util.UUID;
 // Which ranks a player owns and which one they wear. Everyone has MEMBER, playtime
 // ranks come with hours online, shop ranks are bought with Essence. The worn rank
 // shows in chat, the tab list and the sidebar, and changes nothing else. Donor and
-// staff ranks are handed out by an admin, and so is the second slot, which shows
-// a second rank after the first
+// staff ranks are handed out by an admin
 public class RankManager implements Listener {
     // Playtime is counted a minute at a time
     private static final long PLAYTIME_SECONDS = 60;
@@ -39,8 +38,6 @@ public class RankManager implements Listener {
     private final TabManager tab;
     // Shop ranks each player has bought
     private final Map<UUID, Set<String>> bought;
-    // The rank worn in the second slot
-    private final Map<UUID, String> second;
     private final BukkitTask playtime;
     // Told every time a minute of playtime is counted, with the seconds before and after
     private PlaytimePassed onPlaytime = (player, before, after) -> {};
@@ -62,7 +59,6 @@ public class RankManager implements Listener {
         this.scoreboard = scoreboard;
         this.tab = tab;
         this.bought = store.loadAll();
-        this.second = store.loadSecond();
         tab.setRanks(this::prefix);
         this.playtime = Bukkit.getScheduler().runTaskTimer(plugin, this::countPlaytime, PLAYTIME_TICKS, PLAYTIME_TICKS);
     }
@@ -73,58 +69,9 @@ public class RankManager implements Listener {
         return data == null ? Ranks.MEMBER : Ranks.get(data.getRank());
     }
 
-    public boolean hasSecondSlot(Player player) {
-        return bought.getOrDefault(player.getUniqueId(), Set.of()).contains(Ranks.SECOND_SLOT);
-    }
-
-    // The rank in the second slot, null for none
-    public Rank wornSecond(Player player) {
-        String id = second.get(player.getUniqueId());
-        return id == null || !hasSecondSlot(player) ? null : Ranks.get(id);
-    }
-
-    // What goes before a name: the rank, then the second one if there is one
+    // What goes before a name in chat and the tab list
     public Component prefix(Player player) {
-        Component prefix = worn(player).component();
-        Rank other = wornSecond(player);
-        return other == null ? prefix : prefix.append(Component.space()).append(other.component());
-    }
-
-    // Null if it is now worn second, otherwise why not
-    public String wearSecond(Player player, Rank rank) {
-        if (!hasSecondSlot(player)) return "A second rank comes with a donor package";
-        if (!owns(player, rank)) return "You have not unlocked that rank";
-        if (rank == worn(player)) return "You already wear that one first";
-
-        setSecond(player, rank.id());
-        return null;
-    }
-
-    public void takeOffSecond(Player player) {
-        setSecond(player, null);
-    }
-
-    private void setSecond(Player player, String id) {
-        UUID uuid = player.getUniqueId();
-        if (id == null) second.remove(uuid);
-        else second.put(uuid, id);
-        db.async(() -> store.setSecond(uuid, id));
-        refresh(player);
-    }
-
-    // For admins, the only way to a second slot. True if it changed anything
-    public boolean setSecondSlot(Player player, boolean has) {
-        UUID uuid = player.getUniqueId();
-        if (has) {
-            if (!bought.computeIfAbsent(uuid, k -> new HashSet<>()).add(Ranks.SECOND_SLOT)) return false;
-            db.async(() -> store.add(uuid, Ranks.SECOND_SLOT));
-            player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> <white>A second rank <gray>- right click one in /ranks"));
-            return true;
-        }
-        if (!bought.getOrDefault(uuid, Set.of()).remove(Ranks.SECOND_SLOT)) return false;
-        db.async(() -> store.remove(uuid, Ranks.SECOND_SLOT));
-        takeOffSecond(player);
-        return true;
+        return worn(player).component();
     }
 
     private void unlocked(Player player, Rank rank) {
@@ -157,10 +104,8 @@ public class RankManager implements Listener {
         if (data == null) return "Your profile is still loading";
         if (!owns(player, rank)) return "You have not unlocked that rank";
 
-        // The same rank twice would only repeat itself
-        if (rank == wornSecond(player)) second.remove(player.getUniqueId());
         data.setRank(rank.id());
-        setSecond(player, second.get(player.getUniqueId()));
+        refresh(player);
         return null;
     }
 
@@ -201,8 +146,6 @@ public class RankManager implements Listener {
         UUID uuid = player.getUniqueId();
         if (!bought.getOrDefault(uuid, Set.of()).remove(rank.id())) return false;
         db.async(() -> store.remove(uuid, rank.id()));
-
-        if (rank.id().equals(second.get(uuid))) takeOffSecond(player);
 
         // Back to the best rank their playtime has earned
         PlayerData data = players.get(player);
@@ -252,12 +195,10 @@ public class RankManager implements Listener {
         playtime.cancel();
     }
 
-    // Every rank and the second slot go, staff and donor ranks included, and the
-    // hours played with them
+    // Every rank goes, staff and donor ranks included, and the hours played with them
     public void reset(Player player) {
         UUID uuid = player.getUniqueId();
         bought.remove(uuid);
-        second.remove(uuid);
         db.async(() -> store.deleteAll(uuid));
 
         PlayerData data = players.get(player);

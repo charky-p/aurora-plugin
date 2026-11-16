@@ -1,6 +1,7 @@
 package org.charky.aurora.features.collection;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.loot.MenuItem;
@@ -28,8 +29,13 @@ public class CollectionMenu extends PagedMenu {
             if (!registry.isLootable(resource.getId())) continue;
 
             long amount = collections.get(player.getUniqueId(), resource.getId());
-            // Nothing is shown until the player has found one
-            if (amount <= 0) continue;
+            // Something is there, but not what, until the player has found one
+            if (amount <= 0) {
+                ItemStack unknown = button(Material.GRAY_DYE, "<dark_gray>???");
+                unknown.editMeta(meta -> meta.lore(List.of(TextUtils.parse("<!italic><gray>Not found yet"))));
+                items.add(unknown);
+                continue;
+            }
             int base = registry.getCollectionBase(resource.getId());
             int tier = CollectionTiers.tier(base, amount);
             long next = CollectionTiers.nextThreshold(base, amount);
@@ -52,6 +58,11 @@ public class CollectionMenu extends PagedMenu {
         return items;
     }
 
+    private long found(Player player) {
+        return registry.getItems().stream().filter(resource -> registry.isLootable(resource.getId())
+                && collections.get(player.getUniqueId(), resource.getId()) > 0).count();
+    }
+
     @Override
     protected List<Component> info(Player player, List<ItemStack> entries) {
         int reached = 0, all = 0;
@@ -64,7 +75,7 @@ public class CollectionMenu extends PagedMenu {
         }
         return List.of(
                 TextUtils.parse("<!italic><gray>Every resource you have ever gathered."),
-                TextUtils.parse("<!italic><gray>Found: <white>" + entries.size() + "/" + all),
+                TextUtils.parse("<!italic><gray>Found: <white>" + found(player) + "/" + all),
                 TextUtils.parse("<!italic><gray>Tiers reached: <white>" + reached + "/" + all * CollectionTiers.count()));
     }
 }

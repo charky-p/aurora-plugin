@@ -26,24 +26,25 @@ class RanksTest {
     @Test
     void thePlaytimeLadderIsInOrder() {
         assertEquals(List.of("PLAYER", "ROOKIE", "APPRENTICE", "NOVICE", "EXPERT",
-                "NOBLE", "LORD", "DUKE", "MASTER", "GRANDMASTER"), ids(Rank.Kind.PLAYTIME));
+                "NOBLE", "LORD", "DUKE", "MASTER", "GRANDMASTER", "IMMORTAL", "ETERNAL"), ids(Rank.Kind.PLAYTIME));
 
         List<Long> hours = Ranks.ofKind(Rank.Kind.PLAYTIME).stream().map(rank -> rank.requirement() / HOUR).toList();
-        assertEquals(List.of(1L, 5L, 10L, 25L, 50L, 100L, 150L, 250L, 350L, 500L), hours);
+        assertEquals(List.of(1L, 5L, 10L, 25L, 50L, 100L, 150L, 250L, 350L, 500L, 750L, 1000L), hours);
     }
 
     @Test
-    void theShopSellsSixRanksAndAuroraIsTheBest() {
-        assertEquals(List.of("EMBER", "FROST", "VERDANT", "GILDED", "ECLIPSE", "AURORA"), ids(Rank.Kind.SHOP));
+    void theShopSellsRanksCheapestFirstAndAuroraIsTheBest() {
+        assertEquals(List.of("EMBER", "FROST", "VERDANT", "STORM", "GILDED", "INFERNO", "ECLIPSE", "VOID", "AURORA"),
+                ids(Rank.Kind.SHOP));
 
         List<Long> prices = Ranks.ofKind(Rank.Kind.SHOP).stream().map(Rank::requirement).toList();
-        assertEquals(List.of(100L, 300L, 750L, 2_000L, 5_000L, 15_000L), prices);
+        assertEquals(List.of(100L, 300L, 750L, 1_200L, 2_000L, 3_500L, 5_000L, 9_000L, 15_000L), prices);
     }
 
     // Handed out by an admin, never earned or bought
     @Test
     void donorAndStaffRanksHaveNoRequirement() {
-        assertEquals(List.of("LUMINARY", "CELESTIAL"), ids(Rank.Kind.DONOR));
+        assertEquals(List.of("LUMINARY", "CELESTIAL", "NOVA", "ZENITH"), ids(Rank.Kind.DONOR));
         assertEquals(23, ids(Rank.Kind.STAFF).size());
         assertTrue(ids(Rank.Kind.STAFF).containsAll(List.of("HELPER", "MOD", "SENIOR_MOD", "ADMIN", "SENIOR_ADMIN", "FOUNDER")));
         assertEquals("OWNER", ids(Rank.Kind.STAFF).getLast());
@@ -58,7 +59,8 @@ class RanksTest {
         assertNull(Ranks.earnedBy(HOUR - 1));
         assertEquals("PLAYER", Ranks.earnedBy(HOUR).id());
         assertEquals("NOVICE", Ranks.earnedBy(49 * HOUR).id());
-        assertEquals("GRANDMASTER", Ranks.earnedBy(9_000 * HOUR).id());
+        assertEquals("GRANDMASTER", Ranks.earnedBy(600 * HOUR).id());
+        assertEquals("ETERNAL", Ranks.earnedBy(9_000 * HOUR).id());
     }
 
     // A rank saved on a profile that has since been renamed or removed

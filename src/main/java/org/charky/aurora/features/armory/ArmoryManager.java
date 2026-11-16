@@ -25,6 +25,14 @@ public class ArmoryManager {
     // Who has bought the Keyring perk, nobody until it is set
     private Predicate<Player> keyring = player -> false;
     private ToolManager tools;
+    // What finding a piece of gear for the first time pays
+    private static final int UNLOCK_ESSENCE = 100;
+    // Pays a player Essence, nothing until it is set
+    private java.util.function.ObjIntConsumer<Player> essence = (player, amount) -> {};
+
+    public void setEssence(java.util.function.ObjIntConsumer<Player> essence) {
+        this.essence = essence;
+    }
 
     public ArmoryManager(DataRegistry registry) {
         this.registry = registry;
@@ -71,19 +79,18 @@ public class ArmoryManager {
         return (int) registry.getArmory().keySet().stream().filter(owned::contains).count();
     }
 
-    // First drop unlocks it and hands over a copy, later drops only say so
+    // First drop unlocks it, pays Essence like a collection tier and hands over a
+    // copy. Dropping again is nothing new, so nothing is said
     public void handleDrop(Player player, String itemId) {
         ItemStack item = registry.getAllItems().get(itemId);
         if (item == null) return;
         Component name = item.effectiveName();
 
-        if (!unlock(player.getUniqueId(), itemId)) {
-            player.sendMessage(TextUtils.parse("<gray>Already unlocked: ").append(name));
-            return;
-        }
+        if (!unlock(player.getUniqueId(), itemId)) return;
 
+        essence.accept(player, UNLOCK_ESSENCE);
         player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> ").append(name)
-                .append(Component.text(" - it is kept in the Armory", NamedTextColor.GRAY)));
+                .append(TextUtils.parse(" <gray>- it is kept in the Armory <dark_gray>(<gold>+" + UNLOCK_ESSENCE + " Essence<dark_gray>)")));
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1f);
 
         if (player.getInventory().firstEmpty() != -1) player.getInventory().addItem(item.clone());

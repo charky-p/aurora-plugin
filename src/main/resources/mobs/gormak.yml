@@ -50,7 +50,7 @@ items:
         chance: 25
         max: 2
       - id: serf_cleaver
-        chance: 2
+        chance: 0.25
 
   scavenger_husk:
     display: "<gray><b>Scavenger Husk"
@@ -76,7 +76,7 @@ items:
         chance: 25
         max: 3
       - id: scavenger_shiv
-        chance: 2
+        chance: 0.25
 
   dune_scout:
     display: "<yellow><b>Dune Scout"
@@ -101,7 +101,7 @@ items:
         min: 2
         max: 5
       - id: scout_blade
-        chance: 2
+        chance: 0.25
 
   sand_stalker:
     display: "<gold><b>Sand Stalker"
@@ -126,7 +126,7 @@ items:
         chance: 30
         max: 3
       - id: stalker_fang
-        chance: 2
+        chance: 0.25
 
   scarab_zealot:
     display: "<dark_purple><b>Scarab Zealot"
@@ -149,7 +149,7 @@ items:
         min: 2
         max: 5
       - id: scarab_khopesh
-        chance: 2
+        chance: 0.25
 
   hollowed_legionnaire:
     display: "<gray><b>Hollowed Legionnaire"
@@ -178,7 +178,7 @@ items:
         chance: 25
         max: 2
       - id: legion_halberd
-        chance: 2
+        chance: 0.25
 
   tomb_guard:
     display: "<gold><b>Tomb Guard"
@@ -204,7 +204,7 @@ items:
         min: 3
         max: 7
       - id: tomb_halberd
-        chance: 2
+        chance: 0.25
 
   vizier_mage:
     display: "<yellow><b>Vizier Mage"
@@ -229,7 +229,7 @@ items:
         min: 2
         max: 4
       - id: vizier_bow
-        chance: 2
+        chance: 0.25
 
   royal_myrmidon:
     display: "<dark_purple><b>Royal Myrmidon"
@@ -256,7 +256,7 @@ items:
       - id: tomb_key
         chance: 8
       - id: myrmidon_blade
-        chance: 2
+        chance: 0.25
 
   pharaoh:
     display: "<gold><b>Pharaoh"
@@ -283,7 +283,7 @@ items:
       - id: tomb_key
         chance: 8
       - id: pharaoh_scepter
-        chance: 2
+        chance: 0.25
 
   gormak_eternal:
     display: "<dark_red><b>Gormak the Eternal"
@@ -386,4 +386,4 @@ items:
       - id: mirage_shard
         max: 2
       - id: mirage_edge
-        chance: 5
+        chance: 1

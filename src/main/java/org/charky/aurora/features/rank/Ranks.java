@@ -6,15 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 // Every rank there is, in the order the menus show them: the one everyone starts
-// with, the ten earned by playtime, the six bought with Essence, then the donor
+// with, the ones earned by playtime, the ones bought with Essence, then the donor
 // and staff ranks an admin hands out
 public final class Ranks {
     private static final long HOUR = 3600;
 
     public static final Rank MEMBER = new Rank("MEMBER", "<gray><b>MEMBER</b>", Rank.Kind.DEFAULT, 0);
-    // Not a rank itself: owning this id lets a player wear a second rank. It comes
-    // with a donor package
-    public static final String SECOND_SLOT = "RANK_SLOT_2";
 
     private static final Map<String, Rank> ALL = new LinkedHashMap<>();
 
@@ -31,17 +28,24 @@ public final class Ranks {
         playtime("DUKE", "#B06AB3:#4568DC", 250);
         playtime("MASTER", "#00F2FE:#4FACFE:#7F00FF", 350);
         playtime("GRANDMASTER", "#FFD700:#FFFFFF:#FFD700", 500);
+        playtime("IMMORTAL", "#FF512F:#DD2476", 750);
+        playtime("ETERNAL", "#E0EAFC:#7F7FD5:#E0EAFC", 1000);
 
         shop("EMBER", "#FF8008:#E52D27", 100);
         shop("FROST", "#FFFFFF:#6DD5FA", 300);
         shop("VERDANT", "#A8FF78:#0B8043", 750);
+        shop("STORM", "#4FACFE:#00F2FE", 1200);
         shop("GILDED", "#FFF200:#D4AF37", 2000);
+        shop("INFERNO", "#F12711:#F5AF19", 3500);
         shop("ECLIPSE", "#B47CFF:#3A1C71", 5000);
+        shop("VOID", "#8E2DE2:#1A1A2E", 9000);
         // The server's own colours, the best there is
         shop("AURORA", "#7F7FD5:#86A8E7:#91EAE4", 15000);
 
         granted("LUMINARY", "#FFFF55:#FFAA00", Rank.Kind.DONOR);
         granted("CELESTIAL", "#654EA3:#EAAFC8", Rank.Kind.DONOR);
+        granted("NOVA", "#FF9A9E:#FAD0C4:#FF9A9E", Rank.Kind.DONOR);
+        granted("ZENITH", "#00C6FF:#FFFFFF:#00C6FF", Rank.Kind.DONOR);
 
         // Lowest first, the way the team is laid out
         granted("TRAINEE", "#BDBDBD:#757575", Rank.Kind.STAFF);

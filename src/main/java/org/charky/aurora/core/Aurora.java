@@ -204,7 +204,7 @@ public class Aurora extends JavaPlugin {
         command("shop", new OpenMenuCommand(openShop));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
         command("customise", new OpenMenuCommand(cosmeticManager::openHub));
-        command("top", new TopCommand(players));
+        command("leaderboard", new TopCommand(players));
         command("collections", new OpenMenuCommand(collectionManager::open));
 
         List<Listener> listeners = List.of(

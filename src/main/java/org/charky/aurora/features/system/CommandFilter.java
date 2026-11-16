@@ -20,7 +20,7 @@ public class CommandFilter implements Listener {
             "customise", "customize", "cosmetics",
             "ranks", "rank",
             "collections", "collection",
-            "top", "leaderboard",
+            "leaderboard",
             "spawn");
 
     @EventHandler

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-// /top, the ten highest levels on the server
+// /leaderboard, the ten highest levels on the server
 public class TopCommand implements CommandExecutor {
     private static final int SIZE = 10;
 

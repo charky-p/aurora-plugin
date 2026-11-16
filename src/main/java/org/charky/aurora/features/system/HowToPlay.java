@@ -24,7 +24,7 @@ public final class HowToPlay {
             "<white>/customise <dark_gray>- <gray>suffixes, colours, trails, trims and more",
             "<white>/ranks <dark_gray>- <gray>the rank shown by your name",
             "<white>/collections <dark_gray>- <gray>what you have gathered and what the next tier pays",
-            "<white>/top <dark_gray>- <gray>the ten highest levels",
+            "<white>/leaderboard <dark_gray>- <gray>the ten highest levels",
             "<white>/spawn <dark_gray>- <gray>back to this world's spawn",
             "<gray>In chat, <white>[item]<gray> shows what you hold and <white>[inv]<gray> shares your inventory.",
             "");

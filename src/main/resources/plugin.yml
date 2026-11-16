@@ -39,10 +39,9 @@ commands:
     description: Ranks, suffixes, colours, join messages, trails and kill effects
     usage: /customise
     aliases: [ customize, cosmetics ]
-  top:
+  leaderboard:
     description: The ten highest levels on the server
-    usage: /top
-    aliases: [ leaderboard ]
+    usage: /leaderboard
   collections:
     description: Every resource you have gathered and what the next milestone pays
     usage: /collections

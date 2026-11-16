@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EssenceTest {
     @Test
-    void chanceIsATenthOfAPercentPlusATenthPerLuck() {
-        assertEquals(0.001, Essence.chance(0), 1e-12);
-        assertEquals(0.002, Essence.chance(1), 1e-12);
-        assertEquals(0.011, Essence.chance(10), 1e-12);
+    void luckMultipliesWhatAFindPays() {
+        assertEquals(2, Essence.amount(2, 0));
+        assertEquals(4, Essence.amount(2, 1));
+        assertEquals(33, Essence.amount(3, 10));
+        assertEquals(1, Essence.amount(1, -1));
     }
 }

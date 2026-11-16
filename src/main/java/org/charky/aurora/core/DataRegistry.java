@@ -435,6 +435,11 @@ public class DataRegistry {
     }
 
     // The tag a key item gives, null if it is not a key
+    // Every tag a key gives, the ones locked portals ask for
+    public List<String> getUnlockTags() {
+        return unlocks.values().stream().distinct().toList();
+    }
+
     public String getUnlock(String itemId) {
         return itemId == null ? null : unlocks.get(itemId.toLowerCase());
     }

@@ -25,6 +25,10 @@ public class ToolStore {
         return results;
     }
 
+    public void deleteAll(UUID uuid) {
+        db.update("DELETE FROM player_tools WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()));
+    }
+
     public void save(UUID uuid, String realm, String tool, String stat, int level) {
         db.update("INSERT INTO player_tools (uuid, realm, tool, stat, level) VALUES (?, ?, ?, ?, ?) " +
                 "ON CONFLICT(uuid, realm, tool, stat) DO UPDATE SET level = excluded.level", pst -> {

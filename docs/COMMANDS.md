@@ -126,6 +126,7 @@ Right clicking a trader with the wand also removes it and its spot.
 | `/a setspawn [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. The `aurora_mines` spawn is where every player lands on join |
 | `/a heal [player]` | Restore health and hunger, put out fire |
 | `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
+| `/a reset <player> <tools\|all>` | Back to the start, for testing a run from nothing. `tools` resets every tool level and hands back plain starter tools. `all` also empties the backpack and inventory, sets level, XP, kills and blocks mined to 0 and locks the portals again. Essence, ranks, cosmetics, perks and collections are kept |
 | `/a tool <player> give <tool>` | Hand over a tool that lives on the player (pick, axe, shovel, sword, helmet, chestplate, leggings, boots). Its item is drawn from the player's levels in the realm they stand in |
 | `/a tool <player> set <tool> <stat> <level> [realm]` | Set one level of a player's tool, in their current realm or a named one. The stat is an enchant, or `material` with a name such as `iron` |
 | `/a tool <player> info <tool>` | What the tool has where the player stands, and which realms that builds on |

@@ -90,6 +90,19 @@ public class ToolManager implements Listener {
         if (player != null) refresh(player);
     }
 
+    // Every level in every realm goes, and the player is handed plain starter tools
+    public void reset(Player player) {
+        UUID uuid = player.getUniqueId();
+        levels.remove(uuid);
+        db.async(() -> store.deleteAll(uuid));
+
+        PlayerInventory inventory = player.getInventory();
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            if (toolId(inventory.getItem(slot)) != null) inventory.setItem(slot, null);
+        }
+        giveStarters(player);
+    }
+
     // Stores a level without redrawing anything
     private void put(UUID uuid, String realm, String tool, String stat, int level) {
         levels.computeIfAbsent(uuid, k -> new HashMap<>())

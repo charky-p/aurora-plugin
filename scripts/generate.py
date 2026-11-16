@@ -724,7 +724,7 @@ _Dumper.add_representer(Quoted, _quoted_representer)
 
 GUI_SPECIAL = set("BIX ")
 UPGRADES_ACTION = "upgrades:"
-ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools"}       # MenuActions.java
+ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto"}       # MenuActions.java
 EQUIP_SLOTS = {"head", "chest", "legs", "feet", "hand", "off_hand"}
 
 def _drop_ids(entry):

@@ -2,9 +2,22 @@
 """
 Prices every upgrade step in scripts/data/upgrades.csv with the price formula.
 
-  zones.csv      each zone's time target, its mine and its mobs, and price_scale,
-                 which every price of the zone is multiplied by: 0.5 makes the
-                 zone half the price, and so half the time
+  zones.csv      each zone's time target, its mine and its mobs, and two scales
+                 its prices are multiplied by: mine_scale for what is mined and
+                 mob_scale for what mobs drop. 1 is the time target as it stands,
+                 0.5 half the price, 1.5 half as much again
+
+The price of a step, for each resource it costs:
+
+  price = step seconds x the resource's share x its scale x income per second
+
+  step seconds   the zone's target shared over its steps, the last taking SPREAD
+                 times as long as the first (prices.py)
+  share          the cost column of upgrades.csv
+  scale          mine_scale or mob_scale, by where the resource comes from
+  income         what the player's tools earn of it a second just before buying
+
+and the result is rounded to a number worth showing.
   upgrades.csv   the steps a zone's shop sells, in purchase order: a tool, a stat,
                  the level it reaches and what it costs in. The cost column holds
                  shares of the step's time, not amounts: coal:1, or
@@ -116,11 +129,6 @@ def sources(zones):
     return found
 
 
-def zone_seconds(zone):
-    """The time the zone's prices add up to: its target, scaled."""
-    return int(zone["target_seconds"]) * float(zone.get("price_scale") or 1)
-
-
 def price_all():
     """[(zone row, priced steps)] for every zone in order, tools carried between them."""
     zones = sorted(rows("zones"), key=lambda z: int(z["order"]))
@@ -143,7 +151,11 @@ def price_all():
     state = dict(START)
     result = []
     for zone in zones:
-        priced = prices.zone_prices(zone_seconds(zone), steps_by_zone.get(zone["id"], []), income, state)
+        def scale(resource, zone=zone):
+            return float(zone.get("mine_scale" if where[resource][0] == "mine" else "mob_scale") or 1)
+
+        priced = prices.zone_prices(int(zone["target_seconds"]), steps_by_zone.get(zone["id"], []), income, state,
+                                    scale=scale)
         if priced:
             state = priced[-1]["state"]
         result.append((zone, priced))
@@ -151,8 +163,8 @@ def price_all():
 
 
 def show(zone, priced):
-    print(f"\n{zone['name']}  (target {int(zone['target_seconds']) / 60:.1f} min x {zone.get('price_scale') or 1}"
-          f" = {zone_seconds(zone) / 60:.1f} min, {len(priced)} steps)")
+    print(f"\n{zone['name']}  (target {int(zone['target_seconds']) / 60:.1f} min, mined x{zone.get('mine_scale') or 1},"
+          f" looted x{zone.get('mob_scale') or 1}, {len(priced)} steps)")
     totals = {}
     for row in priced:
         name = f"{row['tool']} {row['stat']} {row['level']}"

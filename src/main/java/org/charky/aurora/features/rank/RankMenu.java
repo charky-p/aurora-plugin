@@ -8,24 +8,21 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
-import org.charky.aurora.features.tool.UpgradeZone;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // Every rank, /ranks. Click one you own to wear it. The ones you don't say how to
-// get them: hours played, a zone to max out, or the price in /shop. With a second
+// get them: hours played, or the price in /shop. With a second
 // slot, a right click wears a rank second
 public class RankMenu extends PagedMenu {
     private final RankManager ranks;
-    private final DataRegistry registry;
     // Staff ranks are only listed for the people who have them
     private List<Rank> all = List.of();
 
     public RankMenu(RankManager ranks, DataRegistry registry) {
         super(registry, "Ranks");
         this.ranks = ranks;
-        this.registry = registry;
     }
 
     @Override
@@ -65,15 +62,11 @@ public class RankMenu extends PagedMenu {
         return items;
     }
 
-    private String source(Rank rank) {
+    private static String source(Rank rank) {
         return switch (rank.kind()) {
             case DEFAULT -> "Everyone starts with this";
             case PLAYTIME -> "Earned by playing for " + hours(rank.requirement()) + "h";
-            case ZONE -> {
-                UpgradeZone zone = registry.getUpgradeZone(rank.target());
-                yield "Earned by maxing every upgrade of " + (zone == null ? "its zone" : zone.name());
-            }
-            case WORLD -> "Earned by maxing every zone of this world";
+
             case SHOP -> "Bought for " + String.format("%,d", rank.requirement()) + " Essence in /shop";
             case DONOR -> "A donor rank";
             case STAFF -> "A staff rank";
@@ -82,10 +75,6 @@ public class RankMenu extends PagedMenu {
 
     private String locked(Player player, Rank rank) {
         if (rank.kind() == Rank.Kind.SHOP) return "Buy it in /shop";
-        if (rank.kind() == Rank.Kind.ZONE) return "Buy every upgrade there";
-        if (rank.kind() == Rank.Kind.WORLD) {
-            return registry.getZonesOfRegion(rank.target()).isEmpty() ? "Not open yet" : "Max out every zone there";
-        }
         if (rank.kind() != Rank.Kind.PLAYTIME) return "Locked";
 
         long left = rank.requirement() - ranks.playtimeOf(player);

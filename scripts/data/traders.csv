@@ -16,3 +16,4 @@ birch_trader,<#D9D3B0><b>Hollow Smith,VILLAGER,birch_shop
 spruce_trader,<#4F7A4A><b>Ridge Forester,VILLAGER,spruce_shop
 darkoak_trader,<#6B4F35><b>Thicket Hermit,VILLAGER,darkoak_shop
 treehouse_trader,<#2E8B57><b>Canopy Keeper,VILLAGER,treehouse_shop
+food_trader,<gold><b>Camp Cook,VILLAGER,food_shop

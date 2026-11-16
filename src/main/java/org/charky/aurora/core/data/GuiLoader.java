@@ -57,7 +57,8 @@ public class GuiLoader {
         switch (key) {
             case ' ': return null;
             case 'B': return new TraderBorder();
-            case 'I': return new TraderInfo();
+            // Once an info item, now part of the border
+            case 'I': return new TraderBorder();
             case 'X': return new TraderClose();
         }
 

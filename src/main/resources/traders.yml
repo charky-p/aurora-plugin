@@ -94,3 +94,8 @@ items:
     display: "<#2E8B57><b>Canopy Keeper"
     entity: VILLAGER
     gui: treehouse_shop
+
+  food_trader:
+    display: "<gold><b>Camp Cook"
+    entity: VILLAGER
+    gui: food_shop

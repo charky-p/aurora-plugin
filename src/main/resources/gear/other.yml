@@ -229,3 +229,48 @@ items:
     lore:
       - "<gray>Everything you mine and loot is kept here."
       - "<dark_gray>Right click to open"
+
+  bread:
+    display: "<white>Bread"
+    material: BREAD
+    type: ''
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<dark_gray>Food"
+
+  baked_potato:
+    display: "<white>Baked Potato"
+    material: BAKED_POTATO
+    type: ''
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<dark_gray>Food"
+
+  cooked_chicken:
+    display: "<white>Roast Chicken"
+    material: COOKED_CHICKEN
+    type: ''
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<dark_gray>Food"
+
+  steak:
+    display: "<white>Steak"
+    material: COOKED_BEEF
+    type: ''
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<dark_gray>Food"
+
+  golden_carrot:
+    display: "<white>Golden Carrot"
+    material: GOLDEN_CARROT
+    type: ''
+    world: "overworld"
+    region: "origin_isles"
+    lore:
+      - "<dark_gray>Food"

@@ -20,14 +20,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.BiPredicate;
 
 // Which ranks a player owns and which one they wear. Everyone has MEMBER, playtime
 // ranks come with hours online, shop ranks are bought with Essence. The worn rank
-// shows in chat, the tab list and the sidebar, and changes nothing else. Zone and
-// world ranks come with maxing out a zone or a world. Donor and staff ranks are
-// handed out by an admin, and so is the second slot, which shows a second rank
-// after the first
+// shows in chat, the tab list and the sidebar, and changes nothing else. Donor and
+// staff ranks are handed out by an admin, and so is the second slot, which shows
+// a second rank after the first
 public class RankManager implements Listener {
     // Playtime is counted a minute at a time
     private static final long PLAYTIME_SECONDS = 60;
@@ -44,9 +42,16 @@ public class RankManager implements Listener {
     // The rank worn in the second slot
     private final Map<UUID, String> second;
     private final BukkitTask playtime;
-    // Whether a player has maxed out the zone or world of a rank. Tools load after
-    // ranks, so it is set once they have
-    private BiPredicate<Player, Rank> maxed = (player, rank) -> false;
+    // Told every time a minute of playtime is counted, with the seconds before and after
+    private PlaytimePassed onPlaytime = (player, before, after) -> {};
+
+    public interface PlaytimePassed {
+        void passed(Player player, long before, long after);
+    }
+
+    public void setOnPlaytime(PlaytimePassed onPlaytime) {
+        this.onPlaytime = onPlaytime;
+    }
 
     public RankManager(Aurora plugin, Database db, RankStore store, PlayerManager players,
                        ScoreboardManager scoreboard, TabManager tab) {
@@ -66,10 +71,6 @@ public class RankManager implements Listener {
     public Rank worn(Player player) {
         PlayerData data = players.get(player);
         return data == null ? Ranks.MEMBER : Ranks.get(data.getRank());
-    }
-
-    public void setMaxed(BiPredicate<Player, Rank> maxed) {
-        this.maxed = maxed;
     }
 
     public boolean hasSecondSlot(Player player) {
@@ -126,16 +127,6 @@ public class RankManager implements Listener {
         return true;
     }
 
-    // Told once, when the upgrade that finishes a zone is bought. The rank itself
-    // is never stored, it follows from the levels
-    public void announceMaxed(Player player, String zoneId, String region) {
-        Rank zone = Ranks.earnedIn(Rank.Kind.ZONE, zoneId);
-        if (zone != null) unlocked(player, zone);
-
-        Rank world = Ranks.earnedIn(Rank.Kind.WORLD, region);
-        if (world != null && owns(player, world)) unlocked(player, world);
-    }
-
     private void unlocked(Player player, Rank rank) {
         player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> ").append(rank.component())
                 .append(Component.text(" - put it on with /ranks", NamedTextColor.GRAY)));
@@ -146,7 +137,6 @@ public class RankManager implements Listener {
         return switch (rank.kind()) {
             case DEFAULT -> true;
             case PLAYTIME -> playtimeOf(player) >= rank.requirement();
-            case ZONE, WORLD -> maxed.test(player, rank);
             case SHOP, DONOR, STAFF -> bought.getOrDefault(player.getUniqueId(), Set.of()).contains(rank.id());
         };
     }
@@ -237,8 +227,10 @@ public class RankManager implements Listener {
             PlayerData data = players.get(player);
             if (data == null) continue;
 
-            Rank before = Ranks.earnedBy(data.getPlaytime());
+            long was = data.getPlaytime();
+            Rank before = Ranks.earnedBy(was);
             data.addPlaytime(PLAYTIME_SECONDS);
+            onPlaytime.passed(player, was, data.getPlaytime());
             Rank after = Ranks.earnedBy(data.getPlaytime());
             if (after == null || after == before) continue;
 
@@ -248,9 +240,7 @@ public class RankManager implements Listener {
                 data.setRank(after.id());
                 refresh(player);
             }
-            player.sendMessage(TextUtils.parse("<gold><b>RANK UP</b> <gray>Your time here has earned you ").append(after.component())
-                    .append(Component.text(wear ? "" : " - put it on with /ranks", NamedTextColor.GRAY)));
-            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1f);
+            unlocked(player, after);
         }
     }
 

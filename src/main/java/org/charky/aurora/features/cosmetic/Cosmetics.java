@@ -29,6 +29,8 @@ public final class Cosmetics {
     public static final String KILLER_TAG = "<killer>";
     public static final String DEATH_SEP = "||";
 
+    private static final String DONOR_NOTE = "From a donor package";
+
     private static final Map<String, Cosmetic> ALL = new LinkedHashMap<>();
 
     // name, the colour's own name in chat formatting, its dye
@@ -40,12 +42,18 @@ public final class Cosmetics {
             {"purple", "dark_purple", "PURPLE_DYE"}, {"light_blue", "aqua", "LIGHT_BLUE_DYE"},
             {"cyan", "dark_aqua", "CYAN_DYE"}, {"blue", "blue", "BLUE_DYE"},
     };
-    // Armour trims, cheapest first. The name is the pattern's own, and its smithing
-    // template is the icon
+    // White chat is earned by time played, every other colour comes with a donor package
+    private static final long WHITE_CHAT_HOURS = 10;
+
+    // Armour trims by the pattern's own name. None stands above another, so they
+    // cost the same, all but the rarest
     private static final String[] TRIM_PATTERNS = {"sentry", "dune", "coast", "wild", "ward", "eye", "vex", "tide",
             "snout", "rib", "spire", "wayfinder", "shaper", "raiser", "host", "flow", "bolt", "silence"};
-    private static final int TRIM_PRICE = 1_000;
-    private static final int TRIM_PRICE_STEP = 250;
+    private static final int TRIM_PRICE = 1_500;
+    private static final String RARE_TRIM = "silence";
+    private static final int RARE_TRIM_PRICE = 5_000;
+    // What every trim is drawn on in the menus
+    public static final Material TRIM_ICON = Material.IRON_CHESTPLATE;
     // name, colour in the menu, icon. Quartz is what a trim is made of until another is chosen
     private static final String[][] TRIM_MATERIALS = {
             {"quartz", "white", "QUARTZ"}, {"iron", "gray", "IRON_INGOT"}, {"copper", "#E8925A", "COPPER_INGOT"},
@@ -56,35 +64,66 @@ public final class Cosmetics {
     };
     private static final String DEFAULT_TRIM_MATERIAL = "quartz";
     private static final int TRIM_MATERIAL_PRICE = 750;
-    private static final int CHAT_COLOR_PRICE = 300;
-    private static final int NAME_COLOR_PRICE = 500;
 
     static {
-        // Suffixes: time played, then bought with Essence cheapest first, then donor
+        // Suffixes. Only the ones that cost real money are bold
         suffix("new", "<gray>[<dark_gray>NEW<gray>]", Source.DEFAULT, 0, "Yours from your first join");
+        suffix("afk", "<gray>[<dark_gray>AFK<gray>]", Source.DEFAULT, 0, "For when you step away");
         suffix("regular", "<gray>[<dark_gray>REGULAR<gray>]", Source.PLAYTIME, 10 * HOUR, null);
+        suffix("devoted", "<gray>[<white>DEVOTED<gray>]", Source.PLAYTIME, 50 * HOUR, null);
         suffix("veteran", "<gray>[<dark_gray>VETERAN<gray>]", Source.PLAYTIME, 100 * HOUR, null);
+        suffix("ancient", "<gray>[<gold>ANCIENT<gray>]", Source.PLAYTIME, 500 * HOUR, null);
+
+        // One for every zone, by the id it has in zones.csv, earned by buying every
+        // upgrade the zone sells
+        zone("cobble", "<gray>", "cobble");
+        zone("coal", "<dark_gray>", "coal");
+        zone("copper", "<#D94110>", "copper");
+        zone("iron", "<white>", "iron");
+        zone("gold", "<gold>", "gold");
+        zone("city", "<gray>", "city");
+        zone("dunes", "<yellow>", "dunes");
+        zone("canyons", "<#B4462A>", "canyons");
+        zone("temple", "<gold>", "temple");
+        zone("tomb", "<dark_purple>", "tomb");
+
+        // One for every world, by the region its zones have in zones.csv, earned by
+        // doing that in every one of its zones
+        world("overworld", "<gradient:#56AB2F:#A8E063>", "OVERWORLD", "origin_isles");
+        world("duneworld", "<gradient:#F7971E:#FFD200>", "DUNEWORLD", "gormak");
+        world("elderwood_roots", "<gradient:#0B8043:#A8FF78>", "ELDERWOOD ROOTS", "verdant");
 
         bought("advanced", "<green>", 100);
         bought("elite", "<aqua>", 150);
         bought("hero", "<yellow>", 200);
+        bought("miner", "<gray>", 250);
         bought("warrior", "<red>", 300);
+        bought("slayer", "<dark_red>", 350);
         bought("champion", "<gold>", 400);
+        bought("explorer", "<dark_green>", 450);
         bought("legend", "<light_purple>", 500);
+        bought("grinder", "<dark_aqua>", 550);
         bought("titan", "<dark_aqua>", 650);
+        bought("tryhard", "<red>", 700);
         bought("colossal", "<dark_green>", 800);
+        bought("no life", "<dark_gray>", 900);
         bought("invincible", "<blue>", 1_000);
-        bought("legendary", "<gold><b>", 1_250);
-        bought("immortal", "<dark_red><b>", 1_500);
-        bought("supreme", "<dark_purple><b>", 1_750);
-        bought("ultimate", "<red><b>", 2_000);
-        bought("apex", "<gradient:#FF8008:#E52D27><b>", 2_500);
-        bought("nexus", "<gradient:#56CCF2:#2F80ED><b>", 3_000);
-        bought("radiant", "<gradient:#FFF200:#F7971E><b>", 3_500);
-        bought("paragon", "<gradient:#38EF7D:#11998E><b>", 4_000);
-        bought("divine", "<gradient:#FFFFFF:#FFD700><b>", 5_000);
-        bought("eternal", "<gradient:#B47CFF:#3A1C71><b>", 6_000);
-        bought("ascendant", "<gradient:#7F7FD5:#86A8E7:#91EAE4><b>", 7_500);
+        bought("mythic", "<gradient:#C471ED:#F64F59>", 1_250);
+        bought("phantom", "<gradient:#BDC3C7:#2C3E50>", 1_500);
+        bought("void", "<gradient:#8E2DE2:#4A00E0>", 2_000);
+        bought("cosmic", "<gradient:#00C6FF:#7F00FF>", 2_500);
+
+        paid("legendary", "<gold><b>");
+        paid("immortal", "<dark_red><b>");
+        paid("supreme", "<dark_purple><b>");
+        paid("ultimate", "<red><b>");
+        paid("apex", "<gradient:#FF8008:#E52D27><b>");
+        paid("nexus", "<gradient:#56CCF2:#2F80ED><b>");
+        paid("radiant", "<gradient:#FFF200:#F7971E><b>");
+        paid("paragon", "<gradient:#38EF7D:#11998E><b>");
+        paid("divine", "<gradient:#FFFFFF:#FFD700><b>");
+        paid("eternal", "<gradient:#B47CFF:#3A1C71><b>");
+        paid("ascendant", "<gradient:#7F7FD5:#86A8E7:#91EAE4><b>");
 
         donor("supporter", "<green>[SUPPORTER]", "Luminary");
         donor("donor", "<dark_purple>[DONOR]", "Luminary");
@@ -97,46 +136,60 @@ public final class Cosmetics {
         donor("mvp_plus", "<aqua>[MVP+]", "Aurora");
         donor("maestro", "<gold>[MAESTRO]", "Aurora");
 
+        // Light gray chat and a white name are what everyone has
         for (String[] color : COLORS) {
             String name = color[0];
-            String display = "<" + color[1] + ">" + title(name);
             Material dye = Material.valueOf(color[2]);
+            String display = "<" + color[1] + ">" + title(name);
 
             if (name.equals("light_gray")) {
-                add("chat_" + name, Type.CHAT_COLOR, display, dye, Source.DEFAULT, 0, null, color[1]);
+                add("chat_" + name, Type.CHAT_COLOR, display, dye, Source.DEFAULT, 0, null, color[1], null);
             } else if (name.equals("white")) {
-                add("chat_" + name, Type.CHAT_COLOR, display, dye, Source.PLAYTIME, 100 * HOUR, null, color[1]);
+                add("chat_" + name, Type.CHAT_COLOR, display, dye, Source.PLAYTIME, WHITE_CHAT_HOURS * HOUR, null, color[1], null);
             } else {
-                add("chat_" + name, Type.CHAT_COLOR, display, dye, Source.ESSENCE, CHAT_COLOR_PRICE,
-                        "Free with the AURORA rank", color[1]);
+                add("chat_" + name, Type.CHAT_COLOR, display, dye, Source.GRANT, 0, DONOR_NOTE, color[1], null);
             }
-        }
-        for (String[] color : COLORS) {
-            String name = color[0];
+
             boolean plain = name.equals("white");
-            add("name_" + name, Type.NAME_COLOR, "<" + color[1] + ">" + title(name), Material.valueOf(color[2]),
-                    plain ? Source.DEFAULT : Source.ESSENCE, plain ? 0 : NAME_COLOR_PRICE, null, color[1]);
+            add("name_" + name, Type.NAME_COLOR, display, dye, plain ? Source.DEFAULT : Source.GRANT, 0,
+                    plain ? null : DONOR_NOTE, color[1], null);
         }
 
         join("default", "<yellow>Classic", Source.DEFAULT, 0, "<yellow><player> joined the game");
+        join("back", "<gray>Back Again", Source.ESSENCE, 400, "<gray><player> is back");
         join("arrived", "<green>Arrival", Source.ESSENCE, 500, "<dark_gray>[<green>+<dark_gray>] <white><player> <gray>has arrived");
+        join("shift", "<yellow>Another Shift", Source.ESSENCE, 600, "<yellow><player> <gray>clocked in for another shift");
         join("wild", "<green>Wild", Source.ESSENCE, 750, "<green>A wild <white><player> <green>appeared!");
+        join("pickaxe", "<aqua>Pickaxe Ready", Source.ESSENCE, 900, "<aqua><player> <gray>picked their pickaxe back up");
         join("skies", "<aqua>From the Skies", Source.ESSENCE, 1_000, "<aqua><player> <gray>descended from the skies");
         join("miner", "<gold>Ore Thief", Source.ESSENCE, 1_000, "<gold><player> <gray>is here to mine. Hide your ore.");
-        join("legend", "<gold><b>Legend", Source.ESSENCE, 2_500,
+        join("depths", "<dark_aqua>From the Depths", Source.ESSENCE, 1_500, "<dark_aqua><player> <gray>climbed out of the mines");
+        join("legend", "<gold><b>Legend", Source.GRANT, 0,
                 "<gradient:#FFD700:#FFFFFF><b>The legend <player> has returned</b></gradient>");
-        join("aurora", "<gradient:#7F7FD5:#86A8E7:#91EAE4><b>Aurora", Source.ESSENCE, 5_000,
+        join("royal", "<gold><b>Royal", Source.GRANT, 0, "<gold><b>Make way for <player></b>");
+        join("storm", "<aqua><b>Storm", Source.GRANT, 0,
+                "<gradient:#4FACFE:#00F2FE>A storm rolls in with <b><player></b></gradient>");
+        join("star", "<light_purple><b>Falling Star", Source.GRANT, 0,
+                "<gradient:#C471ED:#F64F59><b><player></b> fell from the stars</gradient>");
+        join("aurora", "<gradient:#7F7FD5:#86A8E7:#91EAE4><b>Aurora", Source.GRANT, 0,
                 "<gradient:#7F7FD5:#86A8E7:#91EAE4>The aurora shimmers as <b><player></b> arrives</gradient>");
 
         // The value is the particle
-        trail("flame", "<gold>Flame", Material.BLAZE_POWDER, 1_000, "FLAME");
-        trail("hearts", "<red>Hearts", Material.POPPY, 1_000, "HEART");
-        trail("notes", "<green>Notes", Material.NOTE_BLOCK, 1_500, "NOTE");
-        trail("snow", "<white>Snow", Material.SNOWBALL, 1_500, "SNOWFLAKE");
-        trail("cherry", "<light_purple>Cherry Blossom", Material.PINK_PETALS, 2_000, "CHERRY_LEAVES");
-        trail("enchant", "<aqua>Runes", Material.ENCHANTING_TABLE, 2_000, "ENCHANT");
-        trail("soul", "<dark_aqua>Soul Fire", Material.SOUL_TORCH, 2_500, "SOUL_FIRE_FLAME");
-        trail("end", "<white><b>Starlight", Material.END_ROD, 3_000, "END_ROD");
+        trail("flame", "<gold>Flame", Material.BLAZE_POWDER, Source.ESSENCE, 1_000, "FLAME");
+        trail("hearts", "<red>Hearts", Material.POPPY, Source.ESSENCE, 1_000, "HEART");
+        trail("clouds", "<white>Clouds", Material.WHITE_WOOL, Source.ESSENCE, 1_000, "CLOUD");
+        trail("sparks", "<yellow>Sparks", Material.FLINT_AND_STEEL, Source.ESSENCE, 1_250, "CRIT");
+        trail("notes", "<green>Notes", Material.NOTE_BLOCK, Source.ESSENCE, 1_500, "NOTE");
+        trail("snow", "<white>Snow", Material.SNOWBALL, Source.ESSENCE, 1_500, "SNOWFLAKE");
+        trail("emerald", "<green>Emerald Dust", Material.EMERALD, Source.ESSENCE, 1_750, "HAPPY_VILLAGER");
+        trail("cherry", "<light_purple>Cherry Blossom", Material.PINK_PETALS, Source.ESSENCE, 2_000, "CHERRY_LEAVES");
+        trail("enchant", "<aqua>Runes", Material.ENCHANTING_TABLE, Source.ESSENCE, 2_000, "ENCHANT");
+        trail("wax", "<gold>Honey Glow", Material.HONEYCOMB, Source.ESSENCE, 2_500, "WAX_ON");
+        trail("soul", "<dark_aqua><b>Soul Fire", Material.SOUL_TORCH, Source.GRANT, 0, "SOUL_FIRE_FLAME");
+        trail("electric", "<yellow><b>Lightning", Material.LIGHTNING_ROD, Source.GRANT, 0, "ELECTRIC_SPARK");
+        trail("glow", "<aqua><b>Glow", Material.GLOW_INK_SAC, Source.GRANT, 0, "GLOW");
+        trail("totem", "<green><b>Totem", Material.TOTEM_OF_UNDYING, Source.GRANT, 0, "TOTEM_OF_UNDYING");
+        trail("end", "<white><b>Starlight", Material.END_ROD, Source.GRANT, 0, "END_ROD");
 
         // The value is the effect, see KillEffects
         kill("flames", "<gold>Burn", Material.FIRE_CHARGE, 1_500);
@@ -148,30 +201,31 @@ public final class Cosmetics {
 
         death("default", "<gray>Plain", Source.DEFAULT, 0,
                 "<gray><b><player></b> was slain by <killer>", "<gray><b><player></b> has died");
-        death("dramatic", "<red>Dramatic", Source.ESSENCE, 500,
-                "<red><b><player></b> met their end at the hands of <killer>", "<red><b><player></b> met their end");
-        death("clumsy", "<yellow>Clumsy", Source.ESSENCE, 750,
-                "<yellow><b><player></b> forgot how to fight <killer>", "<yellow><b><player></b> tripped over nothing");
-        death("ghost", "<aqua>Ghost", Source.ESSENCE, 1_000,
-                "<aqua><b><player></b> became a ghost, thanks to <killer>", "<aqua><b><player></b> became a ghost");
-        death("revenge", "<dark_red>Vengeful", Source.ESSENCE, 1_500,
-                "<dark_red><b><player></b> will be back for <killer>", "<dark_red><b><player></b> will be back");
-        death("legend", "<gold><b>Legend", Source.ESSENCE, 2_500,
-                "<gradient:#FFD700:#FFFFFF>The legend of <b><player></b> was ended by</gradient> <killer>",
-                "<gradient:#FFD700:#FFFFFF>The legend of <b><player></b> has ended</gradient>");
+        death("fallen", "<red>Fallen", Source.ESSENCE, 500,
+                "<red><b><player></b> fell to <killer>", "<red><b><player></b> has fallen");
+        death("bested", "<yellow>Bested", Source.ESSENCE, 750,
+                "<yellow><b><player></b> was bested by <killer>", "<yellow><b><player></b> ran out of luck");
+        death("rest", "<aqua>Laid to Rest", Source.ESSENCE, 1_000,
+                "<aqua><b><player></b> was laid to rest by <killer>", "<aqua><b><player></b> was laid to rest");
+        death("skull", "<white>Skull", Source.ESSENCE, 1_500,
+                "<dark_gray>☠ <white><b><player></b> <dark_gray>« <killer>", "<dark_gray>☠ <white><b><player></b>");
+        death("reign", "<gold><b>End of a Reign", Source.GRANT, 0,
+                "<gold>The reign of <b><player></b> was ended by <killer>", "<gold>The reign of <b><player></b> is over");
+        death("aurora", "<gradient:#7F7FD5:#86A8E7:#91EAE4><b>Aurora", Source.GRANT, 0,
+                "<gradient:#7F7FD5:#91EAE4><b><player></b> faded into the aurora, sent by</gradient> <killer>",
+                "<gradient:#7F7FD5:#91EAE4><b><player></b> faded into the aurora</gradient>");
 
         // The value is the pattern or material as the game names it
-        for (int i = 0; i < TRIM_PATTERNS.length; i++) {
-            String name = TRIM_PATTERNS[i];
-            add("trim_" + name, Type.TRIM_PATTERN, "<yellow>" + title(name),
-                    Material.valueOf(name.toUpperCase() + "_ARMOR_TRIM_SMITHING_TEMPLATE"),
-                    Source.ESSENCE, TRIM_PRICE + (long) TRIM_PRICE_STEP * i, null, name);
+        add("trim_none", Type.TRIM_PATTERN, "<gray>No Trim", TRIM_ICON, Source.DEFAULT, 0, null, NONE, null);
+        for (String name : TRIM_PATTERNS) {
+            add("trim_" + name, Type.TRIM_PATTERN, "<yellow>" + title(name), TRIM_ICON, Source.ESSENCE,
+                    name.equals(RARE_TRIM) ? RARE_TRIM_PRICE : TRIM_PRICE, null, name, null);
         }
         for (String[] material : TRIM_MATERIALS) {
             boolean plain = material[0].equals(DEFAULT_TRIM_MATERIAL);
             add("trimcolor_" + material[0], Type.TRIM_MATERIAL, "<" + material[1] + ">" + title(material[0]),
                     Material.valueOf(material[2]), plain ? Source.DEFAULT : Source.ESSENCE,
-                    plain ? 0 : TRIM_MATERIAL_PRICE, null, material[0]);
+                    plain ? 0 : TRIM_MATERIAL_PRICE, null, material[0], null);
         }
     }
 
@@ -179,12 +233,12 @@ public final class Cosmetics {
     }
 
     private static void add(String id, Type type, String display, Material icon, Source source,
-                            long requirement, String note, String value) {
-        ALL.put(id, new Cosmetic(id, type, display, icon, source, requirement, note, value));
+                            long requirement, String note, String value, String target) {
+        ALL.put(id, new Cosmetic(id, type, display, icon, source, requirement, note, value, target));
     }
 
     private static void suffix(String name, String display, Source source, long requirement, String note) {
-        add("suffix_" + name, Type.SUFFIX, display, Material.NAME_TAG, source, requirement, note, display);
+        add("suffix_" + name.replace(' ', '_'), Type.SUFFIX, display, Material.NAME_TAG, source, requirement, note, display, null);
     }
 
     // "<red>" and "titan" make "<red>[TITAN]"
@@ -192,25 +246,41 @@ public final class Cosmetics {
         suffix(name, style + "[" + name.toUpperCase() + "]", Source.ESSENCE, essence, null);
     }
 
+    private static void paid(String name, String style) {
+        suffix(name, style + "[" + name.toUpperCase() + "]", Source.GRANT, 0, DONOR_NOTE);
+    }
+
     private static void donor(String name, String display, String pack) {
         suffix(name, display, Source.GRANT, 0, "From the " + pack + " donor package");
     }
 
+    private static void zone(String name, String style, String zoneId) {
+        String display = style + "[" + name.toUpperCase() + "]";
+        add("suffix_" + name, Type.SUFFIX, display, Material.NAME_TAG, Source.ZONE, 0, null, display, zoneId);
+    }
+
+    private static void world(String name, String style, String shown, String region) {
+        String display = style + "[" + shown + "]";
+        add("suffix_" + name, Type.SUFFIX, display, Material.NAME_TAG, Source.WORLD, 0, null, display, region);
+    }
+
     private static void join(String name, String display, Source source, long essence, String message) {
-        add("join_" + name, Type.JOIN_MESSAGE, display, Material.OAK_SIGN, source, essence, null, message);
+        add("join_" + name, Type.JOIN_MESSAGE, display, Material.OAK_SIGN, source, essence,
+                source == Source.GRANT ? DONOR_NOTE : null, message, null);
     }
 
     private static void death(String name, String display, Source source, long essence, String killed, String alone) {
-        add("death_" + name, Type.DEATH_MESSAGE, display, Material.SKELETON_SKULL, source, essence, null,
-                killed + DEATH_SEP + alone);
+        add("death_" + name, Type.DEATH_MESSAGE, display, Material.SKELETON_SKULL, source, essence,
+                source == Source.GRANT ? DONOR_NOTE : null, killed + DEATH_SEP + alone, null);
     }
 
-    private static void trail(String name, String display, Material icon, long essence, String particle) {
-        add("trail_" + name, Type.TRAIL, display, icon, Source.ESSENCE, essence, null, particle);
+    private static void trail(String name, String display, Material icon, Source source, long essence, String particle) {
+        add("trail_" + name, Type.TRAIL, display, icon, source, essence,
+                source == Source.GRANT ? DONOR_NOTE : null, particle, null);
     }
 
     private static void kill(String name, String display, Material icon, long essence) {
-        add("kill_" + name, Type.KILL_EFFECT, display, icon, Source.ESSENCE, essence, null, name);
+        add("kill_" + name, Type.KILL_EFFECT, display, icon, Source.ESSENCE, essence, null, name, null);
     }
 
     // "light_gray" to "Light Gray"
@@ -231,6 +301,12 @@ public final class Cosmetics {
         return ALL.values().stream().filter(cosmetic -> cosmetic.type() == type).toList();
     }
 
+    // What maxing out a zone, or every zone of a world's region, earns
+    public static List<Cosmetic> earnedIn(Source source, String target) {
+        return ALL.values().stream()
+                .filter(cosmetic -> cosmetic.source() == source && target.equals(cosmetic.target())).toList();
+    }
+
     // Null for an id that is not a cosmetic, or not one any more
     public static Cosmetic get(String id) {
         return id == null ? null : ALL.get(id.toLowerCase());
@@ -244,6 +320,7 @@ public final class Cosmetics {
             case NAME_COLOR -> get("name_white");
             case JOIN_MESSAGE -> get("join_default");
             case DEATH_MESSAGE -> get("death_default");
+            case TRIM_PATTERN -> get("trim_none");
             case TRIM_MATERIAL -> get("trimcolor_" + DEFAULT_TRIM_MATERIAL);
             default -> null;
         };

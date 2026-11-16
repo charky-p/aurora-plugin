@@ -1,20 +1,17 @@
 id,title,icon,rows,layout
-origin_hub,<green><b>Origin Isles,icon_origin,3,BBBBIBBBB|B123456 B|BBBBBBBBX
-gormak_hub,<gold><b>Gormak,icon_gormak,3,BBBBIBBBB|B 12345 B|BBBBBBBBX
-starter_shop,<gold><b>Starter Gear,icon_starter,3,BBBBIBBBB|B   1   B|zBBBBBBBX
-gate_shop,<gold><b>Gormak Gate,icon_gormak,3,BBBBIBBBB|B   1   B|zBBBBBBBX
-tomb_shop,<gold><b>Royal Tomb,icon_tomb,3,BBBBIBBBB|B  u U  B|zBBBBBBBX
+starter_shop,<gold><b>Starter Gear,icon_starter,3,BBBBIBBBB|B   1   B|BBBBBBBBX
+gate_shop,<gold><b>Gormak Gate,icon_gormak,3,BBBBIBBBB|B   1   B|BBBBBBBBX
+tomb_shop,<gold><b>Royal Tomb,icon_tomb,3,BBBBIBBBB|B  u U  B|BBBBBBBBX
 tomb_utility,<gold><b>Royal Tomb <dark_gray>| <gray>Utility,icon_utility,3,BBBBIBBBB|B  12   B|zBBBBBBBX
-aurora_hub,<aqua><b>Aurora,icon_menu,4,BBBBIBBBB|B 1 2 3 B|B 45678 B|BBB9BwBBX
-howto_menu,<aqua><b>How to Play,icon_howto,3,BBBBIBBBB|B 12345 B|zBBBBBBBX
-verdant_hub,<dark_green><b>Verdant Groves,icon_verdant,3,BBBBIBBBB|B 12345 B|BBBBBBBBX
-oak_shop,<gold><b>Oak Grove,icon_oak,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|zBBBBBBBX
+aurora_hub,<aqua><b>Aurora,icon_menu,6,BBBBBBBBB|B       B|B 1 4 5 B|B 6 7 8 B|B  w 9  B|BBBBBBBBX
+oak_shop,<gold><b>Oak Grove,icon_oak,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|BBBBBBBBX
 oak_armor,<gold><b>Oak Grove <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   12  B|B   67  B|B   ab  B|B   fg  B|zBBBBBBBX
-birch_shop,<gold><b>Birch Hollow,icon_birch,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|zBBBBBBBX
+birch_shop,<gold><b>Birch Hollow,icon_birch,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|BBBBBBBBX
 birch_armor,<gold><b>Birch Hollow <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   12  B|B   67  B|B   ab  B|B   fg  B|zBBBBBBBX
-spruce_shop,<gold><b>Spruce Ridge,icon_spruce,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|zBBBBBBBX
+spruce_shop,<gold><b>Spruce Ridge,icon_spruce,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|BBBBBBBBX
 spruce_armor,<gold><b>Spruce Ridge <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   12  B|B   67  B|B   ab  B|B   fg  B|zBBBBBBBX
-darkoak_shop,<gold><b>Dark Oak Thicket,icon_darkoak,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|zBBBBBBBX
+darkoak_shop,<gold><b>Dark Oak Thicket,icon_darkoak,5,BBBBIBBBB|B123 456B|B  qw   B|B   A   B|BBBBBBBBX
 darkoak_armor,<gold><b>Dark Oak Thicket <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B   12  B|B   67  B|B   ab  B|B   fg  B|zBBBBBBBX
-treehouse_shop,<gold><b>Great Treehouse,icon_treehouse,5,BBBBIBBBB|B  12   B|B  qwe  B|B   A   B|zBBBBBBBX
+treehouse_shop,<gold><b>Great Treehouse,icon_treehouse,5,BBBBIBBBB|B  12   B|B  qwe  B|B   A   B|BBBBBBBBX
 treehouse_armor,<gold><b>Great Treehouse <dark_gray>| <gray>Armour,icon_armor,6,BBBBIBBBB|B  123  B|B  678  B|B  abc  B|B  fgh  B|zBBBBBBBX
+food_shop,<gold><b>Camp Cook,icon_food,3,BBBBBBBBB|B12345  B|BBBBBBBBX

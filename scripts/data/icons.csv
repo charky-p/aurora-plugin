@@ -29,14 +29,10 @@ icon_warps,<light_purple><b>Warps,COMPASS,false,<gray>Travel to a region you hav
 icon_collections,<gold><b>Collections,BOOKSHELF,false,<gray>Everything you have ever gathered.|<gray>Each milestone pays Essence.
 icon_customise,<light_purple><b>Customise,NAME_TAG,false,<gray>Ranks, suffixes, colours, trails and more.
 icon_shop,<aqua><b>Essence Shop,EMERALD,true,<gray>Spend Essence on ranks.
-icon_howto_mining,<yellow><b>1. Mining,IRON_PICKAXE,false,<gray>Break blocks in any mine.|<gray>Drops go straight to your backpack.|<gray>Fortune multiplies drops - block density cancels it out.
-icon_howto_backpack,<yellow><b>2. Your Backpack,CHEST,false,<gray>Resources stack without limit.|<gray>Open it with /backpack or from the menu.|<gray>Shops spend from it directly.
-icon_howto_gear,<yellow><b>3. Upgrading,ANVIL,false,<gray>Trade resources at shop NPCs for better gear.|<gray>One linear path - each pick beats the last.|<gray>Better gear unlocks harder blocks.
-icon_howto_combat,<yellow><b>4. Combat,IRON_SWORD,false,<gray>Mobs spawn in their own areas.|<gray>Some upgrades need mob drops as well as ore.
-icon_howto_regions,<yellow><b>5. Regions,GRASS_BLOCK,false,<gray>Each island is a region with its own blocks.|<gray>Clear a region to unlock the next one.|<gray>Mining and kills give XP. Each level pays Essence.
 icon_verdant,<dark_green><b>Verdant Groves,OAK_SAPLING,true,<gray>Forest islands of wood and metal.
 icon_oak,<#7BA05B><b>Oak Grove,OAK_LOG,false,<gray>Oak logs and tin.
 icon_birch,<#D9D3B0><b>Birch Hollow,BIRCH_LOG,false,<gray>Birch logs and bronze.
 icon_spruce,<#4F7A4A><b>Spruce Ridge,SPRUCE_LOG,false,<gray>Spruce logs and lead.
 icon_darkoak,<#6B4F35><b>Dark Oak Thicket,DARK_OAK_LOG,false,<gray>Dark oak logs and silver.
 icon_treehouse,<#2E8B57><b>Great Treehouse,JUNGLE_LEAVES,false,<gray>Tree Zombees, and the Treant.
+icon_food,<gold><b>Camp Cook,COOKED_BEEF,false,<gray>Cheap food. Better food wants better ore.

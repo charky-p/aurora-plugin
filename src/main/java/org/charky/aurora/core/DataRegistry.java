@@ -335,7 +335,7 @@ public class DataRegistry {
     private void loadBlocks(LootPoolBuilder loot) {
         // Each resource a block gives is one mine, numbered in the order blocks.csv
         // first mentions it: cobblestone 1, coal 2, and so on. The plain and the rich
-        // block of a mine share its number, which is the XP either gives
+        // block of a mine share its number, which is the XP each item it drops gives
         Map<String, Integer> mines = new HashMap<>();
         yaml.load("blocks.yml", BlockModel.class).forEach((id, model) -> {
             String resource = firstDrop(model);

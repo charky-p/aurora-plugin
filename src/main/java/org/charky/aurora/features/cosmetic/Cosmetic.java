@@ -8,9 +8,10 @@ import org.charky.aurora.common.util.TextUtils;
 // player looks to others and nothing about how the game plays.
 // The requirement is seconds played for PLAYTIME and Essence for ESSENCE. The value
 // is what the cosmetic is made of: a colour name, a particle, a join message, the
-// name of a trim pattern
+// name of a trim pattern. The target is the zone of a ZONE cosmetic and the region
+// of a WORLD one, null for the rest
 public record Cosmetic(String id, Type type, String display, Material icon, Source source,
-                       long requirement, String note, String value) {
+                       long requirement, String note, String value, String target) {
     public enum Type {
         SUFFIX("Suffixes", "Shown after your name in chat"),
         CHAT_COLOR("Chat Colours", "The colour of what you say"),
@@ -39,6 +40,10 @@ public record Cosmetic(String id, Type type, String display, Material icon, Sour
         DEFAULT,
         // Unlocked by time online
         PLAYTIME,
+        // Earned by buying every upgrade a zone sells
+        ZONE,
+        // Earned by doing that in every zone of a world
+        WORLD,
         // Bought with Essence in /customise
         ESSENCE,
         // Handed out by an admin, for donors and events

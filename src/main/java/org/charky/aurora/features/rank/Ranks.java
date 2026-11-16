@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 // Every rank there is, in the order the menus show them: the one everyone starts
-// with, the ten earned by playtime, one for every zone and every world maxed out,
-// the six bought with Essence, then the donor and staff ranks an admin hands out
+// with, the ten earned by playtime, the six bought with Essence, then the donor
+// and staff ranks an admin hands out
 public final class Ranks {
     private static final long HOUR = 3600;
 
-    public static final Rank MEMBER = new Rank("MEMBER", "<gray><b>MEMBER</b>", Rank.Kind.DEFAULT, 0, null);
+    public static final Rank MEMBER = new Rank("MEMBER", "<gray><b>MEMBER</b>", Rank.Kind.DEFAULT, 0);
     // Not a rank itself: owning this id lets a player wear a second rank. It comes
     // with a donor package
     public static final String SECOND_SLOT = "RANK_SLOT_2";
@@ -31,23 +31,6 @@ public final class Ranks {
         playtime("DUKE", "#B06AB3:#4568DC", 250);
         playtime("MASTER", "#00F2FE:#4FACFE:#7F00FF", 350);
         playtime("GRANDMASTER", "#FFD700:#FFFFFF:#FFD700", 500);
-
-        // One for every zone, by the id it has in zones.csv
-        zone("QUARRYMAN", "#B0BEC5:#78909C", "cobble");
-        zone("COLLIER", "#757575:#424242", "coal");
-        zone("COPPERSMITH", "#E8925A:#B5532A", "copper");
-        zone("IRONCLAD", "#ECEFF1:#B0BEC5", "iron");
-        zone("PROSPECTOR", "#FFE259:#FFA751", "gold");
-        zone("SCAVENGER", "#A1887F:#6D4C41", "city");
-        zone("NOMAD", "#F6D365:#FDA085", "dunes");
-        zone("CANYONEER", "#D66D75:#B4462A", "canyons");
-        zone("SUNKEEPER", "#FFF176:#FFB300", "temple");
-        zone("PHARAOH", "#FFD700:#8E24AA", "tomb");
-
-        // One for every world, by the region its zones have in zones.csv
-        world("OVERWORLD", "#56AB2F:#A8E063:#56CCF2", "origin_isles");
-        world("DUNEWORLD", "#F7971E:#FFD200:#F7971E", "gormak");
-        world("ELDERWOOD_ROOTS", "#0B8043:#A8FF78:#6B4F35", "verdant");
 
         shop("EMBER", "#FF8008:#E52D27", 100);
         shop("FROST", "#FFFFFF:#6DD5FA", 300);
@@ -94,23 +77,15 @@ public final class Ranks {
     }
 
     private static void playtime(String id, String gradient, long hours) {
-        add(new Rank(id, display(id, gradient), Rank.Kind.PLAYTIME, hours * HOUR, null));
+        add(new Rank(id, display(id, gradient), Rank.Kind.PLAYTIME, hours * HOUR));
     }
 
     private static void shop(String id, String gradient, long essence) {
-        add(new Rank(id, display(id, gradient), Rank.Kind.SHOP, essence, null));
+        add(new Rank(id, display(id, gradient), Rank.Kind.SHOP, essence));
     }
 
     private static void granted(String id, String gradient, Rank.Kind kind) {
-        add(new Rank(id, display(id, gradient), kind, 0, null));
-    }
-
-    private static void zone(String id, String gradient, String zoneId) {
-        add(new Rank(id, display(id, gradient), Rank.Kind.ZONE, 0, zoneId));
-    }
-
-    private static void world(String id, String gradient, String region) {
-        add(new Rank(id, display(id, gradient), Rank.Kind.WORLD, 0, region));
+        add(new Rank(id, display(id, gradient), kind, 0));
     }
 
     // SENIOR_MOD reads as SENIOR MOD
@@ -124,14 +99,6 @@ public final class Ranks {
 
     public static List<Rank> ofKind(Rank.Kind kind) {
         return ALL.values().stream().filter(rank -> rank.kind() == kind).toList();
-    }
-
-    // The rank a zone or a world's region earns, null if it has none
-    public static Rank earnedIn(Rank.Kind kind, String target) {
-        for (Rank rank : ofKind(kind)) {
-            if (rank.target().equals(target)) return rank;
-        }
-        return null;
     }
 
     // The rank with this id, MEMBER for one that no longer exists

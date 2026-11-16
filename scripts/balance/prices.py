@@ -75,7 +75,7 @@ def price(seconds, income_per_second):
     return nice(seconds * income_per_second)
 
 
-def zone_prices(target_seconds, steps, income, start, spread=SPREAD):
+def zone_prices(target_seconds, steps, income, start, spread=SPREAD, scale=None):
     """
     Prices for every step of a zone, in purchase order.
 
@@ -84,12 +84,14 @@ def zone_prices(target_seconds, steps, income, start, spread=SPREAD):
     income   function(state, resource) -> that resource per second
     start    {(tool, stat): level} the player arrives with. Buying a step adds 1,
              or sets the step's own "level", which a material change uses
+    scale    function(resource) -> what that resource's prices are multiplied by,
+             so mined and looted costs can be made cheaper or dearer apart
     """
     state = dict(start)
     seconds = step_seconds(target_seconds, len(steps), spread)
     priced = []
     for step, time in zip(steps, seconds):
-        cost = {resource: price(time * share, income(state, resource))
+        cost = {resource: price(time * share * (scale(resource) if scale else 1), income(state, resource))
                 for resource, share in step["cost"].items()}
         key = (step["tool"], step["stat"])
         state[key] = step["level"] if "level" in step else state.get(key, 0) + 1

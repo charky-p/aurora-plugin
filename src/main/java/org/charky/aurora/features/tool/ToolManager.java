@@ -272,6 +272,15 @@ public class ToolManager implements Listener {
         return zone.status(tool, stat -> own(player, zone, tool, stat));
     }
 
+    // How many steps of a tool's chain in a zone are bought
+    public int bought(Player player, UpgradeZone zone, String tool) {
+        int bought = 0;
+        for (UpgradeZone.Step step : zone.chain(tool)) {
+            if (own(player, zone, tool, step.stat()) >= step.level()) bought++;
+        }
+        return bought;
+    }
+
     // Every upgrade the zone sells is bought
     public boolean maxed(Player player, String zoneId) {
         UpgradeZone zone = registry.getUpgradeZone(zoneId);

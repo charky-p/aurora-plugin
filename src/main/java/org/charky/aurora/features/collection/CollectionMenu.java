@@ -28,6 +28,8 @@ public class CollectionMenu extends PagedMenu {
             if (!registry.isLootable(resource.getId())) continue;
 
             long amount = collections.get(player.getUniqueId(), resource.getId());
+            // Nothing is shown until the player has found one
+            if (amount <= 0) continue;
             int base = registry.getCollectionBase(resource.getId());
             int tier = CollectionTiers.tier(base, amount);
             long next = CollectionTiers.nextThreshold(base, amount);
@@ -52,15 +54,17 @@ public class CollectionMenu extends PagedMenu {
 
     @Override
     protected List<Component> info(Player player, List<ItemStack> entries) {
-        int reached = 0;
+        int reached = 0, all = 0;
         for (MenuItem resource : registry.getItems()) {
             if (registry.isLootable(resource.getId())) {
+                all++;
                 reached += CollectionTiers.tier(registry.getCollectionBase(resource.getId()),
                         collections.get(player.getUniqueId(), resource.getId()));
             }
         }
         return List.of(
                 TextUtils.parse("<!italic><gray>Every resource you have ever gathered."),
-                TextUtils.parse("<!italic><gray>Tiers reached: <white>" + reached + "/" + entries.size() * CollectionTiers.count()));
+                TextUtils.parse("<!italic><gray>Found: <white>" + entries.size() + "/" + all),
+                TextUtils.parse("<!italic><gray>Tiers reached: <white>" + reached + "/" + all * CollectionTiers.count()));
     }
 }

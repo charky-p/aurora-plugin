@@ -6,6 +6,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.charky.aurora.features.tool.UpgradeZone;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
@@ -43,7 +46,15 @@ public class CosmeticMenu extends PagedMenu {
             boolean owned = cosmetics.owns(player, cosmetic);
             Slot wornIn = wornIn(player, cosmetic);
 
-            ItemStack item = new ItemStack(owned ? cosmetic.icon() : Material.GRAY_DYE);
+            // A trim is always drawn, so it can be seen before it is bought
+            ItemStack item = new ItemStack(owned || type == Type.TRIM_PATTERN ? cosmetic.icon() : Material.GRAY_DYE);
+            if (type == Type.TRIM_PATTERN) {
+                ArmorTrim trim = cosmetics.trimOf(player, cosmetic);
+                item.editMeta(ArmorMeta.class, meta -> {
+                    if (trim != null) meta.setTrim(trim);
+                    meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+                });
+            }
             item.editMeta(meta -> {
                 meta.displayName(TextUtils.parse("<!italic>").append(cosmetic.component()));
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -92,12 +103,22 @@ public class CosmeticMenu extends PagedMenu {
         return null;
     }
 
-    private static String source(Cosmetic cosmetic) {
+    @Override
+    protected void back(Player player) {
+        cosmetics.openHub(player);
+    }
+
+    private String source(Cosmetic cosmetic) {
         return switch (cosmetic.source()) {
             case DEFAULT -> "Everyone has this";
+            case ZONE -> {
+                UpgradeZone zone = registry.getUpgradeZone(cosmetic.target());
+                yield "Earned by maxing every upgrade of " + (zone == null ? "its zone" : zone.name());
+            }
+            case WORLD -> "Earned by maxing every zone of this world";
             case PLAYTIME -> "Earned by playing for " + cosmetic.requirement() / 3600 + "h";
             case ESSENCE -> "Costs " + String.format("%,d", cosmetic.requirement()) + " Essence";
-            case GRANT -> "Cannot be bought with Essence";
+            case GRANT -> "Not sold for Essence";
         };
     }
 
@@ -109,6 +130,9 @@ public class CosmeticMenu extends PagedMenu {
             }
             case ESSENCE -> essence >= cosmetic.requirement() ? "<yellow>Click to buy"
                     : "<red>" + String.format("%,d", cosmetic.requirement() - essence) + " more Essence needed";
+            case ZONE -> "<red>Buy every upgrade there";
+            case WORLD -> registry.getZonesOfRegion(cosmetic.target()).isEmpty()
+                    ? "<red>Not open yet" : "<red>Max out every zone there";
             default -> "<red>Locked";
         };
     }

@@ -3,9 +3,9 @@ package org.charky.aurora.features.player;
 // The level curve and what a level pays. Pure numbers, no Bukkit, so the pacing is
 // tested directly.
 //
-// XP comes from mining and kills: a block gives the number of its mine (1 for
-// cobblestone, 2 for coal, and so on) and a kill gives the mob's health, so a kill is
-// always worth far more than a block. The first level needs XP_BASE, and each one
+// XP comes from mining and kills: every item a block drops gives the number of its
+// mine (1 for cobblestone, 2 for coal, and so on), so Fortune and later mines level
+// faster, and a kill gives the mob's health. The first level needs XP_BASE, and each one
 // after needs EARLY_GROWTH times the last up to level EARLY_LEVELS, then
 // LATE_GROWTH times the last for good. The steep start is what makes the first
 // minutes feel right: levels 1 to 5 in about ten seconds of mining, 5 to 10 in

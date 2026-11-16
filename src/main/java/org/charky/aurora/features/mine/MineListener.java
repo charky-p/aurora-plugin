@@ -118,7 +118,9 @@ public class MineListener implements Listener {
         if (blockDrops.isEmpty()) return;
 
         players.addMined(player);
-        levels.addXp(player, registry.getBlockXp(dropId));
+        // XP follows what the block gave, so Fortune and a rich block are worth more
+        long gathered = blockDrops.stream().mapToLong(MenuItem::getAmount).sum();
+        levels.addXp(player, gathered * registry.getBlockXp(dropId));
         collections.add(player, blockDrops);
         block.setType(Material.AIR, false);
         manager.handleBlockBreak(block.getLocation());

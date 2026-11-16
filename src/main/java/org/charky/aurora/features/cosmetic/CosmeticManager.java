@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 // Which cosmetics a player owns and wears, and everywhere they show: the chat line,
@@ -66,6 +67,12 @@ public class CosmeticManager implements Listener {
     // Redraws the armour a player wears, after they change its trim. Tools load
     // after cosmetics, so it is set once they have
     private Consumer<Player> lookChanged = player -> {};
+    // Whether a player has maxed out the zone or world of a cosmetic, set with the tools
+    private BiPredicate<Player, Cosmetic> maxed = (player, cosmetic) -> false;
+
+    public void setMaxed(BiPredicate<Player, Cosmetic> maxed) {
+        this.maxed = maxed;
+    }
 
     public void setLookChanged(Consumer<Player> lookChanged) {
         this.lookChanged = lookChanged;
@@ -74,14 +81,49 @@ public class CosmeticManager implements Listener {
     // The trim on a player's armour, null with no pattern chosen
     public ArmorTrim trim(Player player) {
         Cosmetic pattern = equipped(player.getUniqueId(), Slot.TRIM_PATTERN);
+        return pattern == null ? null : trimOf(player, pattern);
+    }
+
+    // A pattern in the material the player has chosen, null for No Trim
+    public ArmorTrim trimOf(Player player, Cosmetic pattern) {
         Cosmetic material = equipped(player.getUniqueId(), Slot.TRIM_MATERIAL);
-        if (pattern == null || material == null) return null;
+        if (material == null || pattern.value().equals(Cosmetics.NONE)) return null;
 
         TrimPattern trimPattern = RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_PATTERN)
                 .get(NamespacedKey.minecraft(pattern.value()));
         TrimMaterial trimMaterial = RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_MATERIAL)
                 .get(NamespacedKey.minecraft(material.value()));
         return trimPattern == null || trimMaterial == null ? null : new ArmorTrim(trimMaterial, trimPattern);
+    }
+
+    // ---------------------------------------------------------------- unlocking
+
+    // Said once, to the player alone, whenever something becomes theirs. Suffixes
+    // come often enough that they make no sound
+    private void unlocked(Player player, Cosmetic cosmetic) {
+        player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> ").append(cosmetic.component())
+                .append(Component.text(" - put it on with /customise", NamedTextColor.GRAY)));
+        if (cosmetic.type() != Type.SUFFIX) {
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1f);
+        }
+    }
+
+    // The upgrade that finishes a zone was just bought. What it earns is never
+    // stored, it follows from the levels
+    public void announceMaxed(Player player, String zoneId, String region) {
+        for (Cosmetic cosmetic : Cosmetics.earnedIn(Source.ZONE, zoneId)) unlocked(player, cosmetic);
+        for (Cosmetic cosmetic : Cosmetics.earnedIn(Source.WORLD, region)) {
+            if (owns(player, cosmetic)) unlocked(player, cosmetic);
+        }
+    }
+
+    // A minute of playtime was counted, from before to after seconds
+    public void playtimePassed(Player player, long before, long after) {
+        for (Cosmetic cosmetic : Cosmetics.all()) {
+            if (cosmetic.source() == Source.PLAYTIME && before < cosmetic.requirement() && after >= cosmetic.requirement()) {
+                unlocked(player, cosmetic);
+            }
+        }
     }
 
     public CosmeticManager(Aurora plugin, Database db, CosmeticStore store, PlayerManager players,
@@ -113,6 +155,7 @@ public class CosmeticManager implements Listener {
             case ESSENCE -> has(player.getUniqueId(), cosmetic.id())
                     || (cosmetic.type() == Type.CHAT_COLOR && ranks.owns(player, Ranks.get("AURORA")));
             case GRANT -> has(player.getUniqueId(), cosmetic.id());
+            case ZONE, WORLD -> maxed.test(player, cosmetic);
         };
     }
 
@@ -136,8 +179,6 @@ public class CosmeticManager implements Listener {
 
         give(player.getUniqueId(), cosmetic.id());
         scoreboard.updateBoard(player);
-        player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> ").append(cosmetic.component()));
-        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1f);
 
         // Straight on, into the first slot that is free for a suffix
         Slot slot = Slot.of(cosmetic.type());
@@ -153,6 +194,11 @@ public class CosmeticManager implements Listener {
     public boolean give(UUID uuid, String id) {
         if (!owned.computeIfAbsent(uuid, k -> ConcurrentHashMap.newKeySet()).add(id)) return false;
         db.async(() -> store.addOwned(uuid, id));
+
+        Player player = Bukkit.getPlayer(uuid);
+        Cosmetic cosmetic = Cosmetics.get(id);
+        if (player != null && cosmetic != null) unlocked(player, cosmetic);
+        else if (player != null) player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> <white>A second suffix <gray>- right click one in /customise"));
         return true;
     }
 

@@ -46,6 +46,8 @@ public class UpgradeMenu extends PagedMenu {
             item.editMeta(meta -> {
                 List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
                 lore.add(Component.empty());
+                lore.add(TextUtils.parse("<!italic><gray>Upgrades here: <white>" + tools.bought(player, zone, type.id())
+                        + "/" + zone.chain(type.id()).size()));
 
                 if (!tools.carries(player, type)) {
                     lore.add(TextUtils.parse("<!italic><yellow>Click to take it"));

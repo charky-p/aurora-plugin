@@ -26,68 +26,6 @@
 # ===========================================================
 
 items:
-  origin_hub:
-    title: "<green><b>Origin Isles"
-    icon: icon_origin
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B123456 B"
-      - "BBBBBBBBX"
-    components:
-      '1':
-        type: GUI
-        id: starter_shop
-      '2':
-        type: ACTION
-        id: upgrades:cobble
-        icon: icon_cobble
-      '3':
-        type: ACTION
-        id: upgrades:coal
-        icon: icon_coal
-      '4':
-        type: ACTION
-        id: upgrades:copper
-        icon: icon_copper
-      '5':
-        type: ACTION
-        id: upgrades:iron
-        icon: icon_iron
-      '6':
-        type: ACTION
-        id: upgrades:gold
-        icon: icon_gold
-
-  gormak_hub:
-    title: "<gold><b>Gormak"
-    icon: icon_gormak
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B 12345 B"
-      - "BBBBBBBBX"
-    components:
-      '1':
-        type: ACTION
-        id: upgrades:city
-        icon: icon_city
-      '2':
-        type: ACTION
-        id: upgrades:dunes
-        icon: icon_dunes
-      '3':
-        type: ACTION
-        id: upgrades:canyons
-        icon: icon_canyons
-      '4':
-        type: ACTION
-        id: upgrades:temple
-        icon: icon_temple
-      '5':
-        type: GUI
-        id: tomb_shop
-
   starter_shop:
     title: "<gold><b>Starter Gear"
     icon: icon_starter
@@ -95,15 +33,12 @@ items:
     layout:
       - "BBBBIBBBB"
       - "B   1   B"
-      - "zBBBBBBBX"
+      - "BBBBBBBBX"
     components:
       '1':
         type: ACTION
         id: tools
         icon: icon_tools
-      z:
-        type: GUI
-        id: origin_hub
 
   gate_shop:
     title: "<gold><b>Gormak Gate"
@@ -112,7 +47,7 @@ items:
     layout:
       - "BBBBIBBBB"
       - "B   1   B"
-      - "zBBBBBBBX"
+      - "BBBBBBBBX"
     components:
       '1':
         type: TRADE
@@ -122,9 +57,6 @@ items:
             amount: 300
           - id: leather
             amount: 20
-      z:
-        type: GUI
-        id: origin_hub
 
   tomb_shop:
     title: "<gold><b>Royal Tomb"
@@ -133,7 +65,7 @@ items:
     layout:
       - "BBBBIBBBB"
       - "B  u U  B"
-      - "zBBBBBBBX"
+      - "BBBBBBBBX"
     components:
       u:
         type: ACTION
@@ -142,9 +74,6 @@ items:
       U:
         type: GUI
         id: tomb_utility
-      z:
-        type: GUI
-        id: gormak_hub
 
   tomb_utility:
     title: "<gold><b>Royal Tomb <dark_gray>| <gray>Utility"
@@ -178,22 +107,19 @@ items:
   aurora_hub:
     title: "<aqua><b>Aurora"
     icon: icon_menu
-    rows: 4
+    rows: 6
     layout:
-      - "BBBBIBBBB"
-      - "B 1 2 3 B"
-      - "B 45678 B"
-      - "BBB9BwBBX"
+      - "BBBBBBBBB"
+      - "B       B"
+      - "B 1 4 5 B"
+      - "B 6 7 8 B"
+      - "B  w 9  B"
+      - "BBBBBBBBX"
     components:
       '1':
-        type: GUI
-        id: howto_menu
-      '2':
-        type: GUI
-        id: origin_hub
-      '3':
-        type: GUI
-        id: gormak_hub
+        type: ACTION
+        id: howto
+        icon: icon_howto
       '4':
         type: ACTION
         id: backpack
@@ -223,59 +149,6 @@ items:
         id: warps
         icon: icon_warps
 
-  howto_menu:
-    title: "<aqua><b>How to Play"
-    icon: icon_howto
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B 12345 B"
-      - "zBBBBBBBX"
-    components:
-      '1':
-        type: ICON
-        id: icon_howto_mining
-      '2':
-        type: ICON
-        id: icon_howto_backpack
-      '3':
-        type: ICON
-        id: icon_howto_gear
-      '4':
-        type: ICON
-        id: icon_howto_combat
-      '5':
-        type: ICON
-        id: icon_howto_regions
-      z:
-        type: GUI
-        id: aurora_hub
-
-  verdant_hub:
-    title: "<dark_green><b>Verdant Groves"
-    icon: icon_verdant
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B 12345 B"
-      - "BBBBBBBBX"
-    components:
-      '1':
-        type: GUI
-        id: oak_shop
-      '2':
-        type: GUI
-        id: birch_shop
-      '3':
-        type: GUI
-        id: spruce_shop
-      '4':
-        type: GUI
-        id: darkoak_shop
-      '5':
-        type: GUI
-        id: treehouse_shop
-
   oak_shop:
     title: "<gold><b>Oak Grove"
     icon: icon_oak
@@ -285,7 +158,7 @@ items:
       - "B123 456B"
       - "B  qw   B"
       - "B   A   B"
-      - "zBBBBBBBX"
+      - "BBBBBBBBX"
     components:
       '1':
         type: TRADE
@@ -349,9 +222,6 @@ items:
       A:
         type: GUI
         id: oak_armor
-      z:
-        type: GUI
-        id: verdant_hub
 
   oak_armor:
     title: "<gold><b>Oak Grove <dark_gray>| <gray>Armour"
@@ -438,7 +308,7 @@ items:
       - "B123 456B"
       - "B  qw   B"
       - "B   A   B"
-      - "zBBBBBBBX"
+      - "BBBBBBBBX"
     components:
       '1':
         type: TRADE
@@ -505,9 +375,6 @@ items:
       A:
         type: GUI
         id: birch_armor
-      z:
-        type: GUI
-        id: verdant_hub
 
   birch_armor:
     title: "<gold><b>Birch Hollow <dark_gray>| <gray>Armour"
@@ -598,7 +465,7 @@ items:
       - "B123 456B"
       - "B  qw   B"
       - "B   A   B"
-      - "zBBBBBBBX"
+      - "BBBBBBBBX"
     components:
       '1':
         type: TRADE
@@ -665,9 +532,6 @@ items:
       A:
         type: GUI
         id: spruce_armor
-      z:
-        type: GUI
-        id: verdant_hub
 
   spruce_armor:
     title: "<gold><b>Spruce Ridge <dark_gray>| <gray>Armour"
@@ -758,7 +622,7 @@ items:
       - "B123 456B"
       - "B  qw   B"
       - "B   A   B"
-      - "zBBBBBBBX"
+      - "BBBBBBBBX"
     components:
       '1':
         type: TRADE
@@ -825,9 +689,6 @@ items:
       A:
         type: GUI
         id: darkoak_armor
-      z:
-        type: GUI
-        id: verdant_hub
 
   darkoak_armor:
     title: "<gold><b>Dark Oak Thicket <dark_gray>| <gray>Armour"
@@ -918,7 +779,7 @@ items:
       - "B  12   B"
       - "B  qwe  B"
       - "B   A   B"
-      - "zBBBBBBBX"
+      - "BBBBBBBBX"
     components:
       '1':
         type: TRADE
@@ -962,9 +823,6 @@ items:
       A:
         type: GUI
         id: treehouse_armor
-      z:
-        type: GUI
-        id: verdant_hub
 
   treehouse_armor:
     title: "<gold><b>Great Treehouse <dark_gray>| <gray>Armour"
@@ -1073,3 +931,48 @@ items:
       z:
         type: GUI
         id: treehouse_shop
+
+  food_shop:
+    title: "<gold><b>Camp Cook"
+    icon: icon_food
+    rows: 3
+    layout:
+      - "BBBBBBBBB"
+      - "B12345  B"
+      - "BBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: bread
+        amount: 4
+        cost:
+          - id: cobblestone
+            amount: 16
+      '2':
+        type: TRADE
+        id: baked_potato
+        amount: 4
+        cost:
+          - id: coal
+            amount: 32
+      '3':
+        type: TRADE
+        id: cooked_chicken
+        amount: 4
+        cost:
+          - id: iron
+            amount: 48
+      '4':
+        type: TRADE
+        id: steak
+        amount: 4
+        cost:
+          - id: gold
+            amount: 64
+      '5':
+        type: TRADE
+        id: golden_carrot
+        amount: 4
+        cost:
+          - id: raw_gold
+            amount: 128

@@ -74,11 +74,31 @@ class CosmeticsTest {
     }
 
     @Test
-    void suffixesAreEarnedBoughtOrGiven() {
-        List<Cosmetic> suffixes = Cosmetics.ofType(Type.SUFFIX);
-        assertEquals(3, suffixes.stream().filter(s -> s.source() == Source.DEFAULT || s.source() == Source.PLAYTIME).count());
-        assertEquals(20, suffixes.stream().filter(s -> s.source() == Source.ESSENCE).count());
-        assertEquals(10, suffixes.stream().filter(s -> s.source() == Source.GRANT).count());
+    void onlySuffixesThatCostRealMoneyAreBold() {
+        for (Cosmetic suffix : Cosmetics.ofType(Type.SUFFIX)) {
+            if (suffix.source() != Source.GRANT) assertFalse(suffix.display().contains("<b>"), suffix.id());
+        }
+    }
+
+    // A zone or a world that is maxed out earns a suffix, and nothing else is tied to one
+    @Test
+    void zonesAndWorldsEarnSuffixes() {
+        for (Cosmetic cosmetic : Cosmetics.all()) {
+            boolean earned = cosmetic.source() == Source.ZONE || cosmetic.source() == Source.WORLD;
+            assertEquals(earned, cosmetic.target() != null, cosmetic.id());
+            if (earned) assertEquals(Type.SUFFIX, cosmetic.type(), cosmetic.id());
+        }
+        assertEquals("suffix_cobble", Cosmetics.earnedIn(Source.ZONE, "cobble").getFirst().id());
+        assertEquals("suffix_duneworld", Cosmetics.earnedIn(Source.WORLD, "gormak").getFirst().id());
+    }
+
+    // Light gray chat is free, white comes with time played, the rest cost real money
+    @Test
+    void coloursBeyondThePlainOnesAreNotSoldForEssence() {
+        for (Type type : List.of(Type.CHAT_COLOR, Type.NAME_COLOR)) {
+            for (Cosmetic cosmetic : Cosmetics.ofType(type)) assertTrue(cosmetic.source() != Source.ESSENCE, cosmetic.id());
+        }
+        assertEquals(Source.PLAYTIME, Cosmetics.get("chat_white").source());
     }
 
     // New players wear NEW, speak in light grey under a white name and join the plain way

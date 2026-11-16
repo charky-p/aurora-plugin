@@ -55,7 +55,8 @@ import org.charky.aurora.features.player.TabManager;
 import org.charky.aurora.features.portal.PortalListener;
 import org.charky.aurora.features.portal.PortalManager;
 import org.charky.aurora.features.perk.PerkManager;
-import org.charky.aurora.features.rank.Rank;
+import org.charky.aurora.features.cosmetic.Cosmetic;
+import org.charky.aurora.features.system.HowToPlay;
 import org.charky.aurora.features.rank.RankManager;
 import org.charky.aurora.features.rank.RankShopMenu;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
@@ -167,9 +168,11 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("warps", player -> new WarpMenu(this).open(player));
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
         armoryManager.setTools(toolManager);
-        rankManager.setMaxed((player, rank) -> rank.kind() == Rank.Kind.ZONE
-                ? toolManager.maxed(player, rank.target()) : toolManager.maxedRegion(player, rank.target()));
-        toolManager.setOnMaxed(rankManager::announceMaxed);
+        cosmeticManager.setMaxed((player, cosmetic) -> cosmetic.source() == Cosmetic.Source.ZONE
+                ? toolManager.maxed(player, cosmetic.target()) : toolManager.maxedRegion(player, cosmetic.target()));
+        toolManager.setOnMaxed(cosmeticManager::announceMaxed);
+        rankManager.setOnPlaytime(cosmeticManager::playtimePassed);
+        registry.registerAction("howto", HowToPlay::send);
         toolManager.setTrims(cosmeticManager::trim);
         cosmeticManager.setLookChanged(toolManager::refresh);
         registry.registerAction("upgrades", toolManager::openUpgrades);

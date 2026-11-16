@@ -58,6 +58,12 @@ public abstract class PagedMenu implements InventoryHolder {
         onEntryClick(player, index);
     }
 
+    // Where the Back button leads: the Aurora menu, unless a menu has one above it
+    protected void back(Player player) {
+        TraderMenu hub = registry.getGui(MenuCommand.HUB_ID);
+        if (hub != null) hub.onClick(player);
+    }
+
     // Extra buttons in the free slots
     protected void decorate(Player player, Inventory inventory) {}
 
@@ -73,10 +79,7 @@ public abstract class PagedMenu implements InventoryHolder {
             case PREVIOUS_SLOT -> turnPage(player, page - 1);
             case NEXT_SLOT -> turnPage(player, page + 1);
             case CLOSE_SLOT -> TraderClose.close(player);
-            case BACK_SLOT -> {
-                TraderMenu hub = registry.getGui(MenuCommand.HUB_ID);
-                if (hub != null) hub.onClick(player);
-            }
+            case BACK_SLOT -> back(player);
             default -> {
                 int position = entryPosition(slot);
                 if (position >= 0) onEntryClick(player, page * ENTRY_SLOTS.length + position, rightClick);
@@ -107,8 +110,7 @@ public abstract class PagedMenu implements InventoryHolder {
         if (page > 0) inventory.setItem(PREVIOUS_SLOT, button(Material.ARROW, "<yellow>Previous Page"));
         if (page < pages - 1) inventory.setItem(NEXT_SLOT, button(Material.ARROW, "<yellow>Next Page"));
 
-        TraderMenu hub = registry.getGui(MenuCommand.HUB_ID);
-        if (hub != null) inventory.setItem(BACK_SLOT, hub.getDisplayItem(player));
+        inventory.setItem(BACK_SLOT, button(Material.ARROW, "<red>Back"));
 
         List<Component> lore = new ArrayList<>(info(player, entries));
         lore.add(TextUtils.parse("<!italic><gray>Page: <white>" + (page + 1) + "/" + pages));

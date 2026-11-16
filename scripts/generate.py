@@ -365,7 +365,7 @@ TRADER_HEADER = """\
 # [trader_id]:
 #   display: "<color><b><i>Display Name"
 #   entity: [BUKKIT_ENTITY_TYPE]
-#   gui: [gui_id]
+#   gui: [gui_id], or upgrades:[zone_id] to open that zone's upgrades directly
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ==========================================================="""
@@ -855,8 +855,12 @@ def validate(built):
             errors.append(f"warp '{wid}': no key unlocks the tag '{entry['tag']}'")
 
     for tid, entry in get("traders").items():
-        if entry.get("gui") not in guis:
-            errors.append(f"trader '{tid}': unknown gui '{entry.get('gui')}'")
+        opens = entry.get("gui") or ""
+        if opens.startswith(UPGRADES_ACTION):
+            if opens[len(UPGRADES_ACTION):] not in upgrade_zones:
+                errors.append(f"trader '{tid}': no zone '{opens[len(UPGRADES_ACTION):]}' in zones.csv")
+        elif opens not in guis:
+            errors.append(f"trader '{tid}': unknown gui '{opens}'")
 
     # Shop gear is earned by buying it, mob gear by killing for it, starter gear is given
     earned = mined | dropped | sold

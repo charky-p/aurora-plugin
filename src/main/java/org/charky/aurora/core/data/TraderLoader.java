@@ -4,15 +4,18 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.charky.aurora.core.models.TraderModel;
 import org.charky.aurora.features.trader.Trader;
 import org.charky.aurora.features.trader.TraderMenu;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-// Builds the trader NPC definitions, each opening one menu
+// Builds the trader NPC definitions. A trader opens a menu from the GUI files, or
+// runs an action such as upgrades:coal, which opens that zone's upgrades directly
 public class TraderLoader {
     private final Logger logger;
 
@@ -20,7 +23,7 @@ public class TraderLoader {
         this.logger = logger;
     }
 
-    public Map<String, Trader> load(Map<String, TraderModel> data, Map<String, TraderMenu> guis) {
+    public Map<String, Trader> load(Map<String, TraderModel> data, Map<String, TraderMenu> guis, MenuActions actions) {
         Map<String, Trader> traders = new HashMap<>();
         data.forEach((id, model) -> {
             NamespacedKey key = NamespacedKey.fromString("minecraft:" + model.entity.toLowerCase());
@@ -30,8 +33,14 @@ public class TraderLoader {
                 type = EntityType.VILLAGER;
             }
 
-            traders.put(id, new Trader(id,
-                    MiniMessage.miniMessage().deserialize(model.display), type, guis.get(model.gui)));
+            TraderMenu menu = guis.get(model.gui);
+            Consumer<Player> opens = menu != null ? menu::onClick : actions.get(model.gui);
+            if (opens == null) {
+                logger.severe("TRADER ERROR: '" + id + "' opens '" + model.gui + "', which is no menu and no action");
+                return;
+            }
+
+            traders.put(id, new Trader(id, MiniMessage.miniMessage().deserialize(model.display), type, opens));
         });
         return traders;
     }

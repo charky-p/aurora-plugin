@@ -129,7 +129,7 @@ public class DataRegistry {
         yaml.load("icons.yml", IconModel.class).forEach((id, model) -> icons.put(id, itemFactory.createIcon(model)));
         guis.putAll(new GuiLoader(plugin.getLogger(), items, icons, actions, backpackManager)
                 .load(yaml.load("guis/shops.yml", GuiModel.class)));
-        traders.putAll(new TraderLoader(plugin.getLogger()).load(yaml.load("traders.yml", TraderModel.class), guis));
+        traders.putAll(new TraderLoader(plugin.getLogger()).load(yaml.load("traders.yml", TraderModel.class), guis, actions));
         loadWarps();
         loadTools();
         loadUpgrades();

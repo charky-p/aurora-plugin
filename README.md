@@ -55,6 +55,16 @@ python scripts/deploy.py bundle      # target/aurora-deploy.zip
 
 Stop the live server, unzip `aurora-deploy.zip` over its folder, start it. The zip holds the jar and the game data YAML: the plugin only writes its YAML when a file is missing, so copying the jar alone keeps the old data.
 
+Or send it straight to the host over FTP, with the login in `scripts/deploy.ini` (gitignored, written on the first run):
+
+```
+python scripts/deploy.py upload              # build, then the jar and the game data YAML
+python scripts/deploy.py upload --all        # and LocalServer's mines.db and the game worlds
+python scripts/deploy.py upload --dry-run    # list what would be sent
+```
+
+`--db` and `--worlds` pick one of the two. Only the worlds named in `deploy.ini` are sent, never the vanilla overworld, nether or end. Stop the host's server before sending the database or worlds: `--db` replaces every player's progress on the host with the local one, after saving the host's copy to `LocalServer/aurora-backups/`. Files unchanged since the last upload are skipped.
+
 Back up before every deploy. On the live server's host, after `save-off` and `save-all flush` in the console (then `save-on`):
 
 ```bash

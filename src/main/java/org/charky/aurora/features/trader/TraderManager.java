@@ -136,7 +136,7 @@ public class TraderManager {
         Trader trader = registry.getTrader(traderId);
         if (trader == null) return;
 
-        this.handleMenu(player, trader.getMenuId());
+        trader.open(player);
     }
 
     public void handleMenu(Player player, String menuId) {

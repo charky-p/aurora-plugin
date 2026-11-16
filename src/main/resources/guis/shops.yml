@@ -39,20 +39,25 @@ items:
         type: GUI
         id: starter_shop
       '2':
-        type: GUI
-        id: cobble_shop
+        type: ACTION
+        id: upgrades:cobble
+        icon: icon_cobble
       '3':
-        type: GUI
-        id: coal_shop
+        type: ACTION
+        id: upgrades:coal
+        icon: icon_coal
       '4':
-        type: GUI
-        id: copper_shop
+        type: ACTION
+        id: upgrades:copper
+        icon: icon_copper
       '5':
-        type: GUI
-        id: iron_shop
+        type: ACTION
+        id: upgrades:iron
+        icon: icon_iron
       '6':
-        type: GUI
-        id: gold_shop
+        type: ACTION
+        id: upgrades:gold
+        icon: icon_gold
 
   gormak_hub:
     title: "<gold><b>Gormak"
@@ -64,17 +69,21 @@ items:
       - "BBBBBBBBX"
     components:
       '1':
-        type: GUI
-        id: city_shop
+        type: ACTION
+        id: upgrades:city
+        icon: icon_city
       '2':
-        type: GUI
-        id: dunes_shop
+        type: ACTION
+        id: upgrades:dunes
+        icon: icon_dunes
       '3':
-        type: GUI
-        id: canyons_shop
+        type: ACTION
+        id: upgrades:canyons
+        icon: icon_canyons
       '4':
-        type: GUI
-        id: temple_shop
+        type: ACTION
+        id: upgrades:temple
+        icon: icon_temple
       '5':
         type: GUI
         id: tomb_shop
@@ -92,91 +101,6 @@ items:
         type: ACTION
         id: tools
         icon: icon_tools
-      z:
-        type: GUI
-        id: origin_hub
-
-  cobble_shop:
-    title: "<gold><b>Cobblestone Quarry"
-    icon: icon_cobble
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:cobble
-        icon: icon_upgrades
-      z:
-        type: GUI
-        id: origin_hub
-
-  coal_shop:
-    title: "<gold><b>Coal Seam"
-    icon: icon_coal
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:coal
-        icon: icon_upgrades
-      z:
-        type: GUI
-        id: origin_hub
-
-  copper_shop:
-    title: "<gold><b>Copper Vein"
-    icon: icon_copper
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:copper
-        icon: icon_upgrades
-      z:
-        type: GUI
-        id: origin_hub
-
-  iron_shop:
-    title: "<gold><b>Iron Deposit"
-    icon: icon_iron
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:iron
-        icon: icon_upgrades
-      z:
-        type: GUI
-        id: origin_hub
-
-  gold_shop:
-    title: "<gold><b>Gold Reef"
-    icon: icon_gold
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:gold
-        icon: icon_upgrades
       z:
         type: GUI
         id: origin_hub
@@ -201,74 +125,6 @@ items:
       z:
         type: GUI
         id: origin_hub
-
-  city_shop:
-    title: "<gold><b>Abandoned City"
-    icon: icon_city
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:city
-        icon: icon_upgrades
-      z:
-        type: GUI
-        id: gormak_hub
-
-  dunes_shop:
-    title: "<gold><b>The Dunes"
-    icon: icon_dunes
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:dunes
-        icon: icon_upgrades
-      z:
-        type: GUI
-        id: gormak_hub
-
-  canyons_shop:
-    title: "<gold><b>Howling Canyons"
-    icon: icon_canyons
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:canyons
-        icon: icon_upgrades
-      z:
-        type: GUI
-        id: gormak_hub
-
-  temple_shop:
-    title: "<gold><b>Sun Temple"
-    icon: icon_temple
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B   u   B"
-      - "zBBBBBBBX"
-    components:
-      u:
-        type: ACTION
-        id: upgrades:temple
-        icon: icon_upgrades
-      z:
-        type: GUI
-        id: gormak_hub
 
   tomb_shop:
     title: "<gold><b>Royal Tomb"

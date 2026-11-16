@@ -117,3 +117,6 @@ LocalServer
 
 # Python bytecode from the scripts
 __pycache__/
+
+# The host's FTP login for scripts/deploy.py upload
+scripts/deploy.ini

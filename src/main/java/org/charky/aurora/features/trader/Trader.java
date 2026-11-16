@@ -5,24 +5,28 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
+
+import java.util.function.Consumer;
 
 public class Trader {
     private final String traderId;
     private final Component displayName;
     private final EntityType type;
-    private final TraderMenu menu;
+    // What clicking the trader does: opens a menu, or a zone's upgrades
+    private final Consumer<Player> opens;
 
-    public Trader(String traderId, Component displayName, EntityType type, TraderMenu menu) {
+    public Trader(String traderId, Component displayName, EntityType type, Consumer<Player> opens) {
         this.traderId = traderId;
         this.displayName = displayName;
         this.type = type;
-        this.menu = menu;
+        this.opens = opens;
     }
 
-    public String getMenuId() {
-        return this.menu.getId();
+    public void open(Player player) {
+        opens.accept(player);
     }
 
     public String getId() {

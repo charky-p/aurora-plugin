@@ -4,7 +4,7 @@
 # [trader_id]:
 #   display: "<color><b><i>Display Name"
 #   entity: [BUKKIT_ENTITY_TYPE]
-#   gui: [gui_id]
+#   gui: [gui_id], or upgrades:[zone_id] to open that zone's upgrades directly
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
@@ -18,27 +18,27 @@ items:
   cobble_trader:
     display: "<gray><b>Quarry Foreman"
     entity: VILLAGER
-    gui: cobble_shop
+    gui: upgrades:cobble
 
   coal_trader:
     display: "<dark_gray><b>Coal Broker"
     entity: VILLAGER
-    gui: coal_shop
+    gui: upgrades:coal
 
   copper_trader:
     display: "<#D94110><b>Copper Smith"
     entity: VILLAGER
-    gui: copper_shop
+    gui: upgrades:copper
 
   iron_trader:
     display: "<white><b>Iron Smith"
     entity: VILLAGER
-    gui: iron_shop
+    gui: upgrades:iron
 
   gold_trader:
     display: "<gold><b>Gold Assayer"
     entity: VILLAGER
-    gui: gold_shop
+    gui: upgrades:gold
 
   gate_trader:
     display: "<gold><b>Gate Warden"
@@ -48,22 +48,22 @@ items:
   city_trader:
     display: "<gray><b>City Scavenger"
     entity: WANDERING_TRADER
-    gui: city_shop
+    gui: upgrades:city
 
   dunes_trader:
     display: "<yellow><b>Dune Nomad"
     entity: WANDERING_TRADER
-    gui: dunes_shop
+    gui: upgrades:dunes
 
   canyons_trader:
     display: "<#B4462A><b>Canyon Hermit"
     entity: WANDERING_TRADER
-    gui: canyons_shop
+    gui: upgrades:canyons
 
   temple_trader:
     display: "<gold><b>Temple Keeper"
     entity: WANDERING_TRADER
-    gui: temple_shop
+    gui: upgrades:temple
 
   tomb_trader:
     display: "<dark_purple><b>Tomb Broker"

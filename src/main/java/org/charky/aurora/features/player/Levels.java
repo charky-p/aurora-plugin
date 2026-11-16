@@ -5,9 +5,10 @@ package org.charky.aurora.features.player;
 //
 // XP comes from mining and kills: a block gives the number of its mine (1 for
 // cobblestone, 2 for coal, and so on) and a kill gives the mob's health, so a kill is
-// always worth far more than a block. Each level needs XP_PER_LEVEL more than the
-// last. Tuned so a full Origin Isles and Gormak run ends around level 50, and level
-// 100 takes about four of them
+// always worth far more than a block. Each level needs XP_GROWTH_RATE times the
+// last, starting from XP_BASE, so the first levels fly by and the late ones are a
+// long haul: level 50 is about 45,000 XP in all, a full Origin Isles and Gormak
+// run, and level 100 is about 400 million
 public final class Levels {
     // Exponential level requirement
     static final double XP_BASE = 1.0;

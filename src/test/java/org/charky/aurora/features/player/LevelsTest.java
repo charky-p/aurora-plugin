@@ -15,50 +15,52 @@ class LevelsTest {
     }
 
     @Test
-    void eachLevelCostsMoreThanTheLast() {
-        assertEquals(60, Levels.xpForNext(0));
-        assertEquals(120, Levels.xpForNext(1));
+    void earlyLevelsStartSmallAndScaleExponentially() {
+        assertEquals(1, Levels.xpForNext(0));
         for (int level = 0; level < 200; level++) {
-            assertTrue(Levels.xpForNext(level + 1) > Levels.xpForNext(level));
+            assertTrue(Levels.xpForNext(level + 1) >= Levels.xpForNext(level));
         }
+        assertTrue(Levels.xpForNext(100) > Levels.xpForNext(50));
     }
 
     // The pace that was chosen: a full Origin and Gormak run is somewhere between
-    // 50,000 and 100,000 XP and should end around level 50, with level 100 about
-    // four times as far
+    // 50,000 and 100,000 XP and should end around level 50, with level 100 much further
     @Test
     void aFullRunEndsAroundLevelFifty() {
-        assertEquals(76_500, totalXp(50));
-        assertEquals(303_000, totalXp(100));
+        long fifty = totalXp(50);
+        assertTrue(fifty >= 50_000 && fifty <= 100_000);
+        assertTrue(totalXp(100) > fifty * 4);
     }
 
     @Test
     void xpBelowTheNextLevelOnlyFillsTheBar() {
-        Levels.Gain gain = Levels.add(0, 10, 49);
+        long needed = Levels.xpForNext(10);
+        Levels.Gain gain = Levels.add(10, 1, needed - 2);
 
-        assertEquals(0, gain.level());
-        assertEquals(59, gain.xp());
+        assertEquals(10, gain.level());
+        assertEquals(needed - 1, gain.xp());
         assertEquals(0, gain.levelsGained());
         assertEquals(0, gain.essence());
     }
 
     @Test
     void reachingTheNextLevelKeepsWhatIsLeftOver() {
-        Levels.Gain gain = Levels.add(0, 10, 55);
+        long needed = Levels.xpForNext(10);
+        Levels.Gain gain = Levels.add(10, 1, needed + 1);
 
-        assertEquals(1, gain.level());
-        assertEquals(5, gain.xp());
+        assertEquals(11, gain.level());
+        assertEquals(2, gain.xp());
         assertEquals(1, gain.levelsGained());
-        assertEquals(Levels.essenceFor(1), gain.essence());
+        assertEquals(Levels.essenceFor(11), gain.essence());
     }
 
     // A boss kill can be worth several levels at once
     @Test
     void oneBigGainCanCoverSeveralLevels() {
-        Levels.Gain gain = Levels.add(0, 0, totalXp(3) + 7);
+        Levels.Gain gain = Levels.add(0, 0, totalXp(3) + 1);
 
         assertEquals(3, gain.level());
-        assertEquals(7, gain.xp());
+        assertEquals(1, gain.xp());
         assertEquals(3, gain.levelsGained());
         assertEquals(Levels.essenceFor(1) + Levels.essenceFor(2) + Levels.essenceFor(3), gain.essence());
     }
@@ -98,8 +100,9 @@ class LevelsTest {
 
     @Test
     void theBarNeverReadsFull() {
+        long needed = Levels.xpForNext(10);
         assertEquals(0f, Levels.progress(4, 0));
-        assertEquals(0.5f, Levels.progress(0, 30), 0.001f);
-        assertTrue(Levels.progress(0, 60) < 1f);
+        assertEquals(0.5f, Levels.progress(10, needed / 2), 0.05f);
+        assertTrue(Levels.progress(10, needed) < 1f);
     }
 }

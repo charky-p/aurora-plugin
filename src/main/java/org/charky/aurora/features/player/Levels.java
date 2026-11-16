@@ -9,8 +9,9 @@ package org.charky.aurora.features.player;
 // last. Tuned so a full Origin Isles and Gormak run ends around level 50, and level
 // 100 takes about four of them
 public final class Levels {
-    // Level n to n + 1 costs this times n + 1
-    static final int XP_PER_LEVEL = 60;
+    // Exponential level requirement
+    static final double XP_BASE = 1.0;
+    static final double XP_GROWTH_RATE = 1.2;
     // Every level pays 1 Essence, plus 1 more for each ten levels reached
     static final int LEVELS_PER_BONUS = 10;
     // A level that ends in 0 pays this many times over
@@ -29,7 +30,10 @@ public final class Levels {
 
     // XP to go from this level to the next
     public static long xpForNext(int level) {
-        return (long) XP_PER_LEVEL * (level + 1);
+        if (level < 0) return 1L;
+        double required = XP_BASE * Math.pow(XP_GROWTH_RATE, level);
+        if (required >= Long.MAX_VALUE) return Long.MAX_VALUE;
+        return Math.max(1L, Math.round(required));
     }
 
     // Essence paid for reaching this level

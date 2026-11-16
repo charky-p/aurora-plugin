@@ -1,6 +1,7 @@
 package org.charky.aurora.features.tool;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -49,7 +50,11 @@ public class UpgradeMenu extends PagedMenu {
                 if (!tools.carries(player, type)) {
                     lore.add(TextUtils.parse("<!italic><yellow>Click to take it"));
                 } else if (status == Status.MAXED) {
-                    lore.add(TextUtils.parse("<!italic><green><b>MAXED</b> <green>here, the next zone has more"));
+                    Component name = meta.displayName();
+                    meta.displayName(TextUtils.parse("<!italic><green><b>✔ MAXED</b> <dark_gray>| ")
+                            .append(name == null ? Component.empty() : name));
+                    lore.add(TextUtils.parse("<!italic><green>Nothing left to buy for it here."));
+                    lore.add(TextUtils.parse("<!italic><gray>The next zone sells more."));
                 } else if (status == Status.BEHIND) {
                     lore.add(TextUtils.parse("<!italic><red>Finish this tool's upgrades in the zone before first"));
                 } else {
@@ -66,7 +71,9 @@ public class UpgradeMenu extends PagedMenu {
                 }
                 meta.lore(lore);
             });
-            items.add(item);
+            // A finished tool is shown as an emerald block wearing the tool's name and
+            // stats, so a maxed shop reads at a glance
+            items.add(status == Status.MAXED && tools.carries(player, type) ? item.withType(Material.EMERALD_BLOCK) : item);
         }
         return items;
     }

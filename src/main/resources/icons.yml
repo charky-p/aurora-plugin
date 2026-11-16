@@ -180,6 +180,13 @@ items:
     lore:
       - "<gray>Return to the hub island."
 
+  icon_tools:
+    display: "<green><b>Your Tools"
+    material: WOODEN_PICKAXE
+    glow: false
+    lore:
+      - "<gray>Take your pick"
+
   icon_upgrades:
     display: "<aqua><b>Upgrades"
     material: ANVIL

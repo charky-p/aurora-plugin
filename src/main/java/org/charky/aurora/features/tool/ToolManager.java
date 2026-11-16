@@ -9,10 +9,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
@@ -82,14 +84,89 @@ public class ToolManager implements Listener {
     }
 
     public void set(UUID uuid, String realm, String tool, String stat, int level) {
+        put(uuid, realm, tool, stat, level);
+
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null) refresh(player);
+    }
+
+    // Stores a level without redrawing anything
+    private void put(UUID uuid, String realm, String tool, String stat, int level) {
         levels.computeIfAbsent(uuid, k -> new HashMap<>())
                 .computeIfAbsent(realm, k -> new HashMap<>())
                 .computeIfAbsent(tool, k -> new HashMap<>())
                 .put(stat, level);
         db.async(() -> store.save(uuid, realm, tool, stat, level));
+    }
 
-        Player player = Bukkit.getPlayer(uuid);
-        if (player != null) refresh(player);
+    // Every starter tool the player does not carry. Armour goes on if the slot is free
+    public void giveStarters(Player player) {
+        int given = 0;
+        for (ToolType tool : registry.getStarterTools()) {
+            if (carries(player, tool)) continue;
+
+            EquipmentSlot slot = registry.createTool(tool, Map.of(), null).getType().getEquipmentSlot();
+            if (slot.isArmor() && player.getInventory().getItem(slot).getType().isAir()) {
+                Realm realm = realmOf(player);
+                if (realm != null && !has(player, tool)) put(player.getUniqueId(), realm.id(), tool.id(), ToolLevels.MATERIAL, 0);
+                player.getInventory().setItem(slot, build(player, tool));
+                given++;
+            } else if (give(player, tool)) {
+                given++;
+            }
+        }
+        if (given == 0) TextUtils.send(player, "<gray>You already carry all of your tools.");
+        else player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.6f, 1f);
+    }
+
+    // Gear from before tools lived on the player, the item tiers the shops sold:
+    // cobble_pick_3, gold_helmet_2, city_shield_1. Its enchants and material become
+    // the player's levels, if they are higher than what they have, and the item is
+    // swapped for the tool. Mob drops are named after their mob and are left alone
+    private void migrate(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        UUID uuid = player.getUniqueId();
+        boolean changed = false;
+
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            ItemStack item = inventory.getItem(slot);
+            String id = DataRegistry.itemId(item);
+            if (id == null || toolId(item) != null) continue;
+
+            String[] parts = id.split("_");
+            if (parts.length != 3 || !parts[2].chars().allMatch(Character::isDigit)) continue;
+            ToolType tool = registry.getToolType(parts[1]);
+            if (tool == null) continue;
+
+            UpgradeZone zone = registry.getUpgradeZone(parts[0]);
+            String realm = zone != null ? zone.realm() : parts[0].equals("starter") ? registry.getStarterRealm() : null;
+            if (realm == null) continue;
+
+            for (String stat : registry.getEnchantIds()) {
+                int level = Enchants.level(item, stat);
+                if (level > level(uuid, realm, tool.id(), stat)) put(uuid, realm, tool.id(), stat, level);
+            }
+            String type = item.getType().name();
+            String suffix = "_" + tool.item();
+            int material = type.endsWith(suffix)
+                    ? ToolLevels.materialLevel(tool.materials(), type.substring(0, type.length() - suffix.length())) : 0;
+            if (material > level(uuid, realm, tool.id(), ToolLevels.MATERIAL) || !own(uuid, realm, tool.id()).containsKey(ToolLevels.MATERIAL)) {
+                put(uuid, realm, tool.id(), ToolLevels.MATERIAL, Math.max(0, material));
+            }
+
+            // The tool takes the old item's place, refresh below draws it properly
+            inventory.setItem(slot, registry.createTool(tool, Map.of(), null));
+            changed = true;
+        }
+
+        if (!changed) return;
+        // Two old picks became two tools, one is enough
+        java.util.Set<String> seen = new java.util.HashSet<>();
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            String tool = toolId(inventory.getItem(slot));
+            if (tool != null && !seen.add(tool)) inventory.setItem(slot, null);
+        }
+        TextUtils.send(player, "<aqua>Your gear is now upgraded in place. <gray>Shops sell levels for the tools you carry.");
     }
 
     // The tool as this player has it where they stand
@@ -199,6 +276,7 @@ public class ToolManager implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+        migrate(event.getPlayer());
         refresh(event.getPlayer());
     }
 

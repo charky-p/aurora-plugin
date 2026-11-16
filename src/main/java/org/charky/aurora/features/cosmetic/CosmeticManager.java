@@ -230,6 +230,16 @@ public class CosmeticManager implements Listener {
         event.renderer((source, displayName, message, viewer) -> prefix.append(message.colorIfAbsent(chat)));
     }
 
+    // How a player's death reads, with <player> and, when someone killed them,
+    // <killer> still to fill in
+    public String deathMessage(UUID uuid, boolean killed) {
+        Cosmetic message = equipped(uuid, Slot.DEATH_MESSAGE);
+        if (message == null) message = Cosmetics.defaultFor(Slot.DEATH_MESSAGE);
+
+        String[] lines = message.value().split(java.util.regex.Pattern.quote(Cosmetics.DEATH_SEP));
+        return killed || lines.length < 2 ? lines[0] : lines[1];
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();

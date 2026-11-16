@@ -176,7 +176,13 @@ public class ItemFactory {
                     .decoration(TextDecoration.BOLD, true)
                     .decoration(TextDecoration.ITALIC, false);
         }
-        return Component.text("No world");
+        if (world == null || world.isBlank()) return Component.text("No world");
+
+        // Any other realm by its own name: duneworld reads Duneworld
+        return Component.text(Character.toUpperCase(world.charAt(0)) + world.substring(1).toLowerCase() + " 🌎")
+                .color(NamedTextColor.GOLD)
+                .decoration(TextDecoration.BOLD, true)
+                .decoration(TextDecoration.ITALIC, false);
     }
 
     private static void hideFlags(ItemMeta meta) {

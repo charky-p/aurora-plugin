@@ -16,7 +16,8 @@ public record Cosmetic(String id, Type type, String display, Material icon, Sour
         NAME_COLOR("Name Colours", "The colour of your name in chat and the tab list"),
         JOIN_MESSAGE("Join Messages", "What everyone reads when you join"),
         TRAIL("Trails", "Particles that follow you as you walk"),
-        KILL_EFFECT("Kill Effects", "What happens where a mob you kill falls");
+        KILL_EFFECT("Kill Effects", "What happens where a mob you kill falls"),
+        DEATH_MESSAGE("Death Messages", "What everyone reads when you die");
 
         private final String title;
         private final String description;
@@ -49,7 +50,8 @@ public record Cosmetic(String id, Type type, String display, Material icon, Sour
         NAME_COLOR("name_color", Type.NAME_COLOR),
         JOIN_MESSAGE("join_message", Type.JOIN_MESSAGE),
         TRAIL("trail", Type.TRAIL),
-        KILL_EFFECT("kill_effect", Type.KILL_EFFECT);
+        KILL_EFFECT("kill_effect", Type.KILL_EFFECT),
+        DEATH_MESSAGE("death_message", Type.DEATH_MESSAGE);
 
         private final String id;
         private final Type type;

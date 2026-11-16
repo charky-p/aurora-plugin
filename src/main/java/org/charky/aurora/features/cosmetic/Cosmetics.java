@@ -24,6 +24,10 @@ public final class Cosmetics {
     public static final String DEFAULT_NAME_COLOR = "white";
     // <player> is replaced by the name of whoever joined
     public static final String PLAYER_TAG = "<player>";
+    // In a death message, whoever did it. A death message is two lines, the first
+    // for a death with a killer and the second for one without
+    public static final String KILLER_TAG = "<killer>";
+    public static final String DEATH_SEP = "||";
 
     private static final Map<String, Cosmetic> ALL = new LinkedHashMap<>();
 
@@ -125,6 +129,20 @@ public final class Cosmetics {
         kill("firework", "<light_purple>Firework", Material.FIREWORK_ROCKET, 2_500);
         kill("explosion", "<red><b>Explosion", Material.TNT, 3_000);
         kill("lightning", "<yellow><b>Smite", Material.LIGHTNING_ROD, 4_000);
+
+        death("default", "<gray>Plain", Source.DEFAULT, 0,
+                "<gray><b><player></b> was slain by <killer>", "<gray><b><player></b> has died");
+        death("dramatic", "<red>Dramatic", Source.ESSENCE, 500,
+                "<red><b><player></b> met their end at the hands of <killer>", "<red><b><player></b> met their end");
+        death("clumsy", "<yellow>Clumsy", Source.ESSENCE, 750,
+                "<yellow><b><player></b> forgot how to fight <killer>", "<yellow><b><player></b> tripped over nothing");
+        death("ghost", "<aqua>Ghost", Source.ESSENCE, 1_000,
+                "<aqua><b><player></b> became a ghost, thanks to <killer>", "<aqua><b><player></b> became a ghost");
+        death("revenge", "<dark_red>Vengeful", Source.ESSENCE, 1_500,
+                "<dark_red><b><player></b> will be back for <killer>", "<dark_red><b><player></b> will be back");
+        death("legend", "<gold><b>Legend", Source.ESSENCE, 2_500,
+                "<gradient:#FFD700:#FFFFFF>The legend of <b><player></b> was ended by</gradient> <killer>",
+                "<gradient:#FFD700:#FFFFFF>The legend of <b><player></b> has ended</gradient>");
     }
 
     private Cosmetics() {
@@ -150,6 +168,11 @@ public final class Cosmetics {
 
     private static void join(String name, String display, Source source, long essence, String message) {
         add("join_" + name, Type.JOIN_MESSAGE, display, Material.OAK_SIGN, source, essence, null, message);
+    }
+
+    private static void death(String name, String display, Source source, long essence, String killed, String alone) {
+        add("death_" + name, Type.DEATH_MESSAGE, display, Material.SKELETON_SKULL, source, essence, null,
+                killed + DEATH_SEP + alone);
     }
 
     private static void trail(String name, String display, Material icon, long essence, String particle) {
@@ -190,6 +213,7 @@ public final class Cosmetics {
             case CHAT_COLOR -> get("chat_light_gray");
             case NAME_COLOR -> get("name_white");
             case JOIN_MESSAGE -> get("join_default");
+            case DEATH_MESSAGE -> get("death_default");
             default -> null;
         };
     }

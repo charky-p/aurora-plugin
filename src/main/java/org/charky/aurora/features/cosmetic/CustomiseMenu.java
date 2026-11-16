@@ -17,7 +17,7 @@ import java.util.List;
 // /customise: ranks first, then one entry for every kind of cosmetic
 public class CustomiseMenu extends PagedMenu {
     private static final Material[] ICONS = {Material.OAK_HANGING_SIGN, Material.BLUE_DYE, Material.PAINTING,
-            Material.OAK_SIGN, Material.BLAZE_POWDER, Material.IRON_SWORD};
+            Material.OAK_SIGN, Material.BLAZE_POWDER, Material.IRON_SWORD, Material.SKELETON_SKULL};
 
     private final CosmeticManager cosmetics;
     private final RankManager ranks;

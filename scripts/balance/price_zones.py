@@ -2,7 +2,7 @@
 """
 Prices every upgrade step in scripts/data/upgrades.csv with the price formula.
 
-  zones.csv      each zone's time target, its mine and its mob
+  zones.csv      each zone's time target, its mine and its mobs
   upgrades.csv   the steps a zone's shop sells, in purchase order: a tool, a stat,
                  the level it reaches and what it costs in. The cost column holds
                  shares of the step's time, not amounts: coal:1, or
@@ -71,26 +71,46 @@ def mine_income(state, mine):
     return per_block * blocks_per_swing(state) / (seconds / sim.MINING_EFFICIENCY)
 
 
-def mob_income(state, mob_id, resource):
-    """Resource per second from killing one kind of mob."""
+def kill_seconds(state, mob_id):
+    """balance_sim.kill_cycle_time from levels: the fight, the walk to the next mob
+    and the wait to heal what the fight cost. Infinite if the sword cannot hurt it."""
     mob = sim.MOBS[mob_id]
     hit = max(0, round(10 + sim.sharpness_bonus(level(state, "sword", "sharpness")) - mob["def"]))
     if hit == 0:
+        return math.inf
+    fight = math.ceil(mob["hp"] / hit) / sim.HITS_PER_SEC
+    total = fight + sim.KILL_OVERHEAD_S
+    if mob["atk"] <= 0:
+        return total
+
+    protection = sum(level(state, slot, "protection") for slot in sim.SLOTS) / len(sim.SLOTS)
+    scale = sim.MOB_DAMAGE_SCALE * (sim.RANGED_SCALE if mob["entity"] in sim.RANGED else 1.0)
+    taken = sim.hearts((mob["atk"] - protection) / sim.LEVELS_PER_TIER) * scale
+    lost = taken * sim.mob_rate(mob_id) * fight
+    return total + max(0.0, lost - sim.REGEN_HEARTS_PER_SEC * total) / sim.REGEN_HEARTS_PER_SEC
+
+
+def mob_income(state, mob_id, resource):
+    """Resource per second from killing one kind of mob."""
+    mob = sim.MOBS[mob_id]
+    seconds = kill_seconds(state, mob_id)
+    if seconds == math.inf:
         return 0.0
-    kill_seconds = math.ceil(mob["hp"] / hit) / sim.HITS_PER_SEC + sim.KILL_OVERHEAD_S
     looting = (level(state, "sword", "looting") + 1) // 2
     per_kill = sum(chance * (avg + looting) for drop, chance, avg in mob["drops"] if drop == resource)
-    return prices.mob_income(per_kill, kill_seconds)
+    return prices.mob_income(per_kill, seconds)
 
 
 def sources(zones):
-    """resource -> ("mine", mine) or ("mob", mob), from every zone so far."""
+    """resource -> ("mine", mine) or ("mob", [mobs that drop it]), from every zone."""
     found = {}
     for zone in zones:
-        found[zone["mine"]] = ("mine", zone["mine"])
-        if zone["mob"]:
-            for drop, _, _ in sim.MOBS[zone["mob"]]["drops"]:
-                found.setdefault(drop, ("mob", zone["mob"]))
+        if zone["mine"]:
+            found[zone["mine"]] = ("mine", zone["mine"])
+        for mob in filter(None, zone["mob"].split("|")):
+            for drop, _, _ in sim.MOBS[mob]["drops"]:
+                if drop in sim.RESOURCES:
+                    found.setdefault(drop, ("mob", []))[1].append(mob)
     return found
 
 
@@ -102,13 +122,16 @@ def price_all():
     for row in sorted(rows("upgrades"), key=lambda r: int(r["order"])):
         cost = {k: float(v) for k, v in (part.split(":") for part in row["cost"].split("|"))}
         step = {"tool": row["tool"], "stat": row["stat"], "cost": cost}
-        if row["stat"] == "material":
-            step["level"] = row["level"]
+        # The level a step reaches is in the data, never counted up
+        step["level"] = row["level"] if row["stat"] == "material" else int(row["level"])
         steps_by_zone.setdefault(row["zone"], []).append(step)
 
     def income(state, resource):
         kind, source = where[resource]
-        return mine_income(state, source) if kind == "mine" else mob_income(state, source, resource)
+        if kind == "mine":
+            return mine_income(state, source)
+        # Whichever mob gives it fastest, the way a player would farm it
+        return max(mob_income(state, mob, resource) for mob in source)
 
     state = dict(START)
     result = []

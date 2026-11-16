@@ -193,6 +193,22 @@ public class DataRegistry {
         }
     }
 
+    // The tools a new player starts with: the ones the first zone upgrades
+    public List<ToolType> getStarterTools() {
+        List<ToolType> starters = new ArrayList<>();
+        if (upgradeZones.isEmpty()) return starters;
+        for (String id : upgradeZones.values().iterator().next().tools()) {
+            ToolType tool = getToolType(id);
+            if (tool != null) starters.add(tool);
+        }
+        return starters;
+    }
+
+    // The realm a new player's tools belong to, null with no upgrades at all
+    public String getStarterRealm() {
+        return upgradeZones.isEmpty() ? null : upgradeZones.values().iterator().next().realm();
+    }
+
     // Null for a zone with no upgrades
     public UpgradeZone getUpgradeZone(String id) {
         return id == null ? null : upgradeZones.get(id.toLowerCase());
@@ -236,16 +252,18 @@ public class DataRegistry {
         String material = ToolLevels.material(tool.materials(), stats.getOrDefault(ToolLevels.MATERIAL, 0));
 
         GearModel model = new GearModel();
-        model.display = "<white><b>" + material.charAt(0) + material.substring(1).toLowerCase() + " " + tool.name();
-        model.material = material + "_" + tool.item();
+        // A tool that only comes one way, a shield, has no material in its name
+        boolean plain = material.equalsIgnoreCase(ToolLevels.NO_MATERIAL);
+        model.display = "<white><b>" + (plain ? "" : material.charAt(0) + material.substring(1).toLowerCase() + " ") + tool.name();
+        model.material = plain ? tool.item() : material + "_" + tool.item();
         if (Material.matchMaterial(model.material) == null) model.material = tool.materials().getFirst() + "_" + tool.item();
         model.type = tool.kind();
-        model.world = "overworld";
+        // The last line of the lore, the realm these levels are for
+        model.world = realm == null ? "overworld" : realm.id();
         model.enchants = new LinkedHashMap<>();
         stats.forEach((stat, level) -> {
             if (level > 0 && enchants.containsKey(stat)) model.enchants.put(stat, level);
         });
-        if (realm != null) model.lore.add(realm.name());
 
         ItemStack item = itemFactory.createGear(model, enchants);
         item.editMeta(meta -> {

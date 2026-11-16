@@ -1,6 +1,7 @@
 package org.charky.aurora.features.player;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -17,16 +18,22 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.cosmetic.CosmeticManager;
+import org.charky.aurora.features.cosmetic.Cosmetics;
 import org.charky.aurora.features.spawner.MobData;
 
 // The server's own lines in chat: a first join with its number, quits and deaths.
-// An ordinary join is the player's join message cosmetic, see CosmeticManager
+// An ordinary join is the player's join message cosmetic, and how a death reads is
+// their death message cosmetic, see CosmeticManager
 public class ServerMessages implements Listener {
     private final DataRegistry registry;
+    private final CosmeticManager cosmetics;
 
-    public ServerMessages(DataRegistry registry) {
+    public ServerMessages(DataRegistry registry, CosmeticManager cosmetics) {
         this.registry = registry;
+        this.cosmetics = cosmetics;
     }
 
     private static Component tag(String symbol, NamedTextColor color) {
@@ -65,19 +72,24 @@ public class ServerMessages implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         Player victim = event.getEntity();
-        Component message = tag("☠", NamedTextColor.RED).append(name(victim.getName(), NamedTextColor.GRAY));
-
         EntityDamageEvent cause = victim.getLastDamageCause();
         Component killer = cause instanceof EntityDamageByEntityEvent hit ? killerName(hit.getDamager()) : null;
 
-        if (killer != null) {
-            message = message.append(Component.text(" was slain by ", NamedTextColor.GRAY)).append(killer);
-        } else if (cause != null && cause.getCause() == EntityDamageEvent.DamageCause.VOID) {
-            message = message.append(Component.text(" fell into the void", NamedTextColor.GRAY));
-        } else {
-            message = message.append(Component.text(" has died", NamedTextColor.GRAY));
+        // The void has one line for everyone, it is not a fight to dress up
+        if (killer == null && cause != null && cause.getCause() == EntityDamageEvent.DamageCause.VOID) {
+            event.deathMessage(tag("☠", NamedTextColor.RED).append(name(victim.getName(), NamedTextColor.GRAY))
+                    .append(Component.text(" fell into the void", NamedTextColor.GRAY)));
+            return;
         }
-        event.deathMessage(message);
+
+        String template = cosmetics.deathMessage(victim.getUniqueId(), killer != null);
+        Component line = TextUtils.parse(template.replace(Cosmetics.PLAYER_TAG, victim.getName()));
+        if (killer != null) {
+            Component by = killer;
+            line = line.replaceText(TextReplacementConfig.builder()
+                    .matchLiteral(Cosmetics.KILLER_TAG).replacement(by).build());
+        }
+        event.deathMessage(tag("☠", NamedTextColor.RED).append(line));
     }
 
     // An arrow is its shooter. One of our mobs goes by its name in the data, without

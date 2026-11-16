@@ -11,6 +11,8 @@ import java.util.Map;
 public final class ToolLevels {
     // Not an enchant: how far along the tool's list of materials it is
     public static final String MATERIAL = "material";
+    // In tools.csv, for a tool that comes in one form only
+    public static final String NO_MATERIAL = "NONE";
 
     private ToolLevels() {
     }

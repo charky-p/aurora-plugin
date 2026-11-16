@@ -111,3 +111,10 @@ items:
       - "GOLDEN"
       - "DIAMOND"
       - "NETHERITE"
+
+  shield:
+    name: Shield
+    kind: armor
+    item: SHIELD
+    materials:
+      - "NONE"

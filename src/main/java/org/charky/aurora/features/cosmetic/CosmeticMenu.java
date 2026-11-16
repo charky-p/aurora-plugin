@@ -53,6 +53,13 @@ public class CosmeticMenu extends PagedMenu {
                     lore.add(TextUtils.parse("<!italic>" + cosmetic.value().replace(Cosmetics.PLAYER_TAG, player.getName())));
                     lore.add(Component.empty());
                 }
+                if (type == Type.DEATH_MESSAGE) {
+                    for (String line : cosmetic.value().split(java.util.regex.Pattern.quote(Cosmetics.DEATH_SEP))) {
+                        lore.add(TextUtils.parse("<!italic>" + line.replace(Cosmetics.PLAYER_TAG, player.getName())
+                                .replace(Cosmetics.KILLER_TAG, "<white>a Pharaoh")));
+                    }
+                    lore.add(Component.empty());
+                }
                 lore.add(TextUtils.parse("<!italic><dark_gray>" + source(cosmetic)));
                 if (cosmetic.note() != null) lore.add(TextUtils.parse("<!italic><dark_gray>" + cosmetic.note()));
                 lore.add(Component.empty());

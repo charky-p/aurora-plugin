@@ -167,6 +167,7 @@ public class Aurora extends JavaPlugin {
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
         armoryManager.setTools(toolManager);
         registry.registerAction("upgrades", toolManager::openUpgrades);
+        registry.registerAction("tools", toolManager::giveStarters);
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.bossManager = new BossManager(this);
@@ -206,7 +207,7 @@ public class Aurora extends JavaPlugin {
                 new KeyItemListener(this),
                 new BackpackItemListener(this),
                 new ChatShowcase(),
-                new ServerMessages(registry),
+                new ServerMessages(registry, cosmeticManager),
                 new FishingListener(this),
                 new CombatListener(this),
                 bossManager,

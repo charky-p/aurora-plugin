@@ -111,7 +111,7 @@ items:
       - "BBBBIBBBB"
       - "B 12345 B"
       - "B  qw   B"
-      - "B   A   B"
+      - "B  U A  B"
       - "zBBBBBBBX"
     components:
       '1':
@@ -166,6 +166,10 @@ items:
       A:
         type: GUI
         id: cobble_armor
+      U:
+        type: ACTION
+        id: upgrades:cobble
+        icon: icon_upgrades
       z:
         type: GUI
         id: origin_hub
@@ -178,7 +182,7 @@ items:
       - "BBBBIBBBB"
       - "B 12345 B"
       - "B  qw   B"
-      - "B   A   B"
+      - "B  U A  B"
       - "zBBBBBBBX"
     components:
       '1':
@@ -233,6 +237,10 @@ items:
       A:
         type: GUI
         id: coal_armor
+      U:
+        type: ACTION
+        id: upgrades:coal
+        icon: icon_upgrades
       z:
         type: GUI
         id: origin_hub
@@ -245,7 +253,7 @@ items:
       - "BBBBIBBBB"
       - "B 12345 B"
       - "B qwert B"
-      - "B   A   B"
+      - "B  U A  B"
       - "zBBBBBBBX"
     components:
       '1':
@@ -325,6 +333,10 @@ items:
       A:
         type: GUI
         id: copper_armor
+      U:
+        type: ACTION
+        id: upgrades:copper
+        icon: icon_upgrades
       z:
         type: GUI
         id: origin_hub
@@ -337,7 +349,7 @@ items:
       - "BBBBIBBBB"
       - "B 12345 B"
       - "B qwert B"
-      - "B   A   B"
+      - "B  U A  B"
       - "zBBBBBBBX"
     components:
       '1':
@@ -417,6 +429,10 @@ items:
       A:
         type: GUI
         id: iron_armor
+      U:
+        type: ACTION
+        id: upgrades:iron
+        icon: icon_upgrades
       z:
         type: GUI
         id: origin_hub
@@ -429,7 +445,7 @@ items:
       - "BBBBIBBBB"
       - "B 12345 B"
       - "B qwert B"
-      - "B   A   B"
+      - "B  U A  B"
       - "zBBBBBBBX"
     components:
       '1':
@@ -509,6 +525,10 @@ items:
       A:
         type: GUI
         id: gold_armor
+      U:
+        type: ACTION
+        id: upgrades:gold
+        icon: icon_upgrades
       z:
         type: GUI
         id: origin_hub

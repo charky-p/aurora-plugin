@@ -1,6 +1,8 @@
 package org.charky.aurora.features.tool;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,10 +13,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.ToolStore;
+import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.tool.Realms.Realm;
 
 import java.util.ArrayList;
@@ -118,6 +122,73 @@ public class ToolManager implements Listener {
             ToolType tool = registry.getToolType(toolId(inventory.getItem(slot)));
             if (tool != null) inventory.setItem(slot, build(player, tool));
         }
+    }
+
+    public boolean carries(Player player, ToolType tool) {
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (tool.id().equals(toolId(item))) return true;
+        }
+        return false;
+    }
+
+    // ----------------------------------------------------------------- upgrades
+
+    // Null while the backpack is still loading
+    public BackpackData backpackOf(Player player) {
+        return plugin.getBackpackManager().get(player.getUniqueId());
+    }
+
+    // A zone's steps count against what the player has in the zone's own realm
+    private int own(Player player, UpgradeZone zone, String tool, String stat) {
+        return level(player.getUniqueId(), zone.realm(), tool, stat);
+    }
+
+    public UpgradeZone.Step next(Player player, UpgradeZone zone, String tool) {
+        return zone.next(tool, stat -> own(player, zone, tool, stat));
+    }
+
+    public UpgradeZone.Status status(Player player, UpgradeZone zone, String tool) {
+        return zone.status(tool, stat -> own(player, zone, tool, stat));
+    }
+
+    // "Fortune 3", or "Iron Pickaxe" for a material
+    public Component describe(ToolType tool, UpgradeZone.Step step) {
+        if (step.stat().equals(ToolLevels.MATERIAL)) {
+            String material = ToolLevels.material(tool.materials(), step.level());
+            return Component.text(material.charAt(0) + material.substring(1).toLowerCase() + " " + tool.name());
+        }
+        return TextUtils.parse(registry.getEnchantDisplay(step.stat()) + " " + step.level());
+    }
+
+    // Null if the next step of the tool's chain was bought, otherwise why not
+    public String buy(Player player, UpgradeZone zone, String toolId) {
+        ToolType tool = registry.getToolType(toolId);
+        BackpackData backpack = backpackOf(player);
+        if (tool == null || backpack == null) return "Not ready yet, try again in a moment";
+
+        UpgradeZone.Step step = next(player, zone, toolId);
+        if (step == null) return "That tool is maxed here";
+        if (status(player, zone, toolId) == UpgradeZone.Status.BEHIND) {
+            return "Finish that tool's upgrades in the zone before first";
+        }
+        if (!backpack.hasItems(player, step.costs())) return "Not enough items";
+
+        backpack.removeItems(player, step.costs());
+        set(player.getUniqueId(), zone.realm(), toolId, step.stat(), step.level());
+
+        player.sendMessage(TextUtils.parse("<gold><b>UPGRADED</b> <gray>" + tool.name() + ": <white>")
+                .append(describe(tool, step)));
+        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1.4f);
+        return null;
+    }
+
+    public void openUpgrades(Player player, String zoneId) {
+        UpgradeZone zone = registry.getUpgradeZone(zoneId);
+        if (zone == null) {
+            TextUtils.error(player, "There are no upgrades here yet.");
+            return;
+        }
+        new UpgradeMenu(this, registry, zone).open(player);
     }
 
     // Null for anything that is not one of these tools

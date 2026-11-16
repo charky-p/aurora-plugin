@@ -166,6 +166,7 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("warps", player -> new WarpMenu(this).open(player));
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
         armoryManager.setTools(toolManager);
+        registry.registerAction("upgrades", toolManager::openUpgrades);
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.bossManager = new BossManager(this);

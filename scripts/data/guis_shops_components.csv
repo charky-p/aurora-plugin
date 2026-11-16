@@ -22,6 +22,7 @@ cobble_shop,5,TRADE,cobble_pick_5,1,cobble_pick_4*1+cobblestone*110
 cobble_shop,q,TRADE,cobble_sword_1,1,starter_sword_0*1+cobblestone*14
 cobble_shop,w,TRADE,cobble_sword_2,1,cobble_sword_1*1+cobblestone*22
 cobble_shop,A,GUI,cobble_armor,,
+cobble_shop,U,ACTION,upgrades:cobble,,,icon_upgrades
 cobble_shop,z,GUI,origin_hub,,
 coal_shop,1,TRADE,coal_pick_1,1,cobble_pick_5*1+coal*66
 coal_shop,2,TRADE,coal_pick_2,1,coal_pick_1*1+coal*106
@@ -31,6 +32,7 @@ coal_shop,5,TRADE,coal_pick_5,1,coal_pick_4*1+coal*436
 coal_shop,q,TRADE,coal_sword_1,1,cobble_sword_2*1+coal*54
 coal_shop,w,TRADE,coal_sword_2,1,coal_sword_1*1+coal*86
 coal_shop,A,GUI,coal_armor,,
+coal_shop,U,ACTION,upgrades:coal,,,icon_upgrades
 coal_shop,z,GUI,origin_hub,,
 copper_shop,1,TRADE,copper_pick_1,1,coal_pick_5*1+copper*82
 copper_shop,2,TRADE,copper_pick_2,1,copper_pick_1*1+copper*130
@@ -43,6 +45,7 @@ copper_shop,e,TRADE,copper_sword_3,1,copper_sword_2*1+feather*4
 copper_shop,r,TRADE,copper_sword_4,1,copper_sword_3*1+feather*7
 copper_shop,t,TRADE,copper_sword_5,1,copper_sword_4*1+copper*172+feather*2
 copper_shop,A,GUI,copper_armor,,
+copper_shop,U,ACTION,upgrades:copper,,,icon_upgrades
 copper_shop,z,GUI,origin_hub,,
 iron_shop,1,TRADE,iron_pick_1,1,copper_pick_5*1+iron*166
 iron_shop,2,TRADE,iron_pick_2,1,iron_pick_1*1+iron*266
@@ -55,6 +58,7 @@ iron_shop,e,TRADE,iron_sword_3,1,iron_sword_2*1+wool*9
 iron_shop,r,TRADE,iron_sword_4,1,iron_sword_3*1+wool*16
 iron_shop,t,TRADE,iron_sword_5,1,iron_sword_4*1+iron*348+wool*4
 iron_shop,A,GUI,iron_armor,,
+iron_shop,U,ACTION,upgrades:iron,,,icon_upgrades
 iron_shop,z,GUI,origin_hub,,
 gold_shop,1,TRADE,gold_pick_1,1,iron_pick_5*1+gold*360
 gold_shop,2,TRADE,gold_pick_2,1,gold_pick_1*1+gold*576
@@ -67,6 +71,7 @@ gold_shop,e,TRADE,gold_sword_3,1,gold_sword_2*1+leather*21
 gold_shop,r,TRADE,gold_sword_4,1,gold_sword_3*1+leather*33
 gold_shop,t,TRADE,gold_sword_5,1,gold_sword_4*1+gold*754+leather*10
 gold_shop,A,GUI,gold_armor,,
+gold_shop,U,ACTION,upgrades:gold,,,icon_upgrades
 gold_shop,z,GUI,origin_hub,,
 gate_shop,1,TRADE,gormak_key,1,gold*300+leather*20
 gate_shop,z,GUI,origin_hub,,

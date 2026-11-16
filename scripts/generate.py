@@ -723,6 +723,7 @@ _Dumper.add_representer(Quoted, _quoted_representer)
 # warnings are data that is never used.
 
 GUI_SPECIAL = set("BIX ")
+UPGRADES_ACTION = "upgrades:"
 ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise"}       # MenuActions.java
 EQUIP_SLOTS = {"head", "chest", "legs", "feet", "hand", "off_hand"}
 
@@ -787,6 +788,9 @@ def validate(built):
             if drop not in items:
                 errors.append(f"mob '{mid}': drops unknown item '{drop}'")
 
+    # upgrades:<zone> opens that zone's upgrade menu
+    upgrade_zones = {row["id"] for row in read_rows(os.path.join(DATA_DIR, "zones.csv")) or []}
+
     sold, costs_used = set(), {}
     for gui_id, gui in guis.items():
         if gui.get("icon") and gui["icon"] not in icons:
@@ -823,6 +827,9 @@ def validate(built):
                 errors.append(f"gui '{gui_id}/{key}': unknown menu '{cid}'")
             elif ctype == "ICON" and cid not in icons:
                 errors.append(f"gui '{gui_id}/{key}': unknown icon '{cid}'")
+            elif ctype == "ACTION" and cid.startswith(UPGRADES_ACTION):
+                if cid[len(UPGRADES_ACTION):] not in upgrade_zones:
+                    errors.append(f"gui '{gui_id}/{key}': no zone '{cid[len(UPGRADES_ACTION):]}' in zones.csv")
             elif ctype == "ACTION" and cid not in ACTIONS:
                 errors.append(f"gui '{gui_id}/{key}': unknown action '{cid}'")
             elif ctype == "TRADE":
@@ -871,6 +878,54 @@ def validate(built):
 
     return errors, warnings
 
+UPGRADE_HEADER = """\
+# ===========================================================
+# AURORA UPGRADES - generated from data/zones.csv and data/upgrades.csv
+# ===========================================================
+# Every zone's upgrade steps in purchase order. The prices are not written by
+# hand, scripts/balance/prices.py works them out from the zone's time target.
+# [zone_id]:
+#   name: "Zone Name"
+#   realm: overworld (The realm the levels bought here belong to)
+#   steps:
+#     - tool: pick
+#       stat: fortune (An enchant, or material)
+#       level: "2" (The level it reaches, a material by name)
+#       cost:
+#         - id: [item_id]
+#           amount: 96
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+"""
+
+
+def upgrades_text():
+    """upgrades.yml as text, None without zones.csv. Raises on bad data."""
+    if not os.path.exists(os.path.join(DATA_DIR, "zones.csv")):
+        return None, 0
+    sys.path.insert(0, os.path.join(CUR, "balance"))
+    import price_zones
+
+    lines = [UPGRADE_HEADER, "items:"]
+    zones = price_zones.price_all()
+    for zone, priced in zones:
+        lines.append(f"  {zone['id']}:")
+        lines.append(f"    name: \"{zone['name']}\"")
+        lines.append(f"    realm: {zone['realm']}")
+        lines.append("    steps:")
+        for row in priced:
+            lines.append(f"      - tool: {row['tool']}")
+            lines.append(f"        stat: {row['stat']}")
+            lines.append(f"        level: \"{row['level']}\"")
+            lines.append("        cost:")
+            for resource, amount in row["cost"].items():
+                lines.append(f"          - id: {resource}")
+                lines.append(f"            amount: {amount}")
+        lines.append("")
+    return "\n".join(lines), len(zones)
+
+
 def main(check_only=False):
     print("Generating CSV to YAML Conversion")
     changed, skipped, errors = [], [], []
@@ -907,6 +962,29 @@ def main(check_only=False):
             with open(target, "w", encoding="utf-8") as f:
                 f.write(text)
             print(f"  > {schema['out']:<24} {len(items)} entries")
+
+    # The upgrade prices come from the formula, not from a schema
+    try:
+        text, count = upgrades_text()
+    except Exception as exc:
+        text, count = None, 0
+        errors.append(f"upgrades: {exc}")
+    if text is not None:
+        target = os.path.join(RESOURCE_DIR, "upgrades.yml")
+        existing = None
+        if os.path.exists(target):
+            with open(target, encoding="utf-8") as f:
+                existing = f.read()
+        if existing == text:
+            print(f"  = {'upgrades.yml':<24} {count} entries (unchanged)")
+        else:
+            changed.append("upgrades.yml")
+            if check_only:
+                print(f"  ! {'upgrades.yml':<24} {count} entries (would change)")
+            else:
+                with open(target, "w", encoding="utf-8") as f:
+                    f.write(text)
+                print(f"  > {'upgrades.yml':<24} {count} entries")
 
     # Only when every file built, a missing one would report everything it holds
     if not errors and not skipped:

@@ -180,6 +180,14 @@ items:
     lore:
       - "<gray>Return to the hub island."
 
+  icon_upgrades:
+    display: "<aqua><b>Upgrades"
+    material: ANVIL
+    glow: true
+    lore:
+      - "<gray>Make the tools you carry better"
+      - "<gray>a level at a time."
+
   icon_warps:
     display: "<light_purple><b>Warps"
     material: COMPASS

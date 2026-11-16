@@ -20,13 +20,16 @@ import org.charky.aurora.features.trader.Trader;
 import org.charky.aurora.features.tool.Realms;
 import org.charky.aurora.features.tool.ToolLevels;
 import org.charky.aurora.features.tool.ToolType;
+import org.charky.aurora.features.tool.UpgradeZone;
 import org.charky.aurora.features.warp.Warp;
 import org.charky.aurora.core.models.RealmModel;
 import org.charky.aurora.core.models.ToolModel;
+import org.charky.aurora.core.models.UpgradeModel;
 import org.charky.aurora.core.models.WarpModel;
 import org.charky.aurora.features.trader.TraderMenu;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 // All game data from the generated YAML, loaded through core.data and looked up here
@@ -50,6 +53,7 @@ public class DataRegistry {
     private final List<Warp> warps = new ArrayList<>();
     private final Map<String, ToolType> toolTypes = new LinkedHashMap<>();
     private Realms realms = new Realms(List.of());
+    private final Map<String, UpgradeZone> upgradeZones = new LinkedHashMap<>();
 
     // Resources in resources.csv order, which is progression order
     private final List<MenuItem> resourceList = new ArrayList<>();
@@ -98,6 +102,7 @@ public class DataRegistry {
         traders.clear();
         warps.clear();
         toolTypes.clear();
+        upgradeZones.clear();
         resourceList.clear();
         resourceIds.clear();
         unlocks.clear();
@@ -127,6 +132,7 @@ public class DataRegistry {
         traders.putAll(new TraderLoader(plugin.getLogger()).load(yaml.load("traders.yml", TraderModel.class), guis));
         loadWarps();
         loadTools();
+        loadUpgrades();
     }
 
     private void loadTools() {
@@ -143,6 +149,63 @@ public class DataRegistry {
             toolTypes.put(id.toLowerCase(), new ToolType(id.toLowerCase(), model.name, model.kind,
                     model.item.toUpperCase(), List.copyOf(model.materials)));
         });
+    }
+
+    // After the tools, a step for a tool or material that does not exist is skipped
+    private void loadUpgrades() {
+        yaml.load("upgrades.yml", UpgradeModel.class).forEach((id, model) -> {
+            List<UpgradeZone.Step> steps = new ArrayList<>();
+            for (UpgradeModel.StepModel step : model.steps) {
+                ToolType tool = getToolType(step.tool);
+                int level = tool == null ? -1 : upgradeLevel(tool, step.stat, step.level);
+                if (level < 0) {
+                    plugin.getLogger().severe("UPGRADE ERROR: '" + id + "' " + step.tool + " " + step.stat + " " + step.level);
+                    continue;
+                }
+
+                List<MenuItem> costs = new ArrayList<>();
+                for (GuiModel.CostEntry entry : step.cost) {
+                    ItemStack item = items.get(entry.id.toLowerCase());
+                    if (item == null) {
+                        plugin.getLogger().severe("UPGRADE ERROR: '" + id + "' costs unknown item '" + entry.id + "'");
+                        continue;
+                    }
+                    MenuItem cost = new MenuItem(entry.id.toLowerCase(), item);
+                    cost.setAmount(entry.amount);
+                    costs.add(cost);
+                }
+                steps.add(new UpgradeZone.Step(tool.id(), step.stat.toLowerCase(), level, costs));
+            }
+            upgradeZones.put(id.toLowerCase(), new UpgradeZone(id.toLowerCase(), model.name,
+                    model.realm == null ? "" : model.realm.toLowerCase(), steps));
+        });
+    }
+
+    // -1 for a material the tool does not come in, an unknown enchant or a bad number
+    private int upgradeLevel(ToolType tool, String stat, String level) {
+        if (stat == null || level == null) return -1;
+        if (stat.equalsIgnoreCase(ToolLevels.MATERIAL)) return ToolLevels.materialLevel(tool.materials(), level);
+        if (!enchants.containsKey(stat.toLowerCase())) return -1;
+        try {
+            return Integer.parseInt(level);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    // Null for a zone with no upgrades
+    public UpgradeZone getUpgradeZone(String id) {
+        return id == null ? null : upgradeZones.get(id.toLowerCase());
+    }
+
+    // "Fortune" as the enchant file shows it, the id for one that is not there
+    public String getEnchantDisplay(String id) {
+        EnchantData enchant = enchants.get(id.toLowerCase());
+        return enchant == null ? id : enchant.display();
+    }
+
+    public void registerAction(String name, BiConsumer<Player, String> action) {
+        actions.register(name, action);
     }
 
     public Realms getRealms() {

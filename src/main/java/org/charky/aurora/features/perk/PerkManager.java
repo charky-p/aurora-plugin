@@ -102,4 +102,12 @@ public class PerkManager implements Listener {
             if (maxHealth != null) player.setHealth(maxHealth.getValue());
         });
     }
+
+    // Every perk goes, and the hearts Vitality gave with them
+    public void reset(Player player) {
+        UUID uuid = player.getUniqueId();
+        levels.remove(uuid);
+        db.async(() -> store.deleteAll(uuid));
+        apply(player);
+    }
 }

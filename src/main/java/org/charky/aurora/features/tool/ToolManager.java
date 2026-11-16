@@ -10,8 +10,11 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ArmorMeta;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
@@ -28,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 // Tools that live on the player. A tool's stats are levels kept per player and per
 // realm, see ToolLevels. The item in the inventory is drawn from those levels and
@@ -42,6 +46,23 @@ public class ToolManager implements Listener {
     private final ToolStore store;
     // uuid -> realm -> tool -> stat -> level
     private final Map<UUID, Map<String, Map<String, Map<String, Integer>>>> levels;
+
+    // The armour trim a player chose in /customise, null for none. Looks only
+    private Function<Player, ArmorTrim> trims = player -> null;
+    // Told when a player buys the last upgrade a zone sells
+    private ZoneMaxed onMaxed = (player, zoneId, region) -> {};
+
+    public interface ZoneMaxed {
+        void accept(Player player, String zoneId, String region);
+    }
+
+    public void setTrims(Function<Player, ArmorTrim> trims) {
+        this.trims = trims;
+    }
+
+    public void setOnMaxed(ZoneMaxed onMaxed) {
+        this.onMaxed = onMaxed;
+    }
 
     public ToolManager(Aurora plugin, Database db, ToolStore store) {
         this.plugin = plugin;
@@ -186,7 +207,17 @@ public class ToolManager implements Listener {
     public ItemStack build(Player player, ToolType tool) {
         Realm realm = realmOf(player);
         Map<String, Integer> stats = realm == null ? Map.of() : effective(player.getUniqueId(), realm, tool.id());
-        return registry.createTool(tool, stats, realm);
+        ItemStack item = registry.createTool(tool, stats, realm);
+
+        // Only armour has an ArmorMeta, so this leaves every other tool alone
+        ArmorTrim trim = trims.apply(player);
+        if (trim != null) {
+            item.editMeta(ArmorMeta.class, meta -> {
+                meta.setTrim(trim);
+                meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+            });
+        }
+        return item;
     }
 
     // Hands the tool over, false if they carry it already or have no room
@@ -241,6 +272,26 @@ public class ToolManager implements Listener {
         return zone.status(tool, stat -> own(player, zone, tool, stat));
     }
 
+    // Every upgrade the zone sells is bought
+    public boolean maxed(Player player, String zoneId) {
+        UpgradeZone zone = registry.getUpgradeZone(zoneId);
+        if (zone == null || zone.tools().isEmpty()) return false;
+        for (String tool : zone.tools()) {
+            if (status(player, zone, tool) != UpgradeZone.Status.MAXED) return false;
+        }
+        return true;
+    }
+
+    // Every zone of a world is maxed. False for a world with no zones yet
+    public boolean maxedRegion(Player player, String region) {
+        List<String> zones = registry.getZonesOfRegion(region);
+        if (zones.isEmpty()) return false;
+        for (String zone : zones) {
+            if (!maxed(player, zone)) return false;
+        }
+        return true;
+    }
+
     // "Fortune 3", or "Iron Pickaxe" for a material
     public Component describe(ToolType tool, UpgradeZone.Step step) {
         if (step.stat().equals(ToolLevels.MATERIAL)) {
@@ -269,6 +320,7 @@ public class ToolManager implements Listener {
         player.sendMessage(TextUtils.parse("<gold><b>UPGRADED</b> <gray>" + tool.name() + ": <white>")
                 .append(describe(tool, step)));
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1.4f);
+        if (maxed(player, zone.id())) onMaxed.accept(player, zone.id(), registry.getZoneRegion(zone.id()));
         return null;
     }
 

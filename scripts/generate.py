@@ -891,6 +891,7 @@ UPGRADE_HEADER = """\
 # [zone_id]:
 #   name: "Zone Name"
 #   realm: overworld (The realm the levels bought here belong to)
+#   region: origin_isles (The world it is part of, maxing all of a world's zones earns its rank)
 #   steps:
 #     - tool: pick
 #       stat: fortune (An enchant, or material)
@@ -917,6 +918,7 @@ def upgrades_text():
         lines.append(f"  {zone['id']}:")
         lines.append(f"    name: \"{zone['name']}\"")
         lines.append(f"    realm: {zone['realm']}")
+        lines.append(f"    region: {zone['region']}")
         lines.append("    steps:")
         for row in priced:
             lines.append(f"      - tool: {row['tool']}")

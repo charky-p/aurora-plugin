@@ -1,11 +1,14 @@
 package org.charky.aurora.features.cosmetic;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -15,6 +18,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
@@ -35,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 // Which cosmetics a player owns and wears, and everywhere they show: the chat line,
 // the tab list, the join message, the trail behind them and the mobs they kill
@@ -56,6 +63,26 @@ public class CosmeticManager implements Listener {
     // Where each player was the last time trails were drawn
     private final Map<UUID, Location> lastSeen = new HashMap<>();
     private final BukkitTask trails;
+    // Redraws the armour a player wears, after they change its trim. Tools load
+    // after cosmetics, so it is set once they have
+    private Consumer<Player> lookChanged = player -> {};
+
+    public void setLookChanged(Consumer<Player> lookChanged) {
+        this.lookChanged = lookChanged;
+    }
+
+    // The trim on a player's armour, null with no pattern chosen
+    public ArmorTrim trim(Player player) {
+        Cosmetic pattern = equipped(player.getUniqueId(), Slot.TRIM_PATTERN);
+        Cosmetic material = equipped(player.getUniqueId(), Slot.TRIM_MATERIAL);
+        if (pattern == null || material == null) return null;
+
+        TrimPattern trimPattern = RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_PATTERN)
+                .get(NamespacedKey.minecraft(pattern.value()));
+        TrimMaterial trimMaterial = RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_MATERIAL)
+                .get(NamespacedKey.minecraft(material.value()));
+        return trimPattern == null || trimMaterial == null ? null : new ArmorTrim(trimMaterial, trimPattern);
+    }
 
     public CosmeticManager(Aurora plugin, Database db, CosmeticStore store, PlayerManager players,
                            RankManager ranks, ScoreboardManager scoreboard, TabManager tab) {
@@ -142,6 +169,8 @@ public class CosmeticManager implements Listener {
             }
         }
         tab.updateAll();
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null) lookChanged.accept(player);
         return true;
     }
 
@@ -174,6 +203,7 @@ public class CosmeticManager implements Listener {
 
         set(uuid, slot, cosmetic.id());
         tab.updateAll();
+        lookChanged.accept(player);
         return null;
     }
 
@@ -181,6 +211,7 @@ public class CosmeticManager implements Listener {
         // A suffix comes off to nothing, a colour or a join message to the plain one
         set(player.getUniqueId(), slot, slot.type() == Type.SUFFIX ? Cosmetics.NONE : defaultId(slot));
         tab.updateAll();
+        lookChanged.accept(player);
     }
 
     private void set(UUID uuid, Slot slot, String id) {
@@ -220,7 +251,7 @@ public class CosmeticManager implements Listener {
         UUID uuid = player.getUniqueId();
 
         Component prefix = Component.empty()
-                .append(ranks.worn(player).component())
+                .append(ranks.prefix(player))
                 .append(Component.space())
                 .append(coloredName(player))
                 .append(suffixes(uuid))
@@ -292,5 +323,15 @@ public class CosmeticManager implements Listener {
 
     public void open(Player player, Type type) {
         new CosmeticMenu(this, ranks, plugin.getRegistry(), type).open(player);
+    }
+
+    // Everything owned and worn goes, back to what a new player has
+    public void reset(Player player) {
+        UUID uuid = player.getUniqueId();
+        owned.remove(uuid);
+        equipped.remove(uuid);
+        db.async(() -> store.deleteAll(uuid));
+        tab.updateAll();
+        lookChanged.accept(player);
     }
 }

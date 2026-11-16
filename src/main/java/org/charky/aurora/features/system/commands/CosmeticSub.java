@@ -15,7 +15,8 @@ import java.util.List;
 
 /**
  * Aurora admin command to hand out or take back a rank or cosmetic. The only way
- * to get the staff and donor ranks, the donor suffixes and the second suffix slot
+ * to get the staff and donor ranks, the donor suffixes and the second rank and
+ * suffix slots
  */
 public class CosmeticSub implements AuroraSubCommand {
     private static final List<String> MODES = List.of("give", "take");
@@ -44,7 +45,9 @@ public class CosmeticSub implements AuroraSubCommand {
         boolean changed;
 
         Rank rank = rankById(id);
-        if (rank != null) {
+        if (id.equalsIgnoreCase(Ranks.SECOND_SLOT)) {
+            changed = plugin.getRankManager().setSecondSlot(target, give);
+        } else if (rank != null) {
             changed = give ? plugin.getRankManager().grant(target, rank) : plugin.getRankManager().revoke(target, rank);
         } else if (id.equals(Cosmetics.SECOND_SUFFIX_SLOT) || Cosmetics.get(id) != null) {
             changed = give ? plugin.getCosmeticManager().give(target.getUniqueId(), id)
@@ -84,6 +87,7 @@ public class CosmeticSub implements AuroraSubCommand {
             }
             for (Cosmetic cosmetic : Cosmetics.all()) ids.add(cosmetic.id());
             ids.add(Cosmetics.SECOND_SUFFIX_SLOT);
+            ids.add(Ranks.SECOND_SLOT.toLowerCase());
             return TextUtils.searchCompletions(args[2], ids);
         }
         return List.of();
@@ -101,6 +105,6 @@ public class CosmeticSub implements AuroraSubCommand {
 
     @Override
     public String getDescription() {
-        return "Give or take a rank, a cosmetic or the second suffix slot";
+        return "Give or take a rank, a cosmetic or a second rank or suffix slot";
     }
 }

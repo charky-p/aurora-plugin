@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 // Every rank there is, in the order the menus show them: the one everyone starts
-// with, the ten earned by playtime, the six bought with Essence, then the donor
-// and staff ranks an admin hands out
+// with, the ten earned by playtime, one for every zone and every world maxed out,
+// the six bought with Essence, then the donor and staff ranks an admin hands out
 public final class Ranks {
     private static final long HOUR = 3600;
 
-    public static final Rank MEMBER = new Rank("MEMBER", "<gray><b>MEMBER</b>", Rank.Kind.DEFAULT, 0);
+    public static final Rank MEMBER = new Rank("MEMBER", "<gray><b>MEMBER</b>", Rank.Kind.DEFAULT, 0, null);
+    // Not a rank itself: owning this id lets a player wear a second rank. It comes
+    // with a donor package
+    public static final String SECOND_SLOT = "RANK_SLOT_2";
 
     private static final Map<String, Rank> ALL = new LinkedHashMap<>();
 
@@ -29,6 +32,23 @@ public final class Ranks {
         playtime("MASTER", "#00F2FE:#4FACFE:#7F00FF", 350);
         playtime("GRANDMASTER", "#FFD700:#FFFFFF:#FFD700", 500);
 
+        // One for every zone, by the id it has in zones.csv
+        zone("QUARRYMAN", "#B0BEC5:#78909C", "cobble");
+        zone("COLLIER", "#757575:#424242", "coal");
+        zone("COPPERSMITH", "#E8925A:#B5532A", "copper");
+        zone("IRONCLAD", "#ECEFF1:#B0BEC5", "iron");
+        zone("PROSPECTOR", "#FFE259:#FFA751", "gold");
+        zone("SCAVENGER", "#A1887F:#6D4C41", "city");
+        zone("NOMAD", "#F6D365:#FDA085", "dunes");
+        zone("CANYONEER", "#D66D75:#B4462A", "canyons");
+        zone("SUNKEEPER", "#FFF176:#FFB300", "temple");
+        zone("PHARAOH", "#FFD700:#8E24AA", "tomb");
+
+        // One for every world, by the region its zones have in zones.csv
+        world("OVERWORLD", "#56AB2F:#A8E063:#56CCF2", "origin_isles");
+        world("DUNEWORLD", "#F7971E:#FFD200:#F7971E", "gormak");
+        world("ELDERWOOD_ROOTS", "#0B8043:#A8FF78:#6B4F35", "verdant");
+
         shop("EMBER", "#FF8008:#E52D27", 100);
         shop("FROST", "#FFFFFF:#6DD5FA", 300);
         shop("VERDANT", "#A8FF78:#0B8043", 750);
@@ -42,18 +62,27 @@ public final class Ranks {
 
         // Lowest first, the way the team is laid out
         granted("TRAINEE", "#BDBDBD:#757575", Rank.Kind.STAFF);
-        granted("HELPER", "#7986CB:#3F51B5", Rank.Kind.STAFF);
-        granted("BUILDER", "#80DEEA:#26C6DA", Rank.Kind.STAFF);
-        granted("JUNIOR_MOD", "#A5D6A7:#66BB6A", Rank.Kind.STAFF);
-        granted("MOD", "#81C784:#43A047", Rank.Kind.STAFF);
-        granted("DEV", "#F48FB1:#EC407A", Rank.Kind.STAFF);
+        granted("HELPER", "#9FA8DA:#5C6BC0", Rank.Kind.STAFF);
+        granted("SENIOR_HELPER", "#7986CB:#3F51B5", Rank.Kind.STAFF);
+        granted("BUILDER", "#B2EBF2:#4DD0E1", Rank.Kind.STAFF);
+        granted("SENIOR_BUILDER", "#80DEEA:#26C6DA", Rank.Kind.STAFF);
         granted("HEAD_BUILDER", "#4DD0E1:#00ACC1", Rank.Kind.STAFF);
-        granted("HEAD_DEV", "#F06292:#D81B60", Rank.Kind.STAFF);
-        granted("SENIOR_MOD", "#66BB6A:#2E7D32", Rank.Kind.STAFF);
+        granted("JUNIOR_MOD", "#C8E6C9:#81C784", Rank.Kind.STAFF);
+        granted("MOD", "#A5D6A7:#66BB6A", Rank.Kind.STAFF);
+        granted("SENIOR_MOD", "#81C784:#43A047", Rank.Kind.STAFF);
+        granted("HEAD_MOD", "#66BB6A:#2E7D32", Rank.Kind.STAFF);
+        granted("JUNIOR_DEV", "#F8BBD0:#F48FB1", Rank.Kind.STAFF);
+        granted("DEV", "#F48FB1:#EC407A", Rank.Kind.STAFF);
+        granted("SENIOR_DEV", "#F06292:#E91E63", Rank.Kind.STAFF);
+        granted("HEAD_DEV", "#EC407A:#C2185B", Rank.Kind.STAFF);
+        granted("JUNIOR_ADMIN", "#FFAB91:#FF7043", Rank.Kind.STAFF);
         granted("ADMIN", "#EF5350:#C62828", Rank.Kind.STAFF);
-        granted("CO_OWNER", "#E53935:#B71C1C", Rank.Kind.STAFF);
         granted("SENIOR_ADMIN", "#E53935:#B71C1C", Rank.Kind.STAFF);
-        granted("MANAGER", "#D32F2F:#B71C1C", Rank.Kind.STAFF);
+        granted("HEAD_ADMIN", "#D32F2F:#880E4F", Rank.Kind.STAFF);
+        granted("MANAGER", "#FF8A65:#D84315", Rank.Kind.STAFF);
+        granted("CO_FOUNDER", "#FFD54F:#FF6F00", Rank.Kind.STAFF);
+        granted("FOUNDER", "#FFE082:#FFB300:#FF6F00", Rank.Kind.STAFF);
+        granted("CO_OWNER", "#FF5555:#B71C1C", Rank.Kind.STAFF);
         granted("OWNER", "#AA0000:#FF5555", Rank.Kind.STAFF);
     }
 
@@ -65,15 +94,23 @@ public final class Ranks {
     }
 
     private static void playtime(String id, String gradient, long hours) {
-        add(new Rank(id, display(id, gradient), Rank.Kind.PLAYTIME, hours * HOUR));
+        add(new Rank(id, display(id, gradient), Rank.Kind.PLAYTIME, hours * HOUR, null));
     }
 
     private static void shop(String id, String gradient, long essence) {
-        add(new Rank(id, display(id, gradient), Rank.Kind.SHOP, essence));
+        add(new Rank(id, display(id, gradient), Rank.Kind.SHOP, essence, null));
     }
 
     private static void granted(String id, String gradient, Rank.Kind kind) {
-        add(new Rank(id, display(id, gradient), kind, 0));
+        add(new Rank(id, display(id, gradient), kind, 0, null));
+    }
+
+    private static void zone(String id, String gradient, String zoneId) {
+        add(new Rank(id, display(id, gradient), Rank.Kind.ZONE, 0, zoneId));
+    }
+
+    private static void world(String id, String gradient, String region) {
+        add(new Rank(id, display(id, gradient), Rank.Kind.WORLD, 0, region));
     }
 
     // SENIOR_MOD reads as SENIOR MOD
@@ -87,6 +124,14 @@ public final class Ranks {
 
     public static List<Rank> ofKind(Rank.Kind kind) {
         return ALL.values().stream().filter(rank -> rank.kind() == kind).toList();
+    }
+
+    // The rank a zone or a world's region earns, null if it has none
+    public static Rank earnedIn(Rank.Kind kind, String target) {
+        for (Rank rank : ofKind(kind)) {
+            if (rank.target().equals(target)) return rank;
+        }
+        return null;
     }
 
     // The rank with this id, MEMBER for one that no longer exists

@@ -54,4 +54,10 @@ public class CosmeticStore {
             pst.setString(3, cosmeticId);
         });
     }
+
+    // Everything the player has here, for a full reset
+    public void deleteAll(UUID uuid) {
+        db.update("DELETE FROM player_cosmetics WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()));
+        db.update("DELETE FROM player_equipped WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()));
+    }
 }

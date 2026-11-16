@@ -133,4 +133,10 @@ public class ArmoryManager {
         db.async(() -> store.add(uuid, itemId));
         return true;
     }
+
+    // Every piece of gear and key the player has found is forgotten
+    public void reset(UUID uuid) {
+        unlocks.remove(uuid);
+        db.async(() -> store.deleteAll(uuid));
+    }
 }

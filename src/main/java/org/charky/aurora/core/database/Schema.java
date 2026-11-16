@@ -38,6 +38,11 @@ public final class Schema {
                     "rank_id TEXT NOT NULL, " +
                     "PRIMARY KEY (uuid, rank_id))",
 
+            // The rank worn in the second slot, for players who have one
+            "CREATE TABLE IF NOT EXISTS player_second_rank (" +
+                    "uuid VARCHAR(36) PRIMARY KEY, " +
+                    "rank_id TEXT NOT NULL)",
+
             // Cosmetics each player has bought or been given, and the one worn in each slot
             "CREATE TABLE IF NOT EXISTS player_cosmetics (" +
                     "uuid VARCHAR(36) NOT NULL, " +

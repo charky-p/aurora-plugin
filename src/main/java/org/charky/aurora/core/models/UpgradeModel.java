@@ -7,6 +7,7 @@ import java.util.List;
 public class UpgradeModel {
     public String name;
     public String realm;
+    public String region;
     public List<StepModel> steps = new ArrayList<>();
 
     public static class StepModel {

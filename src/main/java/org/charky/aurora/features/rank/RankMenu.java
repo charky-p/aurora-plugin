@@ -8,25 +8,31 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.tool.UpgradeZone;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // Every rank, /ranks. Click one you own to wear it. The ones you don't say how to
-// get them: hours played, or the price in /shop
+// get them: hours played, a zone to max out, or the price in /shop. With a second
+// slot, a right click wears a rank second
 public class RankMenu extends PagedMenu {
     private final RankManager ranks;
+    private final DataRegistry registry;
     // Staff ranks are only listed for the people who have them
     private List<Rank> all = List.of();
 
     public RankMenu(RankManager ranks, DataRegistry registry) {
         super(registry, "Ranks");
         this.ranks = ranks;
+        this.registry = registry;
     }
 
     @Override
     protected List<ItemStack> entries(Player player) {
         Rank worn = ranks.worn(player);
+        Rank second = ranks.wornSecond(player);
+        boolean twoSlots = ranks.hasSecondSlot(player);
         all = Ranks.all().stream()
                 .filter(rank -> rank.kind() != Rank.Kind.STAFF || ranks.owns(player, rank)).toList();
         List<ItemStack> items = new ArrayList<>();
@@ -39,22 +45,35 @@ public class RankMenu extends PagedMenu {
                 List<Component> lore = new ArrayList<>();
                 lore.add(TextUtils.parse("<!italic><dark_gray>" + source(rank)));
                 lore.add(Component.empty());
-                if (rank == worn) lore.add(TextUtils.parse("<!italic><green>You are wearing this"));
-                else if (owned) lore.add(TextUtils.parse("<!italic><yellow>Click to wear"));
-                else lore.add(TextUtils.parse("<!italic><red>" + locked(player, rank)));
+                if (rank == worn) {
+                    lore.add(TextUtils.parse("<!italic><green>You are wearing this" + (twoSlots ? " first" : "")));
+                } else if (rank == second) {
+                    lore.add(TextUtils.parse("<!italic><green>You are wearing this second"));
+                    lore.add(TextUtils.parse("<!italic><gray>Click to take it off"));
+                } else if (owned) {
+                    lore.add(TextUtils.parse(twoSlots ? "<!italic><yellow>Left click: first rank, right click: second"
+                            : "<!italic><yellow>Click to wear"));
+                } else {
+                    lore.add(TextUtils.parse("<!italic><red>" + locked(player, rank)));
+                }
                 meta.lore(lore);
 
-                if (rank == worn) meta.setEnchantmentGlintOverride(true);
+                if (rank == worn || rank == second) meta.setEnchantmentGlintOverride(true);
             });
             items.add(item);
         }
         return items;
     }
 
-    private static String source(Rank rank) {
+    private String source(Rank rank) {
         return switch (rank.kind()) {
             case DEFAULT -> "Everyone starts with this";
             case PLAYTIME -> "Earned by playing for " + hours(rank.requirement()) + "h";
+            case ZONE -> {
+                UpgradeZone zone = registry.getUpgradeZone(rank.target());
+                yield "Earned by maxing every upgrade of " + (zone == null ? "its zone" : zone.name());
+            }
+            case WORLD -> "Earned by maxing every zone of this world";
             case SHOP -> "Bought for " + String.format("%,d", rank.requirement()) + " Essence in /shop";
             case DONOR -> "A donor rank";
             case STAFF -> "A staff rank";
@@ -63,6 +82,10 @@ public class RankMenu extends PagedMenu {
 
     private String locked(Player player, Rank rank) {
         if (rank.kind() == Rank.Kind.SHOP) return "Buy it in /shop";
+        if (rank.kind() == Rank.Kind.ZONE) return "Buy every upgrade there";
+        if (rank.kind() == Rank.Kind.WORLD) {
+            return registry.getZonesOfRegion(rank.target()).isEmpty() ? "Not open yet" : "Max out every zone there";
+        }
         if (rank.kind() != Rank.Kind.PLAYTIME) return "Locked";
 
         long left = rank.requirement() - ranks.playtimeOf(player);
@@ -77,20 +100,27 @@ public class RankMenu extends PagedMenu {
     protected List<Component> info(Player player, List<ItemStack> entries) {
         long owned = all.stream().filter(rank -> ranks.owns(player, rank)).count();
         long played = ranks.playtimeOf(player);
-        return List.of(
-                TextUtils.parse("<!italic><gray>Wearing: ").append(ranks.worn(player).component()),
+        List<Component> lines = new ArrayList<>(List.of(
+                TextUtils.parse("<!italic><gray>Wearing: ").append(ranks.prefix(player)),
                 TextUtils.parse("<!italic><gray>Unlocked: <white>" + owned + "/" + all.size()),
-                TextUtils.parse("<!italic><gray>Played: <white>" + played / 3600 + "h " + played % 3600 / 60 + "m"));
+                TextUtils.parse("<!italic><gray>Played: <white>" + played / 3600 + "h " + played % 3600 / 60 + "m")));
+        if (!ranks.hasSecondSlot(player)) {
+            lines.add(TextUtils.parse("<!italic><dark_gray>A second rank comes with a donor package"));
+        }
+        return lines;
     }
 
     @Override
-    protected void onEntryClick(Player player, int index) {
+    protected void onEntryClick(Player player, int index, boolean rightClick) {
         if (index >= all.size()) return;
 
         Rank rank = all.get(index);
         if (!ranks.owns(player, rank) || rank == ranks.worn(player)) return;
 
-        String problem = ranks.wear(player, rank);
+        String problem = null;
+        if (rank == ranks.wornSecond(player)) ranks.takeOffSecond(player);
+        else if (rightClick && ranks.hasSecondSlot(player)) problem = ranks.wearSecond(player, rank);
+        else problem = ranks.wear(player, rank);
         if (problem != null) {
             TextUtils.error(player, problem);
             return;

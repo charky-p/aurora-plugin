@@ -101,4 +101,11 @@ public class CollectionManager {
         changed.clear();
         return copy;
     }
+
+    // Every total back to nothing
+    public void reset(UUID uuid) {
+        collections.remove(uuid);
+        changed.remove(uuid);
+        db.async(() -> store.deleteAll(uuid));
+    }
 }

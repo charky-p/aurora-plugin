@@ -6,6 +6,7 @@
 # [zone_id]:
 #   name: "Zone Name"
 #   realm: overworld (The realm the levels bought here belong to)
+#   region: origin_isles (The world it is part of, maxing all of a world's zones earns its rank)
 #   steps:
 #     - tool: pick
 #       stat: fortune (An enchant, or material)
@@ -21,565 +22,571 @@ items:
   cobble:
     name: "Cobblestone Quarry"
     realm: overworld
+    region: origin_isles
     steps:
       - tool: pick
+        stat: material
+        level: "STONE"
+        cost:
+          - id: cobblestone
+            amount: 2
+      - tool: sword
         stat: material
         level: "STONE"
         cost:
           - id: cobblestone
             amount: 4
-      - tool: sword
-        stat: material
-        level: "STONE"
-        cost:
-          - id: cobblestone
-            amount: 8
       - tool: helmet
         stat: protection
         level: "1"
         cost:
           - id: cobblestone
-            amount: 12
+            amount: 6
       - tool: chestplate
         stat: protection
         level: "1"
         cost:
           - id: cobblestone
-            amount: 12
+            amount: 6
       - tool: leggings
         stat: protection
         level: "1"
         cost:
           - id: cobblestone
-            amount: 12
+            amount: 6
       - tool: boots
         stat: protection
         level: "1"
         cost:
           - id: cobblestone
-            amount: 16
+            amount: 8
       - tool: pick
         stat: efficiency
         level: "1"
         cost:
           - id: cobblestone
-            amount: 16
+            amount: 8
       - tool: sword
         stat: sharpness
+        level: "1"
+        cost:
+          - id: cobblestone
+            amount: 12
+      - tool: pick
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: cobblestone
+            amount: 16
+      - tool: pick
+        stat: fortune
         level: "1"
         cost:
           - id: cobblestone
             amount: 24
       - tool: pick
-        stat: efficiency
-        level: "2"
-        cost:
-          - id: cobblestone
-            amount: 32
-      - tool: pick
-        stat: fortune
-        level: "1"
-        cost:
-          - id: cobblestone
-            amount: 48
-      - tool: pick
         stat: luck
         level: "1"
         cost:
           - id: cobblestone
-            amount: 96
+            amount: 48
 
   coal:
     name: "Coal Seam"
     realm: overworld
+    region: origin_isles
     steps:
       - tool: pick
         stat: efficiency
         level: "3"
         cost:
           - id: coal
-            amount: 32
+            amount: 16
       - tool: sword
         stat: sharpness
         level: "2"
         cost:
           - id: coal
-            amount: 48
+            amount: 24
       - tool: helmet
         stat: protection
         level: "2"
         cost:
           - id: coal
-            amount: 48
+            amount: 24
       - tool: chestplate
         stat: protection
         level: "2"
         cost:
           - id: coal
-            amount: 64
+            amount: 32
       - tool: leggings
         stat: protection
         level: "2"
         cost:
           - id: coal
-            amount: 64
+            amount: 32
       - tool: boots
         stat: protection
         level: "2"
         cost:
           - id: coal
-            amount: 64
+            amount: 32
       - tool: pick
         stat: luck
         level: "2"
         cost:
           - id: coal
-            amount: 96
+            amount: 48
       - tool: sword
         stat: luck
         level: "1"
         cost:
           - id: coal
-            amount: 96
+            amount: 48
       - tool: pick
         stat: efficiency
         level: "4"
         cost:
           - id: coal
-            amount: 128
+            amount: 64
       - tool: pick
         stat: fortune
         level: "2"
         cost:
           - id: coal
-            amount: 160
+            amount: 96
       - tool: pick
         stat: luck
         level: "3"
         cost:
           - id: coal
-            amount: 320
+            amount: 160
 
   copper:
     name: "Copper Vein"
     realm: overworld
+    region: origin_isles
     steps:
       - tool: pick
         stat: material
         level: "COPPER"
         cost:
           - id: copper
-            amount: 32
+            amount: 16
       - tool: sword
         stat: material
         level: "COPPER"
         cost:
           - id: copper
-            amount: 32
+            amount: 16
       - tool: helmet
         stat: material
         level: "COPPER"
         cost:
           - id: copper
-            amount: 48
+            amount: 24
       - tool: chestplate
         stat: material
         level: "COPPER"
         cost:
           - id: copper
-            amount: 48
+            amount: 24
       - tool: leggings
         stat: material
         level: "COPPER"
         cost:
           - id: copper
-            amount: 48
+            amount: 24
       - tool: boots
         stat: material
         level: "COPPER"
         cost:
           - id: copper
-            amount: 48
+            amount: 24
       - tool: pick
         stat: luck
         level: "4"
         cost:
           - id: copper
-            amount: 48
+            amount: 24
       - tool: sword
         stat: sharpness
         level: "3"
         cost:
           - id: copper
-            amount: 64
+            amount: 32
       - tool: helmet
         stat: protection
         level: "3"
         cost:
           - id: copper
-            amount: 64
+            amount: 32
       - tool: chestplate
         stat: protection
         level: "3"
         cost:
           - id: copper
-            amount: 64
+            amount: 32
       - tool: leggings
         stat: protection
         level: "3"
         cost:
           - id: copper
-            amount: 64
+            amount: 32
       - tool: boots
         stat: protection
         level: "3"
         cost:
           - id: copper
-            amount: 64
+            amount: 32
       - tool: pick
         stat: efficiency
+        level: "5"
+        cost:
+          - id: feather
+            amount: 2
+      - tool: sword
+        stat: sharpness
+        level: "4"
+        cost:
+          - id: feather
+            amount: 2
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: feather
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: feather
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: feather
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: feather
+            amount: 2
+      - tool: pick
+        stat: luck
         level: "5"
         cost:
           - id: feather
             amount: 3
       - tool: sword
         stat: sharpness
-        level: "4"
-        cost:
-          - id: feather
-            amount: 4
-      - tool: helmet
-        stat: protection
-        level: "4"
-        cost:
-          - id: feather
-            amount: 4
-      - tool: chestplate
-        stat: protection
-        level: "4"
-        cost:
-          - id: feather
-            amount: 4
-      - tool: leggings
-        stat: protection
-        level: "4"
-        cost:
-          - id: feather
-            amount: 4
-      - tool: boots
-        stat: protection
-        level: "4"
-        cost:
-          - id: feather
-            amount: 4
-      - tool: pick
-        stat: luck
         level: "5"
         cost:
           - id: feather
-            amount: 6
-      - tool: sword
-        stat: sharpness
-        level: "5"
-        cost:
-          - id: feather
-            amount: 6
+            amount: 3
       - tool: pick
         stat: fortune
         level: "3"
         cost:
           - id: copper
-            amount: 96
+            amount: 48
           - id: feather
-            amount: 2
+            amount: 1
       - tool: sword
         stat: looting
         level: "1"
         cost:
           - id: copper
-            amount: 160
+            amount: 64
           - id: feather
-            amount: 2
+            amount: 1
 
   iron:
     name: "Iron Deposit"
     realm: overworld
+    region: origin_isles
     steps:
       - tool: pick
         stat: material
         level: "IRON"
         cost:
           - id: iron
-            amount: 64
+            amount: 32
       - tool: sword
         stat: material
         level: "IRON"
         cost:
           - id: iron
-            amount: 64
+            amount: 32
       - tool: helmet
         stat: material
         level: "IRON"
         cost:
           - id: iron
-            amount: 64
+            amount: 32
       - tool: chestplate
         stat: material
         level: "IRON"
         cost:
           - id: iron
-            amount: 96
+            amount: 48
       - tool: leggings
         stat: material
         level: "IRON"
         cost:
           - id: iron
-            amount: 96
+            amount: 48
       - tool: boots
         stat: material
         level: "IRON"
         cost:
           - id: iron
-            amount: 96
+            amount: 48
       - tool: sword
         stat: sharpness
         level: "6"
         cost:
           - id: iron
-            amount: 96
+            amount: 48
       - tool: helmet
         stat: protection
         level: "5"
         cost:
           - id: iron
-            amount: 96
+            amount: 48
       - tool: chestplate
         stat: protection
         level: "5"
         cost:
           - id: iron
-            amount: 128
+            amount: 64
       - tool: leggings
         stat: protection
         level: "5"
         cost:
           - id: iron
-            amount: 128
+            amount: 64
       - tool: boots
         stat: protection
         level: "5"
         cost:
           - id: iron
-            amount: 128
+            amount: 64
       - tool: pick
         stat: efficiency
         level: "6"
         cost:
           - id: wool
-            amount: 8
+            amount: 4
       - tool: sword
         stat: luck
         level: "2"
         cost:
           - id: wool
-            amount: 8
+            amount: 4
       - tool: helmet
         stat: protection
         level: "6"
         cost:
           - id: wool
-            amount: 8
+            amount: 4
       - tool: chestplate
         stat: protection
         level: "6"
         cost:
           - id: wool
-            amount: 12
+            amount: 6
       - tool: leggings
         stat: protection
         level: "6"
         cost:
           - id: wool
-            amount: 12
+            amount: 6
       - tool: boots
         stat: protection
         level: "6"
         cost:
           - id: wool
-            amount: 12
+            amount: 6
       - tool: pick
         stat: efficiency
         level: "7"
         cost:
           - id: wool
-            amount: 12
+            amount: 6
       - tool: sword
         stat: sharpness
         level: "7"
         cost:
           - id: wool
-            amount: 12
+            amount: 6
       - tool: pick
         stat: fortune
         level: "4"
         cost:
           - id: iron
-            amount: 200
+            amount: 96
           - id: wool
-            amount: 6
+            amount: 3
       - tool: sword
         stat: looting
         level: "2"
         cost:
           - id: iron
-            amount: 320
+            amount: 160
           - id: wool
-            amount: 6
+            amount: 3
 
   gold:
     name: "Gold Reef"
     realm: overworld
+    region: origin_isles
     steps:
       - tool: pick
         stat: material
         level: "GOLDEN"
         cost:
           - id: gold
-            amount: 128
+            amount: 64
       - tool: sword
         stat: material
         level: "GOLDEN"
         cost:
           - id: gold
-            amount: 128
+            amount: 64
       - tool: helmet
         stat: material
         level: "GOLDEN"
         cost:
           - id: gold
-            amount: 160
+            amount: 64
       - tool: chestplate
         stat: material
         level: "GOLDEN"
         cost:
           - id: gold
-            amount: 160
+            amount: 64
       - tool: leggings
         stat: material
         level: "GOLDEN"
         cost:
           - id: gold
-            amount: 160
+            amount: 96
       - tool: boots
         stat: material
         level: "GOLDEN"
         cost:
           - id: gold
-            amount: 200
+            amount: 96
       - tool: pick
         stat: efficiency
         level: "8"
         cost:
           - id: gold
-            amount: 200
+            amount: 96
       - tool: sword
         stat: luck
         level: "3"
         cost:
           - id: gold
-            amount: 200
+            amount: 96
       - tool: helmet
         stat: protection
         level: "7"
         cost:
           - id: gold
-            amount: 200
+            amount: 96
       - tool: chestplate
         stat: protection
         level: "7"
         cost:
           - id: gold
-            amount: 256
+            amount: 128
       - tool: leggings
         stat: protection
         level: "7"
         cost:
           - id: gold
-            amount: 256
+            amount: 128
       - tool: boots
         stat: protection
         level: "7"
         cost:
           - id: gold
-            amount: 256
+            amount: 128
       - tool: pick
         stat: luck
         level: "6"
         cost:
           - id: leather
-            amount: 12
+            amount: 6
       - tool: sword
         stat: sharpness
         level: "8"
         cost:
           - id: leather
-            amount: 12
+            amount: 6
       - tool: helmet
         stat: protection
         level: "8"
         cost:
           - id: leather
-            amount: 16
+            amount: 8
       - tool: chestplate
         stat: protection
         level: "8"
         cost:
           - id: leather
-            amount: 16
+            amount: 8
       - tool: leggings
         stat: protection
         level: "8"
         cost:
           - id: leather
-            amount: 16
+            amount: 8
       - tool: boots
         stat: protection
         level: "8"
         cost:
           - id: leather
-            amount: 16
+            amount: 8
       - tool: pick
         stat: fortune
         level: "5"
         cost:
           - id: leather
-            amount: 16
+            amount: 8
       - tool: sword
         stat: luck
         level: "4"
         cost:
           - id: leather
-            amount: 24
+            amount: 12
       - tool: pick
         stat: blast
         level: "1"
         cost:
           - id: gold
-            amount: 400
+            amount: 200
           - id: leather
-            amount: 8
+            amount: 4
       - tool: sword
         stat: looting
         level: "3"
         cost:
           - id: gold
-            amount: 750
+            amount: 320
           - id: leather
-            amount: 8
+            amount: 4
 
   city:
     name: "Abandoned City"
     realm: overworld
+    region: gormak
     steps:
       - tool: pick
         stat: luck
@@ -785,6 +792,7 @@ items:
   dunes:
     name: "The Dunes"
     realm: overworld
+    region: gormak
     steps:
       - tool: pick
         stat: luck
@@ -1002,6 +1010,7 @@ items:
   canyons:
     name: "Howling Canyons"
     realm: overworld
+    region: gormak
     steps:
       - tool: pick
         stat: luck
@@ -1207,6 +1216,7 @@ items:
   temple:
     name: "Sun Temple"
     realm: overworld
+    region: gormak
     steps:
       - tool: pick
         stat: luck
@@ -1424,6 +1434,7 @@ items:
   tomb:
     name: "Royal Tomb"
     realm: overworld
+    region: gormak
     steps:
       - tool: pick
         stat: efficiency

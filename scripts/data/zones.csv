@@ -1,11 +1,11 @@
-id,name,realm,world,region,order,target_seconds,mine,mob
-cobble,Cobblestone Quarry,overworld,overworld,origin_isles,1,120,cobblestone,
-coal,Coal Seam,overworld,overworld,origin_isles,2,120,coal,
-copper,Copper Vein,overworld,overworld,origin_isles,3,156,copper,chicken
-iron,Iron Deposit,overworld,overworld,origin_isles,4,252,iron,sheep
-gold,Gold Reef,overworld,overworld,origin_isles,5,402,gold,cow
-city,Abandoned City,overworld,overworld,gormak,6,360,carved_brick,hollowed_serf|scavenger_husk
-dunes,The Dunes,overworld,overworld,gormak,7,360,sunbaked_sand,dune_scout|sand_stalker
-canyons,Howling Canyons,overworld,overworld,gormak,8,360,crimson_sand,scarab_zealot|hollowed_legionnaire
-temple,Sun Temple,overworld,overworld,gormak,9,360,raw_gold,tomb_guard|vizier_mage
-tomb,Royal Tomb,overworld,overworld,gormak,10,600,,royal_myrmidon|pharaoh
+id,name,realm,world,region,order,target_seconds,mine,mob,price_scale
+cobble,Cobblestone Quarry,overworld,overworld,origin_isles,1,120,cobblestone,,0.5
+coal,Coal Seam,overworld,overworld,origin_isles,2,120,coal,,0.5
+copper,Copper Vein,overworld,overworld,origin_isles,3,156,copper,chicken,0.5
+iron,Iron Deposit,overworld,overworld,origin_isles,4,252,iron,sheep,0.5
+gold,Gold Reef,overworld,overworld,origin_isles,5,402,gold,cow,0.5
+city,Abandoned City,overworld,overworld,gormak,6,360,carved_brick,hollowed_serf|scavenger_husk,1
+dunes,The Dunes,overworld,overworld,gormak,7,360,sunbaked_sand,dune_scout|sand_stalker,1
+canyons,Howling Canyons,overworld,overworld,gormak,8,360,crimson_sand,scarab_zealot|hollowed_legionnaire,1
+temple,Sun Temple,overworld,overworld,gormak,9,360,raw_gold,tomb_guard|vizier_mage,1
+tomb,Royal Tomb,overworld,overworld,gormak,10,600,,royal_myrmidon|pharaoh,1

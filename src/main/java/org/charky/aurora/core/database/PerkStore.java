@@ -29,4 +29,9 @@ public class PerkStore {
             pst.setInt(3, level);
         });
     }
+
+    // Everything the player has here, for a full reset
+    public void deleteAll(UUID uuid) {
+        db.update("DELETE FROM player_perks WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()));
+    }
 }

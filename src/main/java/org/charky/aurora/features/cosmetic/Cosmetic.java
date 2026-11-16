@@ -7,7 +7,8 @@ import org.charky.aurora.common.util.TextUtils;
 // One thing a player can show off, chosen in /customise. Cosmetics change how a
 // player looks to others and nothing about how the game plays.
 // The requirement is seconds played for PLAYTIME and Essence for ESSENCE. The value
-// is what the cosmetic is made of: a colour name, a particle, a join message
+// is what the cosmetic is made of: a colour name, a particle, a join message, the
+// name of a trim pattern
 public record Cosmetic(String id, Type type, String display, Material icon, Source source,
                        long requirement, String note, String value) {
     public enum Type {
@@ -17,7 +18,9 @@ public record Cosmetic(String id, Type type, String display, Material icon, Sour
         JOIN_MESSAGE("Join Messages", "What everyone reads when you join"),
         TRAIL("Trails", "Particles that follow you as you walk"),
         KILL_EFFECT("Kill Effects", "What happens where a mob you kill falls"),
-        DEATH_MESSAGE("Death Messages", "What everyone reads when you die");
+        DEATH_MESSAGE("Death Messages", "What everyone reads when you die"),
+        TRIM_PATTERN("Armour Trims", "The pattern on the armour you wear"),
+        TRIM_MATERIAL("Trim Colours", "What your armour trim is made of");
 
         private final String title;
         private final String description;
@@ -51,7 +54,9 @@ public record Cosmetic(String id, Type type, String display, Material icon, Sour
         JOIN_MESSAGE("join_message", Type.JOIN_MESSAGE),
         TRAIL("trail", Type.TRAIL),
         KILL_EFFECT("kill_effect", Type.KILL_EFFECT),
-        DEATH_MESSAGE("death_message", Type.DEATH_MESSAGE);
+        DEATH_MESSAGE("death_message", Type.DEATH_MESSAGE),
+        TRIM_PATTERN("trim_pattern", Type.TRIM_PATTERN),
+        TRIM_MATERIAL("trim_material", Type.TRIM_MATERIAL);
 
         private final String id;
         private final Type type;

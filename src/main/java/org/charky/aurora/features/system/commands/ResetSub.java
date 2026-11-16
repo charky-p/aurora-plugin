@@ -48,7 +48,13 @@ public class ResetSub implements AuroraSubCommand {
                 data.setProgress(0, 0);
                 data.setKills(0);
                 data.setMined(0);
+                data.setEssence(0);
             }
+            plugin.getPerkManager().reset(target);
+            plugin.getCollectionManager().reset(target.getUniqueId());
+            plugin.getArmoryManager().reset(target.getUniqueId());
+            plugin.getCosmeticManager().reset(target);
+            plugin.getRankManager().reset(target);
             plugin.getLevelManager().show(target);
             plugin.getScoreboardManager().updateBoard(target);
         }
@@ -77,6 +83,6 @@ public class ResetSub implements AuroraSubCommand {
 
     @Override
     public String getDescription() {
-        return "Send a player's tools, or their whole run, back to the start";
+        return "Reset a player's tools, or everything they have as if they had just joined";
     }
 }

@@ -43,4 +43,9 @@ public class CollectionStore {
             }
         });
     }
+
+    // Everything the player has here, for a full reset
+    public void deleteAll(UUID uuid) {
+        db.update("DELETE FROM collections WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()));
+    }
 }

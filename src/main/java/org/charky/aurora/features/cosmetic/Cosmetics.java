@@ -40,6 +40,22 @@ public final class Cosmetics {
             {"purple", "dark_purple", "PURPLE_DYE"}, {"light_blue", "aqua", "LIGHT_BLUE_DYE"},
             {"cyan", "dark_aqua", "CYAN_DYE"}, {"blue", "blue", "BLUE_DYE"},
     };
+    // Armour trims, cheapest first. The name is the pattern's own, and its smithing
+    // template is the icon
+    private static final String[] TRIM_PATTERNS = {"sentry", "dune", "coast", "wild", "ward", "eye", "vex", "tide",
+            "snout", "rib", "spire", "wayfinder", "shaper", "raiser", "host", "flow", "bolt", "silence"};
+    private static final int TRIM_PRICE = 1_000;
+    private static final int TRIM_PRICE_STEP = 250;
+    // name, colour in the menu, icon. Quartz is what a trim is made of until another is chosen
+    private static final String[][] TRIM_MATERIALS = {
+            {"quartz", "white", "QUARTZ"}, {"iron", "gray", "IRON_INGOT"}, {"copper", "#E8925A", "COPPER_INGOT"},
+            {"gold", "gold", "GOLD_INGOT"}, {"redstone", "red", "REDSTONE"}, {"lapis", "blue", "LAPIS_LAZULI"},
+            {"emerald", "green", "EMERALD"}, {"amethyst", "light_purple", "AMETHYST_SHARD"},
+            {"diamond", "aqua", "DIAMOND"}, {"netherite", "dark_gray", "NETHERITE_INGOT"},
+            {"resin", "#FC7812", "RESIN_BRICK"},
+    };
+    private static final String DEFAULT_TRIM_MATERIAL = "quartz";
+    private static final int TRIM_MATERIAL_PRICE = 750;
     private static final int CHAT_COLOR_PRICE = 300;
     private static final int NAME_COLOR_PRICE = 500;
 
@@ -143,6 +159,20 @@ public final class Cosmetics {
         death("legend", "<gold><b>Legend", Source.ESSENCE, 2_500,
                 "<gradient:#FFD700:#FFFFFF>The legend of <b><player></b> was ended by</gradient> <killer>",
                 "<gradient:#FFD700:#FFFFFF>The legend of <b><player></b> has ended</gradient>");
+
+        // The value is the pattern or material as the game names it
+        for (int i = 0; i < TRIM_PATTERNS.length; i++) {
+            String name = TRIM_PATTERNS[i];
+            add("trim_" + name, Type.TRIM_PATTERN, "<yellow>" + title(name),
+                    Material.valueOf(name.toUpperCase() + "_ARMOR_TRIM_SMITHING_TEMPLATE"),
+                    Source.ESSENCE, TRIM_PRICE + (long) TRIM_PRICE_STEP * i, null, name);
+        }
+        for (String[] material : TRIM_MATERIALS) {
+            boolean plain = material[0].equals(DEFAULT_TRIM_MATERIAL);
+            add("trimcolor_" + material[0], Type.TRIM_MATERIAL, "<" + material[1] + ">" + title(material[0]),
+                    Material.valueOf(material[2]), plain ? Source.DEFAULT : Source.ESSENCE,
+                    plain ? 0 : TRIM_MATERIAL_PRICE, null, material[0]);
+        }
     }
 
     private Cosmetics() {
@@ -214,6 +244,7 @@ public final class Cosmetics {
             case NAME_COLOR -> get("name_white");
             case JOIN_MESSAGE -> get("join_default");
             case DEATH_MESSAGE -> get("death_default");
+            case TRIM_MATERIAL -> get("trimcolor_" + DEFAULT_TRIM_MATERIAL);
             default -> null;
         };
     }

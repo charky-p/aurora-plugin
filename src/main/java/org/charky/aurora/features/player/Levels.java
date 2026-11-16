@@ -5,14 +5,17 @@ package org.charky.aurora.features.player;
 //
 // XP comes from mining and kills: a block gives the number of its mine (1 for
 // cobblestone, 2 for coal, and so on) and a kill gives the mob's health, so a kill is
-// always worth far more than a block. Each level needs XP_GROWTH_RATE times the
-// last, starting from XP_BASE, so the first levels fly by and the late ones are a
-// long haul: level 50 is about 45,000 XP in all, a full Origin Isles and Gormak
-// run, and level 100 is about 400 million
+// always worth far more than a block. The first level needs XP_BASE, and each one
+// after needs EARLY_GROWTH times the last up to level EARLY_LEVELS, then
+// LATE_GROWTH times the last for good. The steep start is what makes the first
+// minutes feel right: levels 1 to 5 in about ten seconds of mining, 5 to 10 in
+// under a minute, 10 to 15 in about two. Level 50 is about 25,000 XP in all and
+// level 100 about 3 million
 public final class Levels {
-    // Exponential level requirement
     static final double XP_BASE = 1.0;
-    static final double XP_GROWTH_RATE = 1.2;
+    static final double EARLY_GROWTH = 1.35;
+    static final int EARLY_LEVELS = 15;
+    static final double LATE_GROWTH = 1.1;
     // Every level pays 1 Essence, plus 1 more for each ten levels reached
     static final int LEVELS_PER_BONUS = 10;
     // A level that ends in 0 pays this many times over
@@ -32,7 +35,8 @@ public final class Levels {
     // XP to go from this level to the next
     public static long xpForNext(int level) {
         if (level < 0) return 1L;
-        double required = XP_BASE * Math.pow(XP_GROWTH_RATE, level);
+        double required = XP_BASE * Math.pow(EARLY_GROWTH, Math.min(level, EARLY_LEVELS))
+                * Math.pow(LATE_GROWTH, Math.max(0, level - EARLY_LEVELS));
         if (required >= Long.MAX_VALUE) return Long.MAX_VALUE;
         return Math.max(1L, Math.round(required));
     }

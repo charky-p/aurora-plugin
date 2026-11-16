@@ -23,14 +23,28 @@ class LevelsTest {
         assertTrue(Levels.xpForNext(100) > Levels.xpForNext(50));
     }
 
-    // The pace that was chosen: a full Origin and Gormak run is somewhere between
-    // 50,000 and 100,000 XP and should end a little past level 50, with level 100
-    // much further
+    // The pace that was chosen. A new player mines about one cobblestone every two
+    // seconds, one XP each, and is at two or three XP a second by the Coal Seam:
+    // levels 1 to 5 in about ten seconds, 5 to 10 in under a minute, 10 to 15 in
+    // about two minutes
     @Test
-    void aFullRunEndsAroundLevelFifty() {
+    void theFirstLevelsFlyBy() {
+        assertTrue(totalXp(5) <= 10);
+        long toTen = totalXp(10) - totalXp(5);
+        assertTrue(toTen >= 20 && toTen <= 60);
+        long toFifteen = totalXp(15) - totalXp(10);
+        assertTrue(toFifteen >= 150 && toFifteen <= 300);
+    }
+
+    // After that every level needs a tenth more than the last. A full Origin and
+    // Gormak run is somewhere between 50,000 and 100,000 XP and ends past level 50,
+    // with level 100 many runs further
+    @Test
+    void lateLevelsGrowByATenth() {
+        assertEquals(1.1, (double) Levels.xpForNext(81) / Levels.xpForNext(80), 0.01);
         long fifty = totalXp(50);
-        assertTrue(fifty >= 40_000 && fifty <= 100_000);
-        assertTrue(totalXp(100) > fifty * 4);
+        assertTrue(fifty >= 15_000 && fifty <= 40_000);
+        assertTrue(totalXp(100) > fifty * 50);
     }
 
     @Test

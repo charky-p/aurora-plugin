@@ -44,7 +44,8 @@ class RanksTest {
     @Test
     void donorAndStaffRanksHaveNoRequirement() {
         assertEquals(List.of("LUMINARY", "CELESTIAL"), ids(Rank.Kind.DONOR));
-        assertEquals(14, ids(Rank.Kind.STAFF).size());
+        assertEquals(23, ids(Rank.Kind.STAFF).size());
+        assertTrue(ids(Rank.Kind.STAFF).containsAll(List.of("HELPER", "MOD", "SENIOR_MOD", "ADMIN", "SENIOR_ADMIN", "FOUNDER")));
         assertEquals("OWNER", ids(Rank.Kind.STAFF).getLast());
         for (Rank rank : Ranks.all()) {
             if (rank.kind() == Rank.Kind.DONOR || rank.kind() == Rank.Kind.STAFF) assertEquals(0, rank.requirement());

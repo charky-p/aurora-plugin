@@ -54,6 +54,8 @@ public class DataRegistry {
     private final Map<String, ToolType> toolTypes = new LinkedHashMap<>();
     private Realms realms = new Realms(List.of());
     private final Map<String, UpgradeZone> upgradeZones = new LinkedHashMap<>();
+    // zone id -> the region it has in zones.csv
+    private final Map<String, String> zoneRegions = new LinkedHashMap<>();
 
     // Resources in resources.csv order, which is progression order
     private final List<MenuItem> resourceList = new ArrayList<>();
@@ -103,6 +105,7 @@ public class DataRegistry {
         warps.clear();
         toolTypes.clear();
         upgradeZones.clear();
+        zoneRegions.clear();
         resourceList.clear();
         resourceIds.clear();
         unlocks.clear();
@@ -178,7 +181,18 @@ public class DataRegistry {
             }
             upgradeZones.put(id.toLowerCase(), new UpgradeZone(id.toLowerCase(), model.name,
                     model.realm == null ? "" : model.realm.toLowerCase(), steps));
+            zoneRegions.put(id.toLowerCase(), model.region == null ? "" : model.region.toLowerCase());
         });
+    }
+
+    // The world a zone is part of, as zones.csv names it
+    public String getZoneRegion(String zoneId) {
+        return zoneRegions.getOrDefault(zoneId, "");
+    }
+
+    public List<String> getZonesOfRegion(String region) {
+        return zoneRegions.entrySet().stream().filter(entry -> entry.getValue().equals(region))
+                .map(Map.Entry::getKey).toList();
     }
 
     // -1 for a material the tool does not come in, an unknown enchant or a bad number

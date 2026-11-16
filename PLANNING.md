@@ -63,8 +63,6 @@ world 1 (overworld): 5 main regions
 10. Duat - finale of the desert "mini world" in the duat
 
 NEW SYSTEM:
-- Create new versioning, say this is 1.0.0 version, finale
-- Create new version, say 2.0.0 or smthin, which will have a new system
 - New system is we split the mini worlds into their own sub worlds, essentially branching out progression
 - Buying upgrades is no longer buying a pickaxe item, it is now buying enchants like fortune and efficiency, etc
 - Each zone has a max amount for this, and has for each tool
@@ -73,6 +71,17 @@ NEW SYSTEM:
 - Like Winter Fortune, Spooky Fortune
 - Threshold system to cap out the fortune, for example threshold at 50, then event fortune wont increase further than this
 - (need a better solution for this)
+- Tool materials are now also a one time upgrade or a threshold to unlock at x efficiency (5, 10, 25, 50, 100, 300), no God tool, keep things distinct
+- u need to do every mini world and the main world before going to the next main world
+- u also need to do the world boss after that prerequisite
+- the plan is to release an alpha test with no builds on minefort, then once we have balanced it, release a beta test
+- on minehut, with probably no builds or basic builds, then hire builders and launch the server once we have at least
+- origin isles, verdant groves and gormak part 1.
+- turn the system arhcitecture into a graph/image
+- create a formula for generating the prices (IMPORTANT)
+- ive decided for upgrades in each zone to be single chain for that tool, so the shop shows every tool to upgrade
+- at that zone, and if u click on it, it will upgrade, and once max it will have some item change to show its max
+
 
 world boss spawns retroactively every 5 minutes, there are also temple guards that drop overworld shards, 
 can combine to overworld core, dropped by overworld golem
@@ -91,6 +100,7 @@ gormak region:
 - royal tomb: royal myrmidon, pharaoh, gormak the eternal
 
 rare mob that spawns in any of the gormak regions: mirage, goes invisible every 5 sec for 4 sec, drops a rare item
+can spawn in any of the zones, mirage finder is an item that tells u which zone
 
 tomb guard halberd, pharaoh  khopesh
 (cracked stone bricks / stone bricks) for abandoned city
@@ -99,7 +109,28 @@ raw gold block for temple
 
 cobalt for cave world
 
-drop calculation: `base * (1 + Math.max(0, fortune + 1 - density))`
+Overworld:
+1. Origin Isles ([Stone], [Coal], [Copper, Chicken], [Iron, Sheep], [Gold, Cow]) -> Duneworld Portal
+2. Verdant Groves ([Oak Log, Tin, Horse], [Birch Log, Bronze, Fox], [Spruce Log, Lead, Wolf], [Dark Oak Log, Silver, Sniffer]) -> Elderwood Roots Portal
+3. Sunken Marsh - (TODO)
+4. Emerald Peaks - (TODO: Snow, Dirt, Redstone, Lapis, Emerald, Pumpkin, Melon, Arachne, Goat, etc) -> Sky Spire
+5. Ironbound Quarry - (TODO: tungston, platinum, gravel, pale log, titanium, clay, maple, diamond, pillager, overworld boss) -> Caverns
+
+Duneworld:
+1. Gormak
+2. Khorvath
+3. Sol
+
+Elderwood Roots:
+1. Outer region
+2. Inside tree levels
+
+Skyworld (TODO):
+1. clouds
+2. kingdom
+
+
+
 
 #### The Great Canopy (region after Verdant Groves)
 jungle region around one huge treehouse tree, reached by portal from the Dark Oak Thicket.
@@ -120,10 +151,6 @@ you climb it: each level up the tree is a zone, levels linked by portals (vine l
 - avoid melon, pale oak, mangrove (emerald peaks / ironbound quarry use them)
 - avoid mobs that don't melee or shoot arrows (witch, creeper, slime, evoker), the combat system only handles those
 - once built, the tree zombee, treant and great treehouse gear move out of verdant groves, verdant ends at the dark oak thicket
-
-optional features (code, not data):
-- locked lifts: a level's portal only works once you own that level's gear, so levels can't be skipped
-- elder treant summon key + bossbar (see boss keys / bossbar ideas above), could also give gormak's unused tomb_key a use
 
 Gormak - Fallen King
 1. Abandoned City
@@ -195,6 +222,8 @@ Player health is real, mob health is pseudo, run `/data get entity @s Health`
 Reload CSV Data: run `generate.py --live`
 
 Server Transfer: use `target/Aurora-1.0.jar`, use FileZilla FTP to transfer world files.
+
+Drop Calculation: `base * Math.max(0, fortune + 1 - density)`, so a block needs Fortune of at least its density to drop anything
 
 ## TODO, from the legacy Skript
 

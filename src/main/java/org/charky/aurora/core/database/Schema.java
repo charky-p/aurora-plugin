@@ -50,6 +50,15 @@ public final class Schema {
                     "cosmetic_id TEXT NOT NULL, " +
                     "PRIMARY KEY (uuid, slot))",
 
+            // Tools live here, not on the item: every stat of every tool, per realm
+            "CREATE TABLE IF NOT EXISTS player_tools (" +
+                    "uuid VARCHAR(36) NOT NULL, " +
+                    "realm TEXT NOT NULL, " +
+                    "tool TEXT NOT NULL, " +
+                    "stat TEXT NOT NULL, " +
+                    "level INTEGER NOT NULL, " +
+                    "PRIMARY KEY (uuid, realm, tool, stat))",
+
             // The level of each perk a player has bought
             "CREATE TABLE IF NOT EXISTS player_perks (" +
                     "uuid VARCHAR(36) NOT NULL, " +

@@ -528,6 +528,56 @@ SCHEMAS["warps"] = {
     ]),
 }
 
+REALM_HEADER = """\
+# ===========================================================
+# AURORA REALM TEMPLATE - generated from data/realms.csv
+# ===========================================================
+# A realm is a group of worlds sharing one set of tool levels.
+# [realm_id]:
+#   name: "<color><b>Realm Name"
+#   worlds: (A world in no realm belongs to the first realm)
+#     - world_name
+#   base: overworld (Optional, tool levels here add on top of that realm's)
+# ===========================================================
+"""
+
+SCHEMAS["realms"] = {
+    "csv": "realms.csv",
+    "out": "realms.yml",
+    "header": REALM_HEADER,
+    "fields": OrderedDict([
+        ("name",   Str(quote=True, required=True)),
+        ("worlds", StrList()),
+        ("base",   Str()),
+    ]),
+}
+
+TOOL_HEADER = """\
+# ===========================================================
+# AURORA TOOL TEMPLATE - generated from data/tools.csv
+# ===========================================================
+# A tool lives on the player as levels, the item is drawn from them.
+# [tool_id]:
+#   name: Pickaxe
+#   kind: mining (Options: mining, combat, armor)
+#   item: PICKAXE (The vanilla name after the material, IRON_PICKAXE)
+#   materials: (In the order they are unlocked)
+#     - WOODEN
+# ===========================================================
+"""
+
+SCHEMAS["tools"] = {
+    "csv": "tools.csv",
+    "out": "tools.yml",
+    "header": TOOL_HEADER,
+    "fields": OrderedDict([
+        ("name",      Str(required=True)),
+        ("kind",      Str(required=True)),
+        ("item",      Str(required=True)),
+        ("materials", StrList()),
+    ]),
+}
+
 SCHEMAS["enchants"] = {
     "csv": "enchants.csv",
     "out": "enchants.yml",
@@ -781,6 +831,14 @@ def validate(built):
                 sold.add(cid)
                 for cost in comp.get("cost") or []:
                     costs_used.setdefault(cost["id"], []).append(f"{gui_id}/{key}")
+
+    realms = get("realms")
+    for rid, entry in realms.items():
+        if entry.get("base") and entry["base"] not in realms:
+            errors.append(f"realm '{rid}': builds on unknown realm '{entry['base']}'")
+    for tid, entry in get("tools").items():
+        if not entry.get("materials"):
+            errors.append(f"tool '{tid}' needs at least one material")
 
     tags = {entry.get("unlocks") for entry in get("resources_special").values()}
     for wid, entry in get("warps").items():

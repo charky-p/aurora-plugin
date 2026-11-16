@@ -25,6 +25,7 @@ import org.charky.aurora.core.database.RankStore;
 import org.charky.aurora.core.database.Schema;
 import org.charky.aurora.core.database.SpawnStore;
 import org.charky.aurora.core.database.SpawnerStore;
+import org.charky.aurora.core.database.ToolStore;
 import org.charky.aurora.core.database.TraderStore;
 import org.charky.aurora.core.database.UnlockStore;
 import org.charky.aurora.core.database.WorldStore;
@@ -69,6 +70,7 @@ import org.charky.aurora.features.system.commands.OpenMenuCommand;
 import org.charky.aurora.features.system.commands.RefreshCommand;
 import org.charky.aurora.features.system.commands.SpawnCommand;
 import org.charky.aurora.features.system.commands.TopCommand;
+import org.charky.aurora.features.tool.ToolManager;
 import org.charky.aurora.features.trader.TraderListener;
 import org.charky.aurora.features.warp.WarpMenu;
 import org.charky.aurora.features.trader.TraderManager;
@@ -103,6 +105,7 @@ public class Aurora extends JavaPlugin {
     private CollectionManager collectionManager;
     private PerkManager perkManager;
     private CosmeticManager cosmeticManager;
+    private ToolManager toolManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
 
@@ -161,6 +164,8 @@ public class Aurora extends JavaPlugin {
         Consumer<Player> openShop = player -> new RankShopMenu(rankManager, perkManager, registry).open(player);
         registry.registerAction("shop", openShop);
         registry.registerAction("warps", player -> new WarpMenu(this).open(player));
+        this.toolManager = new ToolManager(this, db, new ToolStore(db));
+        armoryManager.setTools(toolManager);
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.bossManager = new BossManager(this);
@@ -189,6 +194,7 @@ public class Aurora extends JavaPlugin {
                 levelManager,
                 rankManager,
                 cosmeticManager,
+                toolManager,
                 perkManager,
                 new MobDeathListener(this),
                 new LeftoverMobListener(),
@@ -271,6 +277,10 @@ public class Aurora extends JavaPlugin {
 
     public CollectionManager getCollectionManager() {
         return collectionManager;
+    }
+
+    public ToolManager getToolManager() {
+        return toolManager;
     }
 
     public CosmeticManager getCosmeticManager() {

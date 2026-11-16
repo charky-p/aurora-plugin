@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.tool.ToolManager;
+import org.charky.aurora.features.tool.ToolType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.Map;
 public class ArmoryMenu extends PagedMenu {
     private final ArmoryManager armory;
     private List<String> ids = List.of();
+    private List<ToolType> tools = List.of();
 
     public ArmoryMenu(ArmoryManager armory, DataRegistry registry) {
         super(registry, "Armory");
@@ -44,6 +47,32 @@ public class ArmoryMenu extends PagedMenu {
                 meta.lore(lore);
             });
             items.add(display);
+        }
+
+        // Tools that live on the player, drawn as they are in the realm they stand in
+        tools = new ArrayList<>();
+        ToolManager manager = armory.tools();
+        if (manager != null) {
+            for (String id : registry.getToolIds()) {
+                ToolType tool = registry.getToolType(id);
+                if (!manager.has(player, tool)) continue;
+
+                boolean carried = false;
+                for (ItemStack slot : player.getInventory().getContents()) {
+                    if (id.equals(ToolManager.toolId(slot))) carried = true;
+                }
+                ItemStack display = manager.build(player, tool);
+                String hint = carried ? "<gray>You have this one" : "<yellow>Click to take it";
+                display.editMeta(meta -> {
+                    List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
+                    lore.add(Component.empty());
+                    lore.add(TextUtils.parse("<!italic>" + hint));
+                    meta.lore(lore);
+                });
+                tools.add(tool);
+                ids.add("tool:" + id);
+                items.add(display);
+            }
         }
 
         boolean keyring = armory.hasKeyring(player);
@@ -86,7 +115,14 @@ public class ArmoryMenu extends PagedMenu {
     @Override
     protected void onEntryClick(Player player, int index) {
         if (index >= ids.size()) return;
-        armory.retrieve(player, ids.get(index));
+
+        String id = ids.get(index);
+        if (id.startsWith("tool:")) {
+            ToolType tool = registry.getToolType(id.substring("tool:".length()));
+            if (tool != null && armory.tools() != null) armory.tools().give(player, tool);
+        } else {
+            armory.retrieve(player, id);
+        }
         render(player);
     }
 }

@@ -11,6 +11,8 @@ public final class DataKeys {
     public static final NamespacedKey TRADER_KEY = new NamespacedKey("aurora", "trader_id");
     public static final NamespacedKey TRADER_SPOT_KEY = new NamespacedKey("aurora", "trader_spot");
     public static final NamespacedKey ITEM_KEY = new NamespacedKey("aurora", "item_id");
+    // On an item drawn from a player's tool levels, which tool it is
+    public static final NamespacedKey TOOL_KEY = new NamespacedKey("aurora", "tool_id");
     public static final NamespacedKey MENU_KEY = new NamespacedKey("aurora", "menu_id");
     public static final NamespacedKey ENCHANT_KEY = new NamespacedKey("aurora", "enchant_id");
     public static final NamespacedKey HEALTH_KEY = new NamespacedKey("aurora", "health");

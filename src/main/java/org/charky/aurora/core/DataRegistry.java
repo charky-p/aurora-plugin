@@ -17,7 +17,12 @@ import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.trader.Trader;
+import org.charky.aurora.features.tool.Realms;
+import org.charky.aurora.features.tool.ToolLevels;
+import org.charky.aurora.features.tool.ToolType;
 import org.charky.aurora.features.warp.Warp;
+import org.charky.aurora.core.models.RealmModel;
+import org.charky.aurora.core.models.ToolModel;
 import org.charky.aurora.core.models.WarpModel;
 import org.charky.aurora.features.trader.TraderMenu;
 
@@ -43,6 +48,8 @@ public class DataRegistry {
     private final Map<String, TraderMenu> guis = new HashMap<>();
     private final Map<String, Trader> traders = new HashMap<>();
     private final List<Warp> warps = new ArrayList<>();
+    private final Map<String, ToolType> toolTypes = new LinkedHashMap<>();
+    private Realms realms = new Realms(List.of());
 
     // Resources in resources.csv order, which is progression order
     private final List<MenuItem> resourceList = new ArrayList<>();
@@ -90,6 +97,7 @@ public class DataRegistry {
         guis.clear();
         traders.clear();
         warps.clear();
+        toolTypes.clear();
         resourceList.clear();
         resourceIds.clear();
         unlocks.clear();
@@ -118,6 +126,70 @@ public class DataRegistry {
                 .load(yaml.load("guis/shops.yml", GuiModel.class)));
         traders.putAll(new TraderLoader(plugin.getLogger()).load(yaml.load("traders.yml", TraderModel.class), guis));
         loadWarps();
+        loadTools();
+    }
+
+    private void loadTools() {
+        List<Realms.Realm> loaded = new ArrayList<>();
+        yaml.load("realms.yml", RealmModel.class).forEach((id, model) ->
+                loaded.add(new Realms.Realm(id.toLowerCase(), model.name, List.copyOf(model.worlds), model.base)));
+        realms = new Realms(loaded);
+
+        yaml.load("tools.yml", ToolModel.class).forEach((id, model) -> {
+            if (model.materials.isEmpty() || model.item == null) {
+                plugin.getLogger().severe("TOOL ERROR: '" + id + "' needs an item and at least one material");
+                return;
+            }
+            toolTypes.put(id.toLowerCase(), new ToolType(id.toLowerCase(), model.name, model.kind,
+                    model.item.toUpperCase(), List.copyOf(model.materials)));
+        });
+    }
+
+    public Realms getRealms() {
+        return realms;
+    }
+
+    // Null for an id that is not a tool
+    public ToolType getToolType(String id) {
+        return id == null ? null : toolTypes.get(id.toLowerCase());
+    }
+
+    public List<String> getToolIds() {
+        return new ArrayList<>(toolTypes.keySet());
+    }
+
+    public boolean hasEnchant(String id) {
+        return enchants.containsKey(id.toLowerCase());
+    }
+
+    public List<String> getEnchantIds() {
+        return new ArrayList<>(enchants.keySet());
+    }
+
+    // The item a tool is drawn as: the material its level stands for, and every
+    // enchant level written on it the way gear from the files has them, so mining
+    // and combat read it like any other item. The realm may be null
+    public ItemStack createTool(ToolType tool, Map<String, Integer> stats, Realms.Realm realm) {
+        String material = ToolLevels.material(tool.materials(), stats.getOrDefault(ToolLevels.MATERIAL, 0));
+
+        GearModel model = new GearModel();
+        model.display = "<white><b>" + material.charAt(0) + material.substring(1).toLowerCase() + " " + tool.name();
+        model.material = material + "_" + tool.item();
+        if (Material.matchMaterial(model.material) == null) model.material = tool.materials().getFirst() + "_" + tool.item();
+        model.type = tool.kind();
+        model.world = "overworld";
+        model.enchants = new LinkedHashMap<>();
+        stats.forEach((stat, level) -> {
+            if (level > 0 && enchants.containsKey(stat)) model.enchants.put(stat, level);
+        });
+        if (realm != null) model.lore.add(realm.name());
+
+        ItemStack item = itemFactory.createGear(model, enchants);
+        item.editMeta(meta -> {
+            meta.getPersistentDataContainer().set(DataKeys.TOOL_KEY, PersistentDataType.STRING, tool.id());
+            meta.getPersistentDataContainer().set(DataKeys.ITEM_KEY, PersistentDataType.STRING, "tool_" + tool.id());
+        });
+        return item;
     }
 
     private void loadWarps() {

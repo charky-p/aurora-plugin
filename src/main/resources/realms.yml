@@ -1,0 +1,25 @@
+# ===========================================================
+# AURORA REALM TEMPLATE - generated from data/realms.csv
+# ===========================================================
+# A realm is a group of worlds sharing one set of tool levels.
+# [realm_id]:
+#   name: "<color><b>Realm Name"
+#   worlds: (A world in no realm belongs to the first realm)
+#     - world_name
+#   base: overworld (Optional, tool levels here add on top of that realm's)
+# ===========================================================
+
+
+items:
+  overworld:
+    name: "<green><b>Overworld"
+    worlds:
+      - "aurora_mines"
+      - "aurora_test"
+      - "aurora_test_verdant"
+
+  duneworld:
+    name: "<gold><b>Duneworld"
+    worlds:
+      - "aurora_test_gormak"
+    base: overworld

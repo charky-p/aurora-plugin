@@ -10,6 +10,7 @@ import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.UnlockStore;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.features.tool.ToolManager;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -23,6 +24,7 @@ public class ArmoryManager {
     private UnlockStore store;
     // Who has bought the Keyring perk, nobody until it is set
     private Predicate<Player> keyring = player -> false;
+    private ToolManager tools;
 
     public ArmoryManager(DataRegistry registry) {
         this.registry = registry;
@@ -32,6 +34,15 @@ public class ArmoryManager {
         this.unlocks = store.loadAll();
         this.db = db;
         this.store = store;
+    }
+
+    public void setTools(ToolManager tools) {
+        this.tools = tools;
+    }
+
+    // Null until the plugin has finished starting
+    public ToolManager tools() {
+        return tools;
     }
 
     public void setKeyring(Predicate<Player> keyring) {

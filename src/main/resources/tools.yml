@@ -1,0 +1,113 @@
+# ===========================================================
+# AURORA TOOL TEMPLATE - generated from data/tools.csv
+# ===========================================================
+# A tool lives on the player as levels, the item is drawn from them.
+# [tool_id]:
+#   name: Pickaxe
+#   kind: mining (Options: mining, combat, armor)
+#   item: PICKAXE (The vanilla name after the material, IRON_PICKAXE)
+#   materials: (In the order they are unlocked)
+#     - WOODEN
+# ===========================================================
+
+
+items:
+  pick:
+    name: Pickaxe
+    kind: mining
+    item: PICKAXE
+    materials:
+      - "WOODEN"
+      - "STONE"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"
+
+  axe:
+    name: Axe
+    kind: mining
+    item: AXE
+    materials:
+      - "WOODEN"
+      - "STONE"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"
+
+  shovel:
+    name: Shovel
+    kind: mining
+    item: SHOVEL
+    materials:
+      - "WOODEN"
+      - "STONE"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"
+
+  sword:
+    name: Sword
+    kind: combat
+    item: SWORD
+    materials:
+      - "WOODEN"
+      - "STONE"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"
+
+  helmet:
+    name: Helmet
+    kind: armor
+    item: HELMET
+    materials:
+      - "LEATHER"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"
+
+  chestplate:
+    name: Chestplate
+    kind: armor
+    item: CHESTPLATE
+    materials:
+      - "LEATHER"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"
+
+  leggings:
+    name: Leggings
+    kind: armor
+    item: LEGGINGS
+    materials:
+      - "LEATHER"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"
+
+  boots:
+    name: Boots
+    kind: armor
+    item: BOOTS
+    materials:
+      - "LEATHER"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"

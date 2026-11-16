@@ -7,10 +7,11 @@ An upgrade costs what the player gathers in the time that upgrade should take:
     price = seconds for this step * how fast the resource comes in right now
 
   seconds for a step   a zone has a time target, shared out over its upgrade steps
-                       in the order they are bought. Each step gets GROWTH times
-                       the time of the one before, so a zone starts quick and its
-                       last upgrades are the long ones:
-                         weight(i) = GROWTH ** i
+                       in the order they are bought. A zone starts quick and its
+                       last upgrade takes SPREAD times as long as its first,
+                       however many steps there are in between:
+                         growth = SPREAD ** (1 / (steps - 1))
+                         weight(i) = growth ** i
                          seconds(i) = target * weight(i) / sum of all weights
   income, mined        blocks per second * drop per block * (fortune + 1 - density)
   income, mob drop     drop per kill / seconds per kill
@@ -26,17 +27,17 @@ every zone, sub world or event world uses the same code.
   python scripts/balance/prices.py            the worked example below
   python scripts/balance/prices.py --check    run the self checks
 """
-import math
 import sys
 
-# Each step takes this many times as long as the one before it
-GROWTH = 1.25
+# The last step of a zone takes this many times as long as its first
+SPREAD = 4.0
 
 
-def step_seconds(target_seconds, steps, growth=GROWTH):
+def step_seconds(target_seconds, steps, spread=SPREAD):
     """The zone's time target shared over its steps, longest last."""
     if steps <= 0:
         return []
+    growth = spread ** (1 / (steps - 1)) if steps > 1 else 1.0
     weights = [growth ** i for i in range(steps)]
     total = sum(weights)
     return [target_seconds * w / total for w in weights]
@@ -52,37 +53,48 @@ def mob_income(drop_per_kill, seconds_per_kill):
     return drop_per_kill / seconds_per_kill
 
 
+# Prices a player recognises. Small ones are parts of a stack of 64, so 19 reads
+# as 16 and 29 as 32. From a thousand up they are round numbers, so 2050 is 2000
+SMALL_PRICES = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 160, 200, 256, 320, 400, 500, 640, 750]
+ROUND_DIGITS = [1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 7.5]
+
+
 def nice(amount):
-    """Prices read as round numbers: two significant figures, never below 1."""
+    """The nearest price worth showing, never below 1."""
     if amount <= 1:
         return 1
-    magnitude = 10 ** (math.floor(math.log10(amount)) - 1)
-    return max(1, int(round(amount / magnitude) * magnitude))
+    ladder = list(SMALL_PRICES)
+    power = 1000
+    while ladder[-1] < amount * 2:
+        ladder += [int(digit * power) for digit in ROUND_DIGITS]
+        power *= 10
+    return min(ladder, key=lambda step: (abs(step - amount), step))
 
 
 def price(seconds, income_per_second):
     return nice(seconds * income_per_second)
 
 
-def zone_prices(target_seconds, steps, income, start, growth=GROWTH):
+def zone_prices(target_seconds, steps, income, start, spread=SPREAD):
     """
     Prices for every step of a zone, in purchase order.
 
     steps    list of {"tool", "stat", "cost": {resource: share}}. The shares of a
              step's cost add up to 1 and split its seconds between its resources.
     income   function(state, resource) -> that resource per second
-    start    {(tool, stat): level} the player arrives with. Buying a step adds 1
+    start    {(tool, stat): level} the player arrives with. Buying a step adds 1,
+             or sets the step's own "level", which a material change uses
     """
     state = dict(start)
-    seconds = step_seconds(target_seconds, len(steps), growth)
+    seconds = step_seconds(target_seconds, len(steps), spread)
     priced = []
     for step, time in zip(steps, seconds):
         cost = {resource: price(time * share, income(state, resource))
                 for resource, share in step["cost"].items()}
         key = (step["tool"], step["stat"])
-        state[key] = state.get(key, 0) + 1
+        state[key] = step["level"] if "level" in step else state.get(key, 0) + 1
         priced.append({"tool": step["tool"], "stat": step["stat"], "level": state[key],
-                       "seconds": time, "cost": cost})
+                       "seconds": time, "cost": cost, "state": dict(state)})
     return priced
 
 
@@ -127,6 +139,9 @@ def check():
     times = step_seconds(120, 6)
     assert abs(sum(times) - 120) < 1e-9, "steps add up to the target"
     assert all(b > a for a, b in zip(times, times[1:])), "every step is longer than the last"
+    assert abs(times[-1] / times[0] - SPREAD) < 1e-9, "the last step is SPREAD times the first"
+    many = step_seconds(120, 30)
+    assert abs(many[-1] / many[0] - SPREAD) < 1e-9, "however many steps there are"
     assert step_seconds(60, 1) == [60], "one step takes the whole zone"
     assert step_seconds(60, 0) == []
 
@@ -135,8 +150,10 @@ def check():
     assert block_income(2, 3, 2, 3) == 0, "below the density nothing drops"
     assert mob_income(2, 8) == 0.25
 
-    assert [nice(n) for n in (0.2, 1, 7.4, 43, 187, 1234, 98765)] == [1, 1, 7, 43, 190, 1200, 99000]
-    assert price(10, 6) == 60
+    assert [nice(n) for n in (0.2, 1, 19, 29, 2050)] == [1, 1, 16, 32, 2000], "the prices Charky asked for"
+    assert [nice(n) for n in (7, 43, 187, 700, 1234, 98765)] == [6, 48, 200, 750, 1250, 100000]
+    assert all(nice(n) == n for n in SMALL_PRICES), "a nice price stays as it is"
+    assert price(10, 6) == 64, "60 is priced as a stack"
 
     priced = example()
     coal = [row["cost"]["coal"] for row in priced if row["stat"] == "fortune" and row["cost"] == {"coal": row["cost"]["coal"]}]

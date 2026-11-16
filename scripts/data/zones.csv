@@ -1,0 +1,6 @@
+id,name,world,region,order,target_seconds,mine,mob
+cobble,Cobblestone Quarry,overworld,origin_isles,1,120,cobblestone,
+coal,Coal Seam,overworld,origin_isles,2,120,coal,
+copper,Copper Vein,overworld,origin_isles,3,156,copper,chicken
+iron,Iron Deposit,overworld,origin_isles,4,252,iron,sheep
+gold,Gold Reef,overworld,origin_isles,5,402,gold,cow

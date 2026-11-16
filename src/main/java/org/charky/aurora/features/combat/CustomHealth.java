@@ -2,16 +2,19 @@ package org.charky.aurora.features.combat;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.spawner.MobData;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +30,8 @@ public final class CustomHealth {
     static final double NOMINAL_DAMAGE = 0.5;
 
     private static final Set<UUID> finishing = ConcurrentHashMap.newKeySet();
+    // Out of health and waiting for the next tick to fall
+    private static final Set<UUID> dying = new HashSet<>();
     // Asked when a hit would kill. True means the mob saved itself and set its own
     // health, a boss with a second wind. Null when nothing can
     private static Predicate<LivingEntity> lastStand;
@@ -95,7 +100,23 @@ public final class CustomHealth {
         refreshName(entity, baseName(entity, registry));
     }
 
+    // A kill by a player waits one tick. Vanilla draws a damage heart for every two
+    // health a melee hit took off, measured across the hit, and these mobs carry
+    // 1024 vanilla health: killing inside the hit drew hundreds of hearts at once
     private static void finish(LivingEntity entity, Player source) {
+        if (source == null) {
+            kill(entity, null);
+            return;
+        }
+
+        if (!dying.add(entity.getUniqueId())) return;
+        Bukkit.getScheduler().runTask(JavaPlugin.getProvidingPlugin(CustomHealth.class), () -> {
+            dying.remove(entity.getUniqueId());
+            if (entity.isValid() && !entity.isDead()) kill(entity, source);
+        });
+    }
+
+    private static void kill(LivingEntity entity, Player source) {
         UUID id = entity.getUniqueId();
         finishing.add(id);
 
@@ -105,7 +126,6 @@ public final class CustomHealth {
                 entity.setHealth(0.0);
             } else {
                 entity.setHealth(0.5);
-                // Damage is scaled down to reduce heart effect
                 entity.damage(8.0, source);
             }
         } finally {

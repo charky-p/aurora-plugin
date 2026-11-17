@@ -11,9 +11,9 @@ public enum Perk {
     // A crit doubles what a mined block drops, 100 levels makes every block a crit
     CRIT_RATE("crit_rate", "<yellow><b>Crit Rate", Material.DIAMOND_PICKAXE, 100, 10,
             "+1% chance per level for a mined block to drop double"),
-    // Bought once. Keys found before can then be taken from the Armory again
+    // Bought once. Keys found before can then be taken from Collections again
     KEYRING("keyring", "<gold><b>Keyring", Material.TRIAL_KEY, 1, 5_000,
-            "take any key you have found before from the Armory");
+            "take any key you have found before from Collections");
 
     private final String id;
     private final String display;

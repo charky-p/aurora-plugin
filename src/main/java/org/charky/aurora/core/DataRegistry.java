@@ -89,7 +89,6 @@ public class DataRegistry {
 
     public void setArmoryManager(ArmoryManager armoryManager) {
         this.armoryManager = armoryManager;
-        registerAction("armory", armoryManager::open);
     }
 
     // What an ACTION component of a menu does when clicked

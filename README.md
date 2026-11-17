@@ -11,8 +11,8 @@ A sky-mining RPG plugin for Paper 26.3. Mine resources, spend them on upgrades f
 - **Upgrades, not items**: each zone's trader sells levels for the pick, axe, sword, shield and armour, priced by a formula from a time target per zone
 - **Three regions**: the Origin Isles, then two branches that add up, Gormak for fighting and Verdant Groves for gathering
 - **Backpack** that holds mined resources outside the inventory
-- **Armory** where weapons dropped by mobs are unlocked for good
-- **Collections, levels and Essence**, playtime ranks and cosmetics in `/customise`
+- **Collections** of every resource, with a Gear tab where weapons dropped by mobs are unlocked for good
+- **Levels and Essence**, playtime ranks and cosmetics in `/customise`
 - **Bosses** summoned with a key, with phases and adds
 - **Player menu** with `/aurora` or `/a`
 

@@ -5,7 +5,6 @@ tomb_utility,2,TRADE,gormak_talisman,1,ancient_heart*3+royal_seal*5,
 tomb_utility,z,GUI,tomb_shop,,,
 aurora_hub,1,ACTION,howto,,,icon_howto
 aurora_hub,4,ACTION,backpack,,,icon_backpack
-aurora_hub,5,ACTION,armory,,,icon_armory
 aurora_hub,6,ACTION,collections,,,icon_collections
 aurora_hub,7,ACTION,customise,,,icon_customise
 aurora_hub,9,ACTION,spawn,,,icon_spawn

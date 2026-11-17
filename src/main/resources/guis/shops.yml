@@ -111,8 +111,8 @@ items:
     layout:
       - "BBBBBBBBB"
       - "B       B"
-      - "B 1 4 5 B"
-      - "B 6 7 w B"
+      - "B 1 4 6 B"
+      - "B  7 w  B"
       - "B   9   B"
       - "BBBBBBBBX"
     components:
@@ -124,10 +124,6 @@ items:
         type: ACTION
         id: backpack
         icon: icon_backpack
-      '5':
-        type: ACTION
-        id: armory
-        icon: icon_armory
       '6':
         type: ACTION
         id: collections

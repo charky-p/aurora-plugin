@@ -155,6 +155,8 @@ public class Aurora extends JavaPlugin {
         this.rankManager = new RankManager(this, db, new RankStore(db), players, scoreboard, tabManager);
         this.collectionManager = new CollectionManager(this, registry, db, new CollectionStore(db), players, scoreboard);
         registry.registerAction("collections", collectionManager::open);
+        // Gear lives in Collections, this is its tab
+        registry.registerAction("armory", collectionManager::openGear);
         this.cosmeticManager = new CosmeticManager(this, db, new CosmeticStore(db), players, rankManager, scoreboard, tabManager);
         registry.registerAction("ranks", rankManager::openRanks);
         registry.registerAction("customise", cosmeticManager::openHub);

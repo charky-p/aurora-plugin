@@ -69,11 +69,11 @@ items:
       - "<gray>Everything you have mined."
 
   icon_armory:
-    display: "<red><b>Armory"
+    display: "<red><b>Gear"
     material: IRON_SWORD
     glow: false
     lore:
-      - "<gray>Weapons unlocked from mobs."
+      - "<gray>Your tools and armour and what mobs dropped."
 
   icon_spawn:
     display: "<green><b>Spawn"

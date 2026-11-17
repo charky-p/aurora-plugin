@@ -7,7 +7,7 @@ icon_tomb,<dark_purple><b>Royal Tomb,GILDED_BLACKSTONE,true,"<gray>Myrmidons, ph
 icon_menu,<aqua><b>Aurora,NETHER_STAR,true,<gray>Everything in one place.
 icon_howto,<yellow><b>How to Play,BOOK,false,<gray>New here? Start here.
 icon_backpack,<gold><b>Backpack,CHEST,false,<gray>Everything you have mined.
-icon_armory,<red><b>Armory,IRON_SWORD,false,<gray>Weapons unlocked from mobs.
+icon_armory,<red><b>Gear,IRON_SWORD,false,<gray>Your tools and armour and what mobs dropped.
 icon_spawn,<green><b>Spawn,ENDER_PEARL,false,<gray>Return to the hub island.
 icon_tools,<green><b>Your Tools,WOODEN_PICKAXE,false,<gray>Take your pick, sword and armour.|<gray>They are yours for good and only get better.
 icon_upgrades,<aqua><b>Upgrades,ANVIL,true,<gray>Make the tools you carry better|<gray>a level at a time.

@@ -90,6 +90,10 @@ public class CollectionManager {
         new CollectionMenu(this, registry).open(player);
     }
 
+    public void openGear(Player player) {
+        new CollectionMenu(this, registry).onGear().open(player);
+    }
+
     public void shutdown() {
         autosave.cancel();
         store.saveAll(takeChanged());

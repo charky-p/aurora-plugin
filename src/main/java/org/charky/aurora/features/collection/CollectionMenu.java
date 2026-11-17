@@ -22,7 +22,7 @@ import java.util.Map;
 // Two tabs. Resources: every resource in progression order with how many the player
 // has ever gathered, the tier that total has reached and what the next one needs and
 // pays. Gear: the player's own tools and armour as they are now, then what mobs drop,
-// found or not. Gear is only shown here, it is taken out in the Armory
+// found or not, then keys. Clicking a piece of gear that is yours takes a copy out
 public class CollectionMenu extends PagedMenu {
     // In the top border, either side of the middle
     private static final int RESOURCES_TAB = 3;
@@ -30,10 +30,18 @@ public class CollectionMenu extends PagedMenu {
 
     private final CollectionManager collections;
     private boolean gearTab = false;
+    // What each entry of the Gear tab is: a gear id, or tool:<id>
+    private List<String> gearIds = List.of();
 
     public CollectionMenu(CollectionManager collections, DataRegistry registry) {
         super(registry, "Collections");
         this.collections = collections;
+    }
+
+    // Opens on the Gear tab, for the button in the backpack
+    public CollectionMenu onGear() {
+        gearTab = true;
+        return this;
     }
 
     @Override
@@ -77,27 +85,57 @@ public class CollectionMenu extends PagedMenu {
     private List<ItemStack> gear(Player player) {
         List<ItemStack> items = new ArrayList<>();
         ArmoryManager armory = registry.getArmoryManager();
+        gearIds = new ArrayList<>();
 
         // The tools and armour that level up, drawn as they are in this realm
         ToolManager tools = armory.tools();
         if (tools != null) {
             for (String id : registry.getToolIds()) {
                 ToolType tool = registry.getToolType(id);
-                items.add(tools.has(player, tool)
-                        ? noted(tools.build(player, tool), "<green>Yours <dark_gray>- <gray>upgraded at each zone's trader")
-                        : unknown(TextUtils.parse("<!italic><gray>Not yours yet")));
+                gearIds.add("tool:" + id);
+                items.add(!tools.has(player, tool) ? unknown(TextUtils.parse("<!italic><gray>Not yours yet"))
+                        : noted(tools.build(player, tool), tools.carries(player, tool)
+                        ? "<gray>You have this one" : "<yellow>Click to take it"));
             }
         }
 
         for (Map.Entry<String, Component> drop : registry.getArmory().entrySet()) {
+            gearIds.add(drop.getKey());
             if (!armory.isUnlocked(player.getUniqueId(), drop.getKey())) {
                 items.add(unknown(TextUtils.parse("<!italic><gray>Dropped by ").append(drop.getValue())));
                 continue;
             }
             items.add(noted(registry.getAllItems().get(drop.getKey()).clone(),
-                    "<green>Found <dark_gray>- <gray>take it out in the Armory"));
+                    armory.carries(player, drop.getKey()) ? "<gray>You have this one" : "<yellow>Click to take one"));
+        }
+
+        // Keys the player has had come last, the Keyring perk lets them be taken again
+        boolean keyring = armory.hasKeyring(player);
+        for (String id : registry.getKeyIds()) {
+            gearIds.add(id);
+            if (!armory.isUnlocked(player.getUniqueId(), id)) {
+                items.add(unknown(TextUtils.parse("<!italic><gray>A key you have not found yet")));
+                continue;
+            }
+            items.add(noted(registry.getAllItems().get(id).clone(), !keyring ? "<gray>Found. Used up when it opens the way"
+                    : armory.carries(player, id) ? "<gray>You have this one" : "<yellow>Click to take one"));
         }
         return items;
+    }
+
+    @Override
+    protected void onEntryClick(Player player, int index) {
+        if (!gearTab || index >= gearIds.size()) return;
+
+        ArmoryManager armory = registry.getArmoryManager();
+        String id = gearIds.get(index);
+        if (id.startsWith("tool:")) {
+            ToolType tool = registry.getToolType(id.substring("tool:".length()));
+            if (tool != null && armory.tools() != null && armory.tools().has(player, tool)) armory.tools().give(player, tool);
+        } else {
+            armory.retrieve(player, id);
+        }
+        render(player);
     }
 
     private static ItemStack unknown(Component line) {

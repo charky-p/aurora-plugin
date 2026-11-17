@@ -15,7 +15,8 @@ import org.charky.aurora.features.tool.ToolManager;
 import java.util.*;
 import java.util.function.Predicate;
 
-// Gear dropped by mobs is unlocked once, then any copy can be taken from the Armory.
+// Gear dropped by mobs is unlocked once, then any copy can be taken from the Gear
+// tab of Collections.
 // Only mob drops, shop gear is consumed by upgrades so it can never be unlimited
 public class ArmoryManager {
     private final DataRegistry registry;
@@ -66,10 +67,6 @@ public class ArmoryManager {
         unlock(uuid, itemId);
     }
 
-    public void open(Player player) {
-        new ArmoryMenu(this, registry).open(player);
-    }
-
     public boolean isUnlocked(UUID uuid, String itemId) {
         return unlocks.getOrDefault(uuid, Set.of()).contains(itemId);
     }
@@ -90,11 +87,11 @@ public class ArmoryManager {
 
         essence.accept(player, UNLOCK_ESSENCE);
         player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> ").append(name)
-                .append(TextUtils.parse(" <gray>- it is kept in the Armory <dark_gray>(<gold>+" + UNLOCK_ESSENCE + " Essence<dark_gray>)")));
+                .append(TextUtils.parse(" <gray>- it is kept in Collections <dark_gray>(<gold>+" + UNLOCK_ESSENCE + " Essence<dark_gray>)")));
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1f);
 
         if (player.getInventory().firstEmpty() != -1) player.getInventory().addItem(item.clone());
-        else TextUtils.warn(player, "Inventory full - take it from the Armory when you have room");
+        else TextUtils.warn(player, "Inventory full - take it from Collections when you have room");
     }
 
     // Gives one copy, a second is pointless as gear never breaks

@@ -12,13 +12,15 @@ The price of a step, for each resource it costs:
 
   price = step seconds x the resource's share x its scale x income per second
 
-  step seconds   the zone's target shared over its steps, the last taking SPREAD
-                 times as long as the first (prices.py)
+  step seconds   the zone's target shared over its steps, rising in a straight
+                 line from half the average to one and a half times it (prices.py)
   share          the cost column of upgrades.csv
   scale          mine_scale or mob_scale, by where the resource comes from
   income         what the player's tools earn of it a second just before buying
 
-and the result is rounded to a number worth showing.
+and the prices of each resource are then rounded, kept from repeating and scaled
+back to the budget, see prices.fit. The rounding, the ramp and the Fortune formula
+are scripts/price_calculator.py, which can also work one price out by hand.
   upgrades.csv   the steps a zone's shop sells, in purchase order: a tool, a stat,
                  the level it reaches and what it costs in. The cost column holds
                  shares of the step's time, not amounts: coal:1 is "all of this

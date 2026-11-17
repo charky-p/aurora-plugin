@@ -450,6 +450,7 @@ SCHEMAS["blocks"] = {
     "fields": OrderedDict([
         ("material", Str(required=True)),
         ("density",  Int(default=0)),
+        ("xp",       Int(default=1)),
     ] + loot_fields()),
 }
 

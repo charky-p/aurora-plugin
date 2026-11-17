@@ -225,7 +225,13 @@ Reload CSV Data: run `generate.py --live`
 
 Server Transfer: use `target/Aurora-1.0.jar`, use FileZilla FTP to transfer world files.
 
-Drop Calculation: `base * Math.max(0, fortune + 1 - density)`, so a block needs Fortune of at least its density to drop anything
+Drop Calculation (Fortune): with `L = fortune - density`, a block drops nothing if `L < 0`, otherwise
+
+`drops = round(base * (1 + 0.75 * L + 0.25 * L^2))`, never less than 1
+
+so the multiplier is 1, 2, 3.5, 5.5, 8, 11 ... for L = 0, 1, 2, 3, 4, 5. A block needs Fortune of at least its density to drop anything. Fortune adds up across realms: Origin, Gormak and Verdant Groves each give their own levels and the tool has the sum. The formula lives in `DataRegistry.getBlockDrops` (Java) and `fortune()` in `scripts/price_calculator.py` (prices), keep the two the same.
+
+XP per block: items dropped x the block's `xp` in `scripts/data/world/blocks.csv`, so Fortune raises XP too. Every block of a zone has the same `xp`.
 
 ## TODO, from the legacy Skript
 

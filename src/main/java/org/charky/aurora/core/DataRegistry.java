@@ -332,23 +332,13 @@ public class DataRegistry {
 
     // Blocks scale with Fortune instead, so nothing here is lootable
     private void loadBlocks(LootPoolBuilder loot) {
-        // Each resource a block gives is one mine, numbered in the order blocks.csv
-        // first mentions it: cobblestone 1, coal 2, and so on. The plain and the rich
-        // block of a mine share its number, which is the XP each item it drops gives
-        Map<String, Integer> mines = new HashMap<>();
-        yaml.load("blocks.yml", BlockModel.class).forEach((id, model) -> {
-            String resource = firstDrop(model);
-            int mine = resource == null ? 1 : mines.computeIfAbsent(resource, k -> mines.size() + 1);
-            blocks.put(id.toLowerCase(), new BlockData(Material.matchMaterial(model.material), model.density, mine,
-                    loot.build(id, model.independent, model.choices, false)));
-        });
+        // The xp column of blocks.csv is what each item the block drops is worth. The
+        // blocks of one zone share a number, so a log levels as fast as its zone's metal
+        yaml.load("blocks.yml", BlockModel.class).forEach((id, model) ->
+                blocks.put(id.toLowerCase(), new BlockData(Material.matchMaterial(model.material), model.density,
+                        Math.max(1, model.xp), loot.build(id, model.independent, model.choices, false))));
     }
 
-    private static String firstDrop(BlockModel model) {
-        if (model.independent != null && !model.independent.isEmpty()) return model.independent.getFirst().id;
-        if (model.choices != null && !model.choices.options.isEmpty()) return model.choices.options.getFirst().id;
-        return null;
-    }
 
     // Every registry item carries its id, so costs match what an item is rather than
     // every detail of how it looks, which changes whenever gear generation does

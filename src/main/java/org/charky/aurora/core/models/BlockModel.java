@@ -6,6 +6,8 @@ import java.util.List;
 public class BlockModel {
     public String material;
     public int density = 0;
+    // XP for every item the block drops
+    public int xp = 1;
     public List<IndependentPoolModel> independent = new ArrayList<>();
     public CumulativeLootPoolModel choices;
 

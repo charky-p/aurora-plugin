@@ -21,7 +21,7 @@ public final class MobDamage {
 
     // In vanilla health points, one heart is two
     public static double dealt(MobData mob, Player player, boolean ranged) {
-        double hearts = CombatFormulas.heartsPerHit(mob.attack(), protection(player)) * CombatFormulas.MOB_DAMAGE_SCALE;
+        double hearts = CombatFormulas.heartsPerHit(mob.attack(), protection(player)) * CombatFormulas.MOB_DAMAGE_SCALE * mob.damage();
         if (ranged) hearts *= CombatFormulas.RANGED_SCALE;
         return hearts * 2.0;
     }

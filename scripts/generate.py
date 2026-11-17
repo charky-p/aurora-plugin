@@ -484,6 +484,7 @@ SCHEMAS["mobs_gormak"] = {
         ("defence",    Float(default=0.0)),
         ("attack",     Float(default=0.0)),
         ("attack_cooldown", Float(default=0.0)),
+        ("damage",     Float(default=1.0)),
         ("equip",      PairMap(value=str)),
         ("attributes", PairList("attr", "value", value=float)),
     ] + loot_fields()),

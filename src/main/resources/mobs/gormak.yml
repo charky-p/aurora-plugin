@@ -32,9 +32,10 @@ items:
   hollowed_serf:
     display: "<gray><b>Hollowed Serf"
     entity: ZOMBIE_VILLAGER
-    health: 40.0
+    health: 50.0
     defence: 2.0
     attack: 11.0
+    damage: 1.5
     equip:
       head: serf_helmet_1
       chest: serf_chestplate_1
@@ -44,8 +45,7 @@ items:
         value: 0.23
     independent:
       - id: tattered_cloth
-        min: 2
-        max: 5
+        max: 3
       - id: ancient_scrap
         chance: 25
         max: 2
@@ -55,9 +55,10 @@ items:
   scavenger_husk:
     display: "<gray><b>Scavenger Husk"
     entity: HUSK
-    health: 80.0
+    health: 95.0
     defence: 3.0
     attack: 11.0
+    damage: 1.5
     equip:
       head: scavenger_helmet_1
       chest: scavenger_chestplate_1
@@ -70,20 +71,21 @@ items:
         value: 32.0
     independent:
       - id: ancient_scrap
-        min: 3
-        max: 6
+        min: 2
+        max: 4
       - id: tattered_cloth
         chance: 25
-        max: 3
+        max: 2
       - id: scavenger_shiv
         chance: 0.25
 
   dune_scout:
     display: "<yellow><b>Dune Scout"
     entity: HUSK
-    health: 80.0
+    health: 95.0
     defence: 4.0
     attack: 15.0
+    damage: 1.5
     equip:
       head: scout_helmet_1
       chest: scout_chestplate_1
@@ -98,17 +100,17 @@ items:
         value: 1.0
     independent:
       - id: ancient_flesh
-        min: 2
-        max: 5
+        max: 3
       - id: scout_blade
         chance: 0.25
 
   sand_stalker:
     display: "<gold><b>Sand Stalker"
     entity: SKELETON
-    health: 130.0
+    health: 155.0
     defence: 5.0
     attack: 11.0
+    damage: 1.5
     equip:
       head: stalker_helmet_1
       chest: stalker_chestplate_1
@@ -121,19 +123,20 @@ items:
         value: 48.0
     independent:
       - id: ancient_bone
-        max: 3
+        max: 2
       - id: ancient_flesh
         chance: 30
-        max: 3
+        max: 2
       - id: stalker_fang
         chance: 0.25
 
   scarab_zealot:
     display: "<dark_purple><b>Scarab Zealot"
     entity: ZOMBIE
-    health: 180.0
+    health: 215.0
     defence: 6.0
     attack: 19.0
+    damage: 1.5
     equip:
       head: zealot_helmet_1
       chest: zealot_chestplate_1
@@ -146,17 +149,17 @@ items:
         value: 40.0
     independent:
       - id: scarab_shell
-        min: 2
-        max: 5
+        max: 3
       - id: scarab_khopesh
         chance: 0.25
 
   hollowed_legionnaire:
     display: "<gray><b>Hollowed Legionnaire"
     entity: HUSK
-    health: 200.0
+    health: 240.0
     defence: 8.0
     attack: 19.0
+    damage: 1.5
     equip:
       head: legionnaire_helmet_1
       chest: legionnaire_chestplate_1
@@ -172,8 +175,7 @@ items:
         value: 36.0
     independent:
       - id: legion_plate
-        min: 2
-        max: 4
+        max: 3
       - id: scarab_shell
         chance: 25
         max: 2
@@ -183,9 +185,10 @@ items:
   tomb_guard:
     display: "<gold><b>Tomb Guard"
     entity: HUSK
-    health: 250.0
+    health: 300.0
     defence: 10.0
     attack: 23.0
+    damage: 1.5
     equip:
       head: guard_helmet_1
       chest: guard_chestplate_1
@@ -201,17 +204,18 @@ items:
         value: 40.0
     independent:
       - id: ancient_nugget
-        min: 3
-        max: 7
+        min: 2
+        max: 4
       - id: tomb_halberd
         chance: 0.25
 
   vizier_mage:
     display: "<yellow><b>Vizier Mage"
     entity: SKELETON
-    health: 220.0
+    health: 265.0
     defence: 12.0
     attack: 23.0
+    damage: 1.5
     equip:
       head: vizier_helmet_1
       chest: vizier_chestplate_1
@@ -223,20 +227,20 @@ items:
         value: 64.0
     independent:
       - id: vizier_scroll
-        max: 3
+        max: 2
       - id: ancient_nugget
         chance: 40
-        min: 2
-        max: 4
+        max: 3
       - id: vizier_bow
         chance: 0.25
 
   royal_myrmidon:
     display: "<dark_purple><b>Royal Myrmidon"
     entity: WITHER_SKELETON
-    health: 250.0
+    health: 300.0
     defence: 13.0
     attack: 25.0
+    damage: 1.5
     equip:
       head: myrmidon_helmet_1
       chest: myrmidon_chestplate_1
@@ -261,9 +265,10 @@ items:
   pharaoh:
     display: "<gold><b>Pharaoh"
     entity: ZOMBIE_VILLAGER
-    health: 340.0
+    health: 410.0
     defence: 15.0
     attack: 25.0
+    damage: 1.5
     equip:
       head: pharaoh_helmet_1
       chest: pharaoh_chestplate_1
@@ -288,10 +293,11 @@ items:
   gormak_eternal:
     display: "<dark_red><b>Gormak the Eternal"
     entity: HUSK
-    health: 1800.0
+    health: 2150.0
     defence: 18.0
     attack: 29.0
     attack_cooldown: 3.0
+    damage: 1.5
     equip:
       head: eternal_helmet_1
       chest: eternal_chestplate_1
@@ -322,8 +328,9 @@ items:
   gormak_ghoul:
     display: "<gray><b>Gormak Ghoul"
     entity: HUSK
-    health: 60.0
+    health: 70.0
     attack: 21.0
+    damage: 1.5
     equip:
       hand: ghoul_scythe
     attributes:
@@ -335,9 +342,10 @@ items:
   gormak_minion:
     display: "<yellow><b>Gormak Minion"
     entity: ZOMBIE
-    health: 120.0
+    health: 145.0
     defence: 4.0
     attack: 21.0
+    damage: 1.5
     equip:
       head: serf_helmet_1
       hand: serf_cleaver
@@ -350,9 +358,10 @@ items:
   gormak_guardian:
     display: "<gold><b>Gormak Guardian"
     entity: SKELETON
-    health: 500.0
+    health: 600.0
     defence: 16.0
     attack: 25.0
+    damage: 1.5
     equip:
       head: guard_helmet_1
       chest: eternal_chestplate_1
@@ -370,9 +379,10 @@ items:
   mirage:
     display: "<light_purple><b>Mirage"
     entity: HUSK
-    health: 400.0
+    health: 480.0
     defence: 5.0
     attack: 17.0
+    damage: 1.5
     equip:
       head: mirage_helmet_1
       chest: mirage_chestplate_1

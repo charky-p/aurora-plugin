@@ -17,6 +17,8 @@ public record MobData(
         double defence,
         double attack,
         double attackCooldown,
+        // Multiplies every hit this mob lands, 1 leaves the attack level as it is
+        double damage,
         Map<EquipmentSlot, ItemStack> equipment,
         Map<Attribute, Double> attributes,
         LootPool drops

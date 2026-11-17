@@ -27,8 +27,8 @@ class TutorialStepTest {
     }
 
     @Test
-    void miningWantsTwentyAndTheRestOneAction() {
-        assertEquals(20, TutorialStep.MINE.goal());
+    void miningWantsTenAndTheRestOneAction() {
+        assertEquals(10, TutorialStep.MINE.goal());
         assertEquals(1, TutorialStep.UPGRADE.goal());
     }
 }

@@ -38,7 +38,7 @@ public class BackpackItemListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        giveIfMissing(event.getPlayer());
+        giveIfMissing(event.getPlayer(), registry);
     }
 
     // Next tick, the inventory is not the respawned one yet during the event
@@ -46,13 +46,13 @@ public class BackpackItemListener implements Listener {
     public void onRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         Bukkit.getScheduler().runTask(plugin, () -> {
-            if (player.isOnline()) giveIfMissing(player);
+            if (player.isOnline()) giveIfMissing(player, registry);
         });
     }
 
     // A full inventory gets it on the next join instead
-    private void giveIfMissing(Player player) {
-        ItemStack backpack = create();
+    public static void giveIfMissing(Player player, DataRegistry registry) {
+        ItemStack backpack = create(registry);
         if (backpack == null) return;
 
         PlayerInventory inventory = player.getInventory();
@@ -70,7 +70,7 @@ public class BackpackItemListener implements Listener {
         else inventory.addItem(backpack);
     }
 
-    private ItemStack create() {
+    private static ItemStack create(DataRegistry registry) {
         ItemStack template = registry.getAllItems().get(ITEM_ID);
         if (template == null) return null;
 

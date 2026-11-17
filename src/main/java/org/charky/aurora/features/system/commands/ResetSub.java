@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * Aurora admin command to send a player back to the start, for testing a run from
  * nothing. "tools" resets only the tool levels. "all" also empties the backpack and
- * inventory, sets level, XP, kills and blocks mined to 0 and locks the portals
- * again. Essence, ranks, cosmetics, perks and collections are never touched
+ * inventory, sets level, XP, kills and blocks mined to 0, locks the portals again,
+ * hands out the starter kit and starts the tutorial, as on a first join. Essence, ranks, cosmetics, perks and collections are never touched
  */
 public class ResetSub implements AuroraSubCommand {
     private static final List<String> SCOPES = List.of("tools", "all");
@@ -62,7 +62,11 @@ public class ResetSub implements AuroraSubCommand {
 
         // Last, so the starter tools land in the emptied inventory
         plugin.getToolManager().reset(target);
-        if (all) StarterKit.give(target, plugin.getRegistry());
+        if (all) {
+            StarterKit.give(target, plugin.getRegistry());
+            // As on a first join, so the tutorial plays again
+            plugin.getTutorialManager().begin(target);
+        }
         TextUtils.success(sender, "Reset " + target.getName() + (all ? " to a fresh start" : "'s tools"));
     }
 

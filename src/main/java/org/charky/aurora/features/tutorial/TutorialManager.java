@@ -2,7 +2,6 @@ package org.charky.aurora.features.tutorial;
 
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -20,7 +19,6 @@ import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +117,7 @@ public class TutorialManager implements Listener {
         showLater(player);
     }
 
-    // A title sent while a player is still joining never shows, so a second later
+    // A second after joining, so the bar and message are not lost in the join
     private void showLater(Player player) {
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             if (player.isOnline()) show(player);
@@ -193,8 +191,6 @@ public class TutorialManager implements Listener {
         cosmetics.give(player.getUniqueId(), SUFFIX_REWARD);
 
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7f, 1f);
-        player.showTitle(Title.title(TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>TUTORIAL COMPLETE</b></gradient>"),
-                TextUtils.parse("<gray>+" + ESSENCE_REWARD + " Essence and the <green>NEWCOMER</green> suffix"), times()));
         player.sendMessage(TextUtils.parse(""));
         player.sendMessage(TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>TUTORIAL COMPLETE</b></gradient>"));
         player.sendMessage(TextUtils.parse("<yellow>» <gray>Keep mining and upgrading here, the Coal Seam comes next."));
@@ -220,12 +216,10 @@ public class TutorialManager implements Listener {
                 + " starts at the main spawn. Set one with /aurora tutorial setstart");
     }
 
-    // A title for the new step and the bar with it
+    // The step in chat and the bar, no title in the middle of the screen
     private void show(Player player) {
         TutorialStep step = step(player);
         if (step == null) return;
-        player.showTitle(Title.title(TextUtils.parse("<aqua><b>" + step.title()),
-                TextUtils.parse("<gray>" + step.hint()), times()));
         player.sendMessage(TextUtils.parse("<aqua><b>TUTORIAL " + step.number() + "/" + TutorialStep.values().length
                 + "</b> <white>" + step.title() + " <dark_gray>- <gray>" + step.hint()));
         updateBar(player);
@@ -249,9 +243,5 @@ public class TutorialManager implements Listener {
             bar.name(name);
             bar.progress(fill);
         }
-    }
-
-    private static Title.Times times() {
-        return Title.Times.times(Duration.ofMillis(300), Duration.ofSeconds(3), Duration.ofMillis(600));
     }
 }

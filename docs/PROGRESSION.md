@@ -79,7 +79,7 @@ The targets add up to about 86 minutes. The first full playtest took 100.
 - **Ranks.** Playtime ranks up to 1,000 hours, donor ranks and staff ranks. `/ranks` picks the one shown.
 - **Cosmetics.** `/customise`: suffixes, chat and name colour, join and death messages, trails, kill effects and armour trims. Some are free, some earned (playtime, a maxed zone or region), some bought with Essence, some come only with a donor package. See [STORE.md](STORE.md).
 - **Food.** The Camp Cook sells food by the stack; a new player starts with 64 bread.
-- **Tutorial.** A new player starts by the Cobblestone Quarry and is walked through mining 20 cobblestone, the backpack, the trader and a first upgrade. It pays 50 Essence and the Newcomer suffix, and can be skipped.
+- **Tutorial.** A new player starts by the Cobblestone Quarry and is walked through mining 10 cobblestone, the backpack, the trader and a first upgrade. It pays 50 Essence and the Newcomer suffix, and can be skipped.
 
 ## 5. Switched off for now
 

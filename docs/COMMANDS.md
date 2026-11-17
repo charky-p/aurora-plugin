@@ -123,13 +123,13 @@ Right clicking a trader with the wand also removes it and its spot.
 
 ## Tutorial
 
-A new player's first join starts the tutorial at the spot set with `setstart`, instead of the main spawn. A boss bar shows the step: mine 20 cobblestone, open the backpack, click a trader, buy an upgrade. Each step ends by itself. Finishing pays 50 Essence and the `NEWCOMER` suffix. A player who leaves mid-way comes back to the start of the step they were on. Players who joined before it existed never get it.
+A new player's first join starts the tutorial at the spot set with `setstart`, instead of the main spawn. A boss bar at the top shows the step, and a chat line says what to do: mine 10 cobblestone, open the backpack, click a trader, buy an upgrade. Each step ends by itself. Finishing pays 50 Essence and the `NEWCOMER` suffix. A player who leaves mid-way comes back to the start of the step they were on. Players who joined before it existed never get it.
 
 | Command | Does |
 |---|---|
 | `/a tutorial setstart` | New players start the tutorial where you stand |
 | `/a tutorial tp` | Go to where it starts |
-| `/a tutorial start [player]` | Put a player through it from the first step, e.g. after `/a reset <player> all` |
+| `/a tutorial start [player]` | Put a player through it from the first step. `/a reset <player> all` does this too |
 | `/a tutorial skip [player]` | Take a player out of it, no reward |
 
 ## Other admin commands
@@ -140,7 +140,7 @@ A new player's first join starts the tutorial at the spot set with `setstart`, i
 | `/a setspawn [main] [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. With `main` it is also the main spawn, where every player lands on join. Until a main spawn is set, players join in `aurora_mines` |
 | `/a heal [player]` | Restore health and hunger, put out fire |
 | `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
-| `/a reset <player> <tools\|all>` | `tools` resets every tool level and hands back plain starter tools. `all` erases everything the player has, as if they had just joined: tools, backpack and inventory, level, XP, kills, blocks mined, Essence, playtime, perks, collections, gear unlocked from mobs, portals, cosmetics and every rank, staff and donor ranks and the second suffix included. It cannot be undone |
+| `/a reset <player> <tools\|all>` | `tools` resets every tool level and hands back plain starter tools. `all` erases everything the player has and plays the first join again, starter kit, backpack and tutorial included: tools, backpack and inventory, level, XP, kills, blocks mined, Essence, playtime, perks, collections, gear unlocked from mobs, portals, cosmetics and every rank, staff and donor ranks and the second suffix included. It cannot be undone |
 | `/a tool <player> give <tool>` | Hand over a tool that lives on the player (pick, axe, shovel, sword, helmet, chestplate, leggings, boots). Its item is drawn from the player's levels in the realm they stand in |
 | `/a tool <player> set <tool> <stat> <level> [realm]` | Set one level of a player's tool, in their current realm or a named one. The stat is an enchant, or `material` with a name such as `iron` |
 | `/a tool <player> info <tool>` | What the tool has where the player stands, and which realms that builds on |

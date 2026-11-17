@@ -92,14 +92,16 @@ public class MineListener implements Listener {
         if (!registry.hasBlock(dropId)) return;
 
         int density = registry.getDensity(dropId);
-        // Fortune only counts with the right tool, a pick on a log mines like a hand
-        boolean rightTool = rightTool(pick, block.getType());
-        int fortune = rightTool ? Enchants.level(pick, "fortune") : 0;
-        if (fortune + 1 - density <= 0) {
-            String needed = rightTool
-                    ? "Requires Fortune " + density
-                    : "Wrong tool, Fortune " + density + " " + toolFor(block.getType()) + " needed";
-            player.sendActionBar(Component.text(needed, NamedTextColor.RED, TextDecoration.BOLD));
+        // Only the right tool mines a block at all: a pick does nothing to a log
+        if (!rightTool(pick, block.getType())) {
+            String tool = toolFor(block.getType());
+            player.sendActionBar(Component.text("Wrong tool, this needs " + ("axe".equals(tool) ? "an " : "a ") + tool,
+                    NamedTextColor.RED, TextDecoration.BOLD));
+            return;
+        }
+        int fortune = Enchants.level(pick, "fortune");
+        if (fortune < density) {
+            player.sendActionBar(Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD));
             return;
         }
 

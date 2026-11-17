@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
@@ -150,5 +151,12 @@ public class CombatListener implements Listener {
             case Projectile projectile when projectile.getShooter() instanceof LivingEntity shooter -> shooter;
             default -> null;
         };
+    }
+
+    // An arrow a mob shot is gone the moment it lands, in a player or in the ground,
+    // so none are left stuck in players or lying about to be picked up
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onMobProjectileLand(ProjectileHitEvent event) {
+        if (!(event.getEntity().getShooter() instanceof Player)) event.getEntity().remove();
     }
 }

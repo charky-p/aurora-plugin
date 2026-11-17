@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.player.PlayerData;
+import org.charky.aurora.features.player.StarterKit;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class ResetSub implements AuroraSubCommand {
 
         // Last, so the starter tools land in the emptied inventory
         plugin.getToolManager().reset(target);
+        if (all) StarterKit.give(target, plugin.getRegistry());
         TextUtils.success(sender, "Reset " + target.getName() + (all ? " to a fresh start" : "'s tools"));
     }
 

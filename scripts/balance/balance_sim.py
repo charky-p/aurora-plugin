@@ -8,7 +8,7 @@ formulas and the vanilla tables they need, read against the CSVs in scripts/data
   player hit    = 10 + sharpnessBonus(S) - mob defence                     CombatListener
   damage taken  = hearts(gap), gap = (attack level - average protection) / LEVELS_PER_TIER
                   gap >= 0: 1 + LOG_A * ln(1 + LOG_B * gap)   (1, 2, 2.9, 3.7, 4.4, 5 ...)
-                  gap <  0: 0.5 + 0.5 * e^(2 * gap)           (never below half a heart)
+                  gap <  0: 0.25 + 0.75 * e^(2 * gap)         (never below a quarter of a heart)
   block drops   = roll * (1 + 0.75 L + 0.25 L^2), L = fortune - density, nothing if L < 0   DataRegistry
   dig time      = vanilla: tool speed + eff^2 + 1 vs hardness, with the right tool
   Not modelled: Sustenance, Bloodlust, Thorns, shield Defence and Deflection.
@@ -25,6 +25,7 @@ DATA = ROOT / "scripts" / "data"
 # ------------------------------------------------------------------ ASSUMPTIONS
 LEVELS_PER_TIER = 4.0          # protection levels per zone tier (CombatListener)
 LOG_A, LOG_B = 1 / math.log(1.15), 0.15   # shape of the hearts curve above your tier
+ARMOUR_FLOOR = 0.25            # the least a hit does to armour far ahead of the mob, in hearts
 MOB_DAMAGE_SCALE, RANGED_SCALE = 0.6, 0.5  # CombatFormulas, every mob hit, and arrows on top
 HUMAN_BLOCKS_PER_SEC = 5.0     # cap when blocks insta-break
 MINING_EFFICIENCY = 0.8        # aiming and walking inside the mine
@@ -141,7 +142,7 @@ def sharpness_bonus(s):
 def hearts(gap):
     if gap >= 0:
         return 1 + LOG_A * math.log(1 + LOG_B * gap)
-    return 0.5 + 0.5 * math.exp(2 * gap)
+    return ARMOUR_FLOOR + (1 - ARMOUR_FLOOR) * math.exp(2 * gap)
 
 
 def mob_rate(mob):

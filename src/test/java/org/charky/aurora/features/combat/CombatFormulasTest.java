@@ -13,7 +13,7 @@ class CombatFormulasTest {
     // hearts(gap) in the sim, for gaps -2, -1, -0.5, 0, 0.5, 1, 2, 3, 4, 5 tiers
     private static final double[] GAPS = {-2, -1, -0.5, 0, 0.5, 1, 2, 3, 4, 5};
     private static final double[] SIM_HEARTS = {
-            0.509158, 0.567668, 0.68394, 1.0, 1.517456, 2.0, 2.877223, 3.658546, 4.362887, 5.004064};
+            0.263737, 0.351501, 0.52591, 1.0, 1.517456, 2.0, 2.877223, 3.658546, 4.362887, 5.004064};
 
     @Test
     void heartsMatchTheSimulator() {
@@ -29,8 +29,8 @@ class CombatFormulasTest {
     }
 
     @Test
-    void heartsNeverDropBelowHalf() {
-        assertTrue(CombatFormulas.heartsPerHit(0, 1000) >= 0.5);
+    void heartsNeverDropBelowAQuarter() {
+        assertTrue(CombatFormulas.heartsPerHit(0, 1000) >= 0.25);
     }
 
     @Test

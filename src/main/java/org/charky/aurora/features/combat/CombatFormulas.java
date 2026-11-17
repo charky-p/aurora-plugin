@@ -22,6 +22,8 @@ public final class CombatFormulas {
     static final double LEVELS_PER_TIER = 4.0;
     private static final double LOG_A = 1 / Math.log(1.15);
     private static final double LOG_B = 0.15;
+    // The least a hit can do to armour far ahead of the mob, in hearts
+    static final double ARMOUR_FLOOR = 0.25;
 
     private static final int BRACKET_SIZE = 5;
     private static final int[] BRACKET_BONUS = {1, 3, 5, 10, 15, 20, 25, 30, 35, 40};
@@ -42,12 +44,13 @@ public final class CombatFormulas {
     }
 
     // Same tier is one heart. Above it grows like a log, 2, 2.9, 3.7, 4.4, 5, so
-    // big hits break through armour. Below it tapers to half a heart, never less.
-    // Both sides meet at exactly 1 so there is no jump at gap 0
+    // big hits break through armour. Below it armour pays off quickly: half a heart
+    // two Protection levels ahead, a third a tier ahead, tapering to a quarter of a
+    // heart, never less. Both sides meet at exactly 1 so there is no jump at gap 0
     public static double heartsPerHit(double attackLevel, double protectionLevel) {
         double gap = (attackLevel - protectionLevel) / LEVELS_PER_TIER;
         if (gap >= 0) return 1 + LOG_A * Math.log(1 + LOG_B * gap);
-        return 0.5 + 0.5 * Math.exp(2 * gap);
+        return ARMOUR_FLOOR + (1 - ARMOUR_FLOOR) * Math.exp(2 * gap);
     }
 
     // Levels 1-5 give 1 each, 6-10 give 3 each, 11-15 give 5, and so on. Past

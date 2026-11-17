@@ -161,35 +161,35 @@ items:
       '1':
         type: TRADE
         id: bread
-        amount: 4
+        amount: 64
         cost:
           - id: cobblestone
             amount: 16
       '2':
         type: TRADE
         id: baked_potato
-        amount: 4
+        amount: 64
         cost:
           - id: coal
             amount: 32
       '3':
         type: TRADE
         id: cooked_chicken
-        amount: 4
+        amount: 64
         cost:
           - id: iron
             amount: 48
       '4':
         type: TRADE
         id: steak
-        amount: 4
+        amount: 64
         cost:
           - id: gold
             amount: 64
       '5':
         type: TRADE
         id: golden_carrot
-        amount: 4
+        amount: 64
         cost:
           - id: raw_gold
             amount: 128

@@ -105,7 +105,7 @@ items:
 
   sand_stalker:
     display: "<gold><b>Sand Stalker"
-    entity: WITHER_SKELETON
+    entity: SKELETON
     health: 130.0
     defence: 5.0
     attack: 11.0

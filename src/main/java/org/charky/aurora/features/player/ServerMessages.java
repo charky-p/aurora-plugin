@@ -52,6 +52,7 @@ public class ServerMessages implements Listener {
         Player player = event.getPlayer();
         if (player.hasPlayedBefore()) return;
 
+        StarterKit.give(player, registry);
         // Everyone who has been here before, and this one
         int number = Bukkit.getOfflinePlayers().length + 1;
         event.joinMessage(tag("+", NamedTextColor.GREEN)

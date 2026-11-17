@@ -889,73 +889,73 @@ items:
         level: "2"
         cost:
           - id: ancient_bone
-            amount: 2
+            amount: 3
       - tool: sword
         stat: luck
         level: "3"
         cost:
           - id: ancient_bone
-            amount: 2
+            amount: 4
       - tool: helmet
         stat: protection
         level: "7"
         cost:
           - id: ancient_bone
-            amount: 3
+            amount: 4
       - tool: chestplate
         stat: protection
         level: "7"
         cost:
           - id: ancient_bone
-            amount: 3
+            amount: 4
       - tool: leggings
         stat: protection
         level: "7"
         cost:
           - id: ancient_bone
-            amount: 3
+            amount: 4
       - tool: boots
         stat: protection
         level: "7"
         cost:
           - id: ancient_bone
-            amount: 3
+            amount: 4
       - tool: shield
         stat: deflection
         level: "5"
         cost:
           - id: ancient_bone
-            amount: 3
+            amount: 4
       - tool: sword
         stat: sharpness
         level: "4"
         cost:
           - id: ancient_bone
-            amount: 3
+            amount: 5
       - tool: helmet
         stat: protection
         level: "8"
         cost:
           - id: ancient_bone
-            amount: 4
+            amount: 5
       - tool: chestplate
         stat: protection
         level: "8"
         cost:
           - id: ancient_bone
-            amount: 4
+            amount: 5
       - tool: leggings
         stat: protection
         level: "8"
         cost:
           - id: ancient_bone
-            amount: 4
+            amount: 5
       - tool: boots
         stat: protection
         level: "8"
         cost:
           - id: ancient_bone
-            amount: 4
+            amount: 5
       - tool: sword
         stat: looting
         level: "2"
@@ -965,7 +965,7 @@ items:
           - id: ancient_flesh
             amount: 3
           - id: ancient_bone
-            amount: 4
+            amount: 5
       - tool: helmet
         stat: sustenance
         level: "2"
@@ -975,7 +975,7 @@ items:
           - id: ancient_flesh
             amount: 3
           - id: ancient_bone
-            amount: 4
+            amount: 5
       - tool: chestplate
         stat: sustenance
         level: "2"
@@ -985,7 +985,7 @@ items:
           - id: ancient_flesh
             amount: 3
           - id: ancient_bone
-            amount: 4
+            amount: 5
       - tool: leggings
         stat: sustenance
         level: "2"
@@ -995,7 +995,7 @@ items:
           - id: ancient_flesh
             amount: 3
           - id: ancient_bone
-            amount: 4
+            amount: 5
       - tool: boots
         stat: sustenance
         level: "2"
@@ -1005,7 +1005,7 @@ items:
           - id: ancient_flesh
             amount: 3
           - id: ancient_bone
-            amount: 4
+            amount: 5
 
   canyons:
     name: "Howling Canyons"
@@ -1547,7 +1547,7 @@ items:
           - id: royal_seal
             amount: 12
           - id: ancient_nugget
-            amount: 8
+            amount: 12
 
   oak:
     name: "Oak Grove"

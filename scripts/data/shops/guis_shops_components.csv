@@ -14,8 +14,8 @@ aurora_hub,w,ACTION,warps,,,icon_warps
 starter_shop,1,ACTION,tools,,,icon_tools
 tomb_shop,u,ACTION,upgrades:tomb,,,icon_upgrades
 tomb_shop,U,GUI,tomb_utility,,,
-food_shop,1,TRADE,bread,4,cobblestone*16,
-food_shop,2,TRADE,baked_potato,4,coal*32,
-food_shop,3,TRADE,cooked_chicken,4,iron*48,
-food_shop,4,TRADE,steak,4,gold*64,
-food_shop,5,TRADE,golden_carrot,4,raw_gold*128,
+food_shop,1,TRADE,bread,64,cobblestone*16,
+food_shop,2,TRADE,baked_potato,64,coal*32,
+food_shop,3,TRADE,cooked_chicken,64,iron*48,
+food_shop,4,TRADE,steak,64,gold*64,
+food_shop,5,TRADE,golden_carrot,64,raw_gold*128,

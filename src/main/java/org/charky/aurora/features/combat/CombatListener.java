@@ -88,12 +88,19 @@ public class CombatListener implements Listener {
         event.setDamage(damage);
     }
 
-    // Passive mobs never go for a player, so a wolf that is hit stays calm instead of
-    // chasing you down to bite for nothing
+    // Our mobs only ever go for players. Iron golems hunt hostile mobs, zoglins anything,
+    // vindicators and pillagers the traders, and a stray arrow turns the mob it hits on
+    // the archer: none of it can hurt (mob on mob damage is cancelled above), but they
+    // would chase and swing at each other instead of the player. Passive mobs never go
+    // for a player either, so a wolf that is hit stays calm instead of biting for nothing
     @EventHandler(ignoreCancelled = true)
     public void onTarget(EntityTargetLivingEntityEvent event) {
-        if (!(event.getTarget() instanceof Player)) return;
         if (!(event.getEntity() instanceof LivingEntity mob) || !CustomHealth.isTracked(mob)) return;
+        if (!(event.getTarget() instanceof Player)) {
+            // A null target is the mob giving up its target, which is always allowed
+            if (event.getTarget() != null) event.setCancelled(true);
+            return;
+        }
 
         MobData data = registry.mobOf(mob);
         if (data == null || data.attack() <= 0) event.setCancelled(true);

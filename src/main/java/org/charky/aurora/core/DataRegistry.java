@@ -394,12 +394,17 @@ public class DataRegistry {
         BlockData block = blocks.get(id);
         if (block == null) return new ArrayList<>();
 
-        // Each roll is a fresh copy, so scaling it never touches the pool's own item
-        int multiplier = Math.max(0, fortune + 1 - block.density());
+        int effectiveLevel = fortune - block.density();
+        if (effectiveLevel < 0) return new ArrayList<>();
+
+        double multiplier = 1.0 + 0.75 * effectiveLevel + 0.25 * effectiveLevel * effectiveLevel;
+
         List<MenuItem> drops = new ArrayList<>();
         for (LootPool pool : block.pools()) {
             for (MenuItem item : pool.roll()) {
-                item.setAmount(item.getAmount() * multiplier);
+                // TODO: Accomodate to rare drops, a rare drop should not be multiplied so heavily
+                int scaled = (int) Math.round(item.getAmount() * multiplier);
+                item.setAmount(Math.max(1, scaled));
                 drops.add(item);
             }
         }

@@ -19,6 +19,8 @@ public record MobData(
         double attackCooldown,
         // Multiplies every hit this mob lands, 1 leaves the attack level as it is
         double damage,
+        // Looting below this drops none of its resources, gear and keys still drop
+        int density,
         Map<EquipmentSlot, ItemStack> equipment,
         Map<Attribute, Double> attributes,
         LootPool drops

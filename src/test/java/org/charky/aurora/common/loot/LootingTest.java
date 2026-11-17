@@ -11,9 +11,15 @@ class LootingTest {
     private final Random random = new Random(3);
 
     @Test
-    void noLootingKeepsTheAmount() {
+    void lootingAtTheDensityKeepsTheAmount() {
         assertEquals(3, Looting.apply(3, 0, false, random));
-        assertEquals(3, Looting.apply(3, -2, true, random));
+        assertEquals(3, Looting.apply(3, 0, true, random));
+    }
+
+    @Test
+    void lootingBelowTheDensityDropsNothing() {
+        assertEquals(0, Looting.apply(3, -1, false, random));
+        assertEquals(0, Looting.apply(3, -2, true, random));
     }
 
     @Test

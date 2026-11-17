@@ -61,7 +61,9 @@ class ProgressionDataTest {
         specials.putAll(items("resources_special.yml"));
         resources.addAll(specials.keySet());
         blocks.putAll(items("blocks.yml"));
-        for (String file : List.of("mobs/origin.yml", "mobs/gormak.yml", "mobs/verdant.yml")) {
+        for (String file : List.of("mobs/origin.yml", "mobs/gormak.yml", "mobs/verdant.yml", "mobs/khorvath.yml",
+                "mobs/elderwood.yml", "mobs/marsh.yml", "mobs/peaks.yml", "mobs/duat.yml", "mobs/sky.yml",
+                "mobs/quarry.yml")) {
             mobs.putAll(items(file));
         }
 

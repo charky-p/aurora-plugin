@@ -42,14 +42,17 @@ public class MobLoader {
             Component displayName = MiniMessage.miniMessage().deserialize(model.display);
 
             // Every pool rolls, so a mob with both drop lists gets both, and a mob
-            // with none simply drops nothing
+            // with none simply drops nothing. Looting counts past the mob's density,
+            // like Fortune past a block's, and a resource that comes to 0 is left out
             List<LootPool> pools = loot.build(id, model.independent, model.choices, true);
+            int density = model.density;
             LootPool drops = (looting, luck) -> pools.stream()
-                    .flatMap(pool -> pool.roll(looting, luck).stream())
+                    .flatMap(pool -> pool.roll(looting - density, luck).stream())
+                    .filter(drop -> drop.getAmount() > 0)
                     .toList();
 
             mobs.put(id.toLowerCase(), new MobData(id, type, displayName,
-                    model.health, model.defence, model.attack, model.attack_cooldown, model.damage,
+                    model.health, model.defence, model.attack, model.attack_cooldown, model.damage, model.density,
                     equipment(model), attributes(id, model), drops));
             addArmoryDrops(model, displayName, armory);
         });

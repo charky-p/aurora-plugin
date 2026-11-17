@@ -11,6 +11,8 @@ public class MobModel {
     public double attack = 1.0;
     public double attack_cooldown = 0.0;
     public double damage = 1.0;
+    // Looting needed before its resources drop at all, like a block's density for Fortune
+    public int density = 0;
     public EquipmentModel equip = new EquipmentModel();
     public List<AttributeEntry> attributes = new ArrayList<>();
     public List<BlockModel.IndependentPoolModel> independent = new ArrayList<>();

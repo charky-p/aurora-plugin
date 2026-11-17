@@ -1,5 +1,8 @@
 package org.charky.aurora.features.spawner;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -80,8 +83,13 @@ public class MobDeathListener implements Listener {
         scoreboard.updateBoard(killer);
 
         // Resources stack in the backpack, gear is unlocked in the Armory
+        int looting = Enchants.level(weapon, "looting");
+        int density = registry.getMob(mobId).density();
+        if (looting < density) {
+            killer.sendActionBar(Component.text("Requires Looting " + density, NamedTextColor.RED, TextDecoration.BOLD));
+        }
         List<MenuItem> mobDrops = new ArrayList<>();
-        for (MenuItem drop : registry.getMobDrops(mobId, Enchants.level(weapon, "looting"), luck)) {
+        for (MenuItem drop : registry.getMobDrops(mobId, looting, luck)) {
             if (registry.isResource(drop.getId())) mobDrops.add(drop);
             else armoryManager.handleDrop(killer, drop.getId());
         }

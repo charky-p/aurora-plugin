@@ -117,7 +117,7 @@ def fit(raw, sizes):
     return under if budget - total(under) <= total(over) - budget else over
 
 
-def zone_prices(target_seconds, steps, income, start, spread=SPREAD, scale=None):
+def zone_prices(target_seconds, steps, income, start, spread=SPREAD, scale=None, pool=None):
     """
     Prices for every step of a zone, in purchase order.
 
@@ -129,19 +129,38 @@ def zone_prices(target_seconds, steps, income, start, spread=SPREAD, scale=None)
              or sets the step's own "level", which a material change uses
     scale    function(resource) -> what that resource's prices are multiplied by,
              so mined and looted costs can be made cheaper or dearer apart
+    pool     the kill budget for mob drops, or None. pool.resources are the drops it
+             prices, pool.produce(state, seconds, cost) what a step's kills yield of
+             each. A drop is priced at what the kills since it was last bought gave,
+             byproducts of the same mob included, and what is left at the end goes on
+             its last step, so no drop piles up unspent
     """
     state = dict(start)
     # A step whose whole cost is written out by hand takes none of the zone's time
     seconds = iter(step_seconds(target_seconds, sum(1 for step in steps if step["cost"]), spread))
     priced = []
+    carried = {}
     for step in steps:
         time = next(seconds) if step["cost"] else 0.0
-        raw = {resource: time * share * (scale(resource) if scale else 1) * income(state, resource)
-               for resource, share in step["cost"].items()}
+        if pool:
+            for resource, amount in pool.produce(state, time, step["cost"]).items():
+                carried[resource] = carried.get(resource, 0.0) + amount
+        raw = {}
+        for resource, share in step["cost"].items():
+            if pool and resource in pool.resources:
+                raw[resource] = carried.pop(resource, 0.0)
+            else:
+                raw[resource] = time * share * (scale(resource) if scale else 1) * income(state, resource)
         key = (step["tool"], step["stat"])
         state[key] = step["level"] if "level" in step else state.get(key, 0) + 1
         priced.append({"tool": step["tool"], "stat": step["stat"], "level": state[key],
                        "seconds": time, "raw": raw, "cost": {}, "state": dict(state)})
+
+    # Kills that came after a drop's last step leave it unspent, it goes on that step
+    for resource, amount in carried.items():
+        last = next((row for row in reversed(priced) if resource in row["raw"]), None)
+        if last:
+            last["raw"][resource] += amount
 
     # Each resource's prices are fitted together. Steps that follow each other with
     # the same stat and level, the four armour pieces, are one group with one price

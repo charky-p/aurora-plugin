@@ -54,6 +54,11 @@ import prices               # noqa: E402
 
 DATA = sim.DATA
 
+# A test world spawner brings a mob every 100 ticks, so one mob kind is never killed faster
+SPAWN_SECONDS = 5.0
+# Share of mining time spent killing hostile mobs that come at you, in a zone that has them
+AMBIENT_FIGHT = 0.3
+
 # What a new player holds: wooden tools, leather armour, nothing levelled
 START = {("pick", "material"): "WOODEN", ("axe", "material"): "WOODEN", ("sword", "material"): "WOODEN"}
 
@@ -68,7 +73,7 @@ def level(state, tool, stat):
 
 def dig_seconds(state, block_id, tool):
     """Vanilla dig time with the tool that mines the block, from its levels."""
-    _, speed = sim.TOOL[state[(tool, "material")]]
+    _, speed = sim.TOOL[state.get((tool, "material"), "WOODEN")]
     eff = level(state, tool, "efficiency")
     speed += eff * eff + 1 if eff else 0
     hardness, _ = sim.BLOCK[sim.PLACED.get(block_id, sim.BLOCKS[block_id]["material"])]
@@ -100,36 +105,85 @@ def mine_income(state, mine):
 
 
 def kill_seconds(state, mob_id):
-    """Seconds a kill takes: the fight, the walk to the next mob
-    and the wait to heal what the fight cost. Infinite if the sword cannot hurt it."""
+    """Seconds a kill takes: the fight, the walk to the next mob and the wait to heal
+    what the fight cost, and never less than its spawner takes to bring the next one.
+    Infinite if the sword cannot hurt it."""
     mob = sim.MOBS[mob_id]
     hit = max(0, round(10 + sim.sharpness_bonus(level(state, "sword", "sharpness")) - mob["def"]))
     if hit == 0:
         return math.inf
     fight = math.ceil(mob["hp"] / hit) / sim.HITS_PER_SEC
     total = fight + sim.KILL_OVERHEAD_S
-    if mob["atk"] <= 0:
-        return total
+    if mob["atk"] > 0:
+        protection = sum(level(state, slot, "protection") for slot in sim.SLOTS) / len(sim.SLOTS)
+        scale = sim.MOB_DAMAGE_SCALE * (sim.RANGED_SCALE if mob["entity"] in sim.RANGED else 1.0)
+        taken = sim.hearts((mob["atk"] - protection) / sim.LEVELS_PER_TIER) * scale
+        lost = taken * sim.mob_rate(mob_id) * fight
+        total += max(0.0, lost - sim.REGEN_HEARTS_PER_SEC * total) / sim.REGEN_HEARTS_PER_SEC
+    # A world boss like the Overworld Golem comes back on its own timer, the respawn column
+    return max(total, mob.get("respawn") or SPAWN_SECONDS)
 
-    protection = sum(level(state, slot, "protection") for slot in sim.SLOTS) / len(sim.SLOTS)
-    scale = sim.MOB_DAMAGE_SCALE * (sim.RANGED_SCALE if mob["entity"] in sim.RANGED else 1.0)
-    taken = sim.hearts((mob["atk"] - protection) / sim.LEVELS_PER_TIER) * scale
-    lost = taken * sim.mob_rate(mob_id) * fight
-    return total + max(0.0, lost - sim.REGEN_HEARTS_PER_SEC * total) / sim.REGEN_HEARTS_PER_SEC
+
+def per_kill(state, mob_id, resource):
+    """How many of a resource one kill gives. Looting counts past the mob's density like
+    Fortune past a block's: nothing below it, then the Fortune curve, rare drops (under
+    100%) by its cube root (Looting.java)."""
+    mob = sim.MOBS[mob_id]
+    effective = level(state, "sword", "looting") - mob["density"]
+    if effective < 0:
+        return 0.0
+    common, rare = prices.fortune_multiplier(effective, 0), prices.rare_multiplier(effective, 0)
+    return sum(chance * avg * (common if chance >= 1 else rare)
+               for drop, chance, avg in mob["drops"] if drop == resource)
 
 
 def mob_income(state, mob_id, resource):
     """Resource per second from killing one kind of mob."""
-    mob = sim.MOBS[mob_id]
     seconds = kill_seconds(state, mob_id)
     if seconds == math.inf:
         return 0.0
-    # Looting is Fortune for mobs, rare drops (under 100%) by its cube root (Looting.java)
-    looting = level(state, "sword", "looting")
-    common, rare = prices.fortune_multiplier(looting, 0), prices.rare_multiplier(looting, 0)
-    per_kill = sum(chance * avg * (common if chance >= 1 else rare)
-                   for drop, chance, avg in mob["drops"] if drop == resource)
-    return prices.mob_income(per_kill, seconds)
+    return prices.mob_income(per_kill(state, mob_id, resource), seconds)
+
+
+def hostile(mob_id):
+    return sim.MOBS[mob_id]["atk"] > 0
+
+
+class KillBudget:
+    """
+    The mob drops of one zone, priced from the kills a player really makes there. A
+    step's fighting time (its mob shares times mob_scale) goes to the mob that drops
+    each resource fastest; while mining in a zone with hostile mobs AMBIENT_FIGHT of
+    the time is spent killing whatever comes at you. Every kill pays all of the mob's
+    drops, so a resource farmed for one step also pays towards the next.
+    """
+
+    def __init__(self, zone, where, scale):
+        self.mobs = [m for m in (zone["mob"] or "").split("|") if m]
+        self.resources = {r for m in self.mobs for r, _, _ in sim.MOBS[m]["drops"]
+                          if r in sim.RESOURCES and where.get(r, ("", None))[0] == "mob"}
+        self.where, self.scale = where, scale
+
+    def produce(self, state, seconds, cost):
+        fight, mining = {}, 0.0
+        for resource, share in cost.items():
+            if resource in self.resources:
+                best = max(self.where[resource][1], key=lambda m: mob_income(state, m, resource))
+                fight[best] = fight.get(best, 0.0) + seconds * share * self.scale(resource)
+            elif self.where.get(resource, ("", None))[0] == "mine":
+                mining += seconds * share * self.scale(resource)
+        angry = [m for m in self.mobs if hostile(m)]
+        for mob in angry:
+            fight[mob] = fight.get(mob, 0.0) + mining * AMBIENT_FIGHT / len(angry)
+
+        made = {}
+        for mob, time in fight.items():
+            kill = kill_seconds(state, mob)
+            if kill == math.inf:
+                continue
+            for resource in {r for r, _, _ in sim.MOBS[mob]["drops"]} & self.resources:
+                made[resource] = made.get(resource, 0.0) + time / kill * per_kill(state, mob, resource)
+        return made
 
 
 def sources(zones):
@@ -145,10 +199,23 @@ def sources(zones):
     return found
 
 
-def price_all():
-    """[(zone row, priced steps)] for every zone in order, tools carried between them."""
-    zones = sorted(rows("zones"), key=lambda z: int(z["order"]))
-    where = sources(zones)
+def pace(zones):
+    """Model seconds per real second, from the zones that have both a target and the
+    minutes they really take. A zone with only minutes gets minutes x 60 x this."""
+    known = [z for z in zones if z.get("target_seconds") and z.get("minutes")]
+    model = sum(int(z["target_seconds"]) for z in known)
+    real = sum(float(z["minutes"]) * 60 for z in known)
+    return model / real if real else 1.0
+
+
+def target_seconds(zone, zones):
+    if zone.get("target_seconds"):
+        return int(zone["target_seconds"])
+    return round(float(zone["minutes"]) * 60 * pace(zones))
+
+
+def read_steps():
+    """zone id -> its steps in purchase order, as upgrades.csv lists them."""
     steps_by_zone = {}
     for row in sorted(rows("upgrades"), key=lambda r: int(r["order"])):
         parts = row["cost"].split("|")
@@ -156,8 +223,76 @@ def price_all():
         fixed = {k: int(v) for k, v in (part.split("=") for part in parts if "=" in part)}
         step = {"tool": row["tool"], "stat": row["stat"], "cost": cost, "fixed": fixed}
         # The level a step reaches is in the data, never counted up
-        step["level"] = row["level"] if row["stat"] == "material" else int(row["level"])
+        step["sold"] = row["level"] if row["stat"] == "material" else int(row["level"])
         steps_by_zone.setdefault(row["zone"], []).append(step)
+    return steps_by_zone
+
+
+def add(state, levels):
+    """Levels stacked on a state: enchants add up, the further material wins."""
+    total = dict(state)
+    for key, value in levels.items():
+        if key[1] == "material":
+            if MATERIALS.index(value) > MATERIALS.index(total.get(key, MATERIALS[0])):
+                total[key] = value
+        else:
+            total[key] = total.get(key, 0) + value
+    return total
+
+
+def zone_states(zones=None, steps_by_zone=None):
+    """
+    zone id -> (entry, state): what the player holds from every other region, and that
+    plus what the zone's own region sold before it.
+
+    Regions of one stage are played side by side and their levels add up. A zone is
+    priced for a player who has finished every region of every earlier stage, and
+    has gone as far through the other regions of its own stage as through its own:
+    halfway through the Sunken Marsh means halfway through Khorvath and Elderwood too.
+    """
+    zones = zones or sorted(rows("zones"), key=lambda z: int(z["order"]))
+    steps_by_zone = steps_by_zone or read_steps()
+    regions = {r["id"]: r for r in rows("regions")}
+    chain = {}
+    for zone in zones:
+        chain.setdefault(zone["region"], []).append(zone["id"])
+    by_id = {z["id"]: z for z in zones}
+
+    def stage(zone):
+        return int(zone.get("stage") or regions[zone["region"]]["stage"])
+
+    def own(region, depth):
+        """What the first `depth` zones of a region sell, in its realm's own levels."""
+        levels = {}
+        for zone_id in chain[region][:depth]:
+            for step in steps_by_zone.get(zone_id, []):
+                levels[(step["tool"], step["stat"])] = step["sold"]
+        return levels
+
+    states = {}
+    for zone in zones:
+        region, here = zone["region"], stage(zone)
+        index = chain[region].index(zone["id"])
+        progress = index / len(chain[region])
+        entry = dict(START)
+        for other, ids in chain.items():
+            if other == region:
+                continue
+            other_stage = min(stage(by_id[i]) for i in ids)
+            if other_stage < here:
+                entry = add(entry, own(other, len(ids)))
+            elif other_stage == here:
+                entry = add(entry, own(other, int(progress * len(ids))))
+        states[zone["id"]] = (entry, add(entry, own(region, index)))
+    return states
+
+
+def price_all():
+    """[(zone row, priced steps)] for every zone in order, tools carried between them."""
+    zones = sorted(rows("zones"), key=lambda z: int(z["order"]))
+    where = sources(zones)
+    steps_by_zone = read_steps()
+    states = zone_states(zones, steps_by_zone)
 
     def income(state, resource):
         kind, source = where[resource]
@@ -166,67 +301,31 @@ def price_all():
         # Whichever mob gives it fastest, the way a player would farm it
         return max(mob_income(state, mob, resource) for mob in source)
 
-    # Realms that are part of the same one are branches: Gormak and Verdant Groves
-    # both hang off the Overworld. Their levels add up, so a branch zone is priced
-    # for a player who keeps the branches level: on reaching a zone they have
-    # finished the zones before it in every branch
-    part_of = {r["id"]: r.get("part_of") or "" for r in rows("realms")}
-    chain = {}
-    for zone in zones:
-        chain.setdefault(zone["realm"], []).append(zone["id"])
-
-    def own(realm, depth):
-        """What the first `depth` zones of a realm sell, in the realm's own levels."""
-        levels = {}
-        for zone_id in chain[realm][:depth]:
-            for step in steps_by_zone.get(zone_id, []):
-                levels[(step["tool"], step["stat"])] = step["sold"]
-        return levels
-
-    def add(state, levels):
-        """Levels stacked on a state: enchants add up, the further material wins."""
-        total = dict(state)
-        for key, value in levels.items():
-            if key[1] == "material":
-                if MATERIALS.index(value) > MATERIALS.index(total.get(key, MATERIALS[0])):
-                    total[key] = value
-            else:
-                total[key] = total.get(key, 0) + value
-        return total
-
-    for steps in steps_by_zone.values():
-        for step in steps:
-            step["sold"] = step["level"]
-
-    # What the player holds on leaving each zone, the next one starts from it
-    leaving = {"": dict(START)}
     result = []
-    # What the player had on entering each realm: a realm's levels start from 1 and
-    # add to that
-    entered = {}
     for zone in zones:
-        state = leaving[zone.get("after") or ""]
-        realm = zone["realm"]
-        entry = entered.setdefault(realm, state)
-        steps = steps_by_zone.get(zone["id"], [])
-        bought = [step["level"] for step in steps]
-        if part_of[realm]:
-            depth = chain[realm].index(zone["id"])
-            for other in chain:
-                if other != realm and part_of[other] == part_of[realm]:
-                    entry = add(entry, own(other, depth))
-            state = add(entry, own(realm, depth))
+        entry, state = states[zone["id"]]
+        steps = [dict(step) for step in steps_by_zone.get(zone["id"], [])]
         for step in steps:
-            if step["stat"] != "material":
-                step["level"] += entry.get((step["tool"], step["stat"]), 0)
+            if step["stat"] == "material":
+                step["level"] = step["sold"]
+            else:
+                step["level"] = step["sold"] + entry.get((step["tool"], step["stat"]), 0)
+
         def scale(resource, zone=zone):
             return float(zone.get("mine_scale" if where[resource][0] == "mine" else "mob_scale") or 1)
 
-        priced = prices.zone_prices(int(zone["target_seconds"]), steps, income, state, scale=scale)
+        pool = KillBudget(zone, where, scale) if zone["mob"] else None
+        # Time spent fighting what comes at you is time not mining
+        busy = AMBIENT_FIGHT if pool and any(hostile(m) for m in pool.mobs) else 0.0
+
+        def zone_income(state, resource, busy=busy):
+            rate = income(state, resource)
+            return rate * (1 - busy) if where[resource][0] == "mine" else rate
+
+        priced = prices.zone_prices(target_seconds(zone, zones), steps, zone_income, state, scale=scale, pool=pool)
         # The state holds what the tool has in all, the shop sells the realm's own level
-        for row, level in zip(priced, bought):
-            row["level"] = level
-        leaving[zone["id"]] = priced[-1]["state"] if priced else state
+        for row, step in zip(priced, steps):
+            row["level"] = step["sold"]
         result.append((zone, priced))
     return result
 

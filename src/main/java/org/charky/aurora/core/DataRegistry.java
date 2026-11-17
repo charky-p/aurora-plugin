@@ -36,6 +36,11 @@ import java.util.function.Consumer;
 
 // All game data from the generated YAML, loaded through core.data and looked up here
 public class DataRegistry {
+    // One file per region under mobs/, generated from scripts/data/mobs/mobs_<name>.csv
+    private static final List<String> MOB_FILES = List.of(
+            "origin", "gormak", "verdant", "khorvath", "elderwood", "marsh",
+            "peaks", "duat", "sky", "quarry");
+
     private record BlockData(Material material, int density, int xp, List<LootPool> pools) {}
 
     private final Aurora plugin;
@@ -129,9 +134,7 @@ public class DataRegistry {
         loadBlocks(loot);
 
         MobLoader mobLoader = new MobLoader(plugin.getLogger(), items, loot, this::isResource);
-        mobLoader.load(yaml.load("mobs/gormak.yml", MobModel.class), mobs, armory);
-        mobLoader.load(yaml.load("mobs/origin.yml", MobModel.class), mobs, armory);
-        mobLoader.load(yaml.load("mobs/verdant.yml", MobModel.class), mobs, armory);
+        for (String file : MOB_FILES) mobLoader.load(yaml.load("mobs/" + file + ".yml", MobModel.class), mobs, armory);
 
         yaml.load("icons.yml", IconModel.class).forEach((id, model) -> icons.put(id, itemFactory.createIcon(model)));
         guis.putAll(new GuiLoader(plugin.getLogger(), items, icons, actions, backpackManager)
@@ -212,6 +215,10 @@ public class DataRegistry {
     }
 
     // The tools a new player starts with: the ones the first zone upgrades
+    public List<String> getUpgradeZoneIds() {
+        return new ArrayList<>(upgradeZones.keySet());
+    }
+
     public List<ToolType> getStarterTools() {
         List<ToolType> starters = new ArrayList<>();
         if (upgradeZones.isEmpty()) return starters;

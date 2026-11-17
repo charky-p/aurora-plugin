@@ -458,40 +458,32 @@ SCHEMAS["armor"] = gear_schema("gear_armor.csv", "gear/armor.yml", "armor")
 SCHEMAS["weapons"] = gear_schema("gear_weapons.csv", "gear/weapons.yml", "combat")
 SCHEMAS["other"] = gear_schema("gear_other.csv", "gear/other.yml", "")
 
-SCHEMAS["mobs_origin"] = {
-    "csv": "mobs_origin.csv",
-    "out": "mobs/origin.yml",
-    "header": MOB_HEADER,
-    "fields": OrderedDict([
-        ("display",    Str(quote=True, required=True)),
-        ("entity",     Str(required=True)),
-        ("health",     Float(default=20.0, always=True)),
-        ("defence",    Float(default=0.0)),
-        ("attack",     Float(default=0.0)),
-        ("equip",      PairMap(value=str)),
-        ("attributes", PairList("attr", "value", value=float)),
-    ] + loot_fields()),
-}
+# One file per region, every one with the same columns. A column a file leaves out takes its default
+MOB_REGIONS = ["origin", "gormak", "verdant", "khorvath", "elderwood", "marsh", "peaks", "duat", "sky", "quarry"]
 
-SCHEMAS["mobs_gormak"] = {
-    "csv": "mobs_gormak.csv",
-    "out": "mobs/gormak.yml",
-    "header": MOB_HEADER,
-    "fields": OrderedDict([
-        ("display",    Str(quote=True, required=True)),
-        ("entity",     Str(required=True)),
-        ("health",     Float(default=20.0, always=True)),
-        ("defence",    Float(default=0.0)),
-        ("attack",     Float(default=0.0)),
-        ("attack_cooldown", Float(default=0.0)),
-        ("damage",     Float(default=1.0)),
-        ("equip",      PairMap(value=str)),
-        ("attributes", PairList("attr", "value", value=float)),
-    ] + loot_fields()),
-}
 
-# Same columns as Gormak
-SCHEMAS["mobs_verdant"] = dict(SCHEMAS["mobs_gormak"], csv="mobs_verdant.csv", out="mobs/verdant.yml")
+def mob_schema(region):
+    return {
+        "csv": f"mobs_{region}.csv",
+        "out": f"mobs/{region}.yml",
+        "header": MOB_HEADER,
+        "fields": OrderedDict([
+            ("display",    Str(quote=True, required=True)),
+            ("entity",     Str(required=True)),
+            ("health",     Float(default=20.0, always=True)),
+            ("defence",    Float(default=0.0)),
+            ("attack",     Float(default=0.0)),
+            ("attack_cooldown", Float(default=0.0)),
+            ("damage",     Float(default=1.0)),
+            ("density",    Int(default=0)),
+            ("equip",      PairMap(value=str)),
+            ("attributes", PairList("attr", "value", value=float)),
+        ] + loot_fields()),
+    }
+
+
+for _region in MOB_REGIONS:
+    SCHEMAS[f"mobs_{_region}"] = mob_schema(_region)
 
 SCHEMAS["icons"] = {
     "csv": "icons.csv",

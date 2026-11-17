@@ -47,7 +47,7 @@ BLAST_SHAPES = {
 # ------------------------------------------------------------- vanilla tables
 # material: (harvest tier, speed)
 TOOL = {"WOODEN": (0, 2), "STONE": (1, 4), "COPPER": (1, 5), "IRON": (2, 6), "GOLDEN": (0, 12),
-        "DIAMOND": (3, 8), "NETHERITE": (4, 9)}
+        "DIAMOND": (3, 14), "NETHERITE": (4, 16)}
 # material: (hardness, harvest tier needed: 0 wood, 1 stone, 2 iron)
 BLOCK = {
     "COBBLESTONE": (2.0, 0), "STONE": (1.5, 0), "COAL_ORE": (3.0, 0), "COAL_BLOCK": (5.0, 0),
@@ -63,30 +63,37 @@ BLOCK = {
     "STRIPPED_OAK_LOG": (2.0, 0), "STRIPPED_BIRCH_LOG": (2.0, 0), "STRIPPED_SPRUCE_LOG": (2.0, 0),
     "STRIPPED_DARK_OAK_LOG": (2.0, 0), "LIGHT_GRAY_GLAZED_TERRACOTTA": (1.4, 0), "BROWN_GLAZED_TERRACOTTA": (1.4, 0),
     "GRAY_GLAZED_TERRACOTTA": (1.4, 0), "WHITE_GLAZED_TERRACOTTA": (1.4, 0),
+    # Regions after the first three, vanilla hardness (tiers are not checked, every Aurora
+    # tool is the right tool for its blocks at its own speed)
+    "CHISELED_RED_SANDSTONE": (0.8, 0), "ORANGE_TERRACOTTA": (1.25, 0), "BONE_BLOCK": (2.0, 0),
+    "SMOOTH_SANDSTONE": (2.0, 0), "JUNGLE_LOG": (2.0, 0), "STRIPPED_JUNGLE_LOG": (2.0, 0),
+    "BAMBOO_BLOCK": (2.0, 0), "BAMBOO_MOSAIC": (2.0, 0), "JUNGLE_WOOD": (2.0, 0), "BEE_NEST": (0.3, 0),
+    "PACKED_MUD": (1.0, 0), "MUD_BRICKS": (1.5, 0), "BROWN_TERRACOTTA": (1.25, 0), "MOSSY_COBBLESTONE": (2.0, 0),
+    "MOSSY_STONE_BRICKS": (1.5, 0), "OXIDIZED_COPPER": (3.0, 1), "DIRT": (0.5, 0), "COARSE_DIRT": (0.5, 0),
+    "REDSTONE_ORE": (3.0, 2), "DEEPSLATE_REDSTONE_ORE": (4.5, 2), "PUMPKIN": (1.0, 0), "SNOW_BLOCK": (0.2, 0),
+    "LAPIS_ORE": (3.0, 1), "DEEPSLATE_LAPIS_ORE": (4.5, 1), "MELON": (1.0, 0), "EMERALD_ORE": (3.0, 2),
+    "DEEPSLATE_EMERALD_ORE": (4.5, 2), "BASALT": (1.25, 0), "POLISHED_BASALT": (1.25, 0), "SOUL_SOIL": (0.5, 0),
+    "POLISHED_BLACKSTONE_BRICKS": (1.5, 0), "WAXED_EXPOSED_COPPER": (3.0, 1), "MAGMA_BLOCK": (0.5, 0),
+    "CRYING_OBSIDIAN": (50.0, 3), "BLACK_CONCRETE": (1.8, 0), "STRIPPED_JUNGLE_WOOD": (2.0, 0),
+    "MANGROVE_ROOTS": (0.7, 0), "MUSHROOM_STEM": (0.2, 0), "BROWN_MUSHROOM_BLOCK": (0.2, 0), "BEEHIVE": (0.6, 0),
+    "RESIN_BRICKS": (1.5, 0), "WHITE_CONCRETE": (1.8, 0), "WHITE_CONCRETE_POWDER": (0.5, 0),
+    "LIGHT_BLUE_GLAZED_TERRACOTTA": (1.4, 0), "QUARTZ_BLOCK": (0.8, 0), "WEATHERED_CUT_COPPER": (3.0, 1),
+    "WEATHERED_COPPER_GRATE": (3.0, 1), "QUARTZ_BRICKS": (0.8, 0), "QUARTZ_PILLAR": (0.8, 0), "CHERRY_LOG": (2.0, 0),
+    "YELLOW_CONCRETE": (1.8, 0), "LIGHT_BLUE_CONCRETE": (1.8, 0), "YELLOW_GLAZED_TERRACOTTA": (1.4, 0),
+    "GRAVEL": (0.6, 0), "DEEPSLATE_IRON_ORE": (4.5, 1), "RAW_IRON_BLOCK": (5.0, 1), "PALE_OAK_LOG": (2.0, 0),
+    "STRIPPED_PALE_OAK_LOG": (2.0, 0), "SMOOTH_QUARTZ": (2.0, 0), "MANGROVE_LOG": (2.0, 0),
+    "STRIPPED_MANGROVE_LOG": (2.0, 0), "CLAY": (0.6, 0), "LIGHT_BLUE_TERRACOTTA": (1.25, 0),
+    "DIAMOND_ORE": (3.0, 2), "DEEPSLATE_DIAMOND_ORE": (4.5, 2),
 }
-RANGED = {"SKELETON"}
+# Mobs that shoot arrows instead of hitting, they swing half as often and hit half as hard
+RANGED = {"SKELETON", "STRAY", "BOGGED", "PILLAGER"}
 
-# Mine layouts, the mix scripts/build_test_world.py builds: block id -> share
-MINES = {
-    "cobblestone": {"cobblestone": .6, "stone": .4},
-    "coal": {"coal_ore": .6, "coal_block": .4},
-    "copper": {"copper_ore": .6, "copper_block": .4},
-    "iron": {"iron_ore": .6, "iron_block": .4},
-    "gold": {"gold_ore": .6, "gold_block": .4},
-    "carved_brick": {"carved_brick": .9, "cracked_brick": .1},
-    "sunbaked_sand": {"sunbaked_sand": .8, "cut_sunbaked_sand": .2},
-    "crimson_sand": {"crimson_sand": .8, "cut_crimson_sand": .2},
-    "raw_gold": {"raw_gold_block": .2, "gilded_stone": .8},
-    "oak_log": {"oak_log": .6, "oak_wood": .25, "stripped_oak_log": .15}, "tin": {"tin_ore": .6, "tin_rich": .4},
-    "birch_log": {"birch_log": .6, "birch_wood": .25, "stripped_birch_log": .15}, "bronze": {"bronze_ore": .6, "bronze_rich": .4},
-    "spruce_log": {"spruce_log": .6, "spruce_wood": .25, "stripped_spruce_log": .15}, "lead": {"lead_ore": .6, "lead_rich": .4},
-    "dark_oak_log": {"dark_oak_log": .6, "darkoak_wood": .25, "stripped_dark_oak_log": .15},
-    "silver": {"silver_ore": .6, "silver_rich": .4},
-}
 PLACED = {"gilded_stone": "GILDED_BLACKSTONE"}  # material actually placed by the raw_gold mine
 
 SLOTS = ("helmet", "chestplate", "leggings", "boots")
-MOB_FILES = ("mobs_origin", "mobs_gormak", "mobs_verdant")
+# One file per region, the same list as MOB_REGIONS in generate.py
+MOB_FILES = tuple(f"mobs_{region}" for region in (
+    "origin", "gormak", "verdant", "khorvath", "elderwood", "marsh", "peaks", "duat", "sky", "quarry"))
 
 # --------------------------------------------------------------------- data
 
@@ -110,16 +117,24 @@ def parse_drops(text):
     for part in filter(None, (text or "").split("|")):
         bits = part.split(":")
         chance = float(bits[1]) if len(bits) > 1 else 100.0
-        lo, hi = bits[2].split("-") if len(bits) > 2 else ("1", "1")
+        lo, _, hi = bits[2].partition("-") if len(bits) > 2 else ("1", "", "1")
+        hi = hi or lo
         out.append((bits[0], chance / 100, (int(lo) + int(hi)) / 2))
     return out
 
 
 BLOCKS = {r["id"]: {"material": r["material"], "density": int(r["density"]),
                     "drops": parse_drops(r["independent"])} for r in rows("blocks")}
-MOBS = {r["id"]: {"entity": r["entity"], "hp": float(r["health"]), "def": float(r["defence"]),
-                  "atk": float(r["attack"]), "drops": parse_drops(r["independent"])}
+MOBS = {r["id"]: {"entity": r["entity"], "hp": float(r["health"] or 20), "def": float(r["defence"] or 0),
+                  "atk": float(r["attack"] or 0), "density": int(r.get("density") or 0),
+                  "respawn": float(r.get("respawn") or 0),
+                  "drops": parse_drops(r["independent"])}
         for f in MOB_FILES for r in rows(f)}
+# Mine layouts, the mix scripts/build_test_world.py builds: mine id -> {block id: share},
+# and the tool each one is mined with (pick, axe or shovel)
+MINES = {r["id"]: {b.split(":")[0]: int(b.split(":")[1]) / 100 for b in r["blocks"].split("|")}
+         for r in rows("mines")}
+MINE_TOOL = {r["id"]: r["tool"] for r in rows("mines")}
 for f in MOB_FILES:
     for r in rows(f):
         if float(r.get("attack_cooldown") or 0) > 0:
@@ -152,6 +167,5 @@ def mob_rate(mob):
 
 
 def tool_kind(mine):
-    """The tool that mines this: the axe for wood (Tag.MINEABLE_AXE), the pick for the rest."""
-    wood = any(w in PLACED.get(b, BLOCKS[b]["material"]) for b in MINES[mine] for w in ("LOG", "WOOD"))
-    return "axe" if wood else "pick"
+    """The tool that mines this, from mines.csv: pick, axe or shovel (MineListener.rightTool)."""
+    return MINE_TOOL[mine]

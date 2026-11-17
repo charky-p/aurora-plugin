@@ -9,6 +9,14 @@
 #   scripts/server.sh backup           database and worlds into LocalServer/aurora-backups
 set -euo pipefail
 
+# PowerShell's `bash` is often WSL, a separate Linux that cannot see the Windows
+# server process, so it would wrongly say "Not running"
+if grep -qi microsoft /proc/version 2>/dev/null; then
+    echo "This is WSL bash, run it with Git Bash instead:"
+    echo '  & "C:\Program Files\Git\bin\bash.exe" scripts/server.sh '"$*"
+    exit 1
+fi
+
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SERVER="$ROOT/LocalServer"
 

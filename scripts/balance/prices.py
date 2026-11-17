@@ -56,7 +56,7 @@ def step_seconds(target_seconds, steps, spread=SPREAD):
 
 
 def fortune_multiplier(fortune, density):
-    """How many times over a block drops, DataRegistry.getBlockDrops. Nothing below
+    """How many times over a block drops, Fortune.multiplier in Java. Nothing below
     the block's density, then 1, 2, 3.5, 5.5, 8 ... for every level past it."""
     return calc.fortune(fortune, density)
 

@@ -36,12 +36,16 @@ public class LootPoolBuilder {
         List<LootPool> pools = new ArrayList<>();
 
         if (independent != null && !independent.isEmpty()) {
-            IndependentLootPool pool = new IndependentLootPool();
+            // Drops under 100% go in a pool of their own so Fortune can treat them as rare.
+            // Each drop rolls alone either way, so splitting changes nothing else
+            IndependentLootPool common = new IndependentLootPool(false);
+            IndependentLootPool rare = new IndependentLootPool(true);
             for (BlockModel.IndependentPoolModel drop : independent) {
                 if (unknown(owner, drop.id)) continue;
-                pool.add(itemDrop(drop.id, drop.min, drop.max, lootable), drop.chance);
+                (drop.chance < 100 ? rare : common).add(itemDrop(drop.id, drop.min, drop.max, lootable), drop.chance);
             }
-            pools.add(pool);
+            if (!common.isEmpty()) pools.add(common);
+            if (!rare.isEmpty()) pools.add(rare);
         }
 
         if (choices != null) {

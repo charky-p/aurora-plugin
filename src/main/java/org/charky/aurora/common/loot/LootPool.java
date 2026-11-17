@@ -10,4 +10,9 @@ public interface LootPool {
     default List<MenuItem> roll() {
         return roll(0, 0);
     }
+
+    // Drops that come less than every time. Fortune multiplies these far less
+    default boolean isRare() {
+        return false;
+    }
 }

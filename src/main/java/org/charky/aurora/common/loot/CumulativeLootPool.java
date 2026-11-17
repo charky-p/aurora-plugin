@@ -15,6 +15,11 @@ public class CumulativeLootPool implements LootPool {
         this.chance = chance;
     }
 
+    @Override
+    public boolean isRare() {
+        return chance < 100;
+    }
+
     public void add(ItemDrop drop, double weight) {
         drops.put(drop, weight);
         totalWeight += weight;

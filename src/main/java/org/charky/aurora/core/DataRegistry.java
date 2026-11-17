@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.charky.aurora.common.loot.Fortune;
 import org.charky.aurora.common.loot.LootPool;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.DataKeys;
@@ -29,6 +30,7 @@ import org.charky.aurora.core.models.WarpModel;
 import org.charky.aurora.features.trader.TraderMenu;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -387,17 +389,16 @@ public class DataRegistry {
         BlockData block = blocks.get(id);
         if (block == null) return new ArrayList<>();
 
-        int effectiveLevel = fortune - block.density();
-        if (effectiveLevel < 0) return new ArrayList<>();
-
-        double multiplier = 1.0 + 0.75 * effectiveLevel + 0.25 * effectiveLevel * effectiveLevel;
+        double multiplier = Fortune.multiplier(fortune, block.density());
+        if (multiplier == 0) return new ArrayList<>();
+        double rareMultiplier = Fortune.rareMultiplier(fortune, block.density());
 
         List<MenuItem> drops = new ArrayList<>();
         for (LootPool pool : block.pools()) {
             for (MenuItem item : pool.roll()) {
-                // TODO: Accomodate to rare drops, a rare drop should not be multiplied so heavily
-                int scaled = (int) Math.round(item.getAmount() * multiplier);
-                item.setAmount(Math.max(1, scaled));
+                item.setAmount(pool.isRare()
+                        ? Fortune.scaleRare(item.getAmount(), rareMultiplier, ThreadLocalRandom.current())
+                        : Fortune.scale(item.getAmount(), multiplier));
                 drops.add(item);
             }
         }

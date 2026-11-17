@@ -8,6 +8,24 @@ import java.util.concurrent.ThreadLocalRandom;
 // Every drop rolls its own chance, so one roll can give several of them or none
 public class IndependentLootPool implements LootPool {
     private final Map<ItemDrop, Double> drops = new HashMap<>();
+    private final boolean rare;
+
+    public IndependentLootPool() {
+        this(false);
+    }
+
+    public IndependentLootPool(boolean rare) {
+        this.rare = rare;
+    }
+
+    @Override
+    public boolean isRare() {
+        return rare;
+    }
+
+    public boolean isEmpty() {
+        return drops.isEmpty();
+    }
 
     public void add(ItemDrop drop, double chance) {
         this.drops.put(drop, chance);

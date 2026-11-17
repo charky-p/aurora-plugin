@@ -210,7 +210,9 @@ Drop Calculation (Fortune): with `L = fortune - density`, a block drops nothing 
 
 `drops = round(base * (1 + 0.75 * L + 0.25 * L^2))`, never less than 1
 
-so the multiplier is 1, 2, 3.5, 5.5, 8, 11 ... for L = 0, 1, 2, 3, 4, 5. A block needs Fortune of at least its density to drop anything. Fortune adds up across realms: Origin, Gormak and Verdant Groves each give their own levels and the tool has the sum. The branches specialise so the sum stays sane: Gormak sells the sword, armour and shield with a little pick, Verdant Groves the pick and axe with a little combat, and prices assume both are kept level (`docs/PROGRESSION.md`). The formula lives in `DataRegistry.getBlockDrops` (Java) and `fortune()` in `scripts/price_calculator.py` (prices), keep the two the same.
+so the multiplier is 1, 2, 3.5, 5.5, 8, 11 ... for L = 0, 1, 2, 3, 4, 5. A block needs Fortune of at least its density to drop anything.
+
+Rare drops (a drop under 100% chance in `blocks.csv`, or a `choices` pool under 100%) grow with the cube root of that multiplier instead, and the part after the point is a chance of one more. At L = 20 a common 5-9 becomes 580-1,044 while a rare 1-2 becomes 5-10 and a rare 1 becomes 4-5. Fortune adds up across realms: Origin, Gormak and Verdant Groves each give their own levels and the tool has the sum. The branches specialise so the sum stays sane: Gormak sells the sword, armour and shield with a little pick, Verdant Groves the pick and axe with a little combat, and prices assume both are kept level (`docs/PROGRESSION.md`). The formula lives in `common/loot/Fortune.java` (Java) and `fortune()` in `scripts/price_calculator.py` (prices), keep the two the same.
 
 XP per block: items dropped x the block's `xp` in `scripts/data/world/blocks.csv`, so Fortune raises XP too. Every block of a zone has the same `xp`.
 

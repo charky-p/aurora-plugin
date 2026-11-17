@@ -120,12 +120,17 @@ def calc_mob_price(
     return split(kills * avg_drop, prices, spread)
 
 
-# Fortune formula, DataRegistry.getBlockDrops is the same in Java
+# Fortune formula, common/loot/Fortune.java is the same in Java
 def fortune(level: int, density: int) -> float:
     effective_level = level - density
     if effective_level < 0:
         return 0.0
     return 1 + 0.75 * effective_level + 0.25 * effective_level ** 2
+
+
+# Rare drops (under 100% chance) grow with the cube root, Fortune.rareMultiplier
+def rare_fortune(level: int, density: int) -> float:
+    return fortune(level, density) ** (1 / 3)
 
 
 # --- Examples ---

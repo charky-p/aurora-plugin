@@ -30,7 +30,7 @@ public class LootPoolBuilder {
         this.isGear = isGear;
     }
 
-    // With lootable on, resources can be widened by Looting. Owner is only for the log
+    // With lootable on, resources are multiplied by Looting. Owner is only for the log
     public List<LootPool> build(String owner, List<BlockModel.IndependentPoolModel> independent,
                                 BlockModel.CumulativeLootPoolModel choices, boolean lootable) {
         List<LootPool> pools = new ArrayList<>();

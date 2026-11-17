@@ -10,7 +10,7 @@ public class ItemDrop {
     private final boolean lootable;
     private final boolean lucky;
 
-    // Lootable drops get their range widened by Looting, gear and keys do not.
+    // Lootable drops are multiplied by Looting, gear and keys are not.
     // Lucky drops, a mob's gear, come more often with Luck
     public ItemDrop(MenuItem item, int minAmount, int maxAmount, boolean lootable, boolean lucky) {
         this.lucky = lucky;
@@ -24,12 +24,12 @@ public class ItemDrop {
         return lucky;
     }
 
-    // A fresh copy every time, so callers can change its amount
-    public MenuItem rollAmt(int looting) {
-        Looting.Range range = lootable
-                ? Looting.apply(minAmount, maxAmount, looting)
-                : new Looting.Range(minAmount, maxAmount);
-        int amount = ThreadLocalRandom.current().nextInt(range.min(), Math.max(range.min(), range.max()) + 1);
+    // A fresh copy every time, so callers can change its amount. Rare is whether the
+    // pool it came from drops less than every time, which Looting multiplies less
+    public MenuItem rollAmt(int looting, boolean rare) {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int amount = random.nextInt(minAmount, Math.max(minAmount, maxAmount) + 1);
+        if (lootable) amount = Looting.apply(amount, looting, rare, random);
 
         // Menu item to cater to amounts > 64
         MenuItem drop = item.copy();

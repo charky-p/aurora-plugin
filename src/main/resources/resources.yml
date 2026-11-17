@@ -84,7 +84,7 @@ items:
     region: "origin_isles"
     lore:
       - "<dark_gray>Dropped by cows"
-    collection: 32
+    collection: 64
 
   carved_brick:
     display: "<gray>Carved Brick"
@@ -102,7 +102,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Hollowed Serfs"
-    collection: 100
+    collection: 200
 
   ancient_scrap:
     display: "<gray><b>Ancient Scrap"
@@ -111,7 +111,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Scavenger Husks"
-    collection: 20
+    collection: 64
 
   sunbaked_sand:
     display: "<yellow>Sunbaked Sandstone"
@@ -129,7 +129,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Dune Scouts"
-    collection: 20
+    collection: 80
 
   ancient_bone:
     display: "<white><b>Ancient Bone"
@@ -138,7 +138,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Sand Stalkers"
-    collection: 80
+    collection: 160
 
   crimson_sand:
     display: "<#B4462A>Crimson Sandstone"
@@ -156,7 +156,7 @@ items:
     region: "gormak_canyons"
     lore:
       - "<dark_gray>Dropped by Scarab Zealots"
-    collection: 20
+    collection: 100
 
   legion_plate:
     display: "<gray><b>Legion Plate"
@@ -165,7 +165,7 @@ items:
     region: "gormak_canyons"
     lore:
       - "<dark_gray>Dropped by Hollowed Legionnaires"
-    collection: 48
+    collection: 160
 
   raw_gold:
     display: "<gold>Raw Gold"
@@ -183,7 +183,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Tomb Guards"
-    collection: 24
+    collection: 200
 
   vizier_scroll:
     display: "<yellow><b>Vizier Scroll"
@@ -192,7 +192,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Vizier Mages"
-    collection: 100
+    collection: 250
 
   eternal_soul:
     display: "<dark_purple><b>Eternal Soul"
@@ -201,7 +201,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Dropped by Royal Myrmidons"
-    collection: 40
+    collection: 200
 
   royal_seal:
     display: "<gold><b>Royal Seal"
@@ -210,7 +210,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Dropped by Pharaohs"
-    collection: 120
+    collection: 800
 
   ancient_heart:
     display: "<dark_red><b>Ancient Heart"
@@ -256,7 +256,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Dropped by Grove Horses"
-    collection: 40
+    collection: 120
 
   birch_log:
     display: "<#D9D3B0>Birch Log"
@@ -283,7 +283,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Dropped by Hollow Foxs"
-    collection: 80
+    collection: 320
 
   spruce_log:
     display: "<#4F7A4A>Spruce Log"
@@ -310,7 +310,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Dropped by Ridge Wolfs"
-    collection: 32
+    collection: 160
 
   dark_oak_log:
     display: "<#6B4F35>Dark Oak Log"
@@ -337,7 +337,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Dropped by Thicket Sniffers"
-    collection: 80
+    collection: 500
 
   tree_sap:
     display: "<gold>Tree Sap"
@@ -346,7 +346,7 @@ items:
     region: "verdant_treehouse"
     lore:
       - "<dark_gray>Dropped by Tree Zombees"
-    collection: 160
+    collection: 1200
 
   heartwood:
     display: "<dark_green><b>Heartwood"

@@ -1,25 +1,19 @@
 package org.charky.aurora.common.loot;
 
-// Looting takes a drop's min-max range and returns a new one, shifting the whole
-// range up by one for every two levels, rounded up, so 1-3 becomes 2-4 at Looting 1
-// and 2, and 4-6 at Looting 5. It was one a level until the first playtest showed it
-// swamping the drops. Only stackable resources are boosted, never gear or keys
+import java.util.random.RandomGenerator;
+
+// Looting is Fortune for mobs: a drop is multiplied by the same curve, 1, 2, 3.5, 5.5,
+// 8, 11 ... for Looting 0, 1, 2, 3, 4, 5, and a rare drop (under 100%) by its cube root.
+// Mobs have no density, every level counts. Only stackable resources are boosted,
+// never gear or keys
 public final class Looting {
     private Looting() {
     }
 
-    public record Range(int min, int max) {
-    }
-
-    public static Range apply(int min, int max, int level) {
-        if (level <= 0) return new Range(min, max);
-
-        int bonus = bonus(level);
-        return new Range(min + bonus, max + bonus);
-    }
-
-    // The seam for scaling big levels differently later, a single place to change
-    private static int bonus(int level) {
-        return (level + 1) / 2;
+    public static int apply(int amount, int level, boolean rare, RandomGenerator random) {
+        if (level <= 0) return amount;
+        return rare
+                ? Fortune.scaleRare(amount, Fortune.rareMultiplier(level, 0), random)
+                : Fortune.scale(amount, Fortune.multiplier(level, 0));
     }
 }

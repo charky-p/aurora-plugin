@@ -124,8 +124,11 @@ def mob_income(state, mob_id, resource):
     seconds = kill_seconds(state, mob_id)
     if seconds == math.inf:
         return 0.0
-    looting = (level(state, "sword", "looting") + 1) // 2
-    per_kill = sum(chance * (avg + looting) for drop, chance, avg in mob["drops"] if drop == resource)
+    # Looting is Fortune for mobs, rare drops (under 100%) by its cube root (Looting.java)
+    looting = level(state, "sword", "looting")
+    common, rare = prices.fortune_multiplier(looting, 0), prices.rare_multiplier(looting, 0)
+    per_kill = sum(chance * avg * (common if chance >= 1 else rare)
+                   for drop, chance, avg in mob["drops"] if drop == resource)
     return prices.mob_income(per_kill, seconds)
 
 

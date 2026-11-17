@@ -40,7 +40,7 @@ public class IndependentLootPool implements LootPool {
         return drops.entrySet()
                     .stream()
                     .filter(e -> ThreadLocalRandom.current().nextDouble(100) <= chance(e.getKey(), e.getValue(), luck))
-                    .map(e -> e.getKey().rollAmt(looting))
+                    .map(e -> e.getKey().rollAmt(looting, isRare()))
                     .toList();
     }
 }

@@ -109,13 +109,14 @@ def calc_mob_price(
         eta: float,
         base_chance: float,
         drop_range: tuple[int, int],
-        looting_bonus: float = 0.0,  # Looting shifts the whole range up by this much
+        looting: int = 0,  # Looting multiplies like Fortune, rare drops by its cube root
         prices: int = 1,
         spread: float = 0.5,
 ) -> list[int]:
     """The mob version of calc_price: what a player loots in these minutes."""
     kills = minutes * 60 / (kill_seconds + walk_seconds) * eta
-    avg_drop = base_chance * (sum(drop_range) / 2 + looting_bonus)
+    multiplier = fortune(looting, 0) if base_chance >= 1 else rare_fortune(looting, 0)
+    avg_drop = base_chance * sum(drop_range) / 2 * multiplier
 
     return split(kills * avg_drop, prices, spread)
 

@@ -35,7 +35,7 @@ public class CumulativeLootPool implements LootPool {
 
         for (Map.Entry<ItemDrop, Double> entry : drops.entrySet()) {
             current += entry.getValue();
-            if (rand <= current) return List.of(entry.getKey().rollAmt(looting));
+            if (rand <= current) return List.of(entry.getKey().rollAmt(looting, isRare()));
         }
 
         return List.of();

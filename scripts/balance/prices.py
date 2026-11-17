@@ -61,6 +61,11 @@ def fortune_multiplier(fortune, density):
     return calc.fortune(fortune, density)
 
 
+def rare_multiplier(fortune, density):
+    """Rare drops, under 100%, grow with the cube root (Fortune.rareMultiplier)."""
+    return calc.rare_fortune(fortune, density)
+
+
 def block_income(blocks_per_second, drop_per_block, fortune, density):
     return blocks_per_second * drop_per_block * fortune_multiplier(fortune, density)
 

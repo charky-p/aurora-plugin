@@ -34,9 +34,12 @@ are scripts/price_calculator.py, which can also work one price out by hand.
 
 The player's tools are levels, not items: (tool, stat) -> level, carried from one
 zone into the one that comes after it. Two zones can come after the same one: the
-Abandoned City and the Oak Grove both follow the Gold Reef, so Gormak and Verdant
-Groves are priced for the same player and either can be played first. Income is worked out from those levels with the same mining
-and combat numbers as balance_sim.py.
+Abandoned City and the Oak Grove both follow the Gold Reef. Gormak sells the sword
+and the armour and Verdant Groves the pick and the axe, with a little of the other
+in each, and their levels add up. So a branch zone is priced for a player who keeps
+both branches level: the Dunes for someone who has finished the City and the Oak
+Grove. Ahead of that pace a zone is slower, never closed. Income is worked out from
+those levels with the same mining and combat numbers as balance_sim.py.
 
   python scripts/balance/price_zones.py          every zone
   python scripts/balance/price_zones.py copper   one zone
@@ -55,6 +58,8 @@ DATA = sim.DATA
 START = {("pick", "material"): "WOODEN", ("axe", "material"): "WOODEN", ("sword", "material"): "WOODEN"}
 
 rows = sim.rows
+# Tool materials from the first to the last
+MATERIALS = list(sim.TOOL)
 
 
 def level(state, tool, stat):
@@ -158,6 +163,38 @@ def price_all():
         # Whichever mob gives it fastest, the way a player would farm it
         return max(mob_income(state, mob, resource) for mob in source)
 
+    # Realms that are part of the same one are branches: Gormak and Verdant Groves
+    # both hang off the Overworld. Their levels add up, so a branch zone is priced
+    # for a player who keeps the branches level: on reaching a zone they have
+    # finished the zones before it in every branch
+    part_of = {r["id"]: r.get("part_of") or "" for r in rows("realms")}
+    chain = {}
+    for zone in zones:
+        chain.setdefault(zone["realm"], []).append(zone["id"])
+
+    def own(realm, depth):
+        """What the first `depth` zones of a realm sell, in the realm's own levels."""
+        levels = {}
+        for zone_id in chain[realm][:depth]:
+            for step in steps_by_zone.get(zone_id, []):
+                levels[(step["tool"], step["stat"])] = step["sold"]
+        return levels
+
+    def add(state, levels):
+        """Levels stacked on a state: enchants add up, the further material wins."""
+        total = dict(state)
+        for key, value in levels.items():
+            if key[1] == "material":
+                if MATERIALS.index(value) > MATERIALS.index(total.get(key, MATERIALS[0])):
+                    total[key] = value
+            else:
+                total[key] = total.get(key, 0) + value
+        return total
+
+    for steps in steps_by_zone.values():
+        for step in steps:
+            step["sold"] = step["level"]
+
     # What the player holds on leaving each zone, the next one starts from it
     leaving = {"": dict(START)}
     result = []
@@ -166,9 +203,16 @@ def price_all():
     entered = {}
     for zone in zones:
         state = leaving[zone.get("after") or ""]
-        entry = entered.setdefault(zone["realm"], state)
+        realm = zone["realm"]
+        entry = entered.setdefault(realm, state)
         steps = steps_by_zone.get(zone["id"], [])
         bought = [step["level"] for step in steps]
+        if part_of[realm]:
+            depth = chain[realm].index(zone["id"])
+            for other in chain:
+                if other != realm and part_of[other] == part_of[realm]:
+                    entry = add(entry, own(other, depth))
+            state = add(entry, own(realm, depth))
         for step in steps:
             if step["stat"] != "material":
                 step["level"] += entry.get((step["tool"], step["stat"]), 0)

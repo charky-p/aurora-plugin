@@ -93,7 +93,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Gormak - Abandoned City"
-    collection: 1200
+    collection: 800
 
   tattered_cloth:
     display: "<gray>Tattered Cloth"
@@ -102,7 +102,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Hollowed Serfs"
-    collection: 80
+    collection: 100
 
   ancient_scrap:
     display: "<gray><b>Ancient Scrap"
@@ -111,7 +111,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Scavenger Husks"
-    collection: 16
+    collection: 20
 
   sunbaked_sand:
     display: "<yellow>Sunbaked Sandstone"
@@ -120,7 +120,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Gormak - The Dunes"
-    collection: 2000
+    collection: 2500
 
   ancient_flesh:
     display: "<dark_red>Ancient Flesh"
@@ -138,7 +138,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Sand Stalkers"
-    collection: 64
+    collection: 80
 
   crimson_sand:
     display: "<#B4462A>Crimson Sandstone"
@@ -147,7 +147,7 @@ items:
     region: "gormak_canyons"
     lore:
       - "<dark_gray>Gormak - Howling Canyons"
-    collection: 2000
+    collection: 5000
 
   scarab_shell:
     display: "<dark_purple><b>Scarab Shell"
@@ -156,7 +156,7 @@ items:
     region: "gormak_canyons"
     lore:
       - "<dark_gray>Dropped by Scarab Zealots"
-    collection: 16
+    collection: 20
 
   legion_plate:
     display: "<gray><b>Legion Plate"
@@ -165,7 +165,7 @@ items:
     region: "gormak_canyons"
     lore:
       - "<dark_gray>Dropped by Hollowed Legionnaires"
-    collection: 32
+    collection: 48
 
   raw_gold:
     display: "<gold>Raw Gold"
@@ -174,7 +174,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Gormak - Sun Temple"
-    collection: 7500
+    collection: 12000
 
   ancient_nugget:
     display: "<gold><b>Ancient Nugget"
@@ -183,7 +183,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Tomb Guards"
-    collection: 20
+    collection: 24
 
   vizier_scroll:
     display: "<yellow><b>Vizier Scroll"
@@ -192,7 +192,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Vizier Mages"
-    collection: 80
+    collection: 100
 
   eternal_soul:
     display: "<dark_purple><b>Eternal Soul"
@@ -201,7 +201,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Dropped by Royal Myrmidons"
-    collection: 24
+    collection: 40
 
   royal_seal:
     display: "<gold><b>Royal Seal"
@@ -210,7 +210,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Dropped by Pharaohs"
-    collection: 48
+    collection: 120
 
   ancient_heart:
     display: "<dark_red><b>Ancient Heart"
@@ -238,7 +238,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Verdant Groves - Oak Grove"
-    collection: 1000
+    collection: 250
 
   tin:
     display: "<#7BA05B><b>Tin"
@@ -247,7 +247,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Verdant Groves - Oak Grove"
-    collection: 3200
+    collection: 8000
 
   horsehair:
     display: "<#7BA05B>Horsehair"
@@ -256,7 +256,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Dropped by Grove Horses"
-    collection: 80
+    collection: 40
 
   birch_log:
     display: "<#D9D3B0>Birch Log"
@@ -265,7 +265,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Verdant Groves - Birch Hollow"
-    collection: 1500
+    collection: 400
 
   bronze:
     display: "<#D9D3B0><b>Bronze"
@@ -274,7 +274,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Verdant Groves - Birch Hollow"
-    collection: 4800
+    collection: 6400
 
   fox_fur:
     display: "<#D9D3B0>Fox Fur"
@@ -292,7 +292,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Verdant Groves - Spruce Ridge"
-    collection: 1600
+    collection: 800
 
   lead:
     display: "<#4F7A4A><b>Lead"
@@ -301,7 +301,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Verdant Groves - Spruce Ridge"
-    collection: 5000
+    collection: 16000
 
   wolf_pelt:
     display: "<#4F7A4A>Wolf Pelt"
@@ -310,7 +310,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Dropped by Ridge Wolfs"
-    collection: 64
+    collection: 32
 
   dark_oak_log:
     display: "<#6B4F35>Dark Oak Log"
@@ -319,7 +319,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
-    collection: 5000
+    collection: 800
 
   silver:
     display: "<#6B4F35><b>Silver"
@@ -328,7 +328,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
-    collection: 6400
+    collection: 12000
 
   ancient_seed:
     display: "<#6B4F35>Ancient Seed"
@@ -337,7 +337,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Dropped by Thicket Sniffers"
-    collection: 64
+    collection: 80
 
   tree_sap:
     display: "<gold>Tree Sap"
@@ -346,7 +346,7 @@ items:
     region: "verdant_treehouse"
     lore:
       - "<dark_gray>Dropped by Tree Zombees"
-    collection: 120
+    collection: 160
 
   heartwood:
     display: "<dark_green><b>Heartwood"

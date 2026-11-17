@@ -113,14 +113,14 @@ items:
 
   sunbaked_sand:
     material: SANDSTONE
-    density: 5
+    density: 4
     xp: 7
     independent:
       - id: sunbaked_sand
 
   cut_sunbaked_sand:
     material: CUT_SANDSTONE
-    density: 5
+    density: 4
     xp: 7
     independent:
       - id: sunbaked_sand
@@ -129,14 +129,14 @@ items:
 
   crimson_sand:
     material: RED_SANDSTONE
-    density: 6
+    density: 5
     xp: 8
     independent:
       - id: crimson_sand
 
   cut_crimson_sand:
     material: CUT_RED_SANDSTONE
-    density: 6
+    density: 5
     xp: 8
     independent:
       - id: crimson_sand
@@ -145,14 +145,14 @@ items:
 
   raw_gold_block:
     material: RAW_GOLD_BLOCK
-    density: 7
+    density: 6
     xp: 9
     independent:
       - id: raw_gold
 
   gilded_stone:
     material: GOLD_BLOCK
-    density: 7
+    density: 6
     xp: 9
     independent:
       - id: raw_gold

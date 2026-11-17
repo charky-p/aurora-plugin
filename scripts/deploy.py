@@ -3,7 +3,7 @@
 Aurora deploy helpers, plain Python so they run on the live server's host too.
 
   python scripts/deploy.py upload [--db] [--worlds] [--all]
-      Builds the plugin and sends it to the host in scripts/deploy.ini over FTP: the
+      Builds the plugin and sends it to the host in scripts/deploy.ini over FTP/FTPS/SFTP: the
       jar and every generated YAML. --db also sends LocalServer's mines.db and
       --worlds the game worlds named in deploy.ini, --all is both. Stop the host's
       server first when sending the database or worlds. The host's own mines.db is
@@ -36,6 +36,7 @@ import getpass
 import json
 import os
 import shutil
+import socket
 import sqlite3
 import subprocess
 import sys
@@ -180,16 +181,67 @@ def world_files(config):
     return files
 
 
+class ImplicitFTP_TLS(ftplib.FTP_TLS):
+    """FTPS where TLS starts immediately on connect (FileZilla's 'Require implicit FTP over TLS')."""
+    def connect(self, host="", port=0, timeout=-999, source_address=None):
+        if host != "":
+            self.host = host
+        if port > 0:
+            self.port = port
+        if timeout != -999:
+            self.timeout = timeout
+        if source_address is not None:
+            self.source_address = source_address
+
+        raw_sock = socket.create_connection((self.host, self.port), self.timeout, self.source_address)
+        self.sock = self.context.wrap_socket(raw_sock, server_hostname=self.host)
+        self.af = self.sock.family
+        self.file = self.sock.makefile("r", encoding=self.encoding)
+        self.welcome = self.getresp()
+        return self.welcome
+
+
 class Host:
     def __init__(self, config, password):
         host = config["host"]
-        self.ftp = ftplib.FTP_TLS() if host.get("protocol", "ftp").lower() == "ftps" else ftplib.FTP()
-        self.ftp.connect(host["host"], host.getint("port", 21), timeout=60)
-        self.ftp.login(host["user"], password)
-        if isinstance(self.ftp, ftplib.FTP_TLS):
-            self.ftp.prot_p()
+        self.proto = host.get("protocol", "sftp").lower()
         self.root = host.get("root", "/").rstrip("/")
         self.made = set()
+
+        if self.proto == "sftp":
+            try:
+                import paramiko
+            except ImportError:
+                sys.exit("SFTP requires paramiko. Run `pip install paramiko`.")
+
+            self.ssh = paramiko.SSHClient()
+            self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            try:
+                self.ssh.connect(
+                    hostname=host["host"],
+                    port=host.getint("port", 22),
+                    username=host["user"],
+                    password=password,
+                    timeout=10,
+                    banner_timeout=10,
+                    auth_timeout=10,
+                    look_for_keys=False,
+                    allow_agent=False,
+                )
+            except paramiko.AuthenticationException:
+                # Fallback to keyboard-interactive (same method FileZilla's psftp uses)
+                transport = self.ssh.get_transport()
+                transport.auth_interactive(
+                    host["user"],
+                    lambda title, instructions, prompt_list: [password for _ in prompt_list],
+                )
+            self.sftp = self.ssh.open_sftp()
+        else:
+            self.ftp = ImplicitFTP_TLS() if self.proto == "ftps" else ftplib.FTP()
+            self.ftp.connect(host["host"], host.getint("port", 21), timeout=15)
+            self.ftp.login(host["user"], password)
+            if isinstance(self.ftp, ftplib.FTP_TLS):
+                self.ftp.prot_p()
 
     def path(self, relative):
         return f"{self.root}/{relative}"
@@ -200,19 +252,35 @@ class Host:
             folder = f"{folder}/{part}" if folder else part
             if folder in self.made:
                 continue
-            try:
-                self.ftp.mkd(self.path(folder))
-            except ftplib.error_perm:
-                pass  # It is already there
+            if self.proto == "sftp":
+                try:
+                    self.sftp.stat(self.path(folder))
+                except IOError:
+                    self.sftp.mkdir(self.path(folder))
+            else:
+                try:
+                    self.ftp.mkd(self.path(folder))
+                except ftplib.error_perm:
+                    pass  # It is already there
             self.made.add(folder)
 
     def upload(self, local, relative):
         self.make_folders(relative)
-        with open(local, "rb") as file:
-            self.ftp.storbinary(f"STOR {self.path(relative)}", file, blocksize=262144)
+        if self.proto == "sftp":
+            self.sftp.put(str(local), self.path(relative))
+        else:
+            with open(local, "rb") as file:
+                self.ftp.storbinary(f"STOR {self.path(relative)}", file, blocksize=262144)
 
     # False if the host has no such file
     def download(self, relative, local):
+        if self.proto == "sftp":
+            try:
+                self.sftp.get(self.path(relative), str(local))
+                return True
+            except IOError:
+                Path(local).unlink(missing_ok=True)
+                return False
         try:
             with open(local, "wb") as file:
                 self.ftp.retrbinary(f"RETR {self.path(relative)}", file.write)
@@ -222,19 +290,31 @@ class Host:
             return False
 
     def names(self, relative):
+        if self.proto == "sftp":
+            try:
+                return self.sftp.listdir(self.path(relative))
+            except IOError:
+                return []
         try:
             return [PurePosixPath(name).name for name in self.ftp.nlst(self.path(relative))]
         except ftplib.error_perm:
             return []
 
     def delete(self, relative):
-        self.ftp.delete(self.path(relative))
+        if self.proto == "sftp":
+            self.sftp.remove(self.path(relative))
+        else:
+            self.ftp.delete(self.path(relative))
 
     def close(self):
-        try:
-            self.ftp.quit()
-        except ftplib.all_errors:
-            self.ftp.close()
+        if self.proto == "sftp":
+            self.sftp.close()
+            self.ssh.close()
+        else:
+            try:
+                self.ftp.quit()
+            except ftplib.all_errors:
+                self.ftp.close()
 
 
 def megabytes(size):

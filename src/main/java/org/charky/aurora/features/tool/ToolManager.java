@@ -253,6 +253,14 @@ public class ToolManager implements Listener {
         return true;
     }
 
+    // Every zone in the game is maxed, what the Overworld Core needs
+    public boolean maxedAll(Player player) {
+        for (String zone : registry.getUpgradeZoneIds()) {
+            if (!maxed(player, zone)) return false;
+        }
+        return true;
+    }
+
     // Every zone of a world is maxed. False for a world with no zones yet
     public boolean maxedRegion(Player player, String region) {
         List<String> zones = registry.getZonesOfRegion(region);
@@ -293,6 +301,8 @@ public class ToolManager implements Listener {
         backpack.removeItems(player, step.costs());
         Component bought = describe(player, zone, tool, step);
         set(player.getUniqueId(), zone.realm(), toolId, step.stat(), step.level());
+        // A tool first sold here, like the shovel at Emerald Peaks, is handed over
+        if (!carries(player, tool)) give(player, tool);
 
         player.sendMessage(TextUtils.parse("<gold><b>UPGRADED</b> <gray>" + tool.name() + ": <white>").append(bought));
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1.4f);

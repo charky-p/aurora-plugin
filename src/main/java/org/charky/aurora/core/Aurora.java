@@ -37,7 +37,9 @@ import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.keys.KeyItemListener;
+import org.charky.aurora.features.keys.KeyItems;
 import org.charky.aurora.features.mine.MineListener;
+import org.charky.aurora.features.movement.GrappleListener;
 import org.charky.aurora.features.mine.MineManager;
 import org.charky.aurora.features.player.BackpackCommand;
 import org.charky.aurora.features.player.BackpackItemListener;
@@ -195,6 +197,8 @@ public class Aurora extends JavaPlugin {
         cosmeticManager.setLookChanged(toolManager::refresh);
         registry.registerAction("upgrades", toolManager::openUpgrades);
         registry.registerAction("tools", toolManager::giveStarters);
+        // The Overworld Core opens the Caverns only for a player who has maxed every zone
+        KeyItems.require("caverns", toolManager::maxedAll, "Max every zone in the game first");
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);
         backpackManager.setOnOpen(tutorialManager::openedBackpack);
         toolManager.setOnOpened(tutorialManager::openedUpgrades);
@@ -234,6 +238,7 @@ public class Aurora extends JavaPlugin {
                 tutorialManager,
                 new PortalListener(this),
                 new KeyItemListener(this),
+                new GrappleListener(),
                 new BackpackItemListener(this),
                 new ChatShowcase(),
                 new ServerMessages(registry, cosmeticManager),

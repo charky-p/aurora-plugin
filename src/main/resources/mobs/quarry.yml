@@ -1,0 +1,110 @@
+# ===========================================================
+# AURORA MOB TEMPLATE - generated from CSV
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  quarry_pillager:
+    display: "<gray><b>Quarry Pillager"
+    entity: PILLAGER
+    health: 6335.0
+    defence: 569.0
+    attack: 76.0
+    damage: 1.3
+    density: 37
+    independent:
+      - id: pillager_ration
+        max: 2
+
+  quarry_vindicator:
+    display: "<gray><b>Quarry Vindicator"
+    entity: VINDICATOR
+    health: 6335.0
+    defence: 569.0
+    attack: 77.0
+    damage: 1.3
+    density: 38
+    independent:
+      - id: iron_tag
+        max: 2
+
+  quarry_ravager:
+    display: "<dark_gray><b>Quarry Ravager"
+    entity: RAVAGER
+    health: 13070.0
+    defence: 891.0
+    attack: 85.0
+    damage: 1.3
+    density: 42
+    independent:
+      - id: ravager_horn
+        max: 2
+
+  pillager_captain:
+    display: "<gray><b>Pillager Captain"
+    entity: PILLAGER
+    health: 13500.0
+    defence: 920.0
+    attack: 86.0
+    damage: 1.3
+    density: 43
+    independent:
+      - id: captain_banner
+        max: 2
+
+  quarry_warden:
+    display: "<white><b>Quarry Warden"
+    entity: IRON_GOLEM
+    health: 13500.0
+    defence: 920.0
+    attack: 86.0
+    damage: 1.3
+    density: 43
+    independent:
+      - id: warden_plate
+        max: 2
+
+  overworld_golem:
+    display: "<white><b>The Overworld Golem"
+    entity: IRON_GOLEM
+    health: 138270.0
+    defence: 1258.0
+    attack: 96.0
+    damage: 1.3
+    density: 46
+    attributes:
+      - attr: SCALE
+        value: 2.5
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    independent:
+      - id: golem_shard
+        min: 2
+        max: 4

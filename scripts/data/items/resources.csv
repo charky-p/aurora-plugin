@@ -5,38 +5,141 @@ copper,<#D94110><b>Copper Ingot,COPPER_INGOT,overworld,origin_isles,640,<dark_gr
 iron,<white><b>Iron Ingot,IRON_INGOT,overworld,origin_isles,1000,<dark_gray>Origin Isles
 gold,<gold><b>Gold Ingot,GOLD_INGOT,overworld,origin_isles,2500,<dark_gray>Origin Isles
 feather,<white>Feather,FEATHER,overworld,origin_isles,8,<dark_gray>Dropped by chickens
-wool,<white>Tuft of Wool,WHITE_WOOL,overworld,origin_isles,32,<dark_gray>Dropped by sheep
-leather,<#8B5A2B>Hide,LEATHER,overworld,origin_isles,64,<dark_gray>Dropped by cows
-carved_brick,<gray>Carved Brick,STONE_BRICKS,overworld,gormak_city,800,<dark_gray>Gormak - Abandoned City
-tattered_cloth,<gray>Tattered Cloth,STRING,overworld,gormak_city,200,<dark_gray>Dropped by Hollowed Serfs
-ancient_scrap,<gray><b>Ancient Scrap,IRON_NUGGET,overworld,gormak_city,64,<dark_gray>Dropped by Scavenger Husks
-sunbaked_sand,<yellow>Sunbaked Sandstone,SANDSTONE,overworld,gormak_dunes,2500,<dark_gray>Gormak - The Dunes
-ancient_flesh,<dark_red>Ancient Flesh,ROTTEN_FLESH,overworld,gormak_dunes,80,<dark_gray>Dropped by Dune Scouts
-ancient_bone,<white><b>Ancient Bone,BONE,overworld,gormak_dunes,160,<dark_gray>Dropped by Sand Stalkers
-crimson_sand,<#B4462A>Crimson Sandstone,RED_SANDSTONE,overworld,gormak_canyons,5000,<dark_gray>Gormak - Howling Canyons
-scarab_shell,<dark_purple><b>Scarab Shell,TURTLE_SCUTE,overworld,gormak_canyons,100,<dark_gray>Dropped by Scarab Zealots
-legion_plate,<gray><b>Legion Plate,IRON_INGOT,overworld,gormak_canyons,160,<dark_gray>Dropped by Hollowed Legionnaires
-raw_gold,<gold>Raw Gold,RAW_GOLD,overworld,gormak_temple,12000,<dark_gray>Gormak - Sun Temple
-ancient_nugget,<gold><b>Ancient Nugget,GOLD_NUGGET,overworld,gormak_temple,200,<dark_gray>Dropped by Tomb Guards
-vizier_scroll,<yellow><b>Vizier Scroll,PAPER,overworld,gormak_temple,250,<dark_gray>Dropped by Vizier Mages
-eternal_soul,<dark_purple><b>Eternal Soul,ECHO_SHARD,overworld,gormak_tomb,200,<dark_gray>Dropped by Royal Myrmidons
-royal_seal,<gold><b>Royal Seal,HEART_OF_THE_SEA,overworld,gormak_tomb,800,<dark_gray>Dropped by Pharaohs
+wool,<white>Tuft of Wool,WHITE_WOOL,overworld,origin_isles,20,<dark_gray>Dropped by sheep
+leather,<#8B5A2B>Hide,LEATHER,overworld,origin_isles,24,<dark_gray>Dropped by cows
+carved_brick,<gray>Carved Brick,STONE_BRICKS,overworld,gormak_city,640,<dark_gray>Gormak - Abandoned City
+tattered_cloth,<gray>Tattered Cloth,STRING,overworld,gormak_city,64,<dark_gray>Dropped by Hollowed Serfs
+ancient_scrap,<gray><b>Ancient Scrap,IRON_NUGGET,overworld,gormak_city,32,<dark_gray>Dropped by Scavenger Husks
+sunbaked_sand,<yellow>Sunbaked Sandstone,SANDSTONE,overworld,gormak_dunes,2000,<dark_gray>Gormak - The Dunes
+ancient_flesh,<dark_red>Ancient Flesh,ROTTEN_FLESH,overworld,gormak_dunes,20,<dark_gray>Dropped by Dune Scouts
+ancient_bone,<white><b>Ancient Bone,BONE,overworld,gormak_dunes,48,<dark_gray>Dropped by Sand Stalkers
+crimson_sand,<#B4462A>Crimson Sandstone,RED_SANDSTONE,overworld,khorvath_canyons,20000,<dark_gray>Khorvath
+scarab_shell,<dark_purple><b>Scarab Shell,TURTLE_SCUTE,overworld,khorvath_canyons,640,<dark_gray>Khorvath
+legion_plate,<gray><b>Legion Plate,IRON_INGOT,overworld,khorvath_canyons,120,<dark_gray>Khorvath
+raw_gold,<gold>Raw Gold,RAW_GOLD,overworld,gormak_temple,6400,<dark_gray>Gormak - Sun Temple
+ancient_nugget,<gold><b>Ancient Nugget,GOLD_NUGGET,overworld,gormak_temple,16,<dark_gray>Dropped by Tomb Guards
+vizier_scroll,<yellow><b>Vizier Scroll,PAPER,overworld,gormak_temple,80,<dark_gray>Dropped by Vizier Mages
+eternal_soul,<dark_purple><b>Eternal Soul,ECHO_SHARD,overworld,khorvath_catacombs,120,<dark_gray>Khorvath
+royal_seal,<gold><b>Royal Seal,HEART_OF_THE_SEA,overworld,khorvath_catacombs,160,<dark_gray>Khorvath
 ancient_heart,<dark_red><b>Ancient Heart,NETHER_STAR,overworld,gormak_tomb,1,<dark_gray>Dropped by Gormak the Eternal
 mirage_shard,<light_purple><b>Mirage Shard,AMETHYST_SHARD,overworld,gormak,1,<gray>Shimmers as though it isn't there.|<dark_gray>Dropped by the Mirage
 oak_log,<#7BA05B>Oak Log,OAK_LOG,overworld,verdant_oak,250,<dark_gray>Verdant Groves - Oak Grove
 tin,<#7BA05B><b>Tin,LIGHT_GRAY_CONCRETE,overworld,verdant_oak,8000,<dark_gray>Verdant Groves - Oak Grove
-horsehair,<#7BA05B>Horsehair,BROWN_WOOL,overworld,verdant_oak,120,<dark_gray>Dropped by Grove Horses
+horsehair,<#7BA05B>Horsehair,BROWN_WOOL,overworld,verdant_oak,24,<dark_gray>Dropped by Grove Horses
 birch_log,<#D9D3B0>Birch Log,BIRCH_LOG,overworld,verdant_birch,400,<dark_gray>Verdant Groves - Birch Hollow
 bronze,<#D9D3B0><b>Bronze,BROWN_CONCRETE,overworld,verdant_birch,6400,<dark_gray>Verdant Groves - Birch Hollow
-fox_fur,<#D9D3B0>Fox Fur,ORANGE_WOOL,overworld,verdant_birch,320,<dark_gray>Dropped by Hollow Foxs
+fox_fur,<#D9D3B0>Fox Fur,ORANGE_WOOL,overworld,verdant_birch,32,<dark_gray>Dropped by Hollow Foxs
 spruce_log,<#4F7A4A>Spruce Log,SPRUCE_LOG,overworld,verdant_spruce,800,<dark_gray>Verdant Groves - Spruce Ridge
 lead,<#4F7A4A><b>Lead,GRAY_CONCRETE,overworld,verdant_spruce,16000,<dark_gray>Verdant Groves - Spruce Ridge
-wolf_pelt,<#4F7A4A>Wolf Pelt,RABBIT_HIDE,overworld,verdant_spruce,160,<dark_gray>Dropped by Ridge Wolfs
+wolf_pelt,<#4F7A4A>Wolf Pelt,RABBIT_HIDE,overworld,verdant_spruce,12,<dark_gray>Dropped by Ridge Wolfs
 dark_oak_log,<#6B4F35>Dark Oak Log,DARK_OAK_LOG,overworld,verdant_darkoak,800,<dark_gray>Verdant Groves - Dark Oak Thicket
-silver,<#6B4F35><b>Silver,IRON_BLOCK,overworld,verdant_darkoak,12000,<dark_gray>Verdant Groves - Dark Oak Thicket
-ancient_seed,<#6B4F35>Ancient Seed,TORCHFLOWER_SEEDS,overworld,verdant_darkoak,500,<dark_gray>Dropped by Thicket Sniffers
-tree_sap,<gold>Tree Sap,HONEYCOMB,overworld,verdant_treehouse,1200,<dark_gray>Dropped by Tree Zombees
-heartwood,<dark_green><b>Heartwood,CREAKING_HEART,overworld,verdant_treehouse,1,<dark_gray>Dropped by the Treant
+silver,<#6B4F35><b>Silver,IRON_BLOCK,overworld,verdant_darkoak,20000,<dark_gray>Verdant Groves - Dark Oak Thicket
+ancient_seed,<#6B4F35>Ancient Seed,TORCHFLOWER_SEEDS,overworld,verdant_darkoak,600,<dark_gray>Dropped by Thicket Sniffers
+tree_sap,<gold>Tree Sap,HONEYCOMB,overworld,elderwood_treehouse,160,<dark_gray>Elderwood Roots
+heartwood,<dark_green><b>Heartwood,CREAKING_HEART,overworld,elderwood_treehouse,1,<dark_gray>Elderwood Roots
+deserter_coin,<#C9A227>Deserter Coin,GOLD_NUGGET,overworld,khorvath_canyons,24,<dark_gray>Khorvath
+relic_stone,<#B4462A>Relic Stone,CHISELED_RED_SANDSTONE,overworld,khorvath_ruins,1200,<dark_gray>Khorvath
+relic_shard,<#E07B39><b>Relic Shard,PRISMARINE_SHARD,overworld,khorvath_ruins,32,<dark_gray>Khorvath
+ossuary_bone,<white>Ossuary Bone,BONE_BLOCK,overworld,khorvath_catacombs,1200,<dark_gray>Khorvath
+anubite_mark,<dark_purple><b>Anubite Mark,ECHO_SHARD,overworld,khorvath_sanctuary,12,<dark_gray>Khorvath
+sphinx_claw,<gold><b>Sphinx Claw,GOAT_HORN,overworld,khorvath_sanctuary,20,<dark_gray>Khorvath
+solar_core,<gold><b>Solar Core,SUNFLOWER,overworld,khorvath_sanctuary,1,<dark_gray>Khorvath
+jungle_log,<#9C7A3C>Jungle Log,JUNGLE_LOG,overworld,elderwood_jungle,6000,<dark_gray>Elderwood Roots
+panda_fur,<white>Panda Fur,WHITE_WOOL,overworld,elderwood_jungle,48,<dark_gray>Elderwood Roots
+bamboo,<#7BA05B>Bamboo,BAMBOO,overworld,elderwood_bamboo,6000,<dark_gray>Elderwood Roots
+ocelot_whisker,<yellow>Ocelot Whisker,STRING,overworld,elderwood_bamboo,48,<dark_gray>Elderwood Roots
+elderbark,<#6B4F35>Elderbark,JUNGLE_WOOD,overworld,elderwood_amber,2500,<dark_gray>Elderwood Roots
+amber,<gold><b>Amber,HONEYCOMB,overworld,elderwood_amber,800,<dark_gray>Elderwood Roots
+royal_jelly,<yellow><b>Royal Jelly,HONEY_BOTTLE,overworld,elderwood_amber,12,<dark_gray>Elderwood Roots
+packed_mud,<#8B6B4A>Packed Mud,PACKED_MUD,overworld,marsh_mudflats,12000,<dark_gray>Sunken Marsh
+frog_leg,<#7BA05B>Frog Leg,RABBIT_FOOT,overworld,marsh_mudflats,32,<dark_gray>Sunken Marsh
+peat,<#5C4033>Peat,BROWN_TERRACOTTA,overworld,marsh_peat,8000,<dark_gray>Sunken Marsh
+bog_rag,<#4E6B3A>Bog Rag,STRING,overworld,marsh_peat,20,<dark_gray>Sunken Marsh
+verdigris,<#4FB39A><b>Verdigris,OXIDIZED_COPPER,overworld,marsh_ruins,1500,<dark_gray>Sunken Marsh
+poison_quill,<dark_green>Poison Quill,ARROW,overworld,marsh_ruins,48,<dark_gray>Sunken Marsh
+drowned_scale,<dark_aqua>Drowned Scale,PRISMARINE_SHARD,overworld,marsh_ruins,16,<dark_gray>Sunken Marsh
+lurker_fang,<dark_aqua><b>Lurker Fang,BONE,overworld,marsh_hydra,16,<dark_gray>Sunken Marsh
+hydra_scale,<dark_green><b>Hydra Scale,TURTLE_SCUTE,overworld,marsh_hydra,1,<dark_gray>Sunken Marsh
+dirt,<#8B6B4A>Mountain Dirt,DIRT,overworld,peaks_foothills,2500,<dark_gray>Emerald Peaks
+goat_hide,<white>Goat Hide,LEATHER,overworld,peaks_foothills,32,<dark_gray>Emerald Peaks
+redstone,<red><b>Redstone,REDSTONE,overworld,peaks_redstone,25000,<dark_gray>Emerald Peaks
+spider_silk,<white>Frost Silk,COBWEB,overworld,peaks_redstone,8,<dark_gray>Emerald Peaks
+pumpkin,<gold>Pumpkin,PUMPKIN,overworld,peaks_pumpkin,3200,<dark_gray>Emerald Peaks
+snow,<white>Packed Snow,SNOWBALL,overworld,peaks_pumpkin,1200,<dark_gray>Emerald Peaks
+snow_pelt,<white>Snow Pelt,WHITE_WOOL,overworld,peaks_pumpkin,48,<dark_gray>Emerald Peaks
+lapis,<blue><b>Lapis,LAPIS_LAZULI,overworld,peaks_lapis,16000,<dark_gray>Emerald Peaks
+frost_arrow,<aqua>Frost Arrow,TIPPED_ARROW,overworld,peaks_lapis,48,<dark_gray>Emerald Peaks
+melon,<green>Melon,MELON_SLICE,overworld,peaks_melon,1200,<dark_gray>Emerald Peaks
+emerald,<green><b>Emerald,EMERALD,overworld,peaks_melon,20000,<dark_gray>Emerald Peaks
+cliff_horn,<gray>Cliff Horn,GOAT_HORN,overworld,peaks_melon,32,<dark_gray>Emerald Peaks
+venom_sac,<dark_green>Venom Sac,FERMENTED_SPIDER_EYE,overworld,peaks_arachne,12,<dark_gray>Emerald Peaks
+rider_bone,<white>Rider Bone,BONE,overworld,peaks_arachne,80,<dark_gray>Emerald Peaks
+arachne_eye,<dark_red><b>Arachne's Eye,SPIDER_EYE,overworld,peaks_arachne,1,<dark_gray>Emerald Peaks
+basalt,<dark_gray>Ashen Basalt,BASALT,overworld,duat_ashen,4000,<dark_gray>The Duat
+ash,<gray>River Ash,GUNPOWDER,overworld,duat_ashen,100,<dark_gray>The Duat
+scale_gold,<gold><b>Scale Gold,GOLD_INGOT,overworld,duat_judgement,3200,<dark_gray>The Duat
+solar_slag,<red>Solar Slag,MAGMA_CREAM,overworld,duat_forge,3000,<dark_gray>The Duat
+nightstone,<dark_gray><b>Nightstone,BLACK_DYE,overworld,duat_throne,3200,<dark_gray>The Duat
+sol_heart,<gold><b>Heart of Sol,NETHER_STAR,overworld,duat_throne,1,<dark_gray>The Duat
+anubis_sigil,<gold>Sigil of Anubis,GOLD_NUGGET,overworld,duat_ashen,8,<dark_gray>The Duat
+sobek_sigil,<gold>Sigil of Sobek,GOLD_NUGGET,overworld,duat_ashen,8,<dark_gray>The Duat
+osiris_sigil,<gold>Sigil of Osiris,GOLD_NUGGET,overworld,duat_ashen,4,<dark_gray>The Duat
+thoth_sigil,<gold>Sigil of Thoth,GOLD_NUGGET,overworld,duat_judgement,8,<dark_gray>The Duat
+maat_sigil,<gold>Sigil of Ma'at,GOLD_NUGGET,overworld,duat_judgement,8,<dark_gray>The Duat
+horus_sigil,<gold>Sigil of Horus,GOLD_NUGGET,overworld,duat_judgement,16,<dark_gray>The Duat
+sekhmet_sigil,<gold>Sigil of Sekhmet,GOLD_NUGGET,overworld,duat_forge,8,<dark_gray>The Duat
+ptah_sigil,<gold>Sigil of Ptah,GOLD_NUGGET,overworld,duat_forge,8,<dark_gray>The Duat
+khnum_sigil,<gold>Sigil of Khnum,GOLD_NUGGET,overworld,duat_forge,4,<dark_gray>The Duat
+set_sigil,<gold>Sigil of Set,GOLD_NUGGET,overworld,duat_throne,8,<dark_gray>The Duat
+apep_sigil,<gold>Sigil of Apep,GOLD_NUGGET,overworld,duat_throne,8,<dark_gray>The Duat
+nephthys_sigil,<gold>Sigil of Nephthys,GOLD_NUGGET,overworld,duat_throne,16,<dark_gray>The Duat
+heartwood_log,<#6B4F35><b>Heartwood,STRIPPED_JUNGLE_WOOD,overworld,elderheart_cellar,800,<dark_gray>Elderwood Heart
+sapling_twig,<#7BA05B>Sapling Twig,STICK,overworld,elderheart_cellar,48,<dark_gray>Elderwood Heart
+elder_vine,<#3A7D2C>Elder Vine,VINE,overworld,elderheart_vines,2500,<dark_gray>Elderwood Heart
+canopy_silk,<white>Canopy Silk,STRING,overworld,elderheart_vines,32,<dark_gray>Elderwood Heart
+wax_comb,<gold>Wax Comb,HONEYCOMB,overworld,elderheart_hive,300,<dark_gray>Elderwood Heart
+beeswax,<#E8A33D><b>Beeswax,RESIN_CLUMP,overworld,elderheart_hive,3000,<dark_gray>Elderwood Heart
+hive_stinger,<yellow>Hive Stinger,POINTED_DRIPSTONE,overworld,elderheart_hive,48,<dark_gray>Elderwood Heart
+sentry_arrowhead,<gray>Sentry Arrowhead,FLINT,overworld,elderheart_canopy,120,<dark_gray>Elderwood Heart
+canopy_bark,<dark_green>Canopy Bark,OAK_PLANKS,overworld,elderheart_canopy,300,<dark_gray>Elderwood Heart
+elder_heart,<dark_green><b>Elder Heart,HEART_OF_THE_SEA,overworld,elderheart_crown,1,<dark_gray>Elderwood Heart
+cloudstone,<white><b>Cloudstone,WHITE_CONCRETE,overworld,skyisles_cloudbank,20000,<dark_gray>Cloud Isles
+cloud_dust,<white>Cloud Dust,SUGAR,overworld,skyisles_cloudbank,1200,<dark_gray>Cloud Isles
+cloud_fleece,<white>Cloud Fleece,WHITE_WOOL,overworld,skyisles_cloudbank,48,<dark_gray>Cloud Isles
+skyshard,<aqua><b>Skyshard,AMETHYST_SHARD,overworld,skyisles_spires,25000,<dark_gray>Cloud Isles
+phantom_veil,<gray>Phantom Veil,PHANTOM_MEMBRANE,overworld,skyisles_spires,20,<dark_gray>Cloud Isles
+storm_copper,<#4FB39A><b>Storm Copper,COPPER_INGOT,overworld,skyisles_storm,25000,<dark_gray>Cloud Isles
+storm_essence,<aqua>Storm Essence,GLOWSTONE_DUST,overworld,skyisles_storm,20,<dark_gray>Cloud Isles
+pirate_doubloon,<gold>Pirate Doubloon,GOLD_NUGGET,overworld,skyisles_harbour,80,<dark_gray>Cloud Isles
+captain_compass,<gold><b>Captain's Compass,COMPASS,overworld,skyisles_harbour,12,<dark_gray>Cloud Isles
+royal_quartz,<white><b>Royal Quartz,QUARTZ,overworld,kingdom_walls,6000,<dark_gray>Sky Kingdom
+guard_insignia,<gold>Guard Insignia,GOLD_NUGGET,overworld,kingdom_walls,80,<dark_gray>Sky Kingdom
+cherry_log,<light_purple>Cherry Log,CHERRY_LOG,overworld,kingdom_gardens,480,<dark_gray>Sky Kingdom
+sunpetal,<yellow><b>Sunpetal,SUNFLOWER,overworld,kingdom_gardens,5000,<dark_gray>Sky Kingdom
+golden_pollen,<yellow>Golden Pollen,GLOWSTONE_DUST,overworld,kingdom_gardens,32,<dark_gray>Sky Kingdom
+gardener_seed,<green>Gardener's Seed,WHEAT_SEEDS,overworld,kingdom_gardens,48,<dark_gray>Sky Kingdom
+celestine,<aqua><b>Celestine,DIAMOND,overworld,kingdom_treasury,5000,<dark_gray>Sky Kingdom
+aurium,<gold><b>Aurium,GOLD_INGOT,overworld,kingdom_treasury,5000,<dark_gray>Sky Kingdom
+knight_crest,<gold>Knight's Crest,GOLD_NUGGET,overworld,kingdom_treasury,16,<dark_gray>Sky Kingdom
+crossbow_bolt,<gray>Crossbow Bolt,ARROW,overworld,kingdom_treasury,250,<dark_gray>Sky Kingdom
+throne_seal,<gold><b>Throne Seal,PAPER,overworld,kingdom_throne,48,<dark_gray>Sky Kingdom
+kings_crown,<gold><b>King's Crown,GOLDEN_HELMET,overworld,kingdom_throne,1,<dark_gray>Sky Kingdom
+gravel,<gray>Gravel,GRAVEL,overworld,quarry_gravel,1200,<dark_gray>Ironbound Quarry
+tungsten,<dark_gray><b>Tungsten,IRON_NUGGET,overworld,quarry_gravel,20000,<dark_gray>Ironbound Quarry
+pillager_ration,<gray>Pillager Ration,BREAD,overworld,quarry_gravel,100,<dark_gray>Ironbound Quarry
+pale_log,<white>Pale Log,PALE_OAK_LOG,overworld,quarry_pale,5000,<dark_gray>Ironbound Quarry
+platinum,<white><b>Platinum,IRON_INGOT,overworld,quarry_pale,10000,<dark_gray>Ironbound Quarry
+iron_tag,<gray>Iron Tag,IRON_NUGGET,overworld,quarry_pale,100,<dark_gray>Ironbound Quarry
+maple,<red>Maple Log,MANGROVE_LOG,overworld,quarry_maple,6000,<dark_gray>Ironbound Quarry
+clay,<gray>Clay,CLAY_BALL,overworld,quarry_maple,1600,<dark_gray>Ironbound Quarry
+titanium,<aqua><b>Titanium,NETHERITE_SCRAP,overworld,quarry_maple,4000,<dark_gray>Ironbound Quarry
+diamond,<aqua><b>Diamond,DIAMOND,overworld,quarry_diamond,32000,<dark_gray>Ironbound Quarry
+ravager_horn,<gray><b>Ravager Horn,GOAT_HORN,overworld,quarry_diamond,12,<dark_gray>Ironbound Quarry
+captain_banner,<gray><b>Captain's Banner,WHITE_BANNER,overworld,quarry_pit,32,<dark_gray>Ironbound Quarry
+warden_plate,<gray><b>Warden Plate,IRON_BLOCK,overworld,quarry_pit,12,<dark_gray>Ironbound Quarry
+golem_shard,<white><b>Golem Core Shard,IRON_INGOT,overworld,quarry_golem,4,<dark_gray>Ironbound Quarry
+tomb_dust,<gray>Tomb Dust,GUNPOWDER,overworld,gormak_tomb,20,<dark_gray>Gormak
+guardian_sigil,<gold><b>Guardian Sigil,GOLD_NUGGET,overworld,gormak_tomb,48,<dark_gray>Gormak
 fishing_junk,<dark_gray>Junk,ROTTEN_FLESH,overworld,fishing,100,"<dark_gray>Fished up, worth little"
 catfish,<gray>Catfish,COD,overworld,fishing,60,<dark_gray>Caught with the Beginner Rod
 black_bass,<dark_gray><b>Black Bass,COD,overworld,fishing,40,<dark_gray>Caught with the Beginner Rod

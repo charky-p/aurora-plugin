@@ -131,12 +131,13 @@ public class ItemFactory {
     // Vanilla wood and gold tiers cannot harvest ores, so they dig them three
     // times slower. Our tools are the right tool for every block of their kind, at
     // their tier's own speed, so every upgrade digs faster. Picks mine pickaxe
-    // blocks, axes the Verdant Groves logs. The rules are what MineListener checks
+    // blocks, axes wood, shovels dirt, snow, gravel and clay from Emerald Peaks on. The rules are what MineListener checks
     // before Fortune counts, so a tool with both rules (a god tool) would do both
     private static void makeRightTool(ItemStack item, ItemMeta meta) {
         Tag<Material> blocks;
         if (Tag.ITEMS_PICKAXES.isTagged(item.getType())) blocks = Tag.MINEABLE_PICKAXE;
         else if (Tag.ITEMS_AXES.isTagged(item.getType())) blocks = Tag.MINEABLE_AXE;
+        else if (Tag.ITEMS_SHOVELS.isTagged(item.getType())) blocks = Tag.MINEABLE_SHOVEL;
         else return;
 
         ToolComponent tool = meta.getTool();
@@ -153,8 +154,9 @@ public class ItemFactory {
         if (name.startsWith("STONE_")) return 4f;
         if (name.startsWith("COPPER_")) return 5f;
         if (name.startsWith("IRON_")) return 6f;
-        if (name.startsWith("DIAMOND_")) return 8f;
-        if (name.startsWith("NETHERITE_")) return 9f;
+        // Past gold so the later tiers never dig slower than the one before
+        if (name.startsWith("DIAMOND_")) return 14f;
+        if (name.startsWith("NETHERITE_")) return 16f;
         if (name.startsWith("GOLDEN_")) return 12f;
         return 1f;
     }

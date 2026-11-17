@@ -31,3 +31,94 @@ items:
       - "<gray>Summons Gormak the Eternal"
       - "<dark_gray>Right click by the Golden Throne"
     summons: gormak_eternal
+
+  sun_key:
+    display: "<gold><b>Sun Key"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "khorvath_sanctuary"
+    lore:
+      - "<gray>Summons Khorvath, Avatar of the Sun"
+      - "<dark_gray>Right click by the Sun Altar"
+    summons: khorvath
+
+  elderwood_key:
+    display: "<dark_green><b>Elderwood Pass"
+    material: PAPER
+    world: "overworld"
+    region: "verdant_darkoak"
+    lore:
+      - "<gray>Opens the portal to Elderwood Roots"
+      - "<dark_gray>Right click to use"
+    unlocks: elderwood
+
+  hydra_key:
+    display: "<dark_green><b>Hydra Fang"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "marsh_hydra"
+    lore:
+      - "<gray>Wakes the Hydra"
+      - "<dark_gray>Right click by the pool"
+    summons: hydra
+
+  silk_key:
+    display: "<white><b>Silk Key"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "peaks_arachne"
+    lore:
+      - "<gray>Wakes Arachne"
+      - "<dark_gray>Right click deep in the cave"
+    summons: arachne
+
+  sky_key:
+    display: "<aqua><b>Sky Pass"
+    material: PAPER
+    world: "overworld"
+    region: "peaks_arachne"
+    lore:
+      - "<gray>Opens the portal to the Sky World"
+      - "<dark_gray>Right click to use"
+    unlocks: sky
+
+  solar_ankh:
+    display: "<gold><b>Solar Ankh"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "duat_throne"
+    lore:
+      - "<gray>Summons Sol, the Undying Sun"
+      - "<dark_gray>Right click at the Altar"
+    summons: sol
+
+  elder_seed:
+    display: "<dark_green><b>Elder Seed"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "elderheart_crown"
+    lore:
+      - "<gray>Wakes the Elder Treant"
+      - "<dark_gray>Right click at the Crown"
+    summons: elder_treant
+
+  crown_key:
+    display: "<gold><b>Crown Key"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "kingdom_throne"
+    lore:
+      - "<gray>Summons the Sky King"
+      - "<dark_gray>Right click before the Throne"
+    summons: sky_king
+
+  overworld_core:
+    display: "<white><b>The Overworld Core"
+    material: HEAVY_CORE
+    world: "overworld"
+    region: "quarry_golem"
+    lore:
+      - "<gray>Opens the way to the Caverns"
+      - "<gray>Needs every zone maxed"
+      - "<dark_gray>Right click to use"
+    unlocks: caverns

@@ -1,3 +1,12 @@
 id,display,material,world,region,lore,unlocks,summons
 gormak_key,<gold><b>Gormak Pass,PAPER,overworld,origin_isles,<gray>Opens the portal to Gormak|<dark_gray>Right click to use,gormak,
 tomb_key,<gold><b>Tomb Key,TRIAL_KEY,overworld,gormak_tomb,<gray>Summons Gormak the Eternal|<dark_gray>Right click by the Golden Throne,,gormak_eternal
+sun_key,<gold><b>Sun Key,TRIAL_KEY,overworld,khorvath_sanctuary,"<gray>Summons Khorvath, Avatar of the Sun|<dark_gray>Right click by the Sun Altar",,khorvath
+elderwood_key,<dark_green><b>Elderwood Pass,PAPER,overworld,verdant_darkoak,<gray>Opens the portal to Elderwood Roots|<dark_gray>Right click to use,elderwood,
+hydra_key,<dark_green><b>Hydra Fang,TRIAL_KEY,overworld,marsh_hydra,<gray>Wakes the Hydra|<dark_gray>Right click by the pool,,hydra
+silk_key,<white><b>Silk Key,TRIAL_KEY,overworld,peaks_arachne,<gray>Wakes Arachne|<dark_gray>Right click deep in the cave,,arachne
+sky_key,<aqua><b>Sky Pass,PAPER,overworld,peaks_arachne,<gray>Opens the portal to the Sky World|<dark_gray>Right click to use,sky,
+solar_ankh,<gold><b>Solar Ankh,TRIAL_KEY,overworld,duat_throne,"<gray>Summons Sol, the Undying Sun|<dark_gray>Right click at the Altar",,sol
+elder_seed,<dark_green><b>Elder Seed,TRIAL_KEY,overworld,elderheart_crown,<gray>Wakes the Elder Treant|<dark_gray>Right click at the Crown,,elder_treant
+crown_key,<gold><b>Crown Key,TRIAL_KEY,overworld,kingdom_throne,<gray>Summons the Sky King|<dark_gray>Right click before the Throne,,sky_king
+overworld_core,<white><b>The Overworld Core,HEAVY_CORE,overworld,quarry_golem,<gray>Opens the way to the Caverns|<gray>Needs every zone maxed|<dark_gray>Right click to use,caverns,

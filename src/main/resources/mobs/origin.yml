@@ -44,6 +44,7 @@ items:
     display: "<white><b>Isle Sheep"
     entity: SHEEP
     health: 30.0
+    density: 1
     independent:
       - id: wool
         max: 3
@@ -52,6 +53,7 @@ items:
     display: "<#8B5A2B><b>Isle Cow"
     entity: COW
     health: 40.0
+    density: 2
     independent:
       - id: leather
         max: 3

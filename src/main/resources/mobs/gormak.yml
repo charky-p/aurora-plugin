@@ -36,6 +36,7 @@ items:
     defence: 2.0
     attack: 11.0
     damage: 1.5
+    density: 3
     equip:
       head: serf_helmet_1
       chest: serf_chestplate_1
@@ -59,6 +60,7 @@ items:
     defence: 3.0
     attack: 11.0
     damage: 1.5
+    density: 3
     equip:
       head: scavenger_helmet_1
       chest: scavenger_chestplate_1
@@ -86,6 +88,7 @@ items:
     defence: 4.0
     attack: 15.0
     damage: 1.5
+    density: 4
     equip:
       head: scout_helmet_1
       chest: scout_chestplate_1
@@ -111,6 +114,7 @@ items:
     defence: 5.0
     attack: 11.0
     damage: 1.5
+    density: 4
     equip:
       head: stalker_helmet_1
       chest: stalker_chestplate_1
@@ -130,58 +134,6 @@ items:
       - id: stalker_fang
         chance: 0.25
 
-  scarab_zealot:
-    display: "<dark_purple><b>Scarab Zealot"
-    entity: ZOMBIE
-    health: 215.0
-    defence: 6.0
-    attack: 19.0
-    damage: 1.5
-    equip:
-      head: zealot_helmet_1
-      chest: zealot_chestplate_1
-      legs: zealot_leggings_1
-      hand: scarab_khopesh
-    attributes:
-      - attr: MOVEMENT_SPEED
-        value: 0.3
-      - attr: FOLLOW_RANGE
-        value: 40.0
-    independent:
-      - id: scarab_shell
-        max: 3
-      - id: scarab_khopesh
-        chance: 0.25
-
-  hollowed_legionnaire:
-    display: "<gray><b>Hollowed Legionnaire"
-    entity: HUSK
-    health: 240.0
-    defence: 8.0
-    attack: 19.0
-    damage: 1.5
-    equip:
-      head: legionnaire_helmet_1
-      chest: legionnaire_chestplate_1
-      legs: legionnaire_leggings_1
-      feet: legionnaire_boots_1
-      hand: legion_halberd
-    attributes:
-      - attr: MOVEMENT_SPEED
-        value: 0.22
-      - attr: KNOCKBACK_RESISTANCE
-        value: 0.8
-      - attr: FOLLOW_RANGE
-        value: 36.0
-    independent:
-      - id: legion_plate
-        max: 3
-      - id: scarab_shell
-        chance: 25
-        max: 2
-      - id: legion_halberd
-        chance: 0.25
-
   tomb_guard:
     display: "<gold><b>Tomb Guard"
     entity: HUSK
@@ -189,6 +141,7 @@ items:
     defence: 10.0
     attack: 23.0
     damage: 1.5
+    density: 5
     equip:
       head: guard_helmet_1
       chest: guard_chestplate_1
@@ -216,6 +169,7 @@ items:
     defence: 12.0
     attack: 23.0
     damage: 1.5
+    density: 5
     equip:
       head: vizier_helmet_1
       chest: vizier_chestplate_1
@@ -232,62 +186,6 @@ items:
         chance: 40
         max: 3
       - id: vizier_bow
-        chance: 0.25
-
-  royal_myrmidon:
-    display: "<dark_purple><b>Royal Myrmidon"
-    entity: WITHER_SKELETON
-    health: 300.0
-    defence: 13.0
-    attack: 25.0
-    damage: 1.5
-    equip:
-      head: myrmidon_helmet_1
-      chest: myrmidon_chestplate_1
-      legs: myrmidon_leggings_1
-      feet: myrmidon_boots_1
-      hand: myrmidon_blade
-    attributes:
-      - attr: MOVEMENT_SPEED
-        value: 0.28
-      - attr: KNOCKBACK_RESISTANCE
-        value: 1.0
-      - attr: FOLLOW_RANGE
-        value: 48.0
-    independent:
-      - id: eternal_soul
-        max: 2
-      - id: tomb_key
-        chance: 8
-      - id: myrmidon_blade
-        chance: 0.25
-
-  pharaoh:
-    display: "<gold><b>Pharaoh"
-    entity: ZOMBIE_VILLAGER
-    health: 410.0
-    defence: 15.0
-    attack: 25.0
-    damage: 1.5
-    equip:
-      head: pharaoh_helmet_1
-      chest: pharaoh_chestplate_1
-      legs: pharaoh_leggings_1
-      feet: pharaoh_boots_1
-      hand: pharaoh_scepter
-    attributes:
-      - attr: MOVEMENT_SPEED
-        value: 0.26
-      - attr: KNOCKBACK_RESISTANCE
-        value: 1.0
-      - attr: FOLLOW_RANGE
-        value: 48.0
-    independent:
-      - id: royal_seal
-        max: 2
-      - id: tomb_key
-        chance: 8
-      - id: pharaoh_scepter
         chance: 0.25
 
   gormak_eternal:
@@ -346,6 +244,7 @@ items:
     defence: 4.0
     attack: 21.0
     damage: 1.5
+    density: 6
     equip:
       head: serf_helmet_1
       hand: serf_cleaver
@@ -354,6 +253,11 @@ items:
         value: 0.28
       - attr: FOLLOW_RANGE
         value: 48.0
+    independent:
+      - id: tomb_dust
+        max: 2
+      - id: tomb_key
+        chance: 8
 
   gormak_guardian:
     display: "<gold><b>Gormak Guardian"
@@ -362,6 +266,7 @@ items:
     defence: 16.0
     attack: 25.0
     damage: 1.5
+    density: 6
     equip:
       head: guard_helmet_1
       chest: eternal_chestplate_1
@@ -375,6 +280,11 @@ items:
         value: 1.0
       - attr: FOLLOW_RANGE
         value: 48.0
+    independent:
+      - id: guardian_sigil
+        max: 2
+      - id: tomb_key
+        chance: 8
 
   mirage:
     display: "<light_purple><b>Mirage"

@@ -31,3 +31,51 @@ items:
     worlds:
       - "aurora_test_gormak"
     base: overworld
+
+  khorvath:
+    name: "<#B4462A><b>Khorvath"
+    part_of: overworld
+
+  elderwood:
+    name: "<#3A7D2C><b>Elderwood Roots"
+    part_of: overworld
+
+  marsh:
+    name: "<#4E6B3A><b>Sunken Marsh"
+    part_of: overworld
+
+  peaks:
+    name: "<#2ECC71><b>Emerald Peaks"
+    part_of: overworld
+
+  duat:
+    name: "<#C9A227><b>The Duat"
+    part_of: overworld
+
+  elderheart:
+    name: "<#1E5631><b>Elderwood Heart"
+    part_of: overworld
+
+  skyisles:
+    name: "<#BFE9FF><b>Cloud Isles"
+    part_of: overworld
+
+  kingdom:
+    name: "<#FFE680><b>Sky Kingdom"
+    part_of: overworld
+
+  quarry:
+    name: "<#8A8D91><b>Ironbound Quarry"
+    part_of: overworld
+
+  elderworld:
+    name: "<dark_green><b>Elderwood"
+    worlds:
+      - "aurora_test_elderwood"
+    base: overworld
+
+  skyworld:
+    name: "<aqua><b>Sky World"
+    worlds:
+      - "aurora_test_sky"
+    base: overworld

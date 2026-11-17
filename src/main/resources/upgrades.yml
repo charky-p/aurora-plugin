@@ -381,37 +381,37 @@ items:
         level: "6"
         cost:
           - id: wool
-            amount: 2
+            amount: 1
       - tool: sword
         stat: luck
         level: "2"
         cost:
           - id: wool
-            amount: 4
+            amount: 1
       - tool: helmet
         stat: protection
         level: "6"
         cost:
           - id: wool
-            amount: 4
+            amount: 1
       - tool: chestplate
         stat: protection
         level: "6"
         cost:
           - id: wool
-            amount: 4
+            amount: 1
       - tool: leggings
         stat: protection
         level: "6"
         cost:
           - id: wool
-            amount: 4
+            amount: 1
       - tool: boots
         stat: protection
         level: "6"
         cost:
           - id: wool
-            amount: 4
+            amount: 1
       - tool: pick
         stat: efficiency
         level: "7"
@@ -523,7 +523,7 @@ items:
         level: "6"
         cost:
           - id: leather
-            amount: 2
+            amount: 1
       - tool: sword
         stat: sharpness
         level: "8"
@@ -535,37 +535,37 @@ items:
         level: "8"
         cost:
           - id: leather
-            amount: 4
+            amount: 3
       - tool: chestplate
         stat: protection
         level: "8"
         cost:
           - id: leather
-            amount: 4
+            amount: 3
       - tool: leggings
         stat: protection
         level: "8"
         cost:
           - id: leather
-            amount: 4
+            amount: 3
       - tool: boots
         stat: protection
         level: "8"
         cost:
           - id: leather
-            amount: 4
+            amount: 3
       - tool: pick
         stat: fortune
         level: "5"
         cost:
           - id: leather
-            amount: 8
+            amount: 3
       - tool: sword
         stat: luck
         level: "4"
         cost:
           - id: leather
-            amount: 12
+            amount: 3
       - tool: pick
         stat: blast
         level: "1"
@@ -573,7 +573,7 @@ items:
           - id: gold
             amount: 300
           - id: leather
-            amount: 16
+            amount: 3
       - tool: sword
         stat: looting
         level: "3"
@@ -581,7 +581,7 @@ items:
           - id: gold
             amount: 480
           - id: leather
-            amount: 20
+            amount: 3
 
   city:
     name: "Abandoned City"
@@ -593,189 +593,189 @@ items:
         level: "1"
         cost:
           - id: ancient_scrap
-            amount: 2
+            amount: 1
       - tool: helmet
         stat: protection
         level: "1"
         cost:
           - id: ancient_scrap
-            amount: 2
+            amount: 1
       - tool: chestplate
         stat: protection
         level: "1"
         cost:
           - id: ancient_scrap
-            amount: 2
+            amount: 1
       - tool: leggings
         stat: protection
         level: "1"
         cost:
           - id: ancient_scrap
-            amount: 2
+            amount: 1
       - tool: boots
         stat: protection
         level: "1"
         cost:
           - id: ancient_scrap
-            amount: 2
+            amount: 1
       - tool: sword
         stat: sharpness
         level: "1"
         cost:
           - id: ancient_scrap
-            amount: 5
+            amount: 1
       - tool: pick
         stat: efficiency
         level: "1"
         cost:
           - id: carved_brick
-            amount: 120
+            amount: 80
       - tool: helmet
         stat: protection
         level: "2"
         cost:
           - id: ancient_scrap
-            amount: 5
+            amount: 1
       - tool: chestplate
         stat: protection
         level: "2"
         cost:
           - id: ancient_scrap
-            amount: 5
+            amount: 1
       - tool: leggings
         stat: protection
         level: "2"
         cost:
           - id: ancient_scrap
-            amount: 5
+            amount: 1
       - tool: boots
         stat: protection
         level: "2"
         cost:
           - id: ancient_scrap
-            amount: 5
+            amount: 1
       - tool: shield
         stat: deflection
         level: "1"
         cost:
           - id: ancient_scrap
-            amount: 6
+            amount: 1
       - tool: sword
         stat: sharpness
         level: "2"
         cost:
           - id: tattered_cloth
-            amount: 3
+            amount: 2
       - tool: helmet
         stat: protection
         level: "3"
         cost:
           - id: tattered_cloth
-            amount: 4
+            amount: 2
       - tool: chestplate
         stat: protection
         level: "3"
         cost:
           - id: tattered_cloth
-            amount: 4
+            amount: 2
       - tool: leggings
         stat: protection
         level: "3"
         cost:
           - id: tattered_cloth
-            amount: 4
+            amount: 2
       - tool: boots
         stat: protection
         level: "3"
         cost:
           - id: tattered_cloth
-            amount: 4
+            amount: 2
       - tool: shield
         stat: deflection
         level: "2"
         cost:
           - id: tattered_cloth
-            amount: 8
+            amount: 2
       - tool: sword
         stat: looting
         level: "1"
         cost:
           - id: tattered_cloth
-            amount: 12
+            amount: 3
       - tool: helmet
         stat: protection
         level: "4"
         cost:
           - id: tattered_cloth
-            amount: 16
+            amount: 6
       - tool: chestplate
         stat: protection
         level: "4"
         cost:
           - id: tattered_cloth
-            amount: 16
+            amount: 6
       - tool: leggings
         stat: protection
         level: "4"
         cost:
           - id: tattered_cloth
-            amount: 16
+            amount: 6
       - tool: boots
         stat: protection
         level: "4"
         cost:
           - id: tattered_cloth
-            amount: 16
+            amount: 6
       - tool: sword
         stat: bloodlust
         level: "1"
         cost:
           - id: carved_brick
-            amount: 150
+            amount: 100
           - id: ancient_scrap
-            amount: 6
+            amount: 5
           - id: tattered_cloth
-            amount: 20
+            amount: 6
       - tool: helmet
         stat: sustenance
         level: "1"
         cost:
           - id: carved_brick
-            amount: 160
+            amount: 120
           - id: ancient_scrap
-            amount: 6
+            amount: 5
           - id: tattered_cloth
-            amount: 24
+            amount: 6
       - tool: chestplate
         stat: sustenance
         level: "1"
         cost:
           - id: carved_brick
-            amount: 160
+            amount: 120
           - id: ancient_scrap
-            amount: 6
+            amount: 5
           - id: tattered_cloth
-            amount: 24
+            amount: 6
       - tool: leggings
         stat: sustenance
         level: "1"
         cost:
           - id: carved_brick
-            amount: 160
+            amount: 120
           - id: ancient_scrap
-            amount: 6
+            amount: 5
           - id: tattered_cloth
-            amount: 24
+            amount: 6
       - tool: boots
         stat: sustenance
         level: "1"
         cost:
           - id: carved_brick
-            amount: 160
+            amount: 120
           - id: ancient_scrap
-            amount: 6
+            amount: 5
           - id: tattered_cloth
-            amount: 24
+            amount: 6
 
   dunes:
     name: "The Dunes"
@@ -787,389 +787,195 @@ items:
         level: "2"
         cost:
           - id: ancient_flesh
-            amount: 2
+            amount: 1
       - tool: helmet
         stat: protection
         level: "5"
         cost:
           - id: ancient_flesh
-            amount: 3
+            amount: 1
       - tool: chestplate
         stat: protection
         level: "5"
         cost:
           - id: ancient_flesh
-            amount: 3
+            amount: 1
       - tool: leggings
         stat: protection
         level: "5"
         cost:
           - id: ancient_flesh
-            amount: 3
+            amount: 1
       - tool: boots
         stat: protection
         level: "5"
         cost:
           - id: ancient_flesh
-            amount: 3
+            amount: 1
       - tool: shield
         stat: deflection
         level: "3"
         cost:
           - id: ancient_flesh
-            amount: 3
+            amount: 1
       - tool: sword
         stat: sharpness
         level: "3"
         cost:
           - id: ancient_flesh
-            amount: 4
+            amount: 1
       - tool: helmet
         stat: protection
         level: "6"
         cost:
           - id: ancient_flesh
-            amount: 6
+            amount: 1
       - tool: chestplate
         stat: protection
         level: "6"
         cost:
           - id: ancient_flesh
-            amount: 6
+            amount: 1
       - tool: leggings
         stat: protection
         level: "6"
         cost:
           - id: ancient_flesh
-            amount: 6
+            amount: 1
       - tool: boots
         stat: protection
         level: "6"
         cost:
           - id: ancient_flesh
-            amount: 6
+            amount: 1
       - tool: shield
         stat: deflection
         level: "4"
         cost:
           - id: ancient_flesh
-            amount: 9
+            amount: 1
       - tool: sword
         stat: luck
         level: "3"
         cost:
           - id: ancient_bone
-            amount: 2
+            amount: 1
       - tool: pick
         stat: fortune
         level: "1"
         cost:
           - id: sunbaked_sand
+            amount: 200
+      - tool: helmet
+        stat: protection
+        level: "7"
+        cost:
+          - id: ancient_bone
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "7"
+        cost:
+          - id: ancient_bone
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "7"
+        cost:
+          - id: ancient_bone
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "7"
+        cost:
+          - id: ancient_bone
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "5"
+        cost:
+          - id: ancient_bone
+            amount: 4
+      - tool: sword
+        stat: sharpness
+        level: "4"
+        cost:
+          - id: ancient_bone
+            amount: 4
+      - tool: helmet
+        stat: protection
+        level: "8"
+        cost:
+          - id: ancient_bone
+            amount: 4
+      - tool: chestplate
+        stat: protection
+        level: "8"
+        cost:
+          - id: ancient_bone
+            amount: 4
+      - tool: leggings
+        stat: protection
+        level: "8"
+        cost:
+          - id: ancient_bone
+            amount: 4
+      - tool: boots
+        stat: protection
+        level: "8"
+        cost:
+          - id: ancient_bone
+            amount: 4
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: sunbaked_sand
             amount: 320
-      - tool: helmet
-        stat: protection
-        level: "7"
-        cost:
-          - id: ancient_bone
-            amount: 3
-      - tool: chestplate
-        stat: protection
-        level: "7"
-        cost:
-          - id: ancient_bone
-            amount: 3
-      - tool: leggings
-        stat: protection
-        level: "7"
-        cost:
-          - id: ancient_bone
-            amount: 3
-      - tool: boots
-        stat: protection
-        level: "7"
-        cost:
-          - id: ancient_bone
-            amount: 3
-      - tool: shield
-        stat: deflection
-        level: "5"
-        cost:
-          - id: ancient_bone
-            amount: 4
-      - tool: sword
-        stat: sharpness
-        level: "4"
-        cost:
-          - id: ancient_bone
-            amount: 8
-      - tool: helmet
-        stat: protection
-        level: "8"
-        cost:
-          - id: ancient_bone
-            amount: 12
-      - tool: chestplate
-        stat: protection
-        level: "8"
-        cost:
-          - id: ancient_bone
-            amount: 12
-      - tool: leggings
-        stat: protection
-        level: "8"
-        cost:
-          - id: ancient_bone
-            amount: 12
-      - tool: boots
-        stat: protection
-        level: "8"
-        cost:
-          - id: ancient_bone
-            amount: 12
-      - tool: sword
-        stat: looting
-        level: "2"
-        cost:
-          - id: sunbaked_sand
-            amount: 480
           - id: ancient_flesh
-            amount: 9
-          - id: ancient_bone
-            amount: 16
-      - tool: helmet
-        stat: sustenance
-        level: "2"
-        cost:
-          - id: sunbaked_sand
-            amount: 500
-          - id: ancient_flesh
-            amount: 9
-          - id: ancient_bone
-            amount: 20
-      - tool: chestplate
-        stat: sustenance
-        level: "2"
-        cost:
-          - id: sunbaked_sand
-            amount: 500
-          - id: ancient_flesh
-            amount: 9
-          - id: ancient_bone
-            amount: 20
-      - tool: leggings
-        stat: sustenance
-        level: "2"
-        cost:
-          - id: sunbaked_sand
-            amount: 500
-          - id: ancient_flesh
-            amount: 9
-          - id: ancient_bone
-            amount: 20
-      - tool: boots
-        stat: sustenance
-        level: "2"
-        cost:
-          - id: sunbaked_sand
-            amount: 500
-          - id: ancient_flesh
-            amount: 9
-          - id: ancient_bone
-            amount: 20
-
-  canyons:
-    name: "Howling Canyons"
-    realm: gormak
-    region: gormak
-    steps:
-      - tool: helmet
-        stat: protection
-        level: "9"
-        cost:
-          - id: scarab_shell
-            amount: 3
-      - tool: chestplate
-        stat: protection
-        level: "9"
-        cost:
-          - id: scarab_shell
-            amount: 3
-      - tool: leggings
-        stat: protection
-        level: "9"
-        cost:
-          - id: scarab_shell
-            amount: 3
-      - tool: boots
-        stat: protection
-        level: "9"
-        cost:
-          - id: scarab_shell
-            amount: 3
-      - tool: shield
-        stat: deflection
-        level: "6"
-        cost:
-          - id: scarab_shell
-            amount: 4
-      - tool: sword
-        stat: sharpness
-        level: "5"
-        cost:
-          - id: scarab_shell
-            amount: 4
-      - tool: helmet
-        stat: protection
-        level: "10"
-        cost:
-          - id: scarab_shell
-            amount: 6
-      - tool: chestplate
-        stat: protection
-        level: "10"
-        cost:
-          - id: scarab_shell
-            amount: 6
-      - tool: leggings
-        stat: protection
-        level: "10"
-        cost:
-          - id: scarab_shell
-            amount: 6
-      - tool: boots
-        stat: protection
-        level: "10"
-        cost:
-          - id: scarab_shell
-            amount: 6
-      - tool: shield
-        stat: deflection
-        level: "7"
-        cost:
-          - id: scarab_shell
-            amount: 10
-      - tool: pick
-        stat: efficiency
-        level: "2"
-        cost:
-          - id: crimson_sand
-            amount: 750
-      - tool: sword
-        stat: luck
-        level: "4"
-        cost:
-          - id: legion_plate
             amount: 2
-      - tool: helmet
-        stat: protection
-        level: "11"
-        cost:
-          - id: legion_plate
-            amount: 3
-      - tool: chestplate
-        stat: protection
-        level: "11"
-        cost:
-          - id: legion_plate
-            amount: 3
-      - tool: leggings
-        stat: protection
-        level: "11"
-        cost:
-          - id: legion_plate
-            amount: 3
-      - tool: boots
-        stat: protection
-        level: "11"
-        cost:
-          - id: legion_plate
-            amount: 3
-      - tool: shield
-        stat: deflection
-        level: "8"
-        cost:
-          - id: legion_plate
+          - id: ancient_bone
             amount: 4
-      - tool: sword
-        stat: sharpness
-        level: "6"
-        cost:
-          - id: legion_plate
-            amount: 8
-      - tool: helmet
-        stat: protection
-        level: "12"
-        cost:
-          - id: legion_plate
-            amount: 12
-      - tool: chestplate
-        stat: protection
-        level: "12"
-        cost:
-          - id: legion_plate
-            amount: 12
-      - tool: leggings
-        stat: protection
-        level: "12"
-        cost:
-          - id: legion_plate
-            amount: 12
-      - tool: boots
-        stat: protection
-        level: "12"
-        cost:
-          - id: legion_plate
-            amount: 12
-      - tool: sword
-        stat: looting
-        level: "3"
-        cost:
-          - id: crimson_sand
-            amount: 800
-          - id: scarab_shell
-            amount: 10
-          - id: legion_plate
-            amount: 16
       - tool: helmet
         stat: sustenance
-        level: "3"
+        level: "2"
         cost:
-          - id: crimson_sand
-            amount: 1000
-          - id: scarab_shell
-            amount: 10
-          - id: legion_plate
-            amount: 20
+          - id: sunbaked_sand
+            amount: 400
+          - id: ancient_flesh
+            amount: 2
+          - id: ancient_bone
+            amount: 4
       - tool: chestplate
         stat: sustenance
-        level: "3"
+        level: "2"
         cost:
-          - id: crimson_sand
-            amount: 1000
-          - id: scarab_shell
-            amount: 10
-          - id: legion_plate
-            amount: 20
+          - id: sunbaked_sand
+            amount: 400
+          - id: ancient_flesh
+            amount: 2
+          - id: ancient_bone
+            amount: 4
       - tool: leggings
         stat: sustenance
-        level: "3"
+        level: "2"
         cost:
-          - id: crimson_sand
-            amount: 1000
-          - id: scarab_shell
-            amount: 10
-          - id: legion_plate
-            amount: 20
+          - id: sunbaked_sand
+            amount: 400
+          - id: ancient_flesh
+            amount: 2
+          - id: ancient_bone
+            amount: 4
       - tool: boots
         stat: sustenance
-        level: "3"
+        level: "2"
         cost:
-          - id: crimson_sand
-            amount: 1000
-          - id: scarab_shell
-            amount: 10
-          - id: legion_plate
-            amount: 20
+          - id: sunbaked_sand
+            amount: 400
+          - id: ancient_flesh
+            amount: 2
+          - id: ancient_bone
+            amount: 4
 
   temple:
     name: "Sun Temple"
@@ -1178,198 +984,198 @@ items:
     steps:
       - tool: sword
         stat: luck
-        level: "5"
+        level: "4"
         cost:
           - id: ancient_nugget
-            amount: 2
+            amount: 1
       - tool: helmet
         stat: protection
-        level: "13"
-        cost:
-          - id: ancient_nugget
-            amount: 3
-      - tool: chestplate
-        stat: protection
-        level: "13"
-        cost:
-          - id: ancient_nugget
-            amount: 3
-      - tool: leggings
-        stat: protection
-        level: "13"
-        cost:
-          - id: ancient_nugget
-            amount: 3
-      - tool: boots
-        stat: protection
-        level: "13"
-        cost:
-          - id: ancient_nugget
-            amount: 3
-      - tool: shield
-        stat: deflection
         level: "9"
         cost:
           - id: ancient_nugget
-            amount: 4
-      - tool: sword
-        stat: sharpness
-        level: "7"
-        cost:
-          - id: ancient_nugget
-            amount: 8
-      - tool: helmet
-        stat: protection
-        level: "14"
-        cost:
-          - id: ancient_nugget
-            amount: 12
+            amount: 1
       - tool: chestplate
         stat: protection
-        level: "14"
+        level: "9"
         cost:
           - id: ancient_nugget
-            amount: 12
+            amount: 1
       - tool: leggings
         stat: protection
-        level: "14"
+        level: "9"
         cost:
           - id: ancient_nugget
-            amount: 12
+            amount: 1
       - tool: boots
         stat: protection
-        level: "14"
+        level: "9"
         cost:
           - id: ancient_nugget
-            amount: 12
+            amount: 1
       - tool: shield
         stat: deflection
+        level: "6"
+        cost:
+          - id: ancient_nugget
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "5"
+        cost:
+          - id: ancient_nugget
+            amount: 1
+      - tool: helmet
+        stat: protection
         level: "10"
         cost:
           - id: ancient_nugget
-            amount: 16
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "10"
+        cost:
+          - id: ancient_nugget
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "10"
+        cost:
+          - id: ancient_nugget
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "10"
+        cost:
+          - id: ancient_nugget
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "7"
+        cost:
+          - id: ancient_nugget
+            amount: 1
       - tool: sword
         stat: luck
-        level: "6"
+        level: "5"
         cost:
           - id: vizier_scroll
-            amount: 4
+            amount: 6
       - tool: pick
         stat: fortune
         level: "2"
         cost:
           - id: raw_gold
-            amount: 1600
+            amount: 750
       - tool: helmet
         stat: protection
-        level: "15"
+        level: "11"
         cost:
           - id: vizier_scroll
-            amount: 8
+            amount: 6
       - tool: chestplate
         stat: protection
-        level: "15"
+        level: "11"
         cost:
           - id: vizier_scroll
-            amount: 8
+            amount: 6
       - tool: leggings
         stat: protection
-        level: "15"
+        level: "11"
         cost:
           - id: vizier_scroll
-            amount: 8
+            amount: 6
       - tool: boots
         stat: protection
-        level: "15"
+        level: "11"
         cost:
           - id: vizier_scroll
-            amount: 8
+            amount: 6
       - tool: shield
         stat: defence
         level: "1"
         cost:
           - id: vizier_scroll
-            amount: 12
+            amount: 6
       - tool: sword
         stat: sharpness
-        level: "8"
+        level: "6"
         cost:
           - id: vizier_scroll
-            amount: 16
+            amount: 6
       - tool: helmet
         stat: protection
-        level: "16"
+        level: "12"
         cost:
           - id: vizier_scroll
-            amount: 20
+            amount: 6
       - tool: chestplate
         stat: protection
-        level: "16"
+        level: "12"
         cost:
           - id: vizier_scroll
-            amount: 20
+            amount: 6
       - tool: leggings
         stat: protection
-        level: "16"
+        level: "12"
         cost:
           - id: vizier_scroll
-            amount: 20
+            amount: 6
       - tool: boots
         stat: protection
-        level: "16"
+        level: "12"
         cost:
           - id: vizier_scroll
-            amount: 20
+            amount: 6
       - tool: sword
         stat: looting
-        level: "4"
+        level: "3"
         cost:
           - id: raw_gold
-            amount: 2000
+            amount: 1000
           - id: ancient_nugget
-            amount: 20
+            amount: 1
           - id: vizier_scroll
-            amount: 24
+            amount: 6
       - tool: helmet
         stat: sustenance
-        level: "4"
+        level: "3"
         cost:
           - id: raw_gold
-            amount: 2500
+            amount: 1200
           - id: ancient_nugget
-            amount: 24
+            amount: 1
           - id: vizier_scroll
-            amount: 32
+            amount: 6
       - tool: chestplate
         stat: sustenance
-        level: "4"
+        level: "3"
         cost:
           - id: raw_gold
-            amount: 2500
+            amount: 1200
           - id: ancient_nugget
-            amount: 24
+            amount: 1
           - id: vizier_scroll
-            amount: 32
+            amount: 6
       - tool: leggings
         stat: sustenance
-        level: "4"
+        level: "3"
         cost:
           - id: raw_gold
-            amount: 2500
+            amount: 1200
           - id: ancient_nugget
-            amount: 24
+            amount: 1
           - id: vizier_scroll
-            amount: 32
+            amount: 6
       - tool: boots
         stat: sustenance
-        level: "4"
+        level: "3"
         cost:
           - id: raw_gold
-            amount: 2500
+            amount: 1200
           - id: ancient_nugget
-            amount: 24
+            amount: 1
           - id: vizier_scroll
-            amount: 32
+            amount: 6
 
   tomb:
     name: "Royal Tomb"
@@ -1378,104 +1184,104 @@ items:
     steps:
       - tool: helmet
         stat: protection
-        level: "17"
+        level: "13"
         cost:
-          - id: eternal_soul
-            amount: 32
+          - id: tomb_dust
+            amount: 2
       - tool: chestplate
         stat: protection
-        level: "17"
+        level: "13"
         cost:
-          - id: eternal_soul
-            amount: 32
+          - id: tomb_dust
+            amount: 2
       - tool: leggings
         stat: protection
-        level: "17"
+        level: "13"
         cost:
-          - id: eternal_soul
-            amount: 32
+          - id: tomb_dust
+            amount: 2
       - tool: boots
         stat: protection
-        level: "17"
+        level: "13"
         cost:
-          - id: eternal_soul
-            amount: 32
+          - id: tomb_dust
+            amount: 2
       - tool: sword
         stat: sharpness
-        level: "9"
+        level: "7"
         cost:
-          - id: eternal_soul
-            amount: 48
+          - id: tomb_dust
+            amount: 4
       - tool: sword
         stat: looting
-        level: "5"
+        level: "4"
         cost:
-          - id: royal_seal
-            amount: 40
+          - id: guardian_sigil
+            amount: 1
       - tool: helmet
         stat: sustenance
-        level: "5"
+        level: "4"
         cost:
-          - id: royal_seal
-            amount: 64
+          - id: guardian_sigil
+            amount: 3
       - tool: chestplate
         stat: sustenance
-        level: "5"
+        level: "4"
         cost:
-          - id: royal_seal
-            amount: 64
+          - id: guardian_sigil
+            amount: 3
       - tool: leggings
         stat: sustenance
-        level: "5"
+        level: "4"
         cost:
-          - id: royal_seal
-            amount: 64
+          - id: guardian_sigil
+            amount: 3
       - tool: boots
         stat: sustenance
-        level: "5"
+        level: "4"
         cost:
-          - id: royal_seal
-            amount: 64
+          - id: guardian_sigil
+            amount: 3
       - tool: sword
         stat: sharpness
-        level: "10"
+        level: "8"
         cost:
-          - id: royal_seal
-            amount: 80
+          - id: guardian_sigil
+            amount: 4
       - tool: helmet
         stat: thorns
         level: "1"
         cost:
-          - id: royal_seal
-            amount: 100
+          - id: guardian_sigil
+            amount: 8
       - tool: chestplate
         stat: thorns
         level: "1"
         cost:
-          - id: royal_seal
-            amount: 100
+          - id: guardian_sigil
+            amount: 8
       - tool: leggings
         stat: thorns
         level: "1"
         cost:
-          - id: royal_seal
-            amount: 100
+          - id: guardian_sigil
+            amount: 8
       - tool: boots
         stat: thorns
         level: "1"
         cost:
-          - id: royal_seal
-            amount: 100
+          - id: guardian_sigil
+            amount: 8
       - tool: sword
         stat: bloodlust
         level: "2"
         cost:
-          - id: eternal_soul
-            amount: 64
-          - id: royal_seal
-            amount: 120
+          - id: tomb_dust
+            amount: 8
+          - id: guardian_sigil
+            amount: 12
           - id: ancient_nugget
-            amount: 120
+            amount: 8
 
   oak:
     name: "Oak Grove"
@@ -1523,7 +1329,7 @@ items:
         level: "1"
         cost:
           - id: horsehair
-            amount: 24
+            amount: 3
       - tool: pick
         stat: luck
         level: "2"
@@ -1531,7 +1337,7 @@ items:
           - id: tin
             amount: 1500
           - id: horsehair
-            amount: 32
+            amount: 4
       - tool: pick
         stat: efficiency
         level: "2"
@@ -1539,7 +1345,7 @@ items:
           - id: tin
             amount: 1600
           - id: horsehair
-            amount: 40
+            amount: 8
       - tool: pick
         stat: fortune
         level: "1"
@@ -1549,7 +1355,7 @@ items:
           - id: oak_log
             amount: 120
           - id: horsehair
-            amount: 48
+            amount: 12
 
   birch:
     name: "Birch Hollow"
@@ -1597,25 +1403,25 @@ items:
         level: "1"
         cost:
           - id: fox_fur
-            amount: 40
+            amount: 3
       - tool: chestplate
         stat: protection
         level: "1"
         cost:
           - id: fox_fur
-            amount: 40
+            amount: 3
       - tool: leggings
         stat: protection
         level: "1"
         cost:
           - id: fox_fur
-            amount: 40
+            amount: 3
       - tool: boots
         stat: protection
         level: "1"
         cost:
           - id: fox_fur
-            amount: 40
+            amount: 3
       - tool: pick
         stat: blast
         level: "1"
@@ -1623,7 +1429,7 @@ items:
           - id: bronze
             amount: 1200
           - id: fox_fur
-            amount: 48
+            amount: 4
       - tool: pick
         stat: luck
         level: "4"
@@ -1631,7 +1437,7 @@ items:
           - id: bronze
             amount: 1600
           - id: fox_fur
-            amount: 64
+            amount: 8
       - tool: pick
         stat: fortune
         level: "2"
@@ -1641,7 +1447,7 @@ items:
           - id: birch_log
             amount: 160
           - id: fox_fur
-            amount: 80
+            amount: 12
 
   spruce:
     name: "Spruce Ridge"
@@ -1689,7 +1495,7 @@ items:
         level: "2"
         cost:
           - id: wolf_pelt
-            amount: 48
+            amount: 3
       - tool: pick
         stat: luck
         level: "6"
@@ -1697,7 +1503,7 @@ items:
           - id: lead
             amount: 5000
           - id: wolf_pelt
-            amount: 64
+            amount: 4
       - tool: pick
         stat: fortune
         level: "3"
@@ -1707,7 +1513,7 @@ items:
           - id: spruce_log
             amount: 320
           - id: wolf_pelt
-            amount: 80
+            amount: 8
 
   darkoak:
     name: "Dark Oak Thicket"
@@ -1743,96 +1549,4590 @@ items:
         level: "7"
         cost:
           - id: silver
-            amount: 2500
+            amount: 4000
       - tool: pick
         stat: efficiency
         level: "5"
         cost:
           - id: silver
-            amount: 3000
+            amount: 5000
       - tool: helmet
         stat: protection
         level: "2"
         cost:
           - id: ancient_seed
-            amount: 80
+            amount: 4
       - tool: chestplate
         stat: protection
         level: "2"
         cost:
           - id: ancient_seed
-            amount: 80
+            amount: 4
       - tool: leggings
         stat: protection
         level: "2"
         cost:
           - id: ancient_seed
-            amount: 80
+            amount: 4
       - tool: boots
         stat: protection
         level: "2"
         cost:
           - id: ancient_seed
-            amount: 80
+            amount: 4
       - tool: pick
         stat: luck
         level: "8"
         cost:
           - id: silver
-            amount: 3200
+            amount: 6000
           - id: ancient_seed
-            amount: 100
+            amount: 8
       - tool: pick
         stat: fortune
         level: "4"
         cost:
           - id: silver
-            amount: 4000
+            amount: 6400
           - id: dark_oak_log
             amount: 400
           - id: ancient_seed
-            amount: 120
+            amount: 12
 
-  treehouse:
-    name: "Great Treehouse"
-    realm: verdant
-    region: verdant
+  canyons:
+    name: "Howling Canyons"
+    realm: khorvath
+    region: khorvath
     steps:
+      - tool: sword
+        stat: material
+        level: "DIAMOND"
+        cost:
+          - id: crimson_sand
+            amount: 1000
+      - tool: helmet
+        stat: material
+        level: "DIAMOND"
+        cost:
+          - id: crimson_sand
+            amount: 1000
+      - tool: chestplate
+        stat: material
+        level: "DIAMOND"
+        cost:
+          - id: crimson_sand
+            amount: 1000
+      - tool: leggings
+        stat: material
+        level: "DIAMOND"
+        cost:
+          - id: crimson_sand
+            amount: 1000
+      - tool: boots
+        stat: material
+        level: "DIAMOND"
+        cost:
+          - id: crimson_sand
+            amount: 1000
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "1"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "1"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "2"
+        cost:
+          - id: deserter_coin
+            amount: 1
+      - tool: pick
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: crimson_sand
+            amount: 2000
+      - tool: sword
+        stat: luck
+        level: "1"
+        cost:
+          - id: legion_plate
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: legion_plate
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: legion_plate
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: legion_plate
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: legion_plate
+            amount: 2
+      - tool: shield
+        stat: deflection
+        level: "3"
+        cost:
+          - id: legion_plate
+            amount: 3
+      - tool: sword
+        stat: sharpness
+        level: "2"
+        cost:
+          - id: legion_plate
+            amount: 4
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: legion_plate
+            amount: 8
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: legion_plate
+            amount: 8
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: legion_plate
+            amount: 8
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: legion_plate
+            amount: 8
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: crimson_sand
+            amount: 2500
+          - id: deserter_coin
+            amount: 4
+          - id: legion_plate
+            amount: 12
+      - tool: helmet
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: crimson_sand
+            amount: 3000
+          - id: deserter_coin
+            amount: 4
+          - id: legion_plate
+            amount: 16
+      - tool: chestplate
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: crimson_sand
+            amount: 3000
+          - id: deserter_coin
+            amount: 4
+          - id: legion_plate
+            amount: 16
+      - tool: leggings
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: crimson_sand
+            amount: 3000
+          - id: deserter_coin
+            amount: 4
+          - id: legion_plate
+            amount: 16
+      - tool: boots
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: crimson_sand
+            amount: 3000
+          - id: deserter_coin
+            amount: 4
+          - id: legion_plate
+            amount: 16
+
+  ruins:
+    name: "Ancient Ruins"
+    realm: khorvath
+    region: khorvath
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "5"
+        cost:
+          - id: scarab_shell
+            amount: 40
+      - tool: chestplate
+        stat: protection
+        level: "5"
+        cost:
+          - id: scarab_shell
+            amount: 40
+      - tool: leggings
+        stat: protection
+        level: "5"
+        cost:
+          - id: scarab_shell
+            amount: 40
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: scarab_shell
+            amount: 40
+      - tool: sword
+        stat: sharpness
+        level: "3"
+        cost:
+          - id: scarab_shell
+            amount: 48
+      - tool: shield
+        stat: deflection
+        level: "4"
+        cost:
+          - id: scarab_shell
+            amount: 64
+      - tool: helmet
+        stat: protection
+        level: "6"
+        cost:
+          - id: relic_shard
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "6"
+        cost:
+          - id: relic_shard
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "6"
+        cost:
+          - id: relic_shard
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "6"
+        cost:
+          - id: relic_shard
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: relic_shard
+            amount: 2
+      - tool: sword
+        stat: sharpness
+        level: "4"
+        cost:
+          - id: relic_shard
+            amount: 3
+      - tool: helmet
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: scarab_shell
+            amount: 80
+          - id: relic_shard
+            amount: 4
+      - tool: chestplate
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: scarab_shell
+            amount: 80
+          - id: relic_shard
+            amount: 4
+      - tool: leggings
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: scarab_shell
+            amount: 80
+          - id: relic_shard
+            amount: 4
+      - tool: boots
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: scarab_shell
+            amount: 80
+          - id: relic_shard
+            amount: 4
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: relic_stone
+            amount: 640
+      - tool: sword
+        stat: sharpness
+        level: "5"
+        cost:
+          - id: relic_stone
+            amount: 800
+          - id: scarab_shell
+            amount: 100
+          - id: relic_shard
+            amount: 8
+
+  catacombs:
+    name: "Catacombs"
+    realm: khorvath
+    region: khorvath
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "7"
+        cost:
+          - id: eternal_soul
+            amount: 4
+      - tool: chestplate
+        stat: protection
+        level: "7"
+        cost:
+          - id: eternal_soul
+            amount: 4
+      - tool: leggings
+        stat: protection
+        level: "7"
+        cost:
+          - id: eternal_soul
+            amount: 4
+      - tool: boots
+        stat: protection
+        level: "7"
+        cost:
+          - id: eternal_soul
+            amount: 4
+      - tool: sword
+        stat: sharpness
+        level: "6"
+        cost:
+          - id: eternal_soul
+            amount: 8
+      - tool: shield
+        stat: deflection
+        level: "5"
+        cost:
+          - id: eternal_soul
+            amount: 12
+      - tool: helmet
+        stat: protection
+        level: "8"
+        cost:
+          - id: royal_seal
+            amount: 8
+      - tool: chestplate
+        stat: protection
+        level: "8"
+        cost:
+          - id: royal_seal
+            amount: 8
+      - tool: leggings
+        stat: protection
+        level: "8"
+        cost:
+          - id: royal_seal
+            amount: 8
+      - tool: boots
+        stat: protection
+        level: "8"
+        cost:
+          - id: royal_seal
+            amount: 8
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: royal_seal
+            amount: 12
+      - tool: sword
+        stat: sharpness
+        level: "7"
+        cost:
+          - id: royal_seal
+            amount: 16
+      - tool: helmet
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: eternal_soul
+            amount: 16
+          - id: royal_seal
+            amount: 20
+      - tool: chestplate
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: eternal_soul
+            amount: 16
+          - id: royal_seal
+            amount: 20
+      - tool: leggings
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: eternal_soul
+            amount: 16
+          - id: royal_seal
+            amount: 20
+      - tool: boots
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: eternal_soul
+            amount: 16
+          - id: royal_seal
+            amount: 20
+      - tool: pick
+        stat: fortune
+        level: "2"
+        cost:
+          - id: ossuary_bone
+            amount: 640
+      - tool: sword
+        stat: sharpness
+        level: "8"
+        cost:
+          - id: ossuary_bone
+            amount: 800
+          - id: eternal_soul
+            amount: 20
+          - id: royal_seal
+            amount: 24
+
+  sanctuary:
+    name: "Sanctuary of the Sun"
+    realm: khorvath
+    region: khorvath
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "9"
+        cost:
+          - id: anubite_mark
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "9"
+        cost:
+          - id: anubite_mark
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "9"
+        cost:
+          - id: anubite_mark
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "9"
+        cost:
+          - id: anubite_mark
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "9"
+        cost:
+          - id: anubite_mark
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "6"
+        cost:
+          - id: anubite_mark
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "10"
+        cost:
+          - id: sphinx_claw
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "10"
+        cost:
+          - id: sphinx_claw
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "10"
+        cost:
+          - id: sphinx_claw
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "10"
+        cost:
+          - id: sphinx_claw
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "4"
+        cost:
+          - id: sphinx_claw
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "10"
+        cost:
+          - id: sphinx_claw
+            amount: 3
+      - tool: helmet
+        stat: thorns
+        level: "1"
+        cost:
+          - id: anubite_mark
+            amount: 1
+          - id: sphinx_claw
+            amount: 3
+      - tool: chestplate
+        stat: thorns
+        level: "1"
+        cost:
+          - id: anubite_mark
+            amount: 1
+          - id: sphinx_claw
+            amount: 3
+      - tool: leggings
+        stat: thorns
+        level: "1"
+        cost:
+          - id: anubite_mark
+            amount: 1
+          - id: sphinx_claw
+            amount: 3
+      - tool: boots
+        stat: thorns
+        level: "1"
+        cost:
+          - id: anubite_mark
+            amount: 1
+          - id: sphinx_claw
+            amount: 3
+      - tool: sword
+        stat: bloodlust
+        level: "1"
+        cost:
+          - id: anubite_mark
+            amount: 2
+          - id: sphinx_claw
+            amount: 3
+
+  jungle:
+    name: "Jungle Floor"
+    realm: elderwood
+    region: elderwood
+    steps:
+      - tool: axe
+        stat: material
+        level: "DIAMOND"
+        cost:
+          - id: jungle_log
+            amount: 200
+      - tool: axe
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: jungle_log
+            amount: 250
+      - tool: axe
+        stat: fortune
+        level: "1"
+        cost:
+          - id: jungle_log
+            amount: 300
+      - tool: axe
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: jungle_log
+            amount: 600
+      - tool: axe
+        stat: fortune
+        level: "2"
+        cost:
+          - id: jungle_log
+            amount: 640
+      - tool: axe
+        stat: luck
+        level: "1"
+        cost:
+          - id: jungle_log
+            amount: 1200
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: panda_fur
+            amount: 8
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: panda_fur
+            amount: 8
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: panda_fur
+            amount: 8
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: panda_fur
+            amount: 8
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: jungle_log
+            amount: 1500
+          - id: panda_fur
+            amount: 12
+      - tool: axe
+        stat: fortune
+        level: "3"
+        cost:
+          - id: jungle_log
+            amount: 1600
+          - id: panda_fur
+            amount: 16
+
+  bamboo:
+    name: "Bamboo Thicket"
+    realm: elderwood
+    region: elderwood
+    steps:
+      - tool: axe
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: bamboo
+            amount: 200
+      - tool: axe
+        stat: fortune
+        level: "4"
+        cost:
+          - id: bamboo
+            amount: 250
+      - tool: axe
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: bamboo
+            amount: 640
       - tool: axe
         stat: fortune
         level: "5"
         cost:
-          - id: tree_sap
-            amount: 120
-      - tool: pick
+          - id: bamboo
+            amount: 750
+      - tool: axe
         stat: luck
-        level: "9"
+        level: "2"
         cost:
-          - id: tree_sap
-            amount: 160
-      - tool: pick
+          - id: bamboo
+            amount: 1200
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: ocelot_whisker
+            amount: 8
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: ocelot_whisker
+            amount: 8
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: ocelot_whisker
+            amount: 8
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: ocelot_whisker
+            amount: 8
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: bamboo
+            amount: 1500
+          - id: ocelot_whisker
+            amount: 12
+      - tool: axe
+        stat: fortune
+        level: "6"
+        cost:
+          - id: bamboo
+            amount: 1600
+          - id: ocelot_whisker
+            amount: 16
+
+  amber:
+    name: "Amber Hollow"
+    realm: elderwood
+    region: elderwood
+    steps:
+      - tool: axe
+        stat: efficiency
+        level: "5"
+        cost:
+          - id: elderbark
+            amount: 120
+      - tool: axe
+        stat: fortune
+        level: "7"
+        cost:
+          - id: elderbark
+            amount: 150
+      - tool: axe
         stat: efficiency
         level: "6"
         cost:
-          - id: tree_sap
-            amount: 200
-      - tool: pick
-        stat: blast
-        level: "2"
+          - id: amber
+            amount: 400
+      - tool: axe
+        stat: fortune
+        level: "8"
         cost:
-          - id: tree_sap
-            amount: 250
-      - tool: pick
+          - id: amber
+            amount: 480
+      - tool: axe
         stat: luck
+        level: "3"
+        cost:
+          - id: elderbark
+            amount: 750
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: royal_jelly
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: royal_jelly
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: royal_jelly
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: royal_jelly
+            amount: 2
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: elderbark
+            amount: 800
+          - id: royal_jelly
+            amount: 3
+      - tool: axe
+        stat: fortune
+        level: "9"
+        cost:
+          - id: elderbark
+            amount: 1000
+          - id: royal_jelly
+            amount: 4
+
+  treehouse:
+    name: "Treant Grove"
+    realm: elderwood
+    region: elderwood
+    steps:
+      - tool: axe
+        stat: fortune
         level: "10"
         cost:
           - id: tree_sap
+            amount: 16
+      - tool: pick
+        stat: luck
+        level: "1"
+        cost:
+          - id: tree_sap
+            amount: 24
+      - tool: pick
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: tree_sap
+            amount: 32
+      - tool: pick
+        stat: blast
+        level: "1"
+        cost:
+          - id: tree_sap
+            amount: 40
+      - tool: pick
+        stat: luck
+        level: "2"
+        cost:
+          - id: tree_sap
+            amount: 48
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: tree_sap
+            amount: 64
+          - id: ancient_seed
+            amount: 600
+
+  mudflats:
+    name: "Mudflats"
+    realm: marsh
+    region: marsh
+    steps:
+      - tool: pick
+        stat: material
+        level: "DIAMOND"
+        cost:
+          - id: packed_mud
             amount: 320
+      - tool: pick
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: packed_mud
+            amount: 400
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: packed_mud
+            amount: 500
+      - tool: pick
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: packed_mud
+            amount: 1200
+      - tool: pick
+        stat: fortune
+        level: "2"
+        cost:
+          - id: packed_mud
+            amount: 1500
+      - tool: pick
+        stat: luck
+        level: "1"
+        cost:
+          - id: packed_mud
+            amount: 2500
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: frog_leg
+            amount: 4
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: frog_leg
+            amount: 4
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: frog_leg
+            amount: 4
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: frog_leg
+            amount: 4
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: packed_mud
+            amount: 3000
+          - id: frog_leg
+            amount: 8
+      - tool: pick
+        stat: fortune
+        level: "3"
+        cost:
+          - id: packed_mud
+            amount: 3200
+          - id: frog_leg
+            amount: 12
+
+  peat:
+    name: "Peat Bog"
+    realm: marsh
+    region: marsh
+    steps:
+      - tool: pick
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: peat
+            amount: 320
+      - tool: pick
+        stat: fortune
+        level: "4"
+        cost:
+          - id: peat
+            amount: 400
+      - tool: pick
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: peat
+            amount: 800
       - tool: pick
         stat: fortune
         level: "5"
         cost:
-          - id: tree_sap
-            amount: 400
-          - id: ancient_seed
+          - id: peat
+            amount: 1000
+      - tool: pick
+        stat: luck
+        level: "2"
+        cost:
+          - id: peat
+            amount: 1600
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: bog_rag
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: bog_rag
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: bog_rag
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: bog_rag
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: peat
+            amount: 2000
+          - id: bog_rag
+            amount: 2
+      - tool: pick
+        stat: fortune
+        level: "6"
+        cost:
+          - id: peat
+            amount: 2500
+          - id: bog_rag
+            amount: 3
+      - tool: sword
+        stat: sharpness
+        level: "1"
+        cost:
+          - id: bog_rag
+            amount: 4
+      - tool: shield
+        stat: deflection
+        level: "1"
+        cost:
+          - id: bog_rag
+            amount: 8
+
+  sunken_ruins:
+    name: "Sunken Ruins"
+    realm: marsh
+    region: marsh
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: poison_quill
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: poison_quill
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: poison_quill
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: poison_quill
+            amount: 2
+      - tool: sword
+        stat: sharpness
+        level: "2"
+        cost:
+          - id: poison_quill
+            amount: 3
+      - tool: shield
+        stat: deflection
+        level: "2"
+        cost:
+          - id: poison_quill
+            amount: 4
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: drowned_scale
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: drowned_scale
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: drowned_scale
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: drowned_scale
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: drowned_scale
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "3"
+        cost:
+          - id: drowned_scale
+            amount: 2
+      - tool: helmet
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: poison_quill
+            amount: 8
+          - id: drowned_scale
+            amount: 2
+      - tool: chestplate
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: poison_quill
+            amount: 8
+          - id: drowned_scale
+            amount: 2
+      - tool: leggings
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: poison_quill
+            amount: 8
+          - id: drowned_scale
+            amount: 2
+      - tool: boots
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: poison_quill
+            amount: 8
+          - id: drowned_scale
+            amount: 2
+      - tool: pick
+        stat: fortune
+        level: "7"
+        cost:
+          - id: verdigris
+            amount: 750
+      - tool: sword
+        stat: sharpness
+        level: "4"
+        cost:
+          - id: verdigris
+            amount: 800
+          - id: poison_quill
+            amount: 12
+          - id: drowned_scale
+            amount: 2
+
+  hydra_pool:
+    name: "Hydra Pool"
+    realm: marsh
+    region: marsh
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "5"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "5"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "5"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "5"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "3"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "6"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "6"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "6"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "6"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "4"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "6"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: helmet
+        stat: thorns
+        level: "1"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: chestplate
+        stat: thorns
+        level: "1"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: leggings
+        stat: thorns
+        level: "1"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: boots
+        stat: thorns
+        level: "1"
+        cost:
+          - id: lurker_fang
+            amount: 1
+      - tool: sword
+        stat: bloodlust
+        level: "1"
+        cost:
+          - id: lurker_fang
+            amount: 1
+
+  foothills:
+    name: "Foothills"
+    realm: peaks
+    region: peaks
+    steps:
+      - tool: shovel
+        stat: material
+        level: "WOODEN"
+        cost:
+          - id: cobblestone
+            amount: 1
+      - tool: shovel
+        stat: material
+        level: "STONE"
+        cost:
+          - id: dirt
+            amount: 48
+      - tool: shovel
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: dirt
+            amount: 80
+      - tool: shovel
+        stat: fortune
+        level: "1"
+        cost:
+          - id: dirt
+            amount: 100
+      - tool: shovel
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: dirt
             amount: 250
+      - tool: shovel
+        stat: fortune
+        level: "2"
+        cost:
+          - id: dirt
+            amount: 300
+      - tool: shovel
+        stat: luck
+        level: "1"
+        cost:
+          - id: dirt
+            amount: 600
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: goat_hide
+            amount: 4
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: goat_hide
+            amount: 4
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: goat_hide
+            amount: 4
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: goat_hide
+            amount: 4
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: dirt
+            amount: 640
+          - id: goat_hide
+            amount: 8
+      - tool: shovel
+        stat: fortune
+        level: "3"
+        cost:
+          - id: dirt
+            amount: 750
+          - id: goat_hide
+            amount: 12
+
+  redstone_mines:
+    name: "Redstone Mines"
+    realm: peaks
+    region: peaks
+    steps:
+      - tool: shovel
+        stat: material
+        level: "COPPER"
+        cost:
+          - id: redstone
+            amount: 500
+      - tool: pick
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: redstone
+            amount: 600
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: redstone
+            amount: 640
+      - tool: pick
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: redstone
+            amount: 1500
+      - tool: pick
+        stat: fortune
+        level: "2"
+        cost:
+          - id: redstone
+            amount: 1600
+      - tool: shovel
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: redstone
+            amount: 3200
+      - tool: shovel
+        stat: fortune
+        level: "4"
+        cost:
+          - id: redstone
+            amount: 4000
+      - tool: pick
+        stat: luck
+        level: "1"
+        cost:
+          - id: redstone
+            amount: 4800
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: spider_silk
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: spider_silk
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: spider_silk
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: spider_silk
+            amount: 2
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: redstone
+            amount: 5000
+          - id: spider_silk
+            amount: 3
+      - tool: pick
+        stat: fortune
+        level: "3"
+        cost:
+          - id: redstone
+            amount: 6000
+          - id: spider_silk
+            amount: 4
+
+  pumpkin_terraces:
+    name: "Pumpkin Terraces"
+    realm: peaks
+    region: peaks
+    steps:
+      - tool: shovel
+        stat: material
+        level: "IRON"
+        cost:
+          - id: snow
+            amount: 150
+      - tool: axe
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: pumpkin
+            amount: 150
+      - tool: axe
+        stat: fortune
+        level: "1"
+        cost:
+          - id: pumpkin
+            amount: 160
+      - tool: axe
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: snow
+            amount: 200
+      - tool: axe
+        stat: fortune
+        level: "2"
+        cost:
+          - id: snow
+            amount: 250
+      - tool: shovel
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: snow
+            amount: 300
+      - tool: shovel
+        stat: fortune
+        level: "5"
+        cost:
+          - id: snow
+            amount: 320
+      - tool: axe
+        stat: luck
+        level: "1"
+        cost:
+          - id: pumpkin
+            amount: 800
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: snow_pelt
+            amount: 8
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: snow_pelt
+            amount: 8
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: snow_pelt
+            amount: 8
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: snow_pelt
+            amount: 8
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: pumpkin
+            amount: 1000
+          - id: snow_pelt
+            amount: 12
+      - tool: axe
+        stat: fortune
+        level: "3"
+        cost:
+          - id: pumpkin
+            amount: 1200
+          - id: snow_pelt
+            amount: 16
+
+  lapis_ridge:
+    name: "Lapis Ridge"
+    realm: peaks
+    region: peaks
+    steps:
+      - tool: shovel
+        stat: material
+        level: "GOLDEN"
+        cost:
+          - id: lapis
+            amount: 250
+          - id: snow
+            amount: 40
+          - id: pumpkin
+            amount: 160
+      - tool: pick
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: lapis
+            amount: 500
+      - tool: pick
+        stat: fortune
+        level: "4"
+        cost:
+          - id: lapis
+            amount: 640
+      - tool: pick
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: snow
+            amount: 250
+      - tool: pick
+        stat: fortune
+        level: "5"
+        cost:
+          - id: snow
+            amount: 320
+      - tool: pick
+        stat: luck
+        level: "2"
+        cost:
+          - id: lapis
+            amount: 3200
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: frost_arrow
+            amount: 8
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: frost_arrow
+            amount: 8
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: frost_arrow
+            amount: 8
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: frost_arrow
+            amount: 8
+      - tool: sword
+        stat: looting
+        level: "4"
+        cost:
+          - id: lapis
+            amount: 4000
+          - id: frost_arrow
+            amount: 12
+      - tool: pick
+        stat: fortune
+        level: "6"
+        cost:
+          - id: lapis
+            amount: 4800
+          - id: frost_arrow
+            amount: 16
+      - tool: pick
+        stat: fortune
+        level: "7"
+        cost:
+          - id: lapis
+            amount: 5000
+          - id: snow
+            amount: 400
+          - id: pumpkin
+            amount: 480
+
+  melon_ledges:
+    name: "Melon Ledges"
+    realm: peaks
+    region: peaks
+    steps:
+      - tool: shovel
+        stat: material
+        level: "DIAMOND"
+        cost:
+          - id: emerald
+            amount: 250
+          - id: dirt
+            amount: 480
+          - id: melon
+            amount: 24
+      - tool: pick
+        stat: efficiency
+        level: "5"
+        cost:
+          - id: emerald
+            amount: 640
+      - tool: pick
+        stat: fortune
+        level: "8"
+        cost:
+          - id: emerald
+            amount: 750
+      - tool: pick
+        stat: efficiency
+        level: "6"
+        cost:
+          - id: melon
+            amount: 160
+      - tool: pick
+        stat: fortune
+        level: "9"
+        cost:
+          - id: melon
+            amount: 200
+      - tool: axe
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: melon
+            amount: 250
+      - tool: axe
+        stat: fortune
+        level: "4"
+        cost:
+          - id: melon
+            amount: 300
+      - tool: pick
+        stat: luck
+        level: "3"
+        cost:
+          - id: emerald
+            amount: 4000
+      - tool: helmet
+        stat: protection
+        level: "5"
+        cost:
+          - id: cliff_horn
+            amount: 4
+      - tool: chestplate
+        stat: protection
+        level: "5"
+        cost:
+          - id: cliff_horn
+            amount: 4
+      - tool: leggings
+        stat: protection
+        level: "5"
+        cost:
+          - id: cliff_horn
+            amount: 4
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: cliff_horn
+            amount: 4
+      - tool: sword
+        stat: looting
+        level: "5"
+        cost:
+          - id: emerald
+            amount: 4800
+          - id: cliff_horn
+            amount: 8
+      - tool: pick
+        stat: fortune
+        level: "10"
+        cost:
+          - id: emerald
+            amount: 5000
+          - id: cliff_horn
+            amount: 12
+      - tool: pick
+        stat: fortune
+        level: "11"
+        cost:
+          - id: emerald
+            amount: 6000
+          - id: dirt
+            amount: 1500
+          - id: melon
+            amount: 320
+
+  arachne_cave:
+    name: "Arachne Cave"
+    realm: peaks
+    region: peaks
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "6"
+        cost:
+          - id: venom_sac
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "6"
+        cost:
+          - id: venom_sac
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "6"
+        cost:
+          - id: venom_sac
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "6"
+        cost:
+          - id: venom_sac
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "1"
+        cost:
+          - id: venom_sac
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "1"
+        cost:
+          - id: venom_sac
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "7"
+        cost:
+          - id: rider_bone
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "7"
+        cost:
+          - id: rider_bone
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "7"
+        cost:
+          - id: rider_bone
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "7"
+        cost:
+          - id: rider_bone
+            amount: 2
+      - tool: sword
+        stat: looting
+        level: "6"
+        cost:
+          - id: rider_bone
+            amount: 3
+      - tool: sword
+        stat: sharpness
+        level: "2"
+        cost:
+          - id: rider_bone
+            amount: 8
+      - tool: helmet
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: venom_sac
+            amount: 1
+          - id: rider_bone
+            amount: 12
+      - tool: chestplate
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: venom_sac
+            amount: 1
+          - id: rider_bone
+            amount: 12
+      - tool: leggings
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: venom_sac
+            amount: 1
+          - id: rider_bone
+            amount: 12
+      - tool: boots
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: venom_sac
+            amount: 1
+          - id: rider_bone
+            amount: 12
+      - tool: sword
+        stat: bloodlust
+        level: "1"
+        cost:
+          - id: venom_sac
+            amount: 6
+          - id: rider_bone
+            amount: 16
+
+  ashen:
+    name: "Ashen River"
+    realm: duat
+    region: duat
+    steps:
+      - tool: sword
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: basalt
+            amount: 600
+      - tool: helmet
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: basalt
+            amount: 600
+      - tool: chestplate
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: basalt
+            amount: 600
+      - tool: leggings
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: basalt
+            amount: 600
+      - tool: boots
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: basalt
+            amount: 600
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "1"
+        cost:
+          - id: sobek_sigil
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: sobek_sigil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: sobek_sigil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: sobek_sigil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: sobek_sigil
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: osiris_sigil
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "2"
+        cost:
+          - id: osiris_sigil
+            amount: 1
+      - tool: helmet
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+          - id: sobek_sigil
+            amount: 1
+          - id: osiris_sigil
+            amount: 1
+      - tool: chestplate
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+          - id: sobek_sigil
+            amount: 1
+          - id: osiris_sigil
+            amount: 1
+      - tool: leggings
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+          - id: sobek_sigil
+            amount: 1
+          - id: osiris_sigil
+            amount: 1
+      - tool: boots
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: anubis_sigil
+            amount: 1
+          - id: sobek_sigil
+            amount: 1
+          - id: osiris_sigil
+            amount: 1
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: basalt
+            amount: 1500
+      - tool: sword
+        stat: sharpness
+        level: "3"
+        cost:
+          - id: ash
+            amount: 100
+          - id: anubis_sigil
+            amount: 1
+          - id: sobek_sigil
+            amount: 1
+          - id: osiris_sigil
+            amount: 1
+
+  judgement:
+    name: "Hall of Judgement"
+    realm: duat
+    region: duat
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "4"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "2"
+        cost:
+          - id: maat_sigil
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: maat_sigil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: maat_sigil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: maat_sigil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: maat_sigil
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: horus_sigil
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "5"
+        cost:
+          - id: horus_sigil
+            amount: 2
+      - tool: helmet
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+          - id: maat_sigil
+            amount: 1
+          - id: horus_sigil
+            amount: 3
+      - tool: chestplate
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+          - id: maat_sigil
+            amount: 1
+          - id: horus_sigil
+            amount: 3
+      - tool: leggings
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+          - id: maat_sigil
+            amount: 1
+          - id: horus_sigil
+            amount: 3
+      - tool: boots
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: thoth_sigil
+            amount: 1
+          - id: maat_sigil
+            amount: 1
+          - id: horus_sigil
+            amount: 3
+      - tool: pick
+        stat: fortune
+        level: "2"
+        cost:
+          - id: scale_gold
+            amount: 1600
+      - tool: sword
+        stat: sharpness
+        level: "6"
+        cost:
+          - id: scale_gold
+            amount: 2000
+          - id: thoth_sigil
+            amount: 1
+          - id: maat_sigil
+            amount: 1
+          - id: horus_sigil
+            amount: 4
+
+  forge:
+    name: "Solar Forge"
+    realm: duat
+    region: duat
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "5"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "5"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "5"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "7"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "3"
+        cost:
+          - id: ptah_sigil
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "6"
+        cost:
+          - id: ptah_sigil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "6"
+        cost:
+          - id: ptah_sigil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "6"
+        cost:
+          - id: ptah_sigil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "6"
+        cost:
+          - id: ptah_sigil
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: khnum_sigil
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "8"
+        cost:
+          - id: khnum_sigil
+            amount: 1
+      - tool: helmet
+        stat: thorns
+        level: "1"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+          - id: ptah_sigil
+            amount: 1
+          - id: khnum_sigil
+            amount: 1
+      - tool: chestplate
+        stat: thorns
+        level: "1"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+          - id: ptah_sigil
+            amount: 1
+          - id: khnum_sigil
+            amount: 1
+      - tool: leggings
+        stat: thorns
+        level: "1"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+          - id: ptah_sigil
+            amount: 1
+          - id: khnum_sigil
+            amount: 1
+      - tool: boots
+        stat: thorns
+        level: "1"
+        cost:
+          - id: sekhmet_sigil
+            amount: 1
+          - id: ptah_sigil
+            amount: 1
+          - id: khnum_sigil
+            amount: 1
+      - tool: pick
+        stat: fortune
+        level: "3"
+        cost:
+          - id: solar_slag
+            amount: 1500
+      - tool: sword
+        stat: sharpness
+        level: "9"
+        cost:
+          - id: solar_slag
+            amount: 1600
+          - id: sekhmet_sigil
+            amount: 1
+          - id: ptah_sigil
+            amount: 1
+          - id: khnum_sigil
+            amount: 1
+
+  throne:
+    name: "Throne of Night"
+    realm: duat
+    region: duat
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "7"
+        cost:
+          - id: set_sigil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "7"
+        cost:
+          - id: set_sigil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "7"
+        cost:
+          - id: set_sigil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "7"
+        cost:
+          - id: set_sigil
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "10"
+        cost:
+          - id: set_sigil
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "4"
+        cost:
+          - id: apep_sigil
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "8"
+        cost:
+          - id: apep_sigil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "8"
+        cost:
+          - id: apep_sigil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "8"
+        cost:
+          - id: apep_sigil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "8"
+        cost:
+          - id: apep_sigil
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "4"
+        cost:
+          - id: nephthys_sigil
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "11"
+        cost:
+          - id: nephthys_sigil
+            amount: 2
+      - tool: helmet
+        stat: thorns
+        level: "2"
+        cost:
+          - id: set_sigil
+            amount: 1
+          - id: apep_sigil
+            amount: 1
+          - id: nephthys_sigil
+            amount: 3
+      - tool: chestplate
+        stat: thorns
+        level: "2"
+        cost:
+          - id: set_sigil
+            amount: 1
+          - id: apep_sigil
+            amount: 1
+          - id: nephthys_sigil
+            amount: 3
+      - tool: leggings
+        stat: thorns
+        level: "2"
+        cost:
+          - id: set_sigil
+            amount: 1
+          - id: apep_sigil
+            amount: 1
+          - id: nephthys_sigil
+            amount: 3
+      - tool: boots
+        stat: thorns
+        level: "2"
+        cost:
+          - id: set_sigil
+            amount: 1
+          - id: apep_sigil
+            amount: 1
+          - id: nephthys_sigil
+            amount: 3
+      - tool: pick
+        stat: fortune
+        level: "4"
+        cost:
+          - id: nightstone
+            amount: 1600
+      - tool: sword
+        stat: bloodlust
+        level: "1"
+        cost:
+          - id: nightstone
+            amount: 2000
+          - id: set_sigil
+            amount: 1
+          - id: apep_sigil
+            amount: 1
+          - id: nephthys_sigil
+            amount: 4
+
+  root_cellar:
+    name: "Root Cellar"
+    realm: elderheart
+    region: elderheart
+    steps:
+      - tool: axe
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: heartwood_log
+            amount: 100
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 2
+      - tool: shield
+        stat: deflection
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 2
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: sapling_twig
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: sapling_twig
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: sapling_twig
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: sapling_twig
+            amount: 2
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 3
+      - tool: sword
+        stat: sharpness
+        level: "2"
+        cost:
+          - id: sapling_twig
+            amount: 6
+      - tool: helmet
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 6
+      - tool: chestplate
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 6
+      - tool: leggings
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 6
+      - tool: boots
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: sapling_twig
+            amount: 6
+      - tool: axe
+        stat: fortune
+        level: "1"
+        cost:
+          - id: heartwood_log
+            amount: 320
+      - tool: sword
+        stat: sharpness
+        level: "3"
+        cost:
+          - id: heartwood_log
+            amount: 400
+          - id: sapling_twig
+            amount: 6
+
+  vine_halls:
+    name: "Vine Halls"
+    realm: elderheart
+    region: elderheart
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: canopy_silk
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: canopy_silk
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: canopy_silk
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: canopy_silk
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "4"
+        cost:
+          - id: canopy_silk
+            amount: 2
+      - tool: shield
+        stat: deflection
+        level: "2"
+        cost:
+          - id: canopy_silk
+            amount: 3
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: elder_vine
+            amount: 150
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: elder_vine
+            amount: 150
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: elder_vine
+            amount: 150
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: elder_vine
+            amount: 150
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: elder_vine
+            amount: 160
+      - tool: sword
+        stat: sharpness
+        level: "5"
+        cost:
+          - id: elder_vine
+            amount: 200
+      - tool: helmet
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: canopy_silk
+            amount: 4
+          - id: elder_vine
+            amount: 250
+      - tool: chestplate
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: canopy_silk
+            amount: 4
+          - id: elder_vine
+            amount: 250
+      - tool: leggings
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: canopy_silk
+            amount: 4
+          - id: elder_vine
+            amount: 250
+      - tool: boots
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: canopy_silk
+            amount: 4
+          - id: elder_vine
+            amount: 250
+      - tool: axe
+        stat: fortune
+        level: "2"
+        cost:
+          - id: elder_vine
+            amount: 300
+      - tool: sword
+        stat: sharpness
+        level: "6"
+        cost:
+          - id: elder_vine
+            amount: 320
+          - id: canopy_silk
+            amount: 8
+
+  hive_chambers:
+    name: "Hive Chambers"
+    realm: elderheart
+    region: elderheart
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "5"
+        cost:
+          - id: hive_stinger
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "5"
+        cost:
+          - id: hive_stinger
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "5"
+        cost:
+          - id: hive_stinger
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: hive_stinger
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "7"
+        cost:
+          - id: hive_stinger
+            amount: 2
+      - tool: shield
+        stat: deflection
+        level: "3"
+        cost:
+          - id: hive_stinger
+            amount: 2
+      - tool: helmet
+        stat: protection
+        level: "6"
+        cost:
+          - id: hive_stinger
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "6"
+        cost:
+          - id: hive_stinger
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "6"
+        cost:
+          - id: hive_stinger
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "6"
+        cost:
+          - id: hive_stinger
+            amount: 2
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: hive_stinger
+            amount: 3
+      - tool: sword
+        stat: sharpness
+        level: "8"
+        cost:
+          - id: hive_stinger
+            amount: 5
+      - tool: helmet
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: hive_stinger
+            amount: 5
+      - tool: chestplate
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: hive_stinger
+            amount: 5
+      - tool: leggings
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: hive_stinger
+            amount: 5
+      - tool: boots
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: hive_stinger
+            amount: 5
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: beeswax
+            amount: 1500
+      - tool: sword
+        stat: sharpness
+        level: "9"
+        cost:
+          - id: beeswax
+            amount: 1600
+          - id: hive_stinger
+            amount: 5
+      - tool: axe
+        stat: fortune
+        level: "3"
+        cost:
+          - id: wax_comb
+            amount: 300
+
+  upper_canopy:
+    name: "Upper Canopy"
+    realm: elderheart
+    region: elderheart
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "7"
+        cost:
+          - id: sentry_arrowhead
+            amount: 4
+      - tool: chestplate
+        stat: protection
+        level: "7"
+        cost:
+          - id: sentry_arrowhead
+            amount: 4
+      - tool: leggings
+        stat: protection
+        level: "7"
+        cost:
+          - id: sentry_arrowhead
+            amount: 4
+      - tool: boots
+        stat: protection
+        level: "7"
+        cost:
+          - id: sentry_arrowhead
+            amount: 4
+      - tool: sword
+        stat: sharpness
+        level: "10"
+        cost:
+          - id: sentry_arrowhead
+            amount: 8
+      - tool: shield
+        stat: deflection
+        level: "4"
+        cost:
+          - id: sentry_arrowhead
+            amount: 12
+      - tool: helmet
+        stat: protection
+        level: "8"
+        cost:
+          - id: canopy_bark
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "8"
+        cost:
+          - id: canopy_bark
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "8"
+        cost:
+          - id: canopy_bark
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "8"
+        cost:
+          - id: canopy_bark
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "4"
+        cost:
+          - id: canopy_bark
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "11"
+        cost:
+          - id: canopy_bark
+            amount: 2
+      - tool: helmet
+        stat: sustenance
+        level: "4"
+        cost:
+          - id: sentry_arrowhead
+            amount: 16
+          - id: canopy_bark
+            amount: 2
+      - tool: chestplate
+        stat: sustenance
+        level: "4"
+        cost:
+          - id: sentry_arrowhead
+            amount: 16
+          - id: canopy_bark
+            amount: 2
+      - tool: leggings
+        stat: sustenance
+        level: "4"
+        cost:
+          - id: sentry_arrowhead
+            amount: 16
+          - id: canopy_bark
+            amount: 2
+      - tool: boots
+        stat: sustenance
+        level: "4"
+        cost:
+          - id: sentry_arrowhead
+            amount: 16
+          - id: canopy_bark
+            amount: 2
+      - tool: sword
+        stat: sharpness
+        level: "12"
+        cost:
+          - id: sentry_arrowhead
+            amount: 20
+          - id: canopy_bark
+            amount: 2
+
+  the_crown:
+    name: "The Crown"
+    realm: elderheart
+    region: elderheart
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "9"
+        cost:
+          - id: canopy_bark
+            amount: 4
+      - tool: chestplate
+        stat: protection
+        level: "9"
+        cost:
+          - id: canopy_bark
+            amount: 4
+      - tool: leggings
+        stat: protection
+        level: "9"
+        cost:
+          - id: canopy_bark
+            amount: 4
+      - tool: boots
+        stat: protection
+        level: "9"
+        cost:
+          - id: canopy_bark
+            amount: 4
+      - tool: sword
+        stat: sharpness
+        level: "13"
+        cost:
+          - id: canopy_bark
+            amount: 8
+      - tool: shield
+        stat: deflection
+        level: "5"
+        cost:
+          - id: canopy_bark
+            amount: 12
+      - tool: helmet
+        stat: protection
+        level: "10"
+        cost:
+          - id: canopy_bark
+            amount: 16
+      - tool: chestplate
+        stat: protection
+        level: "10"
+        cost:
+          - id: canopy_bark
+            amount: 16
+      - tool: leggings
+        stat: protection
+        level: "10"
+        cost:
+          - id: canopy_bark
+            amount: 16
+      - tool: boots
+        stat: protection
+        level: "10"
+        cost:
+          - id: canopy_bark
+            amount: 16
+      - tool: sword
+        stat: looting
+        level: "5"
+        cost:
+          - id: canopy_bark
+            amount: 20
+      - tool: sword
+        stat: sharpness
+        level: "14"
+        cost:
+          - id: canopy_bark
+            amount: 32
+      - tool: helmet
+        stat: thorns
+        level: "1"
+        cost:
+          - id: canopy_bark
+            amount: 40
+      - tool: chestplate
+        stat: thorns
+        level: "1"
+        cost:
+          - id: canopy_bark
+            amount: 40
+      - tool: leggings
+        stat: thorns
+        level: "1"
+        cost:
+          - id: canopy_bark
+            amount: 40
+      - tool: boots
+        stat: thorns
+        level: "1"
+        cost:
+          - id: canopy_bark
+            amount: 40
+      - tool: sword
+        stat: bloodlust
+        level: "1"
+        cost:
+          - id: canopy_bark
+            amount: 48
+
+  cloudbank:
+    name: "Cloudbank"
+    realm: skyisles
+    region: skyisles
+    steps:
+      - tool: pick
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: cloudstone
+            amount: 640
+      - tool: pick
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: cloudstone
+            amount: 800
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: cloudstone
+            amount: 1000
+      - tool: pick
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: cloud_dust
+            amount: 200
+      - tool: pick
+        stat: fortune
+        level: "2"
+        cost:
+          - id: cloud_dust
+            amount: 250
+      - tool: shovel
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: cloud_dust
+            amount: 300
+      - tool: shovel
+        stat: fortune
+        level: "1"
+        cost:
+          - id: cloud_dust
+            amount: 320
+      - tool: pick
+        stat: luck
+        level: "1"
+        cost:
+          - id: cloudstone
+            amount: 4800
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: cloud_fleece
+            amount: 8
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: cloud_fleece
+            amount: 8
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: cloud_fleece
+            amount: 8
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: cloud_fleece
+            amount: 8
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: cloudstone
+            amount: 5000
+          - id: cloud_fleece
+            amount: 12
+      - tool: pick
+        stat: fortune
+        level: "3"
+        cost:
+          - id: cloudstone
+            amount: 6000
+          - id: cloud_fleece
+            amount: 16
+      - tool: mace
+        stat: sharpness
+        level: "32"
+        cost:
+          - id: cloud_fleece
+            amount: 20
+      - tool: mace
+        stat: looting
+        level: "24"
+        cost:
+          - id: cloud_fleece
+            amount: 24
+
+  skyshard_spires:
+    name: "Skyshard Spires"
+    realm: skyisles
+    region: skyisles
+    steps:
+      - tool: pick
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: skyshard
+            amount: 800
+      - tool: pick
+        stat: fortune
+        level: "4"
+        cost:
+          - id: skyshard
+            amount: 1000
+      - tool: pick
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: skyshard
+            amount: 2000
+      - tool: pick
+        stat: fortune
+        level: "5"
+        cost:
+          - id: skyshard
+            amount: 2500
+      - tool: pick
+        stat: luck
+        level: "2"
+        cost:
+          - id: skyshard
+            amount: 5000
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: phantom_veil
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: phantom_veil
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: phantom_veil
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: phantom_veil
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: skyshard
+            amount: 6000
+          - id: phantom_veil
+            amount: 2
+      - tool: pick
+        stat: fortune
+        level: "6"
+        cost:
+          - id: skyshard
+            amount: 6400
+          - id: phantom_veil
+            amount: 3
+      - tool: sword
+        stat: sharpness
+        level: "1"
+        cost:
+          - id: phantom_veil
+            amount: 4
+      - tool: mace
+        stat: sharpness
+        level: "38"
+        cost:
+          - id: phantom_veil
+            amount: 8
+      - tool: mace
+        stat: looting
+        level: "27"
+        cost:
+          - id: phantom_veil
+            amount: 12
+
+  storm_front:
+    name: "Storm Front"
+    realm: skyisles
+    region: skyisles
+    steps:
+      - tool: pick
+        stat: efficiency
+        level: "5"
+        cost:
+          - id: storm_copper
+            amount: 800
+      - tool: pick
+        stat: fortune
+        level: "7"
+        cost:
+          - id: storm_copper
+            amount: 1000
+      - tool: pick
+        stat: efficiency
+        level: "6"
+        cost:
+          - id: storm_copper
+            amount: 2000
+      - tool: pick
+        stat: fortune
+        level: "8"
+        cost:
+          - id: storm_copper
+            amount: 2500
+      - tool: pick
+        stat: luck
+        level: "3"
+        cost:
+          - id: storm_copper
+            amount: 5000
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: storm_essence
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: storm_essence
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: storm_essence
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: storm_essence
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: storm_copper
+            amount: 6000
+          - id: storm_essence
+            amount: 2
+      - tool: pick
+        stat: fortune
+        level: "9"
+        cost:
+          - id: storm_copper
+            amount: 6400
+          - id: storm_essence
+            amount: 3
+      - tool: shield
+        stat: deflection
+        level: "1"
+        cost:
+          - id: storm_essence
+            amount: 4
+      - tool: mace
+        stat: sharpness
+        level: "45"
+        cost:
+          - id: storm_essence
+            amount: 8
+      - tool: mace
+        stat: looting
+        level: "30"
+        cost:
+          - id: storm_essence
+            amount: 12
+
+  sky_harbour:
+    name: "Sky Harbour"
+    realm: skyisles
+    region: skyisles
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: pirate_doubloon
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: pirate_doubloon
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: pirate_doubloon
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: pirate_doubloon
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "2"
+        cost:
+          - id: pirate_doubloon
+            amount: 2
+      - tool: shield
+        stat: deflection
+        level: "2"
+        cost:
+          - id: pirate_doubloon
+            amount: 3
+      - tool: helmet
+        stat: protection
+        level: "5"
+        cost:
+          - id: captain_compass
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "5"
+        cost:
+          - id: captain_compass
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "5"
+        cost:
+          - id: captain_compass
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: captain_compass
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "4"
+        cost:
+          - id: captain_compass
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "3"
+        cost:
+          - id: captain_compass
+            amount: 1
+      - tool: helmet
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: pirate_doubloon
+            amount: 4
+          - id: captain_compass
+            amount: 1
+      - tool: chestplate
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: pirate_doubloon
+            amount: 4
+          - id: captain_compass
+            amount: 1
+      - tool: leggings
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: pirate_doubloon
+            amount: 4
+          - id: captain_compass
+            amount: 1
+      - tool: boots
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: pirate_doubloon
+            amount: 4
+          - id: captain_compass
+            amount: 1
+      - tool: sword
+        stat: bloodlust
+        level: "1"
+        cost:
+          - id: pirate_doubloon
+            amount: 8
+          - id: captain_compass
+            amount: 1
+      - tool: mace
+        stat: sharpness
+        level: "51"
+        cost:
+          - id: pirate_doubloon
+            amount: 12
+          - id: captain_compass
+            amount: 1
+      - tool: mace
+        stat: looting
+        level: "33"
+        cost:
+          - id: pirate_doubloon
+            amount: 16
+          - id: captain_compass
+            amount: 1
+      - tool: mace
+        stat: bloodlust
+        level: "5"
+        cost:
+          - id: pirate_doubloon
+            amount: 20
+          - id: captain_compass
+            amount: 1
+
+  outer_walls:
+    name: "Outer Walls"
+    realm: kingdom
+    region: kingdom
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 2
+      - tool: sword
+        stat: sharpness
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 3
+      - tool: shield
+        stat: deflection
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 3
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: guard_insignia
+            amount: 3
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: guard_insignia
+            amount: 3
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: guard_insignia
+            amount: 3
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: guard_insignia
+            amount: 3
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 8
+      - tool: sword
+        stat: sharpness
+        level: "2"
+        cost:
+          - id: guard_insignia
+            amount: 10
+      - tool: helmet
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 10
+      - tool: chestplate
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 10
+      - tool: leggings
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 10
+      - tool: boots
+        stat: sustenance
+        level: "1"
+        cost:
+          - id: guard_insignia
+            amount: 10
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: royal_quartz
+            amount: 3000
+      - tool: sword
+        stat: sharpness
+        level: "3"
+        cost:
+          - id: royal_quartz
+            amount: 3200
+          - id: guard_insignia
+            amount: 10
+
+  gilded_gardens:
+    name: "Gilded Gardens"
+    realm: kingdom
+    region: kingdom
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: golden_pollen
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: golden_pollen
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: golden_pollen
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: golden_pollen
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "4"
+        cost:
+          - id: golden_pollen
+            amount: 2
+      - tool: shield
+        stat: deflection
+        level: "2"
+        cost:
+          - id: golden_pollen
+            amount: 3
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: gardener_seed
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: gardener_seed
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: gardener_seed
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: gardener_seed
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: gardener_seed
+            amount: 2
+      - tool: sword
+        stat: sharpness
+        level: "5"
+        cost:
+          - id: gardener_seed
+            amount: 4
+      - tool: helmet
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: golden_pollen
+            amount: 4
+          - id: gardener_seed
+            amount: 8
+      - tool: chestplate
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: golden_pollen
+            amount: 4
+          - id: gardener_seed
+            amount: 8
+      - tool: leggings
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: golden_pollen
+            amount: 4
+          - id: gardener_seed
+            amount: 8
+      - tool: boots
+        stat: sustenance
+        level: "2"
+        cost:
+          - id: golden_pollen
+            amount: 4
+          - id: gardener_seed
+            amount: 8
+      - tool: pick
+        stat: fortune
+        level: "2"
+        cost:
+          - id: sunpetal
+            amount: 2000
+      - tool: sword
+        stat: sharpness
+        level: "6"
+        cost:
+          - id: sunpetal
+            amount: 3000
+          - id: golden_pollen
+            amount: 8
+          - id: gardener_seed
+            amount: 12
+      - tool: axe
+        stat: fortune
+        level: "1"
+        cost:
+          - id: cherry_log
+            amount: 480
+
+  royal_treasury:
+    name: "Royal Treasury"
+    realm: kingdom
+    region: kingdom
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "5"
+        cost:
+          - id: knight_crest
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "5"
+        cost:
+          - id: knight_crest
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "5"
+        cost:
+          - id: knight_crest
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: knight_crest
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "7"
+        cost:
+          - id: knight_crest
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "3"
+        cost:
+          - id: knight_crest
+            amount: 1
+      - tool: helmet
+        stat: protection
+        level: "6"
+        cost:
+          - id: crossbow_bolt
+            amount: 12
+      - tool: chestplate
+        stat: protection
+        level: "6"
+        cost:
+          - id: crossbow_bolt
+            amount: 12
+      - tool: leggings
+        stat: protection
+        level: "6"
+        cost:
+          - id: crossbow_bolt
+            amount: 12
+      - tool: boots
+        stat: protection
+        level: "6"
+        cost:
+          - id: crossbow_bolt
+            amount: 12
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: crossbow_bolt
+            amount: 16
+      - tool: sword
+        stat: sharpness
+        level: "8"
+        cost:
+          - id: crossbow_bolt
+            amount: 24
+      - tool: helmet
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: knight_crest
+            amount: 2
+          - id: crossbow_bolt
+            amount: 32
+      - tool: chestplate
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: knight_crest
+            amount: 2
+          - id: crossbow_bolt
+            amount: 32
+      - tool: leggings
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: knight_crest
+            amount: 2
+          - id: crossbow_bolt
+            amount: 32
+      - tool: boots
+        stat: sustenance
+        level: "3"
+        cost:
+          - id: knight_crest
+            amount: 2
+          - id: crossbow_bolt
+            amount: 32
+      - tool: pick
+        stat: fortune
+        level: "3"
+        cost:
+          - id: celestine
+            amount: 2500
+      - tool: sword
+        stat: sharpness
+        level: "9"
+        cost:
+          - id: celestine
+            amount: 3000
+          - id: knight_crest
+            amount: 4
+          - id: crossbow_bolt
+            amount: 40
+      - tool: pick
+        stat: fortune
+        level: "4"
+        cost:
+          - id: aurium
+            amount: 5000
+
+  throne_room:
+    name: "Throne Room"
+    realm: kingdom
+    region: kingdom
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "7"
+        cost:
+          - id: throne_seal
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "7"
+        cost:
+          - id: throne_seal
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "7"
+        cost:
+          - id: throne_seal
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "7"
+        cost:
+          - id: throne_seal
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "10"
+        cost:
+          - id: throne_seal
+            amount: 2
+      - tool: shield
+        stat: deflection
+        level: "4"
+        cost:
+          - id: throne_seal
+            amount: 2
+      - tool: helmet
+        stat: protection
+        level: "8"
+        cost:
+          - id: throne_seal
+            amount: 2
+      - tool: chestplate
+        stat: protection
+        level: "8"
+        cost:
+          - id: throne_seal
+            amount: 2
+      - tool: leggings
+        stat: protection
+        level: "8"
+        cost:
+          - id: throne_seal
+            amount: 2
+      - tool: boots
+        stat: protection
+        level: "8"
+        cost:
+          - id: throne_seal
+            amount: 2
+      - tool: sword
+        stat: looting
+        level: "4"
+        cost:
+          - id: throne_seal
+            amount: 3
+      - tool: sword
+        stat: sharpness
+        level: "11"
+        cost:
+          - id: throne_seal
+            amount: 6
+      - tool: helmet
+        stat: thorns
+        level: "1"
+        cost:
+          - id: throne_seal
+            amount: 6
+      - tool: chestplate
+        stat: thorns
+        level: "1"
+        cost:
+          - id: throne_seal
+            amount: 6
+      - tool: leggings
+        stat: thorns
+        level: "1"
+        cost:
+          - id: throne_seal
+            amount: 6
+      - tool: boots
+        stat: thorns
+        level: "1"
+        cost:
+          - id: throne_seal
+            amount: 6
+      - tool: sword
+        stat: bloodlust
+        level: "1"
+        cost:
+          - id: throne_seal
+            amount: 6
+
+  gravel_pits:
+    name: "Gravel Pits"
+    realm: quarry
+    region: quarry
+    steps:
+      - tool: axe
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: tungsten
+            amount: 400
+          - id: gravel
+            amount: 80
+      - tool: shovel
+        stat: material
+        level: "NETHERITE"
+        cost:
+          - id: tungsten
+            amount: 400
+          - id: gravel
+            amount: 80
+      - tool: pick
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: tungsten
+            amount: 1000
+      - tool: pick
+        stat: fortune
+        level: "1"
+        cost:
+          - id: tungsten
+            amount: 1200
+      - tool: pick
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: gravel
+            amount: 250
+      - tool: pick
+        stat: fortune
+        level: "2"
+        cost:
+          - id: gravel
+            amount: 300
+      - tool: shovel
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: gravel
+            amount: 320
+      - tool: shovel
+        stat: fortune
+        level: "1"
+        cost:
+          - id: gravel
+            amount: 400
+      - tool: pick
+        stat: luck
+        level: "1"
+        cost:
+          - id: tungsten
+            amount: 6000
+      - tool: helmet
+        stat: protection
+        level: "1"
+        cost:
+          - id: pillager_ration
+            amount: 16
+      - tool: chestplate
+        stat: protection
+        level: "1"
+        cost:
+          - id: pillager_ration
+            amount: 16
+      - tool: leggings
+        stat: protection
+        level: "1"
+        cost:
+          - id: pillager_ration
+            amount: 16
+      - tool: boots
+        stat: protection
+        level: "1"
+        cost:
+          - id: pillager_ration
+            amount: 16
+      - tool: sword
+        stat: looting
+        level: "1"
+        cost:
+          - id: tungsten
+            amount: 6400
+          - id: pillager_ration
+            amount: 20
+      - tool: pick
+        stat: fortune
+        level: "3"
+        cost:
+          - id: tungsten
+            amount: 7500
+          - id: pillager_ration
+            amount: 24
+
+  pale_woods:
+    name: "Pale Woods"
+    realm: quarry
+    region: quarry
+    steps:
+      - tool: axe
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: pale_log
+            amount: 160
+      - tool: axe
+        stat: fortune
+        level: "1"
+        cost:
+          - id: pale_log
+            amount: 200
+      - tool: axe
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: platinum
+            amount: 1200
+      - tool: axe
+        stat: fortune
+        level: "2"
+        cost:
+          - id: platinum
+            amount: 1600
+      - tool: pick
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: platinum
+            amount: 2000
+      - tool: pick
+        stat: fortune
+        level: "4"
+        cost:
+          - id: platinum
+            amount: 2500
+      - tool: axe
+        stat: luck
+        level: "1"
+        cost:
+          - id: pale_log
+            amount: 1000
+      - tool: helmet
+        stat: protection
+        level: "2"
+        cost:
+          - id: iron_tag
+            amount: 3
+      - tool: chestplate
+        stat: protection
+        level: "2"
+        cost:
+          - id: iron_tag
+            amount: 3
+      - tool: leggings
+        stat: protection
+        level: "2"
+        cost:
+          - id: iron_tag
+            amount: 3
+      - tool: boots
+        stat: protection
+        level: "2"
+        cost:
+          - id: iron_tag
+            amount: 3
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: pale_log
+            amount: 1200
+          - id: iron_tag
+            amount: 4
+      - tool: axe
+        stat: fortune
+        level: "3"
+        cost:
+          - id: pale_log
+            amount: 1500
+          - id: iron_tag
+            amount: 8
+      - tool: pick
+        stat: fortune
+        level: "5"
+        cost:
+          - id: platinum
+            amount: 3200
+          - id: gravel
+            amount: 320
+          - id: pale_log
+            amount: 1600
+
+  maple_grove:
+    name: "Maple Grove"
+    realm: quarry
+    region: quarry
+    steps:
+      - tool: axe
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: maple
+            amount: 120
+      - tool: axe
+        stat: fortune
+        level: "4"
+        cost:
+          - id: maple
+            amount: 150
+      - tool: axe
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: clay
+            amount: 200
+      - tool: axe
+        stat: fortune
+        level: "5"
+        cost:
+          - id: clay
+            amount: 250
+      - tool: shovel
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: clay
+            amount: 300
+      - tool: shovel
+        stat: fortune
+        level: "2"
+        cost:
+          - id: clay
+            amount: 320
+      - tool: axe
+        stat: luck
+        level: "2"
+        cost:
+          - id: maple
+            amount: 800
+      - tool: helmet
+        stat: protection
+        level: "3"
+        cost:
+          - id: iron_tag
+            amount: 16
+      - tool: chestplate
+        stat: protection
+        level: "3"
+        cost:
+          - id: iron_tag
+            amount: 16
+      - tool: leggings
+        stat: protection
+        level: "3"
+        cost:
+          - id: iron_tag
+            amount: 16
+      - tool: boots
+        stat: protection
+        level: "3"
+        cost:
+          - id: iron_tag
+            amount: 16
+      - tool: sword
+        stat: looting
+        level: "3"
+        cost:
+          - id: maple
+            amount: 1000
+          - id: iron_tag
+            amount: 20
+      - tool: axe
+        stat: fortune
+        level: "6"
+        cost:
+          - id: maple
+            amount: 1200
+          - id: iron_tag
+            amount: 32
+      - tool: pick
+        stat: fortune
+        level: "6"
+        cost:
+          - id: titanium
+            amount: 1500
+          - id: clay
+            amount: 400
+          - id: maple
+            amount: 1500
+      - tool: pick
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: titanium
+            amount: 3000
+          - id: clay
+            amount: 480
+          - id: maple
+            amount: 1600
+
+  diamond_depths:
+    name: "Diamond Depths"
+    realm: quarry
+    region: quarry
+    steps:
+      - tool: pick
+        stat: efficiency
+        level: "5"
+        cost:
+          - id: diamond
+            amount: 1000
+      - tool: pick
+        stat: fortune
+        level: "7"
+        cost:
+          - id: diamond
+            amount: 1200
+      - tool: pick
+        stat: efficiency
+        level: "6"
+        cost:
+          - id: diamond
+            amount: 2500
+      - tool: pick
+        stat: fortune
+        level: "8"
+        cost:
+          - id: diamond
+            amount: 3200
+      - tool: pick
+        stat: luck
+        level: "2"
+        cost:
+          - id: diamond
+            amount: 6400
+      - tool: helmet
+        stat: protection
+        level: "4"
+        cost:
+          - id: ravager_horn
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "4"
+        cost:
+          - id: ravager_horn
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "4"
+        cost:
+          - id: ravager_horn
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: ravager_horn
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "4"
+        cost:
+          - id: diamond
+            amount: 7500
+          - id: ravager_horn
+            amount: 2
+      - tool: pick
+        stat: fortune
+        level: "9"
+        cost:
+          - id: diamond
+            amount: 8000
+          - id: ravager_horn
+            amount: 3
+      - tool: pick
+        stat: fortune
+        level: "10"
+        cost:
+          - id: diamond
+            amount: 10000
+          - id: maple
+            amount: 1000
+          - id: clay
+            amount: 200
+          - id: gravel
+            amount: 400
+          - id: pale_log
+            amount: 2000
+      - tool: sword
+        stat: sharpness
+        level: "1"
+        cost:
+          - id: ravager_horn
+            amount: 4
+
+  quarry_pit:
+    name: "The Quarry Pit"
+    realm: quarry
+    region: quarry
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "5"
+        cost:
+          - id: captain_banner
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "5"
+        cost:
+          - id: captain_banner
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "5"
+        cost:
+          - id: captain_banner
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: captain_banner
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "2"
+        cost:
+          - id: captain_banner
+            amount: 2
+      - tool: shield
+        stat: deflection
+        level: "1"
+        cost:
+          - id: captain_banner
+            amount: 3
+      - tool: helmet
+        stat: protection
+        level: "6"
+        cost:
+          - id: warden_plate
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "6"
+        cost:
+          - id: warden_plate
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "6"
+        cost:
+          - id: warden_plate
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "6"
+        cost:
+          - id: warden_plate
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "5"
+        cost:
+          - id: warden_plate
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "3"
+        cost:
+          - id: warden_plate
+            amount: 1
+      - tool: helmet
+        stat: thorns
+        level: "1"
+        cost:
+          - id: captain_banner
+            amount: 4
+          - id: warden_plate
+            amount: 1
+      - tool: chestplate
+        stat: thorns
+        level: "1"
+        cost:
+          - id: captain_banner
+            amount: 4
+          - id: warden_plate
+            amount: 1
+      - tool: leggings
+        stat: thorns
+        level: "1"
+        cost:
+          - id: captain_banner
+            amount: 4
+          - id: warden_plate
+            amount: 1
+      - tool: boots
+        stat: thorns
+        level: "1"
+        cost:
+          - id: captain_banner
+            amount: 4
+          - id: warden_plate
+            amount: 1
+      - tool: sword
+        stat: bloodlust
+        level: "1"
+        cost:
+          - id: captain_banner
+            amount: 8
+          - id: warden_plate
+            amount: 3
+
+  golems_rest:
+    name: "Golem Rest"
+    realm: quarry
+    region: quarry
+    steps:
+      - tool: helmet
+        stat: protection
+        level: "7"
+        cost:
+          - id: golem_shard
+            amount: 1
+      - tool: chestplate
+        stat: protection
+        level: "7"
+        cost:
+          - id: golem_shard
+            amount: 1
+      - tool: leggings
+        stat: protection
+        level: "7"
+        cost:
+          - id: golem_shard
+            amount: 1
+      - tool: boots
+        stat: protection
+        level: "7"
+        cost:
+          - id: golem_shard
+            amount: 1
+      - tool: sword
+        stat: sharpness
+        level: "4"
+        cost:
+          - id: golem_shard
+            amount: 1
+      - tool: sword
+        stat: looting
+        level: "6"
+        cost:
+          - id: golem_shard
+            amount: 1
+      - tool: pick
+        stat: fortune
+        level: "11"
+        cost:
+          - id: golem_shard
+            amount: 1

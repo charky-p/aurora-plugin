@@ -132,3 +132,31 @@ items:
     glow: false
     lore:
       - "<gray>Cheap food. Better food wants better ore."
+
+  icon_khorvath:
+    display: "<#B4462A><b>Khorvath"
+    material: CHISELED_RED_SANDSTONE
+    glow: true
+    lore:
+      - "<gray>Up the cliff, with a grapple."
+
+  icon_elderwood:
+    display: "<dark_green><b>Elderwood Roots"
+    material: JUNGLE_SAPLING
+    glow: true
+    lore:
+      - "<gray>The world tree and its treants."
+
+  icon_sky:
+    display: "<aqua><b>Sky World"
+    material: FEATHER
+    glow: true
+    lore:
+      - "<gray>Islands above the clouds."
+
+  icon_core:
+    display: "<white><b>Overworld Core"
+    material: HEAVY_CORE
+    glow: true
+    lore:
+      - "<gray>Every resource, and the Golem's shards."

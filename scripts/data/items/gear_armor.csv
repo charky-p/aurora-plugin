@@ -10,27 +10,27 @@ scout_boots_1,<yellow>Dune Scout Boots,CHAINMAIL_BOOTS,1,armor,overworld,gormak_
 stalker_helmet_1,<gold>Stalker Helmet,IRON_HELMET,1,armor,overworld,gormak_dunes,protection:8,<dark_gray>Worn by the fallen.
 stalker_chestplate_1,<gold>Stalker Chestplate,IRON_CHESTPLATE,1,armor,overworld,gormak_dunes,protection:8,<dark_gray>Worn by the fallen.
 stalker_leggings_1,<gold>Stalker Leggings,IRON_LEGGINGS,1,armor,overworld,gormak_dunes,protection:8,<dark_gray>Worn by the fallen.
-zealot_helmet_1,<dark_purple>Scarab Zealot Helmet,IRON_HELMET,1,armor,overworld,gormak_canyons,protection:10,<dark_gray>Worn by the fallen.
-zealot_chestplate_1,<dark_purple>Scarab Zealot Chestplate,IRON_CHESTPLATE,1,armor,overworld,gormak_canyons,protection:10,<dark_gray>Worn by the fallen.
-zealot_leggings_1,<dark_purple>Scarab Zealot Leggings,IRON_LEGGINGS,1,armor,overworld,gormak_canyons,protection:10,<dark_gray>Worn by the fallen.
-legionnaire_helmet_1,<gray>Legionnaire Helmet,IRON_HELMET,1,armor,overworld,gormak_canyons,protection:12,<dark_gray>Worn by the fallen.
-legionnaire_chestplate_1,<gray>Legionnaire Chestplate,IRON_CHESTPLATE,1,armor,overworld,gormak_canyons,protection:12,<dark_gray>Worn by the fallen.
-legionnaire_leggings_1,<gray>Legionnaire Leggings,IRON_LEGGINGS,1,armor,overworld,gormak_canyons,protection:12,<dark_gray>Worn by the fallen.
-legionnaire_boots_1,<gray>Legionnaire Boots,IRON_BOOTS,1,armor,overworld,gormak_canyons,protection:12,<dark_gray>Worn by the fallen.
+zealot_helmet_1,<dark_purple>Scarab Zealot Helmet,IRON_HELMET,1,armor,overworld,khorvath_canyons,protection:10,<dark_gray>Worn by the fallen.
+zealot_chestplate_1,<dark_purple>Scarab Zealot Chestplate,IRON_CHESTPLATE,1,armor,overworld,khorvath_canyons,protection:10,<dark_gray>Worn by the fallen.
+zealot_leggings_1,<dark_purple>Scarab Zealot Leggings,IRON_LEGGINGS,1,armor,overworld,khorvath_canyons,protection:10,<dark_gray>Worn by the fallen.
+legionnaire_helmet_1,<gray>Legionnaire Helmet,IRON_HELMET,1,armor,overworld,khorvath_canyons,protection:12,<dark_gray>Worn by the fallen.
+legionnaire_chestplate_1,<gray>Legionnaire Chestplate,IRON_CHESTPLATE,1,armor,overworld,khorvath_canyons,protection:12,<dark_gray>Worn by the fallen.
+legionnaire_leggings_1,<gray>Legionnaire Leggings,IRON_LEGGINGS,1,armor,overworld,khorvath_canyons,protection:12,<dark_gray>Worn by the fallen.
+legionnaire_boots_1,<gray>Legionnaire Boots,IRON_BOOTS,1,armor,overworld,khorvath_canyons,protection:12,<dark_gray>Worn by the fallen.
 guard_helmet_1,<gold>Tomb Guard Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_temple,protection:14,<dark_gray>Worn by the fallen.
 guard_chestplate_1,<gold>Tomb Guard Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_temple,protection:14,<dark_gray>Worn by the fallen.
 guard_leggings_1,<gold>Tomb Guard Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_temple,protection:14,<dark_gray>Worn by the fallen.
 guard_boots_1,<gold>Tomb Guard Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_temple,protection:14,<dark_gray>Worn by the fallen.
 vizier_helmet_1,<yellow>Vizier Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_temple,protection:13,<dark_gray>Worn by the fallen.
 vizier_chestplate_1,<yellow>Vizier Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_temple,protection:13,<dark_gray>Worn by the fallen.
-myrmidon_helmet_1,<dark_purple>Myrmidon Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_tomb,protection:18,<dark_gray>Worn by the fallen.
-myrmidon_chestplate_1,<dark_purple>Myrmidon Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_tomb,protection:18,<dark_gray>Worn by the fallen.
-myrmidon_leggings_1,<dark_purple>Myrmidon Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_tomb,protection:18,<dark_gray>Worn by the fallen.
-myrmidon_boots_1,<dark_purple>Myrmidon Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_tomb,protection:18,<dark_gray>Worn by the fallen.
-pharaoh_helmet_1,<gold>Pharaoh Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_tomb,protection:20|thorns:1,<dark_gray>Worn by the fallen.
-pharaoh_chestplate_1,<gold>Pharaoh Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_tomb,protection:20|thorns:1,<dark_gray>Worn by the fallen.
-pharaoh_leggings_1,<gold>Pharaoh Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_tomb,protection:20|thorns:1,<dark_gray>Worn by the fallen.
-pharaoh_boots_1,<gold>Pharaoh Boots,GOLDEN_BOOTS,1,armor,overworld,gormak_tomb,protection:20|thorns:1,<dark_gray>Worn by the fallen.
+myrmidon_helmet_1,<dark_purple>Myrmidon Helmet,GOLDEN_HELMET,1,armor,overworld,khorvath_catacombs,protection:18,<dark_gray>Worn by the fallen.
+myrmidon_chestplate_1,<dark_purple>Myrmidon Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,khorvath_catacombs,protection:18,<dark_gray>Worn by the fallen.
+myrmidon_leggings_1,<dark_purple>Myrmidon Leggings,GOLDEN_LEGGINGS,1,armor,overworld,khorvath_catacombs,protection:18,<dark_gray>Worn by the fallen.
+myrmidon_boots_1,<dark_purple>Myrmidon Boots,GOLDEN_BOOTS,1,armor,overworld,khorvath_catacombs,protection:18,<dark_gray>Worn by the fallen.
+pharaoh_helmet_1,<gold>Pharaoh Helmet,GOLDEN_HELMET,1,armor,overworld,khorvath_catacombs,protection:20|thorns:1,<dark_gray>Worn by the fallen.
+pharaoh_chestplate_1,<gold>Pharaoh Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,khorvath_catacombs,protection:20|thorns:1,<dark_gray>Worn by the fallen.
+pharaoh_leggings_1,<gold>Pharaoh Leggings,GOLDEN_LEGGINGS,1,armor,overworld,khorvath_catacombs,protection:20|thorns:1,<dark_gray>Worn by the fallen.
+pharaoh_boots_1,<gold>Pharaoh Boots,GOLDEN_BOOTS,1,armor,overworld,khorvath_catacombs,protection:20|thorns:1,<dark_gray>Worn by the fallen.
 eternal_helmet_1,<dark_red>Eternal Helmet,GOLDEN_HELMET,1,armor,overworld,gormak_tomb,protection:25|thorns:2,<dark_gray>Worn by the fallen.
 eternal_chestplate_1,<dark_red>Eternal Chestplate,GOLDEN_CHESTPLATE,1,armor,overworld,gormak_tomb,protection:25|thorns:2,<dark_gray>Worn by the fallen.
 eternal_leggings_1,<dark_red>Eternal Leggings,GOLDEN_LEGGINGS,1,armor,overworld,gormak_tomb,protection:25|thorns:2,<dark_gray>Worn by the fallen.

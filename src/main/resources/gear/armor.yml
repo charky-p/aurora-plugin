@@ -155,7 +155,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       protection: 10
     lore:
@@ -167,7 +167,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       protection: 10
     lore:
@@ -179,7 +179,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       protection: 10
     lore:
@@ -191,7 +191,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       protection: 12
     lore:
@@ -203,7 +203,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       protection: 12
     lore:
@@ -215,7 +215,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       protection: 12
     lore:
@@ -227,7 +227,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       protection: 12
     lore:
@@ -311,7 +311,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       protection: 18
     lore:
@@ -323,7 +323,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       protection: 18
     lore:
@@ -335,7 +335,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       protection: 18
     lore:
@@ -347,7 +347,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       protection: 18
     lore:
@@ -359,7 +359,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       protection: 20
       thorns: 1
@@ -372,7 +372,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       protection: 20
       thorns: 1
@@ -385,7 +385,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       protection: 20
       thorns: 1
@@ -398,7 +398,7 @@ items:
     tier: 1
     type: "armor"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       protection: 20
       thorns: 1

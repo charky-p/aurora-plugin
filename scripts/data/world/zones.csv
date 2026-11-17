@@ -1,16 +1,55 @@
-id,name,realm,world,region,order,target_seconds,mine,mob,mine_scale,mob_scale,after
-cobble,Cobblestone Quarry,overworld,overworld,origin_isles,1,120,cobblestone,,0.75,0.25,
-coal,Coal Seam,overworld,overworld,origin_isles,2,120,coal,,0.75,0.25,cobble
-copper,Copper Vein,overworld,overworld,origin_isles,3,156,copper,chicken,0.75,0.25,coal
-iron,Iron Deposit,overworld,overworld,origin_isles,4,252,iron,sheep,0.75,0.25,copper
-gold,Gold Reef,overworld,overworld,origin_isles,5,402,gold,cow,0.75,0.25,iron
-city,Abandoned City,gormak,overworld,gormak,6,360,carved_brick,hollowed_serf|scavenger_husk,1,0.5,gold
-dunes,The Dunes,gormak,overworld,gormak,7,360,sunbaked_sand,dune_scout|sand_stalker,1,0.5,city
-canyons,Howling Canyons,gormak,overworld,gormak,8,360,crimson_sand,scarab_zealot|hollowed_legionnaire,1,0.5,dunes
-temple,Sun Temple,gormak,overworld,gormak,9,360,raw_gold,tomb_guard|vizier_mage,1,0.5,canyons
-tomb,Royal Tomb,gormak,overworld,gormak,10,600,,royal_myrmidon|pharaoh,1,0.5,temple
-oak,Oak Grove,verdant,overworld,verdant,11,360,oak_log|tin,grove_horse,1,0.5,gold
-birch,Birch Hollow,verdant,overworld,verdant,12,360,birch_log|bronze,hollow_fox,1,0.5,oak
-spruce,Spruce Ridge,verdant,overworld,verdant,13,360,spruce_log|lead,ridge_wolf,1,0.5,birch
-darkoak,Dark Oak Thicket,verdant,overworld,verdant,14,360,dark_oak_log|silver,thicket_sniffer,1,0.5,spruce
-treehouse,Great Treehouse,verdant,overworld,verdant,15,600,,tree_zombee|treant,1,0.5,darkoak
+id,name,realm,world,region,stage,order,target_seconds,minutes,mine,mob,mine_scale,mob_scale,after
+cobble,Cobblestone Quarry,overworld,overworld,origin_isles,,1,120,0.5,cobblestone,,0.75,0.25,
+coal,Coal Seam,overworld,overworld,origin_isles,,2,120,0.75,coal,,0.75,0.25,cobble
+copper,Copper Vein,overworld,overworld,origin_isles,,3,156,2,copper,chicken,0.75,0.25,coal
+iron,Iron Deposit,overworld,overworld,origin_isles,,4,252,3,iron,sheep,0.75,0.25,copper
+gold,Gold Reef,overworld,overworld,origin_isles,,5,402,5,gold,cow,0.75,0.25,iron
+city,Abandoned City,gormak,overworld,gormak,,6,360,5.3,carved_brick,hollowed_serf|scavenger_husk,1,0.5,
+dunes,The Dunes,gormak,overworld,gormak,,7,360,5.3,sunbaked_sand,dune_scout|sand_stalker,1,0.5,city
+temple,Sun Temple,gormak,overworld,gormak,,8,360,5.3,raw_gold,tomb_guard|vizier_mage,1,0.5,dunes
+tomb,Royal Tomb,gormak,overworld,gormak,,9,600,8.8,,gormak_minion|gormak_guardian,1,0.5,temple
+oak,Oak Grove,verdant,overworld,verdant,,10,360,5.3,oak_log|tin,grove_horse,1,0.5,
+birch,Birch Hollow,verdant,overworld,verdant,,11,360,5.3,birch_log|bronze,hollow_fox,1,0.5,oak
+spruce,Spruce Ridge,verdant,overworld,verdant,,12,360,5.3,spruce_log|lead,ridge_wolf,1,0.5,birch
+darkoak,Dark Oak Thicket,verdant,overworld,verdant,,13,360,5.3,dark_oak_log|silver,thicket_sniffer,1,0.5,spruce
+canyons,Howling Canyons,khorvath,overworld,khorvath,,14,,8,crimson_sand,scarab_zealot|hollowed_legionnaire,1,0.5,
+ruins,Ancient Ruins,khorvath,overworld,khorvath,,15,,10,relic_stone,scarab_zealot|relic_warrior,1,1,canyons
+catacombs,Catacombs,khorvath,overworld,khorvath,,16,,10,ossuary_bone,royal_myrmidon|pharaoh,1,1,ruins
+sanctuary,Sanctuary of the Sun,khorvath,overworld,khorvath,,17,,12,,anubite_executioner|sphinx,1,1,catacombs
+jungle,Jungle Floor,elderwood,overworld,elderwood,,18,,10,jungle_log,jungle_panda,1,0.5,
+bamboo,Bamboo Thicket,elderwood,overworld,elderwood,,19,,10,bamboo,jungle_ocelot,1,0.5,jungle
+amber,Amber Hollow,elderwood,overworld,elderwood,,20,,10,elderbark|amber,wild_bee,1,0.5,bamboo
+treehouse,Treant Grove,elderwood,overworld,elderwood,,21,,10,,tree_zombee|treant,1,0.5,amber
+mudflats,Mudflats,marsh,overworld,marsh,,22,,8,packed_mud,bog_frog,1,0.5,
+peat,Peat Bog,marsh,overworld,marsh,,23,,10,peat,bog_walker,1,0.5,mudflats
+sunken_ruins,Sunken Ruins,marsh,overworld,marsh,,24,,10,verdigris,bogged_archer|sunken_drowned,1,0.5,peat
+hydra_pool,Hydra Pool,marsh,overworld,marsh,,25,,12,,marsh_lurker,1,0.5,sunken_ruins
+foothills,Foothills,peaks,overworld,peaks,,26,,8,dirt,mountain_goat,1,0.5,
+redstone_mines,Redstone Mines,peaks,overworld,peaks,,27,,10,redstone,frost_spider,1,0.5,foothills
+pumpkin_terraces,Pumpkin Terraces,peaks,overworld,peaks,,28,,10,pumpkin|snow,snow_fox,1,0.5,redstone_mines
+lapis_ridge,Lapis Ridge,peaks,overworld,peaks,,29,,10,lapis,peak_stray,1,0.5,pumpkin_terraces
+melon_ledges,Melon Ledges,peaks,overworld,peaks,,30,,10,melon|emerald,cliff_goat,1,0.5,lapis_ridge
+arachne_cave,Arachne Cave,peaks,overworld,peaks,,31,,12,,cave_spider|spider_rider,1,0.5,melon_ledges
+ashen,Ashen River,duat,overworld,duat,,32,,13,basalt|ash,anubis|sobek|osiris,1,1,
+judgement,Hall of Judgement,duat,overworld,duat,,33,,15,scale_gold,thoth|maat|horus,1,1,ashen
+forge,Solar Forge,duat,overworld,duat,,34,,15,solar_slag,sekhmet|ptah|khnum,1,1,judgement
+throne,Throne of Night,duat,overworld,duat,,35,,17,nightstone,set|apep|nephthys,1,1,forge
+root_cellar,Root Cellar,elderheart,overworld,elderheart,,36,,12,heartwood_log,sapling_zombee,1,1,
+vine_halls,Vine Halls,elderheart,overworld,elderheart,,37,,12,elder_vine,elder_zombee|canopy_spider,1,1,root_cellar
+hive_chambers,Hive Chambers,elderheart,overworld,elderheart,,38,,12,wax_comb|beeswax,hive_guard,1,1,vine_halls
+upper_canopy,Upper Canopy,elderheart,overworld,elderheart,,39,,12,,treehouse_sentry|canopy_treant,1,1,hive_chambers
+the_crown,The Crown,elderheart,overworld,elderheart,,40,,12,,canopy_treant,1,1,upper_canopy
+cloudbank,Cloudbank,skyisles,overworld,skyisles,,41,,12,cloudstone|cloud_dust,sky_sheep,1,0.5,
+skyshard_spires,Skyshard Spires,skyisles,overworld,skyisles,,42,,15,skyshard,sky_phantom,1,0.5,cloudbank
+storm_front,Storm Front,skyisles,overworld,skyisles,,43,,15,storm_copper,storm_wraith,1,0.5,skyshard_spires
+sky_harbour,Sky Harbour,skyisles,overworld,skyisles,,44,,18,,sky_pirate|pirate_captain,1,0.5,storm_front
+outer_walls,Outer Walls,kingdom,overworld,kingdom,,45,,20,royal_quartz,royal_guard,1,1,
+gilded_gardens,Gilded Gardens,kingdom,overworld,kingdom,,46,,20,cherry_log|sunpetal,garden_bee|gardener,1,1,outer_walls
+royal_treasury,Royal Treasury,kingdom,overworld,kingdom,,47,,22,celestine|aurium,treasury_knight|crossbowman,1,1,gilded_gardens
+throne_room,Throne Room,kingdom,overworld,kingdom,,48,,28,,throne_guard,1,1,royal_treasury
+gravel_pits,Gravel Pits,quarry,overworld,quarry,,49,,18,gravel|tungsten,quarry_pillager,1,0.5,
+pale_woods,Pale Woods,quarry,overworld,quarry,,50,,20,pale_log|platinum,quarry_vindicator,1,0.5,gravel_pits
+maple_grove,Maple Grove,quarry,overworld,quarry,,51,,20,maple|clay|titanium,quarry_pillager|quarry_vindicator,1,0.5,pale_woods
+diamond_depths,Diamond Depths,quarry,overworld,quarry,,52,,22,diamond,quarry_ravager,1,0.5,maple_grove
+quarry_pit,The Quarry Pit,quarry,overworld,quarry,,53,,20,,pillager_captain|quarry_warden,1,0.5,diamond_depths
+golems_rest,Golem Rest,quarry,overworld,quarry,7,54,,20,,overworld_golem,1,0.5,quarry_pit

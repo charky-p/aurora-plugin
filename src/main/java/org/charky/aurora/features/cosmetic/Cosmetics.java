@@ -94,13 +94,55 @@ public final class Cosmetics {
         zone("spruce", "<#4F7A4A>", "spruce");
         zone("dark oak", "<#6B4F35>", "darkoak");
         zone("treehouse", "<#2E8B57>", "treehouse");
+        // The regions after the first three, one suffix a zone in the region's colour
+        zone("ruins", "<#B4462A>", "ruins");
+        zone("catacombs", "<#B4462A>", "catacombs");
+        zone("sanctuary", "<#B4462A>", "sanctuary");
+        zone("jungle", "<#3A7D2C>", "jungle");
+        zone("bamboo", "<#3A7D2C>", "bamboo");
+        zone("amber", "<#3A7D2C>", "amber");
+        zone("mudflats", "<#4E6B3A>", "mudflats");
+        zone("peat", "<#4E6B3A>", "peat");
+        zone("sunken ruins", "<#4E6B3A>", "sunken_ruins");
+        zone("hydra", "<#4E6B3A>", "hydra_pool");
+        zone("foothills", "<#2ECC71>", "foothills");
+        zone("redstone", "<#2ECC71>", "redstone_mines");
+        zone("pumpkin", "<#2ECC71>", "pumpkin_terraces");
+        zone("lapis", "<#2ECC71>", "lapis_ridge");
+        zone("melon", "<#2ECC71>", "melon_ledges");
+        zone("arachne", "<#2ECC71>", "arachne_cave");
+        zone("ashen", "<#C9A227>", "ashen");
+        zone("judgement", "<#C9A227>", "judgement");
+        zone("forge", "<#C9A227>", "forge");
+        zone("night", "<#C9A227>", "throne");
+        zone("cellar", "<#1E5631>", "root_cellar");
+        zone("vines", "<#1E5631>", "vine_halls");
+        zone("hive", "<#1E5631>", "hive_chambers");
+        zone("canopy", "<#1E5631>", "upper_canopy");
+        zone("crown", "<#1E5631>", "the_crown");
+        zone("cloudbank", "<#BFE9FF>", "cloudbank");
+        zone("spires", "<#BFE9FF>", "skyshard_spires");
+        zone("storm", "<#BFE9FF>", "storm_front");
+        zone("harbour", "<#BFE9FF>", "sky_harbour");
+        zone("walls", "<#FFE680>", "outer_walls");
+        zone("gardens", "<#FFE680>", "gilded_gardens");
+        zone("treasury", "<#FFE680>", "royal_treasury");
+        zone("throne room", "<#FFE680>", "throne_room");
+        zone("gravel", "<#8A8D91>", "gravel_pits");
+        zone("pale", "<#8A8D91>", "pale_woods");
+        zone("maple", "<#8A8D91>", "maple_grove");
+        zone("diamond", "<#8A8D91>", "diamond_depths");
+        zone("pit", "<#8A8D91>", "quarry_pit");
+        zone("golem", "<#8A8D91>", "golems_rest");
 
         // One for every world, by the regions its zones have in zones.csv, earned by
         // doing that in every zone of every one of them. The Overworld is the Origin
         // Isles and Verdant Groves
-        world("overworld", "<gradient:#56AB2F:#A8E063>", "OVERWORLD", "origin_isles" + REGION_SEP + "verdant");
-        world("duneworld", "<gradient:#F7971E:#FFD200>", "DUNEWORLD", "gormak");
-        world("elderwood_roots", "<gradient:#0B8043:#A8FF78>", "ELDERWOOD ROOTS", "elderwood");
+        world("overworld", "<gradient:#56AB2F:#A8E063>", "OVERWORLD", String.join(REGION_SEP,
+                "origin_isles", "verdant", "marsh", "peaks", "quarry"));
+        world("duneworld", "<gradient:#F7971E:#FFD200>", "DUNEWORLD", String.join(REGION_SEP, "gormak", "khorvath", "duat"));
+        world("elderwood_roots", "<gradient:#0B8043:#A8FF78>", "ELDERWOOD ROOTS", "elderwood" + REGION_SEP + "elderheart");
+        world("skyworld", "<gradient:#BFE9FF:#FFE680>", "SKY WORLD", "skyisles" + REGION_SEP + "kingdom");
 
         bought("advanced", "<green>", 100);
         bought("elite", "<aqua>", 150);

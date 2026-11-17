@@ -1,0 +1,209 @@
+# ===========================================================
+# AURORA MOB TEMPLATE - generated from CSV
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  scarab_zealot:
+    display: "<dark_purple><b>Scarab Zealot"
+    entity: ZOMBIE
+    health: 215.0
+    defence: 6.0
+    attack: 19.0
+    damage: 1.5
+    density: 7
+    equip:
+      head: zealot_helmet_1
+      chest: zealot_chestplate_1
+      legs: zealot_leggings_1
+      hand: scarab_khopesh
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: scarab_shell
+        max: 3
+      - id: scarab_khopesh
+        chance: 0.25
+
+  hollowed_legionnaire:
+    display: "<gray><b>Hollowed Legionnaire"
+    entity: HUSK
+    health: 240.0
+    defence: 8.0
+    attack: 19.0
+    damage: 1.5
+    density: 7
+    equip:
+      head: legionnaire_helmet_1
+      chest: legionnaire_chestplate_1
+      legs: legionnaire_leggings_1
+      feet: legionnaire_boots_1
+      hand: legion_halberd
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.22
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 36.0
+    independent:
+      - id: legion_plate
+        max: 3
+      - id: deserter_coin
+        chance: 25
+        max: 2
+      - id: legion_halberd
+        chance: 0.25
+
+  royal_myrmidon:
+    display: "<dark_purple><b>Royal Myrmidon"
+    entity: WITHER_SKELETON
+    health: 300.0
+    defence: 13.0
+    attack: 25.0
+    damage: 1.5
+    density: 13
+    equip:
+      head: myrmidon_helmet_1
+      chest: myrmidon_chestplate_1
+      legs: myrmidon_leggings_1
+      feet: myrmidon_boots_1
+      hand: myrmidon_blade
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.28
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+    independent:
+      - id: eternal_soul
+        max: 2
+      - id: myrmidon_blade
+        chance: 0.25
+
+  pharaoh:
+    display: "<gold><b>Pharaoh"
+    entity: ZOMBIE_VILLAGER
+    health: 410.0
+    defence: 15.0
+    attack: 25.0
+    damage: 1.5
+    density: 13
+    equip:
+      head: pharaoh_helmet_1
+      chest: pharaoh_chestplate_1
+      legs: pharaoh_leggings_1
+      feet: pharaoh_boots_1
+      hand: pharaoh_scepter
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.26
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+    independent:
+      - id: royal_seal
+        max: 2
+      - id: pharaoh_scepter
+        chance: 0.25
+
+  nomad_deserter:
+    display: "<#C9A227><b>Nomad Deserter"
+    entity: HUSK
+    health: 20.0
+    equip:
+      hand: scavenger_shiv
+    independent:
+      - id: deserter_coin
+        max: 2
+
+  relic_warrior:
+    display: "<#E07B39><b>Relic Warrior"
+    entity: ZOMBIE
+    health: 410.0
+    defence: 37.0
+    attack: 33.0
+    damage: 1.5
+    density: 10
+    independent:
+      - id: relic_shard
+        max: 2
+
+  anubite_executioner:
+    display: "<dark_purple><b>Anubite Executioner"
+    entity: WITHER_SKELETON
+    health: 1850.0
+    defence: 126.0
+    attack: 44.0
+    damage: 1.5
+    density: 16
+    independent:
+      - id: anubite_mark
+        max: 2
+      - id: sun_key
+        chance: 4
+
+  sphinx:
+    display: "<gold><b>Sphinx"
+    entity: RAVAGER
+    health: 1850.0
+    defence: 126.0
+    attack: 44.0
+    damage: 1.5
+    density: 16
+    independent:
+      - id: sphinx_claw
+        max: 2
+      - id: sun_key
+        chance: 4
+
+  khorvath:
+    display: "<gold><b>Khorvath, Avatar of the Sun"
+    entity: HUSK
+    health: 15400.0
+    defence: 140.0
+    attack: 48.0
+    damage: 1.5
+    density: 16
+    equip:
+      hand: gormak_blade
+    attributes:
+      - attr: SCALE
+        value: 1.8
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+    independent:
+      - id: solar_core
+        max: 2

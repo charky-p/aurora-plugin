@@ -1,7 +1,7 @@
 gui,key,type,id,amount,cost,icon
 gate_shop,1,TRADE,gormak_key,1,gold*300+leather*20,
-tomb_utility,1,TRADE,totem,1,ancient_nugget*170+eternal_soul*5,
-tomb_utility,2,TRADE,gormak_talisman,1,ancient_heart*3+royal_seal*5,
+tomb_utility,1,TRADE,totem,1,ancient_nugget*170+tomb_dust*5,
+tomb_utility,2,TRADE,gormak_talisman,1,ancient_heart*3+guardian_sigil*5,
 tomb_utility,z,GUI,tomb_shop,,,
 aurora_hub,1,ACTION,howto,,,icon_howto
 aurora_hub,4,ACTION,backpack,,,icon_backpack
@@ -17,3 +17,13 @@ food_shop,2,TRADE,baked_potato,64,coal*32,
 food_shop,3,TRADE,cooked_chicken,64,iron*48,
 food_shop,4,TRADE,steak,64,gold*64,
 food_shop,5,TRADE,golden_carrot,64,raw_gold*128,
+elderwood_gate_shop,1,TRADE,elderwood_key,1,silver*3200+ancient_seed*4,
+elderwood_gate_shop,2,TRADE,grapple,1,dark_oak_log*200+silver*5000,
+sky_gate_shop,1,TRADE,sky_key,1,venom_sac*2+rider_bone*12,
+sky_gate_shop,2,TRADE,elytra,1,emerald*5000+venom_sac*1+rider_bone*8,
+sky_gate_shop,3,TRADE,rocket,16,redstone*500,
+core_shop,1,TRADE,core_1,1,cobblestone*4000+coal*20000+copper*16000+feather*250+iron*25000+wool*500+gold*64000+leather*640+ancient_scrap*800+carved_brick*16000+tattered_cloth*1600+ancient_flesh*500+ancient_bone*1200+sunbaked_sand*50000+ancient_nugget*600+vizier_scroll*2000+raw_gold*160000+tomb_dust*500+guardian_sigil*1500+tin*200000+oak_log*6400+horsehair*640+birch_log*10000+bronze*160000+fox_fur*800+spruce_log*20000+lead*480000+wolf_pelt*320+dark_oak_log*20000+silver*500000+ancient_seed*800+golem_shard*5,
+core_shop,2,TRADE,core_2,1,crimson_sand*500000+deserter_coin*750+legion_plate*3000+scarab_shell*16000+relic_shard*800+relic_stone*32000+eternal_soul*3000+royal_seal*4000+ossuary_bone*32000+anubite_mark*300+sphinx_claw*500+jungle_log*150000+panda_fur*1500+bamboo*150000+ocelot_whisker*1500+elderbark*64000+amber*20000+royal_jelly*320+tree_sap*5000+ancient_seed*15000+packed_mud*300000+frog_leg*800+peat*200000+bog_rag*500+poison_quill*1200+drowned_scale*400+verdigris*32000+lurker_fang*400+golem_shard*10+core_1*1,
+core_shop,3,TRADE,core_3,1,cobblestone*24+dirt*100000+goat_hide*800+redstone*640000+spider_silk*320+snow*50000+pumpkin*80000+snow_pelt*1500+lapis*400000+frost_arrow*1500+emerald*500000+melon*30000+cliff_horn*800+venom_sac*400+rider_bone*2000+golem_shard*15+core_2*1,
+core_shop,4,TRADE,core_4,1,basalt*100000+anubis_sigil*250+sobek_sigil*250+osiris_sigil*160+ash*2500+thoth_sigil*250+maat_sigil*250+horus_sigil*400+scale_gold*80000+sekhmet_sigil*250+ptah_sigil*250+khnum_sigil*160+solar_slag*75000+set_sigil*250+apep_sigil*250+nephthys_sigil*400+nightstone*80000+heartwood_log*20000+sapling_twig*1200+canopy_silk*800+elder_vine*64000+hive_stinger*1200+beeswax*75000+wax_comb*7500+sentry_arrowhead*3000+canopy_bark*8000+cloudstone*500000+cloud_dust*30000+cloud_fleece*1500+skyshard*640000+phantom_veil*500+storm_copper*640000+storm_essence*500+pirate_doubloon*2000+captain_compass*250+golem_shard*20+core_3*1,
+core_shop,5,TRADE,overworld_core,1,guard_insignia*2000+royal_quartz*150000+golden_pollen*800+gardener_seed*1200+sunpetal*120000+cherry_log*12000+knight_crest*400+crossbow_bolt*6400+celestine*120000+aurium*120000+throne_seal*1200+tungsten*500000+gravel*50000+pillager_ration*2500+pale_log*160000+platinum*250000+iron_tag*3200+maple*160000+clay*50000+titanium*100000+diamond*800000+ravager_horn*320+captain_banner*800+warden_plate*320+golem_shard*25+core_4*1,

@@ -13,7 +13,10 @@ import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.spawner.MobSpawner;
 import org.charky.aurora.features.spawner.SpawnerManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 
 // Key items from resources_special.csv, used up by right clicking them in the backpack
 // or the hand. An unlocks key gives the player a tag, portals locked to that tag let
@@ -45,11 +48,26 @@ public final class KeyItems {
         return false;
     }
 
+    // A tag that needs more than the key, like the Caverns needing every zone maxed
+    private record Requirement(Predicate<Player> met, String refused) {
+    }
+
+    private static final Map<String, Requirement> REQUIREMENTS = new HashMap<>();
+
+    public static void require(String tag, Predicate<Player> met, String refused) {
+        REQUIREMENTS.put(tag, new Requirement(met, refused));
+    }
+
     private static boolean unlock(Player player, DataRegistry registry, String itemId) {
         String tag = registry.getUnlock(itemId);
         Component name = itemName(registry, itemId);
         if (has(player, tag)) {
             player.sendActionBar(TextUtils.parse("<gray>You have already unlocked this portal"));
+            return false;
+        }
+        Requirement requirement = REQUIREMENTS.get(tag);
+        if (requirement != null && !requirement.met().test(player)) {
+            player.sendActionBar(TextUtils.parse("<red>" + requirement.refused()));
             return false;
         }
 

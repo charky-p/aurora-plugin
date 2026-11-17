@@ -118,3 +118,10 @@ items:
     item: SHIELD
     materials:
       - "NONE"
+
+  mace:
+    name: Mace
+    kind: combat
+    item: MACE
+    materials:
+      - "NONE"

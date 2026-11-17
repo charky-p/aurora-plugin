@@ -1,0 +1,182 @@
+# ===========================================================
+# AURORA MOB TEMPLATE - generated from CSV
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  sky_sheep:
+    display: "<white><b>Sky Sheep"
+    entity: SHEEP
+    health: 1305.0
+    density: 24
+    independent:
+      - id: cloud_fleece
+        max: 2
+
+  sky_phantom:
+    display: "<gray><b>Sky Phantom"
+    entity: PHANTOM
+    health: 2435.0
+    defence: 219.0
+    attack: 58.0
+    density: 27
+    independent:
+      - id: phantom_veil
+        max: 2
+
+  storm_wraith:
+    display: "<aqua><b>Storm Wraith"
+    entity: VEX
+    health: 3470.0
+    defence: 312.0
+    attack: 63.0
+    density: 30
+    independent:
+      - id: storm_essence
+        max: 2
+
+  sky_pirate:
+    display: "<gold><b>Sky Pirate"
+    entity: PILLAGER
+    health: 4505.0
+    defence: 404.0
+    attack: 68.0
+    density: 33
+    independent:
+      - id: pirate_doubloon
+        max: 2
+
+  pirate_captain:
+    display: "<gold><b>Pirate Captain"
+    entity: VINDICATOR
+    health: 7620.0
+    defence: 520.0
+    attack: 70.0
+    density: 33
+    equip:
+      hand: storm_mace
+    independent:
+      - id: captain_compass
+        max: 2
+      - id: storm_mace
+        chance: 0.25
+
+  royal_guard:
+    display: "<white><b>Royal Guard"
+    entity: VINDICATOR
+    health: 6335.0
+    defence: 569.0
+    attack: 76.0
+    damage: 1.4
+    density: 37
+    independent:
+      - id: guard_insignia
+        max: 2
+
+  garden_bee:
+    display: "<yellow><b>Garden Bee"
+    entity: BEE
+    health: 7020.0
+    defence: 630.0
+    attack: 79.0
+    damage: 1.4
+    density: 39
+    independent:
+      - id: golden_pollen
+        max: 2
+
+  gardener:
+    display: "<green><b>Royal Gardener"
+    entity: ZOMBIE
+    health: 7020.0
+    defence: 630.0
+    attack: 79.0
+    damage: 1.4
+    density: 39
+    independent:
+      - id: gardener_seed
+        max: 2
+
+  treasury_knight:
+    display: "<gold><b>Treasury Knight"
+    entity: PIGLIN_BRUTE
+    health: 13070.0
+    defence: 891.0
+    attack: 85.0
+    damage: 1.4
+    density: 42
+    independent:
+      - id: knight_crest
+        max: 2
+      - id: crown_key
+        chance: 4
+
+  crossbowman:
+    display: "<gray><b>Royal Crossbowman"
+    entity: PILLAGER
+    health: 7720.0
+    defence: 693.0
+    attack: 83.0
+    damage: 1.4
+    density: 42
+    independent:
+      - id: crossbow_bolt
+        max: 2
+      - id: crown_key
+        chance: 4
+
+  throne_guard:
+    display: "<gold><b>Throne Guard"
+    entity: VINDICATOR
+    health: 14785.0
+    defence: 1008.0
+    attack: 88.0
+    damage: 1.4
+    density: 44
+    independent:
+      - id: throne_seal
+        max: 2
+
+  sky_king:
+    display: "<gold><b>The Sky King"
+    entity: VINDICATOR
+    health: 123200.0
+    defence: 1120.0
+    attack: 92.0
+    damage: 1.4
+    density: 44
+    attributes:
+      - attr: SCALE
+        value: 1.8
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+    independent:
+      - id: kings_crown
+        max: 2

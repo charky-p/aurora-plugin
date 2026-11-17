@@ -17,3 +17,13 @@ items:
     icon: icon_gormak
     world: aurora_test_gormak
     tag: gormak
+
+  elderwood:
+    icon: icon_elderwood
+    world: aurora_test_elderwood
+    tag: elderwood
+
+  sky:
+    icon: icon_sky
+    world: aurora_test_sky
+    tag: sky

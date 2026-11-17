@@ -1,0 +1,103 @@
+# ===========================================================
+# AURORA MOB TEMPLATE - generated from CSV
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  bog_frog:
+    display: "<#7BA05B><b>Bog Frog"
+    entity: FROG
+    health: 255.0
+    density: 7
+    independent:
+      - id: frog_leg
+        max: 2
+
+  bog_walker:
+    display: "<#4E6B3A><b>Bog Walker"
+    entity: ZOMBIE
+    health: 410.0
+    defence: 37.0
+    attack: 33.0
+    density: 10
+    independent:
+      - id: bog_rag
+        max: 2
+
+  bogged_archer:
+    display: "<dark_green><b>Bogged Archer"
+    entity: BOGGED
+    health: 640.0
+    defence: 58.0
+    attack: 37.0
+    density: 13
+    independent:
+      - id: poison_quill
+        max: 2
+
+  sunken_drowned:
+    display: "<dark_aqua><b>Sunken Drowned"
+    entity: DROWNED
+    health: 640.0
+    defence: 58.0
+    attack: 37.0
+    density: 13
+    independent:
+      - id: drowned_scale
+        max: 2
+
+  marsh_lurker:
+    display: "<dark_aqua><b>Marsh Lurker"
+    entity: DROWNED
+    health: 1850.0
+    defence: 126.0
+    attack: 44.0
+    density: 16
+    independent:
+      - id: lurker_fang
+        max: 2
+      - id: hydra_key
+        chance: 4
+
+  hydra:
+    display: "<dark_green><b>The Hydra"
+    entity: RAVAGER
+    health: 15400.0
+    defence: 140.0
+    attack: 48.0
+    density: 16
+    attributes:
+      - attr: SCALE
+        value: 1.4
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+    independent:
+      - id: hydra_scale
+        max: 2

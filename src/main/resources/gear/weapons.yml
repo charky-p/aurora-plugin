@@ -85,7 +85,7 @@ items:
     tier: 5
     type: "combat"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       sharpness: 23
       luck: 8
@@ -96,12 +96,12 @@ items:
       - "<dark_gray>Dropped by Scarab Zealots"
 
   legion_halberd:
-    display: "<gray><b>Legion Halberd"
-    material: GOLDEN_SWORD
+    display: "<gray><b>Legion Spear"
+    material: IRON_SPEAR
     tier: 5
     type: "combat"
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     enchants:
       sharpness: 24
       luck: 7
@@ -148,7 +148,7 @@ items:
     tier: 5
     type: "combat"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       sharpness: 27
       luck: 10
@@ -164,7 +164,7 @@ items:
     tier: 5
     type: "combat"
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     enchants:
       sharpness: 27
       luck: 10
@@ -215,3 +215,19 @@ items:
     lore:
       - "<gray>You are not certain you are holding it."
       - "<dark_gray>Dropped by the Mirage"
+
+  storm_mace:
+    display: "<aqua><b>Storm Mace"
+    material: MACE
+    tier: 5
+    type: "combat"
+    world: "overworld"
+    region: "skyisles_harbour"
+    enchants:
+      sharpness: 74
+      luck: 12
+      looting: 44
+      bloodlust: 6
+    lore:
+      - "<gray>Forged in the eye of a sky storm."
+      - "<dark_gray>Dropped by Pirate Captains"

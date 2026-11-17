@@ -119,3 +119,73 @@ items:
     lore:
       - "<gray>Cast into any water."
       - "<dark_gray>Fishing"
+
+  grapple:
+    display: "<#9C7A3C><b>Grapple"
+    material: TRIPWIRE_HOOK
+    tier: 1
+    type: ''
+    world: "overworld"
+    region: ''
+    lore:
+      - "<gray>Right click to launch where you look"
+
+  elytra:
+    display: "<white><b>Elytra"
+    material: ELYTRA
+    tier: 1
+    type: ''
+    world: "overworld"
+    region: ''
+    lore:
+      - "<gray>Glide from a ledge, rockets to climb"
+
+  rocket:
+    display: "<red>Rocket"
+    material: FIREWORK_ROCKET
+    tier: 1
+    type: ''
+    world: "overworld"
+    region: ''
+    lore:
+      - "<gray>Right click while gliding"
+
+  core_1:
+    display: "<white><b>Overworld Core I"
+    material: HEAVY_CORE
+    type: ''
+    world: "overworld"
+    region: "quarry_golem"
+    lore:
+      - "<gray>A piece of the Overworld Core"
+      - "<dark_gray>Bring it to the Core Smith"
+
+  core_2:
+    display: "<white><b>Overworld Core II"
+    material: HEAVY_CORE
+    type: ''
+    world: "overworld"
+    region: "quarry_golem"
+    lore:
+      - "<gray>A piece of the Overworld Core"
+      - "<dark_gray>Bring it to the Core Smith"
+
+  core_3:
+    display: "<white><b>Overworld Core III"
+    material: HEAVY_CORE
+    type: ''
+    world: "overworld"
+    region: "quarry_golem"
+    lore:
+      - "<gray>A piece of the Overworld Core"
+      - "<dark_gray>Bring it to the Core Smith"
+
+  core_4:
+    display: "<white><b>Overworld Core IV"
+    material: HEAVY_CORE
+    type: ''
+    world: "overworld"
+    region: "quarry_golem"
+    lore:
+      - "<gray>A piece of the Overworld Core"
+      - "<dark_gray>Bring it to the Core Smith"

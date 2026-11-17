@@ -1,7 +1,5 @@
-id,display,entity,health,defence,attack,attack_cooldown,equip,attributes,independent,choices_chance,choices
-grove_horse,<#7BA05B><b>Grove Horse,HORSE,60,3,0,,,MOVEMENT_SPEED:0.2,horsehair:100:2-4,,
-hollow_fox,<#D9D3B0><b>Hollow Fox,FOX,105,5,0,,,MOVEMENT_SPEED:0.15,fox_fur:100:2-4,,
-ridge_wolf,<#4F7A4A><b>Ridge Wolf,WOLF,190,7,0,,,MOVEMENT_SPEED:0.28,wolf_pelt:100:2-4,,
-thicket_sniffer,<#6B4F35><b>Thicket Sniffer,SNIFFER,235,11,0,,,MOVEMENT_SPEED:0.1,ancient_seed:100:2-4,,
-tree_zombee,<#7BA05B><b>Tree Zombee,ZOMBIE,295,14,25,,,MOVEMENT_SPEED:0.26|KNOCKBACK_RESISTANCE:0.5|FOLLOW_RANGE:40,tree_sap:100:2-4,,
-treant,<dark_green><b>Treant,ZOMBIE,1800,18,29,2,,MOVEMENT_SPEED:0.24|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48|SCALE:1.8,heartwood:100:1-2|tree_sap:100:3-6,,
+id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices
+grove_horse,<#7BA05B><b>Grove Horse,HORSE,60,3,0,,,3,,,MOVEMENT_SPEED:0.2,horsehair:100:2-4,,
+hollow_fox,<#D9D3B0><b>Hollow Fox,FOX,105,5,0,,,4,,,MOVEMENT_SPEED:0.15,fox_fur:100:2-4,,
+ridge_wolf,<#4F7A4A><b>Ridge Wolf,WOLF,190,7,0,,,5,,,MOVEMENT_SPEED:0.28,wolf_pelt:100:2-4,,
+thicket_sniffer,<#6B4F35><b>Thicket Sniffer,SNIFFER,235,11,0,,,6,,,MOVEMENT_SPEED:0.1,ancient_seed:100:2-4,,

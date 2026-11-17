@@ -90,7 +90,7 @@ items:
         cost:
           - id: ancient_nugget
             amount: 170
-          - id: eternal_soul
+          - id: tomb_dust
             amount: 5
       '2':
         type: TRADE
@@ -98,7 +98,7 @@ items:
         cost:
           - id: ancient_heart
             amount: 3
-          - id: royal_seal
+          - id: guardian_sigil
             amount: 5
       z:
         type: GUI
@@ -185,3 +185,373 @@ items:
         cost:
           - id: raw_gold
             amount: 128
+
+  elderwood_gate_shop:
+    title: "<dark_green><b>Elderwood Gate"
+    icon: icon_elderwood
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B  1 2  B"
+      - "BBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: elderwood_key
+        cost:
+          - id: silver
+            amount: 3200
+          - id: ancient_seed
+            amount: 4
+      '2':
+        type: TRADE
+        id: grapple
+        cost:
+          - id: dark_oak_log
+            amount: 200
+          - id: silver
+            amount: 5000
+
+  sky_gate_shop:
+    title: "<aqua><b>Sky Gate"
+    icon: icon_sky
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B 1 2 3 B"
+      - "BBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: sky_key
+        cost:
+          - id: venom_sac
+            amount: 2
+          - id: rider_bone
+            amount: 12
+      '2':
+        type: TRADE
+        id: elytra
+        cost:
+          - id: emerald
+            amount: 5000
+          - id: venom_sac
+          - id: rider_bone
+            amount: 8
+      '3':
+        type: TRADE
+        id: rocket
+        amount: 16
+        cost:
+          - id: redstone
+            amount: 500
+
+  core_shop:
+    title: "<white><b>The Overworld Core"
+    icon: icon_core
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B 12345 B"
+      - "BBBBBBBBX"
+    components:
+      '1':
+        type: TRADE
+        id: core_1
+        cost:
+          - id: cobblestone
+            amount: 4000
+          - id: coal
+            amount: 20000
+          - id: copper
+            amount: 16000
+          - id: feather
+            amount: 250
+          - id: iron
+            amount: 25000
+          - id: wool
+            amount: 500
+          - id: gold
+            amount: 64000
+          - id: leather
+            amount: 640
+          - id: ancient_scrap
+            amount: 800
+          - id: carved_brick
+            amount: 16000
+          - id: tattered_cloth
+            amount: 1600
+          - id: ancient_flesh
+            amount: 500
+          - id: ancient_bone
+            amount: 1200
+          - id: sunbaked_sand
+            amount: 50000
+          - id: ancient_nugget
+            amount: 600
+          - id: vizier_scroll
+            amount: 2000
+          - id: raw_gold
+            amount: 160000
+          - id: tomb_dust
+            amount: 500
+          - id: guardian_sigil
+            amount: 1500
+          - id: tin
+            amount: 200000
+          - id: oak_log
+            amount: 6400
+          - id: horsehair
+            amount: 640
+          - id: birch_log
+            amount: 10000
+          - id: bronze
+            amount: 160000
+          - id: fox_fur
+            amount: 800
+          - id: spruce_log
+            amount: 20000
+          - id: lead
+            amount: 480000
+          - id: wolf_pelt
+            amount: 320
+          - id: dark_oak_log
+            amount: 20000
+          - id: silver
+            amount: 500000
+          - id: ancient_seed
+            amount: 800
+          - id: golem_shard
+            amount: 5
+      '2':
+        type: TRADE
+        id: core_2
+        cost:
+          - id: crimson_sand
+            amount: 500000
+          - id: deserter_coin
+            amount: 750
+          - id: legion_plate
+            amount: 3000
+          - id: scarab_shell
+            amount: 16000
+          - id: relic_shard
+            amount: 800
+          - id: relic_stone
+            amount: 32000
+          - id: eternal_soul
+            amount: 3000
+          - id: royal_seal
+            amount: 4000
+          - id: ossuary_bone
+            amount: 32000
+          - id: anubite_mark
+            amount: 300
+          - id: sphinx_claw
+            amount: 500
+          - id: jungle_log
+            amount: 150000
+          - id: panda_fur
+            amount: 1500
+          - id: bamboo
+            amount: 150000
+          - id: ocelot_whisker
+            amount: 1500
+          - id: elderbark
+            amount: 64000
+          - id: amber
+            amount: 20000
+          - id: royal_jelly
+            amount: 320
+          - id: tree_sap
+            amount: 5000
+          - id: ancient_seed
+            amount: 15000
+          - id: packed_mud
+            amount: 300000
+          - id: frog_leg
+            amount: 800
+          - id: peat
+            amount: 200000
+          - id: bog_rag
+            amount: 500
+          - id: poison_quill
+            amount: 1200
+          - id: drowned_scale
+            amount: 400
+          - id: verdigris
+            amount: 32000
+          - id: lurker_fang
+            amount: 400
+          - id: golem_shard
+            amount: 10
+          - id: core_1
+      '3':
+        type: TRADE
+        id: core_3
+        cost:
+          - id: cobblestone
+            amount: 24
+          - id: dirt
+            amount: 100000
+          - id: goat_hide
+            amount: 800
+          - id: redstone
+            amount: 640000
+          - id: spider_silk
+            amount: 320
+          - id: snow
+            amount: 50000
+          - id: pumpkin
+            amount: 80000
+          - id: snow_pelt
+            amount: 1500
+          - id: lapis
+            amount: 400000
+          - id: frost_arrow
+            amount: 1500
+          - id: emerald
+            amount: 500000
+          - id: melon
+            amount: 30000
+          - id: cliff_horn
+            amount: 800
+          - id: venom_sac
+            amount: 400
+          - id: rider_bone
+            amount: 2000
+          - id: golem_shard
+            amount: 15
+          - id: core_2
+      '4':
+        type: TRADE
+        id: core_4
+        cost:
+          - id: basalt
+            amount: 100000
+          - id: anubis_sigil
+            amount: 250
+          - id: sobek_sigil
+            amount: 250
+          - id: osiris_sigil
+            amount: 160
+          - id: ash
+            amount: 2500
+          - id: thoth_sigil
+            amount: 250
+          - id: maat_sigil
+            amount: 250
+          - id: horus_sigil
+            amount: 400
+          - id: scale_gold
+            amount: 80000
+          - id: sekhmet_sigil
+            amount: 250
+          - id: ptah_sigil
+            amount: 250
+          - id: khnum_sigil
+            amount: 160
+          - id: solar_slag
+            amount: 75000
+          - id: set_sigil
+            amount: 250
+          - id: apep_sigil
+            amount: 250
+          - id: nephthys_sigil
+            amount: 400
+          - id: nightstone
+            amount: 80000
+          - id: heartwood_log
+            amount: 20000
+          - id: sapling_twig
+            amount: 1200
+          - id: canopy_silk
+            amount: 800
+          - id: elder_vine
+            amount: 64000
+          - id: hive_stinger
+            amount: 1200
+          - id: beeswax
+            amount: 75000
+          - id: wax_comb
+            amount: 7500
+          - id: sentry_arrowhead
+            amount: 3000
+          - id: canopy_bark
+            amount: 8000
+          - id: cloudstone
+            amount: 500000
+          - id: cloud_dust
+            amount: 30000
+          - id: cloud_fleece
+            amount: 1500
+          - id: skyshard
+            amount: 640000
+          - id: phantom_veil
+            amount: 500
+          - id: storm_copper
+            amount: 640000
+          - id: storm_essence
+            amount: 500
+          - id: pirate_doubloon
+            amount: 2000
+          - id: captain_compass
+            amount: 250
+          - id: golem_shard
+            amount: 20
+          - id: core_3
+      '5':
+        type: TRADE
+        id: overworld_core
+        cost:
+          - id: guard_insignia
+            amount: 2000
+          - id: royal_quartz
+            amount: 150000
+          - id: golden_pollen
+            amount: 800
+          - id: gardener_seed
+            amount: 1200
+          - id: sunpetal
+            amount: 120000
+          - id: cherry_log
+            amount: 12000
+          - id: knight_crest
+            amount: 400
+          - id: crossbow_bolt
+            amount: 6400
+          - id: celestine
+            amount: 120000
+          - id: aurium
+            amount: 120000
+          - id: throne_seal
+            amount: 1200
+          - id: tungsten
+            amount: 500000
+          - id: gravel
+            amount: 50000
+          - id: pillager_ration
+            amount: 2500
+          - id: pale_log
+            amount: 160000
+          - id: platinum
+            amount: 250000
+          - id: iron_tag
+            amount: 3200
+          - id: maple
+            amount: 160000
+          - id: clay
+            amount: 50000
+          - id: titanium
+            amount: 100000
+          - id: diamond
+            amount: 800000
+          - id: ravager_horn
+            amount: 320
+          - id: captain_banner
+            amount: 800
+          - id: warden_plate
+            amount: 320
+          - id: golem_shard
+            amount: 25
+          - id: core_4

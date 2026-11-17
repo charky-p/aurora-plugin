@@ -75,7 +75,7 @@ items:
     region: "origin_isles"
     lore:
       - "<dark_gray>Dropped by sheep"
-    collection: 32
+    collection: 20
 
   leather:
     display: "<#8B5A2B>Hide"
@@ -84,7 +84,7 @@ items:
     region: "origin_isles"
     lore:
       - "<dark_gray>Dropped by cows"
-    collection: 64
+    collection: 24
 
   carved_brick:
     display: "<gray>Carved Brick"
@@ -93,7 +93,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Gormak - Abandoned City"
-    collection: 800
+    collection: 640
 
   tattered_cloth:
     display: "<gray>Tattered Cloth"
@@ -102,7 +102,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Hollowed Serfs"
-    collection: 200
+    collection: 64
 
   ancient_scrap:
     display: "<gray><b>Ancient Scrap"
@@ -111,7 +111,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Scavenger Husks"
-    collection: 64
+    collection: 32
 
   sunbaked_sand:
     display: "<yellow>Sunbaked Sandstone"
@@ -120,7 +120,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Gormak - The Dunes"
-    collection: 2500
+    collection: 2000
 
   ancient_flesh:
     display: "<dark_red>Ancient Flesh"
@@ -129,7 +129,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Dune Scouts"
-    collection: 80
+    collection: 20
 
   ancient_bone:
     display: "<white><b>Ancient Bone"
@@ -138,34 +138,34 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Sand Stalkers"
-    collection: 160
+    collection: 48
 
   crimson_sand:
     display: "<#B4462A>Crimson Sandstone"
     material: RED_SANDSTONE
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     lore:
-      - "<dark_gray>Gormak - Howling Canyons"
-    collection: 5000
+      - "<dark_gray>Khorvath"
+    collection: 20000
 
   scarab_shell:
     display: "<dark_purple><b>Scarab Shell"
     material: TURTLE_SCUTE
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     lore:
-      - "<dark_gray>Dropped by Scarab Zealots"
-    collection: 100
+      - "<dark_gray>Khorvath"
+    collection: 640
 
   legion_plate:
     display: "<gray><b>Legion Plate"
     material: IRON_INGOT
     world: "overworld"
-    region: "gormak_canyons"
+    region: "khorvath_canyons"
     lore:
-      - "<dark_gray>Dropped by Hollowed Legionnaires"
-    collection: 160
+      - "<dark_gray>Khorvath"
+    collection: 120
 
   raw_gold:
     display: "<gold>Raw Gold"
@@ -174,7 +174,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Gormak - Sun Temple"
-    collection: 12000
+    collection: 6400
 
   ancient_nugget:
     display: "<gold><b>Ancient Nugget"
@@ -183,7 +183,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Tomb Guards"
-    collection: 200
+    collection: 16
 
   vizier_scroll:
     display: "<yellow><b>Vizier Scroll"
@@ -192,25 +192,25 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Vizier Mages"
-    collection: 250
+    collection: 80
 
   eternal_soul:
     display: "<dark_purple><b>Eternal Soul"
     material: ECHO_SHARD
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     lore:
-      - "<dark_gray>Dropped by Royal Myrmidons"
-    collection: 200
+      - "<dark_gray>Khorvath"
+    collection: 120
 
   royal_seal:
     display: "<gold><b>Royal Seal"
     material: HEART_OF_THE_SEA
     world: "overworld"
-    region: "gormak_tomb"
+    region: "khorvath_catacombs"
     lore:
-      - "<dark_gray>Dropped by Pharaohs"
-    collection: 800
+      - "<dark_gray>Khorvath"
+    collection: 160
 
   ancient_heart:
     display: "<dark_red><b>Ancient Heart"
@@ -256,7 +256,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Dropped by Grove Horses"
-    collection: 120
+    collection: 24
 
   birch_log:
     display: "<#D9D3B0>Birch Log"
@@ -283,7 +283,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Dropped by Hollow Foxs"
-    collection: 320
+    collection: 32
 
   spruce_log:
     display: "<#4F7A4A>Spruce Log"
@@ -310,7 +310,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Dropped by Ridge Wolfs"
-    collection: 160
+    collection: 12
 
   dark_oak_log:
     display: "<#6B4F35>Dark Oak Log"
@@ -328,7 +328,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
-    collection: 12000
+    collection: 20000
 
   ancient_seed:
     display: "<#6B4F35>Ancient Seed"
@@ -337,25 +337,952 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Dropped by Thicket Sniffers"
-    collection: 500
+    collection: 600
 
   tree_sap:
     display: "<gold>Tree Sap"
     material: HONEYCOMB
     world: "overworld"
-    region: "verdant_treehouse"
+    region: "elderwood_treehouse"
     lore:
-      - "<dark_gray>Dropped by Tree Zombees"
-    collection: 1200
+      - "<dark_gray>Elderwood Roots"
+    collection: 160
 
   heartwood:
     display: "<dark_green><b>Heartwood"
     material: CREAKING_HEART
     world: "overworld"
-    region: "verdant_treehouse"
+    region: "elderwood_treehouse"
     lore:
-      - "<dark_gray>Dropped by the Treant"
+      - "<dark_gray>Elderwood Roots"
     collection: 1
+
+  deserter_coin:
+    display: "<#C9A227>Deserter Coin"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "khorvath_canyons"
+    lore:
+      - "<dark_gray>Khorvath"
+    collection: 24
+
+  relic_stone:
+    display: "<#B4462A>Relic Stone"
+    material: CHISELED_RED_SANDSTONE
+    world: "overworld"
+    region: "khorvath_ruins"
+    lore:
+      - "<dark_gray>Khorvath"
+    collection: 1200
+
+  relic_shard:
+    display: "<#E07B39><b>Relic Shard"
+    material: PRISMARINE_SHARD
+    world: "overworld"
+    region: "khorvath_ruins"
+    lore:
+      - "<dark_gray>Khorvath"
+    collection: 32
+
+  ossuary_bone:
+    display: "<white>Ossuary Bone"
+    material: BONE_BLOCK
+    world: "overworld"
+    region: "khorvath_catacombs"
+    lore:
+      - "<dark_gray>Khorvath"
+    collection: 1200
+
+  anubite_mark:
+    display: "<dark_purple><b>Anubite Mark"
+    material: ECHO_SHARD
+    world: "overworld"
+    region: "khorvath_sanctuary"
+    lore:
+      - "<dark_gray>Khorvath"
+    collection: 12
+
+  sphinx_claw:
+    display: "<gold><b>Sphinx Claw"
+    material: GOAT_HORN
+    world: "overworld"
+    region: "khorvath_sanctuary"
+    lore:
+      - "<dark_gray>Khorvath"
+    collection: 20
+
+  solar_core:
+    display: "<gold><b>Solar Core"
+    material: SUNFLOWER
+    world: "overworld"
+    region: "khorvath_sanctuary"
+    lore:
+      - "<dark_gray>Khorvath"
+    collection: 1
+
+  jungle_log:
+    display: "<#9C7A3C>Jungle Log"
+    material: JUNGLE_LOG
+    world: "overworld"
+    region: "elderwood_jungle"
+    lore:
+      - "<dark_gray>Elderwood Roots"
+    collection: 6000
+
+  panda_fur:
+    display: "<white>Panda Fur"
+    material: WHITE_WOOL
+    world: "overworld"
+    region: "elderwood_jungle"
+    lore:
+      - "<dark_gray>Elderwood Roots"
+    collection: 48
+
+  bamboo:
+    display: "<#7BA05B>Bamboo"
+    material: BAMBOO
+    world: "overworld"
+    region: "elderwood_bamboo"
+    lore:
+      - "<dark_gray>Elderwood Roots"
+    collection: 6000
+
+  ocelot_whisker:
+    display: "<yellow>Ocelot Whisker"
+    material: STRING
+    world: "overworld"
+    region: "elderwood_bamboo"
+    lore:
+      - "<dark_gray>Elderwood Roots"
+    collection: 48
+
+  elderbark:
+    display: "<#6B4F35>Elderbark"
+    material: JUNGLE_WOOD
+    world: "overworld"
+    region: "elderwood_amber"
+    lore:
+      - "<dark_gray>Elderwood Roots"
+    collection: 2500
+
+  amber:
+    display: "<gold><b>Amber"
+    material: HONEYCOMB
+    world: "overworld"
+    region: "elderwood_amber"
+    lore:
+      - "<dark_gray>Elderwood Roots"
+    collection: 800
+
+  royal_jelly:
+    display: "<yellow><b>Royal Jelly"
+    material: HONEY_BOTTLE
+    world: "overworld"
+    region: "elderwood_amber"
+    lore:
+      - "<dark_gray>Elderwood Roots"
+    collection: 12
+
+  packed_mud:
+    display: "<#8B6B4A>Packed Mud"
+    material: PACKED_MUD
+    world: "overworld"
+    region: "marsh_mudflats"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 12000
+
+  frog_leg:
+    display: "<#7BA05B>Frog Leg"
+    material: RABBIT_FOOT
+    world: "overworld"
+    region: "marsh_mudflats"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 32
+
+  peat:
+    display: "<#5C4033>Peat"
+    material: BROWN_TERRACOTTA
+    world: "overworld"
+    region: "marsh_peat"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 8000
+
+  bog_rag:
+    display: "<#4E6B3A>Bog Rag"
+    material: STRING
+    world: "overworld"
+    region: "marsh_peat"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 20
+
+  verdigris:
+    display: "<#4FB39A><b>Verdigris"
+    material: OXIDIZED_COPPER
+    world: "overworld"
+    region: "marsh_ruins"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 1500
+
+  poison_quill:
+    display: "<dark_green>Poison Quill"
+    material: ARROW
+    world: "overworld"
+    region: "marsh_ruins"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 48
+
+  drowned_scale:
+    display: "<dark_aqua>Drowned Scale"
+    material: PRISMARINE_SHARD
+    world: "overworld"
+    region: "marsh_ruins"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 16
+
+  lurker_fang:
+    display: "<dark_aqua><b>Lurker Fang"
+    material: BONE
+    world: "overworld"
+    region: "marsh_hydra"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 16
+
+  hydra_scale:
+    display: "<dark_green><b>Hydra Scale"
+    material: TURTLE_SCUTE
+    world: "overworld"
+    region: "marsh_hydra"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 1
+
+  dirt:
+    display: "<#8B6B4A>Mountain Dirt"
+    material: DIRT
+    world: "overworld"
+    region: "peaks_foothills"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 2500
+
+  goat_hide:
+    display: "<white>Goat Hide"
+    material: LEATHER
+    world: "overworld"
+    region: "peaks_foothills"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 32
+
+  redstone:
+    display: "<red><b>Redstone"
+    material: REDSTONE
+    world: "overworld"
+    region: "peaks_redstone"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 25000
+
+  spider_silk:
+    display: "<white>Frost Silk"
+    material: COBWEB
+    world: "overworld"
+    region: "peaks_redstone"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 8
+
+  pumpkin:
+    display: "<gold>Pumpkin"
+    material: PUMPKIN
+    world: "overworld"
+    region: "peaks_pumpkin"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 3200
+
+  snow:
+    display: "<white>Packed Snow"
+    material: SNOWBALL
+    world: "overworld"
+    region: "peaks_pumpkin"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 1200
+
+  snow_pelt:
+    display: "<white>Snow Pelt"
+    material: WHITE_WOOL
+    world: "overworld"
+    region: "peaks_pumpkin"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 48
+
+  lapis:
+    display: "<blue><b>Lapis"
+    material: LAPIS_LAZULI
+    world: "overworld"
+    region: "peaks_lapis"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 16000
+
+  frost_arrow:
+    display: "<aqua>Frost Arrow"
+    material: TIPPED_ARROW
+    world: "overworld"
+    region: "peaks_lapis"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 48
+
+  melon:
+    display: "<green>Melon"
+    material: MELON_SLICE
+    world: "overworld"
+    region: "peaks_melon"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 1200
+
+  emerald:
+    display: "<green><b>Emerald"
+    material: EMERALD
+    world: "overworld"
+    region: "peaks_melon"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 20000
+
+  cliff_horn:
+    display: "<gray>Cliff Horn"
+    material: GOAT_HORN
+    world: "overworld"
+    region: "peaks_melon"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 32
+
+  venom_sac:
+    display: "<dark_green>Venom Sac"
+    material: FERMENTED_SPIDER_EYE
+    world: "overworld"
+    region: "peaks_arachne"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 12
+
+  rider_bone:
+    display: "<white>Rider Bone"
+    material: BONE
+    world: "overworld"
+    region: "peaks_arachne"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 80
+
+  arachne_eye:
+    display: "<dark_red><b>Arachne's Eye"
+    material: SPIDER_EYE
+    world: "overworld"
+    region: "peaks_arachne"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 1
+
+  basalt:
+    display: "<dark_gray>Ashen Basalt"
+    material: BASALT
+    world: "overworld"
+    region: "duat_ashen"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 4000
+
+  ash:
+    display: "<gray>River Ash"
+    material: GUNPOWDER
+    world: "overworld"
+    region: "duat_ashen"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 100
+
+  scale_gold:
+    display: "<gold><b>Scale Gold"
+    material: GOLD_INGOT
+    world: "overworld"
+    region: "duat_judgement"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 3200
+
+  solar_slag:
+    display: "<red>Solar Slag"
+    material: MAGMA_CREAM
+    world: "overworld"
+    region: "duat_forge"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 3000
+
+  nightstone:
+    display: "<dark_gray><b>Nightstone"
+    material: BLACK_DYE
+    world: "overworld"
+    region: "duat_throne"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 3200
+
+  sol_heart:
+    display: "<gold><b>Heart of Sol"
+    material: NETHER_STAR
+    world: "overworld"
+    region: "duat_throne"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 1
+
+  anubis_sigil:
+    display: "<gold>Sigil of Anubis"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_ashen"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 8
+
+  sobek_sigil:
+    display: "<gold>Sigil of Sobek"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_ashen"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 8
+
+  osiris_sigil:
+    display: "<gold>Sigil of Osiris"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_ashen"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 4
+
+  thoth_sigil:
+    display: "<gold>Sigil of Thoth"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_judgement"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 8
+
+  maat_sigil:
+    display: "<gold>Sigil of Ma'at"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_judgement"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 8
+
+  horus_sigil:
+    display: "<gold>Sigil of Horus"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_judgement"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 16
+
+  sekhmet_sigil:
+    display: "<gold>Sigil of Sekhmet"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_forge"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 8
+
+  ptah_sigil:
+    display: "<gold>Sigil of Ptah"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_forge"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 8
+
+  khnum_sigil:
+    display: "<gold>Sigil of Khnum"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_forge"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 4
+
+  set_sigil:
+    display: "<gold>Sigil of Set"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_throne"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 8
+
+  apep_sigil:
+    display: "<gold>Sigil of Apep"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_throne"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 8
+
+  nephthys_sigil:
+    display: "<gold>Sigil of Nephthys"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "duat_throne"
+    lore:
+      - "<dark_gray>The Duat"
+    collection: 16
+
+  heartwood_log:
+    display: "<#6B4F35><b>Heartwood"
+    material: STRIPPED_JUNGLE_WOOD
+    world: "overworld"
+    region: "elderheart_cellar"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 800
+
+  sapling_twig:
+    display: "<#7BA05B>Sapling Twig"
+    material: STICK
+    world: "overworld"
+    region: "elderheart_cellar"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 48
+
+  elder_vine:
+    display: "<#3A7D2C>Elder Vine"
+    material: VINE
+    world: "overworld"
+    region: "elderheart_vines"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 2500
+
+  canopy_silk:
+    display: "<white>Canopy Silk"
+    material: STRING
+    world: "overworld"
+    region: "elderheart_vines"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 32
+
+  wax_comb:
+    display: "<gold>Wax Comb"
+    material: HONEYCOMB
+    world: "overworld"
+    region: "elderheart_hive"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 300
+
+  beeswax:
+    display: "<#E8A33D><b>Beeswax"
+    material: RESIN_CLUMP
+    world: "overworld"
+    region: "elderheart_hive"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 3000
+
+  hive_stinger:
+    display: "<yellow>Hive Stinger"
+    material: POINTED_DRIPSTONE
+    world: "overworld"
+    region: "elderheart_hive"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 48
+
+  sentry_arrowhead:
+    display: "<gray>Sentry Arrowhead"
+    material: FLINT
+    world: "overworld"
+    region: "elderheart_canopy"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 120
+
+  canopy_bark:
+    display: "<dark_green>Canopy Bark"
+    material: OAK_PLANKS
+    world: "overworld"
+    region: "elderheart_canopy"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 300
+
+  elder_heart:
+    display: "<dark_green><b>Elder Heart"
+    material: HEART_OF_THE_SEA
+    world: "overworld"
+    region: "elderheart_crown"
+    lore:
+      - "<dark_gray>Elderwood Heart"
+    collection: 1
+
+  cloudstone:
+    display: "<white><b>Cloudstone"
+    material: WHITE_CONCRETE
+    world: "overworld"
+    region: "skyisles_cloudbank"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 20000
+
+  cloud_dust:
+    display: "<white>Cloud Dust"
+    material: SUGAR
+    world: "overworld"
+    region: "skyisles_cloudbank"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 1200
+
+  cloud_fleece:
+    display: "<white>Cloud Fleece"
+    material: WHITE_WOOL
+    world: "overworld"
+    region: "skyisles_cloudbank"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 48
+
+  skyshard:
+    display: "<aqua><b>Skyshard"
+    material: AMETHYST_SHARD
+    world: "overworld"
+    region: "skyisles_spires"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 25000
+
+  phantom_veil:
+    display: "<gray>Phantom Veil"
+    material: PHANTOM_MEMBRANE
+    world: "overworld"
+    region: "skyisles_spires"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 20
+
+  storm_copper:
+    display: "<#4FB39A><b>Storm Copper"
+    material: COPPER_INGOT
+    world: "overworld"
+    region: "skyisles_storm"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 25000
+
+  storm_essence:
+    display: "<aqua>Storm Essence"
+    material: GLOWSTONE_DUST
+    world: "overworld"
+    region: "skyisles_storm"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 20
+
+  pirate_doubloon:
+    display: "<gold>Pirate Doubloon"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "skyisles_harbour"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 80
+
+  captain_compass:
+    display: "<gold><b>Captain's Compass"
+    material: COMPASS
+    world: "overworld"
+    region: "skyisles_harbour"
+    lore:
+      - "<dark_gray>Cloud Isles"
+    collection: 12
+
+  royal_quartz:
+    display: "<white><b>Royal Quartz"
+    material: QUARTZ
+    world: "overworld"
+    region: "kingdom_walls"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 6000
+
+  guard_insignia:
+    display: "<gold>Guard Insignia"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "kingdom_walls"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 80
+
+  cherry_log:
+    display: "<light_purple>Cherry Log"
+    material: CHERRY_LOG
+    world: "overworld"
+    region: "kingdom_gardens"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 480
+
+  sunpetal:
+    display: "<yellow><b>Sunpetal"
+    material: SUNFLOWER
+    world: "overworld"
+    region: "kingdom_gardens"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 5000
+
+  golden_pollen:
+    display: "<yellow>Golden Pollen"
+    material: GLOWSTONE_DUST
+    world: "overworld"
+    region: "kingdom_gardens"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 32
+
+  gardener_seed:
+    display: "<green>Gardener's Seed"
+    material: WHEAT_SEEDS
+    world: "overworld"
+    region: "kingdom_gardens"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 48
+
+  celestine:
+    display: "<aqua><b>Celestine"
+    material: DIAMOND
+    world: "overworld"
+    region: "kingdom_treasury"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 5000
+
+  aurium:
+    display: "<gold><b>Aurium"
+    material: GOLD_INGOT
+    world: "overworld"
+    region: "kingdom_treasury"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 5000
+
+  knight_crest:
+    display: "<gold>Knight's Crest"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "kingdom_treasury"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 16
+
+  crossbow_bolt:
+    display: "<gray>Crossbow Bolt"
+    material: ARROW
+    world: "overworld"
+    region: "kingdom_treasury"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 250
+
+  throne_seal:
+    display: "<gold><b>Throne Seal"
+    material: PAPER
+    world: "overworld"
+    region: "kingdom_throne"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 48
+
+  kings_crown:
+    display: "<gold><b>King's Crown"
+    material: GOLDEN_HELMET
+    world: "overworld"
+    region: "kingdom_throne"
+    lore:
+      - "<dark_gray>Sky Kingdom"
+    collection: 1
+
+  gravel:
+    display: "<gray>Gravel"
+    material: GRAVEL
+    world: "overworld"
+    region: "quarry_gravel"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 1200
+
+  tungsten:
+    display: "<dark_gray><b>Tungsten"
+    material: IRON_NUGGET
+    world: "overworld"
+    region: "quarry_gravel"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 20000
+
+  pillager_ration:
+    display: "<gray>Pillager Ration"
+    material: BREAD
+    world: "overworld"
+    region: "quarry_gravel"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 100
+
+  pale_log:
+    display: "<white>Pale Log"
+    material: PALE_OAK_LOG
+    world: "overworld"
+    region: "quarry_pale"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 5000
+
+  platinum:
+    display: "<white><b>Platinum"
+    material: IRON_INGOT
+    world: "overworld"
+    region: "quarry_pale"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 10000
+
+  iron_tag:
+    display: "<gray>Iron Tag"
+    material: IRON_NUGGET
+    world: "overworld"
+    region: "quarry_pale"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 100
+
+  maple:
+    display: "<red>Maple Log"
+    material: MANGROVE_LOG
+    world: "overworld"
+    region: "quarry_maple"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 6000
+
+  clay:
+    display: "<gray>Clay"
+    material: CLAY_BALL
+    world: "overworld"
+    region: "quarry_maple"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 1600
+
+  titanium:
+    display: "<aqua><b>Titanium"
+    material: NETHERITE_SCRAP
+    world: "overworld"
+    region: "quarry_maple"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 4000
+
+  diamond:
+    display: "<aqua><b>Diamond"
+    material: DIAMOND
+    world: "overworld"
+    region: "quarry_diamond"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 32000
+
+  ravager_horn:
+    display: "<gray><b>Ravager Horn"
+    material: GOAT_HORN
+    world: "overworld"
+    region: "quarry_diamond"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 12
+
+  captain_banner:
+    display: "<gray><b>Captain's Banner"
+    material: WHITE_BANNER
+    world: "overworld"
+    region: "quarry_pit"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 32
+
+  warden_plate:
+    display: "<gray><b>Warden Plate"
+    material: IRON_BLOCK
+    world: "overworld"
+    region: "quarry_pit"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 12
+
+  golem_shard:
+    display: "<white><b>Golem Core Shard"
+    material: IRON_INGOT
+    world: "overworld"
+    region: "quarry_golem"
+    lore:
+      - "<dark_gray>Ironbound Quarry"
+    collection: 4
+
+  tomb_dust:
+    display: "<gray>Tomb Dust"
+    material: GUNPOWDER
+    world: "overworld"
+    region: "gormak_tomb"
+    lore:
+      - "<dark_gray>Gormak"
+    collection: 20
+
+  guardian_sigil:
+    display: "<gold><b>Guardian Sigil"
+    material: GOLD_NUGGET
+    world: "overworld"
+    region: "gormak_tomb"
+    lore:
+      - "<dark_gray>Gormak"
+    collection: 48
 
   fishing_junk:
     display: "<dark_gray>Junk"

@@ -1,0 +1,285 @@
+# ===========================================================
+# AURORA MOB TEMPLATE - generated from CSV
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  anubis:
+    display: "<gold><b>Anubis"
+    entity: WITHER_SKELETON
+    health: 4775.0
+    defence: 218.0
+    attack: 57.0
+    damage: 1.5
+    density: 24
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: anubis_sigil
+        max: 2
+
+  sobek:
+    display: "<gold><b>Sobek"
+    entity: RAVAGER
+    health: 4775.0
+    defence: 218.0
+    attack: 57.0
+    damage: 1.5
+    density: 24
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: sobek_sigil
+        max: 2
+
+  osiris:
+    display: "<gold><b>Osiris"
+    entity: HUSK
+    health: 4775.0
+    defence: 218.0
+    attack: 57.0
+    damage: 1.5
+    density: 24
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: osiris_sigil
+        max: 2
+
+  thoth:
+    display: "<gold><b>Thoth"
+    entity: VINDICATOR
+    health: 6885.0
+    defence: 312.0
+    attack: 62.0
+    damage: 1.5
+    density: 27
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: thoth_sigil
+        max: 2
+
+  maat:
+    display: "<gold><b>Ma'at"
+    entity: PIGLIN_BRUTE
+    health: 6885.0
+    defence: 312.0
+    attack: 62.0
+    damage: 1.5
+    density: 27
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: maat_sigil
+        max: 2
+
+  horus:
+    display: "<gold><b>Horus"
+    entity: SKELETON
+    health: 6885.0
+    defence: 312.0
+    attack: 62.0
+    damage: 1.5
+    density: 27
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: horus_sigil
+        max: 2
+
+  sekhmet:
+    display: "<gold><b>Sekhmet"
+    entity: PIGLIN_BRUTE
+    health: 9790.0
+    defence: 445.0
+    attack: 67.0
+    damage: 1.5
+    density: 30
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: sekhmet_sigil
+        max: 2
+
+  ptah:
+    display: "<gold><b>Ptah"
+    entity: IRON_GOLEM
+    health: 9790.0
+    defence: 445.0
+    attack: 67.0
+    damage: 1.5
+    density: 30
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: ptah_sigil
+        max: 2
+
+  khnum:
+    display: "<gold><b>Khnum"
+    entity: RAVAGER
+    health: 9790.0
+    defence: 445.0
+    attack: 67.0
+    damage: 1.5
+    density: 30
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: khnum_sigil
+        max: 2
+
+  set:
+    display: "<gold><b>Set"
+    entity: WITHER_SKELETON
+    health: 12695.0
+    defence: 578.0
+    attack: 72.0
+    damage: 1.5
+    density: 33
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: set_sigil
+        max: 2
+      - id: solar_ankh
+        chance: 3
+
+  apep:
+    display: "<gold><b>Apep"
+    entity: ZOGLIN
+    health: 12695.0
+    defence: 578.0
+    attack: 72.0
+    damage: 1.5
+    density: 33
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: apep_sigil
+        max: 2
+      - id: solar_ankh
+        chance: 3
+
+  nephthys:
+    display: "<gold><b>Nephthys"
+    entity: STRAY
+    health: 12695.0
+    defence: 578.0
+    attack: 72.0
+    damage: 1.5
+    density: 33
+    attributes:
+      - attr: SCALE
+        value: 1.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 40.0
+    independent:
+      - id: nephthys_sigil
+        max: 2
+      - id: solar_ankh
+        chance: 3
+
+  sol:
+    display: "<gold><b>Sol, the Undying Sun"
+    entity: WITHER_SKELETON
+    health: 63470.0
+    defence: 578.0
+    attack: 74.0
+    damage: 1.5
+    density: 33
+    equip:
+      hand: gormak_blade
+    attributes:
+      - attr: SCALE
+        value: 2.0
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+    independent:
+      - id: sol_heart
+        max: 2

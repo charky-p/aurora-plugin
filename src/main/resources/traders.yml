@@ -11,37 +11,37 @@
 
 items:
   starter_trader:
-    display: "<gray><b>Isle Outfitter"
+    display: "<gray><b>Starter Tools"
     entity: VILLAGER
     gui: starter_shop
 
   cobble_trader:
-    display: "<gray><b>Quarry Foreman"
+    display: "<gray><b>Cobble Trader"
     entity: VILLAGER
     gui: upgrades:cobble
 
   coal_trader:
-    display: "<dark_gray><b>Coal Broker"
+    display: "<dark_gray><b>Coal Trader"
     entity: VILLAGER
     gui: upgrades:coal
 
   copper_trader:
-    display: "<#D94110><b>Copper Smith"
+    display: "<#D94110><b>Copper Trader"
     entity: VILLAGER
     gui: upgrades:copper
 
   iron_trader:
-    display: "<white><b>Iron Smith"
+    display: "<white><b>Iron Trader"
     entity: VILLAGER
     gui: upgrades:iron
 
   gold_trader:
-    display: "<gold><b>Gold Assayer"
+    display: "<gold><b>Gold Trader"
     entity: VILLAGER
     gui: upgrades:gold
 
   gate_trader:
-    display: "<gold><b>Gate Warden"
+    display: "<gold><b>Duneworld Gatekeeper"
     entity: VILLAGER
     gui: gate_shop
 
@@ -91,7 +91,7 @@ items:
     gui: upgrades:darkoak
 
   treehouse_trader:
-    display: "<#2E8B57><b>Canopy Keeper"
+    display: "<#2E8B57><b>Grove Keeper"
     entity: VILLAGER
     gui: upgrades:treehouse
 
@@ -99,3 +99,213 @@ items:
     display: "<gold><b>Camp Cook"
     entity: VILLAGER
     gui: food_shop
+
+  ruins_trader:
+    display: "<#E07B39><b>Relic Keeper"
+    entity: WANDERING_TRADER
+    gui: upgrades:ruins
+
+  catacombs_trader:
+    display: "<dark_purple><b>Catacomb Warden"
+    entity: WANDERING_TRADER
+    gui: upgrades:catacombs
+
+  sanctuary_trader:
+    display: "<gold><b>Sun Priest"
+    entity: WANDERING_TRADER
+    gui: upgrades:sanctuary
+
+  jungle_trader:
+    display: "<#9C7A3C><b>Jungle Warden"
+    entity: VILLAGER
+    gui: upgrades:jungle
+
+  bamboo_trader:
+    display: "<#7BA05B><b>Bamboo Cutter"
+    entity: VILLAGER
+    gui: upgrades:bamboo
+
+  amber_trader:
+    display: "<gold><b>Amber Collector"
+    entity: VILLAGER
+    gui: upgrades:amber
+
+  mudflats_trader:
+    display: "<#8B6B4A><b>Mud Raker"
+    entity: VILLAGER
+    gui: upgrades:mudflats
+
+  peat_trader:
+    display: "<#5C4033><b>Peat Cutter"
+    entity: VILLAGER
+    gui: upgrades:peat
+
+  sunken_trader:
+    display: "<#4FB39A><b>Ruin Diver"
+    entity: VILLAGER
+    gui: upgrades:sunken_ruins
+
+  hydra_trader:
+    display: "<dark_green><b>Swamp Hermit"
+    entity: VILLAGER
+    gui: upgrades:hydra_pool
+
+  foothills_trader:
+    display: "<#8B6B4A><b>Mountain Guide"
+    entity: VILLAGER
+    gui: upgrades:foothills
+
+  redstone_trader:
+    display: "<red><b>Redstone Miner"
+    entity: VILLAGER
+    gui: upgrades:redstone_mines
+
+  pumpkin_trader:
+    display: "<gold><b>Terrace Farmer"
+    entity: VILLAGER
+    gui: upgrades:pumpkin_terraces
+
+  lapis_trader:
+    display: "<blue><b>Ridge Prospector"
+    entity: VILLAGER
+    gui: upgrades:lapis_ridge
+
+  melon_trader:
+    display: "<green><b>Ledge Trader"
+    entity: VILLAGER
+    gui: upgrades:melon_ledges
+
+  arachne_trader:
+    display: "<dark_red><b>Cave Hermit"
+    entity: VILLAGER
+    gui: upgrades:arachne_cave
+
+  ashen_trader:
+    display: "<gray><b>The Ferryman"
+    entity: WANDERING_TRADER
+    gui: upgrades:ashen
+
+  judgement_trader:
+    display: "<gold><b>Scribe of Thoth"
+    entity: WANDERING_TRADER
+    gui: upgrades:judgement
+
+  forge_trader:
+    display: "<red><b>Forge Keeper"
+    entity: WANDERING_TRADER
+    gui: upgrades:forge
+
+  throne_trader:
+    display: "<dark_gray><b>Night Herald"
+    entity: WANDERING_TRADER
+    gui: upgrades:throne
+
+  cellar_trader:
+    display: "<#6B4F35><b>Root Keeper"
+    entity: VILLAGER
+    gui: upgrades:root_cellar
+
+  vine_trader:
+    display: "<#3A7D2C><b>Vine Warden"
+    entity: VILLAGER
+    gui: upgrades:vine_halls
+
+  hive_trader:
+    display: "<gold><b>Hive Keeper"
+    entity: VILLAGER
+    gui: upgrades:hive_chambers
+
+  canopy_trader:
+    display: "<dark_green><b>Canopy Lookout"
+    entity: VILLAGER
+    gui: upgrades:upper_canopy
+
+  crown_trader:
+    display: "<dark_green><b>Crown Druid"
+    entity: VILLAGER
+    gui: upgrades:the_crown
+
+  cloudbank_trader:
+    display: "<white><b>Cloud Shepherd"
+    entity: VILLAGER
+    gui: upgrades:cloudbank
+
+  spires_trader:
+    display: "<aqua><b>Spire Climber"
+    entity: VILLAGER
+    gui: upgrades:skyshard_spires
+
+  storm_trader:
+    display: "<aqua><b>Storm Chaser"
+    entity: VILLAGER
+    gui: upgrades:storm_front
+
+  harbour_trader:
+    display: "<gold><b>Harbour Master"
+    entity: VILLAGER
+    gui: upgrades:sky_harbour
+
+  walls_trader:
+    display: "<white><b>Gate Captain"
+    entity: VILLAGER
+    gui: upgrades:outer_walls
+
+  gardens_trader:
+    display: "<yellow><b>Head Gardener"
+    entity: VILLAGER
+    gui: upgrades:gilded_gardens
+
+  treasury_trader:
+    display: "<gold><b>Royal Treasurer"
+    entity: VILLAGER
+    gui: upgrades:royal_treasury
+
+  throne_room_trader:
+    display: "<gold><b>Royal Steward"
+    entity: VILLAGER
+    gui: upgrades:throne_room
+
+  gravel_trader:
+    display: "<gray><b>Pit Boss"
+    entity: VILLAGER
+    gui: upgrades:gravel_pits
+
+  pale_trader:
+    display: "<white><b>Pale Woodsman"
+    entity: VILLAGER
+    gui: upgrades:pale_woods
+
+  maple_trader:
+    display: "<red><b>Maple Tapper"
+    entity: VILLAGER
+    gui: upgrades:maple_grove
+
+  diamond_trader:
+    display: "<aqua><b>Deep Miner"
+    entity: VILLAGER
+    gui: upgrades:diamond_depths
+
+  pit_trader:
+    display: "<gray><b>Quarry Overseer"
+    entity: VILLAGER
+    gui: upgrades:quarry_pit
+
+  elderwood_gate_trader:
+    display: "<dark_green><b>Elderwood Gatekeeper"
+    entity: VILLAGER
+    gui: elderwood_gate_shop
+
+  sky_gate_trader:
+    display: "<aqua><b>Sky Gatekeeper"
+    entity: VILLAGER
+    gui: sky_gate_shop
+
+  core_trader:
+    display: "<white><b>Core Smith"
+    entity: VILLAGER
+    gui: core_shop
+
+  golem_trader:
+    display: "<white><b>Core Smith"
+    entity: VILLAGER
+    gui: upgrades:golems_rest

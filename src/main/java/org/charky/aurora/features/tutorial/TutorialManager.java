@@ -193,8 +193,8 @@ public class TutorialManager implements Listener {
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7f, 1f);
         player.sendMessage(TextUtils.parse(""));
         player.sendMessage(TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>TUTORIAL COMPLETE</b></gradient>"));
-        player.sendMessage(TextUtils.parse("<yellow>» <gray>Keep mining and upgrading here, the Coal Seam comes next."));
-        player.sendMessage(TextUtils.parse("<yellow>» <white>/a <gray>opens the menu, with How to Play, warps and more."));
+        player.sendMessage(TextUtils.parse("<yellow>» <gray>Keep mining and upgrading here, the Coal Mine comes next."));
+        player.sendMessage(TextUtils.parse("<yellow>» <white>/a <gray>opens the menu, with gear, collections and more."));
         player.sendMessage(TextUtils.parse("<yellow>» <white>/spawn <gray>takes you to the main spawn."));
         player.sendMessage(TextUtils.parse("<yellow>» <gray>Wear your new suffix in <white>/customise<gray>."));
         player.sendMessage(TextUtils.parse(""));

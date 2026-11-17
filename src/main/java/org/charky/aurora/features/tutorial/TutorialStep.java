@@ -1,11 +1,11 @@
 package org.charky.aurora.features.tutorial;
 
-// The steps of the first-join tutorial at the Cobblestone Quarry, in order. Each one
+// The steps of the first-join tutorial at the Cobblestone Mine, in order. Each one
 // ends by itself when the player does it. Goal is how many times, 1 for a single action
 public enum TutorialStep {
-    MINE("Mine cobblestone", "Break blocks in the quarry with your pickaxe", 10),
+    MINE("Mine cobblestone", "Break blocks in the mine with your pickaxe", 10),
     BACKPACK("Open your backpack", "Type /bp, everything you mine goes in there", 1),
-    TRADER("Visit the Cobble Trader", "Click the trader beside the quarry", 1),
+    TRADER("Visit the Cobble Trader", "Click the trader beside the mine", 1),
     UPGRADE("Buy an upgrade", "Click your pickaxe in the trader's menu", 1);
 
     private final String title;

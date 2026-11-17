@@ -48,33 +48,31 @@ The code is laid out by feature: `core/` wires everything together and holds the
 
 ```mermaid
 flowchart TD
-    Aurora["<b>Aurora</b><br/>the plugin: builds everything on enable"]
+    Aurora["Aurora<br/>the plugin: builds everything on enable"]
 
     subgraph Events["Events"]
-        Commands["<b>Commands</b><br/>/a and its subcommands,<br/>/backpack, /shop, /customise ..."]
-        Listeners["<b>Listeners</b><br/>mining, combat, traders,<br/>menus, joins, chat"]
+        Commands["Commands<br/>/a and its subcommands,<br/>/backpack, /shop, /customise ..."]
+        Listeners["Listeners<br/>mining, combat, traders,<br/>menus, joins, chat"]
     end
 
-    subgraph Managers["Managers (one per feature)"]
-        direction LR
+    subgraph Managers["Managers, one per feature"]
         M1["Mine, Spawner,<br/>Trader, Portal, World"]
         M2["Tool, Backpack,<br/>Armory, Collection"]
         M3["Player, Level, Rank,<br/>Perk, Cosmetic"]
     end
 
     subgraph Objects["Objects"]
-        direction LR
-        Trader["<b>Trader</b><br/>Trader, TraderMenu,<br/>UpgradeZone"]
-        Mining["<b>Mining</b><br/>Mine, blocks,<br/>LootPool"]
-        Spawners["<b>Spawners</b><br/>Spawner, mobs,<br/>bosses"]
-        PlayerData["<b>Player Data</b><br/>PlayerData, BackpackData,<br/>tool levels"]
+        Trader["Trader<br/>Trader, TraderMenu,<br/>UpgradeZone"]
+        Mining["Mining<br/>Mine, blocks,<br/>LootPool"]
+        Spawners["Spawners<br/>Spawner, mobs,<br/>bosses"]
+        PlayerData["Player Data<br/>PlayerData, BackpackData,<br/>tool levels"]
     end
 
     subgraph Data["Data"]
-        Registry["<b>Registry</b><br/>DataRegistry: every item, block,<br/>mob, menu and upgrade"]
-        Models["<b>Models</b><br/>one class per YAML shape"]
-        YAML["<b>YAML</b><br/>src/main/resources,<br/>generated from scripts/data"]
-        Database["<b>Database</b><br/>SQLite, one Store per table"]
+        Registry["Registry<br/>DataRegistry: every item, block,<br/>mob, menu and upgrade"]
+        Models["Models<br/>one class per YAML shape"]
+        YAML["YAML<br/>src/main/resources,<br/>generated from scripts/data"]
+        Database["Database<br/>SQLite, one Store per table"]
     end
 
     Aurora --> Events
@@ -87,7 +85,7 @@ flowchart TD
     Managers --> Database
     Registry --> Models
     Models --> YAML
-    CSV["scripts/data/*.csv"] -. generate.py .-> YAML
+    CSV["CSV files in scripts/data"] -.->|"generate.py"| YAML
 ```
 
 | Group | Where | What it is |

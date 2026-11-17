@@ -25,11 +25,17 @@ grapple for movement early on, movement items category like elytra, dash
 
 mine tierlists?
 
-world ideas: space, farm, void, twilight, candy, wasteland, sakura, volcano, mushroom
+world ideas: space, farm, void, twilight, candy, wasteland, sakura, volcano, mushroom, winter (ice caves, yetis)
+
+Storm Citadel (a later sky region): a darker castle in the storm clouds. Storm Gate (deepslate bricks, polished blackstone | storm knight), Lightning Forge (storm copper, copper bulb | forge golem), Citadel Keep (tinted glass, obsidian | crossbowman), The Eye (Storm Tyrant, boss)
+
+Caverns (after the Overworld Core): calcite and amethyst live here, cobalt too
 
 mounts, with the ghast saddle
 
 #### Server Design
+Built so far (stages, zones and mobs in `scripts/data`, the ladder in `docs/PROGRESSION.md`): Origin Isles; Duneworld: Gormak, Khorvath, the Duat; Overworld: Verdant Groves, Sunken Marsh, Emerald Peaks, Ironbound Quarry and Golem's Rest; Elderwood Roots and Heart; Cloud Isles and the Sky Kingdom. The notes below are the ideas they came from.
+
 world 1 (overworld): 5 main regions
 1. Origin Isles - plains like sky islands (stone, coal, copper, iron, gold, gormak)
 2. Gormak - desert "mini world" (Duneworld)

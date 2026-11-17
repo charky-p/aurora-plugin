@@ -60,42 +60,128 @@ The test world names everything `t_...`. Use plain names on the real map, so `--
 
 ## 3. What each zone needs
 
-Mine names are free; the block ids are from `scripts/data/world/blocks.csv`, mob ids from `scripts/data/mobs/`, trader ids from `scripts/data/shops/traders.csv`.
+Generated from the data: mine block mixes from `scripts/data/world/mines.csv`, mob ids from `scripts/data/mobs/`, trader ids from `scripts/data/shops/traders.csv`. A boss rises at a spawner of its own, summoned by its key. Mine names are free; the test world uses the mine id.
 
 ### Origin Isles
 
-| Zone | Mine blocks | Mobs | Trader |
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
 |---|---|---|---|
 | Spawn | - | - | `starter_trader`, `food_trader` |
-| Cobblestone Quarry | `cobblestone 60 stone 40` | - | `cobble_trader` |
-| Coal Seam | `coal_ore 60 coal_block 40` | - | `coal_trader` |
-| Copper Vein | `copper_ore 60 copper_block 40` | `chicken` | `copper_trader` |
-| Iron Deposit | `iron_ore 60 iron_block 40` | `sheep` | `iron_trader` |
-| Gold Reef | `gold_ore 60 gold_block 40` | `cow` | `gold_trader`, and `gate_trader` at the Gormak gate |
+| Cobblestone Quarry | `cobblestone`: `cobblestone 60 stone 40` | - | `cobble_trader` |
+| Coal Seam | `coal`: `coal_ore 60 coal_block 40` | - | `coal_trader` |
+| Copper Vein | `copper`: `copper_ore 60 copper_block 40` | `chicken` | `copper_trader` |
+| Iron Deposit | `iron`: `iron_ore 60 iron_block 40` | `sheep` | `iron_trader` |
+| Gold Reef | `gold`: `gold_ore 60 gold_block 40` | `cow` | `gold_trader` |
+
+At the end, the portal to Gormak locked to `gormak`, with `gate_trader` beside it.
 
 ### Gormak
 
-| Zone | Mine blocks | Mobs | Trader |
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
 |---|---|---|---|
-| Abandoned City | `carved_brick 90 cracked_brick 10` | `hollowed_serf`, `scavenger_husk` | `city_trader` |
-| The Dunes | `sunbaked_sand 80 cut_sunbaked_sand 20` | `dune_scout`, `sand_stalker` | `dunes_trader` |
-| Howling Canyons | `crimson_sand 80 cut_crimson_sand 20` | `scarab_zealot`, `hollowed_legionnaire` | `canyons_trader` |
-| Sun Temple | `raw_gold_block 20 gilded_stone 80` | `tomb_guard`, `vizier_mage` | `temple_trader` |
-| Royal Tomb | - | `royal_myrmidon`, `pharaoh`, and a spawner for `gormak_eternal` where the boss should rise | `tomb_trader` |
+| Abandoned City | `carved_brick`: `carved_brick 90 cracked_brick 10` | `hollowed_serf`, `scavenger_husk` | `city_trader` |
+| The Dunes | `sunbaked_sand`: `sunbaked_sand 80 cut_sunbaked_sand 20` | `dune_scout`, `sand_stalker` | `dunes_trader` |
+| Sun Temple | `raw_gold`: `raw_gold_block 20 gilded_stone 80` | `tomb_guard`, `vizier_mage` | `temple_trader` |
+| Royal Tomb | - | `gormak_minion`, `gormak_guardian`, `gormak_eternal` (boss spawner) | `tomb_trader` |
 
 ### Verdant Groves
 
-Each zone has two mines, the wood and the ore.
-
-| Zone | Mine blocks | Mobs | Trader |
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
 |---|---|---|---|
-| Oak Grove | `oak_log 60 oak_wood 25 stripped_oak_log 15`, `tin_ore 60 tin_rich 40` | `grove_horse` | `oak_trader` |
-| Birch Hollow | `birch_log 60 birch_wood 25 stripped_birch_log 15`, `bronze_ore 60 bronze_rich 40` | `hollow_fox` | `birch_trader` |
-| Spruce Ridge | `spruce_log 60 spruce_wood 25 stripped_spruce_log 15`, `lead_ore 60 lead_rich 40` | `ridge_wolf` | `spruce_trader` |
-| Dark Oak Thicket | `dark_oak_log 60 darkoak_wood 25 stripped_dark_oak_log 15`, `silver_ore 60 silver_rich 40` | `thicket_sniffer` | `darkoak_trader` |
-| Great Treehouse | - | `tree_zombee`, `treant` | `treehouse_trader` |
+| Oak Grove | `oak_log`: `oak_log 60 oak_wood 25 stripped_oak_log 15`, `tin`: `tin_ore 60 tin_rich 40` | `grove_horse` | `oak_trader` |
+| Birch Hollow | `birch_log`: `birch_log 60 birch_wood 25 stripped_birch_log 15`, `bronze`: `bronze_ore 60 bronze_rich 40` | `hollow_fox` | `birch_trader` |
+| Spruce Ridge | `spruce_log`: `spruce_log 60 spruce_wood 25 stripped_spruce_log 15`, `lead`: `lead_ore 60 lead_rich 40` | `ridge_wolf` | `spruce_trader` |
+| Dark Oak Thicket | `dark_oak_log`: `dark_oak_log 60 darkoak_wood 25 stripped_dark_oak_log 15`, `silver`: `silver_ore 60 silver_rich 40` | `thicket_sniffer` | `darkoak_trader` |
 
-If a zone's mines or mobs change in `zones.csv`, this table goes with it.
+At the end, the portal to Elderwood Roots locked to `elderwood`, with `elderwood_gate_trader` beside it.
+
+### Khorvath
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Howling Canyons | `crimson_sand`: `crimson_sand 80 cut_crimson_sand 20` | `scarab_zealot`, `hollowed_legionnaire` | `canyons_trader` |
+| Ancient Ruins | `relic_stone`: `relic_stone 70 sunfired_tile 30` | `scarab_zealot`, `relic_warrior` | `ruins_trader` |
+| Catacombs | `ossuary_bone`: `ossuary_bone 70 tomb_brick 30` | `royal_myrmidon`, `pharaoh` | `catacombs_trader` |
+| Sanctuary of the Sun | - | `anubite_executioner`, `sphinx`, `khorvath` (boss spawner) | `sanctuary_trader` |
+
+### Elderwood Roots
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Jungle Floor | `jungle_log`: `jungle_log 60 stripped_jungle_log 40` | `jungle_panda` | `jungle_trader` |
+| Bamboo Thicket | `bamboo`: `bamboo_block 60 bamboo_mosaic 40` | `jungle_ocelot` | `bamboo_trader` |
+| Amber Hollow | `elderbark`: `elderbark 100`, `amber`: `amber 100` | `wild_bee` | `amber_trader` |
+| Treant Grove | - | `tree_zombee`, `treant` | `treehouse_trader` |
+
+### Sunken Marsh
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Mudflats | `packed_mud`: `packed_mud 60 mud_brick 40` | `bog_frog` | `mudflats_trader` |
+| Peat Bog | `peat`: `peat 60 bog_moss 40` | `bog_walker` | `peat_trader` |
+| Sunken Ruins | `verdigris`: `mossy_ruin 60 verdigris 40` | `bogged_archer`, `sunken_drowned` | `sunken_trader` |
+| Hydra Pool | - | `marsh_lurker`, `hydra` (boss spawner) | `hydra_trader` |
+
+### Emerald Peaks
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Foothills | `dirt`: `mountain_dirt 60 coarse_mountain_dirt 40` | `mountain_goat` | `foothills_trader` |
+| Redstone Mines | `redstone`: `redstone_ore 60 deepslate_redstone_ore 40` | `frost_spider` | `redstone_trader` |
+| Pumpkin Terraces | `pumpkin`: `pumpkin 100`, `snow`: `snow_block 100` | `snow_fox` | `pumpkin_trader` |
+| Lapis Ridge | `lapis`: `lapis_ore 70 deepslate_lapis_ore 30` | `peak_stray` | `lapis_trader` |
+| Melon Ledges | `melon`: `melon 100`, `emerald`: `emerald_ore 70 deepslate_emerald_ore 30` | `cliff_goat` | `melon_trader` |
+| Arachne Cave | - | `cave_spider`, `spider_rider`, `arachne` (boss spawner) | `arachne_trader` |
+
+At the end, the portal to Cloud Isles locked to `sky`, with `sky_gate_trader` beside it.
+
+### The Duat
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Ashen River | `basalt`: `ashen_basalt 60 polished_ashen_basalt 40`, `ash`: `river_ash 100` | `anubis`, `sobek`, `osiris` | `ashen_trader` |
+| Hall of Judgement | `scale_gold`: `judgement_brick 60 scale_gold 40` | `thoth`, `maat`, `horus` | `judgement_trader` |
+| Solar Forge | `solar_slag`: `forge_magma 70 forge_obsidian 30` | `sekhmet`, `ptah`, `khnum` | `forge_trader` |
+| Throne of Night | `nightstone`: `nightstone 100` | `set`, `apep`, `nephthys`, `sol` (boss spawner) | `throne_trader` |
+
+### Elderwood Heart
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Root Cellar | `heartwood_log`: `heartwood_log 70 root_knot 30` | `sapling_zombee` | `cellar_trader` |
+| Vine Halls | `elder_vine`: `vine_stem 60 vine_cap 40` | `elder_zombee`, `canopy_spider` | `vine_trader` |
+| Hive Chambers | `wax_comb`: `wax_comb 100`, `beeswax`: `beeswax 100` | `hive_guard` | `hive_trader` |
+| Upper Canopy | - | `treehouse_sentry`, `canopy_treant` | `canopy_trader` |
+| The Crown | - | `canopy_treant`, `elder_treant` (boss spawner) | `crown_trader` |
+
+### Cloud Isles
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Cloudbank | `cloudstone`: `cloudstone 100`, `cloud_dust`: `cloud_dust 100` | `sky_sheep` | `cloudbank_trader` |
+| Skyshard Spires | `skyshard`: `skyshard 60 sky_quartz 40` | `sky_phantom` | `spires_trader` |
+| Storm Front | `storm_copper`: `storm_copper 60 storm_grate 40` | `storm_wraith` | `storm_trader` |
+| Sky Harbour | - | `sky_pirate`, `pirate_captain` | `harbour_trader` |
+
+### Sky Kingdom
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Outer Walls | `royal_quartz`: `royal_quartz 60 royal_pillar 40` | `royal_guard` | `walls_trader` |
+| Gilded Gardens | `cherry_log`: `cherry_log 100`, `sunpetal`: `sunpetal 100` | `garden_bee`, `gardener` | `gardens_trader` |
+| Royal Treasury | `celestine`: `celestine 100`, `aurium`: `aurium 100` | `treasury_knight`, `crossbowman` | `treasury_trader` |
+| Throne Room | - | `throne_guard`, `sky_king` (boss spawner) | `throne_room_trader` |
+
+### Ironbound Quarry
+
+| Zone | Mines (`setblocks`) | Spawner mobs | Trader |
+|---|---|---|---|
+| Gravel Pits | `gravel`: `gravel 100`, `tungsten`: `tungsten_ore 70 tungsten_rich 30` | `quarry_pillager` | `gravel_trader` |
+| Pale Woods | `pale_log`: `pale_log 70 stripped_pale_log 30`, `platinum`: `platinum 100` | `quarry_vindicator` | `pale_trader` |
+| Maple Grove | `maple`: `maple_log 70 stripped_maple_log 30`, `clay`: `clay 100`, `titanium`: `titanium 100` | `quarry_pillager`, `quarry_vindicator` | `maple_trader` |
+| Diamond Depths | `diamond`: `diamond_ore 70 deepslate_diamond_ore 30` | `quarry_ravager` | `diamond_trader` |
+| The Quarry Pit | - | `pillager_captain`, `quarry_warden` | `pit_trader` |
+| Golem Rest | - | `overworld_golem` | `golem_trader`, `core_trader` |
 
 ## 4. Check it
 

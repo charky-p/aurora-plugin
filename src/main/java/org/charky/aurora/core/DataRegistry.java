@@ -140,7 +140,7 @@ public class DataRegistry {
     private void loadTools() {
         List<Realms.Realm> loaded = new ArrayList<>();
         yaml.load("realms.yml", RealmModel.class).forEach((id, model) ->
-                loaded.add(new Realms.Realm(id.toLowerCase(), model.name, List.copyOf(model.worlds), model.base)));
+                loaded.add(new Realms.Realm(id.toLowerCase(), model.name, List.copyOf(model.worlds), model.base, model.part_of)));
         realms = new Realms(loaded);
 
         yaml.load("tools.yml", ToolModel.class).forEach((id, model) -> {

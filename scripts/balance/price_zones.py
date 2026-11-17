@@ -21,8 +21,14 @@ The price of a step, for each resource it costs:
 and the result is rounded to a number worth showing.
   upgrades.csv   the steps a zone's shop sells, in purchase order: a tool, a stat,
                  the level it reaches and what it costs in. The cost column holds
-                 shares of the step's time, not amounts: coal:1, or
-                 copper:0.8|feather:0.2 for four fifths mining and a fifth killing
+                 shares of the step's time, not amounts: coal:1 is "all of this
+                 step's time is spent on coal", and copper:0.8|feather:0.2 is four
+                 fifths mining and a fifth killing. The amounts are worked out here
+                 and written to upgrades.yml.
+                 To set an amount by hand, write it with = instead: cobblestone=40
+                 is 40 cobblestone, whatever the formula says. A cost can mix both.
+                 A level is counted within the zone's realm: Gormak and Verdant
+                 Groves each start again from 1 and add to what Origin gave
 
 The player's tools are levels, not items: (tool, stat) -> level, carried from one
 zone into the one that comes after it. Two zones can come after the same one: the
@@ -135,8 +141,10 @@ def price_all():
     where = sources(zones)
     steps_by_zone = {}
     for row in sorted(rows("upgrades"), key=lambda r: int(r["order"])):
-        cost = {k: float(v) for k, v in (part.split(":") for part in row["cost"].split("|"))}
-        step = {"tool": row["tool"], "stat": row["stat"], "cost": cost}
+        parts = row["cost"].split("|")
+        cost = {k: float(v) for k, v in (part.split(":") for part in parts if "=" not in part)}
+        fixed = {k: int(v) for k, v in (part.split("=") for part in parts if "=" in part)}
+        step = {"tool": row["tool"], "stat": row["stat"], "cost": cost, "fixed": fixed}
         # The level a step reaches is in the data, never counted up
         step["level"] = row["level"] if row["stat"] == "material" else int(row["level"])
         steps_by_zone.setdefault(row["zone"], []).append(step)
@@ -151,13 +159,24 @@ def price_all():
     # What the player holds on leaving each zone, the next one starts from it
     leaving = {"": dict(START)}
     result = []
+    # What the player had on entering each realm: a realm's levels start from 1 and
+    # add to that
+    entered = {}
     for zone in zones:
         state = leaving[zone.get("after") or ""]
+        entry = entered.setdefault(zone["realm"], state)
+        steps = steps_by_zone.get(zone["id"], [])
+        bought = [step["level"] for step in steps]
+        for step in steps:
+            if step["stat"] != "material":
+                step["level"] += entry.get((step["tool"], step["stat"]), 0)
         def scale(resource, zone=zone):
             return float(zone.get("mine_scale" if where[resource][0] == "mine" else "mob_scale") or 1)
 
-        priced = prices.zone_prices(int(zone["target_seconds"]), steps_by_zone.get(zone["id"], []), income, state,
-                                    scale=scale)
+        priced = prices.zone_prices(int(zone["target_seconds"]), steps, income, state, scale=scale)
+        # The state holds what the tool has in all, the shop sells the realm's own level
+        for row, level in zip(priced, bought):
+            row["level"] = level
         leaving[zone["id"]] = priced[-1]["state"] if priced else state
         result.append((zone, priced))
     return result

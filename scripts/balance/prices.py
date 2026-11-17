@@ -43,9 +43,17 @@ def step_seconds(target_seconds, steps, spread=SPREAD):
     return [target_seconds * w / total for w in weights]
 
 
+def fortune_multiplier(fortune, density):
+    """How many times over a block drops, DataRegistry.getBlockDrops. Nothing below
+    the block's density, then 1, 2, 3.5, 5.5, 8 ... for every level past it."""
+    level = fortune - density
+    if level < 0:
+        return 0.0
+    return 1 + 0.75 * level + 0.25 * level * level
+
+
 def block_income(blocks_per_second, drop_per_block, fortune, density):
-    """Mined resource per second. Nothing at all below the block's density."""
-    return blocks_per_second * drop_per_block * max(0, fortune + 1 - density)
+    return blocks_per_second * drop_per_block * fortune_multiplier(fortune, density)
 
 
 def mob_income(drop_per_kill, seconds_per_kill):
@@ -81,6 +89,7 @@ def zone_prices(target_seconds, steps, income, start, spread=SPREAD, scale=None)
 
     steps    list of {"tool", "stat", "cost": {resource: share}}. The shares of a
              step's cost add up to 1 and split its seconds between its resources.
+             "fixed": {resource: amount} is charged as written, no formula.
     income   function(state, resource) -> that resource per second
     start    {(tool, stat): level} the player arrives with. Buying a step adds 1,
              or sets the step's own "level", which a material change uses
@@ -88,11 +97,14 @@ def zone_prices(target_seconds, steps, income, start, spread=SPREAD, scale=None)
              so mined and looted costs can be made cheaper or dearer apart
     """
     state = dict(start)
-    seconds = step_seconds(target_seconds, len(steps), spread)
+    # A step whose whole cost is written out by hand takes none of the zone's time
+    seconds = iter(step_seconds(target_seconds, sum(1 for step in steps if step["cost"]), spread))
     priced = []
-    for step, time in zip(steps, seconds):
+    for step in steps:
+        time = next(seconds) if step["cost"] else 0.0
         cost = {resource: price(time * share * (scale(resource) if scale else 1), income(state, resource))
                 for resource, share in step["cost"].items()}
+        cost.update(step.get("fixed") or {})
         key = (step["tool"], step["stat"])
         state[key] = step["level"] if "level" in step else state.get(key, 0) + 1
         priced.append({"tool": step["tool"], "stat": step["stat"], "level": state[key],
@@ -148,7 +160,7 @@ def check():
     assert step_seconds(60, 0) == []
 
     assert block_income(2, 3, 0, 0) == 6
-    assert block_income(2, 3, 2, 0) == 18, "fortune 2 triples a density 0 block"
+    assert block_income(2, 3, 2, 0) == 21, "fortune 2 is 3.5 times a density 0 block"
     assert block_income(2, 3, 2, 3) == 0, "below the density nothing drops"
     assert mob_income(2, 8) == 0.25
 

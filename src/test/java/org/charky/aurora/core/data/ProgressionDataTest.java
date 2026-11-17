@@ -101,19 +101,21 @@ class ProgressionDataTest {
         assertNone(problems);
     }
 
-    // A block of density d needs Fortune d, so some upgrade must take a pick or an
-    // axe that far
+    // A block of density d needs Fortune d, so the upgrades must take a pick or an
+    // axe that far. Each realm counts its own levels from 1 and they add up, so
+    // the furthest a tool gets is the best of every realm together
     @Test
     void everyBlockCanBeMinedByAToolTheUpgradesReach() throws IOException {
-        int bestFortune = 0;
+        Map<String, Integer> bestByRealm = new HashMap<>();
         for (Map<String, Object> zone : items("upgrades.yml").values()) {
             if (!(zone.get("steps") instanceof List<?> steps)) continue;
             for (Object step : steps) {
                 if (step instanceof Map<?, ?> map && "fortune".equals(map.get("stat"))) {
-                    bestFortune = Math.max(bestFortune, Integer.parseInt(map.get("level").toString()));
+                    bestByRealm.merge(String.valueOf(zone.get("realm")), Integer.parseInt(map.get("level").toString()), Math::max);
                 }
             }
         }
+        int bestFortune = bestByRealm.values().stream().mapToInt(Integer::intValue).sum();
 
         List<String> problems = new ArrayList<>();
         for (Map.Entry<String, Map<String, Object>> block : blocks.entrySet()) {

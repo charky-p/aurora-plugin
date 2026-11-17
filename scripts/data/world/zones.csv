@@ -4,13 +4,13 @@ coal,Coal Seam,overworld,overworld,origin_isles,2,120,coal,,0.75,0.25,cobble
 copper,Copper Vein,overworld,overworld,origin_isles,3,156,copper,chicken,0.75,0.25,coal
 iron,Iron Deposit,overworld,overworld,origin_isles,4,252,iron,sheep,0.75,0.25,copper
 gold,Gold Reef,overworld,overworld,origin_isles,5,402,gold,cow,0.75,0.25,iron
-city,Abandoned City,overworld,overworld,gormak,6,360,carved_brick,hollowed_serf|scavenger_husk,1,0.5,gold
-dunes,The Dunes,overworld,overworld,gormak,7,360,sunbaked_sand,dune_scout|sand_stalker,1,0.5,city
-canyons,Howling Canyons,overworld,overworld,gormak,8,360,crimson_sand,scarab_zealot|hollowed_legionnaire,1,0.5,dunes
-temple,Sun Temple,overworld,overworld,gormak,9,360,raw_gold,tomb_guard|vizier_mage,1,0.5,canyons
-tomb,Royal Tomb,overworld,overworld,gormak,10,600,,royal_myrmidon|pharaoh,1,0.5,temple
-oak,Oak Grove,overworld,overworld,verdant,11,360,oak_log|tin,grove_horse,1,0.5,gold
-birch,Birch Hollow,overworld,overworld,verdant,12,360,birch_log|bronze,hollow_fox,1,0.5,oak
-spruce,Spruce Ridge,overworld,overworld,verdant,13,360,spruce_log|lead,ridge_wolf,1,0.5,birch
-darkoak,Dark Oak Thicket,overworld,overworld,verdant,14,360,dark_oak_log|silver,thicket_sniffer,1,0.5,spruce
-treehouse,Great Treehouse,overworld,overworld,verdant,15,600,,tree_zombee|treant,1,0.5,darkoak
+city,Abandoned City,gormak,overworld,gormak,6,360,carved_brick,hollowed_serf|scavenger_husk,1,0.5,gold
+dunes,The Dunes,gormak,overworld,gormak,7,360,sunbaked_sand,dune_scout|sand_stalker,1,0.5,city
+canyons,Howling Canyons,gormak,overworld,gormak,8,360,crimson_sand,scarab_zealot|hollowed_legionnaire,1,0.5,dunes
+temple,Sun Temple,gormak,overworld,gormak,9,360,raw_gold,tomb_guard|vizier_mage,1,0.5,canyons
+tomb,Royal Tomb,gormak,overworld,gormak,10,600,,royal_myrmidon|pharaoh,1,0.5,temple
+oak,Oak Grove,verdant,overworld,verdant,11,360,oak_log|tin,grove_horse,1,0.5,gold
+birch,Birch Hollow,verdant,overworld,verdant,12,360,birch_log|bronze,hollow_fox,1,0.5,oak
+spruce,Spruce Ridge,verdant,overworld,verdant,13,360,spruce_log|lead,ridge_wolf,1,0.5,birch
+darkoak,Dark Oak Thicket,verdant,overworld,verdant,14,360,dark_oak_log|silver,thicket_sniffer,1,0.5,spruce
+treehouse,Great Treehouse,verdant,overworld,verdant,15,600,,tree_zombee|treant,1,0.5,darkoak

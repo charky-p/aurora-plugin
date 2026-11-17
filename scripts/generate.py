@@ -546,6 +546,7 @@ REALM_HEADER = """\
 #   worlds: (A world in no realm belongs to the first realm)
 #     - world_name
 #   base: overworld (Optional, tool levels here add on top of that realm's)
+#   part_of: overworld (Optional, for a realm with no worlds: its levels count wherever that realm's do)
 # ===========================================================
 """
 
@@ -557,6 +558,7 @@ SCHEMAS["realms"] = {
         ("name",   Str(quote=True, required=True)),
         ("worlds", StrList()),
         ("base",   Str()),
+        ("part_of", Str()),
     ]),
 }
 
@@ -849,6 +851,8 @@ def validate(built):
 
     realms = get("realms")
     for rid, entry in realms.items():
+        if entry.get("part_of") and entry["part_of"] not in realms:
+            errors.append(f"realm '{rid}': is part of unknown realm '{entry['part_of']}'")
         if entry.get("base") and entry["base"] not in realms:
             errors.append(f"realm '{rid}': builds on unknown realm '{entry['base']}'")
     for tid, entry in get("tools").items():

@@ -9,7 +9,7 @@ formulas and the vanilla tables they need, read against the CSVs in scripts/data
   damage taken  = hearts(gap), gap = (attack level - average protection) / LEVELS_PER_TIER
                   gap >= 0: 1 + LOG_A * ln(1 + LOG_B * gap)   (1, 2, 2.9, 3.7, 4.4, 5 ...)
                   gap <  0: 0.5 + 0.5 * e^(2 * gap)           (never below half a heart)
-  block drops   = roll * (fortune + 1 - density), nothing if <= 0         DataRegistry
+  block drops   = roll * (1 + 0.75 L + 0.25 L^2), L = fortune - density, nothing if L < 0   DataRegistry
   dig time      = vanilla: tool speed + eff^2 + 1 vs hardness, with the right tool
   Not modelled: Sustenance, Bloodlust, Thorns, shield Defence and Deflection.
 

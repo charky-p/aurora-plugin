@@ -27,7 +27,7 @@ public class PlayerDamage {
         return Math.max(0.0, Math.round(raw - defence));
     }
 
-    // The weapon's hit before anything situational, Thorns pays back a share of it
+    // The weapon's hit before anything situational
     public static double baseHit(ItemStack weapon) {
         return CombatFormulas.BASE_DAMAGE + CombatFormulas.sharpnessBonus(Enchants.level(weapon, "sharpness"));
     }

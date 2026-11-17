@@ -7,6 +7,7 @@
 #   worlds: (A world in no realm belongs to the first realm)
 #     - world_name
 #   base: overworld (Optional, tool levels here add on top of that realm's)
+#   part_of: overworld (Optional, for a realm with no worlds: its levels count wherever that realm's do)
 # ===========================================================
 
 
@@ -16,6 +17,14 @@ items:
     worlds:
       - "aurora_mines"
       - "aurora_test"
+
+  gormak:
+    name: "<gold><b>Gormak"
+    part_of: overworld
+
+  verdant:
+    name: "<dark_green><b>Verdant Groves"
+    part_of: overworld
 
   duneworld:
     name: "<gold><b>Duneworld"

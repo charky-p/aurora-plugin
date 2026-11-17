@@ -57,7 +57,7 @@ items:
     region: "origin_isles"
     lore:
       - "<dark_gray>Origin Isles"
-    collection: 2500
+    collection: 3000
 
   feather:
     display: "<white>Feather"
@@ -93,7 +93,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Gormak - Abandoned City"
-    collection: 1250
+    collection: 1500
 
   tattered_cloth:
     display: "<gray>Tattered Cloth"
@@ -120,7 +120,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Gormak - The Dunes"
-    collection: 2500
+    collection: 3000
 
   ancient_flesh:
     display: "<dark_red>Ancient Flesh"
@@ -147,7 +147,7 @@ items:
     region: "gormak_canyons"
     lore:
       - "<dark_gray>Gormak - Howling Canyons"
-    collection: 2500
+    collection: 3000
 
   scarab_shell:
     display: "<dark_purple><b>Scarab Shell"
@@ -174,7 +174,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Gormak - Sun Temple"
-    collection: 7500
+    collection: 10000
 
   ancient_nugget:
     display: "<gold><b>Ancient Nugget"
@@ -274,7 +274,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Verdant Groves - Birch Hollow"
-    collection: 5000
+    collection: 6000
 
   fox_fur:
     display: "<#D9D3B0>Fox Fur"
@@ -301,7 +301,7 @@ items:
     region: "verdant_spruce"
     lore:
       - "<dark_gray>Verdant Groves - Spruce Ridge"
-    collection: 5000
+    collection: 6000
 
   wolf_pelt:
     display: "<#4F7A4A>Wolf Pelt"
@@ -319,7 +319,7 @@ items:
     region: "verdant_darkoak"
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
-    collection: 5000
+    collection: 6000
 
   silver:
     display: "<#6B4F35><b>Silver"

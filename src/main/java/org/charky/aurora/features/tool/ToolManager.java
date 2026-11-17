@@ -251,13 +251,18 @@ public class ToolManager implements Listener {
         return true;
     }
 
-    // "Fortune 3", or "Iron Pickaxe" for a material
-    public Component describe(ToolType tool, UpgradeZone.Step step) {
+    // "Fortune 8", or "Iron Pickaxe" for a material. The number is what the tool
+    // will have in all once the step is bought, not the level within the zone's
+    // realm, since realms add up
+    public Component describe(Player player, UpgradeZone zone, ToolType tool, UpgradeZone.Step step) {
         if (step.stat().equals(ToolLevels.MATERIAL)) {
             String material = ToolLevels.material(tool.materials(), step.level());
             return Component.text(material.charAt(0) + material.substring(1).toLowerCase() + " " + tool.name());
         }
-        return TextUtils.parse(registry.getEnchantDisplay(step.stat()) + " " + step.level());
+        Realm realm = realmOf(player);
+        int total = realm == null ? 0 : effective(player.getUniqueId(), realm, tool.id()).getOrDefault(step.stat(), 0);
+        int after = total - own(player, zone, tool.id(), step.stat()) + step.level();
+        return TextUtils.parse(registry.getEnchantDisplay(step.stat()) + " " + after);
     }
 
     // Null if the next step of the tool's chain was bought, otherwise why not
@@ -274,10 +279,10 @@ public class ToolManager implements Listener {
         if (!backpack.hasItems(player, step.costs())) return "Not enough items";
 
         backpack.removeItems(player, step.costs());
+        Component bought = describe(player, zone, tool, step);
         set(player.getUniqueId(), zone.realm(), toolId, step.stat(), step.level());
 
-        player.sendMessage(TextUtils.parse("<gold><b>UPGRADED</b> <gray>" + tool.name() + ": <white>")
-                .append(describe(tool, step)));
+        player.sendMessage(TextUtils.parse("<gold><b>UPGRADED</b> <gray>" + tool.name() + ": <white>").append(bought));
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1.4f);
         if (maxed(player, zone.id())) onMaxed.accept(player, zone.id(), registry.getZoneRegion(zone.id()));
         return null;

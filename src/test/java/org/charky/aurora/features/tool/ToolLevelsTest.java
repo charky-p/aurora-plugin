@@ -14,10 +14,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ToolLevelsTest {
     private static final List<String> MATERIALS = List.of("WOODEN", "STONE", "COPPER", "IRON");
 
-    private static final Realm OVERWORLD = new Realm("overworld", "Overworld", List.of("aurora_mines"), null);
-    private static final Realm DUNE = new Realm("duneworld", "Duneworld", List.of("gormak"), "");
-    private static final Realm WINTER = new Realm("winter", "Winter", List.of("xmas"), "overworld");
+    private static final Realm OVERWORLD = new Realm("overworld", "Overworld", List.of("aurora_mines"), null, null);
+    private static final Realm DUNE = new Realm("duneworld", "Duneworld", List.of("gormak"), "", null);
+    private static final Realm WINTER = new Realm("winter", "Winter", List.of("xmas"), "overworld", null);
     private static final Realms REALMS = new Realms(List.of(OVERWORLD, DUNE, WINTER));
+
+    // Gormak and Verdant Groves have no worlds, what is bought in them counts in the overworld
+    @Test
+    void aRealmThatIsPartOfAnotherCountsWhereverThatOneDoes() {
+        Realm gormak = new Realm("gormak", "Gormak", List.of(), null, "overworld");
+        Realm verdant = new Realm("verdant", "Verdant", List.of(), null, "overworld");
+        Realms realms = new Realms(List.of(OVERWORLD, gormak, verdant, WINTER));
+
+        assertEquals(List.of(OVERWORLD, gormak, verdant), realms.chain(OVERWORLD));
+        // An event world on top of the overworld gets them too
+        assertEquals(List.of(WINTER, OVERWORLD, gormak, verdant), realms.chain(WINTER));
+        // Standing in the overworld, Sharpness 8 with 3 from Gormak and 2 from Verdant is 13
+        assertEquals(13, ToolLevels.combine(List.of(Map.of("sharpness", 8), Map.of("sharpness", 3),
+                Map.of("sharpness", 2))).get("sharpness"));
+    }
 
     @Test
     void aRealmAloneKeepsItsOwnLevels() {
@@ -74,9 +89,9 @@ class ToolLevelsTest {
 
     @Test
     void aBaseThatLoopsOrIsMissingEndsTheChain() {
-        Realm a = new Realm("a", "A", List.of(), "b");
-        Realm b = new Realm("b", "B", List.of(), "a");
-        Realm lost = new Realm("lost", "Lost", List.of(), "nowhere");
+        Realm a = new Realm("a", "A", List.of(), "b", null);
+        Realm b = new Realm("b", "B", List.of(), "a", null);
+        Realm lost = new Realm("lost", "Lost", List.of(), "nowhere", null);
         Realms realms = new Realms(List.of(a, b, lost));
 
         assertEquals(List.of(a, b), realms.chain(a));

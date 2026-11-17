@@ -60,7 +60,7 @@ public class UpgradeMenu extends PagedMenu {
                 } else if (status == Status.BEHIND) {
                     lore.add(TextUtils.parse("<!italic><red>Finish this tool's upgrades in the zone before first"));
                 } else {
-                    lore.add(TextUtils.parse("<!italic><gold>Next: <white>").append(tools.describe(type, next)));
+                    lore.add(TextUtils.parse("<!italic><gold>Next: <white>").append(tools.describe(player, zone, type, next)));
                     boolean affordable = true;
                     for (MenuItem cost : next.costs()) {
                         long have = backpack == null ? 0 : backpack.getAmount(player, cost.getId());

@@ -74,7 +74,7 @@ The targets add up to about 86 minutes. The first full playtest took 100.
 ## 4. Systems across the game
 
 - **Backpack.** Holds every resource outside the inventory. `/backpack`.
-- **Collections.** Counts everything ever gathered. Each resource has tiers, the first at the amount its zone costs in all, and each tier pays Essence. Things not found yet show as `???`. Gear dropped by mobs is listed after the resources.
+- **Collections.** Counts everything ever gathered. Each resource has tiers, the first at the amount its zone costs in all, and each tier pays Essence. Things not found yet show as `???`. A second tab shows gear: the player's own tools and armour as they are now, then what mobs drop.
 - **Armory.** A weapon or armour piece dropped by a mob is unlocked for good and can be taken out again. The first unlock pays 100 Essence. Dropped weapons are as strong as upgrades five zones on, and rare.
 - **Ranks.** Playtime ranks up to 1,000 hours, donor ranks and staff ranks. `/ranks` picks the one shown.
 - **Cosmetics.** `/customise`: suffixes, chat and name colour, join and death messages, trails, kill effects and armour trims. Some are free, some earned (playtime, a maxed zone or region), some bought with Essence, some come only with a donor package. See [STORE.md](STORE.md).

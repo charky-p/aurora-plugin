@@ -17,6 +17,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
 | `/leaderboard` | The ten highest levels on the server |
 | `/spawn` | Teleport to this world's spawn |
+| `/tutorial skip` | Leave the first-join tutorial without its reward. The Skip link in chat runs it |
 
 **In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.
 
@@ -31,7 +32,8 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 5. `/a spawner create <name> ~ ~ ~ <mob>` for each mob area.
 6. `/a trader create <trader>` where each trader should stand, facing you.
 7. `/a portal create <name>` from the wand selection, then stand at the arrival point and `/a portal setdest <name>`. Make a second portal for the way back.
-8. `scripts/server.sh backup` (local) or `python scripts/deploy.py backup <server>` (live).
+8. In the first region, stand by the Cobblestone Quarry and `/a tutorial setstart` for where new players begin the tutorial.
+9. `scripts/server.sh backup` (local) or `python scripts/deploy.py backup <server>` (live).
 
 ## Test world
 
@@ -118,6 +120,17 @@ Saved as numbered spots. A trader that is killed or unloaded respawns at its spo
 | `/a trader tp <spot> [player]` | Teleport in front of it |
 
 Right clicking a trader with the wand also removes it and its spot.
+
+## Tutorial
+
+A new player's first join starts the tutorial at the spot set with `setstart`, instead of the main spawn. A boss bar shows the step: mine 20 cobblestone, open the backpack, click a trader, buy an upgrade. Each step ends by itself. Finishing pays 50 Essence and the `NEWCOMER` suffix. A player who leaves mid-way comes back to the start of the step they were on. Players who joined before it existed never get it.
+
+| Command | Does |
+|---|---|
+| `/a tutorial setstart` | New players start the tutorial where you stand |
+| `/a tutorial tp` | Go to where it starts |
+| `/a tutorial start [player]` | Put a player through it from the first step, e.g. after `/a reset <player> all` |
+| `/a tutorial skip [player]` | Take a player out of it, no reward |
 
 ## Other admin commands
 

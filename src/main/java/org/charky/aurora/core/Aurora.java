@@ -26,6 +26,7 @@ import org.charky.aurora.core.database.Schema;
 import org.charky.aurora.core.database.SpawnStore;
 import org.charky.aurora.core.database.SpawnerStore;
 import org.charky.aurora.core.database.ToolStore;
+import org.charky.aurora.core.database.TutorialStore;
 import org.charky.aurora.core.database.TraderStore;
 import org.charky.aurora.core.database.UnlockStore;
 import org.charky.aurora.core.database.WorldStore;
@@ -61,6 +62,8 @@ import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
 import org.charky.aurora.features.system.SpawnListener;
+import org.charky.aurora.features.tutorial.TutorialCommand;
+import org.charky.aurora.features.tutorial.TutorialManager;
 import org.charky.aurora.features.system.VoidGenerator;
 import org.charky.aurora.features.system.WandListener;
 import org.charky.aurora.features.system.WandManager;
@@ -105,6 +108,7 @@ public class Aurora extends JavaPlugin {
     private CollectionManager collectionManager;
     private PerkManager perkManager;
     private CosmeticManager cosmeticManager;
+    private TutorialManager tutorialManager;
     private ToolManager toolManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
@@ -191,6 +195,10 @@ public class Aurora extends JavaPlugin {
         cosmeticManager.setLookChanged(toolManager::refresh);
         registry.registerAction("upgrades", toolManager::openUpgrades);
         registry.registerAction("tools", toolManager::giveStarters);
+        this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);
+        backpackManager.setOnOpen(tutorialManager::openedBackpack);
+        toolManager.setOnOpened(tutorialManager::openedUpgrades);
+        toolManager.setOnBought(tutorialManager::bought);
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.bossManager = new BossManager(this);
@@ -208,6 +216,7 @@ public class Aurora extends JavaPlugin {
         command("customise", new OpenMenuCommand(cosmeticManager::openHub));
         command("leaderboard", new TopCommand(players));
         command("collections", new OpenMenuCommand(collectionManager::open));
+        command("tutorial", new TutorialCommand(tutorialManager));
 
         List<Listener> listeners = List.of(
                 new MineListener(this),
@@ -222,6 +231,7 @@ public class Aurora extends JavaPlugin {
                 new TraderListener(this),
                 new WandListener(this),
                 new SpawnListener(this),
+                tutorialManager,
                 new PortalListener(this),
                 new KeyItemListener(this),
                 new BackpackItemListener(this),
@@ -307,6 +317,10 @@ public class Aurora extends JavaPlugin {
         return cosmeticManager;
     }
 
+    public TutorialManager getTutorialManager() {
+        return tutorialManager;
+    }
+
     public PerkManager getPerkManager() {
         return perkManager;
     }
@@ -370,6 +384,7 @@ public class Aurora extends JavaPlugin {
         if (backpackManager != null) backpackManager.shutdown();
         if (rankManager != null) rankManager.shutdown();
         if (cosmeticManager != null) cosmeticManager.shutdown();
+        if (tutorialManager != null) tutorialManager.shutdown();
         if (collectionManager != null) collectionManager.shutdown();
 
         // Last, so the saves above and any still queued finish first

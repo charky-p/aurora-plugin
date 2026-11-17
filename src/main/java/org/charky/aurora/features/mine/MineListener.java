@@ -18,6 +18,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.features.tutorial.TutorialManager;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.collection.CollectionManager;
@@ -45,9 +46,12 @@ public class MineListener implements Listener {
     private final PerkManager perks;
     private static final int CRIT_MULTIPLIER = 2;
 
+    private final TutorialManager tutorial;
+
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
         this.players = plugin.getPlayerManager();
+        this.tutorial = plugin.getTutorialManager();
         this.scoreboard = plugin.getScoreboardManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
@@ -112,6 +116,7 @@ public class MineListener implements Listener {
             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.3f, 1.8f);
         }
         backpackManager.get(player.getUniqueId()).collect(player, blockDrops);
+        tutorial.mined(player, blockDrops);
 
         Essence.roll(player, Enchants.level(pick, "luck"), players);
 

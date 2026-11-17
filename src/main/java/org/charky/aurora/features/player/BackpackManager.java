@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class BackpackManager {
     // Every 5 minutes, so a crash loses at most that much mining
@@ -19,6 +20,7 @@ public class BackpackManager {
 
     private Map<UUID, BackpackData> backpacks;
     private final DataRegistry registry;
+    private Consumer<Player> onOpen = player -> {};
     private Database db;
     private BackpackStore store;
     private BukkitTask autosave;
@@ -47,6 +49,12 @@ public class BackpackManager {
 
     public void open(Player player) {
         new BackpackMenu(get(player.getUniqueId()), registry).open(player);
+        onOpen.accept(player);
+    }
+
+    // Told whenever a player opens their backpack. The tutorial listens
+    public void setOnOpen(Consumer<Player> onOpen) {
+        this.onOpen = onOpen;
     }
 
     // The live item maps, for changes that span every backpack

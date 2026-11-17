@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 // Tools that live on the player. A tool's stats are levels kept per player and per
@@ -51,6 +52,9 @@ public class ToolManager implements Listener {
     private Function<Player, ArmorTrim> trims = player -> null;
     // Told when a player buys the last upgrade a zone sells
     private ZoneMaxed onMaxed = (player, zoneId, region) -> {};
+    // Told when a player opens a zone's upgrades, and when they buy one. The tutorial listens
+    private BiConsumer<Player, String> onOpened = (player, zoneId) -> {};
+    private BiConsumer<Player, String> onBought = (player, zoneId) -> {};
 
     public interface ZoneMaxed {
         void accept(Player player, String zoneId, String region);
@@ -62,6 +66,14 @@ public class ToolManager implements Listener {
 
     public void setOnMaxed(ZoneMaxed onMaxed) {
         this.onMaxed = onMaxed;
+    }
+
+    public void setOnOpened(BiConsumer<Player, String> onOpened) {
+        this.onOpened = onOpened;
+    }
+
+    public void setOnBought(BiConsumer<Player, String> onBought) {
+        this.onBought = onBought;
     }
 
     public ToolManager(Aurora plugin, Database db, ToolStore store) {
@@ -285,6 +297,7 @@ public class ToolManager implements Listener {
         player.sendMessage(TextUtils.parse("<gold><b>UPGRADED</b> <gray>" + tool.name() + ": <white>").append(bought));
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1.4f);
         if (maxed(player, zone.id())) onMaxed.accept(player, zone.id(), registry.getZoneRegion(zone.id()));
+        onBought.accept(player, zone.id());
         return null;
     }
 
@@ -295,6 +308,7 @@ public class ToolManager implements Listener {
             return;
         }
         new UpgradeMenu(this, registry, zone).open(player);
+        onOpened.accept(player, zoneId);
     }
 
     // Null for anything that is not one of these tools

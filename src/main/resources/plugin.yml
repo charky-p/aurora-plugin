@@ -11,7 +11,7 @@ commands:
     permission: aurora.admin
   aurora:
     description: Open the Aurora menu, admins also get the subcommands
-    usage: /aurora [mine|spawner|trader|portal|world|wand|setspawn|heal|help|info]
+    usage: /aurora [mine|spawner|trader|portal|world|wand|setspawn|tutorial|heal|help|info]
     aliases: [a, aura]
   spawn:
     description: Teleport to world spawn
@@ -35,6 +35,9 @@ commands:
   leaderboard:
     description: The ten highest levels on the server
     usage: /leaderboard
+  tutorial:
+    description: Skip the first-join tutorial
+    usage: /tutorial skip
   collections:
     description: Every resource you have gathered and what the next milestone pays
     usage: /collections

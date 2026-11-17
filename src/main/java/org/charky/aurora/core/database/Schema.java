@@ -124,6 +124,18 @@ public final class Schema {
             "CREATE TABLE IF NOT EXISTS spawns (" +
                     "world TEXT PRIMARY KEY, " +
                     "x DOUBLE, y DOUBLE, z DOUBLE, " +
+                    "yaw FLOAT, pitch FLOAT)",
+
+            // The step each player is on in the first-join tutorial, deleted once done
+            "CREATE TABLE IF NOT EXISTS tutorial (" +
+                    "uuid TEXT PRIMARY KEY, " +
+                    "step TEXT)",
+
+            // Named spots that belong to no world's spawn, like where the tutorial starts
+            "CREATE TABLE IF NOT EXISTS locations (" +
+                    "name TEXT PRIMARY KEY, " +
+                    "world TEXT, " +
+                    "x DOUBLE, y DOUBLE, z DOUBLE, " +
                     "yaw FLOAT, pitch FLOAT)"
     );
 

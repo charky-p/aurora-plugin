@@ -52,8 +52,9 @@ None of Aurora's setup is part of the build. Mines, spawners, traders, portals a
 3. **Spawners.** Stand where each mob should spawn, `/a spawner create <name> ~ ~ ~ <mob> [limit] [radius] [delay]`. Hostile zones are better fenced so mobs stay in them.
 4. **Traders.** Stand where each should be, facing the way players come from, `/a trader create <trader>`.
 5. **Portals and gates.** Select the portal box, `/a portal create <name>`, stand at the arrival point, `/a portal setdest <name>`. Make one for the way back. Lock the Gormak gate with `/a portal settag <name> gormak` and put the Gate Warden beside it.
-6. **Warps.** The world column of `scripts/data/world/warps.csv` still names the test worlds. Change it to the new world, then `python scripts/generate.py --live` and `/refresh`.
-7. **Back up:** `scripts/server.sh backup` (local) or `python scripts/deploy.py backup <server>` (live).
+6. **Tutorial.** By the Cobblestone Quarry, facing the mine, `/a tutorial setstart`. New players begin there. Test it with `/a tutorial start`.
+7. **Warps.** The world column of `scripts/data/world/warps.csv` still names the test worlds. Change it to the new world, then `python scripts/generate.py --live` and `/refresh`.
+8. **Back up:** `scripts/server.sh backup` (local) or `python scripts/deploy.py backup <server>` (live).
 
 The test world names everything `t_...`. Use plain names on the real map, so `--teardown` of the test world never touches it.
 

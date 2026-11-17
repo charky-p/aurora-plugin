@@ -69,9 +69,10 @@
                         <configuration>
                             <target>
                                 <!-- Jars of other versions first: the server loads only one
-                                     plugin called Aurora, and not always the newest file -->
+                                     plugin called Aurora, and not always the newest file.
+                                     LocalServer is gitignored, so on CI there is nothing to delete -->
                                 <delete>
-                                    <fileset dir="LocalServer/plugins" includes="Aurora-*.jar" />
+                                    <fileset dir="LocalServer/plugins" includes="Aurora-*.jar" erroronmissingdir="false" />
                                 </delete>
                                 <copy file="target/${project.build.finalName}.jar"
                                       todir="LocalServer/plugins" />

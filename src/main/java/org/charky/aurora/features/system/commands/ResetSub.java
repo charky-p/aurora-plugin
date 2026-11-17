@@ -42,7 +42,7 @@ public class ResetSub implements AuroraSubCommand {
         if (all) {
             plugin.getBackpackManager().clear(target.getUniqueId());
             target.getInventory().clear();
-            for (String tag : plugin.getRegistry().getUnlockTags()) target.removeScoreboardTag(tag);
+            plugin.getAccessManager().reset(target.getUniqueId());
 
             PlayerData data = plugin.getPlayerManager().get(target);
             if (data != null) {

@@ -126,6 +126,12 @@ public final class Schema {
                     "x DOUBLE, y DOUBLE, z DOUBLE, " +
                     "yaw FLOAT, pitch FLOAT)",
 
+            // Where a pass has let each player go, the ids locked portals and warps ask for
+            "CREATE TABLE IF NOT EXISTS portal_access (" +
+                    "uuid TEXT, " +
+                    "access TEXT, " +
+                    "PRIMARY KEY (uuid, access))",
+
             // The step each player is on in the first-join tutorial, deleted once done
             "CREATE TABLE IF NOT EXISTS tutorial (" +
                     "uuid TEXT PRIMARY KEY, " +

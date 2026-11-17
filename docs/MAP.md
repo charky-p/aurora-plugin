@@ -35,7 +35,7 @@ Use this when the host gives no world download. The host needs WorldEdit (or Fas
 
 - **Big builds.** A very large selection can lag the host or hit its limits. Copy it in parts: one schematic per island or zone, each with its own anchor written down.
 - **Versions.** A build from an older Minecraft version pastes fine, but check doors, stairs, redstone and anything with a facing.
-- **Containers and signs** come across with their contents. Player data, advancements and scoreboard tags do not.
+- **Containers and signs** come across with their contents. Player data and advancements do not.
 - **Memory.** A paste is held in memory whole. `scripts/server.sh` gives the server 6G (`AURORA_MEMORY=8G scripts/server.sh start` for more); with 2G a paste of 15 million blocks ran out and froze the server.
 - **Back it up** once it is in: `scripts/server.sh backup`.
 

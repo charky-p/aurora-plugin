@@ -60,16 +60,16 @@ A box like a mine. Walking in sends you to its destination, which can be in anot
 |---|---|
 | `/a portal create <name> [<x1> <y1> <z1> <x2> <y2> <z2>]` | Create from the wand selection, or two corners |
 | `/a portal setdest <portal> [<world> <x> <y> <z> [yaw] [pitch]]` | Where it leads, defaults to where you stand and face |
-| `/a portal settag <portal> [tag]` | Lock it to players with a tag, players without it are thrown back. No tag unlocks it |
+| `/a portal settag <portal> [access]` | Lock it to players with that access, players without it are thrown back. None unlocks it |
 | `/a portal delete <portal>` | Delete it |
 | `/a portal rename <portal> <new name>` | Rename it |
 | `/a portal list` | Every portal and where it leads |
 | `/a portal info <portal>` | Its box and destination |
 | `/a portal tp <portal> [player]` | Teleport into it |
 
-**Locked portals.** Players get a tag by right clicking a key item, in their backpack or their hand, which uses it up. Key items are in `scripts/data/resources_special.csv`, the `unlocks` column is the tag they give, e.g. `gormak_key` (the Gormak Pass) gives `gormak`.
+**Locked portals.** Players get access by right clicking a pass, in their backpack or their hand, which uses it up. Passes are in `scripts/data/resources_special.csv`, the `unlocks` column is the access they give, e.g. `gormak_key` (the Gormak Pass) gives `gormak`. Access is kept by the plugin in its own database (the `portal_access` table), not in vanilla scoreboard tags; `/a access` shows, gives and takes it, and `/a reset <player> all` takes it all away.
 
-**Summoned bosses.** A key with a `summons` column, e.g. `tomb_key` summons `gormak_eternal`, wakes that mob at its spawner when right clicked within 24 blocks of it. Spawners of a summoned mob never spawn it by themselves, so place the boss's spawner with `/a spawner create` as usual, where it should rise. Its limit is how many can be awake at once. Tags are vanilla scoreboard tags, so from the console `/tag <player> add gormak`, `/tag <player> remove gormak` and `/tag <player> list` give, take and show them.
+**Summoned bosses.** A key with a `summons` column, e.g. `tomb_key` summons `gormak_eternal`, wakes that mob at its spawner when right clicked within 24 blocks of it. Spawners of a summoned mob never spawn it by themselves, so place the boss's spawner with `/a spawner create` as usual, where it should rise. Its limit is how many can be awake at once.
 
 ## Mines
 
@@ -140,6 +140,7 @@ A new player's first join starts the tutorial at the spot set with `setstart`, i
 | `/a setspawn [main] [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. With `main` it is also the main spawn, where every player lands on join. Until a main spawn is set, players join in `aurora_mines` |
 | `/a heal [player]` | Restore health and hunger, put out fire |
 | `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
+| `/a access <player> [give\|take <access>]` | Where a player may go: on its own it lists what their passes opened, `give`/`take` open or close one by hand, e.g. `/a access Charky32 give sky` |
 | `/a reset <player> <tools\|all>` | `tools` resets every tool level and hands back plain starter tools. `all` erases everything the player has and plays the first join again, starter kit, backpack and tutorial included: tools, backpack and inventory, level, XP, kills, blocks mined, Essence, playtime, perks, collections, gear unlocked from mobs, portals, cosmetics and every rank, staff and donor ranks and the second suffix included. It cannot be undone |
 | `/a tool <player> give <tool>` | Hand over a tool that lives on the player (pick, axe, shovel, sword, helmet, chestplate, leggings, boots). Its item is drawn from the player's levels in the realm they stand in |
 | `/a tool <player> set <tool> <stat> <level> [realm]` | Set one level of a player's tool, in their current realm or a named one. The stat is an enchant, or `material` with a name such as `iron` |

@@ -19,8 +19,9 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 // Key items from resources_special.csv, used up by right clicking them in the backpack
-// or the hand. An unlocks key gives the player a tag, portals locked to that tag let
-// them through. Tags are vanilla scoreboard tags, so `/tag <player> add <tag>` works.
+// or the hand. An unlocks key opens an access id for the player, portals and warps
+// locked to that id let them through. The plugin keeps access in its database
+// (AccessManager), /aurora access gives and takes it.
 // A summons key wakes its mob at that mob's spawner, which never spawns it by itself
 public final class KeyItems {
     // How close to the spawner a summon key must be used
@@ -36,8 +37,9 @@ public final class KeyItems {
         if (plugin.getRegistry().isKey(itemId)) plugin.getArmoryManager().rememberKey(player.getUniqueId(), itemId);
     }
 
-    public static boolean has(Player player, String tag) {
-        return player.getScoreboardTags().contains(tag);
+    // Kept by the plugin in its database, see AccessManager
+    public static boolean has(Player player, String access) {
+        return JavaPlugin.getPlugin(Aurora.class).getAccessManager().has(player, access);
     }
 
     // True when the key was used and one should be taken away
@@ -71,7 +73,7 @@ public final class KeyItems {
             return false;
         }
 
-        player.addScoreboardTag(tag);
+        JavaPlugin.getPlugin(Aurora.class).getAccessManager().grant(player.getUniqueId(), tag);
         player.sendMessage(TextUtils.parse("<green>Used ").append(name).append(TextUtils.parse("<green>, a new portal is open to you")));
         player.playSound(player.getLocation(), Sound.BLOCK_VAULT_OPEN_SHUTTER, 1f, 1f);
         return true;

@@ -15,6 +15,7 @@ import org.charky.aurora.features.portal.PortalCommand;
 import org.charky.aurora.features.world.WorldCommand;
 import org.charky.aurora.common.util.LocationUtils;
 import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.features.keys.AccessSub;
 import org.charky.aurora.features.tutorial.TutorialSub;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +49,7 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
         register(new ToolSub(plugin));
         register(new ResetSub(plugin));
         register(new TutorialSub(plugin));
+        register(new AccessSub(plugin));
         register(new HelpCommand(subCommands));
         register(new InfoCommand(subCommands));
     }

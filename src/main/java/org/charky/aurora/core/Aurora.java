@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.common.menu.PagedMenuListener;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.core.database.AccessStore;
 import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.CollectionStore;
 import org.charky.aurora.core.database.CosmeticStore;
@@ -36,6 +37,7 @@ import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
+import org.charky.aurora.features.keys.AccessManager;
 import org.charky.aurora.features.keys.KeyItemListener;
 import org.charky.aurora.features.keys.KeyItems;
 import org.charky.aurora.features.mine.MineListener;
@@ -111,6 +113,7 @@ public class Aurora extends JavaPlugin {
     private PerkManager perkManager;
     private CosmeticManager cosmeticManager;
     private TutorialManager tutorialManager;
+    private AccessManager accessManager;
     private ToolManager toolManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
@@ -199,6 +202,7 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("tools", toolManager::giveStarters);
         // The Overworld Core opens the Caverns only for a player who has maxed every zone
         KeyItems.require("caverns", toolManager::maxedAll, "Max every zone in the game first");
+        this.accessManager = new AccessManager(db, new AccessStore(db), registry);
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);
         backpackManager.setOnOpen(tutorialManager::openedBackpack);
         toolManager.setOnOpened(tutorialManager::openedUpgrades);
@@ -236,6 +240,7 @@ public class Aurora extends JavaPlugin {
                 new WandListener(this),
                 new SpawnListener(this),
                 tutorialManager,
+                accessManager,
                 new PortalListener(this),
                 new KeyItemListener(this),
                 new GrappleListener(),
@@ -320,6 +325,10 @@ public class Aurora extends JavaPlugin {
 
     public CosmeticManager getCosmeticManager() {
         return cosmeticManager;
+    }
+
+    public AccessManager getAccessManager() {
+        return accessManager;
     }
 
     public TutorialManager getTutorialManager() {

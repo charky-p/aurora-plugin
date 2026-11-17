@@ -9,6 +9,7 @@ import org.charky.aurora.common.util.LocationUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.common.util.TextUtils;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,13 +25,16 @@ public class SetSpawnCommand implements AuroraSubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        // main first: this world's spawn also becomes where every player joins
+        boolean main = args.length > 0 && args[0].equalsIgnoreCase("main");
+        if (main) args = Arrays.copyOfRange(args, 1, args.length);
+
         if (args.length == 0) {
             if (!(sender instanceof Player player)) {
                 TextUtils.error(sender, "Console must give coordinates");
                 return;
             }
-            plugin.setSpawn(player.getLocation());
-            TextUtils.success(sender, "Spawn set for " + player.getWorld().getName() + " at " + player.getLocation());
+            set(sender, player.getLocation(), main);
             return;
         }
 
@@ -60,24 +64,35 @@ public class SetSpawnCommand implements AuroraSubCommand {
             }
 
             World world = LocationUtils.commandWorld(sender);
-            plugin.setSpawn(new Location(world, x, y, z, yaw, 0));
-            TextUtils.success(sender, "Spawn set for " + world.getName() + " at " + x + ", " + y + ", " + z);
+            set(sender, new Location(world, x, y, z, yaw, 0), main);
         } catch (NumberFormatException e) {
             TextUtils.error(sender, "Invalid coordinates: " + e.getMessage());
         }
     }
 
+    private void set(CommandSender sender, Location location, boolean main) {
+        String where = location.getWorld().getName() + " at " + Math.round(location.getX()) + ", "
+                + Math.round(location.getY()) + ", " + Math.round(location.getZ());
+        if (main) {
+            plugin.setMainSpawn(location);
+            TextUtils.success(sender, "Main spawn set in " + where + ", every player joins here");
+        } else {
+            plugin.setSpawn(location);
+            TextUtils.success(sender, "Spawn set for " + where);
+        }
+    }
+
     @Override
     public List<String> tabComplete(Player player, String[] args) {
-        if (args.length >= 1 && args.length <= 3) {
-            return List.of("~");
-        }
+        if (args.length == 1) return List.of("main", "~");
+        int coordinate = args[0].equalsIgnoreCase("main") ? args.length - 1 : args.length;
+        if (coordinate >= 1 && coordinate <= 3) return List.of("~");
         return Collections.emptyList();
     }
 
     @Override
     public String getUsage() {
-        return "[<x> <y> <z> [yaw]]";
+        return "[main] [<x> <y> <z> [yaw]]";
     }
 
     @Override
@@ -87,6 +102,6 @@ public class SetSpawnCommand implements AuroraSubCommand {
 
     @Override
     public String getDescription() {
-        return "Set the spawn location of the current world";
+        return "Set the spawn of this world, with main also where every player joins";
     }
 }

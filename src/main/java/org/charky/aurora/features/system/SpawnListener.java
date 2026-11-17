@@ -1,8 +1,6 @@
 package org.charky.aurora.features.system;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,19 +28,7 @@ public class SpawnListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        World mineWorld = Bukkit.getWorld(Aurora.MAIN_WORLD);
-
-        if (mineWorld != null) {
-            Location spawnLoc = plugin.getSpawn(mineWorld);
-
-            if (spawnLoc != null) {
-                // Teleport them immediately to the aurora-mines spawn
-                player.teleport(spawnLoc);
-            } else {
-                // Fallback: if no custom spawn is set, go to world spawn
-                player.teleport(mineWorld.getSpawnLocation());
-            }
-        }
+        Location spawn = plugin.getMainSpawn();
+        if (spawn != null) event.getPlayer().teleport(spawn);
     }
 }

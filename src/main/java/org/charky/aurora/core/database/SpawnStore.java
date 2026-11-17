@@ -33,6 +33,19 @@ public class SpawnStore {
         return spawnMap;
     }
 
+    // The world players join in, set with /aurora setspawn main. Null until one is set
+    public String loadMain() {
+        String[] main = {null};
+        db.query("SELECT world FROM spawns WHERE main = 1", pst -> {}, rs -> main[0] = rs.getString("world"));
+        return main[0];
+    }
+
+    // Only one world is main, the spawn row is saved first so there is one to mark
+    public void setMain(World world) {
+        db.update("UPDATE spawns SET main = CASE WHEN world = ? THEN 1 ELSE 0 END",
+                pst -> pst.setString(1, world.getName()));
+    }
+
     public void save(Location location) {
         db.update("INSERT INTO spawns (world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?) " +
                 "ON CONFLICT(world) DO UPDATE SET x=excluded.x, y=excluded.y, z=excluded.z, " +

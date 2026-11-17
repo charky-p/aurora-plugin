@@ -36,13 +36,14 @@ Use this when the host gives no world download. The host needs WorldEdit (or Fas
 - **Big builds.** A very large selection can lag the host or hit its limits. Copy it in parts: one schematic per island or zone, each with its own anchor written down.
 - **Versions.** A build from an older Minecraft version pastes fine, but check doors, stairs, redstone and anything with a facing.
 - **Containers and signs** come across with their contents. Player data, advancements and scoreboard tags do not.
+- **Memory.** A paste is held in memory whole. `scripts/server.sh` gives the server 6G (`AURORA_MEMORY=8G scripts/server.sh start` for more); with 2G a paste of 15 million blocks ran out and froze the server.
 - **Back it up** once it is in: `scripts/server.sh backup`.
 
 ## 2. Set Aurora up on it
 
 None of Aurora's setup is part of the build. Mines, spawners, traders, portals and spawns live in Aurora's database, so after the paste they are placed again by command. Do it in this order, one region at a time.
 
-1. **Spawn.** Stand where new players should arrive, `/a setspawn`.
+1. **Spawn.** Stand where players should arrive. `/a setspawn main` in the world players join in, which makes it the main spawn, and `/a setspawn` in every other world.
 2. **Mines.** For each zone, select the mine with `/a wand` (left and right click two corners), then:
    - `/a mine wandcreate <name>`
    - `/a mine setblocks <name> <block> <%> ...` with the mix below

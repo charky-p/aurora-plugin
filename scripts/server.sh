@@ -23,6 +23,8 @@ SERVER="$ROOT/LocalServer"
 MVN="/c/Program Files/JetBrains/IntelliJ IDEA 2025.3.1.1/plugins/maven-plugin/lib/maven3/bin/mvn.cmd"
 BUILD_JDK='C:\Users\Chill\.jdks\openjdk-25.0.1'
 SERVER_JAVA="/c/Users/Chill/.jdks/openjdk-25.0.1/bin/java.exe"
+# Most memory the server may use. Big WorldEdit pastes need more than 2G. AURORA_MEMORY=8G overrides it
+MEMORY="${AURORA_MEMORY:-6G}"
 PAPER_JAR="versions/26.3/paper-26.3-248.jar"
 
 # The server reads its console from this file, so commands can be appended to it
@@ -56,7 +58,7 @@ start() {
     : > "$OUTPUT"
     cd "$SERVER"
     # Detached from this script's output, or anything piping it would wait on the server
-    tail -n 0 -f "$CONSOLE" 2>/dev/null < /dev/null | "$SERVER_JAVA" -Xmx2G -Xms2G -jar "$PAPER_JAR" nogui > "$OUTPUT" 2>&1 &
+    tail -n 0 -f "$CONSOLE" 2>/dev/null < /dev/null | "$SERVER_JAVA" -Xms2G -Xmx"$MEMORY" -jar "$PAPER_JAR" nogui > "$OUTPUT" 2>&1 &
     echo $! > "$PIDFILE"
 
     for _ in $(seq 1 180); do

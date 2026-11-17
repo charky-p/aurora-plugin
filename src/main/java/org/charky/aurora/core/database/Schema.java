@@ -133,7 +133,8 @@ public final class Schema {
             new String[]{"spawners", "active", "INTEGER DEFAULT 1"},
             new String[]{"portals", "required_tag", "TEXT"},
             new String[]{"playerData", "xp", "INTEGER DEFAULT 0"},
-            new String[]{"playerData", "playtime", "INTEGER DEFAULT 0"}
+            new String[]{"playerData", "playtime", "INTEGER DEFAULT 0"},
+            new String[]{"spawns", "main", "INTEGER DEFAULT 0"}
     );
 
     private Schema() {

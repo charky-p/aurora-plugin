@@ -84,6 +84,7 @@ import java.util.logging.Level;
 
 public class Aurora extends JavaPlugin {
     // The main world, everything in it is built by hand
+    // Where players join until /aurora setspawn main picks another world
     public static final String MAIN_WORLD = "aurora_mines";
 
     private Database db;
@@ -107,6 +108,7 @@ public class Aurora extends JavaPlugin {
     private ToolManager toolManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
+    private String mainWorld = MAIN_WORLD;
 
     @Override
     public void onEnable() {
@@ -146,6 +148,9 @@ public class Aurora extends JavaPlugin {
         worldManager.loadAll();
 
         this.spawnMap = spawnStore.loadAll();
+        String savedMain = spawnStore.loadMain();
+        if (savedMain != null && Bukkit.getWorld(savedMain) != null) mainWorld = savedMain;
+        else if (savedMain != null) getLogger().warning("Main world '" + savedMain + "' is not loaded, players join in " + MAIN_WORLD);
 
         // Managers
         this.players = new PlayerManager(this, db, new PlayerStore(db));
@@ -322,6 +327,25 @@ public class Aurora extends JavaPlugin {
     public void setSpawn(Location location) {
         spawnMap.put(location.getWorld(), location);
         spawnStore.save(location);
+    }
+
+    // The world players join in, its spawn set with /aurora setspawn main
+    public void setMainSpawn(Location location) {
+        setSpawn(location);
+        spawnStore.setMain(location.getWorld());
+        mainWorld = location.getWorld().getName();
+    }
+
+    public String getMainWorld() {
+        return mainWorld;
+    }
+
+    // Where a player joining lands: the main world's spawn, or its own if none was set
+    public Location getMainSpawn() {
+        World world = Bukkit.getWorld(mainWorld);
+        if (world == null) return null;
+        Location spawn = getSpawn(world);
+        return spawn != null ? spawn : world.getSpawnLocation();
     }
 
     // Every manager is checked, enabling may have failed before it was made

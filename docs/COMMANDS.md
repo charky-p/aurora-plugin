@@ -25,7 +25,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 ## Building a region, in order
 
 1. `/a world create <name>` for a new void world, then `/a world tp <name>` and build. To bring a build in from another server, see [MAP.md](MAP.md), which also lists what every zone needs.
-2. `/a setspawn` where players should arrive in that world.
+2. `/a setspawn` where players should arrive in that world, or `/a setspawn main` for the world players join in.
 3. `/a wand`, then left click and right click two corners for each mine and portal.
 4. `/a mine wandcreate <name>`, then `/a mine setblocks <name> <block> <%> ...`.
 5. `/a spawner create <name> ~ ~ ~ <mob>` for each mob area.
@@ -124,7 +124,7 @@ Right clicking a trader with the wand also removes it and its spot.
 | Command | Does |
 |---|---|
 | `/a wand` | Wand: left click a block for corner 1, right click for corner 2, right click a trader to remove it |
-| `/a setspawn [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. The `aurora_mines` spawn is where every player lands on join |
+| `/a setspawn [main] [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. With `main` it is also the main spawn, where every player lands on join. Until a main spawn is set, players join in `aurora_mines` |
 | `/a heal [player]` | Restore health and hunger, put out fire |
 | `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
 | `/a reset <player> <tools\|all>` | `tools` resets every tool level and hands back plain starter tools. `all` erases everything the player has, as if they had just joined: tools, backpack and inventory, level, XP, kills, blocks mined, Essence, playtime, perks, collections, gear unlocked from mobs, portals, cosmetics and every rank, staff and donor ranks and the second suffix included. It cannot be undone |

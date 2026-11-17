@@ -34,8 +34,19 @@ public class WorldManager {
         }
     }
 
+    // Vanilla's own dimensions, taken by the main world, its nether and end whatever their folders are called
+    private static final List<String> RESERVED = List.of("overworld", "the_nether", "the_end");
+
     public static boolean isValidName(String name) {
         return VALID_NAME.matcher(name).matches();
+    }
+
+    // Bukkit refuses a world whose key another world already has, and the main world's
+    // key is minecraft:overworld although its folder is called world
+    public static boolean isTaken(String name) {
+        if (RESERVED.contains(name)) return true;
+        return Bukkit.getWorlds().stream()
+                .anyMatch(world -> !world.getName().equals(name) && world.getKey().getKey().equals(name));
     }
 
     // Loads it if its folder exists, generates an empty one if not
@@ -70,6 +81,11 @@ public class WorldManager {
         WorldCreator creator = new WorldCreator(name);
         creator.generator(new VoidGenerator());
         creator.generateStructures(false);
-        return Bukkit.createWorld(creator);
+        try {
+            return Bukkit.createWorld(creator);
+        } catch (IllegalArgumentException e) {
+            Bukkit.getLogger().warning("[Aurora] World '" + name + "': " + e.getMessage());
+            return null;
+        }
     }
 }

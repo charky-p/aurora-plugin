@@ -24,7 +24,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 
 ## Building a region, in order
 
-1. `/a world create <name>` for a new void world, then `/a world tp <name>` and build.
+1. `/a world create <name>` for a new void world, then `/a world tp <name>` and build. To bring a build in from another server, see [MAP.md](MAP.md), which also lists what every zone needs.
 2. `/a setspawn` where players should arrive in that world.
 3. `/a wand`, then left click and right click two corners for each mine and portal.
 4. `/a mine wandcreate <name>`, then `/a mine setblocks <name> <block> <%> ...`.
@@ -45,7 +45,7 @@ Extra void worlds, saved so they load on every startup.
 
 | Command | Does |
 |---|---|
-| `/a world create <name>` | Create an empty void world, or load an existing folder. Lowercase letters, numbers and `_` |
+| `/a world create <name>` | Create an empty void world, or load an existing folder. Lowercase letters, numbers and `_`. `overworld`, `the_nether` and `the_end` are taken by vanilla |
 | `/a world list` | List the loaded worlds, click to teleport |
 | `/a world tp <world> [player]` | Teleport to a world's spawn, the one from `/a setspawn` if set |
 | `/a world remove <name>` | Stop loading it on startup. Its files are kept |

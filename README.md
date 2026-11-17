@@ -24,7 +24,7 @@ A sky-mining RPG plugin for Paper 26.3. Mine resources, spend them on upgrades f
 
 ## Commands
 
-Every command, and the order to build a region in, is in [docs/COMMANDS.md](docs/COMMANDS.md). How the game progresses and how it is tuned is in [docs/PROGRESSION.md](docs/PROGRESSION.md), and selling donor ranks through a store in [docs/STORE.md](docs/STORE.md).
+Every command, and the order to build a region in, is in [docs/COMMANDS.md](docs/COMMANDS.md). How the game progresses and how it is tuned is in [docs/PROGRESSION.md](docs/PROGRESSION.md), selling donor ranks through a store in [docs/STORE.md](docs/STORE.md), and moving a map in and setting it up in [docs/MAP.md](docs/MAP.md).
 
 ## Game data
 

@@ -67,6 +67,10 @@ public class WorldCommand implements AuroraSubCommand {
             TextUtils.error(sender, "World '" + name + "' already exists");
             return;
         }
+        if (WorldManager.isTaken(name)) {
+            TextUtils.error(sender, "'" + name + "' is a name vanilla already uses for one of its worlds, pick another, e.g. aurora_" + name);
+            return;
+        }
 
         World world = worlds.create(name);
         if (world == null) {

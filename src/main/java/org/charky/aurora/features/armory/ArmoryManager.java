@@ -101,7 +101,7 @@ public class ArmoryManager {
     public void retrieve(Player player, String itemId) {
         if (!isUnlocked(player.getUniqueId(), itemId)) return;
         if (registry.isKey(itemId) && !hasKeyring(player)) {
-            TextUtils.error(player, "Buy the Keyring perk in /shop to take keys.");
+            TextUtils.error(player, "A key is used up, find another where you found this one.");
             return;
         }
 

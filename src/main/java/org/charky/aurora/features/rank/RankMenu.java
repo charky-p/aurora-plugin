@@ -56,14 +56,14 @@ public class RankMenu extends PagedMenu {
             case DEFAULT -> "Everyone starts with this";
             case PLAYTIME -> "Earned by playing for " + hours(rank.requirement()) + "h";
 
-            case SHOP -> "Bought for " + String.format("%,d", rank.requirement()) + " Essence in /shop";
+            case SHOP -> "Bought for " + String.format("%,d", rank.requirement()) + " Essence, coming later";
             case DONOR -> "A donor rank";
             case STAFF -> "A staff rank";
         };
     }
 
     private String locked(Player player, Rank rank) {
-        if (rank.kind() == Rank.Kind.SHOP) return "Buy it in /shop";
+        if (rank.kind() == Rank.Kind.SHOP) return "Coming later";
         if (rank.kind() != Rank.Kind.PLAYTIME) return "Locked";
 
         long left = rank.requirement() - ranks.playtimeOf(player);

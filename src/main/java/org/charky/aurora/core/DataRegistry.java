@@ -83,6 +83,10 @@ public class DataRegistry {
         registerAction("backpack", backpackManager::open);
     }
 
+    public ArmoryManager getArmoryManager() {
+        return armoryManager;
+    }
+
     public void setArmoryManager(ArmoryManager armoryManager) {
         this.armoryManager = armoryManager;
         registerAction("armory", armoryManager::open);

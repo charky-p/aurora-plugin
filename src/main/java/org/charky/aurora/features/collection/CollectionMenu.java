@@ -8,12 +8,15 @@ import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.features.armory.ArmoryManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 // Every resource in progression order with how many the player has ever gathered,
-// the tier that total has reached and what the next one needs and pays
+// the tier that total has reached and what the next one needs and pays. The gear
+// mobs drop comes after: found or not, it is taken out in the Armory
 public class CollectionMenu extends PagedMenu {
     private final CollectionManager collections;
 
@@ -55,6 +58,26 @@ public class CollectionMenu extends PagedMenu {
             });
             items.add(display);
         }
+
+        ArmoryManager armory = registry.getArmoryManager();
+        for (Map.Entry<String, Component> gear : registry.getArmory().entrySet()) {
+            if (!armory.isUnlocked(player.getUniqueId(), gear.getKey())) {
+                ItemStack unknown = button(Material.GRAY_DYE, "<dark_gray>???");
+                unknown.editMeta(meta -> meta.lore(List.of(
+                        TextUtils.parse("<!italic><gray>Gear dropped by ").append(gear.getValue()))));
+                items.add(unknown);
+                continue;
+            }
+
+            ItemStack display = registry.getAllItems().get(gear.getKey()).clone();
+            display.editMeta(meta -> {
+                List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
+                lore.add(Component.empty());
+                lore.add(TextUtils.parse("<!italic><green>Found <dark_gray>- <gray>take it out in the Armory"));
+                meta.lore(lore);
+            });
+            items.add(display);
+        }
         return items;
     }
 
@@ -74,8 +97,10 @@ public class CollectionMenu extends PagedMenu {
             }
         }
         return List.of(
-                TextUtils.parse("<!italic><gray>Every resource you have ever gathered."),
+                TextUtils.parse("<!italic><gray>Every resource you have gathered and every gear drop."),
                 TextUtils.parse("<!italic><gray>Found: <white>" + found(player) + "/" + all),
-                TextUtils.parse("<!italic><gray>Tiers reached: <white>" + reached + "/" + all * CollectionTiers.count()));
+                TextUtils.parse("<!italic><gray>Tiers reached: <white>" + reached + "/" + all * CollectionTiers.count()),
+                TextUtils.parse("<!italic><gray>Gear found: <white>" + registry.getArmoryManager().unlockedCount(player.getUniqueId())
+                        + "/" + registry.getArmory().size()));
     }
 }

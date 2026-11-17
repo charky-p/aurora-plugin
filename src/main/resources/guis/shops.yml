@@ -112,8 +112,8 @@ items:
       - "BBBBBBBBB"
       - "B       B"
       - "B 1 4 5 B"
-      - "B 6 7 8 B"
-      - "B  w 9  B"
+      - "B 6 7 w B"
+      - "B   9   B"
       - "BBBBBBBBX"
     components:
       '1':
@@ -136,10 +136,6 @@ items:
         type: ACTION
         id: customise
         icon: icon_customise
-      '8':
-        type: ACTION
-        id: shop
-        icon: icon_shop
       '9':
         type: ACTION
         id: spawn

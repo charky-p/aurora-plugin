@@ -12,7 +12,6 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 |---|---|
 | `/a`, `/aurora` | Open the Aurora menu |
 | `/backpack`, `/bp` | Open your backpack |
-| `/shop` | Spend Essence on perks and ranks |
 | `/customise`, `/customize`, `/cosmetics` | Choose how you look: rank, suffixes, chat and name colour, join and death message, trail, kill effect and the trim on your armour. Cosmetics are bought here with Essence |
 | `/ranks`, `/rank` | Choose the rank shown by your name, from the ones you have unlocked |
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
@@ -20,6 +19,8 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/spawn` | Teleport to this world's spawn |
 
 **In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.
+
+`/shop`, `/gauntlet` and fishing are switched off until they are finished, see [PROGRESSION.md](PROGRESSION.md). Selling donor ranks and cosmetics through a store is in [STORE.md](STORE.md).
 
 ## Building a region, in order
 
@@ -131,8 +132,7 @@ Right clicking a trader with the wand also removes it and its spot.
 | `/a tool <player> set <tool> <stat> <level> [realm]` | Set one level of a player's tool, in their current realm or a named one. The stat is an enchant, or `material` with a name such as `iron` |
 | `/a tool <player> info <tool>` | What the tool has where the player stands, and which realms that builds on |
 | `/a cosmetic <player> <give\|take> <id>` | Give or take a rank, a cosmetic or `suffix_slot_2`. The only way to the donor and staff ranks, the donor-only cosmetics and the second suffix, which comes with a donor package. Tab completes every id |
-| `/a grant <player> <essence\|xp\|hours> <amount>` | Give Essence, XP or hours of playtime, for testing the shop, levels and playtime ranks. Hours are counted within a minute, which is when a new playtime rank is handed out |
+| `/a grant <player> <essence\|xp\|hours> <amount>` | Give Essence, XP or hours of playtime, for testing cosmetics, levels and playtime ranks. Hours are counted within a minute, which is when a new playtime rank is handed out |
 | `/a help`, `/a info <command>` | Command list, one command in detail |
 | `/refresh` | Reload all game data from the YAML, after `python scripts/generate.py --live` |
 | `/dump [items\|icons\|all\|clear]` | Shulkers of every registry item or icon, for checking how they look. `clear` empties your own backpack and inventory |
-| `/gauntlet` | Gauntlet test mode, unfinished, clears your inventory |

@@ -16,11 +16,12 @@ public class CommandFilter implements Listener {
     private static final Set<String> PLAYER_COMMANDS = Set.of(
             "a", "aurora", "aura",
             "backpack", "bp",
-            "shop",
             "customise", "customize", "cosmetics",
             "ranks", "rank",
             "collections", "collection",
             "leaderboard",
+            // The store plugin's own command, listed so donors can find it
+            "buy",
             "spawn");
 
     @EventHandler

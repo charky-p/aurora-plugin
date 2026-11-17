@@ -35,10 +35,6 @@ import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
-import org.charky.aurora.features.fishing.FishingListener;
-import org.charky.aurora.features.gauntlet.GauntletCommand;
-import org.charky.aurora.features.gauntlet.GauntletListener;
-import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.keys.KeyItemListener;
 import org.charky.aurora.features.mine.MineListener;
 import org.charky.aurora.features.mine.MineManager;
@@ -61,7 +57,6 @@ import org.charky.aurora.features.system.HowToPlay;
 import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.system.CommandFilter;
 import org.charky.aurora.features.rank.RankManager;
-import org.charky.aurora.features.rank.RankShopMenu;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
@@ -85,7 +80,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 
 public class Aurora extends JavaPlugin {
@@ -172,8 +166,11 @@ public class Aurora extends JavaPlugin {
             data.addEssence(amount);
             scoreboard.updateBoard(player);
         });
-        Consumer<Player> openShop = player -> new RankShopMenu(rankManager, perkManager, registry).open(player);
-        registry.registerAction("shop", openShop);
+        // TODO: later. Switched off until they are finished, the code is all still here:
+        //  - the Essence shop (RankShopMenu: perks and the Essence ranks), /shop and its menu icon
+        //  - the gauntlet (features/gauntlet), /gauntlet and its listener
+        //  - fishing (features/fishing), its listener and the rods in gear_other.csv
+        // Perks already bought still work, PerkManager stays for them and for /a reset
         registry.registerAction("warps", player -> new WarpMenu(this).open(player));
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
         armoryManager.setTools(toolManager);
@@ -193,17 +190,13 @@ public class Aurora extends JavaPlugin {
         this.traderManager = new TraderManager(this, new TraderStore(db));
         this.wandManager = new WandManager();
         this.portalManager = new PortalManager(new PortalStore(db));
-        // Unfinished, see GauntletManager
-        GauntletManager gauntletManager = new GauntletManager(this);
 
         // Commands, each one is declared in plugin.yml
         command("aurora", new AuroraCommand(this));
         command("spawn", new SpawnCommand(this));
-        command("gauntlet", new GauntletCommand(gauntletManager));
         command("backpack", new BackpackCommand(backpackManager));
         command("dump", new DumpCommand(this));
         command("refresh", new RefreshCommand(this));
-        command("shop", new OpenMenuCommand(openShop));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
         command("customise", new OpenMenuCommand(cosmeticManager::openHub));
         command("leaderboard", new TopCommand(players));
@@ -227,10 +220,8 @@ public class Aurora extends JavaPlugin {
                 new BackpackItemListener(this),
                 new ChatShowcase(),
                 new ServerMessages(registry, cosmeticManager),
-                new FishingListener(this),
                 new CombatListener(this),
                 bossManager,
-                new GauntletListener(gauntletManager),
                 new PagedMenuListener(),
                 new CommandFilter());
         for (Listener listener : listeners) {

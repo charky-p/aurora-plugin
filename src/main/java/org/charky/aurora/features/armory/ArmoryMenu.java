@@ -86,7 +86,7 @@ public class ArmoryMenu extends PagedMenu {
             }
 
             ItemStack display = registry.getAllItems().get(id).clone();
-            String hint = !keyring ? "<red>Needs the Keyring perk from /shop"
+            String hint = !keyring ? "<gray>Found. Used up when it opens the way"
                     : armory.carries(player, id) ? "<gray>You have this one" : "<yellow>Click to take one";
             display.editMeta(meta -> {
                 List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();

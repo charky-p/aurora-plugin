@@ -8,7 +8,6 @@ aurora_hub,4,ACTION,backpack,,,icon_backpack
 aurora_hub,5,ACTION,armory,,,icon_armory
 aurora_hub,6,ACTION,collections,,,icon_collections
 aurora_hub,7,ACTION,customise,,,icon_customise
-aurora_hub,8,ACTION,shop,,,icon_shop
 aurora_hub,9,ACTION,spawn,,,icon_spawn
 aurora_hub,w,ACTION,warps,,,icon_warps
 starter_shop,1,ACTION,tools,,,icon_tools

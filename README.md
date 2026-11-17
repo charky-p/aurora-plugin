@@ -2,15 +2,18 @@
 
 ![Build](https://github.com/charky-p/aurora-plugin/actions/workflows/build.yml/badge.svg)
 
-A sky-mining RPG plugin for Paper 26.3. Mine resources, trade them up for better gear, and fight custom mobs across the islands.
+A sky-mining RPG plugin for Paper 26.3. Mine resources, spend them on upgrades for tools that stay with you, and fight custom mobs across the islands.
 
 ## Features
 
-- **Mines** that reset on a timer, with Fortune, Blast and Luck enchants
+- **Mines** that reset on a timer, gated by Fortune against each block's density
 - **Custom mobs and spawners** with their own health, attack levels and drops
-- **Traders and shops** where gear upgrades cost resources and the previous tier
+- **Upgrades, not items**: each zone's trader sells levels for the pick, axe, sword, shield and armour, priced by a formula from a time target per zone
+- **Three regions**: the Origin Isles, then two branches that add up, Gormak for fighting and Verdant Groves for gathering
 - **Backpack** that holds mined resources outside the inventory
 - **Armory** where weapons dropped by mobs are unlocked for good
+- **Collections, levels and Essence**, playtime ranks and cosmetics in `/customise`
+- **Bosses** summoned with a key, with phases and adds
 - **Player menu** with `/aurora` or `/a`
 
 ## Requirements
@@ -21,7 +24,7 @@ A sky-mining RPG plugin for Paper 26.3. Mine resources, trade them up for better
 
 ## Commands
 
-Every command, and the order to build a region in, is in [docs/COMMANDS.md](docs/COMMANDS.md).
+Every command, and the order to build a region in, is in [docs/COMMANDS.md](docs/COMMANDS.md). How the game progresses and how it is tuned is in [docs/PROGRESSION.md](docs/PROGRESSION.md), and selling donor ranks through a store in [docs/STORE.md](docs/STORE.md).
 
 ## Game data
 
@@ -51,7 +54,7 @@ flowchart TD
     Aurora["Aurora<br/>the plugin: builds everything on enable"]
 
     subgraph Events["Events"]
-        Commands["Commands<br/>/a and its subcommands,<br/>/backpack, /shop, /customise ..."]
+        Commands["Commands<br/>/a and its subcommands,<br/>/backpack, /customise, /ranks ..."]
         Listeners["Listeners<br/>mining, combat, traders,<br/>menus, joins, chat"]
     end
 
@@ -124,7 +127,7 @@ python scripts/deploy.py bundle      # target/aurora-deploy.zip
 
 Stop the live server, unzip `aurora-deploy.zip` over its folder, start it. The zip holds the jar and the game data YAML: the plugin only writes its YAML when a file is missing, so copying the jar alone keeps the old data.
 
-Or send it straight to the host over FTP, with the login in `scripts/deploy.ini` (gitignored, written on the first run):
+Or send it straight to the host over FTP, FTPS or SFTP, with the login in `scripts/deploy.ini` (gitignored, written on the first run):
 
 ```
 python scripts/deploy.py upload              # build, then the jar and the game data YAML
@@ -152,4 +155,4 @@ CI runs the data check, build and tests on every push.
 
 ## Planning
 
-Ideas and design notes are in [PLANNING.md](PLANNING.md).
+Ideas and design notes for later regions are in [DESIGN.md](DESIGN.md).

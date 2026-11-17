@@ -1,25 +1,5 @@
 ## Aurora Java Minecraft Server Plugin
 
-### Features
-
-#### System Architecture
-Groups: Commands, Listeners, Database, Registry, YAML, Trader, Mining, Spawners, Models, Player Data, Aurora, Managers
-
-Categories: Events = [Commands + Listeners], Data = [Database + Registry + YAML], Objects = [Trader, Mining, Spawners]
-
-
-Aurora links to Managers, Data and Events
-
-Registry links to YAML
-
-Commands links to Managers
-
-Listeners links to Managers
-
-Managers links to Objects, Database and Registry
-
-feature/purpose directory structure
-
 #### Ideas list
 god tool (name TBD): later, combine the pick, axe (and shovel) lines into one tool. Each tool's
 blocks are a rule on its tool component (ItemFactory.makeRightTool), one rule per kind, so the
@@ -201,6 +181,7 @@ Location: Duat Realm
 4. Throne, Darkness, Pits of Hell?
 
 #### OOP Design
+See the architecture diagram in `README.md`.
 
 #### Run Instructions
 Setup: put the Paper 26.3 jar at `LocalServer/versions/26.3/`, run the server once,
@@ -223,15 +204,23 @@ Player health is real, mob health is pseudo, run `/data get entity @s Health`
 
 Reload CSV Data: run `generate.py --live`
 
-Server Transfer: use `target/Aurora-1.0.jar`, use FileZilla FTP to transfer world files.
+Server Transfer: `python scripts/deploy.py upload` sends the jar and YAML to the host, `--all` adds the database and worlds, see the README.
 
 Drop Calculation (Fortune): with `L = fortune - density`, a block drops nothing if `L < 0`, otherwise
 
 `drops = round(base * (1 + 0.75 * L + 0.25 * L^2))`, never less than 1
 
-so the multiplier is 1, 2, 3.5, 5.5, 8, 11 ... for L = 0, 1, 2, 3, 4, 5. A block needs Fortune of at least its density to drop anything. Fortune adds up across realms: Origin, Gormak and Verdant Groves each give their own levels and the tool has the sum. The formula lives in `DataRegistry.getBlockDrops` (Java) and `fortune()` in `scripts/price_calculator.py` (prices), keep the two the same.
+so the multiplier is 1, 2, 3.5, 5.5, 8, 11 ... for L = 0, 1, 2, 3, 4, 5. A block needs Fortune of at least its density to drop anything. Fortune adds up across realms: Origin, Gormak and Verdant Groves each give their own levels and the tool has the sum. The branches specialise so the sum stays sane: Gormak sells the sword, armour and shield with a little pick, Verdant Groves the pick and axe with a little combat, and prices assume both are kept level (`docs/PROGRESSION.md`). The formula lives in `DataRegistry.getBlockDrops` (Java) and `fortune()` in `scripts/price_calculator.py` (prices), keep the two the same.
 
 XP per block: items dropped x the block's `xp` in `scripts/data/world/blocks.csv`, so Fortune raises XP too. Every block of a zone has the same `xp`.
+
+## TODO, switched off until finished
+
+Built, but not registered in `core/Aurora.java`, so not reachable in game:
+
+- The Essence shop (`/shop`): perks, the Keyring among them, and the ranks bought with Essence
+- The gauntlet (`/gauntlet`)
+- Fishing: the rods and their catch tables
 
 ## TODO, from the legacy Skript
 

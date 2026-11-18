@@ -7,6 +7,7 @@
 #   name: "Zone Name"
 #   realm: overworld (The realm the levels bought here belong to)
 #   region: origin_isles (The world it is part of, maxing all of a world's zones earns its rank)
+#   released: true (Its region is marked released in regions.csv: hidden from players when false)
 #   steps:
 #     - tool: pick
 #       stat: fortune (An enchant, or material)
@@ -23,6 +24,7 @@ items:
     name: "Cobblestone Quarry"
     realm: overworld
     region: origin_isles
+    released: true
     steps:
       - tool: pick
         stat: material
@@ -95,6 +97,7 @@ items:
     name: "Coal Seam"
     realm: overworld
     region: origin_isles
+    released: true
     steps:
       - tool: pick
         stat: efficiency
@@ -167,6 +170,7 @@ items:
     name: "Copper Vein"
     realm: overworld
     region: origin_isles
+    released: true
     steps:
       - tool: pick
         stat: material
@@ -309,6 +313,7 @@ items:
     name: "Iron Deposit"
     realm: overworld
     region: origin_isles
+    released: true
     steps:
       - tool: pick
         stat: material
@@ -445,6 +450,7 @@ items:
     name: "Gold Reef"
     realm: overworld
     region: origin_isles
+    released: true
     steps:
       - tool: pick
         stat: material
@@ -587,6 +593,7 @@ items:
     name: "Abandoned City"
     realm: gormak
     region: gormak
+    released: true
     steps:
       - tool: sword
         stat: luck
@@ -781,6 +788,7 @@ items:
     name: "The Dunes"
     realm: gormak
     region: gormak
+    released: true
     steps:
       - tool: sword
         stat: luck
@@ -981,6 +989,7 @@ items:
     name: "Sun Temple"
     realm: gormak
     region: gormak
+    released: true
     steps:
       - tool: sword
         stat: luck
@@ -1181,6 +1190,7 @@ items:
     name: "Royal Tomb"
     realm: gormak
     region: gormak
+    released: true
     steps:
       - tool: helmet
         stat: protection
@@ -1287,6 +1297,7 @@ items:
     name: "Oak Grove"
     realm: verdant
     region: verdant
+    released: true
     steps:
       - tool: axe
         stat: material
@@ -1361,6 +1372,7 @@ items:
     name: "Birch Hollow"
     realm: verdant
     region: verdant
+    released: true
     steps:
       - tool: axe
         stat: material
@@ -1453,6 +1465,7 @@ items:
     name: "Spruce Ridge"
     realm: verdant
     region: verdant
+    released: true
     steps:
       - tool: axe
         stat: material
@@ -1519,6 +1532,7 @@ items:
     name: "Dark Oak Thicket"
     realm: verdant
     region: verdant
+    released: true
     steps:
       - tool: axe
         stat: material
@@ -1603,6 +1617,7 @@ items:
     name: "Howling Canyons"
     realm: khorvath
     region: khorvath
+    released: false
     steps:
       - tool: sword
         stat: material
@@ -1827,6 +1842,7 @@ items:
     name: "Ancient Ruins"
     realm: khorvath
     region: khorvath
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -1953,6 +1969,7 @@ items:
     name: "Catacombs"
     realm: khorvath
     region: khorvath
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -2079,6 +2096,7 @@ items:
     name: "Sanctuary of the Sun"
     realm: khorvath
     region: khorvath
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -2197,6 +2215,7 @@ items:
     name: "Jungle Floor"
     realm: elderwood
     region: elderwood
+    released: false
     steps:
       - tool: axe
         stat: material
@@ -2279,6 +2298,7 @@ items:
     name: "Bamboo Thicket"
     realm: elderwood
     region: elderwood
+    released: false
     steps:
       - tool: axe
         stat: efficiency
@@ -2355,6 +2375,7 @@ items:
     name: "Amber Hollow"
     realm: elderwood
     region: elderwood
+    released: false
     steps:
       - tool: axe
         stat: efficiency
@@ -2431,6 +2452,7 @@ items:
     name: "Treant Grove"
     realm: elderwood
     region: elderwood
+    released: false
     steps:
       - tool: axe
         stat: fortune
@@ -2475,6 +2497,7 @@ items:
     name: "Mudflats"
     realm: marsh
     region: marsh
+    released: false
     steps:
       - tool: pick
         stat: material
@@ -2557,6 +2580,7 @@ items:
     name: "Peat Bog"
     realm: marsh
     region: marsh
+    released: false
     steps:
       - tool: pick
         stat: efficiency
@@ -2645,6 +2669,7 @@ items:
     name: "Sunken Ruins"
     realm: marsh
     region: marsh
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -2771,6 +2796,7 @@ items:
     name: "Hydra Pool"
     realm: marsh
     region: marsh
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -2879,6 +2905,7 @@ items:
     name: "Foothills"
     realm: peaks
     region: peaks
+    released: false
     steps:
       - tool: shovel
         stat: material
@@ -2967,6 +2994,7 @@ items:
     name: "Redstone Mines"
     realm: peaks
     region: peaks
+    released: false
     steps:
       - tool: shovel
         stat: material
@@ -3061,6 +3089,7 @@ items:
     name: "Pumpkin Terraces"
     realm: peaks
     region: peaks
+    released: false
     steps:
       - tool: shovel
         stat: material
@@ -3155,6 +3184,7 @@ items:
     name: "Lapis Ridge"
     realm: peaks
     region: peaks
+    released: false
     steps:
       - tool: shovel
         stat: material
@@ -3251,6 +3281,7 @@ items:
     name: "Melon Ledges"
     realm: peaks
     region: peaks
+    released: false
     steps:
       - tool: shovel
         stat: material
@@ -3359,6 +3390,7 @@ items:
     name: "Arachne Cave"
     realm: peaks
     region: peaks
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -3477,6 +3509,7 @@ items:
     name: "Ashen River"
     realm: duat
     region: duat
+    released: false
     steps:
       - tool: sword
         stat: material
@@ -3643,6 +3676,7 @@ items:
     name: "Hall of Judgement"
     realm: duat
     region: duat
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -3779,6 +3813,7 @@ items:
     name: "Solar Forge"
     realm: duat
     region: duat
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -3915,6 +3950,7 @@ items:
     name: "Throne of Night"
     realm: duat
     region: duat
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -4051,6 +4087,7 @@ items:
     name: "Root Cellar"
     realm: elderheart
     region: elderheart
+    released: false
     steps:
       - tool: axe
         stat: material
@@ -4173,6 +4210,7 @@ items:
     name: "Vine Halls"
     realm: elderheart
     region: elderheart
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -4297,6 +4335,7 @@ items:
     name: "Hive Chambers"
     realm: elderheart
     region: elderheart
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -4419,6 +4458,7 @@ items:
     name: "Upper Canopy"
     realm: elderheart
     region: elderheart
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -4537,6 +4577,7 @@ items:
     name: "The Crown"
     realm: elderheart
     region: elderheart
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -4645,6 +4686,7 @@ items:
     name: "Cloudbank"
     realm: skyisles
     region: skyisles
+    released: false
     steps:
       - tool: pick
         stat: material
@@ -4751,6 +4793,7 @@ items:
     name: "Skyshard Spires"
     realm: skyisles
     region: skyisles
+    released: false
     steps:
       - tool: pick
         stat: efficiency
@@ -4845,6 +4888,7 @@ items:
     name: "Storm Front"
     realm: skyisles
     region: skyisles
+    released: false
     steps:
       - tool: pick
         stat: efficiency
@@ -4939,6 +4983,7 @@ items:
     name: "Sky Harbour"
     realm: skyisles
     region: skyisles
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -5081,6 +5126,7 @@ items:
     name: "Outer Walls"
     realm: kingdom
     region: kingdom
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -5197,6 +5243,7 @@ items:
     name: "Gilded Gardens"
     realm: kingdom
     region: kingdom
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -5329,6 +5376,7 @@ items:
     name: "Royal Treasury"
     realm: kingdom
     region: kingdom
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -5461,6 +5509,7 @@ items:
     name: "Throne Room"
     realm: kingdom
     region: kingdom
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -5569,6 +5618,7 @@ items:
     name: "Gravel Pits"
     realm: quarry
     region: quarry
+    released: false
     steps:
       - tool: axe
         stat: material
@@ -5673,6 +5723,7 @@ items:
     name: "Pale Woods"
     realm: quarry
     region: quarry
+    released: false
     steps:
       - tool: axe
         stat: efficiency
@@ -5771,6 +5822,7 @@ items:
     name: "Maple Grove"
     realm: quarry
     region: quarry
+    released: false
     steps:
       - tool: axe
         stat: efficiency
@@ -5879,6 +5931,7 @@ items:
     name: "Diamond Depths"
     realm: quarry
     region: quarry
+    released: false
     steps:
       - tool: pick
         stat: efficiency
@@ -5975,6 +6028,7 @@ items:
     name: "The Quarry Pit"
     realm: quarry
     region: quarry
+    released: false
     steps:
       - tool: helmet
         stat: protection
@@ -6093,6 +6147,7 @@ items:
     name: "Golem Rest"
     realm: quarry
     region: quarry
+    released: false
     steps:
       - tool: helmet
         stat: protection

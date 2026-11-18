@@ -213,7 +213,11 @@ public class Aurora extends JavaPlugin {
         cosmeticManager.setLookChanged(toolManager::refresh);
         registry.registerAction("upgrades", toolManager::openUpgrades);
         registry.registerAction("tools", toolManager::giveStarters);
-        registry.registerAction("core", player -> OverworldCore.open(this, player));
+        // The Core lives in Golem's Rest and needs every boss, it stays shut until that is released
+        registry.registerAction("core", player -> {
+            if (registry.isZoneReleased("golems_rest") || player.hasPermission("aurora.admin")) OverworldCore.open(this, player);
+            else TextUtils.error(player, "The Overworld Core is not open yet");
+        });
         registry.registerAction("exchange", player -> EssenceExchange.open(this, player));
         this.accessManager = new AccessManager(db, new AccessStore(db), registry);
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);

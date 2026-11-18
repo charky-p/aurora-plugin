@@ -8,6 +8,8 @@ public class UpgradeModel {
     public String name;
     public String realm;
     public String region;
+    // Marked released in regions.csv, players are not shown the rest
+    public boolean released;
     public List<StepModel> steps = new ArrayList<>();
 
     public static class StepModel {

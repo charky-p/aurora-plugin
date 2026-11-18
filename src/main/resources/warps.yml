@@ -12,18 +12,22 @@ items:
   origin:
     icon: icon_origin
     world: aurora_test
+    region: origin_isles
 
   gormak:
     icon: icon_gormak
     world: aurora_test_gormak
+    region: gormak
     tag: gormak
 
   elderwood:
     icon: icon_elderwood
     world: aurora_test_elderwood
+    region: elderwood
     tag: elderwood
 
   sky:
     icon: icon_sky
     world: aurora_test_sky
+    region: skyisles
     tag: sky

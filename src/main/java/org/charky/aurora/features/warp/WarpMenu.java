@@ -27,7 +27,9 @@ public class WarpMenu extends PagedMenu {
     public WarpMenu(Aurora plugin) {
         super(plugin.getRegistry(), "Warps");
         this.plugin = plugin;
-        this.warps = plugin.getRegistry().getWarps();
+        // Warps to a region that is not released yet are left out
+        this.warps = plugin.getRegistry().getWarps().stream()
+                .filter(warp -> warp.region().isBlank() || plugin.getRegistry().isRegionReleased(warp.region())).toList();
     }
 
     @Override

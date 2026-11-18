@@ -1,13 +1,13 @@
-id,name,world,stage,after,portal,tag,gate_trader,rise,gap
-origin_isles,Origin Isles,overworld,1,,,,,,
-gormak,Gormak,duneworld,2,,origin_isles,gormak,gate_trader,,
-verdant,Verdant Groves,overworld,2,origin_isles,,,,,
-khorvath,Khorvath,duneworld,3,gormak,,,,10,
-elderwood,Elderwood Roots,elderworld,3,,verdant,elderwood,elderwood_gate_trader,,
-marsh,Sunken Marsh,overworld,3,verdant,,,,,
-peaks,Emerald Peaks,overworld,4,marsh,,,,,
-duat,The Duat,duneworld,5,khorvath,,,,,20
-elderheart,Elderwood Heart,elderworld,5,elderwood,,,,20,
-skyisles,Cloud Isles,skyworld,5,,peaks,sky,sky_gate_trader,,
-kingdom,Sky Kingdom,skyworld,6,skyisles,,,,,
-quarry,Ironbound Quarry,overworld,6,peaks,,,,,20
+id,name,world,stage,released,after,portal,tag,gate_trader,rise,gap
+origin_isles,Origin Isles,overworld,1,yes,,,,,,
+gormak,Gormak,duneworld,2,yes,,origin_isles,gormak,gate_trader,,
+verdant,Verdant Groves,overworld,2,yes,origin_isles,,,,,
+khorvath,Khorvath,duneworld,3,,gormak,,,,10,
+elderwood,Elderwood Roots,elderworld,3,,,verdant,elderwood,elderwood_gate_trader,,
+marsh,Sunken Marsh,overworld,3,,verdant,,,,,
+peaks,Emerald Peaks,overworld,4,,marsh,,,,,
+duat,The Duat,duneworld,5,,khorvath,,,,,20
+elderheart,Elderwood Heart,elderworld,5,,elderwood,,,,20,
+skyisles,Cloud Isles,skyworld,5,,,peaks,sky,sky_gate_trader,,
+kingdom,Sky Kingdom,skyworld,6,,skyisles,,,,,
+quarry,Ironbound Quarry,overworld,6,,peaks,,,,,20

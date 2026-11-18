@@ -1,5 +1,5 @@
-id,icon,world,tag
-origin,icon_origin,aurora_test,
-gormak,icon_gormak,aurora_test_gormak,gormak
-elderwood,icon_elderwood,aurora_test_elderwood,elderwood
-sky,icon_sky,aurora_test_sky,sky
+id,icon,world,region,tag
+origin,icon_origin,aurora_test,origin_isles,
+gormak,icon_gormak,aurora_test_gormak,gormak,gormak
+elderwood,icon_elderwood,aurora_test_elderwood,elderwood,elderwood
+sky,icon_sky,aurora_test_sky,skyisles,sky

@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
 Sets what the Essence Trader pays, the essence column of resources.csv. Essence is
-only farmed at the very end: the trader buys the last zone's resources alone, from
-players who have maxed every zone, priced from how fast such a player gets them:
+only farmed at the very end: the trader buys the last released zone's resources
+alone (the released zone furthest along in zones.csv, its region marked released in
+regions.csv), from players who have maxed every released zone, priced from how fast
+such a player gets them. Run it again when a region is released, and move the
+trader to the new last zone:
 
   essence for one = PER_MINUTE / how many a minute an endgame player farms
 
@@ -34,10 +37,20 @@ def endgame_state():
     return priced[-1]["state"]
 
 
+def last_released(zones):
+    """The released zone furthest along. Every zone when nothing is marked released."""
+    released = {r["id"] for r in price_zones.rows("regions")
+                if (r.get("released") or "").strip().lower() in ("yes", "true", "1")}
+    out = [z for z in zones if z["region"] in released] or zones
+    return out[-1]
+
+
 def values():
     zones = sorted(price_zones.rows("zones"), key=lambda z: int(z["order"]))
-    # Only what the last zone gives
-    where = price_zones.sources(zones[-1:])
+    last = last_released(zones)
+    print(f"Last released zone: {last['id']} ({last['region']})")
+    # Only what the last released zone gives
+    where = price_zones.sources([last])
     state = endgame_state()
     found = {}
     for resource, (kind, source) in where.items():
@@ -63,7 +76,8 @@ def main(write):
     changed = 0
     for row in rows:
         value = found.get(row["id"], 0)
-        new = f"{value:g}" if value else ""
+        # Plain decimals, a YAML loader may not read 3e-05
+        new = f"{value:.10f}".rstrip("0").rstrip(".") if value else ""
         if (row.get("essence") or "") != new:
             print(f"  {row['id']:<24} {row.get('essence') or '-':>10} -> {new or '-'}")
             row["essence"] = new

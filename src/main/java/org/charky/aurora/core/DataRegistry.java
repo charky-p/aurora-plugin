@@ -63,6 +63,10 @@ public class DataRegistry {
     private final Map<String, UpgradeZone> upgradeZones = new LinkedHashMap<>();
     // zone id -> the region it has in zones.csv
     private final Map<String, String> zoneRegions = new LinkedHashMap<>();
+    // Regions marked released in regions.csv, the only ones players are shown
+    private final Set<String> releasedRegions = new HashSet<>();
+    // item id -> the region column it has in the CSVs, like gormak_city or origin_isles
+    private final Map<String, String> itemRegions = new HashMap<>();
 
     // Resources in resources.csv order, which is progression order
     private final List<MenuItem> resourceList = new ArrayList<>();
@@ -117,6 +121,8 @@ public class DataRegistry {
         toolTypes.clear();
         upgradeZones.clear();
         zoneRegions.clear();
+        releasedRegions.clear();
+        itemRegions.clear();
         resourceList.clear();
         resourceIds.clear();
         unlocks.clear();
@@ -190,13 +196,52 @@ public class DataRegistry {
             }
             upgradeZones.put(id.toLowerCase(), new UpgradeZone(id.toLowerCase(), model.name,
                     model.realm == null ? "" : model.realm.toLowerCase(), steps));
-            zoneRegions.put(id.toLowerCase(), model.region == null ? "" : model.region.toLowerCase());
+            String region = model.region == null ? "" : model.region.toLowerCase();
+            zoneRegions.put(id.toLowerCase(), region);
+            if (model.released) releasedRegions.add(region);
         });
     }
 
     // The world a zone is part of, as zones.csv names it
     public String getZoneRegion(String zoneId) {
         return zoneRegions.getOrDefault(zoneId, "");
+    }
+
+    // ----------------------------------------------------------------- releases
+
+    // A region marked released in regions.csv. Players are only shown these
+    public boolean isRegionReleased(String region) {
+        return region != null && releasedRegions.contains(region.toLowerCase());
+    }
+
+    public boolean isZoneReleased(String zoneId) {
+        return isRegionReleased(getZoneRegion(zoneId));
+    }
+
+    // The released zones in zones.csv order
+    public List<String> getReleasedZoneIds() {
+        return upgradeZones.keySet().stream().filter(this::isZoneReleased).toList();
+    }
+
+    // The region a CSV region column means: the region itself (gormak) or one of its
+    // zones (gormak_city). Null for one that is no region, like fishing
+    public String regionOf(String column) {
+        if (column == null || column.isBlank()) return null;
+        String best = null;
+        for (String region : zoneRegions.values()) {
+            if ((column.equals(region) || column.startsWith(region + "_")) && (best == null || region.length() > best.length())) {
+                best = region;
+            }
+        }
+        return best;
+    }
+
+    // An item players are shown: one with no region, or from a released region. One
+    // whose column names no region, like fishing, is switched off and hidden too
+    public boolean isItemReleased(String itemId) {
+        String column = itemRegions.get(itemId.toLowerCase());
+        if (column == null || column.isBlank()) return true;
+        return isRegionReleased(regionOf(column));
     }
 
     public List<String> getZonesOfRegion(String region) {
@@ -308,7 +353,8 @@ public class DataRegistry {
                 return;
             }
             String tag = model.tag == null || model.tag.isBlank() ? null : model.tag.toLowerCase();
-            warps.add(new Warp(id.toLowerCase(), icon, model.world, tag));
+            String region = model.region == null ? "" : model.region.toLowerCase();
+            warps.add(new Warp(id.toLowerCase(), icon, model.world, region, tag));
         });
     }
 
@@ -329,6 +375,7 @@ public class DataRegistry {
             putItem(id, item);
             resourceList.add(new MenuItem(id.toLowerCase(), item));
             resourceIds.add(id.toLowerCase());
+            if (model.region != null) itemRegions.put(id.toLowerCase(), model.region.toLowerCase());
             if (model.collection > 0) collectionBases.put(id.toLowerCase(), model.collection);
             if (model.essence > 0) essenceValues.put(id.toLowerCase(), model.essence);
             if (model.unlocks != null && !model.unlocks.isBlank()) unlocks.put(id.toLowerCase(), model.unlocks.toLowerCase());
@@ -342,7 +389,10 @@ public class DataRegistry {
     }
 
     private void loadGear(String file) {
-        yaml.load("gear/" + file, GearModel.class).forEach((id, model) -> putItem(id, itemFactory.createGear(model, enchants)));
+        yaml.load("gear/" + file, GearModel.class).forEach((id, model) -> {
+            putItem(id, itemFactory.createGear(model, enchants));
+            if (model.region != null) itemRegions.put(id.toLowerCase(), model.region.toLowerCase());
+        });
     }
 
     // Blocks scale with Fortune instead, so nothing here is lootable

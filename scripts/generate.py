@@ -528,9 +528,10 @@ SCHEMAS["warps"] = {
     "out": "warps.yml",
     "header": WARP_HEADER,
     "fields": OrderedDict([
-        ("icon",  Str(required=True)),
-        ("world", Str(required=True)),
-        ("tag",   Str()),
+        ("icon",   Str(required=True)),
+        ("world",  Str(required=True)),
+        ("region", Str()),
+        ("tag",    Str()),
     ]),
 }
 
@@ -902,6 +903,7 @@ UPGRADE_HEADER = """\
 #   name: "Zone Name"
 #   realm: overworld (The realm the levels bought here belong to)
 #   region: origin_isles (The world it is part of, maxing all of a world's zones earns its rank)
+#   released: true (Its region is marked released in regions.csv: hidden from players when false)
 #   steps:
 #     - tool: pick
 #       stat: fortune (An enchant, or material)
@@ -923,12 +925,16 @@ def upgrades_text():
     import price_zones
 
     lines = [UPGRADE_HEADER, "items:"]
+    # Regions marked released in regions.csv are shown to players, the rest are hidden
+    released = {r["id"] for r in read_rows(data_path("regions.csv")) or []
+                if (r.get("released") or "").strip().lower() in ("yes", "true", "1")}
     zones = price_zones.price_all()
     for zone, priced in zones:
         lines.append(f"  {zone['id']}:")
         lines.append(f"    name: \"{zone['name']}\"")
         lines.append(f"    realm: {zone['realm']}")
         lines.append(f"    region: {zone['region']}")
+        lines.append(f"    released: {'true' if zone['region'] in released else 'false'}")
         lines.append("    steps:")
         for row in priced:
             lines.append(f"      - tool: {row['tool']}")

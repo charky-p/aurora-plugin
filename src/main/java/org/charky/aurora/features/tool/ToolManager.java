@@ -267,8 +267,9 @@ public class ToolManager implements Listener {
     }
 
     // Every zone in the game is maxed, what the Overworld Core needs
+    // Every released zone, the ones not out yet cannot be bought
     public boolean maxedAll(Player player) {
-        for (String zone : registry.getUpgradeZoneIds()) {
+        for (String zone : registry.getReleasedZoneIds()) {
             if (!maxed(player, zone)) return false;
         }
         return true;

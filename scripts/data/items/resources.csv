@@ -32,9 +32,9 @@ fox_fur,<#D9D3B0>Fox Fur,ORANGE_WOOL,overworld,verdant_birch,32,<dark_gray>Dropp
 spruce_log,<#4F7A4A>Spruce Log,SPRUCE_LOG,overworld,verdant_spruce,800,<dark_gray>Verdant Groves - Spruce Ridge,
 lead,<#4F7A4A><b>Lead,GRAY_CONCRETE,overworld,verdant_spruce,16000,<dark_gray>Verdant Groves - Spruce Ridge,
 wolf_pelt,<#4F7A4A>Wolf Pelt,RABBIT_HIDE,overworld,verdant_spruce,12,<dark_gray>Dropped by Ridge Wolfs,
-dark_oak_log,<#6B4F35>Dark Oak Log,DARK_OAK_LOG,overworld,verdant_darkoak,800,<dark_gray>Verdant Groves - Dark Oak Thicket,
-silver,<#6B4F35><b>Silver,IRON_BLOCK,overworld,verdant_darkoak,20000,<dark_gray>Verdant Groves - Dark Oak Thicket,
-ancient_seed,<#6B4F35>Ancient Seed,TORCHFLOWER_SEEDS,overworld,verdant_darkoak,600,<dark_gray>Dropped by Thicket Sniffers,
+dark_oak_log,<#6B4F35>Dark Oak Log,DARK_OAK_LOG,overworld,verdant_darkoak,800,<dark_gray>Verdant Groves - Dark Oak Thicket,0.0009864
+silver,<#6B4F35><b>Silver,IRON_BLOCK,overworld,verdant_darkoak,20000,<dark_gray>Verdant Groves - Dark Oak Thicket,0.00003181
+ancient_seed,<#6B4F35>Ancient Seed,TORCHFLOWER_SEEDS,overworld,verdant_darkoak,600,<dark_gray>Dropped by Thicket Sniffers,0.006146
 tree_sap,<gold>Tree Sap,HONEYCOMB,overworld,elderwood_treehouse,200,<dark_gray>Elderwood Roots,
 heartwood,<dark_green><b>Heartwood,CREAKING_HEART,overworld,elderwood_treehouse,1,<dark_gray>Elderwood Roots,
 deserter_coin,<#C9A227>Deserter Coin,GOLD_NUGGET,overworld,khorvath_canyons,24,<dark_gray>Khorvath,
@@ -137,7 +137,7 @@ diamond,<aqua><b>Diamond,DIAMOND,overworld,quarry_diamond,32000,<dark_gray>Ironb
 ravager_horn,<gray><b>Ravager Horn,GOAT_HORN,overworld,quarry_diamond,12,<dark_gray>Ironbound Quarry,
 captain_banner,<gray><b>Captain's Banner,WHITE_BANNER,overworld,quarry_pit,32,<dark_gray>Ironbound Quarry,
 warden_plate,<gray><b>Warden Plate,IRON_BLOCK,overworld,quarry_pit,12,<dark_gray>Ironbound Quarry,
-golem_shard,<white><b>Golem Core Shard,IRON_INGOT,overworld,quarry_golem,4,<dark_gray>Ironbound Quarry,269.6
+golem_shard,<white><b>Golem Core Shard,IRON_INGOT,overworld,quarry_golem,4,<dark_gray>Ironbound Quarry,
 tomb_dust,<gray>Tomb Dust,GUNPOWDER,overworld,gormak_tomb,20,<dark_gray>Gormak,
 guardian_sigil,<gold><b>Guardian Sigil,GOLD_NUGGET,overworld,gormak_tomb,48,<dark_gray>Gormak,
 fishing_junk,<dark_gray>Junk,ROTTEN_FLESH,overworld,fishing,100,"<dark_gray>Fished up, worth little",

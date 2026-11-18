@@ -320,6 +320,7 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
     collection: 800
+    essence: 0.0009864
 
   silver:
     display: "<#6B4F35><b>Silver"
@@ -329,6 +330,7 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
     collection: 20000
+    essence: 3.181e-05
 
   ancient_seed:
     display: "<#6B4F35>Ancient Seed"
@@ -338,6 +340,7 @@ items:
     lore:
       - "<dark_gray>Dropped by Thicket Sniffers"
     collection: 600
+    essence: 0.006146
 
   tree_sap:
     display: "<gold>Tree Sap"
@@ -1265,7 +1268,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 4
-    essence: 269.6
 
   tomb_dust:
     display: "<gray>Tomb Dust"

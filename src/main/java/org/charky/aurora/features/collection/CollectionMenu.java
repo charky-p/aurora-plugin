@@ -49,10 +49,15 @@ public class CollectionMenu extends PagedMenu {
         return gearTab ? gear(player) : resources(player);
     }
 
+    // Only what is from a released region, admins see everything
+    private boolean shown(Player player, String id) {
+        return player.hasPermission("aurora.admin") || registry.isItemReleased(id);
+    }
+
     private List<ItemStack> resources(Player player) {
         List<ItemStack> items = new ArrayList<>();
         for (MenuItem resource : registry.getItems()) {
-            if (!registry.isLootable(resource.getId())) continue;
+            if (!registry.isLootable(resource.getId()) || !shown(player, resource.getId())) continue;
 
             long amount = collections.get(player.getUniqueId(), resource.getId());
             // Something is there, but not what, until the player has found one
@@ -100,6 +105,7 @@ public class CollectionMenu extends PagedMenu {
         }
 
         for (Map.Entry<String, Component> drop : registry.getArmory().entrySet()) {
+            if (!shown(player, drop.getKey())) continue;
             gearIds.add(drop.getKey());
             if (!armory.isUnlocked(player.getUniqueId(), drop.getKey())) {
                 items.add(unknown(TextUtils.parse("<!italic><gray>Dropped by ").append(drop.getValue())));
@@ -112,6 +118,7 @@ public class CollectionMenu extends PagedMenu {
         // Keys the player has had come last, the Keyring perk lets them be taken again
         boolean keyring = armory.hasKeyring(player);
         for (String id : registry.getKeyIds()) {
+            if (!shown(player, id)) continue;
             gearIds.add(id);
             if (!armory.isUnlocked(player.getUniqueId(), id)) {
                 items.add(unknown(TextUtils.parse("<!italic><gray>A key you have not found yet")));
@@ -185,7 +192,7 @@ public class CollectionMenu extends PagedMenu {
 
     private long found(Player player) {
         return registry.getItems().stream().filter(resource -> registry.isLootable(resource.getId())
-                && collections.get(player.getUniqueId(), resource.getId()) > 0).count();
+                && shown(player, resource.getId()) && collections.get(player.getUniqueId(), resource.getId()) > 0).count();
     }
 
     @Override
@@ -195,12 +202,12 @@ public class CollectionMenu extends PagedMenu {
             return List.of(
                     TextUtils.parse("<!italic><gray>Your tools and armour, and every gear drop."),
                     TextUtils.parse("<!italic><gray>Drops found: <white>" + armory.unlockedCount(player.getUniqueId())
-                            + "/" + registry.getArmory().size()));
+                            + "/" + registry.getArmory().keySet().stream().filter(id -> shown(player, id)).count()));
         }
 
         int reached = 0, all = 0;
         for (MenuItem resource : registry.getItems()) {
-            if (registry.isLootable(resource.getId())) {
+            if (registry.isLootable(resource.getId()) && shown(player, resource.getId())) {
                 all++;
                 reached += CollectionTiers.tier(registry.getCollectionBase(resource.getId()),
                         collections.get(player.getUniqueId(), resource.getId()));

@@ -36,13 +36,23 @@ public class CosmeticMenu extends PagedMenu {
         this.all = Cosmetics.ofType(type);
     }
 
+    // Without the ones earned in a region that is not released yet, admins see them all
+    private List<Cosmetic> visible(Player player) {
+        if (player.hasPermission("aurora.admin")) return all;
+        return all.stream().filter(cosmetic -> switch (cosmetic.source()) {
+            case ZONE -> registry.isZoneReleased(cosmetic.target());
+            case WORLD -> Cosmetics.regions(cosmetic).stream().allMatch(registry::isRegionReleased);
+            default -> true;
+        }).toList();
+    }
+
     @Override
     protected List<ItemStack> entries(Player player) {
         int essence = ranks.essenceOf(player);
         boolean twoSuffixes = type == Type.SUFFIX && cosmetics.hasSecondSuffix(player);
 
         List<ItemStack> items = new ArrayList<>();
-        for (Cosmetic cosmetic : all) {
+        for (Cosmetic cosmetic : visible(player)) {
             boolean owned = cosmetics.owns(player, cosmetic);
             Slot wornIn = wornIn(player, cosmetic);
 
@@ -139,6 +149,7 @@ public class CosmeticMenu extends PagedMenu {
 
     @Override
     protected List<Component> info(Player player, List<ItemStack> entries) {
+        List<Cosmetic> all = visible(player);
         long owned = all.stream().filter(cosmetic -> cosmetics.owns(player, cosmetic)).count();
         List<Component> lines = new ArrayList<>();
         lines.add(TextUtils.parse("<!italic><gray>" + type.description() + "."));
@@ -152,6 +163,7 @@ public class CosmeticMenu extends PagedMenu {
 
     @Override
     protected void onEntryClick(Player player, int index, boolean rightClick) {
+        List<Cosmetic> all = visible(player);
         if (index >= all.size()) return;
 
         Cosmetic cosmetic = all.get(index);

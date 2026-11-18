@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.charky.aurora.common.menu.PagedMenuListener;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.database.AccessStore;
 import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.CollectionStore;
@@ -50,12 +51,14 @@ import org.charky.aurora.features.player.BackpackCommand;
 import org.charky.aurora.features.player.BackpackItemListener;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.player.ChatShowcase;
+import org.charky.aurora.features.player.LeaderboardMenu;
 import org.charky.aurora.features.player.LevelManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.PlayerSessionListener;
 import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.features.player.ServerMessages;
 import org.charky.aurora.features.player.TabManager;
+import org.charky.aurora.features.player.TrashCommand;
 import org.charky.aurora.features.portal.PortalListener;
 import org.charky.aurora.features.portal.PortalManager;
 import org.charky.aurora.features.perk.PerkManager;
@@ -194,7 +197,11 @@ public class Aurora extends JavaPlugin {
         // sold, levels already bought still work
         registry.registerAction("shop", player -> new RankShopMenu(this).open(player));
         this.mountManager = new MountManager(this, registry, perkManager);
-        registry.registerAction("warps", player -> new WarpMenu(this).open(player));
+        // Warps are a supporter perk: donor and staff ranks, and admins
+        registry.registerAction("warps", player -> {
+            if (rankManager.isSupporter(player) || player.hasPermission("aurora.admin")) new WarpMenu(this).open(player);
+            else TextUtils.error(player, "Warps are for supporters, see the store for a donor rank");
+        });
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
         armoryManager.setTools(toolManager);
         cosmeticManager.setMaxed((player, cosmetic) -> cosmetic.source() == Cosmetic.Source.ZONE
@@ -229,7 +236,10 @@ public class Aurora extends JavaPlugin {
         command("refresh", new RefreshCommand(this));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
         command("customise", new OpenMenuCommand(cosmeticManager::openHub));
-        command("leaderboard", new TopCommand(players));
+        command("leaderboard", new TopCommand(registry, players));
+        registry.registerAction("leaderboard", player -> LeaderboardMenu.open(registry, players, player));
+        TrashCommand trash = new TrashCommand(registry);
+        command("trash", trash);
         command("collections", new OpenMenuCommand(collectionManager::open));
         command("tutorial", new TutorialCommand(tutorialManager));
         command("shop", new OpenMenuCommand(player -> new RankShopMenu(this).open(player)));
@@ -251,6 +261,7 @@ public class Aurora extends JavaPlugin {
                 new SpawnListener(this),
                 tutorialManager,
                 accessManager,
+                trash,
                 new PortalListener(this),
                 new KeyItemListener(this),
                 new GrappleListener(this),

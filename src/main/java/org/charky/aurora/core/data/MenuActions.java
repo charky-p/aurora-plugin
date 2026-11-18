@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 // before most managers exist, so an action is looked up when it is clicked, not when
 // the menu loads. Kept in step with ACTIONS in scripts/generate.py
 public class MenuActions {
-    private static final Set<String> KNOWN = Set.of("backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto", "core", "exchange");
+    private static final Set<String> KNOWN = Set.of("backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto", "core", "exchange", "leaderboard");
 
     // Actions written as name:parameter, such as upgrades:coal for a zone's upgrades
     private static final Set<String> KNOWN_WITH_PARAMETER = Set.of("upgrades");

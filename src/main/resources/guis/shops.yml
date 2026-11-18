@@ -112,8 +112,8 @@ items:
       - "BBBBBBBBB"
       - "B       B"
       - "B 1 4 6 B"
-      - "B  7 w  B"
-      - "B   9   B"
+      - "B 7 s w B"
+      - "B  9 l  B"
       - "BBBBBBBBX"
     components:
       '1':
@@ -140,6 +140,14 @@ items:
         type: ACTION
         id: warps
         icon: icon_warps
+      s:
+        type: ACTION
+        id: shop
+        icon: icon_shop
+      l:
+        type: ACTION
+        id: leaderboard
+        icon: icon_leaderboard
 
   food_shop:
     title: "<gold><b>Camp Cook"

@@ -10,12 +10,13 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 
 | Command | Does |
 |---|---|
-| `/a`, `/aurora` | Open the Aurora menu |
+| `/a`, `/aurora` | Open the Aurora menu: How to Play, backpack, collections, customise, the Essence shop, warps (supporters only: a donor or staff rank), spawn and the leaderboard |
 | `/backpack`, `/bp` | Open your backpack |
 | `/customise`, `/customize`, `/cosmetics` | Choose how you look: rank, suffixes, chat and name colour, join and death message, trail, kill effect and the trim on your armour. Cosmetics are bought here with Essence |
 | `/ranks`, `/rank` | Choose the rank shown by your name, from the ones you have unlocked |
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
-| `/leaderboard` | The ten highest levels on the server |
+| `/leaderboard` | The top ten by level, blocks mined, mob kills, Essence and playtime, as player heads; the arrows switch stats, and your own place is shown |
+| `/trash` | A bin: whatever is left in it when you close it is deleted. Tools, the backpack and keys are handed back |
 | `/spawn` | Teleport to this world's spawn |
 | `/shop` | The Essence shop: Dash, mounts, the God Tool, the Keyring and ranks, each bought once. Click one you own to use it again |
 | `/dash` | Turn Dash on or off, once bought: shift twice quickly to dash the way you face, once a second |

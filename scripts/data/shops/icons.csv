@@ -11,7 +11,7 @@ icon_armory,<red><b>Gear,IRON_SWORD,false,<gray>Your tools and armour and what m
 icon_spawn,<green><b>Spawn,ENDER_PEARL,false,<gray>Return to the hub island.
 icon_tools,<green><b>Your Tools,WOODEN_PICKAXE,false,<gray>Take your pick
 icon_upgrades,<aqua><b>Upgrades,ANVIL,true,<gray>Make the tools you carry better|<gray>a level at a time.
-icon_warps,<light_purple><b>Warps,COMPASS,false,<gray>Travel to a region you have reached.
+icon_warps,<light_purple><b>Warps,COMPASS,false,<gray>Travel to a region you have reached.|<gold>Supporters only
 icon_collections,<gold><b>Collections,BOOKSHELF,false,<gray>Everything you have ever gathered.|<gray>Each milestone pays Essence.
 icon_customise,<light_purple><b>Customise,NAME_TAG,false,<gray>Ranks
 icon_shop,<aqua><b>Essence Shop,EMERALD,true,<gray>Spend Essence on ranks.
@@ -20,3 +20,4 @@ icon_khorvath,<#B4462A><b>Khorvath,CHISELED_RED_SANDSTONE,true,"<gray>Up the cli
 icon_elderwood,<dark_green><b>Elderwood Roots,JUNGLE_SAPLING,true,<gray>The world tree and its treants.
 icon_sky,<aqua><b>Sky World,FEATHER,true,<gray>Islands above the clouds.
 icon_core,<white><b>Overworld Core,HEAVY_CORE,true,"<gray>Every resource, and the Golem's shards."
+icon_leaderboard,<yellow><b>Leaderboard,GOLDEN_HELMET,false,"<gray>The top players by level, blocks, kills and more."

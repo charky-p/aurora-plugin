@@ -62,6 +62,27 @@ public class PlayerStore {
         }
     }
 
+    // The highest saved values of one column, best first, ties broken by a second one.
+    // Each row is uuid, value, tiebreak. Columns come from LeaderboardStat, never a player
+    public List<long[]> top(String column, String tiebreak, int limit) {
+        List<long[]> rows = new ArrayList<>();
+        db.query("SELECT uuid, " + column + " AS v, " + tiebreak + " AS t FROM playerData ORDER BY v DESC, t DESC LIMIT ?",
+                pst -> pst.setInt(1, limit),
+                rs -> {
+                    UUID uuid = UUID.fromString(rs.getString("uuid"));
+                    rows.add(new long[]{uuid.getMostSignificantBits(), uuid.getLeastSignificantBits(), rs.getLong("v"), rs.getLong("t")});
+                });
+        return rows;
+    }
+
+    // Where a value stands: how many saved players are ahead of it
+    public int ahead(String column, long value) {
+        int[] count = {0};
+        db.query("SELECT COUNT(*) AS c FROM playerData WHERE " + column + " > ?", pst -> pst.setLong(1, value),
+                rs -> count[0] = rs.getInt("c"));
+        return count[0];
+    }
+
     // The highest saved levels, best first. Each row is uuid, level, xp
     public List<Object[]> topLevels(int limit) {
         List<Object[]> rows = new ArrayList<>();

@@ -103,6 +103,7 @@ items:
     glow: false
     lore:
       - "<gray>Travel to a region you have reached."
+      - "<gold>Supporters only"
 
   icon_collections:
     display: "<gold><b>Collections"
@@ -160,3 +161,10 @@ items:
     glow: true
     lore:
       - "<gray>Every resource, and the Golem's shards."
+
+  icon_leaderboard:
+    display: "<yellow><b>Leaderboard"
+    material: GOLDEN_HELMET
+    glow: false
+    lore:
+      - "<gray>The top players by level, blocks, kills and more."

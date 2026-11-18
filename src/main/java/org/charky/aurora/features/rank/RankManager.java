@@ -88,6 +88,15 @@ public class RankManager implements Listener {
         };
     }
 
+    // Owns a donor or staff rank, what warps need
+    public boolean isSupporter(Player player) {
+        Set<String> owned = bought.getOrDefault(player.getUniqueId(), Set.of());
+        for (Rank rank : Ranks.all()) {
+            if ((rank.kind() == Rank.Kind.DONOR || rank.kind() == Rank.Kind.STAFF) && owned.contains(rank.id())) return true;
+        }
+        return false;
+    }
+
     public long playtimeOf(Player player) {
         PlayerData data = players.get(player);
         return data == null ? 0 : data.getPlaytime();

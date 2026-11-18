@@ -14,303 +14,425 @@ items:
     display: "<gray><b>Starter Tools"
     entity: VILLAGER
     gui: starter_shop
+    profession: toolsmith
+    biome: plains
 
   cobble_trader:
     display: "<gray><b>Cobble Trader"
     entity: VILLAGER
     gui: upgrades:cobble
+    profession: toolsmith
+    biome: plains
 
   coal_trader:
     display: "<dark_gray><b>Coal Trader"
     entity: VILLAGER
     gui: upgrades:coal
+    profession: toolsmith
+    biome: plains
 
   copper_trader:
     display: "<#D94110><b>Copper Trader"
     entity: VILLAGER
     gui: upgrades:copper
+    profession: toolsmith
+    biome: plains
 
   iron_trader:
     display: "<white><b>Iron Trader"
     entity: VILLAGER
     gui: upgrades:iron
+    profession: toolsmith
+    biome: plains
 
   gold_trader:
     display: "<gold><b>Gold Trader"
     entity: VILLAGER
     gui: upgrades:gold
+    profession: toolsmith
+    biome: plains
 
   gate_trader:
-    display: "<gold><b>Duneworld Gatekeeper"
+    display: "<gold><b>Gormak Gate"
     entity: VILLAGER
     gui: gate_shop
+    profession: cartographer
+    biome: plains
 
   city_trader:
-    display: "<gray><b>City Scavenger"
-    entity: WANDERING_TRADER
+    display: "<gray><b>City Trader"
+    entity: VILLAGER
     gui: upgrades:city
+    profession: armorer
+    biome: desert
 
   dunes_trader:
-    display: "<yellow><b>Dune Nomad"
-    entity: WANDERING_TRADER
+    display: "<yellow><b>Dunes Trader"
+    entity: VILLAGER
     gui: upgrades:dunes
+    profession: armorer
+    biome: desert
 
   canyons_trader:
-    display: "<#B4462A><b>Canyon Hermit"
-    entity: WANDERING_TRADER
+    display: "<#B4462A><b>Canyon Trader"
+    entity: VILLAGER
     gui: upgrades:canyons
+    profession: armorer
+    biome: desert
 
   temple_trader:
-    display: "<gold><b>Temple Keeper"
-    entity: WANDERING_TRADER
+    display: "<gold><b>Temple Trader"
+    entity: VILLAGER
     gui: upgrades:temple
+    profession: armorer
+    biome: desert
 
   tomb_trader:
-    display: "<dark_purple><b>Tomb Broker"
-    entity: WANDERING_TRADER
+    display: "<dark_purple><b>Tomb Trader"
+    entity: VILLAGER
     gui: tomb_shop
+    profession: weaponsmith
+    biome: desert
 
   oak_trader:
-    display: "<#7BA05B><b>Grove Warden"
+    display: "<#7BA05B><b>Oak Trader"
     entity: VILLAGER
     gui: upgrades:oak
+    profession: fletcher
+    biome: taiga
 
   birch_trader:
-    display: "<#D9D3B0><b>Hollow Smith"
+    display: "<#D9D3B0><b>Birch Trader"
     entity: VILLAGER
     gui: upgrades:birch
+    profession: fletcher
+    biome: taiga
 
   spruce_trader:
-    display: "<#4F7A4A><b>Ridge Forester"
+    display: "<#4F7A4A><b>Spruce Trader"
     entity: VILLAGER
     gui: upgrades:spruce
+    profession: fletcher
+    biome: taiga
 
   darkoak_trader:
-    display: "<#6B4F35><b>Thicket Hermit"
+    display: "<#6B4F35><b>Dark Oak Trader"
     entity: VILLAGER
     gui: upgrades:darkoak
+    profession: fletcher
+    biome: taiga
 
   treehouse_trader:
-    display: "<#2E8B57><b>Grove Keeper"
+    display: "<#2E8B57><b>Grove Trader"
     entity: VILLAGER
     gui: upgrades:treehouse
+    profession: weaponsmith
+    biome: jungle
 
   food_trader:
-    display: "<gold><b>Camp Cook"
+    display: "<gold><b>Food Trader"
     entity: VILLAGER
     gui: food_shop
+    profession: butcher
+    biome: plains
 
   ruins_trader:
-    display: "<#E07B39><b>Relic Keeper"
-    entity: WANDERING_TRADER
+    display: "<#E07B39><b>Ruins Trader"
+    entity: VILLAGER
     gui: upgrades:ruins
+    profession: armorer
+    biome: desert
 
   catacombs_trader:
-    display: "<dark_purple><b>Catacomb Warden"
-    entity: WANDERING_TRADER
+    display: "<dark_purple><b>Catacombs Trader"
+    entity: VILLAGER
     gui: upgrades:catacombs
+    profession: armorer
+    biome: desert
 
   sanctuary_trader:
-    display: "<gold><b>Sun Priest"
-    entity: WANDERING_TRADER
+    display: "<gold><b>Sanctuary Trader"
+    entity: VILLAGER
     gui: upgrades:sanctuary
+    profession: cleric
+    biome: desert
 
   jungle_trader:
-    display: "<#9C7A3C><b>Jungle Warden"
+    display: "<#9C7A3C><b>Jungle Trader"
     entity: VILLAGER
     gui: upgrades:jungle
+    profession: fletcher
+    biome: jungle
 
   bamboo_trader:
-    display: "<#7BA05B><b>Bamboo Cutter"
+    display: "<#7BA05B><b>Bamboo Trader"
     entity: VILLAGER
     gui: upgrades:bamboo
+    profession: fletcher
+    biome: jungle
 
   amber_trader:
-    display: "<gold><b>Amber Collector"
+    display: "<gold><b>Amber Trader"
     entity: VILLAGER
     gui: upgrades:amber
+    profession: fletcher
+    biome: jungle
 
   mudflats_trader:
-    display: "<#8B6B4A><b>Mud Raker"
+    display: "<#8B6B4A><b>Mudflats Trader"
     entity: VILLAGER
     gui: upgrades:mudflats
+    profession: toolsmith
+    biome: swamp
 
   peat_trader:
-    display: "<#5C4033><b>Peat Cutter"
+    display: "<#5C4033><b>Peat Trader"
     entity: VILLAGER
     gui: upgrades:peat
+    profession: toolsmith
+    biome: swamp
 
   sunken_trader:
-    display: "<#4FB39A><b>Ruin Diver"
+    display: "<#4FB39A><b>Sunken Ruins Trader"
     entity: VILLAGER
     gui: upgrades:sunken_ruins
+    profession: toolsmith
+    biome: swamp
 
   hydra_trader:
-    display: "<dark_green><b>Swamp Hermit"
+    display: "<dark_green><b>Hydra Trader"
     entity: VILLAGER
     gui: upgrades:hydra_pool
+    profession: cleric
+    biome: swamp
 
   foothills_trader:
-    display: "<#8B6B4A><b>Mountain Guide"
+    display: "<#8B6B4A><b>Foothills Trader"
     entity: VILLAGER
     gui: upgrades:foothills
+    profession: mason
+    biome: snow
 
   redstone_trader:
-    display: "<red><b>Redstone Miner"
+    display: "<red><b>Redstone Trader"
     entity: VILLAGER
     gui: upgrades:redstone_mines
+    profession: toolsmith
+    biome: snow
 
   pumpkin_trader:
-    display: "<gold><b>Terrace Farmer"
+    display: "<gold><b>Pumpkin Trader"
     entity: VILLAGER
     gui: upgrades:pumpkin_terraces
+    profession: farmer
+    biome: snow
 
   lapis_trader:
-    display: "<blue><b>Ridge Prospector"
+    display: "<blue><b>Lapis Trader"
     entity: VILLAGER
     gui: upgrades:lapis_ridge
+    profession: toolsmith
+    biome: snow
 
   melon_trader:
-    display: "<green><b>Ledge Trader"
+    display: "<green><b>Melon Trader"
     entity: VILLAGER
     gui: upgrades:melon_ledges
+    profession: farmer
+    biome: snow
 
   arachne_trader:
-    display: "<dark_red><b>Cave Hermit"
+    display: "<dark_red><b>Cave Trader"
     entity: VILLAGER
     gui: upgrades:arachne_cave
+    profession: weaponsmith
+    biome: snow
 
   ashen_trader:
-    display: "<gray><b>The Ferryman"
-    entity: WANDERING_TRADER
+    display: "<gray><b>Ashen Trader"
+    entity: VILLAGER
     gui: upgrades:ashen
+    profession: armorer
+    biome: desert
 
   judgement_trader:
-    display: "<gold><b>Scribe of Thoth"
-    entity: WANDERING_TRADER
+    display: "<gold><b>Judgement Trader"
+    entity: VILLAGER
     gui: upgrades:judgement
+    profession: librarian
+    biome: desert
 
   forge_trader:
-    display: "<red><b>Forge Keeper"
-    entity: WANDERING_TRADER
+    display: "<red><b>Forge Trader"
+    entity: VILLAGER
     gui: upgrades:forge
+    profession: armorer
+    biome: desert
 
   throne_trader:
-    display: "<dark_gray><b>Night Herald"
-    entity: WANDERING_TRADER
+    display: "<dark_gray><b>Night Trader"
+    entity: VILLAGER
     gui: upgrades:throne
+    profession: cleric
+    biome: desert
 
   cellar_trader:
-    display: "<#6B4F35><b>Root Keeper"
+    display: "<#6B4F35><b>Root Trader"
     entity: VILLAGER
     gui: upgrades:root_cellar
+    profession: armorer
+    biome: jungle
 
   vine_trader:
-    display: "<#3A7D2C><b>Vine Warden"
+    display: "<#3A7D2C><b>Vine Trader"
     entity: VILLAGER
     gui: upgrades:vine_halls
+    profession: armorer
+    biome: jungle
 
   hive_trader:
-    display: "<gold><b>Hive Keeper"
+    display: "<gold><b>Hive Trader"
     entity: VILLAGER
     gui: upgrades:hive_chambers
+    profession: armorer
+    biome: jungle
 
   canopy_trader:
-    display: "<dark_green><b>Canopy Lookout"
+    display: "<dark_green><b>Canopy Trader"
     entity: VILLAGER
     gui: upgrades:upper_canopy
+    profession: weaponsmith
+    biome: jungle
 
   crown_trader:
-    display: "<dark_green><b>Crown Druid"
+    display: "<dark_green><b>Crown Trader"
     entity: VILLAGER
     gui: upgrades:the_crown
+    profession: cleric
+    biome: jungle
 
   cloudbank_trader:
-    display: "<white><b>Cloud Shepherd"
+    display: "<white><b>Cloud Trader"
     entity: VILLAGER
     gui: upgrades:cloudbank
+    profession: toolsmith
+    biome: plains
 
   spires_trader:
-    display: "<aqua><b>Spire Climber"
+    display: "<aqua><b>Spire Trader"
     entity: VILLAGER
     gui: upgrades:skyshard_spires
+    profession: toolsmith
+    biome: plains
 
   storm_trader:
-    display: "<aqua><b>Storm Chaser"
+    display: "<aqua><b>Storm Trader"
     entity: VILLAGER
     gui: upgrades:storm_front
+    profession: toolsmith
+    biome: plains
 
   harbour_trader:
-    display: "<gold><b>Harbour Master"
+    display: "<gold><b>Harbour Trader"
     entity: VILLAGER
     gui: upgrades:sky_harbour
+    profession: weaponsmith
+    biome: plains
 
   walls_trader:
-    display: "<white><b>Gate Captain"
+    display: "<white><b>Wall Trader"
     entity: VILLAGER
     gui: upgrades:outer_walls
+    profession: armorer
+    biome: plains
 
   gardens_trader:
-    display: "<yellow><b>Head Gardener"
+    display: "<yellow><b>Garden Trader"
     entity: VILLAGER
     gui: upgrades:gilded_gardens
+    profession: armorer
+    biome: plains
 
   treasury_trader:
-    display: "<gold><b>Royal Treasurer"
+    display: "<gold><b>Treasury Trader"
     entity: VILLAGER
     gui: upgrades:royal_treasury
+    profession: librarian
+    biome: plains
 
   throne_room_trader:
-    display: "<gold><b>Royal Steward"
+    display: "<gold><b>Throne Trader"
     entity: VILLAGER
     gui: upgrades:throne_room
+    profession: cleric
+    biome: plains
 
   gravel_trader:
-    display: "<gray><b>Pit Boss"
+    display: "<gray><b>Gravel Trader"
     entity: VILLAGER
     gui: upgrades:gravel_pits
+    profession: mason
+    biome: savanna
 
   pale_trader:
-    display: "<white><b>Pale Woodsman"
+    display: "<white><b>Pale Trader"
     entity: VILLAGER
     gui: upgrades:pale_woods
+    profession: fletcher
+    biome: savanna
 
   maple_trader:
-    display: "<red><b>Maple Tapper"
+    display: "<red><b>Maple Trader"
     entity: VILLAGER
     gui: upgrades:maple_grove
+    profession: fletcher
+    biome: savanna
 
   diamond_trader:
-    display: "<aqua><b>Deep Miner"
+    display: "<aqua><b>Diamond Trader"
     entity: VILLAGER
     gui: upgrades:diamond_depths
+    profession: toolsmith
+    biome: savanna
 
   pit_trader:
-    display: "<gray><b>Quarry Overseer"
+    display: "<gray><b>Pit Trader"
     entity: VILLAGER
     gui: upgrades:quarry_pit
+    profession: weaponsmith
+    biome: savanna
 
   elderwood_gate_trader:
-    display: "<dark_green><b>Elderwood Gatekeeper"
+    display: "<dark_green><b>Elderwood Gate"
     entity: VILLAGER
     gui: elderwood_gate_shop
+    profession: cartographer
+    biome: taiga
 
   sky_gate_trader:
-    display: "<aqua><b>Sky Gatekeeper"
+    display: "<aqua><b>Sky Gate"
     entity: VILLAGER
     gui: sky_gate_shop
+    profession: cartographer
+    biome: snow
 
   core_trader:
-    display: "<white><b>Core Smith"
+    display: "<white><b>Core Trader"
     entity: VILLAGER
     gui: core
+    profession: mason
+    biome: savanna
 
   golem_trader:
-    display: "<white><b>Core Smith"
+    display: "<white><b>Golem Trader"
     entity: VILLAGER
     gui: upgrades:golems_rest
+    profession: weaponsmith
+    biome: savanna
 
   essence_trader:
     display: "<gold><b>Essence Trader"
     entity: VILLAGER
     gui: exchange
+    profession: cleric
+    biome: savanna

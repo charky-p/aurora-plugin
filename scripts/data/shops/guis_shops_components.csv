@@ -22,3 +22,5 @@ elderwood_gate_shop,2,TRADE,grapple,1,dark_oak_log*200+silver*5000,
 sky_gate_shop,1,TRADE,sky_key,1,venom_sac*2+rider_bone*12,
 sky_gate_shop,2,TRADE,elytra,1,emerald*5000+venom_sac*1+rider_bone*8,
 sky_gate_shop,3,TRADE,rocket,16,redstone*500,
+aurora_hub,s,ACTION,shop,,,icon_shop
+aurora_hub,l,ACTION,leaderboard,,,icon_leaderboard

@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 // Each online player's profile: loaded on join, saved on quit and every 10 minutes
@@ -84,6 +85,34 @@ public class PlayerManager {
                         .sorted(Comparator.comparingInt(Standing::level).thenComparingLong(Standing::xp).reversed())
                         .limit(size)
                         .toList());
+            });
+        });
+    }
+
+    // One place on a leaderboard
+    public record Entry(UUID uuid, long value, long tiebreak) {
+    }
+
+    // The top of one stat and where the asking player stands, handed to the callback on
+    // the main thread. Players online count with what they have right now
+    public void top(LeaderboardStat stat, int size, UUID asking, BiConsumer<List<Entry>, Integer> then) {
+        db.async(() -> {
+            List<long[]> saved = store.top(stat.column(), stat.tiebreak(), size + profiles.size());
+            PlayerData mine = profiles.get(asking);
+            int ahead = mine == null ? -1 : store.ahead(stat.column(), stat.of(mine));
+
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                Map<UUID, Entry> entries = new HashMap<>();
+                for (long[] row : saved) {
+                    UUID uuid = new UUID(row[0], row[1]);
+                    entries.put(uuid, new Entry(uuid, row[2], row[3]));
+                }
+                profiles.forEach((uuid, data) -> entries.put(uuid, new Entry(uuid, stat.of(data), stat.tiebreakOf(data))));
+                List<Entry> top = entries.values().stream()
+                        .sorted(Comparator.comparingLong(Entry::value).thenComparingLong(Entry::tiebreak).reversed())
+                        .limit(size)
+                        .toList();
+                then.accept(top, ahead < 0 ? -1 : ahead + 1);
             });
         });
     }

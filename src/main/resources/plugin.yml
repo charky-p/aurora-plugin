@@ -35,6 +35,9 @@ commands:
   leaderboard:
     description: The ten highest levels on the server
     usage: /leaderboard
+  trash:
+    description: A bin, whatever is left in it when closed is deleted
+    usage: /trash
   shop:
     description: The Essence shop, dash, mounts, the God Tool and ranks
     usage: /shop

@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Villager;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
@@ -17,12 +18,18 @@ public class Trader {
     private final EntityType type;
     // What clicking the trader does: opens a menu, or a zone's upgrades
     private final Consumer<Player> opens;
+    // How a villager trader looks, either can be null for vanilla's default
+    private final Villager.Profession profession;
+    private final Villager.Type biome;
 
-    public Trader(String traderId, Component displayName, EntityType type, Consumer<Player> opens) {
+    public Trader(String traderId, Component displayName, EntityType type, Consumer<Player> opens,
+                  Villager.Profession profession, Villager.Type biome) {
         this.traderId = traderId;
         this.displayName = displayName;
         this.type = type;
         this.opens = opens;
+        this.profession = profession;
+        this.biome = biome;
     }
 
     public void open(Player player) {
@@ -50,6 +57,12 @@ public class Trader {
             if (entity instanceof LivingEntity living) {
                 living.setAI(false);
                 living.setCollidable(false);
+            }
+            // Dressed for the job, with the master's badge so the outfit shows in full
+            if (entity instanceof Villager villager) {
+                if (profession != null) villager.setProfession(profession);
+                if (biome != null) villager.setVillagerType(biome);
+                villager.setVillagerLevel(5);
             }
 
             entity.getPersistentDataContainer().set(

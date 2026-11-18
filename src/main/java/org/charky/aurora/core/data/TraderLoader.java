@@ -1,6 +1,7 @@
 package org.charky.aurora.core.data;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.entity.EntityType;
@@ -40,8 +41,19 @@ public class TraderLoader {
                 return;
             }
 
-            traders.put(id, new Trader(id, MiniMessage.miniMessage().deserialize(model.display), type, opens));
+            traders.put(id, new Trader(id, MiniMessage.miniMessage().deserialize(model.display), type, opens,
+                    lookup(Registry.VILLAGER_PROFESSION, model.profession, id),
+                    lookup(Registry.VILLAGER_TYPE, model.biome, id)));
         });
         return traders;
+    }
+
+    // A vanilla registry entry by its plain name, null and a warning if there is none
+    private <T extends Keyed> T lookup(Registry<T> registry, String name, String trader) {
+        if (name == null || name.isBlank()) return null;
+        NamespacedKey key = NamespacedKey.fromString("minecraft:" + name.toLowerCase());
+        T found = key == null ? null : registry.get(key);
+        if (found == null) logger.warning("Trader '" + trader + "': no villager look '" + name + "'");
+        return found;
     }
 }

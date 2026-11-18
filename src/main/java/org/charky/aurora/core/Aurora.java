@@ -3,7 +3,6 @@ package org.charky.aurora.core;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Entity;
@@ -75,7 +74,6 @@ import org.charky.aurora.features.spawner.SpawnerManager;
 import org.charky.aurora.features.system.SpawnListener;
 import org.charky.aurora.features.tutorial.TutorialCommand;
 import org.charky.aurora.features.tutorial.TutorialManager;
-import org.charky.aurora.features.system.VoidGenerator;
 import org.charky.aurora.features.system.WandListener;
 import org.charky.aurora.features.system.WandManager;
 import org.charky.aurora.features.system.commands.AuroraCommand;
@@ -97,9 +95,9 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class Aurora extends JavaPlugin {
-    // The main world, everything in it is built by hand
-    // Where players join until /aurora setspawn main picks another world
-    public static final String MAIN_WORLD = "aurora_mines";
+    // Where players join until /aurora setspawn main picks another world. Loaded
+    // like any other world made with /aurora world create, the plugin makes none itself
+    public static final String MAIN_WORLD = "aurora_overworld";
 
     private Database db;
     private SpawnStore spawnStore;
@@ -129,13 +127,6 @@ public class Aurora extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        WorldCreator creator = new WorldCreator(MAIN_WORLD);
-        creator.generator(new VoidGenerator());
-        creator.generateStructures(false);
-
-        // This actually 'wakes up' the world so it shows in /execute
-        Bukkit.createWorld(creator);
-
         // Register preset data
         this.registry = new DataRegistry(this);
         this.backpackManager = new BackpackManager(registry);

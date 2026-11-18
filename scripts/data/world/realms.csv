@@ -1,5 +1,5 @@
 id,name,worlds,base,part_of
-overworld,<green><b>Overworld,aurora_mines|aurora_test,,
+overworld,<green><b>Overworld,aurora_overworld|aurora_test,,
 gormak,<gold><b>Gormak,,,overworld
 verdant,<dark_green><b>Verdant Groves,,,overworld
 duneworld,<gold><b>Duneworld,aurora_test_gormak,overworld,

@@ -15,7 +15,7 @@ items:
   overworld:
     name: "<green><b>Overworld"
     worlds:
-      - "aurora_mines"
+      - "aurora_overworld"
       - "aurora_test"
 
   gormak:

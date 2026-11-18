@@ -146,7 +146,9 @@ public class MountManager implements Listener {
     private void steer() {
         for (Map.Entry<UUID, Entity> entry : riding.entrySet()) {
             Entity mount = entry.getValue();
-            Double walk = WALK.get(mountOf(mount));
+            // The horse and the happy ghast steer the vanilla way, and Map.of throws on a null key
+            String kind = mountOf(mount);
+            Double walk = kind == null ? null : WALK.get(kind);
             if (walk == null || !mount.isValid() || mount.getPassengers().isEmpty()) continue;
             if (!(mount.getPassengers().getFirst() instanceof Player rider)) continue;
 

@@ -57,5 +57,5 @@ diamond_trader,<aqua><b>Deep Miner,VILLAGER,upgrades:diamond_depths
 pit_trader,<gray><b>Quarry Overseer,VILLAGER,upgrades:quarry_pit
 elderwood_gate_trader,<dark_green><b>Elderwood Gatekeeper,VILLAGER,elderwood_gate_shop
 sky_gate_trader,<aqua><b>Sky Gatekeeper,VILLAGER,sky_gate_shop
-core_trader,<white><b>Core Smith,VILLAGER,core_shop
+core_trader,<white><b>Core Smith,VILLAGER,core
 golem_trader,<white><b>Core Smith,VILLAGER,upgrades:golems_rest

@@ -56,6 +56,37 @@ public class PerkManager implements Listener {
         return level(player, Perk.KEYRING) > 0;
     }
 
+    // A saved count that is not a perk, like how far the Overworld Core is infused.
+    // Kept with the perks so /aurora reset clears it with them
+    public int raw(UUID uuid, String key) {
+        return levels.getOrDefault(uuid, Map.of()).getOrDefault(key, 0);
+    }
+
+    public void setRaw(UUID uuid, String key, int value) {
+        levels.computeIfAbsent(uuid, k -> new HashMap<>()).put(key, value);
+        db.async(() -> store.save(uuid, key, value));
+    }
+
+    public boolean owns(Player player, Perk perk) {
+        return level(player, perk) > 0;
+    }
+
+    // Dash is on once bought until the player turns it off, saved as its own row
+    private static final String DASH_OFF = "dash_off";
+
+    public boolean dashOn(Player player) {
+        return owns(player, Perk.DASH) && levels.getOrDefault(player.getUniqueId(), Map.of()).getOrDefault(DASH_OFF, 0) == 0;
+    }
+
+    // True if it is on now
+    public boolean toggleDash(Player player) {
+        UUID uuid = player.getUniqueId();
+        int off = dashOn(player) ? 1 : 0;
+        levels.computeIfAbsent(uuid, k -> new HashMap<>()).put(DASH_OFF, off);
+        db.async(() -> store.save(uuid, DASH_OFF, off));
+        return off == 0;
+    }
+
     // Null if the next level was bought, otherwise why not
     public String buy(Player player, Perk perk) {
         PlayerData data = players.get(player);

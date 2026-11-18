@@ -303,7 +303,7 @@ items:
   core_trader:
     display: "<white><b>Core Smith"
     entity: VILLAGER
-    gui: core_shop
+    gui: core
 
   golem_trader:
     display: "<white><b>Core Smith"

@@ -18,6 +18,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.features.tool.ToolManager;
 import org.charky.aurora.features.tutorial.TutorialManager;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.player.BackpackManager;
@@ -47,11 +48,13 @@ public class MineListener implements Listener {
     private static final int CRIT_MULTIPLIER = 2;
 
     private final TutorialManager tutorial;
+    private final ToolManager tools;
 
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
         this.players = plugin.getPlayerManager();
         this.tutorial = plugin.getTutorialManager();
+        this.tools = plugin.getToolManager();
         this.scoreboard = plugin.getScoreboardManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
@@ -72,7 +75,8 @@ public class MineListener implements Listener {
         ItemStack pick = player.getInventory().getItemInMainHand();
         processBlock(player, pick, event.getBlock());
 
-        int blast = Enchants.level(pick, "blast");
+        // The God Tool blasts with the levels of the tool the block needs
+        int blast = Enchants.level(tools.miningTool(player, pick, event.getBlock().getType()), "blast");
         if (blast > 0) {
             for (Block target : blastArea(player, event.getBlock(), blast)) {
                 if (target.getType() != Material.BEDROCK && target.getType() != Material.AIR) {
@@ -103,7 +107,10 @@ public class MineListener implements Listener {
                     NamedTextColor.RED, TextDecoration.BOLD));
             return;
         }
-        int fortune = Enchants.level(pick, "fortune");
+        // Fortune, Luck and the rest come from the tool the block needs: the held one,
+        // or with the God Tool, the player's pick, axe or shovel
+        ItemStack using = tools.miningTool(player, pick, block.getType());
+        int fortune = Enchants.level(using, "fortune");
         if (fortune < density) {
             player.sendActionBar(Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD));
             return;
@@ -118,7 +125,7 @@ public class MineListener implements Listener {
         backpackManager.get(player.getUniqueId()).collect(player, blockDrops);
         tutorial.mined(player, blockDrops);
 
-        Essence.roll(player, Enchants.level(pick, "luck"), players);
+        Essence.roll(player, Enchants.level(using, "luck"), players);
 
         // Only break if it is a block with a drop. Counted towards the reset only
         // once broken, or swinging at a block you can't mine would reset the mine

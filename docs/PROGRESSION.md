@@ -37,7 +37,7 @@ A zone is one mine (or two), one or two mobs, one trader and a list of steps in 
 
 **Realms and stacking.** Levels are kept per realm. The Overworld realm is Origin; every other region is a realm that is part of it, counting its own levels from 1. A tool has the sum of them all, so nothing bought is ever lost by changing region.
 
-**Movement.** The grapple, sold at the end of Verdant Groves, launches you the way you look, about 12 blocks up and 20 across, from the ground only, every 5 seconds; it climbs Khorvath's cliff. The elytra and rockets, sold at the end of Emerald Peaks, cross the 40 block gaps to the Duat and the Ironbound Quarry and fly up the 20 blocks to Elderwood Heart.
+**Movement.** The grapple, a fishing rod sold at the end of Verdant Groves, throws you the way you look, on the ground or in the air, every 3 seconds; it climbs Khorvath's cliff. Chained in the air it can also cross a void gap. The elytra and rockets, sold at the end of Emerald Peaks, cross the 40 block gaps to the Duat and the Ironbound Quarry and fly up the 20 blocks to Elderwood Heart.
 
 ## 3. The ladder
 
@@ -126,7 +126,7 @@ A zone is priced for a player who has finished every region of every earlier sta
 
 The zones add up to about 10.5 hours of real play.
 
-**Gates.** The Gormak Gate trader beside the Gold Reef sells the Gormak Key (300 gold, 20 leather), which opens the portal to Gormak. The Elderwood Gatekeeper at the end of Verdant Groves sells the Elderwood Pass and the grapple, the Sky Gatekeeper at the end of Emerald Peaks the Sky Pass, the elytra and rockets. The Core Smith in Golem's Rest sells the Overworld Core in five pieces: each costs 25 runs' worth of every resource of a stage, a few Golem Core Shards, the boss trophies and the piece before it. The last piece opens the Caverns, for a player who has maxed every zone. In the Royal Tomb a Tomb Key, a rare drop from the myrmidon and the pharaoh, is right-clicked to summon Gormak the Eternal. A key is used up; another has to be found.
+**Gates.** The Gormak Gate trader beside the Gold Reef sells the Gormak Key (300 gold, 20 leather), which opens the portal to Gormak. The Elderwood Gatekeeper at the end of Verdant Groves sells the Elderwood Pass and the grapple, the Sky Gatekeeper at the end of Emerald Peaks the Sky Pass, the elytra and rockets. The Core Smith in Golem's Rest infuses the Overworld Core: one core, upgraded a zone at a time in play order. Each step needs its zone maxed and costs 25 times everything that zone costs, with 1 Golem Core Shard (one more every ten steps). The last step opens the Caverns. In the Royal Tomb a Tomb Key, a rare drop from the myrmidon and the pharaoh, is right-clicked to summon Gormak the Eternal. A key is used up; another has to be found.
 
 **Bosses.** Gormak the Eternal (three phases, ghouls, minions and a guardian) ends Gormak. Khorvath, the Hydra, Arachne, Sol, the Elder Treant and the Sky King are summoned by a key their region's mobs drop, and drop a trophy the Overworld Core needs. The Overworld Golem returns every 5 minutes in Golem's Rest. The Treant ends Elderwood Roots, the Mirage is a rare mob for any Gormak zone. The Pirate Captain carries the Storm Mace, a rare drop.
 
@@ -138,13 +138,15 @@ The zones add up to about 10.5 hours of real play.
 - **Ranks.** Playtime ranks up to 1,000 hours, donor ranks and staff ranks. `/ranks` picks the one shown.
 - **Cosmetics.** `/customise`: suffixes, chat and name colour, join and death messages, trails, kill effects and armour trims. Some are free, some earned (playtime, a maxed zone or region), some bought with Essence, some come only with a donor package. See [STORE.md](STORE.md).
 - **Food.** The Camp Cook sells food by the stack; a new player starts with 64 bread.
+- **Essence shop.** `/shop` sells utility only, each bought once: Dash (2,500), the God Tool (10,000), mounts (pig 1,000, chicken 1,500, horse 3,000, happy ghast 8,000), the Keyring (5,000), and the Essence ranks. Vitality and Crit Rate are no longer sold.
+- **God Tool.** One tool with the pick, axe and shovel rules. Every block is mined with the levels of the tool it needs: a log with the axe's Fortune and Efficiency, dirt with the shovel's, ore with the pick's. Upgrades stay on the three tools.
+- **Mounts.** Right click a mount's saddle to ride it, shift to get off and it vanishes. The horse and happy ghast steer the vanilla way, the pig and chicken follow where you look.
 - **Tutorial.** A new player starts by the Cobblestone Quarry and is walked through mining 10 cobblestone, the backpack, the trader and a first upgrade. It pays 50 Essence and the Newcomer suffix, and can be skipped.
 
 ## 5. Switched off for now
 
 Built but not finished, so not reachable in game. The code is kept; `core/Aurora.java` lists what to register again.
 
-- **The Essence shop** (`/shop`): perks, including the Keyring that hands keys back, and the three ranks bought with Essence. Until it returns, Essence is spent on cosmetics only.
 - **The gauntlet** (`/gauntlet`).
 - **Fishing**: the rods and their catch tables.
 
@@ -178,4 +180,4 @@ After any data change: `python scripts/balance/collection_tiers.py --write`, `py
 - **The Caverns do not exist yet**: the Overworld Core gives the `caverns` tag and nothing opens with it.
 - **Verdant Groves has no danger.** Its four mobs do not attack; the treants are in Elderwood Roots now.
 - **The world is the test world** from `scripts/build_test_world.py`: plain platforms, no map yet.
-- **Essence has few uses** while the shop is off, and nothing drains it over time.
+- **Essence** has utility to buy now, but nothing drains it after that.

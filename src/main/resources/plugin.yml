@@ -35,6 +35,12 @@ commands:
   leaderboard:
     description: The ten highest levels on the server
     usage: /leaderboard
+  shop:
+    description: The Essence shop, dash, mounts, the God Tool and ranks
+    usage: /shop
+  dash:
+    description: Turn dash on or off
+    usage: /dash
   tutorial:
     description: Skip the first-join tutorial
     usage: /tutorial skip

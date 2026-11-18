@@ -122,13 +122,14 @@ items:
 
   grapple:
     display: "<#9C7A3C><b>Grapple"
-    material: TRIPWIRE_HOOK
+    material: FISHING_ROD
     tier: 1
     type: ''
     world: "overworld"
     region: ''
     lore:
-      - "<gray>Right click to launch where you look"
+      - "<gray>Right click to throw yourself where you look"
+      - "<dark_gray>Every 3 seconds, in the air too"
 
   elytra:
     display: "<white><b>Elytra"
@@ -150,42 +151,42 @@ items:
     lore:
       - "<gray>Right click while gliding"
 
-  core_1:
-    display: "<white><b>Overworld Core I"
-    material: HEAVY_CORE
+  mount_pig:
+    display: "<light_purple><b>Pig Saddle"
+    material: SADDLE
     type: ''
     world: "overworld"
-    region: "quarry_golem"
+    region: ''
     lore:
-      - "<gray>A piece of the Overworld Core"
-      - "<dark_gray>Bring it to the Core Smith"
+      - "<gray>Right click to ride your pig"
+      - "<dark_gray>Shift to get off"
 
-  core_2:
-    display: "<white><b>Overworld Core II"
-    material: HEAVY_CORE
+  mount_chicken:
+    display: "<white><b>Chicken Saddle"
+    material: SADDLE
     type: ''
     world: "overworld"
-    region: "quarry_golem"
+    region: ''
     lore:
-      - "<gray>A piece of the Overworld Core"
-      - "<dark_gray>Bring it to the Core Smith"
+      - "<gray>Right click to ride your chicken"
+      - "<dark_gray>Shift to get off"
 
-  core_3:
-    display: "<white><b>Overworld Core III"
-    material: HEAVY_CORE
+  mount_horse:
+    display: "<gold><b>Horse Saddle"
+    material: SADDLE
     type: ''
     world: "overworld"
-    region: "quarry_golem"
+    region: ''
     lore:
-      - "<gray>A piece of the Overworld Core"
-      - "<dark_gray>Bring it to the Core Smith"
+      - "<gray>Right click to ride your horse"
+      - "<dark_gray>Shift to get off"
 
-  core_4:
-    display: "<white><b>Overworld Core IV"
-    material: HEAVY_CORE
+  mount_ghast:
+    display: "<white><b>Happy Ghast Harness"
+    material: WHITE_HARNESS
     type: ''
     world: "overworld"
-    region: "quarry_golem"
+    region: ''
     lore:
-      - "<gray>A piece of the Overworld Core"
-      - "<dark_gray>Bring it to the Core Smith"
+      - "<gray>Right click to fly your happy ghast"
+      - "<dark_gray>Shift to get off"

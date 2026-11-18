@@ -21,6 +21,8 @@ public class CommandFilter implements Listener {
             "collections", "collection",
             "leaderboard",
             "tutorial",
+            "shop",
+            "dash",
             // The store plugin's own command, listed so donors can find it
             "buy",
             "spawn");

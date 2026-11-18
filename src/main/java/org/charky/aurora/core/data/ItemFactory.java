@@ -148,7 +148,7 @@ public class ItemFactory {
 
     // Vanilla tier speeds, the same for every tool of a tier. Efficiency still adds
     // on top through the enchant
-    private static float tierSpeed(Material material) {
+    public static float tierSpeed(Material material) {
         String name = material.name();
         if (name.startsWith("WOODEN_")) return 2f;
         if (name.startsWith("STONE_")) return 4f;

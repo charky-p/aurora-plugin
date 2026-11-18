@@ -7,24 +7,29 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
-import org.charky.aurora.core.DataRegistry;
+import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.perk.Perk;
 import org.charky.aurora.features.perk.PerkManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-// The Essence shop, /shop. Perks first, a level at a time, then the ranks
+// The Essence shop, /shop. Utility perks first, bought once each, then the ranks.
+// Clicking a perk you own uses it: Dash turns on or off, a mount or the God Tool is
+// handed over again if it was lost
 public class RankShopMenu extends PagedMenu {
+    private final Aurora plugin;
     private final RankManager ranks;
     private final PerkManager perks;
-    private final Perk[] upgrades = Perk.values();
+    private final List<Perk> upgrades = Arrays.stream(Perk.values()).filter(Perk::sold).toList();
     private final List<Rank> forSale = Ranks.ofKind(Rank.Kind.SHOP);
 
-    public RankShopMenu(RankManager ranks, PerkManager perks, DataRegistry registry) {
-        super(registry, "Essence Shop");
-        this.ranks = ranks;
-        this.perks = perks;
+    public RankShopMenu(Aurora plugin) {
+        super(plugin.getRegistry(), "Essence Shop");
+        this.plugin = plugin;
+        this.ranks = plugin.getRankManager();
+        this.perks = plugin.getPerkManager();
     }
 
     @Override
@@ -47,12 +52,13 @@ public class RankShopMenu extends PagedMenu {
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
             List<Component> lore = new ArrayList<>();
-            lore.add(TextUtils.parse("<!italic><gray>A permanent upgrade: " + perk.effect() + "."));
+            lore.add(TextUtils.parse("<!italic><gray>" + Character.toUpperCase(perk.effect().charAt(0)) + perk.effect().substring(1) + "."));
             lore.add(Component.empty());
-            lore.add(TextUtils.parse("<!italic><gray>Level: <white>" + level + "<dark_gray>/<gray>" + perk.maxLevel()));
-            if (maxed) lore.add(TextUtils.parse("<!italic><green>Complete"));
-            else {
-                lore.add(TextUtils.parse("<!italic><gray>Next level: <gold>" + String.format("%,d", price) + " Essence"));
+            if (maxed) {
+                lore.add(TextUtils.parse("<!italic><green>Owned"));
+                lore.add(TextUtils.parse("<!italic><yellow>" + useHint(player, perk)));
+            } else {
+                lore.add(TextUtils.parse("<!italic><gray>Price: <gold>" + String.format("%,d", price) + " Essence"));
                 lore.add(TextUtils.parse(essence >= price ? "<!italic><yellow>Click to buy"
                         : "<!italic><red>" + String.format("%,d", price - essence) + " more Essence needed"));
             }
@@ -60,8 +66,14 @@ public class RankShopMenu extends PagedMenu {
 
             if (maxed) meta.setEnchantmentGlintOverride(true);
         });
-        item.setAmount(Math.clamp(level, 1, 64));
         return item;
+    }
+
+    private String useHint(Player player, Perk perk) {
+        if (perk == Perk.DASH) return perks.dashOn(player) ? "On - click to turn it off" : "Off - click to turn it on";
+        if (perk.mount() != null) return "Click for its saddle again";
+        if (perk == Perk.GOD_TOOL) return "Click for the tool again";
+        return "Yours for good";
     }
 
     private ItemStack rankItem(Player player, Rank rank, int essence) {
@@ -96,11 +108,16 @@ public class RankShopMenu extends PagedMenu {
 
     @Override
     protected void onEntryClick(Player player, int index) {
-        String problem;
-        if (index < upgrades.length) {
-            problem = perks.buy(player, upgrades[index]);
+        String problem = null;
+        if (index < upgrades.size()) {
+            Perk perk = upgrades.get(index);
+            if (perks.owns(player, perk)) use(player, perk);
+            else {
+                problem = perks.buy(player, perk);
+                if (problem == null) bought(player, perk);
+            }
         } else {
-            int position = index - upgrades.length;
+            int position = index - upgrades.size();
             if (position >= forSale.size()) return;
 
             Rank rank = forSale.get(position);
@@ -110,5 +127,22 @@ public class RankShopMenu extends PagedMenu {
 
         if (problem != null) TextUtils.error(player, problem);
         render(player);
+    }
+
+    // Just bought: Dash starts on, a mount's saddle or the God Tool is handed over
+    private void bought(Player player, Perk perk) {
+        if (perk == Perk.DASH) TextUtils.success(player, "Dash is on: shift twice quickly to dash");
+        else use(player, perk);
+    }
+
+    // Owned already: Dash turns on or off, a lost saddle or God Tool is handed over again
+    private void use(Player player, Perk perk) {
+        if (perk == Perk.DASH) {
+            TextUtils.success(player, "Dash " + (perks.toggleDash(player) ? "on" : "off"));
+        } else if (perk.mount() != null) {
+            plugin.getMountManager().giveSaddle(player, perk.mount());
+        } else if (perk == Perk.GOD_TOOL) {
+            plugin.getToolManager().giveGodTool(player);
+        }
     }
 }

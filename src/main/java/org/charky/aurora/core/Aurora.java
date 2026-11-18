@@ -35,13 +35,15 @@ import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.boss.BossManager;
 import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.combat.CombatListener;
+import org.charky.aurora.features.core.OverworldCore;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.keys.AccessManager;
 import org.charky.aurora.features.keys.KeyItemListener;
-import org.charky.aurora.features.keys.KeyItems;
 import org.charky.aurora.features.mine.MineListener;
+import org.charky.aurora.features.movement.DashListener;
 import org.charky.aurora.features.movement.GrappleListener;
+import org.charky.aurora.features.movement.MountManager;
 import org.charky.aurora.features.mine.MineManager;
 import org.charky.aurora.features.player.BackpackCommand;
 import org.charky.aurora.features.player.BackpackItemListener;
@@ -62,6 +64,7 @@ import org.charky.aurora.features.system.HowToPlay;
 import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.system.CommandFilter;
 import org.charky.aurora.features.rank.RankManager;
+import org.charky.aurora.features.rank.RankShopMenu;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
@@ -114,6 +117,7 @@ public class Aurora extends JavaPlugin {
     private CosmeticManager cosmeticManager;
     private TutorialManager tutorialManager;
     private AccessManager accessManager;
+    private MountManager mountManager;
     private ToolManager toolManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
@@ -183,10 +187,12 @@ public class Aurora extends JavaPlugin {
             scoreboard.updateBoard(player);
         });
         // TODO: later. Switched off until they are finished, the code is all still here:
-        //  - the Essence shop (RankShopMenu: perks and the Essence ranks), /shop and its menu icon
         //  - the gauntlet (features/gauntlet), /gauntlet and its listener
         //  - fishing (features/fishing), its listener and the rods in gear_other.csv
-        // Perks already bought still work, PerkManager stays for them and for /a reset
+        // The Essence shop is back with utility only; Vitality and Crit Rate are no longer
+        // sold, levels already bought still work
+        registry.registerAction("shop", player -> new RankShopMenu(this).open(player));
+        this.mountManager = new MountManager(this, registry, perkManager);
         registry.registerAction("warps", player -> new WarpMenu(this).open(player));
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
         armoryManager.setTools(toolManager);
@@ -200,8 +206,7 @@ public class Aurora extends JavaPlugin {
         cosmeticManager.setLookChanged(toolManager::refresh);
         registry.registerAction("upgrades", toolManager::openUpgrades);
         registry.registerAction("tools", toolManager::giveStarters);
-        // The Overworld Core opens the Caverns only for a player who has maxed every zone
-        KeyItems.require("caverns", toolManager::maxedAll, "Max every zone in the game first");
+        registry.registerAction("core", player -> OverworldCore.open(this, player));
         this.accessManager = new AccessManager(db, new AccessStore(db), registry);
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);
         backpackManager.setOnOpen(tutorialManager::openedBackpack);
@@ -225,6 +230,9 @@ public class Aurora extends JavaPlugin {
         command("leaderboard", new TopCommand(players));
         command("collections", new OpenMenuCommand(collectionManager::open));
         command("tutorial", new TutorialCommand(tutorialManager));
+        command("shop", new OpenMenuCommand(player -> new RankShopMenu(this).open(player)));
+        DashListener dash = new DashListener(perkManager);
+        command("dash", dash);
 
         List<Listener> listeners = List.of(
                 new MineListener(this),
@@ -243,7 +251,9 @@ public class Aurora extends JavaPlugin {
                 accessManager,
                 new PortalListener(this),
                 new KeyItemListener(this),
-                new GrappleListener(),
+                new GrappleListener(this),
+                dash,
+                mountManager,
                 new BackpackItemListener(this),
                 new ChatShowcase(),
                 new ServerMessages(registry, cosmeticManager),
@@ -327,6 +337,10 @@ public class Aurora extends JavaPlugin {
         return cosmeticManager;
     }
 
+    public MountManager getMountManager() {
+        return mountManager;
+    }
+
     public AccessManager getAccessManager() {
         return accessManager;
     }
@@ -399,6 +413,7 @@ public class Aurora extends JavaPlugin {
         if (rankManager != null) rankManager.shutdown();
         if (cosmeticManager != null) cosmeticManager.shutdown();
         if (tutorialManager != null) tutorialManager.shutdown();
+        if (mountManager != null) mountManager.shutdown();
         if (collectionManager != null) collectionManager.shutdown();
 
         // Last, so the saves above and any still queued finish first

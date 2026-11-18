@@ -1,15 +1,7 @@
 ## Aurora Java Minecraft Server Plugin
 
 #### Ideas list
-god tool (name TBD): later, combine the pick, axe (and shovel) lines into one tool. Each tool's
-blocks are a rule on its tool component (ItemFactory.makeRightTool), one rule per kind, so the
-god tool is just one item with all the rules, and MineListener gives Fortune on any of them
-
-overworld pickaxe, and world pickaxes
-
 talismans
-
-overworld block combination of all overworld blocks
 
 feather=speed, blind=1, sunder?
 
@@ -21,17 +13,11 @@ crates
 
 currencies: coins + essence
 
-grapple for movement early on, movement items category like elytra, dash
-
-mine tierlists?
-
 world ideas: space, farm, void, twilight, candy, wasteland, sakura, volcano, mushroom, winter (ice caves, yetis)
 
 Storm Citadel (a later sky region): a darker castle in the storm clouds. Storm Gate (deepslate bricks, polished blackstone | storm knight), Lightning Forge (storm copper, copper bulb | forge golem), Citadel Keep (tinted glass, obsidian | crossbowman), The Eye (Storm Tyrant, boss)
 
 Caverns (after the Overworld Core): calcite and amethyst live here, cobalt too
-
-mounts, with the ghast saddle
 
 #### Server Design
 Built so far (stages, zones and mobs in `scripts/data`, the ladder in `docs/PROGRESSION.md`): Origin Isles; Duneworld: Gormak, Khorvath, the Duat; Overworld: Verdant Groves, Sunken Marsh, Emerald Peaks, Ironbound Quarry and Golem's Rest; Elderwood Roots and Heart; Cloud Isles and the Sky Kingdom. The notes below are the ideas they came from.
@@ -48,35 +34,12 @@ world 1 (overworld): 5 main regions
 9. Ironbound Quarry - detached quarry island, need elytra to go to (pale log, maple, gravel, clay, ashen soil, tungston, platinum, titanium, diamond, pillager, quarry, world boss (overworld golem))
 10. Duat - finale of the desert "mini world" in the duat
 
-NEW SYSTEM:
-- New system is we split the mini worlds into their own sub worlds, essentially branching out progression
-- Buying upgrades is no longer buying a pickaxe item, it is now buying enchants like fortune and efficiency, etc
-- Each zone has a max amount for this, and has for each tool
-- We can now add more niche mini worlds like candy land or space world, even event worlds like christmas
 - Event worlds like christmas, halloween have special fortune that only apply to that world, and also add to the base fortune
 - Like Winter Fortune, Spooky Fortune
 - Threshold system to cap out the fortune, for example threshold at 50, then event fortune wont increase further than this
-- (need a better solution for this)
-- Tool materials are now also a one time upgrade or a threshold to unlock at x efficiency (5, 10, 25, 50, 100, 300), no God tool, keep things distinct
-- u need to do every mini world and the main world before going to the next main world
-- u also need to do the world boss after that prerequisite
-- the plan is to release an alpha test with no builds on minefort, then once we have balanced it, release a beta test
-- on minehut, with probably no builds or basic builds, then hire builders and launch the server once we have at least
-- origin isles, verdant groves and gormak part 1.
-- turn the system arhcitecture into a graph/image
-- create a formula for generating the prices (IMPORTANT)
-- ive decided for upgrades in each zone to be single chain for that tool, so the shop shows every tool to upgrade
-- at that zone, and if u click on it, it will upgrade, and once max it will have some item change to show its max
-
 
 world boss spawns retroactively every 5 minutes, there are also temple guards that drop overworld shards, 
 can combine to overworld core, dropped by overworld golem
-
-tin (light_gray_concrete) needs oak log, bronze (brown_concrete) needs birch log, lead (gray_concrete) needs spruce, silver (iron_block) needs dark oak log
-lapis needs snow AND pumpkin, emerald needs dirt AND melons
-tungston (?), platinum (?) needs gravel, platinum (?) needs pale, titanium (?) needs clay AND maple, diamond needs maple, clay, gravel, pale
-dead log be pale log, maple be mangrove log
-quarry is mob fight in quarry
 
 gormak region:
 - abandoned city: scavenger husk, hollowed serf
@@ -93,8 +56,6 @@ tomb guard halberd, pharaoh  khopesh
 sandstone for dunes
 raw gold block for temple
 Scarab Zealot uses a Khopesh, Hollowed Legionnaire uses a Halberd (Spear).
-
-cobalt for cave world
 
 Overworld:
 1. Origin Isles ([Stone], [Coal], [Copper, Chicken], [Iron, Sheep], [Gold, Cow]) -> Duneworld Portal
@@ -228,7 +189,6 @@ XP per block: items dropped x the block's `xp` in `scripts/data/world/blocks.csv
 
 Built, but not registered in `core/Aurora.java`, so not reachable in game:
 
-- The Essence shop (`/shop`): perks, the Keyring among them, and the ranks bought with Essence
 - The gauntlet (`/gauntlet`)
 - Fishing: the rods and their catch tables
 

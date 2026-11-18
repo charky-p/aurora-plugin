@@ -17,11 +17,13 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
 | `/leaderboard` | The ten highest levels on the server |
 | `/spawn` | Teleport to this world's spawn |
+| `/shop` | The Essence shop: Dash, mounts, the God Tool, the Keyring and ranks, each bought once. Click one you own to use it again |
+| `/dash` | Turn Dash on or off, once bought: shift twice quickly to dash the way you face, once a second |
 | `/tutorial skip` | Leave the first-join tutorial without its reward. The Skip link in chat runs it |
 
 **In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.
 
-`/shop`, `/gauntlet` and fishing are switched off until they are finished, see [PROGRESSION.md](PROGRESSION.md). Selling donor ranks and cosmetics through a store is in [STORE.md](STORE.md).
+The gauntlet and fishing are switched off until they are finished, see [PROGRESSION.md](PROGRESSION.md). Selling donor ranks and cosmetics through a store is in [STORE.md](STORE.md).
 
 ## Building a region, in order
 

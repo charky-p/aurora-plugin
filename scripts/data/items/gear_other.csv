@@ -9,10 +9,10 @@ steak,<white>Steak,COOKED_BEEF,0,,overworld,origin_isles,,<dark_gray>Food
 golden_carrot,<white>Golden Carrot,GOLDEN_CARROT,0,,overworld,origin_isles,,<dark_gray>Food
 beginner_rod,<dark_aqua><b>Beginner Rod,FISHING_ROD,0,,overworld,fishing,,<gray>Cast into any water.|<dark_gray>Fishing
 novice_rod,<dark_aqua><b>Novice Rod,FISHING_ROD,1,,overworld,fishing,luck:5|fortune:1,<gray>Cast into any water.|<dark_gray>Fishing
-grapple,<#9C7A3C><b>Grapple,TRIPWIRE_HOOK,1,,overworld,,,<gray>Right click to launch where you look
+grapple,<#9C7A3C><b>Grapple,FISHING_ROD,1,,overworld,,,"<gray>Right click to throw yourself where you look|<dark_gray>Every 3 seconds, in the air too"
 elytra,<white><b>Elytra,ELYTRA,1,,overworld,,,"<gray>Glide from a ledge, rockets to climb"
 rocket,<red>Rocket,FIREWORK_ROCKET,1,,overworld,,,<gray>Right click while gliding
-core_1,<white><b>Overworld Core I,HEAVY_CORE,0,,overworld,quarry_golem,,<gray>A piece of the Overworld Core|<dark_gray>Bring it to the Core Smith
-core_2,<white><b>Overworld Core II,HEAVY_CORE,0,,overworld,quarry_golem,,<gray>A piece of the Overworld Core|<dark_gray>Bring it to the Core Smith
-core_3,<white><b>Overworld Core III,HEAVY_CORE,0,,overworld,quarry_golem,,<gray>A piece of the Overworld Core|<dark_gray>Bring it to the Core Smith
-core_4,<white><b>Overworld Core IV,HEAVY_CORE,0,,overworld,quarry_golem,,<gray>A piece of the Overworld Core|<dark_gray>Bring it to the Core Smith
+mount_pig,<light_purple><b>Pig Saddle,SADDLE,0,,overworld,,,<gray>Right click to ride your pig|<dark_gray>Shift to get off
+mount_chicken,<white><b>Chicken Saddle,SADDLE,0,,overworld,,,<gray>Right click to ride your chicken|<dark_gray>Shift to get off
+mount_horse,<gold><b>Horse Saddle,SADDLE,0,,overworld,,,<gray>Right click to ride your horse|<dark_gray>Shift to get off
+mount_ghast,<white><b>Happy Ghast Harness,WHITE_HARNESS,0,,overworld,,,<gray>Right click to fly your happy ghast|<dark_gray>Shift to get off

@@ -728,7 +728,7 @@ _Dumper.add_representer(Quoted, _quoted_representer)
 
 GUI_SPECIAL = set("BIX ")
 UPGRADES_ACTION = "upgrades:"
-ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto"}       # MenuActions.java
+ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto", "core"}       # MenuActions.java
 EQUIP_SLOTS = {"head", "chest", "legs", "feet", "hand", "off_hand"}
 
 def _drop_ids(entry):
@@ -865,7 +865,7 @@ def validate(built):
         if opens.startswith(UPGRADES_ACTION):
             if opens[len(UPGRADES_ACTION):] not in upgrade_zones:
                 errors.append(f"trader '{tid}': no zone '{opens[len(UPGRADES_ACTION):]}' in zones.csv")
-        elif opens not in guis:
+        elif opens not in guis and opens not in ACTIONS:
             errors.append(f"trader '{tid}': unknown gui '{opens}'")
 
     # Shop gear is earned by buying it, mob gear by killing for it, starter gear is given

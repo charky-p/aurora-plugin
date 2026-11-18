@@ -14,6 +14,8 @@ import org.charky.aurora.common.menu.PagedMenuListener;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.database.AccessStore;
+import org.charky.aurora.core.database.BuildStore;
+import org.charky.aurora.core.database.SafeZoneStore;
 import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.CollectionStore;
 import org.charky.aurora.core.database.CosmeticStore;
@@ -40,6 +42,8 @@ import org.charky.aurora.features.core.OverworldCore;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.keys.AccessManager;
+import org.charky.aurora.features.build.BuildManager;
+import org.charky.aurora.features.pvp.SafeZoneManager;
 import org.charky.aurora.features.keys.KeyItemListener;
 import org.charky.aurora.features.mine.MineListener;
 import org.charky.aurora.features.movement.DashListener;
@@ -119,6 +123,8 @@ public class Aurora extends JavaPlugin {
     private CosmeticManager cosmeticManager;
     private TutorialManager tutorialManager;
     private AccessManager accessManager;
+    private BuildManager buildManager;
+    private SafeZoneManager safeZoneManager;
     private MountManager mountManager;
     private ToolManager toolManager;
     private DataRegistry registry;
@@ -218,6 +224,8 @@ public class Aurora extends JavaPlugin {
         this.traderManager = new TraderManager(this, new TraderStore(db));
         this.wandManager = new WandManager();
         this.portalManager = new PortalManager(new PortalStore(db));
+        this.buildManager = new BuildManager(db, new BuildStore(db), this::getMainSpawn);
+        this.safeZoneManager = new SafeZoneManager(db, new SafeZoneStore(db));
 
         // Commands, each one is declared in plugin.yml
         command("aurora", new AuroraCommand(this));
@@ -252,6 +260,8 @@ public class Aurora extends JavaPlugin {
                 new SpawnListener(this),
                 tutorialManager,
                 accessManager,
+                buildManager,
+                safeZoneManager,
                 trash,
                 new PortalListener(this),
                 new KeyItemListener(this),
@@ -343,6 +353,14 @@ public class Aurora extends JavaPlugin {
 
     public MountManager getMountManager() {
         return mountManager;
+    }
+
+    public SafeZoneManager getSafeZoneManager() {
+        return safeZoneManager;
+    }
+
+    public BuildManager getBuildManager() {
+        return buildManager;
     }
 
     public AccessManager getAccessManager() {

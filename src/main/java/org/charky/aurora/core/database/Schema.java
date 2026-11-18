@@ -142,7 +142,31 @@ public final class Schema {
                     "name TEXT PRIMARY KEY, " +
                     "world TEXT, " +
                     "x DOUBLE, y DOUBLE, z DOUBLE, " +
-                    "yaw FLOAT, pitch FLOAT)"
+                    "yaw FLOAT, pitch FLOAT)",
+
+            // Worlds where builders build in creative, set with /aurora world build
+            "CREATE TABLE IF NOT EXISTS build_worlds (" +
+                    "world TEXT PRIMARY KEY)",
+
+            // Players who may go to build worlds and build there without OP
+            "CREATE TABLE IF NOT EXISTS builders (" +
+                    "uuid TEXT PRIMARY KEY, " +
+                    "name TEXT)",
+
+            // A builder's two inventories: the survival one kept while they build, and
+            // the creative one kept while they play. kind is survival or build
+            "CREATE TABLE IF NOT EXISTS build_inventories (" +
+                    "uuid TEXT, " +
+                    "kind TEXT, " +
+                    "items BLOB, " +
+                    "PRIMARY KEY (uuid, kind))",
+
+            // Boxes where players can't hurt each other, PvP is on everywhere else
+            "CREATE TABLE IF NOT EXISTS safe_zones (" +
+                    "name TEXT PRIMARY KEY, " +
+                    "world TEXT, " +
+                    "x1 INTEGER, y1 INTEGER, z1 INTEGER, " +
+                    "x2 INTEGER, y2 INTEGER, z2 INTEGER)"
     );
 
     // Columns added after a table first shipped, CREATE TABLE IF NOT EXISTS skips

@@ -54,6 +54,37 @@ Extra void worlds, saved so they load on every startup.
 | `/a world list` | List the loaded worlds, click to teleport |
 | `/a world tp <world> [player]` | Teleport to a world's spawn, the one from `/a setspawn` if set |
 | `/a world remove <name>` | Stop loading it on startup. Its files are kept |
+| `/a world build <world> <on\|off>` | Make it a build world, or a normal one again. See Build worlds below |
+
+## Build worlds
+
+Only builders and admins can go to a build world, by any teleport or portal, and there they build in creative without OP. On the way in their own inventory is put away and they get their build inventory, on the way out it's swapped back, so nothing made in creative reaches the game. Inside one, the game's menus (backpack, shops, trash), traders and ender chests don't open. A builder taken off the list while inside, or anyone not on it when a world becomes a build world, is sent to the main spawn.
+
+| Command | Does |
+|---|---|
+| `/a builder add <player>` | Let a player go to build worlds and build there. They must have joined the server before |
+| `/a builder remove <player>` | Take them off the list |
+| `/a builder list` | The builders and the build worlds |
+
+## PvP and safe zones
+
+PvP is on everywhere except in safe zones. A hit is stopped when either player stands in one, so nobody can hit from inside one. Dying to another player costs nothing: the inventory, levels and XP are all kept.
+
+| Command | Does |
+|---|---|
+| `/a safezone create <name>` | A safe zone from the wand selection |
+| `/a safezone delete <name>` | Delete it, PvP is on there again |
+| `/a safezone list` | Every safe zone and its corners |
+
+## Floating text
+
+Text that floats where you stand, facing whoever looks at it. It is saved with the world, so it goes wherever the world goes.
+
+| Command | Does |
+|---|---|
+| `/a text add <text>` | Place it at your eye height. MiniMessage colours, e.g. `<red><b>PvP Zone`, and `\n` for a new line |
+| `/a text remove` | Remove the nearest one within 8 blocks |
+| `/a text list` | The ones within 8 blocks |
 
 ## Portals
 
@@ -140,7 +171,7 @@ A new player's first join starts the tutorial at the spot set with `setstart`, i
 | Command | Does |
 |---|---|
 | `/a wand` | Wand: left click a block for corner 1, right click for corner 2, right click a trader to remove it |
-| `/a setspawn [main] [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. With `main` it is also the main spawn, where every player lands on join. Until a main spawn is set, players join in `aurora_mines` |
+| `/a setspawn [main] [<x> <y> <z> [yaw]]` | This world's spawn, used by `/spawn`, respawns and `/a world tp`. With `main` it is also the main spawn, where every player lands on join. Until a main spawn is set, players join in `aurora_overworld` |
 | `/a heal [player]` | Restore health and hunger, put out fire |
 | `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
 | `/a access <player> [give\|take <access>]` | Where a player may go: on its own it lists what their passes opened, `give`/`take` open or close one by hand, e.g. `/a access Charky32 give sky` |

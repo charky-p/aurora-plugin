@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.tool.ToolManager;
+import org.charky.aurora.features.build.BuildManager;
 import org.charky.aurora.features.tutorial.TutorialManager;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.player.BackpackManager;
@@ -49,6 +50,7 @@ public class MineListener implements Listener {
 
     private final TutorialManager tutorial;
     private final ToolManager tools;
+    private final BuildManager build;
 
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
@@ -61,12 +63,18 @@ public class MineListener implements Listener {
         this.levels = plugin.getLevelManager();
         this.collections = plugin.getCollectionManager();
         this.perks = plugin.getPerkManager();
+        this.build = plugin.getBuildManager();
     }
 
     // HIGH, not MONITOR: this changes the event, and MONITOR is for watching only
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onMine(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        // Build worlds have no mines: builders break for real, everyone else not at all
+        if (build.isBuildWorld(player.getWorld())) {
+            if (!build.canBuild(player, player.getWorld())) event.setCancelled(true);
+            return;
+        }
         event.setDropItems(false);
         // Players never really break blocks, the mine sets them to air itself below,
         // so nothing outside a mine can be broken. Admins break for real to build
@@ -92,7 +100,8 @@ public class MineListener implements Listener {
     // good, and one placed in a mined out spot would pay out that mine's drop
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent event) {
-        if (!event.getPlayer().hasPermission("aurora.admin")) event.setCancelled(true);
+        Player player = event.getPlayer();
+        if (!player.hasPermission("aurora.admin") && !build.canBuild(player, player.getWorld())) event.setCancelled(true);
     }
 
     private void processBlock(Player player, ItemStack pick, Block block) {

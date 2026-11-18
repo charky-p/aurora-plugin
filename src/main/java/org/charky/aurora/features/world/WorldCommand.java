@@ -23,6 +23,7 @@ public class WorldCommand implements AuroraSubCommand {
         SUBS.put("list", "- List the loaded worlds");
         SUBS.put("tp", "<world> [player] - Teleport to a world's spawn");
         SUBS.put("remove", "<name> - Stop loading a world on startup, its files are kept");
+        SUBS.put("build", "<world> <on|off> - Make a build world: only builders go there, in creative");
     }
 
     private final Aurora plugin;
@@ -49,6 +50,7 @@ public class WorldCommand implements AuroraSubCommand {
             case "list" -> list(sender);
             case "tp" -> tp(sender, rest);
             case "remove" -> remove(sender, rest);
+            case "build" -> build(sender, rest);
         }
     }
 
@@ -83,7 +85,8 @@ public class WorldCommand implements AuroraSubCommand {
     private void list(CommandSender sender) {
         TextUtils.display(sender, "<aqua><b>WORLDS</b>");
         for (World world : Bukkit.getWorlds()) {
-            String tag = worlds.isManaged(world.getName()) ? " <gray>(created by Aurora)" : "";
+            String tag = (worlds.isManaged(world.getName()) ? " <gray>(created by Aurora)" : "")
+                    + (plugin.getBuildManager().isBuildWorld(world) ? " <gold>(build world)" : "");
             String tp = "<click:run_command:'/aurora world tp " + world.getName() + "'><hover:show_text:'<green>Teleport'><green>➹</green></hover></click>";
             TextUtils.display(sender, " <dark_gray>» <white>" + world.getName() + tag
                     + " <gray>" + world.getPlayers().size() + " online " + tp);
@@ -123,15 +126,38 @@ public class WorldCommand implements AuroraSubCommand {
         TextUtils.success(sender, "World '" + args[0] + "' will not load on the next startup, its files are kept");
     }
 
+    private void build(CommandSender sender, String[] args) {
+        if (args.length < 2 || !List.of("on", "off").contains(args[1].toLowerCase())) {
+            TextUtils.usage(sender, "/aurora world build <world> <on|off>");
+            return;
+        }
+        World world = Bukkit.getWorld(args[0]);
+        if (world == null) {
+            TextUtils.error(sender, "World '" + args[0] + "' is not loaded");
+            return;
+        }
+        boolean on = args[1].equalsIgnoreCase("on");
+        if (!plugin.getBuildManager().setBuildWorld(world, on)) {
+            TextUtils.error(sender, world.getName() + (on ? " is already" : " is not") + " a build world");
+            return;
+        }
+        TextUtils.success(sender, on
+                ? world.getName() + " is a build world: only builders (/aurora builder) go there, and they build in creative"
+                : world.getName() + " is no longer a build world");
+    }
+
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) return TextUtils.getCompletions(args[0], SUBS.keySet());
         if (args.length == 2) {
             return switch (args[0].toLowerCase()) {
-                case "tp" -> TextUtils.getCompletions(args[1], Bukkit.getWorlds().stream().map(World::getName).toList());
+                case "tp", "build" -> TextUtils.getCompletions(args[1], Bukkit.getWorlds().stream().map(World::getName).toList());
                 case "remove" -> TextUtils.getCompletions(args[1], worlds.getManaged());
                 default -> Collections.emptyList();
             };
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("build")) {
+            return TextUtils.getCompletions(args[2], List.of("on", "off"));
         }
         if (args.length == 3 && args[0].equalsIgnoreCase("tp")) {
             return TextUtils.playerCompletions(args[2]);
@@ -141,7 +167,7 @@ public class WorldCommand implements AuroraSubCommand {
 
     @Override
     public String getUsage() {
-        return "<create|list|tp|remove>";
+        return "<create|list|tp|remove|build>";
     }
 
     @Override

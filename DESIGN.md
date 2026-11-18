@@ -54,9 +54,9 @@ Scarab Zealot uses a Khopesh, Hollowed Legionnaire uses a Halberd (Spear).
 Overworld:
 1. Origin Isles ([Stone], [Coal], [Copper, Chicken], [Iron, Sheep], [Gold, Cow]) -> Duneworld Portal
 2. Verdant Groves ([Oak Log, Tin, Horse], [Birch Log, Bronze, Fox], [Spruce Log, Lead, Wolf], [Dark Oak Log, Silver, Sniffer]) -> Elderwood Roots Portal
-3. Sunken Marsh - (TODO)
-4. Emerald Peaks - (TODO: Snow, Dirt, Redstone, Lapis, Emerald, Pumpkin, Melon, Arachne, Goat, etc) -> Sky Spire
-5. Ironbound Quarry - (TODO: tungston, platinum, gravel, pale log, titanium, clay, maple, diamond, pillager, overworld boss) -> Caverns
+3. Sunken Marsh
+4. Emerald Peaks - (Snow, Dirt, Redstone, Lapis, Emerald, Pumpkin, Melon, Arachne, Goat, etc) -> Sky Spire
+5. Ironbound Quarry - (tungston, platinum, gravel, pale log, titanium, clay, maple, diamond, pillager, overworld boss) -> Caverns
 
 Duneworld:
 1. Gormak
@@ -67,7 +67,7 @@ Elderwood Roots:
 1. Outer region
 2. Inside tree levels
 
-Skyworld (TODO):
+Skyworld:
 1. clouds
 2. kingdom
 
@@ -188,8 +188,7 @@ Built, but not registered in `core/Aurora.java`, so not reachable in game:
 Not built yet, see `legacy/skript/` for how each one used to work.
 
 - `/vault` (`command.sk`): personal 6 row chests that keep items between sessions
-- `/trash` (`command.sk`): a chest that deletes whatever is left in it when closed
-- Arachne region (`mobarachne.sk`): spider boss with a skeleton rider, cobweb traps, invisibility
-- Pillager region (`mobpillager.sk`): Ravager and Pillager Captain, arrow volleys, berserk
+- Arachne's abilities (`mobarachne.sk`): a skeleton rider, cobweb traps, invisibility. Arachne herself is in Emerald Peaks
+- The Pillager Captain's abilities (`mobpillager.sk`): arrow volleys, berserk. The Captain and the Quarry Ravager are in the Ironbound Quarry
 - Talking NPCs (`npc.sk`): timed dialogue lines
 - From `test.sk`: wheat farming with regrowth, Restock bows, a Haste enchant

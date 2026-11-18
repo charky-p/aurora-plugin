@@ -4,10 +4,13 @@ Aurora deploy helpers, plain Python so they run on the live server's host too.
 
   python scripts/deploy.py upload [--db] [--worlds] [--all]
       Builds the plugin and sends it to the host in scripts/deploy.ini over FTP/FTPS/SFTP: the
-      jar and every generated YAML. --db also sends LocalServer's mines.db and
-      --worlds the game worlds named in deploy.ini, --all is both. Stop the host's
-      server first when sending the database or worlds. The host's own mines.db is
-      downloaded into LocalServer/aurora-backups before it is overwritten.
+      jar and every generated YAML. --db also sends LocalServer's game data (mines,
+      spawners, traders, portals, spawns, worlds, safe zones) and keeps the host's
+      player data and the game data of the worlds under keep in deploy.ini. --worlds
+      replaces the host's game worlds with the ones named in deploy.ini and deletes
+      every other world there, except keep and vanilla's overworld, nether and end.
+      --all is both. Stop the host's server first when sending the database or worlds.
+      The host's own mines.db is downloaded into LocalServer/aurora-backups first.
       Files that have not changed since the last upload are skipped, --force sends
       everything. --dry-run lists what would be sent without connecting,
       --no-build sends the jar already in target/, --yes skips the question.
@@ -57,6 +60,8 @@ CONFIG_EXAMPLE = ROOT / "scripts" / "deploy.example.ini"
 UPLOADED = ROOT / "target" / "deploy-uploaded.json"
 PASSWORD_ENV = "AURORA_DEPLOY_PASSWORD"
 JAR_PATTERN = "Aurora-*.jar"
+# Never deleted by --worlds, the server can't run without them
+VANILLA_WORLDS = {"overworld", "the_nether", "the_end"}
 
 
 def newest_jar():
@@ -130,6 +135,56 @@ def backup(server, keep):
         print(f"  removed old backup {old.name}")
 
 
+# Tables of the game itself, LocalServer's copy wins: each row belongs to the world
+# in its column. blocks follow their mine, worlds and build_worlds name the world
+GAME_TABLES = {"mines": "world", "spawners": "world", "traders": "world", "portals": "world",
+               "spawns": "world", "locations": "world", "worlds": "name", "build_worlds": "world",
+               "safe_zones": "world"}
+# Numbered by the database, the host numbers LocalServer's rows again
+AUTO_IDS = {"traders": "id"}
+
+
+# The host's database with LocalServer's game data in it. Player tables stay the host's,
+# and so does all game data of the kept worlds, like a build world only the host has
+def merge_database(host_db, local_db, out, keep):
+    shutil.copy(host_db, out)
+    db = sqlite3.connect(out)
+    db.execute("ATTACH DATABASE ? AS l", (str(local_db),))
+    kept = ",".join("?" * len(keep)) or "''"
+    with db:
+        for table, column in GAME_TABLES.items():
+            sql = db.execute("SELECT sql FROM l.sqlite_master WHERE type = 'table' AND name = ?", (table,)).fetchone()
+            if not sql:
+                continue
+            # A table newer than the host's plugin is made the way LocalServer made it
+            if not db.execute("SELECT 1 FROM main.sqlite_master WHERE type = 'table' AND name = ?", (table,)).fetchone():
+                db.execute(sql[0])
+            host_cols = {r[1] for r in db.execute(f"PRAGMA main.table_info({table})")}
+            cols = [r[1] for r in db.execute(f"PRAGMA l.table_info({table})")
+                    if r[1] in host_cols and r[1] != AUTO_IDS.get(table)]
+            names = ", ".join(cols)
+
+            if table == "mines":
+                db.execute(f"DELETE FROM main.blocks WHERE mine NOT IN "
+                           f"(SELECT name FROM main.mines WHERE world IN ({kept}))", keep)
+            db.execute(f"DELETE FROM main.{table} WHERE {column} NOT IN ({kept})", keep)
+            db.execute(f"INSERT OR REPLACE INTO main.{table} ({names}) "
+                       f"SELECT {names} FROM l.{table} WHERE {column} NOT IN ({kept})", keep)
+            if table == "mines":
+                block_cols = ", ".join(r[1] for r in db.execute("PRAGMA l.table_info(blocks)"))
+                db.execute(f"INSERT INTO main.blocks ({block_cols}) SELECT {block_cols} FROM l.blocks "
+                           f"WHERE mine IN (SELECT name FROM l.mines WHERE world NOT IN ({kept}))", keep)
+
+        # One main spawn: LocalServer's, when it has one
+        if db.execute("SELECT 1 FROM l.spawns WHERE main = 1").fetchone():
+            db.execute(f"UPDATE main.spawns SET main = 0 WHERE world IN ({kept})", keep)
+    db.execute("DETACH DATABASE l")
+    problem = db.execute("PRAGMA integrity_check").fetchone()[0]
+    db.close()
+    if problem != "ok":
+        sys.exit(f"The merged database failed its check ({problem}), nothing was uploaded")
+
+
 def load_config():
     if not CONFIG.exists():
         shutil.copy(CONFIG_EXAMPLE, CONFIG)
@@ -161,6 +216,10 @@ def build(config):
     result = subprocess.run([mvn, "-q", "package", "-Dmaven.antrun.skip=true"], cwd=ROOT, env=env)
     if result.returncode != 0:
         sys.exit("The build failed, nothing was uploaded")
+
+
+def kept_worlds(config):
+    return listed(config["worlds"].get("keep", ""))
 
 
 # Every file of the game worlds and where it goes on the host
@@ -306,6 +365,33 @@ class Host:
         else:
             self.ftp.delete(self.path(relative))
 
+    # A folder and everything in it, nothing happens if it is not there
+    def delete_tree(self, relative):
+        if self.proto == "sftp":
+            import stat
+            try:
+                entries = self.sftp.listdir_attr(self.path(relative))
+            except IOError:
+                return
+            for entry in entries:
+                child = f"{relative}/{entry.filename}"
+                if stat.S_ISDIR(entry.st_mode):
+                    self.delete_tree(child)
+                else:
+                    self.sftp.remove(self.path(child))
+            self.sftp.rmdir(self.path(relative))
+            return
+        for name in self.names(relative):
+            child = f"{relative}/{name}"
+            try:
+                self.ftp.delete(self.path(child))
+            except ftplib.error_perm:
+                self.delete_tree(child)
+        try:
+            self.ftp.rmd(self.path(relative))
+        except ftplib.error_perm:
+            pass
+
     def close(self):
         if self.proto == "sftp":
             self.sftp.close()
@@ -346,8 +432,11 @@ def upload(args):
         stat = file.stat()
         return [stat.st_size, stat.st_mtime_ns]
 
-    queue = [(file, path) for file, path in files + worlds if args.force or sent.get(path) != stamp(file)]
+    # A world is replaced whole, its folder on the host is deleted first, so all of it goes
+    queue = [(file, path) for file, path in files if args.force or sent.get(path) != stamp(file)] + worlds
     skipped = len(files) + len(worlds) - len(queue)
+    keep = kept_worlds(config)
+    folder = config["worlds"]["folder"]
 
     print(f"\nTo {target or 'the host'}:")
     print(f"  {jar.name}, {len(files) - 1} data files" + (f", {len(worlds)} world files" if with_worlds else "")
@@ -365,9 +454,11 @@ def upload(args):
         sys.exit(f"Fill in host and user in {CONFIG.relative_to(ROOT)}")
 
     if (with_db or with_worlds) and not args.yes:
-        print("\nThis overwrites " + " and ".join(
-            (["the host's mines.db, every player's progress there with it"] if with_db else [])
-            + (["its game worlds"] if with_worlds else [])) + ".")
+        print("\nThis replaces " + " and ".join(
+            (["the game data in the host's mines.db (player data is kept)"] if with_db else [])
+            + (["its game worlds, and deletes every other world on it"] if with_worlds else [])) + ".")
+        print(f"Kept as they are on the host: {', '.join(keep) or 'nothing'}"
+              + (", and vanilla's overworld, nether and end" if with_worlds else "") + ".")
         print("The host's server has to be stopped, or it writes its own copy back over the upload.")
         if input("Type yes to go on: ").strip().lower() != "yes":
             sys.exit("Nothing was uploaded")
@@ -375,6 +466,14 @@ def upload(args):
     password = host.get("password") or os.environ.get(PASSWORD_ENV) or getpass.getpass(f"FTP password for {host['user']}: ")
     remote = Host(config, password)
     try:
+        if with_worlds:
+            names = set(listed(config["worlds"]["names"]))
+            for name in remote.names(folder):
+                if name in VANILLA_WORLDS or name in keep:
+                    continue
+                remote.delete_tree(f"{folder}/{name}")
+                print(f"  {'replacing' if name in names else 'deleted'} world {name}")
+
         for number, (file, path) in enumerate(queue, 1):
             print(f"  [{number}/{len(queue)}] {path}  {megabytes(file.stat().st_size)}")
             remote.upload(file, path)
@@ -393,8 +492,16 @@ def upload(args):
             if remote.download(DB_PATH.as_posix(), kept):
                 print(f"  the host's mines.db is kept in {kept.relative_to(ROOT)}")
             with tempfile.TemporaryDirectory() as tmp:
-                remote.upload(copy_database(db, tmp), DB_PATH.as_posix())
-            print(f"  {DB_PATH.as_posix()}")
+                local_copy = copy_database(db, tmp)
+                if kept.exists():
+                    merged = Path(tmp) / "merged.db"
+                    merge_database(kept, local_copy, merged, keep)
+                    remote.upload(merged, DB_PATH.as_posix())
+                    print(f"  {DB_PATH.as_posix()}: LocalServer's game data, the host's players and "
+                          f"{', '.join(keep) or 'no kept worlds'}")
+                else:
+                    remote.upload(local_copy, DB_PATH.as_posix())
+                    print(f"  {DB_PATH.as_posix()}: the host had none, LocalServer's as it is")
     finally:
         remote.close()
         UPLOADED.parent.mkdir(exist_ok=True)

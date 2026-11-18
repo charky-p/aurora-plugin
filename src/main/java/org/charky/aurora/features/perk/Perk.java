@@ -21,14 +21,21 @@ public enum Perk {
             "shift twice to dash forward, click again to turn it on or off", true),
     GOD_TOOL("god_tool", "<light_purple><b>God Tool", Material.NETHERITE_PICKAXE, 1, 10_000,
             "one tool that mines like your pick, axe and shovel, each block with that tool's levels", true),
-    MOUNT_PIG("mount_pig", "<light_purple><b>Pig Mount", Material.CARROT_ON_A_STICK, 1, 1_000,
-            "a pig to ride, called with its saddle", true),
-    MOUNT_CHICKEN("mount_chicken", "<white><b>Chicken Mount", Material.FEATHER, 1, 1_500,
-            "a chicken to ride that floats down from heights", true),
-    MOUNT_HORSE("mount_horse", "<gold><b>Horse Mount", Material.SADDLE, 1, 3_000,
-            "a fast horse to ride", true),
-    MOUNT_GHAST("mount_ghast", "<white><b>Happy Ghast Mount", Material.WHITE_HARNESS, 1, 8_000,
-            "a happy ghast that flies where you look", true);
+    // Mounts have three levels, each one faster: level n costs costStep * n
+    MOUNT_PIG("mount_pig", "<light_purple><b>Pig Mount", Material.CARROT_ON_A_STICK, 3, 1_000,
+            "a pig to ride, called with its saddle. Each level is faster", true),
+    MOUNT_CHICKEN("mount_chicken", "<white><b>Chicken Mount", Material.FEATHER, 3, 1_500,
+            "a chicken to ride that floats down from heights. Each level is faster", true),
+    MOUNT_HORSE("mount_horse", "<gold><b>Horse Mount", Material.SADDLE, 3, 3_000,
+            "a fast horse to ride. Each level runs and jumps further, level 3 swims", true),
+    MOUNT_CAMEL("mount_camel", "<yellow><b>Camel Mount", Material.CACTUS, 3, 4_000,
+            "a camel that dashes when you jump. Each level is faster", true),
+    MOUNT_SKELETON("mount_skeleton", "<gray><b>Skeleton Horse Mount", Material.BONE, 3, 6_000,
+            "a skeleton horse faster than any horse, that rides underwater. Each level is faster", true),
+    MOUNT_GHAST("mount_ghast", "<white><b>Happy Ghast Mount", Material.WHITE_HARNESS, 3, 8_000,
+            "a happy ghast that flies where you look. Each level flies faster", true),
+    MOUNT_PHANTOM("mount_phantom", "<dark_aqua><b>Phantom Mount", Material.PHANTOM_MEMBRANE, 3, 12_000,
+            "the fastest flyer: goes where you look while you hold forward. Each level is faster", true);
 
     private final String id;
     private final String display;

@@ -54,13 +54,18 @@ public class RankShopMenu extends PagedMenu {
             List<Component> lore = new ArrayList<>();
             lore.add(TextUtils.parse("<!italic><gray>" + Character.toUpperCase(perk.effect().charAt(0)) + perk.effect().substring(1) + "."));
             lore.add(Component.empty());
+            if (perk.maxLevel() > 1 && level > 0) {
+                lore.add(TextUtils.parse("<!italic><gray>Level <white>" + level + "/" + perk.maxLevel()));
+            }
             if (maxed) {
                 lore.add(TextUtils.parse("<!italic><green>Owned"));
                 lore.add(TextUtils.parse("<!italic><yellow>" + useHint(player, perk)));
             } else {
                 lore.add(TextUtils.parse("<!italic><gray>Price: <gold>" + String.format("%,d", price) + " Essence"));
-                lore.add(TextUtils.parse(essence >= price ? "<!italic><yellow>Click to buy"
+                String buy = level > 0 ? "Left click to upgrade" : "Click to buy";
+                lore.add(TextUtils.parse(essence >= price ? "<!italic><yellow>" + buy
                         : "<!italic><red>" + String.format("%,d", price - essence) + " more Essence needed"));
+                if (level > 0 && perk.mount() != null) lore.add(TextUtils.parse("<!italic><yellow>Right click for its saddle again"));
             }
             meta.lore(lore);
 
@@ -106,12 +111,16 @@ public class RankShopMenu extends PagedMenu {
                 TextUtils.parse("<!italic><dark_gray>From levels, collections and Luck"));
     }
 
+    // A mount that is owned but not maxed: left click upgrades it, right click hands
+    // its saddle over. Anything maxed is used on any click
     @Override
-    protected void onEntryClick(Player player, int index) {
+    protected void onEntryClick(Player player, int index, boolean rightClick) {
         String problem = null;
         if (index < upgrades.size()) {
             Perk perk = upgrades.get(index);
-            if (perks.owns(player, perk)) use(player, perk);
+            int level = perks.level(player, perk);
+            boolean maxed = level >= perk.maxLevel();
+            if (perks.owns(player, perk) && (maxed || rightClick)) use(player, perk);
             else {
                 problem = perks.buy(player, perk);
                 if (problem == null) bought(player, perk);
@@ -131,8 +140,12 @@ public class RankShopMenu extends PagedMenu {
 
     // Just bought: Dash starts on, a mount's saddle or the God Tool is handed over
     private void bought(Player player, Perk perk) {
+        int level = perks.level(player, perk);
         if (perk == Perk.DASH) TextUtils.success(player, "Dash is on: shift twice quickly to dash");
-        else use(player, perk);
+        // An upgrade, not a first buy: they have the saddle already
+        else if (perk.mount() != null && level > 1) {
+            TextUtils.success(player, perk.display() + " <green>is now level " + level + ", call it again with its saddle to ride it");
+        } else use(player, perk);
     }
 
     // Owned already: Dash turns on or off, a lost saddle or God Tool is handed over again

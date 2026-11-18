@@ -181,6 +181,28 @@ items:
       - "<gray>Right click to ride your horse"
       - "<dark_gray>Shift to get off"
 
+  mount_camel:
+    display: "<yellow><b>Camel Saddle"
+    material: SADDLE
+    type: ''
+    world: "overworld"
+    region: ''
+    lore:
+      - "<gray>Right click to ride your camel"
+      - "<gray>Jump to dash"
+      - "<dark_gray>Shift to get off"
+
+  mount_skeleton:
+    display: "<gray><b>Skeleton Horse Saddle"
+    material: SADDLE
+    type: ''
+    world: "overworld"
+    region: ''
+    lore:
+      - "<gray>Right click to ride your skeleton horse"
+      - "<gray>It rides underwater"
+      - "<dark_gray>Shift to get off"
+
   mount_ghast:
     display: "<white><b>Happy Ghast Harness"
     material: WHITE_HARNESS
@@ -190,3 +212,13 @@ items:
     lore:
       - "<gray>Right click to fly your happy ghast"
       - "<dark_gray>Shift to get off"
+
+  mount_phantom:
+    display: "<dark_aqua><b>Phantom Saddle"
+    material: PHANTOM_MEMBRANE
+    type: ''
+    world: "overworld"
+    region: ''
+    lore:
+      - "<gray>Right click to fly your phantom"
+      - "<gray>Hold forward to fly where you look"

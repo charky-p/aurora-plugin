@@ -77,8 +77,31 @@ class BlastShapeTest {
         assertEquals(Set.of("1,0,0", "0,0,-1", "1,0,-1"), blocks(BlastShape.offsets(2, 0, 1, 0, 0, -1)));
     }
 
+    // Blast four and five dig into the wall too, the patch one then two blocks deeper
+    @Test
+    void blastFiveIsACubeGoingIntoTheWall() {
+        Set<String> four = blocks(BlastShape.offsets(4, 0, 0, 1, 0, -1));
+        Set<String> five = blocks(BlastShape.offsets(5, 0, 0, 1, 0, -1));
+
+        assertEquals(17, four.size());
+        assertEquals(26, five.size());
+        // The south face was hit, so in is north: z 0, -1 and -2, never behind the wall
+        assertTrue(five.stream().allMatch(block -> Set.of("0", "-1", "-2").contains(block.split(",")[2])), five.toString());
+        assertTrue(five.contains("-1,-1,-2"));
+        assertTrue(five.contains("1,1,-2"));
+        assertTrue(four.stream().noneMatch(block -> block.endsWith(",-2")), four.toString());
+    }
+
+    @Test
+    void blastFiveOnAFloorDigsDown() {
+        Set<String> area = blocks(BlastShape.offsets(5, 0, 1, 0, 0, -1));
+
+        assertEquals(26, area.size());
+        assertTrue(area.stream().allMatch(block -> Set.of("0", "-1", "-2").contains(block.split(",")[1])), area.toString());
+    }
+
     @Test
     void levelsPastTheTableKeepTheBiggestShape() {
-        assertEquals(blocks(BlastShape.offsets(3, 0, 0, 1, 0, -1)), blocks(BlastShape.offsets(9, 0, 0, 1, 0, -1)));
+        assertEquals(blocks(BlastShape.offsets(5, 0, 0, 1, 0, -1)), blocks(BlastShape.offsets(9, 0, 0, 1, 0, -1)));
     }
 }

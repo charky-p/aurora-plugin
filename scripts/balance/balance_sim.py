@@ -37,11 +37,13 @@ RANGED_HITS_PER_SEC = 0.5
 REGEN_HEARTS_PER_SEC = 0.125   # vanilla: 1 health point (half a heart) per 4 s at food >= 18
 ATTACK_COOLDOWN = {}           # mob id -> seconds between swings, filled from attack_cooldown
 
-# Blast level -> (width, height, depth), kept in step with MineListener.BLAST_SHAPES
+# Blast level -> (width, height, depth), kept in step with BlastShape.SHAPES
 BLAST_SHAPES = {
     1: (2, 1, 1),
     2: (2, 2, 1),
     3: (3, 3, 1),
+    4: (3, 3, 2),
+    5: (3, 3, 3),
 }
 
 # ------------------------------------------------------------- vanilla tables

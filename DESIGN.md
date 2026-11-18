@@ -1,17 +1,11 @@
 ## Aurora Java Minecraft Server Plugin
 
 #### Ideas list
-talismans
-
 feather=speed, blind=1, sunder?
 
 player scoreboard underneath name, health | mana | pvp on/off
 
-reforge and enchant, replace with shop and permanent upgrades with essence
-
-crates
-
-currencies: coins + essence
+talismans, crates, coins?
 
 world ideas: space, farm, void, twilight, candy, wasteland, sakura, volcano, mushroom, winter (ice caves, yetis)
 
@@ -146,9 +140,6 @@ Location: Duat Realm
 - Solar Golems
 - Eclipse Covenants
 4. Throne, Darkness, Pits of Hell?
-
-#### OOP Design
-See the architecture diagram in `README.md`.
 
 #### Run Instructions
 Setup: put the Paper 26.3 jar at `LocalServer/versions/26.3/`, run the server once,

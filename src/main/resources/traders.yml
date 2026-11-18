@@ -309,3 +309,8 @@ items:
     display: "<white><b>Core Smith"
     entity: VILLAGER
     gui: upgrades:golems_rest
+
+  essence_trader:
+    display: "<gold><b>Essence Trader"
+    entity: VILLAGER
+    gui: exchange

@@ -139,6 +139,7 @@ The zones add up to about 10.5 hours of real play.
 - **Cosmetics.** `/customise`: suffixes, chat and name colour, join and death messages, trails, kill effects and armour trims. Some are free, some earned (playtime, a maxed zone or region), some bought with Essence, some come only with a donor package. See [STORE.md](STORE.md).
 - **Food.** The Camp Cook sells food by the stack; a new player starts with 64 bread.
 - **Essence shop.** `/shop` sells utility only, each bought once: Dash (2,500), the God Tool (10,000), mounts (pig 1,000, chicken 1,500, horse 3,000, happy ghast 8,000), the Keyring (5,000), and the Essence ranks. Vitality and Crit Rate are no longer sold.
+- **Essence Trader.** In Golem's Rest, for a player who has maxed every zone: the endless source of Essence. It buys any resource in the backpack, one at a time or everything at once (a second click to confirm). A resource's price is set so farming it pays about `20 x (1 + 0.1 x density)` Essence a minute at endgame strength, the same for every resource of a density and more for denser blocks and mobs (`scripts/balance/essence_values.py`, the `essence` column of `resources.csv`).
 - **God Tool.** One tool with the pick, axe and shovel rules. Every block is mined with the levels of the tool it needs: a log with the axe's Fortune and Efficiency, dirt with the shovel's, ore with the pick's. Upgrades stay on the three tools.
 - **Mounts.** Right click a mount's saddle to ride it, shift to get off and it vanishes. The horse and happy ghast steer the vanilla way, the pig and chicken follow where you look.
 - **Tutorial.** A new player starts by the Cobblestone Quarry and is walked through mining 10 cobblestone, the backpack, the trader and a first upgrade. It pays 50 Essence and the Newcomer suffix, and can be skipped.
@@ -170,7 +171,7 @@ The knobs, in the order to reach for them:
 3. The step list in `upgrades.csv` for how often a player gets to buy something.
 4. Mob health, defence, attack, `damage`, density and drops, and block density, for how a zone feels. New regions start every block and mob at a density equal to the Fortune or Looting the player has on entering.
 
-After any data change: `python scripts/balance/collection_tiers.py --write`, `python scripts/generate.py`, `mvn test`, then a play through the zone.
+After any data change: `python scripts/balance/collection_tiers.py --write`, `python scripts/balance/essence_values.py --write`, `python scripts/generate.py`, `mvn test`, then a play through the zone.
 
 ## 7. Known gaps
 

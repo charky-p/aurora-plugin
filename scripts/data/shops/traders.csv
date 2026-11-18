@@ -59,3 +59,4 @@ elderwood_gate_trader,<dark_green><b>Elderwood Gatekeeper,VILLAGER,elderwood_gat
 sky_gate_trader,<aqua><b>Sky Gatekeeper,VILLAGER,sky_gate_shop
 core_trader,<white><b>Core Smith,VILLAGER,core
 golem_trader,<white><b>Core Smith,VILLAGER,upgrades:golems_rest
+essence_trader,<gold><b>Essence Trader,VILLAGER,exchange

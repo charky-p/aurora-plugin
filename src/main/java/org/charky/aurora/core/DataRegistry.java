@@ -77,6 +77,7 @@ public class DataRegistry {
 
     private final Set<String> specialIds = new HashSet<>();
     private final Map<String, Integer> collectionBases = new HashMap<>();
+    private final Map<String, Double> essenceValues = new HashMap<>();
     // Gear that mobs drop, in mob load order (progression), with the mob that drops it
     private final Map<String, Component> armory = new LinkedHashMap<>();
 
@@ -122,6 +123,7 @@ public class DataRegistry {
         summons.clear();
         specialIds.clear();
         collectionBases.clear();
+        essenceValues.clear();
         armory.clear();
 
         LootPoolBuilder loot = new LootPoolBuilder(plugin.getLogger(), items, this::isLootable, id -> !isResource(id));
@@ -328,6 +330,7 @@ public class DataRegistry {
             resourceList.add(new MenuItem(id.toLowerCase(), item));
             resourceIds.add(id.toLowerCase());
             if (model.collection > 0) collectionBases.put(id.toLowerCase(), model.collection);
+            if (model.essence > 0) essenceValues.put(id.toLowerCase(), model.essence);
             if (model.unlocks != null && !model.unlocks.isBlank()) unlocks.put(id.toLowerCase(), model.unlocks.toLowerCase());
             if (model.summons != null && !model.summons.isBlank()) summons.put(id.toLowerCase(), model.summons.toLowerCase());
         });
@@ -445,6 +448,11 @@ public class DataRegistry {
 
     // Looting widens resource drops, never keys, or a 1 in 12 key becomes 8 a kill
     // How many of a resource its first collection tier needs
+    // What the Essence Trader pays for one, 0 for what it does not buy
+    public double getEssenceValue(String id) {
+        return essenceValues.getOrDefault(id.toLowerCase(), 0.0);
+    }
+
     public int getCollectionBase(String id) {
         return collectionBases.getOrDefault(id.toLowerCase(), DEFAULT_COLLECTION_BASE);
     }

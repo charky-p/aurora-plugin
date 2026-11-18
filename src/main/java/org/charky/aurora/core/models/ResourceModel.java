@@ -11,6 +11,8 @@ public class ResourceModel {
     public String region;
     // How many the first collection tier needs, see CollectionTiers
     public int collection;
+    // What the Essence Trader pays for one, 0 if it does not buy it
+    public double essence;
     // Tag given when the item is right clicked and used up, null for none
     public String unlocks;
     // Mob summoned at its spawner when the item is right clicked, null for none

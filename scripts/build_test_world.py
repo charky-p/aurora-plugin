@@ -60,7 +60,7 @@ TEST_WORLD = {"overworld": "aurora_test", "duneworld": "aurora_test_gormak",
 BOSS_ZONE = {"gormak_eternal": "tomb", "khorvath": "sanctuary", "hydra": "hydra_pool", "arachne": "arachne_cave",
              "sol": "throne", "elder_treant": "the_crown", "sky_king": "throne_room"}
 # Traders with no zone of their own, by the zone they stand in
-EXTRA_TRADERS = {"cobble": ["food_trader"], "golems_rest": ["core_trader"]}
+EXTRA_TRADERS = {"cobble": ["food_trader"], "golems_rest": ["core_trader", "essence_trader"]}
 Z = 0  # every strip runs along x from z 0
 SAFE_Z = Z - 12  # far edge of the safe platforms beside hostile zones
 

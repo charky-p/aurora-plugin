@@ -181,7 +181,7 @@ At the end, the portal to Cloud Isles locked to `sky`, with `sky_gate_trader` be
 | Maple Grove | `maple`: `maple_log 70 stripped_maple_log 30`, `clay`: `clay 100`, `titanium`: `titanium 100` | `quarry_pillager`, `quarry_vindicator` | `maple_trader` |
 | Diamond Depths | `diamond`: `diamond_ore 70 deepslate_diamond_ore 30` | `quarry_ravager` | `diamond_trader` |
 | The Quarry Pit | - | `pillager_captain`, `quarry_warden` | `pit_trader` |
-| Golem Rest | - | `overworld_golem` | `golem_trader`, `core_trader` |
+| Golem Rest | - | `overworld_golem` | `golem_trader`, `core_trader`, `essence_trader` |
 
 ## 4. Check it
 

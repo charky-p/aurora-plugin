@@ -35,6 +35,7 @@ import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.boss.BossManager;
 import org.charky.aurora.features.collection.CollectionManager;
 import org.charky.aurora.features.combat.CombatListener;
+import org.charky.aurora.features.core.EssenceExchange;
 import org.charky.aurora.features.core.OverworldCore;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
@@ -207,6 +208,7 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("upgrades", toolManager::openUpgrades);
         registry.registerAction("tools", toolManager::giveStarters);
         registry.registerAction("core", player -> OverworldCore.open(this, player));
+        registry.registerAction("exchange", player -> EssenceExchange.open(this, player));
         this.accessManager = new AccessManager(db, new AccessStore(db), registry);
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);
         backpackManager.setOnOpen(tutorialManager::openedBackpack);

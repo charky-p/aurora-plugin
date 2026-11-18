@@ -47,6 +47,7 @@ import org.charky.aurora.features.pvp.SafeZoneManager;
 import org.charky.aurora.features.keys.KeyItemListener;
 import org.charky.aurora.features.mine.MineListener;
 import org.charky.aurora.features.movement.DashListener;
+import org.charky.aurora.features.movement.DoubleJumpListener;
 import org.charky.aurora.features.movement.GrappleListener;
 import org.charky.aurora.features.movement.MountManager;
 import org.charky.aurora.features.mine.MineManager;
@@ -124,6 +125,7 @@ public class Aurora extends JavaPlugin {
     private TutorialManager tutorialManager;
     private AccessManager accessManager;
     private BuildManager buildManager;
+    private DashListener dashListener;
     private SafeZoneManager safeZoneManager;
     private MountManager mountManager;
     private ToolManager toolManager;
@@ -242,7 +244,8 @@ public class Aurora extends JavaPlugin {
         command("collections", new OpenMenuCommand(collectionManager::open));
         command("tutorial", new TutorialCommand(tutorialManager));
         command("shop", new OpenMenuCommand(player -> new RankShopMenu(this).open(player)));
-        DashListener dash = new DashListener(perkManager);
+        this.dashListener = new DashListener(registry, perkManager);
+        DashListener dash = dashListener;
         command("dash", dash);
 
         List<Listener> listeners = List.of(
@@ -267,6 +270,7 @@ public class Aurora extends JavaPlugin {
                 new KeyItemListener(this),
                 new GrappleListener(this),
                 dash,
+                new DoubleJumpListener(perkManager),
                 mountManager,
                 new BackpackItemListener(this),
                 new ChatShowcase(),
@@ -357,6 +361,10 @@ public class Aurora extends JavaPlugin {
 
     public SafeZoneManager getSafeZoneManager() {
         return safeZoneManager;
+    }
+
+    public DashListener getDashListener() {
+        return dashListener;
     }
 
     public BuildManager getBuildManager() {

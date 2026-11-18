@@ -75,7 +75,7 @@ public class RankShopMenu extends PagedMenu {
     }
 
     private String useHint(Player player, Perk perk) {
-        if (perk == Perk.DASH) return perks.dashOn(player) ? "On - click to turn it off" : "Off - click to turn it on";
+        if (perk == Perk.DASH) return "Click for the Dash Feather again";
         if (perk.mount() != null) return "Click for its saddle again";
         if (perk == Perk.GOD_TOOL) return "Click for the tool again";
         return "Yours for good";
@@ -141,7 +141,7 @@ public class RankShopMenu extends PagedMenu {
     // Just bought: Dash starts on, a mount's saddle or the God Tool is handed over
     private void bought(Player player, Perk perk) {
         int level = perks.level(player, perk);
-        if (perk == Perk.DASH) TextUtils.success(player, "Dash is on: shift twice quickly to dash");
+        if (perk == Perk.DOUBLE_JUMP) TextUtils.success(player, "Double Jump: press jump again in mid-air");
         // An upgrade, not a first buy: they have the saddle already
         else if (perk.mount() != null && level > 1) {
             TextUtils.success(player, perk.display() + " <green>is now level " + level + ", call it again with its saddle to ride it");
@@ -151,7 +151,7 @@ public class RankShopMenu extends PagedMenu {
     // Owned already: Dash turns on or off, a lost saddle or God Tool is handed over again
     private void use(Player player, Perk perk) {
         if (perk == Perk.DASH) {
-            TextUtils.success(player, "Dash " + (perks.toggleDash(player) ? "on" : "off"));
+            plugin.getDashListener().giveFeather(player);
         } else if (perk.mount() != null) {
             plugin.getMountManager().giveSaddle(player, perk.mount());
         } else if (perk == Perk.GOD_TOOL) {

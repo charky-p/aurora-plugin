@@ -151,6 +151,16 @@ items:
     lore:
       - "<gray>Right click while gliding"
 
+  dash_feather:
+    display: "<aqua><b>Dash Feather"
+    material: FEATHER
+    type: ''
+    world: "overworld"
+    region: ''
+    lore:
+      - "<gray>Right click to dash the way you face"
+      - "<dark_gray>Once a second"
+
   mount_pig:
     display: "<light_purple><b>Pig Saddle"
     material: SADDLE

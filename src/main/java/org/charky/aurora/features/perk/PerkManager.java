@@ -71,22 +71,6 @@ public class PerkManager implements Listener {
         return level(player, perk) > 0;
     }
 
-    // Dash is on once bought until the player turns it off, saved as its own row
-    private static final String DASH_OFF = "dash_off";
-
-    public boolean dashOn(Player player) {
-        return owns(player, Perk.DASH) && levels.getOrDefault(player.getUniqueId(), Map.of()).getOrDefault(DASH_OFF, 0) == 0;
-    }
-
-    // True if it is on now
-    public boolean toggleDash(Player player) {
-        UUID uuid = player.getUniqueId();
-        int off = dashOn(player) ? 1 : 0;
-        levels.computeIfAbsent(uuid, k -> new HashMap<>()).put(DASH_OFF, off);
-        db.async(() -> store.save(uuid, DASH_OFF, off));
-        return off == 0;
-    }
-
     // Null if the next level was bought, otherwise why not
     public String buy(Player player, Perk perk) {
         PlayerData data = players.get(player);

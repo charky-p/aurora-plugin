@@ -3,7 +3,7 @@ package org.charky.aurora.features.perk;
 import org.bukkit.Material;
 
 // Permanent upgrades bought with Essence in /shop, one level at a time. Each level
-// costs more than the last: level n costs costStep * n. Only utility is sold: dash,
+// costs more than the last: level n costs costStep * n. Only utility is sold: dash, double jump,
 // mounts, the God Tool and the Keyring. Pure numbers, tested directly
 public enum Perk {
     // Not sold any more, they change how fast the game goes. Levels bought still count
@@ -18,7 +18,9 @@ public enum Perk {
     KEYRING("keyring", "<gold><b>Keyring", Material.TRIAL_KEY, 1, 5_000,
             "take any key you have found before from Collections", true),
     DASH("dash", "<aqua><b>Dash", Material.FEATHER, 1, 2_500,
-            "shift twice to dash forward, click again to turn it on or off", true),
+            "right click the Dash Feather to dash forward, click again for the feather", true),
+    DOUBLE_JUMP("double_jump", "<green><b>Double Jump", Material.RABBIT_FOOT, 1, 4_000,
+            "jump again in mid-air for a second jump, once until you land", true),
     GOD_TOOL("god_tool", "<light_purple><b>God Tool", Material.NETHERITE_PICKAXE, 1, 10_000,
             "one tool that mines like your pick, axe and shovel, each block with that tool's levels", true),
     // Mounts have three levels, each one faster: level n costs costStep * n

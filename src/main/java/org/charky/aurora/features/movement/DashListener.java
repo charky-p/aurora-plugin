@@ -10,10 +10,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.perk.Perk;
 import org.charky.aurora.features.perk.PerkManager;
 import org.jetbrains.annotations.NotNull;
@@ -22,37 +25,49 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-// Dash, an Essence shop perk: shift twice quickly to dash the way you face, once a
-// second. /dash, or clicking it in the shop, turns it on or off
+// Dash, an Essence shop perk: right click the Dash Feather to dash the way you face,
+// once a second. /dash, or clicking Dash in the shop, hands the feather over again
 public class DashListener implements Listener, CommandExecutor {
-    // Two presses of shift closer together than this are a double tap
-    private static final long DOUBLE_TAP_MS = 300;
+    public static final String ITEM = "dash_feather";
     private static final long COOLDOWN_MS = 1000;
     private static final double SPEED = 1.4;
     private static final double LIFT = 0.25;
 
+    private final DataRegistry registry;
     private final PerkManager perks;
-    private final Map<UUID, Long> lastTap = new HashMap<>();
     private final Map<UUID, Long> lastDash = new HashMap<>();
 
-    public DashListener(PerkManager perks) {
+    public DashListener(DataRegistry registry, PerkManager perks) {
+        this.registry = registry;
         this.perks = perks;
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onSneak(PlayerToggleSneakEvent event) {
-        if (!event.isSneaking()) return;
+    public void giveFeather(Player player) {
+        ItemStack feather = registry.getAllItems().get(ITEM);
+        if (feather == null) return;
+        if (player.getInventory().firstEmpty() == -1) {
+            TextUtils.error(player, "Your inventory is full");
+            return;
+        }
+        player.getInventory().addItem(feather.clone());
+        TextUtils.success(player, "Right click the Dash Feather to dash");
+    }
+
+    @EventHandler
+    public void onUse(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (!ITEM.equals(DataRegistry.itemId(event.getItem()))) return;
+        event.setCancelled(true);
+
         Player player = event.getPlayer();
-        // Shift also gets off a mount and steers gliding, neither should dash
+        if (!perks.owns(player, Perk.DASH)) {
+            player.sendActionBar(Component.text("Buy Dash in the Essence shop, /shop", NamedTextColor.RED));
+            return;
+        }
         if (player.isInsideVehicle() || player.isGliding() || player.isFlying()) return;
-        if (!perks.dashOn(player)) return;
 
         UUID uuid = player.getUniqueId();
         long now = System.currentTimeMillis();
-        Long tap = lastTap.put(uuid, now);
-        if (tap == null || now - tap > DOUBLE_TAP_MS) return;
-        lastTap.remove(uuid);
-
         Long dashed = lastDash.get(uuid);
         if (dashed != null && now - dashed < COOLDOWN_MS) return;
         lastDash.put(uuid, now);
@@ -67,11 +82,10 @@ public class DashListener implements Listener, CommandExecutor {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        lastTap.remove(event.getPlayer().getUniqueId());
         lastDash.remove(event.getPlayer().getUniqueId());
     }
 
-    // /dash
+    // /dash, the feather again
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, @NotNull String @NotNull [] args) {
@@ -80,7 +94,7 @@ public class DashListener implements Listener, CommandExecutor {
             player.sendActionBar(Component.text("Buy Dash in the Essence shop, /shop", NamedTextColor.RED));
             return true;
         }
-        TextUtils.success(player, "Dash " + (perks.toggleDash(player) ? "on: shift twice quickly to dash" : "off"));
+        giveFeather(player);
         return true;
     }
 }

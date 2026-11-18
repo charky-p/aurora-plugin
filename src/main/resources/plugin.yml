@@ -42,7 +42,7 @@ commands:
     description: The Essence shop, dash, mounts, the God Tool and ranks
     usage: /shop
   dash:
-    description: Turn dash on or off
+    description: The Dash Feather again, once Dash is bought
     usage: /dash
   tutorial:
     description: Skip the first-join tutorial

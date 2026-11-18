@@ -92,7 +92,7 @@ public final class EssenceExchange extends PagedMenu {
         }
         return List.of(
                 TextUtils.parse("<!italic><gray>Your backpack is worth <gold>" + String.format("%,d", total) + " Essence"),
-                TextUtils.parse("<!italic><dark_gray>Denser zones pay more for the time"));
+                TextUtils.parse("<!italic><dark_gray>Only the last zone's resources are bought"));
     }
 
     @Override

@@ -15,12 +15,23 @@ class CollectionTiersTest {
         assertEquals(5, CollectionTiers.count());
     }
 
+    // 30 x 15 = 450 and 30 x 50 = 1,500 are clean already, 48 x 15 = 720 is not
     @Test
-    void everyTierIsAMultipleOfTheBase() {
+    void laterTiersAreRoundedToCleanNumbers() {
+        assertEquals(750, CollectionTiers.threshold(48, 3));
+        assertEquals(2_500, CollectionTiers.threshold(48, 4));
+        assertEquals(10_000, CollectionTiers.threshold(48, 5));
+        assertEquals(48, CollectionTiers.threshold(48, 1));
+        assertEquals(1_500, CollectionTiers.nearestNice(1_400));
+        assertEquals(12, CollectionTiers.nearestNice(13));
+    }
+
+    @Test
+    void everyTierIsAboutAMultipleOfTheBase() {
         assertEquals(250, CollectionTiers.threshold(BLOCK, 1));
         assertEquals(1_000, CollectionTiers.threshold(BLOCK, 2));
-        assertEquals(3_750, CollectionTiers.threshold(BLOCK, 3));
-        assertEquals(12_500, CollectionTiers.threshold(BLOCK, 4));
+        assertEquals(4_000, CollectionTiers.threshold(BLOCK, 3));
+        assertEquals(12_000, CollectionTiers.threshold(BLOCK, 4));
         assertEquals(50_000, CollectionTiers.threshold(BLOCK, 5));
     }
 
@@ -38,8 +49,8 @@ class CollectionTiersTest {
         assertEquals(0, CollectionTiers.tier(BLOCK, 249));
         assertEquals(1, CollectionTiers.tier(BLOCK, 250));
         assertEquals(2, CollectionTiers.tier(BLOCK, 1_000));
-        assertEquals(3, CollectionTiers.tier(BLOCK, 3_750));
-        assertEquals(4, CollectionTiers.tier(BLOCK, 12_500));
+        assertEquals(3, CollectionTiers.tier(BLOCK, 4_000));
+        assertEquals(4, CollectionTiers.tier(BLOCK, 12_000));
         assertEquals(5, CollectionTiers.tier(BLOCK, 50_000));
         assertEquals(5, CollectionTiers.tier(BLOCK, 9_000_000));
     }
@@ -54,8 +65,8 @@ class CollectionTiersTest {
     void passingATierPaysItOnce() {
         assertEquals(5, CollectionTiers.reward(BLOCK, 249, 250));
         assertEquals(25, CollectionTiers.reward(BLOCK, 900, 1_100));
-        assertEquals(100, CollectionTiers.reward(BLOCK, 3_749, 3_750));
-        assertEquals(400, CollectionTiers.reward(BLOCK, 12_499, 12_501));
+        assertEquals(100, CollectionTiers.reward(BLOCK, 3_999, 4_000));
+        assertEquals(400, CollectionTiers.reward(BLOCK, 11_999, 12_001));
         assertEquals(1_500, CollectionTiers.reward(BLOCK, 49_999, 50_000));
         assertEquals(0, CollectionTiers.reward(BLOCK, 250, 251));
     }
@@ -71,7 +82,7 @@ class CollectionTiersTest {
     void theNextTierAndWhatItPays() {
         assertEquals(250, CollectionTiers.nextThreshold(BLOCK, 0));
         assertEquals(5, CollectionTiers.nextReward(BLOCK, 0));
-        assertEquals(3_750, CollectionTiers.nextThreshold(BLOCK, 1_000));
+        assertEquals(4_000, CollectionTiers.nextThreshold(BLOCK, 1_000));
         assertEquals(100, CollectionTiers.nextReward(BLOCK, 1_000));
         assertEquals(-1, CollectionTiers.nextThreshold(BLOCK, 50_000));
         assertEquals(0, CollectionTiers.nextReward(BLOCK, 50_000));

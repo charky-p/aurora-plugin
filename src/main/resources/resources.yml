@@ -22,7 +22,6 @@ items:
     lore:
       - "<dark_gray>Origin Isles"
     collection: 160
-    essence: 1.219e-05
 
   coal:
     display: "<dark_gray><b>Coal"
@@ -32,7 +31,6 @@ items:
     lore:
       - "<dark_gray>Origin Isles"
     collection: 800
-    essence: 5.017e-06
 
   copper:
     display: "<#D94110><b>Copper Ingot"
@@ -42,7 +40,6 @@ items:
     lore:
       - "<dark_gray>Origin Isles"
     collection: 640
-    essence: 5.7e-06
 
   iron:
     display: "<white><b>Iron Ingot"
@@ -52,7 +49,6 @@ items:
     lore:
       - "<dark_gray>Origin Isles"
     collection: 1000
-    essence: 6.425e-06
 
   gold:
     display: "<gold><b>Gold Ingot"
@@ -62,7 +58,6 @@ items:
     lore:
       - "<dark_gray>Origin Isles"
     collection: 2500
-    essence: 7.197e-06
 
   feather:
     display: "<white>Feather"
@@ -72,7 +67,6 @@ items:
     lore:
       - "<dark_gray>Dropped by chickens"
     collection: 8
-    essence: 0.001416
 
   wool:
     display: "<white>Tuft of Wool"
@@ -82,7 +76,6 @@ items:
     lore:
       - "<dark_gray>Dropped by sheep"
     collection: 20
-    essence: 0.001624
 
   leather:
     display: "<#8B5A2B>Hide"
@@ -92,7 +85,6 @@ items:
     lore:
       - "<dark_gray>Dropped by cows"
     collection: 24
-    essence: 0.001848
 
   carved_brick:
     display: "<gray>Carved Brick"
@@ -102,7 +94,6 @@ items:
     lore:
       - "<dark_gray>Gormak - Abandoned City"
     collection: 640
-    essence: 2.272e-05
 
   tattered_cloth:
     display: "<gray>Tattered Cloth"
@@ -112,7 +103,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Hollowed Serfs"
     collection: 64
-    essence: 0.002091
 
   ancient_scrap:
     display: "<gray><b>Ancient Scrap"
@@ -122,7 +112,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Scavenger Husks"
     collection: 32
-    essence: 0.001394
 
   sunbaked_sand:
     display: "<yellow>Sunbaked Sandstone"
@@ -132,7 +121,6 @@ items:
     lore:
       - "<dark_gray>Gormak - The Dunes"
     collection: 2000
-    essence: 1.947e-05
 
   ancient_flesh:
     display: "<dark_red>Ancient Flesh"
@@ -142,7 +130,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Dune Scouts"
     collection: 20
-    essence: 0.002355
 
   ancient_bone:
     display: "<white><b>Ancient Bone"
@@ -152,7 +139,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Sand Stalkers"
     collection: 48
-    essence: 0.003139
 
   crimson_sand:
     display: "<#B4462A>Crimson Sandstone"
@@ -162,7 +148,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 20000
-    essence: 2.159e-05
 
   scarab_shell:
     display: "<dark_purple><b>Scarab Shell"
@@ -172,7 +157,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 640
-    essence: 0.003287
 
   legion_plate:
     display: "<gray><b>Legion Plate"
@@ -182,7 +166,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 120
-    essence: 0.003287
 
   raw_gold:
     display: "<gold>Raw Gold"
@@ -192,7 +175,6 @@ items:
     lore:
       - "<dark_gray>Gormak - Sun Temple"
     collection: 6400
-    essence: 1.284e-05
 
   ancient_nugget:
     display: "<gold><b>Ancient Nugget"
@@ -202,7 +184,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Tomb Guards"
     collection: 16
-    essence: 0.00176
 
   vizier_scroll:
     display: "<yellow><b>Vizier Scroll"
@@ -212,7 +193,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Vizier Mages"
     collection: 80
-    essence: 0.00352
 
   eternal_soul:
     display: "<dark_purple><b>Eternal Soul"
@@ -222,7 +202,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 120
-    essence: 0.0081
 
   royal_seal:
     display: "<gold><b>Royal Seal"
@@ -232,7 +211,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 160
-    essence: 0.0081
 
   ancient_heart:
     display: "<dark_red><b>Ancient Heart"
@@ -261,7 +239,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Oak Grove"
     collection: 250
-    essence: 0.0001593
 
   tin:
     display: "<#7BA05B><b>Tin"
@@ -271,7 +248,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Oak Grove"
     collection: 8000
-    essence: 8.017e-06
 
   horsehair:
     display: "<#7BA05B>Horsehair"
@@ -281,7 +257,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Grove Horses"
     collection: 24
-    essence: 0.001394
 
   birch_log:
     display: "<#D9D3B0>Birch Log"
@@ -291,7 +266,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Birch Hollow"
     collection: 400
-    essence: 0.0001877
 
   bronze:
     display: "<#D9D3B0><b>Bronze"
@@ -301,7 +275,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Birch Hollow"
     collection: 6400
-    essence: 8.891e-06
 
   fox_fur:
     display: "<#D9D3B0>Fox Fur"
@@ -311,7 +284,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Hollow Foxs"
     collection: 32
-    essence: 0.00157
 
   spruce_log:
     display: "<#4F7A4A>Spruce Log"
@@ -321,7 +293,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Spruce Ridge"
     collection: 800
-    essence: 0.0002199
 
   lead:
     display: "<#4F7A4A><b>Lead"
@@ -331,7 +302,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Spruce Ridge"
     collection: 16000
-    essence: 9.822e-06
 
   wolf_pelt:
     display: "<#4F7A4A>Wolf Pelt"
@@ -341,7 +311,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Ridge Wolfs"
     collection: 12
-    essence: 0.00176
 
   dark_oak_log:
     display: "<#6B4F35>Dark Oak Log"
@@ -351,7 +320,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
     collection: 800
-    essence: 0.0002565
 
   silver:
     display: "<#6B4F35><b>Silver"
@@ -361,7 +329,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
     collection: 20000
-    essence: 1.082e-05
 
   ancient_seed:
     display: "<#6B4F35>Ancient Seed"
@@ -371,7 +338,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Thicket Sniffers"
     collection: 600
-    essence: 0.001967
 
   tree_sap:
     display: "<gold>Tree Sap"
@@ -380,8 +346,7 @@ items:
     region: "elderwood_treehouse"
     lore:
       - "<dark_gray>Elderwood Roots"
-    collection: 160
-    essence: 0.003641
+    collection: 200
 
   heartwood:
     display: "<dark_green><b>Heartwood"
@@ -391,7 +356,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Roots"
     collection: 1
-    essence: 0.01092
 
   deserter_coin:
     display: "<#C9A227>Deserter Coin"
@@ -401,7 +365,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 24
-    essence: 1.0
 
   relic_stone:
     display: "<#B4462A>Relic Stone"
@@ -411,7 +374,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 1200
-    essence: 4.248e-05
 
   relic_shard:
     display: "<#E07B39><b>Relic Shard"
@@ -421,7 +383,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 32
-    essence: 0.00599
 
   ossuary_bone:
     display: "<white>Ossuary Bone"
@@ -431,7 +392,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 1200
-    essence: 5.886e-05
 
   anubite_mark:
     display: "<dark_purple><b>Anubite Mark"
@@ -441,7 +401,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 12
-    essence: 0.01092
 
   sphinx_claw:
     display: "<gold><b>Sphinx Claw"
@@ -451,7 +410,6 @@ items:
     lore:
       - "<dark_gray>Khorvath"
     collection: 20
-    essence: 0.01092
 
   solar_core:
     display: "<gold><b>Solar Core"
@@ -470,7 +428,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Roots"
     collection: 6000
-    essence: 0.0003976
 
   panda_fur:
     display: "<white>Panda Fur"
@@ -480,7 +437,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Roots"
     collection: 48
-    essence: 0.004383
 
   bamboo:
     display: "<#7BA05B>Bamboo"
@@ -490,7 +446,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Roots"
     collection: 6000
-    essence: 0.0006197
 
   ocelot_whisker:
     display: "<yellow>Ocelot Whisker"
@@ -500,7 +455,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Roots"
     collection: 48
-    essence: 0.00599
 
   elderbark:
     display: "<#6B4F35>Elderbark"
@@ -510,7 +464,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Roots"
     collection: 2500
-    essence: 0.001163
 
   amber:
     display: "<gold><b>Amber"
@@ -520,7 +473,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Roots"
     collection: 800
-    essence: 0.001163
 
   royal_jelly:
     display: "<yellow><b>Royal Jelly"
@@ -530,7 +482,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Roots"
     collection: 12
-    essence: 0.0081
 
   packed_mud:
     display: "<#8B6B4A>Packed Mud"
@@ -540,7 +491,6 @@ items:
     lore:
       - "<dark_gray>Sunken Marsh"
     collection: 12000
-    essence: 2.931e-05
 
   frog_leg:
     display: "<#7BA05B>Frog Leg"
@@ -550,7 +500,6 @@ items:
     lore:
       - "<dark_gray>Sunken Marsh"
     collection: 32
-    essence: 0.004383
 
   peat:
     display: "<#5C4033>Peat"
@@ -560,7 +509,6 @@ items:
     lore:
       - "<dark_gray>Sunken Marsh"
     collection: 8000
-    essence: 3.776e-05
 
   bog_rag:
     display: "<#4E6B3A>Bog Rag"
@@ -570,7 +518,6 @@ items:
     lore:
       - "<dark_gray>Sunken Marsh"
     collection: 20
-    essence: 0.00599
 
   verdigris:
     display: "<#4FB39A><b>Verdigris"
@@ -580,7 +527,6 @@ items:
     lore:
       - "<dark_gray>Sunken Marsh"
     collection: 1500
-    essence: 5.232e-05
 
   poison_quill:
     display: "<dark_green>Poison Quill"
@@ -590,7 +536,6 @@ items:
     lore:
       - "<dark_gray>Sunken Marsh"
     collection: 48
-    essence: 0.0081
 
   drowned_scale:
     display: "<dark_aqua>Drowned Scale"
@@ -600,7 +545,6 @@ items:
     lore:
       - "<dark_gray>Sunken Marsh"
     collection: 16
-    essence: 0.0081
 
   lurker_fang:
     display: "<dark_aqua><b>Lurker Fang"
@@ -610,7 +554,6 @@ items:
     lore:
       - "<dark_gray>Sunken Marsh"
     collection: 16
-    essence: 0.01092
 
   hydra_scale:
     display: "<dark_green><b>Hydra Scale"
@@ -629,7 +572,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 2500
-    essence: 0.002013
 
   goat_hide:
     display: "<white>Goat Hide"
@@ -639,7 +581,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 32
-    essence: 0.01335
 
   redstone:
     display: "<red><b>Redstone"
@@ -649,7 +590,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 25000
-    essence: 6.66e-05
 
   spider_silk:
     display: "<white>Frost Silk"
@@ -658,8 +598,7 @@ items:
     region: "peaks_redstone"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 8
-    essence: 0.01478
+    collection: 12
 
   pumpkin:
     display: "<gold>Pumpkin"
@@ -669,7 +608,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 3200
-    essence: 0.002204
 
   snow:
     display: "<white>Packed Snow"
@@ -679,7 +617,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 1200
-    essence: 0.009722
 
   snow_pelt:
     display: "<white>Snow Pelt"
@@ -689,7 +626,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 48
-    essence: 0.01638
 
   lapis:
     display: "<blue><b>Lapis"
@@ -699,7 +635,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 16000
-    essence: 9.546e-05
 
   frost_arrow:
     display: "<aqua>Frost Arrow"
@@ -709,7 +644,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 48
-    essence: 0.01818
 
   melon:
     display: "<green>Melon"
@@ -719,7 +653,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 1200
-    essence: 0.003797
 
   emerald:
     display: "<green><b>Emerald"
@@ -729,7 +662,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 20000
-    essence: 0.0001466
 
   cliff_horn:
     display: "<gray>Cliff Horn"
@@ -739,7 +671,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 32
-    essence: 0.0202
 
   venom_sac:
     display: "<dark_green>Venom Sac"
@@ -748,8 +679,7 @@ items:
     region: "peaks_arachne"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 12
-    essence: 0.02249
+    collection: 16
 
   rider_bone:
     display: "<white>Rider Bone"
@@ -759,7 +689,6 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 80
-    essence: 0.02249
 
   arachne_eye:
     display: "<dark_red><b>Arachne's Eye"
@@ -778,7 +707,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 4000
-    essence: 0.0001669
 
   ash:
     display: "<gray>River Ash"
@@ -788,7 +716,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 100
-    essence: 0.01515
 
   scale_gold:
     display: "<gold><b>Scale Gold"
@@ -798,7 +725,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 3200
-    essence: 0.000242
 
   solar_slag:
     display: "<red>Solar Slag"
@@ -808,7 +734,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 3000
-    essence: 0.0005024
 
   nightstone:
     display: "<dark_gray><b>Nightstone"
@@ -818,7 +743,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 3200
-    essence: 0.0007937
 
   sol_heart:
     display: "<gold><b>Heart of Sol"
@@ -837,7 +761,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 8
-    essence: 0.0251
 
   sobek_sigil:
     display: "<gold>Sigil of Sobek"
@@ -847,7 +770,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 8
-    essence: 0.0251
 
   osiris_sigil:
     display: "<gold>Sigil of Osiris"
@@ -857,7 +779,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 4
-    essence: 0.0251
 
   thoth_sigil:
     display: "<gold>Sigil of Thoth"
@@ -867,7 +788,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 8
-    essence: 0.03898
 
   maat_sigil:
     display: "<gold>Sigil of Ma'at"
@@ -877,7 +797,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 8
-    essence: 0.03898
 
   horus_sigil:
     display: "<gold>Sigil of Horus"
@@ -887,7 +806,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 16
-    essence: 0.03898
 
   sekhmet_sigil:
     display: "<gold>Sigil of Sekhmet"
@@ -897,7 +815,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 8
-    essence: 0.06331
 
   ptah_sigil:
     display: "<gold>Sigil of Ptah"
@@ -907,7 +824,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 8
-    essence: 0.06331
 
   khnum_sigil:
     display: "<gold>Sigil of Khnum"
@@ -917,7 +833,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 4
-    essence: 0.06331
 
   set_sigil:
     display: "<gold>Sigil of Set"
@@ -927,7 +842,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 8
-    essence: 0.1165
 
   apep_sigil:
     display: "<gold>Sigil of Apep"
@@ -937,7 +851,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 8
-    essence: 0.1165
 
   nephthys_sigil:
     display: "<gold>Sigil of Nephthys"
@@ -947,7 +860,6 @@ items:
     lore:
       - "<dark_gray>The Duat"
     collection: 16
-    essence: 0.1165
 
   heartwood_log:
     display: "<#6B4F35><b>Heartwood"
@@ -957,7 +869,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Heart"
     collection: 800
-    essence: 0.004353
 
   sapling_twig:
     display: "<#7BA05B>Sapling Twig"
@@ -967,7 +878,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Heart"
     collection: 48
-    essence: 0.0251
 
   elder_vine:
     display: "<#3A7D2C>Elder Vine"
@@ -977,7 +887,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Heart"
     collection: 2500
-    essence: 0.004795
 
   canopy_silk:
     display: "<white>Canopy Silk"
@@ -987,7 +896,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Heart"
     collection: 32
-    essence: 0.02808
 
   wax_comb:
     display: "<gold>Wax Comb"
@@ -997,7 +905,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Heart"
     collection: 300
-    essence: 0.007246
 
   beeswax:
     display: "<#E8A33D><b>Beeswax"
@@ -1007,7 +914,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Heart"
     collection: 3000
-    essence: 0.0002904
 
   hive_stinger:
     display: "<yellow>Hive Stinger"
@@ -1017,7 +923,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Heart"
     collection: 48
-    essence: 0.04002
 
   sentry_arrowhead:
     display: "<gray>Sentry Arrowhead"
@@ -1027,7 +932,6 @@ items:
     lore:
       - "<dark_gray>Elderwood Heart"
     collection: 120
-    essence: 0.05916
 
   canopy_bark:
     display: "<dark_green>Canopy Bark"
@@ -1036,8 +940,7 @@ items:
     region: "elderheart_canopy"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 300
-    essence: 0.06508
+    collection: 320
 
   elder_heart:
     display: "<dark_green><b>Elder Heart"
@@ -1055,8 +958,7 @@ items:
     region: "skyisles_cloudbank"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 20000
-    essence: 0.0002003
+    collection: 16000
 
   cloud_dust:
     display: "<white>Cloud Dust"
@@ -1065,8 +967,7 @@ items:
     region: "skyisles_cloudbank"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 1200
-    essence: 0.01515
+    collection: 1000
 
   cloud_fleece:
     display: "<white>Cloud Fleece"
@@ -1075,8 +976,7 @@ items:
     region: "skyisles_cloudbank"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 48
-    essence: 0.0251
+    collection: 100
 
   skyshard:
     display: "<aqua><b>Skyshard"
@@ -1085,8 +985,7 @@ items:
     region: "skyisles_spires"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 25000
-    essence: 0.000242
+    collection: 20000
 
   phantom_veil:
     display: "<gray>Phantom Veil"
@@ -1095,8 +994,7 @@ items:
     region: "skyisles_spires"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 20
-    essence: 0.03544
+    collection: 32
 
   storm_copper:
     display: "<#4FB39A><b>Storm Copper"
@@ -1105,8 +1003,7 @@ items:
     region: "skyisles_storm"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 25000
-    essence: 0.0003645
+    collection: 20000
 
   storm_essence:
     display: "<aqua>Storm Essence"
@@ -1115,8 +1012,7 @@ items:
     region: "skyisles_storm"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 20
-    essence: 0.05168
+    collection: 32
 
   pirate_doubloon:
     display: "<gold>Pirate Doubloon"
@@ -1126,7 +1022,6 @@ items:
     lore:
       - "<dark_gray>Cloud Isles"
     collection: 80
-    essence: 0.07897
 
   captain_compass:
     display: "<gold><b>Captain's Compass"
@@ -1136,7 +1031,6 @@ items:
     lore:
       - "<dark_gray>Cloud Isles"
     collection: 12
-    essence: 0.08687
 
   royal_quartz:
     display: "<white><b>Royal Quartz"
@@ -1146,7 +1040,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 6000
-    essence: 0.000757
 
   guard_insignia:
     display: "<gold>Guard Insignia"
@@ -1156,7 +1049,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 80
-    essence: 0.1715
 
   cherry_log:
     display: "<light_purple>Cherry Log"
@@ -1166,7 +1058,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 480
-    essence: 0.009309
 
   sunpetal:
     display: "<yellow><b>Sunpetal"
@@ -1176,7 +1067,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 5000
-    essence: 0.001688
 
   golden_pollen:
     display: "<yellow>Golden Pollen"
@@ -1186,7 +1076,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 32
-    essence: 0.2604
 
   gardener_seed:
     display: "<green>Gardener's Seed"
@@ -1196,7 +1085,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 48
-    essence: 0.2604
 
   celestine:
     display: "<aqua><b>Celestine"
@@ -1206,7 +1094,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 5000
-    essence: 0.003844
 
   aurium:
     display: "<gold><b>Aurium"
@@ -1216,7 +1103,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 5000
-    essence: 0.003844
 
   knight_crest:
     display: "<gold>Knight's Crest"
@@ -1226,7 +1112,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 16
-    essence: 1.326
 
   crossbow_bolt:
     display: "<gray>Crossbow Bolt"
@@ -1236,7 +1121,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 250
-    essence: 0.6434
 
   throne_seal:
     display: "<gold><b>Throne Seal"
@@ -1246,7 +1130,6 @@ items:
     lore:
       - "<dark_gray>Sky Kingdom"
     collection: 48
-    essence: 8.27
 
   kings_crown:
     display: "<gold><b>King's Crown"
@@ -1265,7 +1148,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 1200
-    essence: 0.0254
 
   tungsten:
     display: "<dark_gray><b>Tungsten"
@@ -1275,7 +1157,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 20000
-    essence: 0.0008516
 
   pillager_ration:
     display: "<gray>Pillager Ration"
@@ -1285,7 +1166,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 100
-    essence: 0.1715
 
   pale_log:
     display: "<white>Pale Log"
@@ -1295,7 +1175,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 5000
-    essence: 0.008727
 
   platinum:
     display: "<white><b>Platinum"
@@ -1305,7 +1184,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 10000
-    essence: 0.001425
 
   iron_tag:
     display: "<gray>Iron Tag"
@@ -1315,7 +1193,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 100
-    essence: 0.2095
 
   maple:
     display: "<red>Maple Log"
@@ -1325,7 +1202,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 6000
-    essence: 0.02214
 
   clay:
     display: "<gray>Clay"
@@ -1335,7 +1211,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 1600
-    essence: 0.04722
 
   titanium:
     display: "<aqua><b>Titanium"
@@ -1345,7 +1220,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 4000
-    essence: 0.00246
 
   diamond:
     display: "<aqua><b>Diamond"
@@ -1355,7 +1229,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 32000
-    essence: 0.003976
 
   ravager_horn:
     display: "<gray><b>Ravager Horn"
@@ -1365,7 +1238,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 12
-    essence: 1.326
 
   captain_banner:
     display: "<gray><b>Captain's Banner"
@@ -1375,7 +1247,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 32
-    essence: 1.27
 
   warden_plate:
     display: "<gray><b>Warden Plate"
@@ -1385,7 +1256,6 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 12
-    essence: 2.802
 
   golem_shard:
     display: "<white><b>Golem Core Shard"
@@ -1395,7 +1265,7 @@ items:
     lore:
       - "<dark_gray>Ironbound Quarry"
     collection: 4
-    essence: 301.9
+    essence: 269.6
 
   tomb_dust:
     display: "<gray>Tomb Dust"
@@ -1405,7 +1275,6 @@ items:
     lore:
       - "<dark_gray>Gormak"
     collection: 20
-    essence: 0.003933
 
   guardian_sigil:
     display: "<gold><b>Guardian Sigil"
@@ -1415,7 +1284,6 @@ items:
     lore:
       - "<dark_gray>Gormak"
     collection: 48
-    essence: 0.003933
 
   fishing_junk:
     display: "<dark_gray>Junk"

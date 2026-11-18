@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 """
-Sets what the Essence Trader pays for one of every resource, the essence column of
-resources.csv. The trader is for players who have maxed every zone, so a price is
-worked out from how fast such a player gets the resource:
+Sets what the Essence Trader pays, the essence column of resources.csv. Essence is
+only farmed at the very end: the trader buys the last zone's resources alone, from
+players who have maxed every zone, priced from how fast such a player gets them:
 
-  essence for one = essence a minute / how many a minute an endgame player farms
+  essence for one = PER_MINUTE / how many a minute an endgame player farms
 
-  essence a minute = PER_MINUTE x (1 + DENSITY_BONUS x density)
-
-so every resource pays about the same for the time it takes, and the denser the
-blocks or mobs it comes from, the more. A resource nothing farms keeps 0, and the
-trader does not buy it.
+so farming the last zone pays about PER_MINUTE Essence a minute. Every other
+resource is 0, and the trader does not buy it.
 
   python scripts/balance/essence_values.py           show what would change
   python scripts/balance/essence_values.py --write   write resources.csv
@@ -27,9 +24,8 @@ import balance_sim as sim   # noqa: E402
 import price_zones         # noqa: E402
 
 RESOURCES = sim.data_file("resources")
-# Essence a minute of farming at density 0, and how much each level of density adds
-PER_MINUTE = 20.0
-DENSITY_BONUS = 0.1
+# Essence a minute of farming the last zone
+PER_MINUTE = 100.0
 
 
 def endgame_state():
@@ -40,21 +36,18 @@ def endgame_state():
 
 def values():
     zones = sorted(price_zones.rows("zones"), key=lambda z: int(z["order"]))
-    where = price_zones.sources(zones)
+    # Only what the last zone gives
+    where = price_zones.sources(zones[-1:])
     state = endgame_state()
     found = {}
     for resource, (kind, source) in where.items():
         if kind == "mine":
             per_second = price_zones.mine_income(state, source)
-            density = max(sim.BLOCKS[b]["density"] for b in sim.MINES[source])
         else:
-            best = max(source, key=lambda m: price_zones.mob_income(state, m, resource))
-            per_second = price_zones.mob_income(state, best, resource)
-            density = sim.MOBS[best]["density"]
+            per_second = max(price_zones.mob_income(state, m, resource) for m in source)
         if per_second <= 0 or math.isinf(per_second):
             continue
-        per_minute = PER_MINUTE * (1 + DENSITY_BONUS * density)
-        value = per_minute / (per_second * 60)
+        value = PER_MINUTE / (per_second * 60)
         found[resource] = float(f"{value:.4g}")
     return found
 

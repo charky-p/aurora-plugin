@@ -17,9 +17,40 @@ public final class CollectionTiers {
         return MULTIPLIERS.length;
     }
 
-    // The total a tier needs, tiers are 1 to count()
+    // The total a tier needs, tiers are 1 to count(). The base is already a clean number,
+    // the multiples of it are rounded to the nearest clean one: 48 x 15 is 750, not 720
     public static long threshold(long base, int tier) {
-        return base * MULTIPLIERS[tier - 1];
+        long exact = base * MULTIPLIERS[tier - 1];
+        return tier == 1 ? exact : nearestNice(exact);
+    }
+
+    // The same steps as nice_round in scripts/price_calculator.py, keep the two alike
+    private static final long[] SMALL_STEPS = {1, 2, 3, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 100};
+    private static final double[] MANTISSA_STEPS = {1.0, 1.2, 1.5, 1.6, 2.0, 2.5, 3.0, 3.2, 4.0, 4.8, 5.0, 6.0, 6.4, 7.5, 8.0, 10.0};
+
+    static long nearestNice(long n) {
+        if (n <= 1) return 1;
+        long below = 1, above = 1;
+        if (n <= 100) {
+            for (long step : SMALL_STEPS) {
+                if (step <= n) below = step;
+                if (step >= n) {
+                    above = step;
+                    break;
+                }
+            }
+        } else {
+            long magnitude = (long) Math.pow(10, Math.floor(Math.log10(n)));
+            for (double step : MANTISSA_STEPS) {
+                long value = Math.round(step * magnitude);
+                if (value <= n) below = value;
+                if (value >= n) {
+                    above = value;
+                    break;
+                }
+            }
+        }
+        return n - below <= above - n ? below : above;
     }
 
     // How many tiers this total has reached, 0 to count()

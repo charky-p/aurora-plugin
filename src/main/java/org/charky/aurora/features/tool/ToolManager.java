@@ -208,8 +208,8 @@ public class ToolManager implements Listener {
         PlayerInventory inventory = player.getInventory();
         for (int slot = 0; slot < inventory.getSize(); slot++) {
             String id = toolId(inventory.getItem(slot));
-            if (GOD_TOOL.equals(id)) {
-                inventory.setItem(slot, buildGodTool(player));
+            if (OLD_GOD_TOOL.equals(id)) {
+                inventory.setItem(slot, null);
                 continue;
             }
             ToolType tool = registry.getToolType(id);
@@ -217,69 +217,8 @@ public class ToolManager implements Listener {
         }
     }
 
-    // ----------------------------------------------------------------- God Tool
-
-    // The Essence shop's God Tool: the pick, axe and shovel in one item. It has no
-    // levels of its own, every block is mined with the levels of the tool it needs
-    public static final String GOD_TOOL = "god";
-    private static final List<String> GOD_PARTS = List.of("pick", "axe", "shovel");
-
-    public void giveGodTool(Player player) {
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (GOD_TOOL.equals(toolId(item))) return;
-        }
-        if (player.getInventory().firstEmpty() == -1) {
-            TextUtils.error(player, "Your inventory is full");
-            return;
-        }
-        player.getInventory().addItem(buildGodTool(player));
-    }
-
-    // Drawn from the pick: its look, then a mining rule per tool the player has, each
-    // at that tool's own tier speed and Efficiency
-    public ItemStack buildGodTool(Player player) {
-        ToolType pick = registry.getToolType("pick");
-        ItemStack item = pick == null ? new ItemStack(Material.NETHERITE_PICKAXE) : build(player, pick);
-        List<Component> lore = new ArrayList<>();
-        lore.add(TextUtils.parse("<!italic><gray>Mines like your pickaxe, axe and shovel,"));
-        lore.add(TextUtils.parse("<!italic><gray>each block with that tool's levels."));
-        lore.add(Component.empty());
-        item.editMeta(meta -> {
-            ToolComponent rules = meta.getTool();
-            rules.setRules(new ArrayList<>());
-            for (String part : GOD_PARTS) {
-                ToolType tool = registry.getToolType(part);
-                if (tool == null || (!part.equals("pick") && !part.equals("axe") && !has(player, tool))) continue;
-                ItemStack drawn = build(player, tool);
-                int efficiency = Enchants.level(drawn, "efficiency");
-                float speed = ItemFactory.tierSpeed(drawn.getType()) + (efficiency > 0 ? efficiency * efficiency + 1 : 0);
-                rules.addRule(TAGS.get(part), speed, true);
-                lore.add(TextUtils.parse("<!italic><white>" + tool.name() + ": <gray>Fortune " + Enchants.level(drawn, "fortune")
-                        + ", Efficiency " + efficiency));
-            }
-            meta.setTool(rules);
-            // Speed is in the rules now, vanilla Efficiency would add it again
-            meta.removeEnchant(Enchantment.EFFICIENCY);
-            meta.displayName(TextUtils.parse("<!italic><light_purple><b>God Tool"));
-            meta.lore(lore);
-            meta.setEnchantmentGlintOverride(true);
-            meta.getPersistentDataContainer().set(DataKeys.TOOL_KEY, PersistentDataType.STRING, GOD_TOOL);
-            meta.getPersistentDataContainer().set(DataKeys.ITEM_KEY, PersistentDataType.STRING, "tool_" + GOD_TOOL);
-        });
-        return item;
-    }
-
-    private static final Map<String, Tag<Material>> TAGS = Map.of(
-            "pick", Tag.MINEABLE_PICKAXE, "axe", Tag.MINEABLE_AXE, "shovel", Tag.MINEABLE_SHOVEL);
-
-    // What a block is really mined with: the held tool, or for the God Tool the tool
-    // that block needs, drawn with the player's levels for it
-    public ItemStack miningTool(Player player, ItemStack held, Material block) {
-        if (!GOD_TOOL.equals(toolId(held))) return held;
-        String part = Tag.MINEABLE_AXE.isTagged(block) ? "axe" : Tag.MINEABLE_SHOVEL.isTagged(block) ? "shovel" : "pick";
-        ToolType tool = registry.getToolType(part);
-        return tool == null ? held : build(player, tool);
-    }
+    // The God Tool was taken out of the game, one still carried is removed when tools are redrawn
+    private static final String OLD_GOD_TOOL = "god";
 
     public boolean carries(Player player, ToolType tool) {
         for (ItemStack item : player.getInventory().getContents()) {

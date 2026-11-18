@@ -16,8 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 // The Essence shop, /shop. Utility perks first, bought once each, then the ranks.
-// Clicking a perk you own uses it: Dash turns on or off, a mount or the God Tool is
-// handed over again if it was lost
+// Clicking a perk you own uses it: Dash gives its feather and a mount its
+// saddle again if it was lost
 public class RankShopMenu extends PagedMenu {
     private final Aurora plugin;
     private final RankManager ranks;
@@ -77,7 +77,6 @@ public class RankShopMenu extends PagedMenu {
     private String useHint(Player player, Perk perk) {
         if (perk == Perk.DASH) return "Click for the Dash Feather again";
         if (perk.mount() != null) return "Click for its saddle again";
-        if (perk == Perk.GOD_TOOL) return "Click for the tool again";
         return "Yours for good";
     }
 
@@ -138,7 +137,7 @@ public class RankShopMenu extends PagedMenu {
         render(player);
     }
 
-    // Just bought: Dash starts on, a mount's saddle or the God Tool is handed over
+    // Just bought: Dash's feather or a mount's saddle is handed over
     private void bought(Player player, Perk perk) {
         int level = perks.level(player, perk);
         if (perk == Perk.DOUBLE_JUMP) TextUtils.success(player, "Double Jump: press jump again in mid-air");
@@ -148,14 +147,12 @@ public class RankShopMenu extends PagedMenu {
         } else use(player, perk);
     }
 
-    // Owned already: Dash turns on or off, a lost saddle or God Tool is handed over again
+    // Owned already: a lost feather or saddle is handed over again
     private void use(Player player, Perk perk) {
         if (perk == Perk.DASH) {
             plugin.getDashListener().giveFeather(player);
         } else if (perk.mount() != null) {
             plugin.getMountManager().giveSaddle(player, perk.mount());
-        } else if (perk == Perk.GOD_TOOL) {
-            plugin.getToolManager().giveGodTool(player);
         }
     }
 }

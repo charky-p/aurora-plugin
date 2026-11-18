@@ -83,8 +83,7 @@ public class MineListener implements Listener {
         ItemStack pick = player.getInventory().getItemInMainHand();
         processBlock(player, pick, event.getBlock());
 
-        // The God Tool blasts with the levels of the tool the block needs
-        int blast = Enchants.level(tools.miningTool(player, pick, event.getBlock().getType()), "blast");
+        int blast = Enchants.level(pick, "blast");
         if (blast > 0) {
             for (Block target : blastArea(player, event.getBlock(), blast)) {
                 if (target.getType() != Material.BEDROCK && target.getType() != Material.AIR) {
@@ -116,9 +115,8 @@ public class MineListener implements Listener {
                     NamedTextColor.RED, TextDecoration.BOLD));
             return;
         }
-        // Fortune, Luck and the rest come from the tool the block needs: the held one,
-        // or with the God Tool, the player's pick, axe or shovel
-        ItemStack using = tools.miningTool(player, pick, block.getType());
+        // Fortune, Luck and the rest come from the held tool
+        ItemStack using = pick;
         int fortune = Enchants.level(using, "fortune");
         if (fortune < density) {
             player.sendActionBar(Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD));

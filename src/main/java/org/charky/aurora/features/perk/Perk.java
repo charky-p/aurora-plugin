@@ -4,7 +4,7 @@ import org.bukkit.Material;
 
 // Permanent upgrades bought with Essence in /shop, one level at a time. Each level
 // costs more than the last: level n costs costStep * n. Only utility is sold: dash, double jump,
-// mounts, the God Tool and the Keyring. Pure numbers, tested directly
+// mounts and the Keyring. Pure numbers, tested directly
 public enum Perk {
     // Not sold any more, they change how fast the game goes. Levels bought still count
     // Half a heart a level, 20 levels doubles the player's health
@@ -21,8 +21,6 @@ public enum Perk {
             "right click the Dash Feather to dash forward, click again for the feather", true),
     DOUBLE_JUMP("double_jump", "<green><b>Double Jump", Material.RABBIT_FOOT, 1, 4_000,
             "jump again in mid-air for a second jump, once until you land", true),
-    GOD_TOOL("god_tool", "<light_purple><b>God Tool", Material.NETHERITE_PICKAXE, 1, 10_000,
-            "one tool that mines like your pick, axe and shovel, each block with that tool's levels", true),
     // Mounts have three levels, each one faster: level n costs costStep * n
     MOUNT_PIG("mount_pig", "<light_purple><b>Pig Mount", Material.CARROT_ON_A_STICK, 3, 1_000,
             "a pig to ride, called with its saddle. Each level is faster", true),

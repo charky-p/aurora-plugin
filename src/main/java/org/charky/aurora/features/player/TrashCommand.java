@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 
 // /trash, from the old Skript: a chest that deletes whatever is still in it when it is
-// closed. Tools, the God Tool, the backpack and keys are handed back instead, they
+// closed. Tools, the backpack and keys are handed back instead, they
 // cannot be bought again
 public class TrashCommand implements CommandExecutor, Listener {
     private static final int SIZE = 36;

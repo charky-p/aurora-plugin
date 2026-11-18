@@ -39,7 +39,7 @@ commands:
     description: A bin, whatever is left in it when closed is deleted
     usage: /trash
   shop:
-    description: The Essence shop, dash, mounts, the God Tool and ranks
+    description: The Essence shop, dash, double jump, mounts and ranks
     usage: /shop
   dash:
     description: The Dash Feather again, once Dash is bought

@@ -19,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDismountEvent;
 import org.bukkit.event.entity.EntityMountEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -261,6 +262,15 @@ public class MountManager implements Listener {
     public void onMount(EntityMountEvent event) {
         String owner = event.getMount().getPersistentDataContainer().get(ownerKey, PersistentDataType.STRING);
         if (owner != null && !owner.equals(event.getEntity().getUniqueId().toString())) event.setCancelled(true);
+    }
+
+    // Riding a mount never hurts: a horse or camel landing from a jump passes its fall
+    // to the rider in vanilla
+    @EventHandler(ignoreCancelled = true)
+    public void onFall(EntityDamageEvent event) {
+        if (event.getCause() != EntityDamageEvent.DamageCause.FALL || !(event.getEntity() instanceof Player player)) return;
+        Entity mount = riding.get(player.getUniqueId());
+        if (mount != null && mount.equals(player.getVehicle())) event.setCancelled(true);
     }
 
     // A mount never catches fire, the phantom in daylight included

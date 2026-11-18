@@ -18,7 +18,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/leaderboard` | The top ten by level, blocks mined, mob kills, Essence and playtime, as player heads; the arrows switch stats, and your own place is shown |
 | `/trash` | A bin: whatever is left in it when you close it is deleted. Tools, the backpack and keys are handed back |
 | `/spawn` | Teleport to this world's spawn |
-| `/shop` | The Essence shop: Dash, Double Jump (jump again in mid-air), mounts, the God Tool, the Keyring and ranks. Mounts have three levels, each faster: left click upgrades one you own, right click gives its saddle again. Click anything else you own to use it again |
+| `/shop` | The Essence shop: Dash, Double Jump (press jump again in mid-air for a normal second jump), mounts, the Keyring and ranks. Mounts have three levels, each faster: left click upgrades one you own, right click gives its saddle again. Click anything else you own to use it again |
 | `/dash` | The Dash Feather again, once Dash is bought: right click it to dash the way you face, once a second |
 | `/tutorial skip` | Leave the first-join tutorial without its reward. The Skip link in chat runs it |
 

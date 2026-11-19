@@ -67,63 +67,63 @@ A zone is priced for a player who has finished every region of every earlier sta
 | Gold Reef | 5.5 | gold | cow | 22 | 2,860 gold, 28 leather |
 | **Gormak** (stage 2) | | | | | |
 | Abandoned City | 4.9 | carved brick | hollowed serf, scavenger husk | 28 | 36 ancient scrap, 660 carved brick, 69 tattered cloth |
-| The Dunes | 4.9 | sunbaked sand | dune scout, sand stalker | 29 | 22 ancient flesh, 49 ancient bone, 2,120 sunbaked sand |
-| Sun Temple | 4.9 | raw gold | tomb guard, vizier mage | 29 | 17 ancient nugget, 96 vizier scroll, 6,550 raw gold |
-| Royal Tomb | 8.2 | - | gormak minion, gormak guardian, gormak eternal (boss) | 16 | 20 tomb dust, 61 guardian sigil, 8 ancient nugget |
+| The Dunes | 4.9 | sunbaked sand | dune scout, sand stalker | 29 | 32 ancient flesh, 49 ancient bone, 2,120 sunbaked sand |
+| Sun Temple | 4.9 | raw gold | tomb guard, vizier mage | 29 | 17 ancient nugget, 112 vizier scroll, 6,550 raw gold |
+| Royal Tomb | 8.2 | - | gormak minion, gormak guardian, gormak eternal (boss) | 16 | 24 tomb dust, 61 guardian sigil, 12 ancient nugget |
 | **Verdant Groves** (stage 2) | | | | | |
-| Oak Grove | 4.9 | oak log, tin | grove horse | 10 | 8,650 tin, 268 oak log, 27 horsehair |
+| Oak Grove | 4.9 | oak log, tin | grove horse | 14 | 6,040 tin, 176 oak log, 55 horsehair |
 | Birch Hollow | 4.9 | birch log, bronze | hollow fox | 13 | 446 birch log, 6,600 bronze, 36 fox fur |
-| Spruce Ridge | 4.9 | spruce log, lead | ridge wolf | 9 | 884 spruce log, 19,800 lead, 15 wolf pelt |
+| Spruce Ridge | 4.9 | spruce log, lead | ridge wolf | 13 | 552 spruce log, 12,700 lead, 39 wolf pelt |
 | Dark Oak Thicket | 4.9 | dark oak log, silver | thicket sniffer | 12 | 982 dark oak log, 21,400 silver, 36 ancient seed |
 | **Khorvath** (stage 3) | | | | | |
 | Howling Canyons | 8.0 | crimson sand | scarab zealot, hollowed legionnaire | 33 | 21,500 crimson sand, 31 deserter coin, 124 legion plate |
-| Ancient Ruins | 10.0 | relic stone | scarab zealot, relic warrior | 18 | 692 scarab shell, 33 relic shard, 1,440 relic stone |
+| Ancient Ruins | 10.0 | relic stone | scarab zealot, relic warrior | 18 | 692 scarab shell, 54 relic shard, 1,440 relic stone |
 | Catacombs | 10.0 | ossuary bone | royal myrmidon, pharaoh | 18 | 120 eternal soul, 164 royal seal, 1,440 ossuary bone |
-| Sanctuary of the Sun | 12.0 | - | anubite executioner, sphinx, khorvath (boss) | 17 | 12 anubite mark, 23 sphinx claw |
+| Sanctuary of the Sun | 12.0 | - | anubite executioner, sphinx, khorvath (boss) | 17 | 16 anubite mark, 25 sphinx claw |
 | **Elderwood Roots** (stage 3) | | | | | |
 | Jungle Floor | 10.0 | jungle log | jungle panda | 12 | 6,290 jungle log, 60 panda fur |
 | Bamboo Thicket | 10.0 | bamboo | jungle ocelot | 11 | 6,140 bamboo, 60 ocelot whisker |
-| Amber Hollow | 10.0 | elderbark, amber | wild bee | 11 | 2,820 elderbark, 880 amber, 15 royal jelly |
-| Treant Grove | 10.0 | - | tree zombee, treant | 6 | 224 tree sap, 600 ancient seed |
+| Amber Hollow | 10.0 | elderbark, amber | wild bee | 11 | 2,820 elderbark, 880 amber, 24 royal jelly |
+| Treant Grove | 10.0 | - | tree zombee, treant | 10 | 188 tree sap, 400 ancient seed |
 | **Sunken Marsh** (stage 3) | | | | | |
 | Mudflats | 8.0 | packed mud | bog frog | 12 | 12,620 packed mud, 36 frog leg |
 | Peat Bog | 10.0 | peat | bog walker | 13 | 8,620 peat, 21 bog rag |
-| Sunken Ruins | 10.0 | verdigris | bogged archer, sunken drowned | 18 | 59 poison quill, 17 drowned scale, 1,550 verdigris |
+| Sunken Ruins | 10.0 | verdigris | bogged archer, sunken drowned | 18 | 59 poison quill, 31 drowned scale, 1,550 verdigris |
 | Hydra Pool | 12.0 | - | marsh lurker, hydra (boss) | 17 | 17 lurker fang |
 | **Emerald Peaks** (stage 4) | | | | | |
 | Foothills | 8.0 | dirt | mountain goat | 13 | 1 cobblestone, 2,768 dirt, 36 goat hide |
-| Redstone Mines | 10.0 | redstone | frost spider | 14 | 27,840 redstone, 15 spider silk |
+| Redstone Mines | 10.0 | redstone | frost spider | 14 | 27,840 redstone, 24 spider silk |
 | Pumpkin Terraces | 10.0 | pumpkin, snow | snow fox | 14 | 1,220 snow, 3,310 pumpkin, 60 snow pelt |
-| Lapis Ridge | 10.0 | lapis | peak stray | 13 | 18,390 lapis, 1,010 snow, 640 pumpkin, 60 frost arrow |
+| Lapis Ridge | 10.0 | lapis | peak stray | 13 | 18,390 lapis, 1,010 snow, 640 pumpkin, 68 frost arrow |
 | Melon Ledges | 10.0 | melon, emerald | cliff goat | 15 | 21,440 emerald, 1,980 dirt, 1,254 melon, 36 cliff horn |
-| Arachne Cave | 12.0 | - | cave spider, spider rider, arachne (boss) | 17 | 16 venom sac, 83 rider bone |
+| Arachne Cave | 12.0 | - | cave spider, spider rider, arachne (boss) | 17 | 33 venom sac, 88 rider bone |
 | **The Duat** (stage 5) | | | | | |
 | Ashen River | 13.0 | basalt, ash | anubis, sobek, osiris | 23 | 4,500 basalt, 10 anubis sigil, 10 sobek sigil, 7 osiris sigil, 100 ash |
-| Hall of Judgement | 15.0 | scale gold | thoth, maat, horus | 18 | 10 thoth sigil, 10 maat sigil, 19 horus sigil, 3,600 scale gold |
+| Hall of Judgement | 15.0 | scale gold | thoth, maat, horus | 18 | 10 thoth sigil, 10 maat sigil, 28 horus sigil, 3,600 scale gold |
 | Solar Forge | 15.0 | solar slag | sekhmet, ptah, khnum | 18 | 10 sekhmet sigil, 10 ptah sigil, 7 khnum sigil, 3,100 solar slag |
-| Throne of Night | 17.0 | nightstone | set, apep, nephthys, sol (boss) | 18 | 10 set sigil, 10 apep sigil, 19 nephthys sigil, 3,600 nightstone |
+| Throne of Night | 17.0 | nightstone | set, apep, nephthys, sol (boss) | 18 | 10 set sigil, 10 apep sigil, 28 nephthys sigil, 3,600 nightstone |
 | **Elderwood Heart** (stage 5) | | | | | |
-| Root Cellar | 12.0 | heartwood log | sapling zombee | 19 | 820 heartwood log, 55 sapling twig |
-| Vine Halls | 12.0 | elder vine | elder zombee, canopy spider | 18 | 33 canopy silk, 2,580 elder vine |
-| Hive Chambers | 12.0 | wax comb, beeswax | hive guard | 19 | 49 hive stinger, 3,100 beeswax, 300 wax comb |
-| Upper Canopy | 12.0 | - | treehouse sentry, canopy treant | 17 | 120 sentry arrowhead, 17 canopy bark |
-| The Crown | 12.0 | - | canopy treant, elder treant (boss) | 17 | 360 canopy bark |
+| Root Cellar | 12.0 | heartwood log | sapling zombee | 19 | 820 heartwood log, 96 sapling twig |
+| Vine Halls | 12.0 | elder vine | elder zombee, canopy spider | 18 | 73 canopy silk, 2,580 elder vine |
+| Hive Chambers | 12.0 | wax comb, beeswax | hive guard | 19 | 91 hive stinger, 3,100 beeswax, 300 wax comb |
+| Upper Canopy | 12.0 | - | treehouse sentry, canopy treant | 17 | 120 sentry arrowhead, 31 canopy bark |
+| The Crown | 12.0 | - | canopy treant, elder treant (boss) | 17 | 760 canopy bark |
 | **Cloud Isles** (stage 5) | | | | | |
 | Cloudbank | 12.0 | cloudstone, cloud dust | sky sheep | 16 | 18,240 cloudstone, 1,070 cloud dust, 104 cloud fleece |
-| Skyshard Spires | 15.0 | skyshard | sky phantom | 14 | 23,700 skyshard, 33 phantom veil |
-| Storm Front | 15.0 | storm copper | storm wraith | 14 | 23,700 storm copper, 33 storm essence |
-| Sky Harbour | 18.0 | - | sky pirate, pirate captain | 20 | 81 pirate doubloon, 14 captain compass |
+| Skyshard Spires | 15.0 | skyshard | sky phantom | 14 | 23,700 skyshard, 51 phantom veil |
+| Storm Front | 15.0 | storm copper | storm wraith | 14 | 23,700 storm copper, 51 storm essence |
+| Sky Harbour | 18.0 | - | sky pirate, pirate captain | 20 | 119 pirate doubloon, 26 captain compass |
 | **Sky Kingdom** (stage 6) | | | | | |
-| Outer Walls | 20.0 | royal quartz | royal guard | 18 | 94 guard insignia, 6,200 royal quartz |
-| Gilded Gardens | 20.0 | cherry log, sunpetal | garden bee, gardener | 19 | 33 golden pollen, 54 gardener seed, 5,000 sunpetal, 480 cherry log |
-| Royal Treasury | 22.0 | celestine, aurium | treasury knight, crossbowman | 19 | 18 knight crest, 256 crossbow bolt, 5,500 celestine, 5,000 aurium |
-| Throne Room | 28.0 | - | throne guard, sky king (boss) | 17 | 55 throne seal |
+| Outer Walls | 20.0 | royal quartz | royal guard | 18 | 179 guard insignia, 6,200 royal quartz |
+| Gilded Gardens | 20.0 | cherry log, sunpetal | garden bee, gardener | 19 | 84 golden pollen, 120 gardener seed, 5,000 sunpetal, 480 cherry log |
+| Royal Treasury | 22.0 | celestine, aurium | treasury knight, crossbowman | 19 | 33 knight crest, 256 crossbow bolt, 5,500 celestine, 5,000 aurium |
+| Throne Room | 28.0 | - | throne guard, sky king (boss) | 17 | 74 throne seal |
 | **Ironbound Quarry** (stage 6) | | | | | |
-| Gravel Pits | 18.0 | gravel, tungsten | quarry pillager | 15 | 22,900 tungsten, 1,430 gravel, 108 pillager ration |
-| Pale Woods | 20.0 | pale log, platinum | quarry vindicator | 14 | 5,660 pale log, 10,500 platinum, 24 iron tag, 320 gravel |
-| Maple Grove | 20.0 | maple, clay, titanium | quarry pillager, quarry vindicator | 15 | 6,370 maple, 1,950 clay, 116 iron tag, 4,500 titanium |
-| Diamond Depths | 22.0 | diamond | quarry ravager | 13 | 39,800 diamond, 13 ravager horn, 1,000 maple, 200 clay, 400 gravel, 2,000 pale log |
-| The Quarry Pit | 20.0 | - | pillager captain, quarry warden | 17 | 33 captain banner, 13 warden plate |
+| Gravel Pits | 18.0 | gravel, tungsten | quarry pillager | 15 | 22,900 tungsten, 1,430 gravel, 136 pillager ration |
+| Pale Woods | 20.0 | pale log, platinum | quarry vindicator | 14 | 5,660 pale log, 10,500 platinum, 40 iron tag, 320 gravel |
+| Maple Grove | 20.0 | maple, clay, titanium | quarry pillager, quarry vindicator | 15 | 6,370 maple, 1,950 clay, 288 iron tag, 4,500 titanium |
+| Diamond Depths | 22.0 | diamond | quarry ravager | 13 | 39,800 diamond, 23 ravager horn, 1,000 maple, 200 clay, 400 gravel, 2,000 pale log |
+| The Quarry Pit | 20.0 | - | pillager captain, quarry warden | 17 | 59 captain banner, 24 warden plate |
 | Golem Rest | 20.0 | - | overworld golem | 7 | 7 golem shard |
 
 The zones add up to about 10.5 hours of real play.

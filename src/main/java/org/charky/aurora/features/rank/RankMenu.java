@@ -28,7 +28,9 @@ public class RankMenu extends PagedMenu {
     protected List<ItemStack> entries(Player player) {
         Rank worn = ranks.worn(player);
         all = Ranks.all().stream()
-                .filter(rank -> rank.kind() != Rank.Kind.STAFF || ranks.owns(player, rank)).toList();
+                .filter(rank -> rank.kind() != Rank.Kind.STAFF || ranks.owns(player, rank))
+                .filter(rank -> Ranks.isReleased(rank) || ranks.owns(player, rank) || player.hasPermission("aurora.admin"))
+                .toList();
         List<ItemStack> items = new ArrayList<>();
         for (Rank rank : all) {
             boolean owned = ranks.owns(player, rank);

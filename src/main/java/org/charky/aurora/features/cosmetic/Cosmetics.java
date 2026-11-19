@@ -344,6 +344,19 @@ public final class Cosmetics {
         return title.toString();
     }
 
+    // Not out yet: hidden from /customise until taken off this list. Someone who has one
+    // still sees it, admins see them all
+    private static final java.util.Set<String> UNRELEASED = java.util.Set.of(
+            "suffix_ancient",
+            "suffix_elite", "suffix_slayer", "suffix_explorer", "suffix_grinder", "suffix_titan", "suffix_tryhard",
+            "suffix_colossal", "suffix_no_life", "suffix_invincible", "suffix_mythic", "suffix_phantom",
+            "suffix_void", "suffix_cosmic",
+            "suffix_immortal", "suffix_ultimate", "suffix_nexus", "suffix_paragon", "suffix_divine", "suffix_eternal");
+
+    public static boolean isReleased(Cosmetic cosmetic) {
+        return !UNRELEASED.contains(cosmetic.id());
+    }
+
     public static List<Cosmetic> all() {
         return new ArrayList<>(ALL.values());
     }

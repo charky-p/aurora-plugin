@@ -97,6 +97,16 @@ public final class Ranks {
         return "<gradient:" + gradient + "><b>" + id.replace('_', ' ') + "</b></gradient>";
     }
 
+    // Not out yet: hidden from /ranks and the Essence shop until taken off this list.
+    // Someone who has one still sees it, admins see them all
+    private static final java.util.Set<String> UNRELEASED = java.util.Set.of(
+            "LORD", "DUKE", "MASTER", "GRANDMASTER", "IMMORTAL", "ETERNAL",
+            "GILDED", "INFERNO", "ECLIPSE", "VOID", "AURORA");
+
+    public static boolean isReleased(Rank rank) {
+        return !UNRELEASED.contains(rank.id());
+    }
+
     public static List<Rank> all() {
         return new ArrayList<>(ALL.values());
     }

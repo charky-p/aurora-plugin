@@ -39,10 +39,10 @@ public class CosmeticMenu extends PagedMenu {
     // Without the ones earned in a region that is not released yet, admins see them all
     private List<Cosmetic> visible(Player player) {
         if (player.hasPermission("aurora.admin")) return all;
-        return all.stream().filter(cosmetic -> switch (cosmetic.source()) {
+        return all.stream().filter(cosmetic -> cosmetics.owns(player, cosmetic) || switch (cosmetic.source()) {
             case ZONE -> registry.isZoneReleased(cosmetic.target());
             case WORLD -> Cosmetics.regions(cosmetic).stream().allMatch(registry::isRegionReleased);
-            default -> true;
+            default -> Cosmetics.isReleased(cosmetic);
         }).toList();
     }
 

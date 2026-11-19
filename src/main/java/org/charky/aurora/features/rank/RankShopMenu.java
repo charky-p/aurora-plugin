@@ -23,7 +23,7 @@ public class RankShopMenu extends PagedMenu {
     private final RankManager ranks;
     private final PerkManager perks;
     private final List<Perk> upgrades = Arrays.stream(Perk.values()).filter(Perk::sold).toList();
-    private final List<Rank> forSale = Ranks.ofKind(Rank.Kind.SHOP);
+    private final List<Rank> forSale = Ranks.ofKind(Rank.Kind.SHOP).stream().filter(Ranks::isReleased).toList();
 
     public RankShopMenu(Aurora plugin) {
         super(plugin.getRegistry(), "Essence Shop");

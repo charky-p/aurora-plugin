@@ -30,10 +30,13 @@ import org.charky.aurora.features.spawner.MobData;
 public class ServerMessages implements Listener {
     private final DataRegistry registry;
     private final CosmeticManager cosmetics;
+    // Hands a new player the starter tools, the pick the tutorial's first step needs
+    private final java.util.function.Consumer<Player> starterTools;
 
-    public ServerMessages(DataRegistry registry, CosmeticManager cosmetics) {
+    public ServerMessages(DataRegistry registry, CosmeticManager cosmetics, java.util.function.Consumer<Player> starterTools) {
         this.registry = registry;
         this.cosmetics = cosmetics;
+        this.starterTools = starterTools;
     }
 
     private static Component tag(String symbol, NamedTextColor color) {
@@ -52,6 +55,7 @@ public class ServerMessages implements Listener {
         Player player = event.getPlayer();
         if (player.hasPlayedBefore()) return;
 
+        starterTools.accept(player);
         StarterKit.give(player, registry);
         // Everyone who has been here before, and this one
         int number = Bukkit.getOfflinePlayers().length + 1;

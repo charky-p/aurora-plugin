@@ -157,7 +157,7 @@ Right clicking a trader with the wand also removes it and its spot.
 
 ## Tutorial
 
-A new player's first join starts the tutorial at the spot set with `setstart`, instead of the main spawn. A boss bar at the top shows the step, and a chat line says what to do: mine 10 cobblestone, open the backpack, click a trader, buy an upgrade. Each step ends by itself. Finishing pays 50 Essence and the `NEWCOMER` suffix. A player who leaves mid-way comes back to the start of the step they were on. Players who joined before it existed never get it.
+A new player's first join hands out the starter tools, the backpack and a stack of bread, and starts the tutorial at the spot set with `setstart`, instead of the main spawn. A boss bar at the top shows the step, and a chat line says what to do: mine 10 cobblestone, open the backpack, click a trader, buy an upgrade. Each step ends by itself. Finishing pays 50 Essence and the `NEWCOMER` suffix. A player who leaves mid-way comes back to the start of the step they were on. Players who joined before it existed never get it.
 
 | Command | Does |
 |---|---|

@@ -278,7 +278,7 @@ public class Aurora extends JavaPlugin {
                 mountManager,
                 new BackpackItemListener(this),
                 new ChatShowcase(),
-                new ServerMessages(registry, cosmeticManager),
+                new ServerMessages(registry, cosmeticManager, toolManager::giveStarters),
                 new CombatListener(this),
                 bossManager,
                 new PagedMenuListener(),

@@ -194,8 +194,9 @@ public class DataRegistry {
                 }
                 steps.add(new UpgradeZone.Step(tool.id(), step.stat.toLowerCase(), level, costs));
             }
+            List<String> before = model.before == null ? List.of() : model.before.stream().map(String::toLowerCase).toList();
             upgradeZones.put(id.toLowerCase(), new UpgradeZone(id.toLowerCase(), model.name,
-                    model.realm == null ? "" : model.realm.toLowerCase(), steps));
+                    model.realm == null ? "" : model.realm.toLowerCase(), before, steps));
             String region = model.region == null ? "" : model.region.toLowerCase();
             zoneRegions.put(id.toLowerCase(), region);
             if (model.released) releasedRegions.add(region);

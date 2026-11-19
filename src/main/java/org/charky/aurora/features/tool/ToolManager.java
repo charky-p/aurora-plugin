@@ -243,8 +243,29 @@ public class ToolManager implements Listener {
         return zone.next(tool, stat -> own(player, zone, tool, stat));
     }
 
+    // Behind as well while a zone played before this one still sells the tool something
     public UpgradeZone.Status status(Player player, UpgradeZone zone, String tool) {
-        return zone.status(tool, stat -> own(player, zone, tool, stat));
+        UpgradeZone.Status status = zone.status(tool, stat -> own(player, zone, tool, stat));
+        if (status == UpgradeZone.Status.OPEN && unfinished(player, zone, tool) != null) return UpgradeZone.Status.BEHIND;
+        return status;
+    }
+
+    // The first zone before this one with a step of the tool not bought yet, null when
+    // there is none. Zones not released yet cannot be bought, so they never hold it up
+    public UpgradeZone unfinished(Player player, UpgradeZone zone, String tool) {
+        for (String id : zone.before()) {
+            UpgradeZone earlier = registry.getUpgradeZone(id);
+            if (earlier == null || !registry.isZoneReleased(id)) continue;
+            if (next(player, earlier, tool) != null) return earlier;
+        }
+        return null;
+    }
+
+    // Why a tool is behind, for the shop to say
+    public String behindReason(Player player, UpgradeZone zone, ToolType tool) {
+        UpgradeZone earlier = unfinished(player, zone, tool.id());
+        if (earlier == null) return "Finish this tool's upgrades in the zone before first";
+        return "Buy every " + tool.name() + " upgrade at " + earlier.name() + " first";
     }
 
     // How many steps of a tool's chain in a zone are bought
@@ -307,9 +328,7 @@ public class ToolManager implements Listener {
 
         UpgradeZone.Step step = next(player, zone, toolId);
         if (step == null) return "That tool is maxed here";
-        if (status(player, zone, toolId) == UpgradeZone.Status.BEHIND) {
-            return "Finish that tool's upgrades in the zone before first";
-        }
+        if (status(player, zone, toolId) == UpgradeZone.Status.BEHIND) return behindReason(player, zone, tool);
         if (!backpack.hasItems(player, step.costs())) return "Not enough items";
 
         backpack.removeItems(player, step.costs());

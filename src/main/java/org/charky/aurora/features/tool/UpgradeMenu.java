@@ -58,7 +58,7 @@ public class UpgradeMenu extends PagedMenu {
                     lore.add(TextUtils.parse("<!italic><green>Nothing left to buy for it here."));
                     lore.add(TextUtils.parse("<!italic><gray>The next zone sells more."));
                 } else if (status == Status.BEHIND) {
-                    lore.add(TextUtils.parse("<!italic><red>Finish this tool's upgrades in the zone before first"));
+                    lore.add(TextUtils.parse("<!italic><red>" + tools.behindReason(player, zone, type)));
                 } else {
                     lore.add(TextUtils.parse("<!italic><gold>Next: <white>").append(tools.describe(player, zone, type, next)));
                     boolean affordable = true;

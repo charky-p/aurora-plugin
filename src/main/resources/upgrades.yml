@@ -8,6 +8,7 @@
 #   realm: overworld (The realm the levels bought here belong to)
 #   region: origin_isles (The world it is part of, maxing all of a world's zones earns its rank)
 #   released: true (Its region is marked released in regions.csv: hidden from players when false)
+#   before: [cobble, coal] (The zones played before it, a tool's upgrades here wait on all of that tool's there)
 #   steps:
 #     - tool: pick
 #       stat: fortune (An enchant, or material)
@@ -25,6 +26,7 @@ items:
     realm: overworld
     region: origin_isles
     released: true
+    before: []
     steps:
       - tool: pick
         stat: material
@@ -98,6 +100,7 @@ items:
     realm: overworld
     region: origin_isles
     released: true
+    before: [cobble]
     steps:
       - tool: pick
         stat: efficiency
@@ -171,6 +174,7 @@ items:
     realm: overworld
     region: origin_isles
     released: true
+    before: [cobble, coal]
     steps:
       - tool: pick
         stat: material
@@ -314,6 +318,7 @@ items:
     realm: overworld
     region: origin_isles
     released: true
+    before: [cobble, coal, copper]
     steps:
       - tool: pick
         stat: material
@@ -451,6 +456,7 @@ items:
     realm: overworld
     region: origin_isles
     released: true
+    before: [cobble, coal, copper, iron]
     steps:
       - tool: pick
         stat: material
@@ -594,6 +600,7 @@ items:
     realm: gormak
     region: gormak
     released: true
+    before: [cobble, coal, copper, iron, gold]
     steps:
       - tool: sword
         stat: luck
@@ -789,6 +796,7 @@ items:
     realm: gormak
     region: gormak
     released: true
+    before: [cobble, coal, copper, iron, gold, city]
     steps:
       - tool: sword
         stat: luck
@@ -990,6 +998,7 @@ items:
     realm: gormak
     region: gormak
     released: true
+    before: [cobble, coal, copper, iron, gold, city, dunes]
     steps:
       - tool: sword
         stat: luck
@@ -1191,6 +1200,7 @@ items:
     realm: gormak
     region: gormak
     released: true
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple]
     steps:
       - tool: helmet
         stat: protection
@@ -1298,6 +1308,7 @@ items:
     realm: verdant
     region: verdant
     released: true
+    before: [cobble, coal, copper, iron, gold]
     steps:
       - tool: axe
         stat: material
@@ -1373,6 +1384,7 @@ items:
     realm: verdant
     region: verdant
     released: true
+    before: [cobble, coal, copper, iron, gold, oak]
     steps:
       - tool: axe
         stat: material
@@ -1466,6 +1478,7 @@ items:
     realm: verdant
     region: verdant
     released: true
+    before: [cobble, coal, copper, iron, gold, oak, birch]
     steps:
       - tool: axe
         stat: material
@@ -1533,6 +1546,7 @@ items:
     realm: verdant
     region: verdant
     released: true
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce]
     steps:
       - tool: axe
         stat: material
@@ -1618,6 +1632,7 @@ items:
     realm: khorvath
     region: khorvath
     released: false
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple, tomb]
     steps:
       - tool: sword
         stat: material
@@ -1843,6 +1858,7 @@ items:
     realm: khorvath
     region: khorvath
     released: false
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple, tomb, canyons]
     steps:
       - tool: helmet
         stat: protection
@@ -1970,6 +1986,7 @@ items:
     realm: khorvath
     region: khorvath
     released: false
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple, tomb, canyons, ruins]
     steps:
       - tool: helmet
         stat: protection
@@ -2097,6 +2114,7 @@ items:
     realm: khorvath
     region: khorvath
     released: false
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple, tomb, canyons, ruins, catacombs]
     steps:
       - tool: helmet
         stat: protection
@@ -2216,6 +2234,7 @@ items:
     realm: elderwood
     region: elderwood
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak]
     steps:
       - tool: axe
         stat: material
@@ -2299,6 +2318,7 @@ items:
     realm: elderwood
     region: elderwood
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, jungle]
     steps:
       - tool: axe
         stat: efficiency
@@ -2376,6 +2396,7 @@ items:
     realm: elderwood
     region: elderwood
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, jungle, bamboo]
     steps:
       - tool: axe
         stat: efficiency
@@ -2453,6 +2474,7 @@ items:
     realm: elderwood
     region: elderwood
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, jungle, bamboo, amber]
     steps:
       - tool: axe
         stat: fortune
@@ -2498,6 +2520,7 @@ items:
     realm: marsh
     region: marsh
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak]
     steps:
       - tool: pick
         stat: material
@@ -2581,6 +2604,7 @@ items:
     realm: marsh
     region: marsh
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats]
     steps:
       - tool: pick
         stat: efficiency
@@ -2670,6 +2694,7 @@ items:
     realm: marsh
     region: marsh
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat]
     steps:
       - tool: helmet
         stat: protection
@@ -2797,6 +2822,7 @@ items:
     realm: marsh
     region: marsh
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins]
     steps:
       - tool: helmet
         stat: protection
@@ -2906,6 +2932,7 @@ items:
     realm: peaks
     region: peaks
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool]
     steps:
       - tool: shovel
         stat: material
@@ -2995,6 +3022,7 @@ items:
     realm: peaks
     region: peaks
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills]
     steps:
       - tool: shovel
         stat: material
@@ -3090,6 +3118,7 @@ items:
     realm: peaks
     region: peaks
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines]
     steps:
       - tool: shovel
         stat: material
@@ -3185,6 +3214,7 @@ items:
     realm: peaks
     region: peaks
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces]
     steps:
       - tool: shovel
         stat: material
@@ -3282,6 +3312,7 @@ items:
     realm: peaks
     region: peaks
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge]
     steps:
       - tool: shovel
         stat: material
@@ -3391,6 +3422,7 @@ items:
     realm: peaks
     region: peaks
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges]
     steps:
       - tool: helmet
         stat: protection
@@ -3510,6 +3542,7 @@ items:
     realm: duat
     region: duat
     released: false
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple, tomb, canyons, ruins, catacombs, sanctuary]
     steps:
       - tool: sword
         stat: material
@@ -3677,6 +3710,7 @@ items:
     realm: duat
     region: duat
     released: false
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple, tomb, canyons, ruins, catacombs, sanctuary, ashen]
     steps:
       - tool: helmet
         stat: protection
@@ -3814,6 +3848,7 @@ items:
     realm: duat
     region: duat
     released: false
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple, tomb, canyons, ruins, catacombs, sanctuary, ashen, judgement]
     steps:
       - tool: helmet
         stat: protection
@@ -3951,6 +3986,7 @@ items:
     realm: duat
     region: duat
     released: false
+    before: [cobble, coal, copper, iron, gold, city, dunes, temple, tomb, canyons, ruins, catacombs, sanctuary, ashen, judgement, forge]
     steps:
       - tool: helmet
         stat: protection
@@ -4088,6 +4124,7 @@ items:
     realm: elderheart
     region: elderheart
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, jungle, bamboo, amber, treehouse]
     steps:
       - tool: axe
         stat: material
@@ -4211,6 +4248,7 @@ items:
     realm: elderheart
     region: elderheart
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, jungle, bamboo, amber, treehouse, root_cellar]
     steps:
       - tool: helmet
         stat: protection
@@ -4336,6 +4374,7 @@ items:
     realm: elderheart
     region: elderheart
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, jungle, bamboo, amber, treehouse, root_cellar, vine_halls]
     steps:
       - tool: helmet
         stat: protection
@@ -4459,6 +4498,7 @@ items:
     realm: elderheart
     region: elderheart
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, jungle, bamboo, amber, treehouse, root_cellar, vine_halls, hive_chambers]
     steps:
       - tool: helmet
         stat: protection
@@ -4578,6 +4618,7 @@ items:
     realm: elderheart
     region: elderheart
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, jungle, bamboo, amber, treehouse, root_cellar, vine_halls, hive_chambers, upper_canopy]
     steps:
       - tool: helmet
         stat: protection
@@ -4687,6 +4728,7 @@ items:
     realm: skyisles
     region: skyisles
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave]
     steps:
       - tool: pick
         stat: material
@@ -4794,6 +4836,7 @@ items:
     realm: skyisles
     region: skyisles
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank]
     steps:
       - tool: pick
         stat: efficiency
@@ -4889,6 +4932,7 @@ items:
     realm: skyisles
     region: skyisles
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires]
     steps:
       - tool: pick
         stat: efficiency
@@ -4984,6 +5028,7 @@ items:
     realm: skyisles
     region: skyisles
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front]
     steps:
       - tool: helmet
         stat: protection
@@ -5127,6 +5172,7 @@ items:
     realm: kingdom
     region: kingdom
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour]
     steps:
       - tool: helmet
         stat: protection
@@ -5244,6 +5290,7 @@ items:
     realm: kingdom
     region: kingdom
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls]
     steps:
       - tool: helmet
         stat: protection
@@ -5377,6 +5424,7 @@ items:
     realm: kingdom
     region: kingdom
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls, gilded_gardens]
     steps:
       - tool: helmet
         stat: protection
@@ -5510,6 +5558,7 @@ items:
     realm: kingdom
     region: kingdom
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls, gilded_gardens, royal_treasury]
     steps:
       - tool: helmet
         stat: protection
@@ -5619,6 +5668,7 @@ items:
     realm: quarry
     region: quarry
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave]
     steps:
       - tool: axe
         stat: material
@@ -5724,6 +5774,7 @@ items:
     realm: quarry
     region: quarry
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits]
     steps:
       - tool: axe
         stat: efficiency
@@ -5823,6 +5874,7 @@ items:
     realm: quarry
     region: quarry
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits, pale_woods]
     steps:
       - tool: axe
         stat: efficiency
@@ -5932,6 +5984,7 @@ items:
     realm: quarry
     region: quarry
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits, pale_woods, maple_grove]
     steps:
       - tool: pick
         stat: efficiency
@@ -6029,6 +6082,7 @@ items:
     realm: quarry
     region: quarry
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits, pale_woods, maple_grove, diamond_depths]
     steps:
       - tool: helmet
         stat: protection
@@ -6148,6 +6202,7 @@ items:
     realm: quarry
     region: quarry
     released: false
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, peat, sunken_ruins, hydra_pool, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits, pale_woods, maple_grove, diamond_depths, quarry_pit]
     steps:
       - tool: helmet
         stat: protection

@@ -8,8 +8,10 @@ import java.util.function.ToIntFunction;
 
 // What one zone's shop sells: upgrade steps from upgrades.csv, priced by the price
 // formula when the data is generated. Each tool has a single chain of steps in the
-// zone, bought one at a time in order. Levels bought here belong to the zone's realm
-public record UpgradeZone(String id, String name, String realm, List<Step> steps) {
+// zone, bought one at a time in order. Levels bought here belong to the zone's realm.
+// before is every zone played on the way here: a tool is only sold here once all of
+// its steps there are bought (ToolManager checks it, since it needs those zones)
+public record UpgradeZone(String id, String name, String realm, List<String> before, List<Step> steps) {
     // One level of one stat of one tool. For the material the level is its place
     // in the tool's list of materials
     public record Step(String tool, String stat, int level, List<MenuItem> costs) {

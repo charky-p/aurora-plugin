@@ -904,6 +904,7 @@ UPGRADE_HEADER = """\
 #   realm: overworld (The realm the levels bought here belong to)
 #   region: origin_isles (The world it is part of, maxing all of a world's zones earns its rank)
 #   released: true (Its region is marked released in regions.csv: hidden from players when false)
+#   before: [cobble, coal] (The zones played before it, a tool's upgrades here wait on all of that tool's there)
 #   steps:
 #     - tool: pick
 #       stat: fortune (An enchant, or material)
@@ -917,6 +918,38 @@ UPGRADE_HEADER = """\
 """
 
 
+def earlier_zones(zones, regions):
+    """zone id -> the zones played before it, in zones.csv order: the ones it comes
+    after in its own region, and every zone of the regions that lead to it. A region
+    follows the one in its after column, or in portal when a gate leads in. Regions
+    side by side, like Gormak and Verdant Groves after Origin Isles, never lead to
+    each other, so neither waits on the other."""
+    by_region = {r["id"]: r for r in regions}
+    by_zone = {z["id"]: z for z in zones}
+
+    def leading(region):
+        found = []
+        row = by_region.get(region)
+        while row:
+            parent = (row.get("after") or "").strip() or (row.get("portal") or "").strip()
+            if not parent or parent == region or parent in found:
+                break
+            found.append(parent)
+            row = by_region.get(parent)
+        return set(found)
+
+    result = {}
+    for zone in zones:
+        before = set()
+        current = by_zone.get((zone.get("after") or "").strip())
+        while current and current["id"] not in before and current["region"] == zone["region"]:
+            before.add(current["id"])
+            current = by_zone.get((current.get("after") or "").strip())
+        regions_before = leading(zone["region"])
+        result[zone["id"]] = [z["id"] for z in zones if z["id"] in before or z["region"] in regions_before]
+    return result
+
+
 def upgrades_text():
     """upgrades.yml as text, None without zones.csv. Raises on bad data."""
     if not os.path.exists(data_path("zones.csv")):
@@ -925,16 +958,18 @@ def upgrades_text():
     import price_zones
 
     lines = [UPGRADE_HEADER, "items:"]
+    regions = read_rows(data_path("regions.csv")) or []
     # Regions marked released in regions.csv are shown to players, the rest are hidden
-    released = {r["id"] for r in read_rows(data_path("regions.csv")) or []
-                if (r.get("released") or "").strip().lower() in ("yes", "true", "1")}
+    released = {r["id"] for r in regions if (r.get("released") or "").strip().lower() in ("yes", "true", "1")}
     zones = price_zones.price_all()
+    before = earlier_zones([zone for zone, _ in zones], regions)
     for zone, priced in zones:
         lines.append(f"  {zone['id']}:")
         lines.append(f"    name: \"{zone['name']}\"")
         lines.append(f"    realm: {zone['realm']}")
         lines.append(f"    region: {zone['region']}")
         lines.append(f"    released: {'true' if zone['region'] in released else 'false'}")
+        lines.append(f"    before: [{', '.join(before[zone['id']])}]")
         lines.append("    steps:")
         for row in priced:
             lines.append(f"      - tool: {row['tool']}")

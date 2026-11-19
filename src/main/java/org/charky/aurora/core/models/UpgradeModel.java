@@ -10,6 +10,8 @@ public class UpgradeModel {
     public String region;
     // Marked released in regions.csv, players are not shown the rest
     public boolean released;
+    // The zones played before this one, worked out from zones.csv and regions.csv
+    public List<String> before = new ArrayList<>();
     public List<StepModel> steps = new ArrayList<>();
 
     public static class StepModel {

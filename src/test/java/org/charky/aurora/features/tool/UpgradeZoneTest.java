@@ -17,7 +17,7 @@ class UpgradeZoneTest {
     }
 
     // The Coal Seam: the pick goes Efficiency 3, Luck 2, Efficiency 4, the sword Sharpness 2
-    private static final UpgradeZone COAL = new UpgradeZone("coal", "Coal Seam", "overworld", List.of(
+    private static final UpgradeZone COAL = new UpgradeZone("coal", "Coal Seam", "overworld", List.of("cobble"), List.of(
             step("pick", "efficiency", 3),
             step("sword", "sharpness", 2),
             step("pick", "luck", 2),

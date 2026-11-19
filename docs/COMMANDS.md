@@ -76,6 +76,13 @@ PvP is on everywhere except in safe zones. A hit is stopped when either player s
 | `/a safezone delete <name>` | Delete it, PvP is on there again |
 | `/a safezone list` | Every safe zone and its corners |
 
+## Building helpers
+
+| Command | Does |
+|---|---|
+| `/a skylayer <block> [depth] [radius]` | Replace the top of every column around you, the blocks that see the sky, with a block, `depth` deep (default 1), within `radius` blocks (default 50, at most 200). Grass, carpet or buttons on top are stepped past. For marking an island's top, e.g. `/a skylayer red_wool 3`, then swapping the wool for a palette |
+| `/a skylayer undo` | Put back what the last skylayer changed |
+
 ## Floating text
 
 Text that floats where you stand, facing whoever looks at it. It is saved with the world, so it goes wherever the world goes.

@@ -51,6 +51,12 @@ commands:
     description: Every resource you have gathered and what the next milestone pays
     usage: /collections
     aliases: [ collection ]
+  discord:
+    description: A link to the Aurora Discord
+    usage: /discord
+  suggest:
+    description: Send an idea for the server to the staff
+    usage: /suggest <your idea>
 permissions:
   aurora.admin:
     description: Admin and testing commands

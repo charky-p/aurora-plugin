@@ -21,6 +21,8 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/shop` | The Essence shop: Dash, Double Jump (press jump again in mid-air for a normal second jump), mounts, the Keyring and ranks. Mounts have three levels, each faster: left click upgrades one you own, right click gives its saddle again. Click anything else you own to use it again |
 | `/dash` | The Dash Feather again, once Dash is bought: right click it to dash the way you face, once a second |
 | `/tutorial skip` | Leave the first-join tutorial without its reward. The Skip link in chat runs it |
+| `/discord` | A link to the Aurora Discord, says it is coming soon until the invite is set in `DiscordCommand` |
+| `/suggest <your idea>` | Send an idea to the staff, up to 256 characters, one a minute. Staff online see it straight away, and it is saved for `/a suggestions` |
 
 **In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.
 
@@ -181,6 +183,8 @@ A new player's first join hands out the starter tools, the backpack and a stack 
 | `/a tool <player> info <tool>` | What the tool has where the player stands, and which realms that builds on |
 | `/a cosmetic <player> <give\|take> <id>` | Give or take a rank, a cosmetic or `suffix_slot_2`. The only way to the donor and staff ranks, the donor-only cosmetics and the second suffix, which comes with a donor package. Tab completes every id |
 | `/a grant <player> <essence\|xp\|hours> <amount>` | Give Essence, XP or hours of playtime, for testing cosmetics, levels and playtime ranks. Hours are counted within a minute, which is when a new playtime rank is handed out |
+| `/a suggestions [page]` | What players sent with `/suggest`, newest first with who and when. Each one is also in the server log. Click a number to fill in the delete command |
+| `/a suggestions delete <id>` | Delete one that has been dealt with |
 | `/a help`, `/a info <command>` | Command list, one command in detail |
 | `/refresh` | Reload all game data from the YAML, after `python scripts/generate.py --live` |
 | `/dump [items\|icons\|all\|clear]` | Shulkers of every registry item or icon, for checking how they look. `clear` empties your own backpack and inventory |

@@ -166,7 +166,15 @@ public final class Schema {
                     "name TEXT PRIMARY KEY, " +
                     "world TEXT, " +
                     "x1 INTEGER, y1 INTEGER, z1 INTEGER, " +
-                    "x2 INTEGER, y2 INTEGER, z2 INTEGER)"
+                    "x2 INTEGER, y2 INTEGER, z2 INTEGER)",
+
+            // What players sent with /suggest, read with /aurora suggestions
+            "CREATE TABLE IF NOT EXISTS suggestions (" +
+                    "id INTEGER PRIMARY KEY, " +
+                    "uuid TEXT, " +
+                    "name TEXT, " +
+                    "text TEXT, " +
+                    "time INTEGER)"
     );
 
     // Columns added after a table first shipped, CREATE TABLE IF NOT EXISTS skips

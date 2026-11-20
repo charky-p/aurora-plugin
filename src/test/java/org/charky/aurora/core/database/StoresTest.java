@@ -5,6 +5,7 @@ import org.charky.aurora.features.mine.MineBlock;
 import org.charky.aurora.features.mine.MineData;
 import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.portal.Portal;
+import org.charky.aurora.features.suggestion.Suggestion;
 import org.charky.aurora.features.trader.TraderSpot;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -273,6 +274,20 @@ class StoresTest {
         assertEquals(2_600L, loaded.get("coal"));
         // A resource the later save did not mention keeps its total
         assertEquals(12L, loaded.get("iron"));
+    }
+
+    @Test
+    void suggestionsKeepTheirIdsAndOrder() {
+        SuggestionStore store = new SuggestionStore(db);
+        UUID uuid = UUID.randomUUID();
+        Suggestion first = new Suggestion(1, uuid, "Charky", "More mounts", 1_000L);
+        Suggestion second = new Suggestion(7, uuid, "Charky", "A fishing contest", 2_000L);
+        store.add(second);
+        store.add(first);
+        assertEquals(List.of(first, second), store.loadAll());
+
+        store.delete(1);
+        assertEquals(List.of(second), store.loadAll());
     }
 
     private static MineData mine(String name) {

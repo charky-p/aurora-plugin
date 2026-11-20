@@ -27,6 +27,7 @@ import org.charky.aurora.core.database.RankStore;
 import org.charky.aurora.core.database.Schema;
 import org.charky.aurora.core.database.SpawnStore;
 import org.charky.aurora.core.database.SpawnerStore;
+import org.charky.aurora.core.database.SuggestionStore;
 import org.charky.aurora.core.database.ToolStore;
 import org.charky.aurora.core.database.TutorialStore;
 import org.charky.aurora.core.database.TraderStore;
@@ -75,12 +76,15 @@ import org.charky.aurora.features.rank.RankShopMenu;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
 import org.charky.aurora.features.spawner.SpawnerManager;
+import org.charky.aurora.features.suggestion.SuggestCommand;
+import org.charky.aurora.features.suggestion.SuggestionManager;
 import org.charky.aurora.features.system.SpawnListener;
 import org.charky.aurora.features.tutorial.TutorialCommand;
 import org.charky.aurora.features.tutorial.TutorialManager;
 import org.charky.aurora.features.system.WandListener;
 import org.charky.aurora.features.system.WandManager;
 import org.charky.aurora.features.system.commands.AuroraCommand;
+import org.charky.aurora.features.system.commands.DiscordCommand;
 import org.charky.aurora.features.system.commands.DumpCommand;
 import org.charky.aurora.features.system.commands.OpenMenuCommand;
 import org.charky.aurora.features.system.commands.RefreshCommand;
@@ -132,6 +136,7 @@ public class Aurora extends JavaPlugin {
     private MountManager mountManager;
     private ToolManager toolManager;
     private UpgradeShop upgradeShop;
+    private SuggestionManager suggestionManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
     private String mainWorld = MAIN_WORLD;
@@ -275,6 +280,7 @@ public class Aurora extends JavaPlugin {
     private void registerCommands() {
         this.trash = new TrashCommand(registry);
         this.dashListener = new DashListener(registry, perkManager);
+        this.suggestionManager = new SuggestionManager(this, db, new SuggestionStore(db));
         command("aurora", new AuroraCommand(this));
         command("spawn", new SpawnCommand(this));
         command("backpack", new BackpackCommand(backpackManager));
@@ -288,6 +294,8 @@ public class Aurora extends JavaPlugin {
         command("tutorial", new TutorialCommand(tutorialManager));
         command("shop", new OpenMenuCommand(player -> new RankShopMenu(this).open(player)));
         command("dash", dashListener);
+        command("discord", new DiscordCommand());
+        command("suggest", new SuggestCommand(suggestionManager));
     }
 
     private void registerListeners() {
@@ -418,6 +426,10 @@ public class Aurora extends JavaPlugin {
 
     public TutorialManager getTutorialManager() {
         return tutorialManager;
+    }
+
+    public SuggestionManager getSuggestionManager() {
+        return suggestionManager;
     }
 
     public PerkManager getPerkManager() {

@@ -108,9 +108,9 @@ public class MineListener implements Listener {
         if (!registry.hasBlock(dropId)) return;
 
         int density = registry.getDensity(dropId);
-        // Only the right tool mines a block at all: a pick does nothing to a log. Before
-        // the axe or shovel is bought, a bare hand does, to gather what buys it
-        if (!rightTool(pick, block.getType()) && !bareHanded(player, pick, block.getType())) {
+        // Only the right tool mines a block at all: a pick does nothing to a log. A bare
+        // hand always mines what the axe and shovel do, slowly and with no Fortune
+        if (!rightTool(pick, block.getType()) && !bareHanded(pick, block.getType())) {
             String tool = toolFor(block.getType());
             player.sendActionBar(Component.text("Wrong tool, this needs " + ("axe".equals(tool) ? "an " : "a ") + tool,
                     NamedTextColor.RED, TextDecoration.BOLD));
@@ -159,11 +159,10 @@ public class MineListener implements Listener {
                 .anyMatch(rule -> rule.getBlocks().contains(block));
     }
 
-    // An empty hand on a block for the axe or shovel, by a player who does not own that tool yet
-    private boolean bareHanded(Player player, ItemStack hand, Material block) {
+    // An empty hand on a block for the axe or shovel
+    private static boolean bareHanded(ItemStack hand, Material block) {
         if (hand != null && !hand.getType().isAir()) return false;
-        String tool = toolFor(block);
-        return !"pickaxe".equals(tool) && !tools.owns(player.getUniqueId(), tool);
+        return !"pickaxe".equals(toolFor(block));
     }
 
     private static String toolFor(Material block) {

@@ -126,6 +126,8 @@ public class Aurora extends JavaPlugin {
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
+    private TabManager tabManager;
+    private TrashCommand trash;
     private SafeZoneManager safeZoneManager;
     private MountManager mountManager;
     private ToolManager toolManager;
@@ -136,31 +138,49 @@ public class Aurora extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Register preset data
+        loadData();
+        openDatabase();
+        loadWorlds();
+        createPlayerSystems();
+        createProgression();
+        createWorldSystems();
+        registerMenuActions();
+        registerCommands();
+        registerListeners();
+
+        SustenanceTask.start(this);
+        LeftoverMobListener.sweepLoaded();
+        traderManager.startRespawning();
+
+        getLogger().info("AuroraMines has been enabled!");
+    }
+
+    // The generated YAML: items, mobs, menus, traders, tools and upgrades
+    private void loadData() {
         this.registry = new DataRegistry(this);
         this.backpackManager = new BackpackManager(registry);
         registry.setBackpackManager(backpackManager);
         this.armoryManager = new ArmoryManager(registry);
         registry.setArmoryManager(armoryManager);
         registry.loadAll();
+    }
 
-        // Database setup
-        if (!getDataFolder().exists()) {
-            getDataFolder().mkdirs();
-        }
-
+    // One store per table, each manager only gets the one it needs
+    private void openDatabase() {
+        if (!getDataFolder().exists()) getDataFolder().mkdirs();
         db = new Database(this, getDataFolder().getAbsolutePath());
         Schema.create(db);
         getLogger().info("SQLite Database setup complete!");
 
-        // One store per table, each manager only gets the one it needs
         this.spawnStore = new SpawnStore(db);
         backpackManager.loadBackpacks(db, new BackpackStore(db));
         backpackManager.startAutosave(this);
         armoryManager.load(db, new UnlockStore(db));
         armoryManager.migrateFrom(backpackManager);
+    }
 
-        // Extra worlds first, spawns and portals look worlds up by name
+    // Extra worlds first, spawns and portals look worlds up by name
+    private void loadWorlds() {
         this.worldManager = new WorldManager(this, new WorldStore(db));
         worldManager.loadAll();
 
@@ -168,20 +188,17 @@ public class Aurora extends JavaPlugin {
         String savedMain = spawnStore.loadMain();
         if (savedMain != null && Bukkit.getWorld(savedMain) != null) mainWorld = savedMain;
         else if (savedMain != null) getLogger().warning("Main world '" + savedMain + "' is not loaded, players join in " + MAIN_WORLD);
+    }
 
-        // Managers
+    // Everything a player carries between sessions: stats, ranks, collections, cosmetics, perks
+    private void createPlayerSystems() {
         this.players = new PlayerManager(this, db, new PlayerStore(db));
         this.scoreboard = new ScoreboardManager(players);
-        TabManager tabManager = new TabManager(players);
+        this.tabManager = new TabManager(players);
         this.levelManager = new LevelManager(this, players, scoreboard);
         this.rankManager = new RankManager(this, db, new RankStore(db), players, scoreboard, tabManager);
         this.collectionManager = new CollectionManager(this, registry, db, new CollectionStore(db), players, scoreboard);
-        registry.registerAction("collections", collectionManager::open);
-        // Gear lives in Collections, this is its tab
-        registry.registerAction("armory", collectionManager::openGear);
         this.cosmeticManager = new CosmeticManager(this, db, new CosmeticStore(db), players, rankManager, scoreboard, tabManager);
-        registry.registerAction("ranks", rankManager::openRanks);
-        registry.registerAction("customise", cosmeticManager::openHub);
         this.perkManager = new PerkManager(this, db, new PerkStore(db), players, scoreboard);
         armoryManager.setKeyring(perkManager::hasKeyring);
         armoryManager.setEssence((player, amount) -> {
@@ -190,18 +207,11 @@ public class Aurora extends JavaPlugin {
             data.addEssence(amount);
             scoreboard.updateBoard(player);
         });
-        // TODO: later. Switched off until they are finished, the code is all still here:
-        //  - the gauntlet (features/gauntlet), /gauntlet and its listener
-        //  - fishing (features/fishing), its listener and the rods in gear_other.csv
-        // The Essence shop is back with utility only; Vitality and Crit Rate are no longer
-        // sold, levels already bought still work
-        registry.registerAction("shop", player -> new RankShopMenu(this).open(player));
         this.mountManager = new MountManager(this, registry, perkManager);
-        // Warps are a supporter perk: donor and staff ranks, and admins
-        registry.registerAction("warps", player -> {
-            if (rankManager.isSupporter(player) || player.hasPermission("aurora.admin")) new WarpMenu(this).open(player);
-            else TextUtils.error(player, "Warps are for supporters, see the store for a donor rank");
-        });
+    }
+
+    // Tools and their upgrades, and what listens to them: cosmetics for maxed zones, the tutorial
+    private void createProgression() {
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
         this.upgradeShop = new UpgradeShop(this, toolManager);
         armoryManager.setTools(toolManager);
@@ -210,22 +220,17 @@ public class Aurora extends JavaPlugin {
                 : Cosmetics.regions(cosmetic).stream().allMatch(region -> upgradeShop.maxedRegion(player, region)));
         upgradeShop.setOnMaxed(cosmeticManager::announceMaxed);
         rankManager.setOnPlaytime(cosmeticManager::playtimePassed);
-        registry.registerAction("howto", HowToPlay::send);
         toolManager.setTrims(cosmeticManager::trim);
         cosmeticManager.setLookChanged(toolManager::refresh);
-        registry.registerAction("upgrades", upgradeShop::open);
-        registry.registerAction("tools", toolManager::giveStarters);
-        // The Core lives in Golem's Rest and needs every boss, it stays shut until that is released
-        registry.registerAction("core", player -> {
-            if (registry.isZoneReleased("golems_rest") || player.hasPermission("aurora.admin")) OverworldCore.open(this, player);
-            else TextUtils.error(player, "The Overworld Core is not open yet");
-        });
-        registry.registerAction("exchange", player -> EssenceExchange.open(this, player));
         this.accessManager = new AccessManager(db, new AccessStore(db), registry);
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);
         backpackManager.setOnOpen(tutorialManager::openedBackpack);
         upgradeShop.setOnOpened(tutorialManager::openedUpgrades);
         upgradeShop.setOnBought(tutorialManager::bought);
+    }
+
+    // What is placed in the worlds: mines, spawners, bosses, traders, portals, build and safe zones
+    private void createWorldSystems() {
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.bossManager = new BossManager(this);
@@ -234,8 +239,42 @@ public class Aurora extends JavaPlugin {
         this.portalManager = new PortalManager(new PortalStore(db));
         this.buildManager = new BuildManager(db, new BuildStore(db), this::getMainSpawn);
         this.safeZoneManager = new SafeZoneManager(db, new SafeZoneStore(db));
+    }
 
-        // Commands, each one is declared in plugin.yml
+    // What the ACTION buttons in the menu files do. Looked up when clicked, see MenuActions
+    private void registerMenuActions() {
+        registry.registerAction("collections", collectionManager::open);
+        // Gear lives in Collections, this is its tab
+        registry.registerAction("armory", collectionManager::openGear);
+        registry.registerAction("ranks", rankManager::openRanks);
+        registry.registerAction("customise", cosmeticManager::openHub);
+        // TODO: later. Switched off until they are finished, the code is all still here:
+        //  - the gauntlet (features/gauntlet), /gauntlet and its listener
+        //  - fishing (features/fishing), its listener and the rods in gear_other.csv
+        // The Essence shop is back with utility only; Vitality and Crit Rate are no longer
+        // sold, levels already bought still work
+        registry.registerAction("shop", player -> new RankShopMenu(this).open(player));
+        // Warps are a supporter perk: donor and staff ranks, and admins
+        registry.registerAction("warps", player -> {
+            if (rankManager.isSupporter(player) || player.hasPermission("aurora.admin")) new WarpMenu(this).open(player);
+            else TextUtils.error(player, "Warps are for supporters, see the store for a donor rank");
+        });
+        registry.registerAction("howto", HowToPlay::send);
+        registry.registerAction("upgrades", upgradeShop::open);
+        registry.registerAction("tools", toolManager::giveStarters);
+        // The Core lives in Golem's Rest and needs every boss, it stays shut until that is released
+        registry.registerAction("core", player -> {
+            if (registry.isZoneReleased("golems_rest") || player.hasPermission("aurora.admin")) OverworldCore.open(this, player);
+            else TextUtils.error(player, "The Overworld Core is not open yet");
+        });
+        registry.registerAction("exchange", player -> EssenceExchange.open(this, player));
+        registry.registerAction("leaderboard", player -> LeaderboardMenu.open(registry, players, player));
+    }
+
+    // Each one is declared in plugin.yml
+    private void registerCommands() {
+        this.trash = new TrashCommand(registry);
+        this.dashListener = new DashListener(registry, perkManager);
         command("aurora", new AuroraCommand(this));
         command("spawn", new SpawnCommand(this));
         command("backpack", new BackpackCommand(backpackManager));
@@ -244,16 +283,14 @@ public class Aurora extends JavaPlugin {
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
         command("customise", new OpenMenuCommand(cosmeticManager::openHub));
         command("leaderboard", new TopCommand(registry, players));
-        registry.registerAction("leaderboard", player -> LeaderboardMenu.open(registry, players, player));
-        TrashCommand trash = new TrashCommand(registry);
         command("trash", trash);
         command("collections", new OpenMenuCommand(collectionManager::open));
         command("tutorial", new TutorialCommand(tutorialManager));
         command("shop", new OpenMenuCommand(player -> new RankShopMenu(this).open(player)));
-        this.dashListener = new DashListener(registry, perkManager);
-        DashListener dash = dashListener;
-        command("dash", dash);
+        command("dash", dashListener);
+    }
 
+    private void registerListeners() {
         List<Listener> listeners = List.of(
                 new MineListener(this),
                 new PlayerSessionListener(this, players, scoreboard, tabManager, levelManager),
@@ -275,7 +312,7 @@ public class Aurora extends JavaPlugin {
                 new PortalListener(this),
                 new KeyItemListener(this),
                 new GrappleListener(this),
-                dash,
+                dashListener,
                 new DoubleJumpListener(perkManager),
                 mountManager,
                 new BackpackItemListener(this),
@@ -288,12 +325,6 @@ public class Aurora extends JavaPlugin {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
         }
-
-        SustenanceTask.start(this);
-        LeftoverMobListener.sweepLoaded();
-        traderManager.startRespawning();
-
-        getLogger().info("AuroraMines has been enabled!");
     }
 
     private void command(String name, CommandExecutor executor) {

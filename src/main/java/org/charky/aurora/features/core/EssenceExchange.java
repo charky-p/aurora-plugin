@@ -36,7 +36,7 @@ public final class EssenceExchange extends PagedMenu {
     }
 
     public static void open(Aurora plugin, Player player) {
-        if (!plugin.getToolManager().maxedAll(player)) {
+        if (!plugin.getUpgradeShop().maxedAll(player)) {
             TextUtils.error(player, "The Essence Trader only deals with those who have maxed every zone");
             return;
         }

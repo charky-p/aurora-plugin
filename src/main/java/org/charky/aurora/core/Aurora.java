@@ -87,6 +87,7 @@ import org.charky.aurora.features.system.commands.RefreshCommand;
 import org.charky.aurora.features.system.commands.SpawnCommand;
 import org.charky.aurora.features.system.commands.TopCommand;
 import org.charky.aurora.features.tool.ToolManager;
+import org.charky.aurora.features.tool.UpgradeShop;
 import org.charky.aurora.features.trader.TraderListener;
 import org.charky.aurora.features.warp.WarpMenu;
 import org.charky.aurora.features.trader.TraderManager;
@@ -128,6 +129,7 @@ public class Aurora extends JavaPlugin {
     private SafeZoneManager safeZoneManager;
     private MountManager mountManager;
     private ToolManager toolManager;
+    private UpgradeShop upgradeShop;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
     private String mainWorld = MAIN_WORLD;
@@ -201,16 +203,17 @@ public class Aurora extends JavaPlugin {
             else TextUtils.error(player, "Warps are for supporters, see the store for a donor rank");
         });
         this.toolManager = new ToolManager(this, db, new ToolStore(db));
+        this.upgradeShop = new UpgradeShop(this, toolManager);
         armoryManager.setTools(toolManager);
         cosmeticManager.setMaxed((player, cosmetic) -> cosmetic.source() == Cosmetic.Source.ZONE
-                ? toolManager.maxed(player, cosmetic.target())
-                : Cosmetics.regions(cosmetic).stream().allMatch(region -> toolManager.maxedRegion(player, region)));
-        toolManager.setOnMaxed(cosmeticManager::announceMaxed);
+                ? upgradeShop.maxed(player, cosmetic.target())
+                : Cosmetics.regions(cosmetic).stream().allMatch(region -> upgradeShop.maxedRegion(player, region)));
+        upgradeShop.setOnMaxed(cosmeticManager::announceMaxed);
         rankManager.setOnPlaytime(cosmeticManager::playtimePassed);
         registry.registerAction("howto", HowToPlay::send);
         toolManager.setTrims(cosmeticManager::trim);
         cosmeticManager.setLookChanged(toolManager::refresh);
-        registry.registerAction("upgrades", toolManager::openUpgrades);
+        registry.registerAction("upgrades", upgradeShop::open);
         registry.registerAction("tools", toolManager::giveStarters);
         // The Core lives in Golem's Rest and needs every boss, it stays shut until that is released
         registry.registerAction("core", player -> {
@@ -221,8 +224,8 @@ public class Aurora extends JavaPlugin {
         this.accessManager = new AccessManager(db, new AccessStore(db), registry);
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);
         backpackManager.setOnOpen(tutorialManager::openedBackpack);
-        toolManager.setOnOpened(tutorialManager::openedUpgrades);
-        toolManager.setOnBought(tutorialManager::bought);
+        upgradeShop.setOnOpened(tutorialManager::openedUpgrades);
+        upgradeShop.setOnBought(tutorialManager::bought);
         this.mineManager = new MineManager(this, new MineStore(db));
         this.spawnerManager = new SpawnerManager(this, new SpawnerStore(db, registry));
         this.bossManager = new BossManager(this);
@@ -352,6 +355,10 @@ public class Aurora extends JavaPlugin {
 
     public ToolManager getToolManager() {
         return toolManager;
+    }
+
+    public UpgradeShop getUpgradeShop() {
+        return upgradeShop;
     }
 
     public CosmeticManager getCosmeticManager() {

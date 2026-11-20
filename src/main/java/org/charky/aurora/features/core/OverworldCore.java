@@ -104,7 +104,7 @@ public final class OverworldCore {
                     List<Component> lore = new ArrayList<>();
                     if (complete) lore.add(TextUtils.parse("<!italic><green>Infused"));
                     else {
-                        boolean maxed = plugin.getToolManager().maxed(player, zoneId);
+                        boolean maxed = plugin.getUpgradeShop().maxed(player, zoneId);
                         lore.add(TextUtils.parse("<!italic>" + (maxed ? "<green>" : "<red>") + "Needs " + zone.name() + " maxed"));
                         lore.add(Component.empty());
                         for (MenuItem c : cost(registry, step, zoneId)) {
@@ -138,7 +138,7 @@ public final class OverworldCore {
             int done = done(player);
             if (index != done || index >= zones.size()) return;
             String zoneId = zones.get(index);
-            if (!plugin.getToolManager().maxed(player, zoneId)) {
+            if (!plugin.getUpgradeShop().maxed(player, zoneId)) {
                 TextUtils.error(player, "Max " + registry.getUpgradeZone(zoneId).name() + " first");
                 return;
             }

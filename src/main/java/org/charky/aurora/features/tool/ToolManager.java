@@ -246,8 +246,7 @@ public class ToolManager implements Listener {
     // Behind while a zone played before this one still sells the tool something
     public UpgradeZone.Status status(Player player, UpgradeZone zone, String tool) {
         UpgradeZone.Status status = zone.status(tool, stat -> own(player, zone, tool, stat));
-        if (status == UpgradeZone.Status.OPEN && unfinished(player, zone, tool) != null) return UpgradeZone.Status.BEHIND;
-        return status;
+        return status == UpgradeZone.Status.OPEN && unfinished(player, zone, tool) != null ? UpgradeZone.Status.BEHIND : status;
     }
 
     // The first zone before this one with a step of the tool not bought yet, null when

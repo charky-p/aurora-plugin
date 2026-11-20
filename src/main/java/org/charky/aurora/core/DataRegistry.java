@@ -22,12 +22,8 @@ import org.charky.aurora.features.tool.Realms;
 import org.charky.aurora.features.tool.ToolLevels;
 import org.charky.aurora.features.tool.ToolType;
 import org.charky.aurora.features.tool.UpgradeZone;
-import org.charky.aurora.features.warp.Warp;
-import org.charky.aurora.core.models.RealmModel;
-import org.charky.aurora.core.models.ToolModel;
-import org.charky.aurora.core.models.UpgradeModel;
-import org.charky.aurora.core.models.WarpModel;
 import org.charky.aurora.features.trader.TraderMenu;
+import org.charky.aurora.features.warp.Warp;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -75,10 +71,10 @@ public class DataRegistry {
     private final Map<String, String> unlocks = new LinkedHashMap<>();
     // Item id to the mob right clicking it summons
     private final Map<String, String> summons = new LinkedHashMap<>();
-    // resources_special.csv, keys are never boosted by Looting
     // For a resource whose data has no collection amount yet
     private static final int DEFAULT_COLLECTION_BASE = 250;
 
+    // resources_special.csv, keys are never boosted by Looting
     private final Set<String> specialIds = new HashSet<>();
     private final Map<String, Integer> collectionBases = new HashMap<>();
     private final Map<String, Double> essenceValues = new HashMap<>();
@@ -149,58 +145,19 @@ public class DataRegistry {
                 .load(yaml.load("guis/shops.yml", GuiModel.class)));
         traders.putAll(new TraderLoader(plugin.getLogger()).load(yaml.load("traders.yml", TraderModel.class), guis, actions));
         loadWarps();
-        loadTools();
-        loadUpgrades();
+        loadProgression();
     }
 
-    private void loadTools() {
-        List<Realms.Realm> loaded = new ArrayList<>();
-        yaml.load("realms.yml", RealmModel.class).forEach((id, model) ->
-                loaded.add(new Realms.Realm(id.toLowerCase(), model.name, List.copyOf(model.worlds), model.base, model.part_of)));
-        realms = new Realms(loaded);
-
-        yaml.load("tools.yml", ToolModel.class).forEach((id, model) -> {
-            if (model.materials.isEmpty() || model.item == null) {
-                plugin.getLogger().severe("TOOL ERROR: '" + id + "' needs an item and at least one material");
-                return;
-            }
-            toolTypes.put(id.toLowerCase(), new ToolType(id.toLowerCase(), model.name, model.kind,
-                    model.item.toUpperCase(), List.copyOf(model.materials)));
-        });
-    }
-
-    // After the tools, a step for a tool or material that does not exist is skipped
-    private void loadUpgrades() {
-        yaml.load("upgrades.yml", UpgradeModel.class).forEach((id, model) -> {
-            List<UpgradeZone.Step> steps = new ArrayList<>();
-            for (UpgradeModel.StepModel step : model.steps) {
-                ToolType tool = getToolType(step.tool);
-                int level = tool == null ? -1 : upgradeLevel(tool, step.stat, step.level);
-                if (level < 0) {
-                    plugin.getLogger().severe("UPGRADE ERROR: '" + id + "' " + step.tool + " " + step.stat + " " + step.level);
-                    continue;
-                }
-
-                List<MenuItem> costs = new ArrayList<>();
-                for (GuiModel.CostEntry entry : step.cost) {
-                    ItemStack item = items.get(entry.id.toLowerCase());
-                    if (item == null) {
-                        plugin.getLogger().severe("UPGRADE ERROR: '" + id + "' costs unknown item '" + entry.id + "'");
-                        continue;
-                    }
-                    MenuItem cost = new MenuItem(entry.id.toLowerCase(), item);
-                    cost.setAmount(entry.amount);
-                    costs.add(cost);
-                }
-                steps.add(new UpgradeZone.Step(tool.id(), step.stat.toLowerCase(), level, costs));
-            }
-            List<String> before = model.before == null ? List.of() : model.before.stream().map(String::toLowerCase).toList();
-            upgradeZones.put(id.toLowerCase(), new UpgradeZone(id.toLowerCase(), model.name,
-                    model.realm == null ? "" : model.realm.toLowerCase(), before, steps));
-            String region = model.region == null ? "" : model.region.toLowerCase();
-            zoneRegions.put(id.toLowerCase(), region);
-            if (model.released) releasedRegions.add(region);
-        });
+    // Realms, tools and every zone's upgrades, after the items their steps cost
+    private void loadProgression() {
+        ProgressionLoader.Progression progression = new ProgressionLoader(plugin.getLogger()).load(
+                yaml.load("realms.yml", RealmModel.class), yaml.load("tools.yml", ToolModel.class),
+                yaml.load("upgrades.yml", UpgradeModel.class), items, enchants::containsKey);
+        realms = progression.realms();
+        toolTypes.putAll(progression.tools());
+        upgradeZones.putAll(progression.zones());
+        zoneRegions.putAll(progression.zoneRegions());
+        releasedRegions.addAll(progression.releasedRegions());
     }
 
     // The world a zone is part of, as zones.csv names it
@@ -250,24 +207,12 @@ public class DataRegistry {
                 .map(Map.Entry::getKey).toList();
     }
 
-    // -1 for a material the tool does not come in, an unknown enchant or a bad number
-    private int upgradeLevel(ToolType tool, String stat, String level) {
-        if (stat == null || level == null) return -1;
-        if (stat.equalsIgnoreCase(ToolLevels.MATERIAL)) return ToolLevels.materialLevel(tool.materials(), level);
-        if (stat.equalsIgnoreCase(ToolLevels.UNLOCK)) return 1;
-        if (!enchants.containsKey(stat.toLowerCase())) return -1;
-        try {
-            return Integer.parseInt(level);
-        } catch (NumberFormatException e) {
-            return -1;
-        }
-    }
-
-    // The tools a new player starts with: the ones the first zone upgrades
+    // Every zone with upgrades, in zones.csv order
     public List<String> getUpgradeZoneIds() {
         return new ArrayList<>(upgradeZones.keySet());
     }
 
+    // The tools a new player starts with: the ones the first zone upgrades
     public List<ToolType> getStarterTools() {
         List<ToolType> starters = new ArrayList<>();
         if (upgradeZones.isEmpty()) return starters;
@@ -401,7 +346,6 @@ public class DataRegistry {
                         Math.max(1, model.xp), loot.build(id, model.independent, model.choices, false))));
     }
 
-
     // Every registry item carries its id, so costs match what an item is rather than
     // every detail of how it looks, which changes whenever gear generation does
     private void putItem(String id, ItemStack item) {
@@ -493,27 +437,27 @@ public class DataRegistry {
         return resourceIds.contains(id.toLowerCase());
     }
 
-    // Looting widens resource drops, never keys, or a 1 in 12 key becomes 8 a kill
-    // How many of a resource its first collection tier needs
     // What the Essence Trader pays for one, 0 for what it does not buy
     public double getEssenceValue(String id) {
         return essenceValues.getOrDefault(id.toLowerCase(), 0.0);
     }
 
+    // How many of a resource its first collection tier needs
     public int getCollectionBase(String id) {
         return collectionBases.getOrDefault(id.toLowerCase(), DEFAULT_COLLECTION_BASE);
     }
 
+    // Looting widens resource drops, never keys, or a 1 in 12 key becomes 8 a kill
     public boolean isLootable(String id) {
         return isResource(id) && !specialIds.contains(id.toLowerCase());
     }
 
-    // The tag a key item gives, null if it is not a key
     // Every tag a key gives, the ones locked portals ask for
     public List<String> getUnlockTags() {
         return unlocks.values().stream().distinct().toList();
     }
 
+    // The tag a key item gives, null if it is not a key
     public String getUnlock(String itemId) {
         return itemId == null ? null : unlocks.get(itemId.toLowerCase());
     }
@@ -528,12 +472,12 @@ public class DataRegistry {
         return mobId != null && summons.containsValue(mobId.toLowerCase());
     }
 
-    // Any key, something that does a thing when right clicked
     // Every key in data order
     public List<String> getKeyIds() {
         return resourceList.stream().map(MenuItem::getId).filter(this::isKey).toList();
     }
 
+    // Any key, something that does a thing when right clicked
     public boolean isKey(String itemId) {
         return getUnlock(itemId) != null || getSummon(itemId) != null;
     }

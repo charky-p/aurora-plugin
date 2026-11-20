@@ -49,10 +49,13 @@ public record UpgradeZone(String id, String name, String realm, List<String> bef
     }
 
     // A step raises its stat by one, so a tool more than one level short of it
-    // skipped something an earlier zone sells
+    // skipped something an earlier zone sells. Not the material: a realm's first one
+    // follows on from the realms it builds on (Mudflats' Diamond Pickaxe after Origin's
+    // Gold), while its own count starts again from nothing
     public Status status(String tool, ToIntFunction<String> current) {
         Step next = next(tool, current);
         if (next == null) return Status.MAXED;
+        if (next.stat().equals(ToolLevels.MATERIAL)) return Status.OPEN;
         return current.applyAsInt(next.stat()) < next.level() - 1 ? Status.BEHIND : Status.OPEN;
     }
 }

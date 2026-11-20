@@ -80,4 +80,14 @@ class UpgradeZoneTest {
         assertEquals(Status.BEHIND, status("pick", levels("efficiency", 1)));
         assertEquals(Status.BEHIND, status("sword", levels()));
     }
+
+    // Mudflats starts the marsh realm with a Diamond Pickaxe (material 5): the realm's own
+    // count is 0, but the pick is Gold from Origin, so it is the next step, not a skip
+    @Test
+    void aRealmsFirstMaterialIsNeverBehind() {
+        UpgradeZone mudflats = new UpgradeZone("mudflats", "Mudflats", "marsh", List.of("darkoak"), List.of(
+                step("pick", ToolLevels.MATERIAL, 5),
+                step("pick", "efficiency", 1)));
+        assertEquals(Status.OPEN, mudflats.status("pick", stat -> 0));
+    }
 }

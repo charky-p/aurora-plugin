@@ -243,7 +243,7 @@ public class ToolManager implements Listener {
         return zone.next(tool, stat -> own(player, zone, tool, stat));
     }
 
-    // Behind as well while a zone played before this one still sells the tool something
+    // Behind while a zone played before this one still sells the tool something
     public UpgradeZone.Status status(Player player, UpgradeZone zone, String tool) {
         UpgradeZone.Status status = zone.status(tool, stat -> own(player, zone, tool, stat));
         if (status == UpgradeZone.Status.OPEN && unfinished(player, zone, tool) != null) return UpgradeZone.Status.BEHIND;
@@ -263,11 +263,11 @@ public class ToolManager implements Listener {
         return null;
     }
 
-    // Why a tool is behind, for the shop to say
+    // Why a tool is behind, for the shop to say. Only behind while an earlier zone is
+    // unfinished, so there is always one to name
     public String behindReason(Player player, UpgradeZone zone, ToolType tool) {
         UpgradeZone earlier = unfinished(player, zone, tool.id());
-        if (earlier == null) return "Finish this tool's upgrades in the zone before first";
-        return "Buy every " + tool.name() + " upgrade at " + earlier.name() + " first";
+        return "Buy every " + tool.name() + " upgrade at " + (earlier == null ? "the zones before" : earlier.name()) + " first";
     }
 
     // How many steps of a tool's chain in a zone are bought

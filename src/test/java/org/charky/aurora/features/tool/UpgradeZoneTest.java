@@ -73,18 +73,18 @@ class UpgradeZoneTest {
         assertEquals(Status.OPEN, status("sword", levels("sharpness", 1)));
     }
 
-    // Efficiency 3 for the price of one step, having skipped 1 and 2 in the zone before
+    // Whether an earlier zone is unfinished is ToolManager's to say, with the zone's
+    // name. A gap in levels alone is no reason: steps can jump
     @Test
-    void aToolThatSkippedAnEarlierZoneIsBehind() {
-        assertEquals(Status.BEHIND, status("pick", levels()));
-        assertEquals(Status.BEHIND, status("pick", levels("efficiency", 1)));
-        assertEquals(Status.BEHIND, status("sword", levels()));
+    void aZoneAloneNeverSaysBehind() {
+        assertEquals(Status.OPEN, status("pick", levels()));
+        assertEquals(Status.OPEN, status("sword", levels()));
     }
 
     // Mudflats starts the marsh realm with a Diamond Pickaxe (material 5): the realm's own
     // count is 0, but the pick is Gold from Origin, so it is the next step, not a skip
     @Test
-    void aRealmsFirstMaterialIsNeverBehind() {
+    void aRealmsFirstMaterialIsOpen() {
         UpgradeZone mudflats = new UpgradeZone("mudflats", "Mudflats", "marsh", List.of("darkoak"), List.of(
                 step("pick", ToolLevels.MATERIAL, 5),
                 step("pick", "efficiency", 1)));

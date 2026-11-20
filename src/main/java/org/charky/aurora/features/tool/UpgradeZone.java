@@ -48,14 +48,10 @@ public record UpgradeZone(String id, String name, String realm, List<String> bef
         return null;
     }
 
-    // A step raises its stat by one, so a tool more than one level short of it
-    // skipped something an earlier zone sells. Not the material: a realm's first one
-    // follows on from the realms it builds on (Mudflats' Diamond Pickaxe after Origin's
-    // Gold), while its own count starts again from nothing
+    // This zone alone never says behind: ToolManager does, naming the earlier zone that
+    // still sells the tool something. A step may jump several levels (a realm's first
+    // material, the mace starting at Sharpness 32), so the gap to it proves nothing
     public Status status(String tool, ToIntFunction<String> current) {
-        Step next = next(tool, current);
-        if (next == null) return Status.MAXED;
-        if (next.stat().equals(ToolLevels.MATERIAL)) return Status.OPEN;
-        return current.applyAsInt(next.stat()) < next.level() - 1 ? Status.BEHIND : Status.OPEN;
+        return next(tool, current) == null ? Status.MAXED : Status.OPEN;
     }
 }

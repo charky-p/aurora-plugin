@@ -41,6 +41,7 @@ public class UpgradeMenu extends PagedMenu {
         for (ToolType type : types) {
             Step next = tools.next(player, zone, type.id());
             Status status = tools.status(player, zone, type.id());
+            boolean owned = tools.owns(player.getUniqueId(), type.id());
 
             ItemStack item = tools.build(player, type);
             item.editMeta(meta -> {
@@ -49,8 +50,11 @@ public class UpgradeMenu extends PagedMenu {
                 lore.add(TextUtils.parse("<!italic><gray>Upgrades here: <white>" + tools.bought(player, zone, type.id())
                         + "/" + zone.chain(type.id()).size()));
 
-                if (!tools.carries(player, type)) {
+                if (owned && !tools.carries(player, type)) {
                     lore.add(TextUtils.parse("<!italic><yellow>Click to take it"));
+                } else if (!owned && next != null && !next.stat().equals(ToolLevels.UNLOCK)) {
+                    // Sold for the first time in another zone, never handed out here
+                    lore.add(TextUtils.parse("<!italic><red>You need to buy the " + type.name() + " first"));
                 } else if (status == Status.MAXED) {
                     Component name = meta.displayName();
                     meta.displayName(TextUtils.parse("<!italic><green><b>✔ MAXED</b> <dark_gray>| ")
@@ -69,13 +73,14 @@ public class UpgradeMenu extends PagedMenu {
                                 .append(TextUtils.parse((have >= cost.getAmount() ? " <green>" : " <red>")
                                         + "(" + have + "/" + cost.getAmount() + ")")));
                     }
-                    lore.add(TextUtils.parse(affordable ? "<!italic><yellow>Click to upgrade" : "<!italic><red>Not enough yet"));
+                    String click = next.stat().equals(ToolLevels.UNLOCK) ? "Click to buy it" : "Click to upgrade";
+                    lore.add(TextUtils.parse(affordable ? "<!italic><yellow>" + click : "<!italic><red>Not enough yet"));
                 }
                 meta.lore(lore);
             });
             // A finished tool is shown as an emerald block wearing the tool's name and
             // stats, so a maxed shop reads at a glance
-            items.add(status == Status.MAXED && tools.carries(player, type) ? item.withType(Material.EMERALD_BLOCK) : item);
+            items.add(status == Status.MAXED && owned && tools.carries(player, type) ? item.withType(Material.EMERALD_BLOCK) : item);
         }
         return items;
     }
@@ -93,7 +98,8 @@ public class UpgradeMenu extends PagedMenu {
         if (index >= types.size()) return;
 
         ToolType type = types.get(index);
-        if (!tools.carries(player, type)) {
+        // A tool of theirs they do not carry is handed back, one they never had is bought
+        if (tools.owns(player.getUniqueId(), type.id()) && !tools.carries(player, type)) {
             if (!tools.give(player, type)) TextUtils.error(player, "Your inventory is full.");
             render(player);
             return;

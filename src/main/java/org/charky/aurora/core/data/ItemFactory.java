@@ -166,6 +166,7 @@ public class ItemFactory {
             case "combat" -> "🗡 Combat";
             case "mining" -> "⛏ Mining";
             case "armor" -> "🛡 Armor";
+            case "movement" -> "➶ Movement";
             default -> "";
         };
         return Component.text(display).color(NamedTextColor.DARK_GRAY).decoration(TextDecoration.ITALIC, false);

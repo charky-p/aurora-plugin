@@ -47,3 +47,9 @@ items:
 
   thorns:
     display: "<dark_green>Thorns"
+
+  thrust:
+    display: "<aqua>Thrust"
+
+  recharge:
+    display: "<aqua>Recharge"

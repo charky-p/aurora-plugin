@@ -19,7 +19,7 @@ A zone is one mine (or two), one or two mobs, one trader and a list of steps in 
 
 **Looting and mob density.** Looting is Fortune for mobs. Every mob has a density: with `L = looting - density`, it drops none of its resources while `L < 0`, then the same curve as Fortune. Drops under 100% grow with the cube root of that multiplier. Gear and keys always drop at their own chance. Killing a mob with too little Looting says "Requires Looting N".
 
-**The right tool.** Wood, pumpkins, melons, bamboo and bee nests are mined with the axe; dirt, snow, gravel, clay, soul soil and concrete powder with the shovel, which is first sold at Emerald Peaks; everything else with the pick. The wrong tool breaks nothing.
+**The right tool.** Wood, pumpkins, melons, bamboo and bee nests are mined with the axe; dirt, snow, gravel, clay, soul soil and concrete powder with the shovel, which is first sold at Emerald Peaks; everything else with the pick. The wrong tool breaks nothing. Until a player owns an axe or a shovel, a bare hand mines that tool's blocks, so the oak logs and dirt that buy them can be punched.
 
 **Efficiency and Blast.** Efficiency is vanilla dig speed. Blast breaks extra blocks per swing: 2x1, 2x2, 3x3, then 3x3 two deep and 3x3x3 at level 5.
 
@@ -39,7 +39,9 @@ A zone is one mine (or two), one or two mobs, one trader and a list of steps in 
 
 **Upgrade order.** A tool's steps in a zone are bought one at a time, in order, and only once every step for that tool is bought in the zones played before it: the earlier zones of its own region and every zone of the regions leading there (`after`, or `portal`, in `regions.csv`). Each tool goes on its own, so a pick can be ahead of the sword. Regions side by side never wait on each other: Gormak and Verdant Groves both need Origin Isles only, and Khorvath needs Gormak but not Verdant Groves. The shop names the zone still owed. A released zone never waits on one not released yet; in a zone not released yet, which only admins reach, every zone before it counts.
 
-**Movement.** The grapple, a fishing rod sold at the end of Verdant Groves, throws you the way you look, on the ground or in the air, every 3 seconds; it climbs Khorvath's cliff. Chained in the air it can also cross a void gap. The elytra and rockets, sold at the end of Emerald Peaks, cross the 40 block gaps to the Duat and the Ironbound Quarry and fly up the 20 blocks to Elderwood Heart.
+**What a trader sells.** Every zone sells at least one step for the pick, the sword and each armour piece. A gathering zone (Origin Isles, Verdant Groves, Elderwood Roots, Sunken Marsh, Emerald Peaks, Cloud Isles, the Ironbound Quarry) sells 5 steps for each tool its mines need; a fighting zone (Gormak, Khorvath, the Duat, Elderwood Heart, the Sky Kingdom, and any zone with no mine, like the boss zones) sells 5 for the sword and 3 for each armour piece and the shield. The mace, where it is sold, counts as a sword. Passive mobs do not make a zone a fighting one. **First purchases.** A tool beyond the starter set is bought once before it can be upgraded: the axe at the Oak Grove (16 oak logs), the shovel at the Foothills (32 dirt), the shield at the Abandoned City, the mace at Cloudbank and the grapple at the Dark Oak Thicket (200 dark oak logs, 5,000 silver).
+
+**Movement.** The grapple, a fishing rod bought from the Dark Oak trader at the end of Verdant Groves, throws you the way you look, on the ground or in the air. It starts at half the throw it once had and a 10 second cooldown; every zone after Verdant Groves sells a level of Thrust (a fiftieth more power each) and Recharge (a fifth of a second off the cooldown each, never under 1.5 seconds); it climbs Khorvath's cliff. Chained in the air it can also cross a void gap. The elytra and rockets, sold at the end of Emerald Peaks, cross the 40 block gaps to the Duat and the Ironbound Quarry and fly up the 20 blocks to Elderwood Heart.
 
 ## 3. The ladder
 
@@ -48,7 +50,7 @@ Every region has a stage. Regions of one stage are played side by side, each wit
 | Stage | Regions |
 |---|---|
 | 1 | Origin Isles |
-| 2 | Gormak (fighting), Verdant Groves (gathering, sells the grapple and the Elderwood Pass) |
+| 2 | Gormak (fighting), Verdant Groves (gathering, the grapple at Dark Oak, the Elderwood Pass at its gate) |
 | 3 | Khorvath (fighting, up a cliff), Elderwood Roots (gathering, the axe), Sunken Marsh (the pick and a little of everything) |
 | 4 | Emerald Peaks (gathering, the shovel; sells the elytra, rockets and the Sky Pass) |
 | 5 | The Duat (twelve gods, across a gap), Elderwood Heart (fighting, up the tree), Cloud Isles (gathering, the mace) |
@@ -60,75 +62,75 @@ A zone is priced for a player who has finished every region of every earlier sta
 | Zone | Minutes | Mines | Mobs | Steps | Total cost |
 |---|---|---|---|---|---|
 | **Origin Isles** (stage 1) | | | | | |
-| Cobblestone Quarry | 1.6 | cobblestone | - | 11 | 160 cobblestone |
-| Coal Seam | 1.6 | coal | - | 11 | 820 coal |
-| Copper Vein | 2.1 | copper | chicken | 22 | 716 copper, 10 feather |
-| Iron Deposit | 3.5 | iron | sheep | 21 | 1,184 iron, 22 wool |
-| Gold Reef | 5.5 | gold | cow | 22 | 2,860 gold, 28 leather |
+| Cobblestone Quarry | 1.6 | cobblestone | - | 10 | 160 cobblestone |
+| Coal Seam | 1.6 | coal | - | 10 | 870 coal |
+| Copper Vein | 2.1 | copper | chicken | 10 | 910 copper, 6 feather |
+| Iron Deposit | 3.5 | iron | sheep | 10 | 2,010 iron, 3 wool |
+| Gold Reef | 5.5 | gold | cow | 10 | 4,100 gold, 3 leather |
 | **Gormak** (stage 2) | | | | | |
-| Abandoned City | 4.9 | carved brick | hollowed serf, scavenger husk | 28 | 36 ancient scrap, 660 carved brick, 69 tattered cloth |
-| The Dunes | 4.9 | sunbaked sand | dune scout, sand stalker | 29 | 32 ancient flesh, 49 ancient bone, 2,120 sunbaked sand |
-| Sun Temple | 4.9 | raw gold | tomb guard, vizier mage | 29 | 17 ancient nugget, 112 vizier scroll, 6,550 raw gold |
-| Royal Tomb | 8.2 | - | gormak minion, gormak guardian, gormak eternal (boss) | 16 | 24 tomb dust, 61 guardian sigil, 12 ancient nugget |
+| Abandoned City | 4.9 | carved brick | hollowed serf, scavenger husk | 22 | 14 ancient scrap, 270 carved brick, 8 tattered cloth |
+| The Dunes | 4.9 | sunbaked sand | dune scout, sand stalker | 21 | 13 ancient flesh, 8 ancient bone, 900 sunbaked sand |
+| Sun Temple | 4.9 | raw gold | tomb guard, vizier mage | 21 | 13 ancient nugget, 8 vizier scroll, 2,800 raw gold |
+| Royal Tomb | 8.2 | - | gormak minion, gormak guardian, gormak eternal (boss) | 21 | 11 tomb dust, 11 guardian sigil, 1 ancient nugget |
 | **Verdant Groves** (stage 2) | | | | | |
-| Oak Grove | 4.9 | oak log, tin | grove horse | 14 | 6,040 tin, 176 oak log, 55 horsehair |
-| Birch Hollow | 4.9 | birch log, bronze | hollow fox | 13 | 446 birch log, 6,600 bronze, 36 fox fur |
-| Spruce Ridge | 4.9 | spruce log, lead | ridge wolf | 13 | 552 spruce log, 12,700 lead, 39 wolf pelt |
-| Dark Oak Thicket | 4.9 | dark oak log, silver | thicket sniffer | 12 | 982 dark oak log, 21,400 silver, 36 ancient seed |
+| Oak Grove | 4.9 | oak log, tin | grove horse | 16 | 184 oak log, 8,040 tin, 8 horsehair |
+| Birch Hollow | 4.9 | birch log, bronze | hollow fox | 15 | 832 birch log, 5,250 bronze, 8 fox fur |
+| Spruce Ridge | 4.9 | spruce log, lead | ridge wolf | 15 | 1,244 spruce log, 15,700 lead, 7 wolf pelt |
+| Dark Oak Thicket | 4.9 | dark oak log, silver | thicket sniffer | 16 | 1,720 dark oak log, 28,000 silver, 7 ancient seed |
 | **Khorvath** (stage 3) | | | | | |
-| Howling Canyons | 8.0 | crimson sand | scarab zealot, hollowed legionnaire | 33 | 21,500 crimson sand, 31 deserter coin, 124 legion plate |
-| Ancient Ruins | 10.0 | relic stone | scarab zealot, relic warrior | 18 | 692 scarab shell, 54 relic shard, 1,440 relic stone |
-| Catacombs | 10.0 | ossuary bone | royal myrmidon, pharaoh | 18 | 120 eternal soul, 164 royal seal, 1,440 ossuary bone |
-| Sanctuary of the Sun | 12.0 | - | anubite executioner, sphinx, khorvath (boss) | 17 | 16 anubite mark, 25 sphinx claw |
+| Howling Canyons | 8.0 | crimson sand | scarab zealot, hollowed legionnaire | 23 | 27,800 crimson sand, 12 deserter coin, 4 legion plate |
+| Ancient Ruins | 10.0 | relic stone | scarab zealot, relic warrior | 23 | 296 scarab shell, 11 relic shard, 980 relic stone |
+| Catacombs | 10.0 | ossuary bone | royal myrmidon, pharaoh | 23 | 16 eternal soul, 11 royal seal, 980 ossuary bone |
+| Sanctuary of the Sun | 12.0 | - | anubite executioner, sphinx, khorvath (boss) | 23 | 17 anubite mark, 11 sphinx claw |
 | **Elderwood Roots** (stage 3) | | | | | |
-| Jungle Floor | 10.0 | jungle log | jungle panda | 12 | 6,290 jungle log, 60 panda fur |
-| Bamboo Thicket | 10.0 | bamboo | jungle ocelot | 11 | 6,140 bamboo, 60 ocelot whisker |
-| Amber Hollow | 10.0 | elderbark, amber | wild bee | 11 | 2,820 elderbark, 880 amber, 24 royal jelly |
-| Treant Grove | 10.0 | - | tree zombee, treant | 10 | 188 tree sap, 400 ancient seed |
+| Jungle Floor | 10.0 | jungle log | jungle panda | 13 | 7,190 jungle log, 9 panda fur |
+| Bamboo Thicket | 10.0 | bamboo | jungle ocelot | 13 | 7,390 bamboo, 9 ocelot whisker |
+| Amber Hollow | 10.0 | elderbark, amber | wild bee | 13 | 3,710 elderbark, 620 amber, 9 royal jelly |
+| Treant Grove | 10.0 | - | tree zombee, treant | 23 | 23 tree sap, 32 ancient seed |
 | **Sunken Marsh** (stage 3) | | | | | |
-| Mudflats | 8.0 | packed mud | bog frog | 12 | 12,620 packed mud, 36 frog leg |
-| Peat Bog | 10.0 | peat | bog walker | 13 | 8,620 peat, 21 bog rag |
-| Sunken Ruins | 10.0 | verdigris | bogged archer, sunken drowned | 18 | 59 poison quill, 31 drowned scale, 1,550 verdigris |
-| Hydra Pool | 12.0 | - | marsh lurker, hydra (boss) | 17 | 17 lurker fang |
+| Mudflats | 8.0 | packed mud | bog frog | 12 | 16,000 packed mud, 8 frog leg |
+| Peat Bog | 10.0 | peat | bog walker | 12 | 14,620 peat, 8 bog rag |
+| Sunken Ruins | 10.0 | verdigris | bogged archer, sunken drowned | 12 | 7 poison quill, 18,600 verdigris |
+| Hydra Pool | 12.0 | - | marsh lurker, hydra (boss) | 23 | 23 lurker fang |
 | **Emerald Peaks** (stage 4) | | | | | |
-| Foothills | 8.0 | dirt | mountain goat | 13 | 1 cobblestone, 2,768 dirt, 36 goat hide |
-| Redstone Mines | 10.0 | redstone | frost spider | 14 | 27,840 redstone, 24 spider silk |
-| Pumpkin Terraces | 10.0 | pumpkin, snow | snow fox | 14 | 1,220 snow, 3,310 pumpkin, 60 snow pelt |
-| Lapis Ridge | 10.0 | lapis | peak stray | 13 | 18,390 lapis, 1,010 snow, 640 pumpkin, 68 frost arrow |
-| Melon Ledges | 10.0 | melon, emerald | cliff goat | 15 | 21,440 emerald, 1,980 dirt, 1,254 melon, 36 cliff horn |
-| Arachne Cave | 12.0 | - | cave spider, spider rider, arachne (boss) | 17 | 33 venom sac, 88 rider bone |
+| Foothills | 8.0 | dirt | mountain goat | 14 | 2,630 dirt, 1 cobblestone, 9 goat hide |
+| Redstone Mines | 10.0 | redstone | frost spider | 12 | 61,700 redstone, 8 spider silk |
+| Pumpkin Terraces | 10.0 | pumpkin, snow | snow fox | 18 | 638 snow, 2,113 pumpkin, 9 snow pelt |
+| Lapis Ridge | 10.0 | lapis | peak stray | 12 | 54,600 lapis, 550 snow, 8 frost arrow, 300 pumpkin |
+| Melon Ledges | 10.0 | melon, emerald | cliff goat | 17 | 48,900 emerald, 1,446 melon, 8 cliff horn, 600 dirt |
+| Arachne Cave | 12.0 | - | cave spider, spider rider, arachne (boss) | 23 | 17 venom sac, 11 rider bone |
 | **The Duat** (stage 5) | | | | | |
-| Ashen River | 13.0 | basalt, ash | anubis, sobek, osiris | 23 | 4,500 basalt, 10 anubis sigil, 10 sobek sigil, 7 osiris sigil, 100 ash |
-| Hall of Judgement | 15.0 | scale gold | thoth, maat, horus | 18 | 10 thoth sigil, 10 maat sigil, 28 horus sigil, 3,600 scale gold |
-| Solar Forge | 15.0 | solar slag | sekhmet, ptah, khnum | 18 | 10 sekhmet sigil, 10 ptah sigil, 7 khnum sigil, 3,100 solar slag |
-| Throne of Night | 17.0 | nightstone | set, apep, nephthys, sol (boss) | 18 | 10 set sigil, 10 apep sigil, 28 nephthys sigil, 3,600 nightstone |
+| Ashen River | 13.0 | basalt, ash | anubis, sobek, osiris | 23 | 35,500 basalt, 6 anubis sigil, 8 sobek sigil, 3 osiris sigil, 48 ash |
+| Hall of Judgement | 15.0 | scale gold | thoth, maat, horus | 23 | 13 thoth sigil, 12 maat sigil, 7 horus sigil, 8,800 scale gold |
+| Solar Forge | 15.0 | solar slag | sekhmet, ptah, khnum | 23 | 13 sekhmet sigil, 12 ptah sigil, 7 khnum sigil, 7,200 solar slag |
+| Throne of Night | 17.0 | nightstone | set, apep, nephthys, sol (boss) | 23 | 13 set sigil, 12 apep sigil, 7 nephthys sigil, 8,800 nightstone |
 | **Elderwood Heart** (stage 5) | | | | | |
-| Root Cellar | 12.0 | heartwood log | sapling zombee | 19 | 820 heartwood log, 96 sapling twig |
-| Vine Halls | 12.0 | elder vine | elder zombee, canopy spider | 18 | 73 canopy silk, 2,580 elder vine |
-| Hive Chambers | 12.0 | wax comb, beeswax | hive guard | 19 | 91 hive stinger, 3,100 beeswax, 300 wax comb |
-| Upper Canopy | 12.0 | - | treehouse sentry, canopy treant | 17 | 120 sentry arrowhead, 31 canopy bark |
-| The Crown | 12.0 | - | canopy treant, elder treant (boss) | 17 | 760 canopy bark |
+| Root Cellar | 12.0 | heartwood log | sapling zombee | 23 | 23 sapling twig, 120 heartwood log |
+| Vine Halls | 12.0 | elder vine | elder zombee, canopy spider | 23 | 17 canopy silk, 11 elder vine |
+| Hive Chambers | 12.0 | wax comb, beeswax | hive guard | 23 | 22 hive stinger, 7,200 beeswax |
+| Upper Canopy | 12.0 | - | treehouse sentry, canopy treant | 23 | 17 sentry arrowhead, 11 canopy bark |
+| The Crown | 12.0 | - | canopy treant, elder treant (boss) | 23 | 74 canopy bark |
 | **Cloud Isles** (stage 5) | | | | | |
-| Cloudbank | 12.0 | cloudstone, cloud dust | sky sheep | 16 | 18,240 cloudstone, 1,070 cloud dust, 104 cloud fleece |
-| Skyshard Spires | 15.0 | skyshard | sky phantom | 14 | 23,700 skyshard, 51 phantom veil |
-| Storm Front | 15.0 | storm copper | storm wraith | 14 | 23,700 storm copper, 51 storm essence |
-| Sky Harbour | 18.0 | - | sky pirate, pirate captain | 20 | 119 pirate doubloon, 26 captain compass |
+| Cloudbank | 12.0 | cloudstone, cloud dust | sky sheep | 19 | 10 cloud fleece, 46,100 cloudstone, 3,270 cloud dust |
+| Skyshard Spires | 15.0 | skyshard | sky phantom | 13 | 82,300 skyshard, 9 phantom veil |
+| Storm Front | 15.0 | storm copper | storm wraith | 13 | 82,300 storm copper, 9 storm essence |
+| Sky Harbour | 18.0 | - | sky pirate, pirate captain | 28 | 22 pirate doubloon, 16 captain compass |
 | **Sky Kingdom** (stage 6) | | | | | |
-| Outer Walls | 20.0 | royal quartz | royal guard | 18 | 179 guard insignia, 6,200 royal quartz |
-| Gilded Gardens | 20.0 | cherry log, sunpetal | garden bee, gardener | 19 | 84 golden pollen, 120 gardener seed, 5,000 sunpetal, 480 cherry log |
-| Royal Treasury | 22.0 | celestine, aurium | treasury knight, crossbowman | 19 | 33 knight crest, 256 crossbow bolt, 5,500 celestine, 5,000 aurium |
-| Throne Room | 28.0 | - | throne guard, sky king (boss) | 17 | 74 throne seal |
+| Outer Walls | 20.0 | royal quartz | royal guard | 23 | 22 guard insignia, 13,900 royal quartz |
+| Gilded Gardens | 20.0 | cherry log, sunpetal | garden bee, gardener | 23 | 16 golden pollen, 11 gardener seed, 12,400 sunpetal |
+| Royal Treasury | 22.0 | celestine, aurium | treasury knight, crossbowman | 23 | 16 knight crest, 11 crossbow bolt, 31,000 celestine |
+| Throne Room | 28.0 | - | throne guard, sky king (boss) | 23 | 23 throne seal |
 | **Ironbound Quarry** (stage 6) | | | | | |
-| Gravel Pits | 18.0 | gravel, tungsten | quarry pillager | 15 | 22,900 tungsten, 1,430 gravel, 136 pillager ration |
-| Pale Woods | 20.0 | pale log, platinum | quarry vindicator | 14 | 5,660 pale log, 10,500 platinum, 40 iron tag, 320 gravel |
-| Maple Grove | 20.0 | maple, clay, titanium | quarry pillager, quarry vindicator | 15 | 6,370 maple, 1,950 clay, 288 iron tag, 4,500 titanium |
-| Diamond Depths | 22.0 | diamond | quarry ravager | 13 | 39,800 diamond, 23 ravager horn, 1,000 maple, 200 clay, 400 gravel, 2,000 pale log |
-| The Quarry Pit | 20.0 | - | pillager captain, quarry warden | 17 | 59 captain banner, 24 warden plate |
-| Golem Rest | 20.0 | - | overworld golem | 7 | 7 golem shard |
+| Gravel Pits | 18.0 | gravel, tungsten | quarry pillager | 17 | 77,200 tungsten, 3,690 gravel, 8 pillager ration |
+| Pale Woods | 20.0 | pale log, platinum | quarry vindicator | 17 | 830 pale log, 62,200 platinum, 8 iron tag, 600 gravel |
+| Maple Grove | 20.0 | maple, clay, titanium | quarry pillager, quarry vindicator | 22 | 974 maple, 12,470 clay, 21 iron tag, 30,500 titanium |
+| Diamond Depths | 22.0 | diamond | quarry ravager | 12 | 222,000 diamond, 8 ravager horn, 120 maple, 800 clay, 1,200 gravel, 640 pale log |
+| The Quarry Pit | 20.0 | - | pillager captain, quarry warden | 23 | 17 captain banner, 11 warden plate |
+| Golem Rest | 20.0 | - | overworld golem | 23 | 23 golem shard |
 
 The zones add up to about 10.5 hours of real play.
 
-**Gates.** The Gormak Gate trader beside the Gold Reef sells the Gormak Key (300 gold, 20 leather), which opens the portal to Gormak. The Elderwood Gatekeeper at the end of Verdant Groves sells the Elderwood Pass and the grapple, the Sky Gatekeeper at the end of Emerald Peaks the Sky Pass, the elytra and rockets. The Core Smith in Golem's Rest infuses the Overworld Core: one core, upgraded a zone at a time in play order. Each step needs its zone maxed and costs 25 times everything that zone costs, with 1 Golem Core Shard (one more every ten steps). The last step opens the Caverns. In the Royal Tomb a Tomb Key, a rare drop from the myrmidon and the pharaoh, is right-clicked to summon Gormak the Eternal. A key is used up; another has to be found.
+**Gates.** The Gormak Gate trader beside the Gold Reef sells the Gormak Key (300 gold, 20 leather), which opens the portal to Gormak. The Elderwood Gatekeeper at the end of Verdant Groves sells the Elderwood Pass, the Sky Gatekeeper at the end of Emerald Peaks the Sky Pass, the elytra and rockets. The Core Smith in Golem's Rest infuses the Overworld Core: one core, upgraded a zone at a time in play order. Each step needs its zone maxed and costs 25 times everything that zone costs, with 1 Golem Core Shard (one more every ten steps). The last step opens the Caverns. In the Royal Tomb a Tomb Key, a rare drop from the myrmidon and the pharaoh, is right-clicked to summon Gormak the Eternal. A key is used up; another has to be found.
 
 **Bosses.** Gormak the Eternal (three phases, ghouls, minions and a guardian) ends Gormak. Khorvath, the Hydra, Arachne, Sol, the Elder Treant and the Sky King are summoned by a key their region's mobs drop, and drop a trophy the Overworld Core needs. The Overworld Golem returns every 5 minutes in Golem's Rest. The Treant ends Elderwood Roots, the Mirage is a rare mob for any Gormak zone. The Pirate Captain carries the Storm Mace, a rare drop.
 

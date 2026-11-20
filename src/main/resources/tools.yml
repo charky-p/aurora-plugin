@@ -125,3 +125,10 @@ items:
     item: MACE
     materials:
       - "NONE"
+
+  grapple:
+    name: Grapple
+    kind: movement
+    item: FISHING_ROD
+    materials:
+      - "NONE"

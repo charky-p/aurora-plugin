@@ -13,6 +13,8 @@ public final class ToolLevels {
     public static final String MATERIAL = "material";
     // In tools.csv, for a tool that comes in one form only
     public static final String NO_MATERIAL = "NONE";
+    // Not a level either: the step that sells a tool the first time, level 1 once owned
+    public static final String UNLOCK = "unlock";
 
     private ToolLevels() {
     }

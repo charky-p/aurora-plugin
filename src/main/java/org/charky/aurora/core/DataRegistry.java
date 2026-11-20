@@ -254,6 +254,7 @@ public class DataRegistry {
     private int upgradeLevel(ToolType tool, String stat, String level) {
         if (stat == null || level == null) return -1;
         if (stat.equalsIgnoreCase(ToolLevels.MATERIAL)) return ToolLevels.materialLevel(tool.materials(), level);
+        if (stat.equalsIgnoreCase(ToolLevels.UNLOCK)) return 1;
         if (!enchants.containsKey(stat.toLowerCase())) return -1;
         try {
             return Integer.parseInt(level);

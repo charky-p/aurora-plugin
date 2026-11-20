@@ -5,5 +5,5 @@ tomb_shop,<gold><b>Royal Tomb,icon_tomb,3,BBBBIBBBB|B  u U  B|BBBBBBBBX
 tomb_utility,<gold><b>Royal Tomb <dark_gray>| <gray>Utility,icon_utility,3,BBBBIBBBB|B  12   B|zBBBBBBBX
 aurora_hub,<aqua><b>Aurora,icon_menu,6,BBBBBBBBB|B       B|B 1 4 6 B|B 7 s w B|B  9 l  B|BBBBBBBBX
 food_shop,<gold><b>Camp Cook,icon_food,3,BBBBBBBBB|B12345  B|BBBBBBBBX
-elderwood_gate_shop,<dark_green><b>Elderwood Gate,icon_elderwood,3,BBBBIBBBB|B  1 2  B|BBBBBBBBX
+elderwood_gate_shop,<dark_green><b>Elderwood Gate,icon_elderwood,3,BBBBIBBBB|B   1   B|BBBBBBBBX
 sky_gate_shop,<aqua><b>Sky Gate,icon_sky,3,BBBBIBBBB|B 1 2 3 B|BBBBBBBBX

@@ -212,6 +212,15 @@ public class ToolManager implements Listener {
                 inventory.setItem(slot, null);
                 continue;
             }
+            // The grapple was once a shop item, one still carried becomes the tool, and theirs
+            if (id == null && OLD_GRAPPLE.equals(DataRegistry.itemId(inventory.getItem(slot)))) {
+                ToolType grapple = registry.getToolType(OLD_GRAPPLE);
+                Realm realm = realmOf(player);
+                if (grapple == null || realm == null) continue;
+                if (!owns(player.getUniqueId(), OLD_GRAPPLE)) put(player.getUniqueId(), realm.id(), OLD_GRAPPLE, ToolLevels.MATERIAL, 0);
+                inventory.setItem(slot, build(player, grapple));
+                continue;
+            }
             ToolType tool = registry.getToolType(id);
             if (tool != null) inventory.setItem(slot, build(player, tool));
         }
@@ -219,6 +228,8 @@ public class ToolManager implements Listener {
 
     // The God Tool was taken out of the game, one still carried is removed when tools are redrawn
     private static final String OLD_GOD_TOOL = "god";
+    // The grapple's item id from when it was sold as an item, and its tool id now
+    private static final String OLD_GRAPPLE = "grapple";
 
     public boolean carries(Player player, ToolType tool) {
         for (ItemStack item : player.getInventory().getContents()) {
@@ -234,9 +245,19 @@ public class ToolManager implements Listener {
         return plugin.getBackpackManager().get(player.getUniqueId());
     }
 
-    // A zone's steps count against what the player has in the zone's own realm
+    // A zone's steps count against what the player has in the zone's own realm. The
+    // unlock is 1 once the tool is theirs, in any realm
     private int own(Player player, UpgradeZone zone, String tool, String stat) {
+        if (stat.equals(ToolLevels.UNLOCK)) return owns(player.getUniqueId(), tool) ? 1 : 0;
         return level(player.getUniqueId(), zone.realm(), tool, stat);
+    }
+
+    // Bought or handed out once, in any realm. Owning a tool is having levels for it
+    public boolean owns(UUID uuid, String tool) {
+        for (Map<String, Map<String, Integer>> realm : levels.getOrDefault(uuid, Map.of()).values()) {
+            if (realm.containsKey(tool)) return true;
+        }
+        return false;
     }
 
     public UpgradeZone.Step next(Player player, UpgradeZone zone, String tool) {
@@ -311,8 +332,9 @@ public class ToolManager implements Listener {
     // will have in all once the step is bought, not the level within the zone's
     // realm, since realms add up
     public Component describe(Player player, UpgradeZone zone, ToolType tool, UpgradeZone.Step step) {
-        if (step.stat().equals(ToolLevels.MATERIAL)) {
-            String material = ToolLevels.material(tool.materials(), step.level());
+        if (step.stat().equals(ToolLevels.MATERIAL) || step.stat().equals(ToolLevels.UNLOCK)) {
+            String material = ToolLevels.material(tool.materials(), step.stat().equals(ToolLevels.UNLOCK) ? 0 : step.level());
+            if (material.equalsIgnoreCase(ToolLevels.NO_MATERIAL)) return Component.text(tool.name());
             return Component.text(material.charAt(0) + material.substring(1).toLowerCase() + " " + tool.name());
         }
         Realm realm = realmOf(player);
@@ -330,13 +352,16 @@ public class ToolManager implements Listener {
         UpgradeZone.Step step = next(player, zone, toolId);
         if (step == null) return "That tool is maxed here";
         if (status(player, zone, toolId) == UpgradeZone.Status.BEHIND) return behindReason(player, zone, tool);
+        boolean unlock = step.stat().equals(ToolLevels.UNLOCK);
+        if (!unlock && !owns(player.getUniqueId(), toolId)) return "You need to buy the " + tool.name() + " first";
         if (!backpack.hasItems(player, step.costs())) return "Not enough items";
 
         backpack.removeItems(player, step.costs());
         Component bought = describe(player, zone, tool, step);
-        set(player.getUniqueId(), zone.realm(), toolId, step.stat(), step.level());
-        // A tool first sold here, like the shovel at Emerald Peaks, is handed over
-        if (!carries(player, tool)) give(player, tool);
+        // Bought before it is handed over, so a full inventory never costs the tool
+        if (unlock) set(player.getUniqueId(), zone.realm(), toolId, ToolLevels.MATERIAL, 0);
+        else set(player.getUniqueId(), zone.realm(), toolId, step.stat(), step.level());
+        if (!carries(player, tool) && !give(player, tool)) TextUtils.error(player, "Your inventory is full, click the trader again to take it.");
 
         player.sendMessage(TextUtils.parse("<gold><b>UPGRADED</b> <gray>" + tool.name() + ": <white>").append(bought));
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1.4f);

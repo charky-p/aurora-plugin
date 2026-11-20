@@ -200,7 +200,7 @@ items:
     rows: 3
     layout:
       - "BBBBIBBBB"
-      - "B  1 2  B"
+      - "B   1   B"
       - "BBBBBBBBX"
     components:
       '1':
@@ -211,14 +211,6 @@ items:
             amount: 3200
           - id: ancient_seed
             amount: 4
-      '2':
-        type: TRADE
-        id: grapple
-        cost:
-          - id: dark_oak_log
-            amount: 200
-          - id: silver
-            amount: 5000
 
   sky_gate_shop:
     title: "<aqua><b>Sky Gate"

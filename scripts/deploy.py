@@ -10,6 +10,8 @@ Aurora deploy helpers, plain Python so they run on the live server's host too.
       replaces the host's game worlds with the ones named in deploy.ini and deletes
       every other world there, except keep and vanilla's overworld, nether and end.
       --all is both. Stop the host's server first when sending the database or worlds.
+      The first --db with player loadouts makes everything players did on the host so
+      far their experimental loadout, so the main one starts fresh on their next join.
       The host's own mines.db is downloaded into LocalServer/aurora-backups first.
       Files that have not changed since the last upload are skipped, --force sends
       everything. --dry-run lists what would be sent without connecting,
@@ -142,6 +144,27 @@ GAME_TABLES = {"mines": "world", "spawners": "world", "traders": "world", "porta
                "safe_zones": "world"}
 # Numbered by the database, the host numbers LocalServer's rows again
 AUTO_IDS = {"traders": "id"}
+# Every per-player table that belongs to a loadout, kept in step with LoadoutStore.TABLES
+LOADOUT_TABLES = ("playerData", "player_ranks", "player_cosmetics", "player_equipped", "player_tools",
+                  "player_perks", "collections", "backpack_data", "unlocked_gear", "portal_access", "tutorial")
+
+
+def progress_to_experimental(db):
+    """The first deploy with loadouts, the host has no loadouts table yet: everything its
+    players did so far was testing. Each one is marked as playing the experimental loadout,
+    nothing is moved, so their next join in a main world puts it all away as experimental
+    and starts the main one fresh (LoadoutManager). How many players that is."""
+    if db.execute("SELECT 1 FROM main.sqlite_master WHERE type = 'table' AND name = 'loadouts'").fetchone():
+        return 0
+    # The same table Schema.java makes, so the plugin finds it as it expects
+    db.execute("CREATE TABLE main.loadouts (uuid TEXT PRIMARY KEY, shadow TEXT, active TEXT)")
+    tables = [t for t in LOADOUT_TABLES
+              if db.execute("SELECT 1 FROM main.sqlite_master WHERE type = 'table' AND name = ?", (t,)).fetchone()]
+    if not tables:
+        return 0
+    players = " UNION ".join(f"SELECT uuid FROM main.{t}" for t in tables)
+    return db.execute(f"INSERT INTO main.loadouts (uuid, active) SELECT uuid, 'experimental' "
+                      f"FROM ({players}) WHERE uuid IS NOT NULL").rowcount
 
 
 # The host's database with LocalServer's game data in it. Player tables stay the host's,
@@ -178,6 +201,10 @@ def merge_database(host_db, local_db, out, keep):
         # One main spawn: LocalServer's, when it has one
         if db.execute("SELECT 1 FROM l.spawns WHERE main = 1").fetchone():
             db.execute(f"UPDATE main.spawns SET main = 0 WHERE world IN ({kept})", keep)
+
+        moved = progress_to_experimental(db)
+        if moved:
+            print(f"  {moved} players' progress is now their experimental loadout, main starts fresh")
     db.execute("DETACH DATABASE l")
     problem = db.execute("PRAGMA integrity_check").fetchone()[0]
     db.close()

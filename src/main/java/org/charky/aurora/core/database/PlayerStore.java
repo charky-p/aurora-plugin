@@ -26,8 +26,14 @@ public class PlayerStore {
                 playtime = excluded.playtime;
             """;
 
-    // A loadout put away is never on a leaderboard, only the one in play
-    private static final String IN_PLAY = "uuid NOT IN (SELECT shadow FROM loadouts WHERE shadow IS NOT NULL)";
+    // Every main loadout, under its player's own id: the one in play, or the one put away
+    // while they play the experimental one. Experimental loadouts are never on a leaderboard
+    private static final String MAIN_LOADOUTS = """
+            (SELECT COALESCE(l.uuid, p.uuid) AS owner, p.* FROM playerData p
+             LEFT JOIN loadouts l ON p.uuid = l.uuid OR p.uuid = l.shadow
+             WHERE l.uuid IS NULL
+                OR (p.uuid = l.uuid AND l.active = 'main')
+                OR (p.uuid = l.shadow AND l.active = 'experimental'))""";
 
     private final Database db;
 
@@ -69,11 +75,11 @@ public class PlayerStore {
     // Each row is uuid, value, tiebreak. Columns come from LeaderboardStat, never a player
     public List<long[]> top(String column, String tiebreak, int limit) {
         List<long[]> rows = new ArrayList<>();
-        db.query("SELECT uuid, " + column + " AS v, " + tiebreak + " AS t FROM playerData WHERE " + IN_PLAY
+        db.query("SELECT owner, " + column + " AS v, " + tiebreak + " AS t FROM " + MAIN_LOADOUTS
                         + " ORDER BY v DESC, t DESC LIMIT ?",
                 pst -> pst.setInt(1, limit),
                 rs -> {
-                    UUID uuid = UUID.fromString(rs.getString("uuid"));
+                    UUID uuid = UUID.fromString(rs.getString("owner"));
                     rows.add(new long[]{uuid.getMostSignificantBits(), uuid.getLeastSignificantBits(), rs.getLong("v"), rs.getLong("t")});
                 });
         return rows;
@@ -82,7 +88,7 @@ public class PlayerStore {
     // Where a value stands: how many saved players are ahead of it
     public int ahead(String column, long value) {
         int[] count = {0};
-        db.query("SELECT COUNT(*) AS c FROM playerData WHERE " + column + " > ? AND " + IN_PLAY, pst -> pst.setLong(1, value),
+        db.query("SELECT COUNT(*) AS c FROM " + MAIN_LOADOUTS + " WHERE " + column + " > ?", pst -> pst.setLong(1, value),
                 rs -> count[0] = rs.getInt("c"));
         return count[0];
     }
@@ -90,9 +96,9 @@ public class PlayerStore {
     // The highest saved levels, best first. Each row is uuid, level, xp
     public List<Object[]> topLevels(int limit) {
         List<Object[]> rows = new ArrayList<>();
-        db.query("SELECT uuid, level, xp FROM playerData WHERE " + IN_PLAY + " ORDER BY level DESC, xp DESC LIMIT ?",
+        db.query("SELECT owner, level, xp FROM " + MAIN_LOADOUTS + " ORDER BY level DESC, xp DESC LIMIT ?",
                 pst -> pst.setInt(1, limit),
-                rs -> rows.add(new Object[]{UUID.fromString(rs.getString("uuid")), rs.getInt("level"), rs.getLong("xp")}));
+                rs -> rows.add(new Object[]{UUID.fromString(rs.getString("owner")), rs.getInt("level"), rs.getLong("xp")}));
         return rows;
     }
 

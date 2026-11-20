@@ -320,18 +320,42 @@ class StoresTest {
         assertEquals(Map.of(uuid, Loadout.MAIN), loadouts.loadActive());
     }
 
-    // The loadout put away is never on a leaderboard
+    // Leaderboards show main loadouts only, under the player's own id, put away or not
     @Test
-    void putAwayLoadoutIsOffTheLeaderboards() {
+    void leaderboardsShowMainLoadoutsOnly() {
+        PlayerStore players = new PlayerStore(db);
+        LoadoutStore loadouts = new LoadoutStore(db);
+        UUID uuid = UUID.randomUUID();
+        players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
+        loadouts.swap(uuid, Loadout.shadowOf(uuid), Loadout.EXPERIMENTAL);
+        players.save(uuid, new PlayerData("MEMBER", 1, 0, 0, 0, 0, 0));
+
+        // Main put away while the experimental one is in play: its 30 counts, not the 1
+        List<Object[]> levels = players.topLevels(10);
+        assertEquals(1, levels.size());
+        assertEquals(uuid, levels.getFirst()[0]);
+        assertEquals(30, levels.getFirst()[1]);
+        assertEquals(900, players.top("mined", "kills", 10).getFirst()[2]);
+        assertEquals(1, players.ahead("level", 1));
+    }
+
+    // What deploy.py does to the host the first time: everyone is marked experimental and
+    // nothing moves, so nobody is on a leaderboard until they play their fresh main one
+    @Test
+    void markedExperimentalIsOffTheLeaderboards() {
         PlayerStore players = new PlayerStore(db);
         UUID uuid = UUID.randomUUID();
         players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
-        new LoadoutStore(db).swap(uuid, Loadout.shadowOf(uuid), Loadout.EXPERIMENTAL);
-        players.save(uuid, new PlayerData("MEMBER", 1, 0, 0, 0, 0, 0));
+        db.update("INSERT INTO loadouts (uuid, active) VALUES (?, 'experimental')", pst -> pst.setString(1, uuid.toString()));
 
-        assertEquals(List.of(uuid), players.topLevels(10).stream().map(row -> (UUID) row[0]).toList());
-        assertEquals(1, players.top("mined", "kills", 10).size());
-        assertEquals(0, players.ahead("level", 1));
+        assertEquals(List.of(), players.topLevels(10));
+        assertEquals(Map.of(uuid, Loadout.EXPERIMENTAL), new LoadoutStore(db).loadActive());
+
+        // Their next join in a main world: put away, a fresh main one in play
+        new LoadoutStore(db).swap(uuid, Loadout.shadowOf(uuid), Loadout.MAIN);
+        players.save(uuid, new PlayerData("MEMBER", 2, 0, 0, 0, 0, 0));
+        assertEquals(2, players.topLevels(10).getFirst()[1]);
+        assertEquals(30, players.load(Loadout.shadowOf(uuid)).getLevel());
     }
 
     // A new per-player table has to be listed, or a switch would leave its rows behind

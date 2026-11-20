@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 // Every player has two loadouts: the main one, played in every world the game is built
@@ -31,7 +32,8 @@ import java.util.function.Consumer;
 // inventory and ender chest, backpack, tools, level, Essence, collections, gear, portal
 // access, perks, cosmetics, ranks and the tutorial. Build worlds keep whichever is in
 // play. The loadout put away is kept under its own id (Loadout.shadowOf), so every
-// manager goes on using the player's real id for the one in play
+// manager goes on using the player's real id for the one in play. A main loadout that
+// starts fresh starts like a first join, tutorial included; an experimental one does not
 public class LoadoutManager implements Listener {
     private final DataRegistry registry;
     private final Database db;
@@ -43,12 +45,15 @@ public class LoadoutManager implements Listener {
     private final List<LoadoutData> holders;
     // What a loaded profile is shown in: the scoreboard, the level bar, the tab list
     private final Consumer<Player> shown;
+    // Starts the tutorial
+    private final Consumer<Player> firstJoin;
     // Players who have switched before, everyone else plays MAIN
     private final Map<UUID, Loadout> active;
     private final Map<UUID, Map<Loadout, Stash>> stashes;
 
     public LoadoutManager(DataRegistry registry, Database db, LoadoutStore store, PlayerManager players,
-                          BuildManager build, ToolManager tools, List<LoadoutData> holders, Consumer<Player> shown) {
+                          BuildManager build, ToolManager tools, List<LoadoutData> holders, Consumer<Player> shown,
+                          Consumer<Player> firstJoin) {
         this.registry = registry;
         this.db = db;
         this.store = store;
@@ -57,7 +62,9 @@ public class LoadoutManager implements Listener {
         this.tools = tools;
         this.holders = List.copyOf(holders);
         this.shown = shown;
-        this.active = store.loadActive();
+        this.firstJoin = firstJoin;
+        // Read off the main thread too, by the leaderboards
+        this.active = new ConcurrentHashMap<>(store.loadActive());
         this.stashes = store.loadStashes();
     }
 
@@ -108,6 +115,7 @@ public class LoadoutManager implements Listener {
         if (fresh) {
             StarterKit.give(player, registry);
             tools.giveStarters(player);
+            if (target == Loadout.MAIN) firstJoin.accept(player);
         }
         // So a crash can never bring back the inventory of the loadout put away
         player.saveData();

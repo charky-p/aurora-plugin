@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 // Each online player's profile: loaded on join, saved on quit and every 10 minutes
 public class PlayerManager {
@@ -24,6 +25,8 @@ public class PlayerManager {
     private final ConcurrentMap<UUID, PlayerData> profiles = new ConcurrentHashMap<>();
     // Counts each player's loads, so a load overtaken by a newer one is dropped. Main thread only
     private final Map<UUID, Integer> loads = new HashMap<>();
+    // Whose profile in play counts on leaderboards, set with the loadouts
+    private Predicate<UUID> ranked = uuid -> true;
     private final Plugin plugin;
     private final Database db;
     private final PlayerStore store;
@@ -78,6 +81,10 @@ public class PlayerManager {
         handleJoin(player, onLoaded);
     }
 
+    public void setRanked(Predicate<UUID> ranked) {
+        this.ranked = ranked;
+    }
+
     public record Standing(UUID uuid, int level, long xp) {
     }
 
@@ -94,7 +101,9 @@ public class PlayerManager {
                     UUID uuid = (UUID) row[0];
                     standings.put(uuid, new Standing(uuid, (int) row[1], (long) row[2]));
                 }
-                profiles.forEach((uuid, data) -> standings.put(uuid, new Standing(uuid, data.getLevel(), data.getXp())));
+                profiles.forEach((uuid, data) -> {
+                    if (ranked.test(uuid)) standings.put(uuid, new Standing(uuid, data.getLevel(), data.getXp()));
+                });
 
                 then.accept(standings.values().stream()
                         .sorted(Comparator.comparingInt(Standing::level).thenComparingLong(Standing::xp).reversed())
@@ -113,7 +122,7 @@ public class PlayerManager {
     public void top(LeaderboardStat stat, int size, UUID asking, BiConsumer<List<Entry>, Integer> then) {
         db.async(() -> {
             List<long[]> saved = store.top(stat.column(), stat.tiebreak(), size + profiles.size());
-            PlayerData mine = profiles.get(asking);
+            PlayerData mine = ranked.test(asking) ? profiles.get(asking) : null;
             int ahead = mine == null ? -1 : store.ahead(stat.column(), stat.of(mine));
 
             Bukkit.getScheduler().runTask(plugin, () -> {
@@ -122,7 +131,9 @@ public class PlayerManager {
                     UUID uuid = new UUID(row[0], row[1]);
                     entries.put(uuid, new Entry(uuid, row[2], row[3]));
                 }
-                profiles.forEach((uuid, data) -> entries.put(uuid, new Entry(uuid, stat.of(data), stat.tiebreakOf(data))));
+                profiles.forEach((uuid, data) -> {
+                    if (ranked.test(uuid)) entries.put(uuid, new Entry(uuid, stat.of(data), stat.tiebreakOf(data)));
+                });
                 List<Entry> top = entries.values().stream()
                         .sorted(Comparator.comparingLong(Entry::value).thenComparingLong(Entry::tiebreak).reversed())
                         .limit(size)

@@ -46,6 +46,7 @@ import org.charky.aurora.features.keys.AccessManager;
 import org.charky.aurora.features.build.BuildManager;
 import org.charky.aurora.features.pvp.SafeZoneManager;
 import org.charky.aurora.features.keys.KeyItemListener;
+import org.charky.aurora.features.loadout.Loadout;
 import org.charky.aurora.features.loadout.LoadoutData;
 import org.charky.aurora.features.loadout.LoadoutManager;
 import org.charky.aurora.features.mine.MineListener;
@@ -260,7 +261,9 @@ public class Aurora extends JavaPlugin {
                     scoreboard.setupBoard(player);
                     levelManager.show(player);
                     tabManager.updateAll();
-                });
+                }, tutorialManager::begin);
+        // Leaderboards only count main loadouts, an experimental one in play is left out
+        players.setRanked(uuid -> loadoutManager.activeOf(uuid) == Loadout.MAIN);
     }
 
     // What the ACTION buttons in the menu files do. Looked up when clicked, see MenuActions

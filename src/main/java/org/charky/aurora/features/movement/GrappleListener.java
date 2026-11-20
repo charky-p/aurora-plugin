@@ -26,8 +26,8 @@ import java.util.UUID;
 // or in the air, throws you the way you look: a burst, a second push a tick later so
 // it feels like being pulled, and a trail of wind behind you. The rod shows the
 // cooldown. The landing after a launch does no fall damage. It starts at half the
-// throw it once had and a 10 second cooldown; Thrust and Recharge, sold in every zone
-// after Verdant Groves, bring both back
+// throw it once had and a 10 second cooldown. Every zone after Verdant Groves sells one
+// grapple upgrade, Thrust and Recharge in turn, and each level is a big step
 public class GrappleListener implements Listener {
     public static final String ITEM_ID = "grapple";
     // Full power, what a grapple threw before it could be upgraded
@@ -35,12 +35,12 @@ public class GrappleListener implements Listener {
     private static final double LIFT = 0.3;
     // The second push, a tick after the first, on top of what is left of it
     private static final double PULL = 0.45;
-    // Share of full power: half to start, a fiftieth more for each Thrust level
+    // Share of full power: half to start, a twentieth more for each Thrust level
     private static final double BASE_POWER = 0.5;
-    private static final double POWER_PER_THRUST = 0.02;
-    // 10 seconds to start, a fifth of a second less for each Recharge level
+    private static final double POWER_PER_THRUST = 0.05;
+    // 10 seconds to start, half a second less for each Recharge level
     private static final int BASE_COOLDOWN_TICKS = 200;
-    private static final int TICKS_PER_RECHARGE = 4;
+    private static final int TICKS_PER_RECHARGE = 10;
     private static final int MIN_COOLDOWN_TICKS = 30;
     private static final int TRAIL_TICKS = 12;
     // How long after a launch a fall still counts as the grapple's

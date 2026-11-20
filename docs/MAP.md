@@ -117,7 +117,7 @@ At the end, the portal to Elderwood Roots locked to `elderwood`, with `elderwood
 
 | Zone | Mines (`setblocks`) | Spawner mobs | Trader |
 |---|---|---|---|
-| Mudflats | `packed_mud`: `packed_mud 60 mud_brick 40`, `mud`: `swamp_mud 60 muddy_roots 40` | `bog_frog` | `mudflats_trader` |
+| Mudflats | `packed_mud`: `packed_mud 60 mud_brick 40`, `mud`: `mud 60 muddy_roots 40` | `bog_frog` | `mudflats_trader` |
 | Slime Hollow | `bog_slime`: `slime_block 100`, `mangrove_log`: `mangrove_log 60 mangrove_wood 25 mangrove_roots 15` | `swamp_slime` | `slime_trader` |
 | The Fens | `bog_stone`: `mossy_cobble 60 mossy_bricks 40`, `fen_soil`: `fen_soil 100`, `moss`: `bog_moss 100` | `bog_walker` | `fens_trader` |
 | Sunken Ruins | `verdigris`: `verdigris 60 verdigris_cut 40`, `mangrove_leaves`: `mangrove_leaves 100` | `bogged_archer` | `sunken_trader` |

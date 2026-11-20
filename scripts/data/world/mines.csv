@@ -23,7 +23,7 @@ bamboo,axe,bamboo_block:60|bamboo_mosaic:40
 elderbark,axe,elderbark:100
 amber,axe,amber:100
 packed_mud,pick,packed_mud:60|mud_brick:40
-mud,shovel,swamp_mud:60|muddy_roots:40
+mud,shovel,mud:60|muddy_roots:40
 bog_slime,shovel,slime_block:100
 mangrove_log,axe,mangrove_log:60|mangrove_wood:25|mangrove_roots:15
 bog_stone,pick,mossy_cobble:60|mossy_bricks:40

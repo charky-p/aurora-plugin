@@ -416,7 +416,7 @@ items:
         min: 2
         max: 4
 
-  swamp_mud:
+  mud:
     material: MUD
     xp: 10
     independent:

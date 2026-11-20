@@ -25,6 +25,7 @@ import org.charky.aurora.core.database.PlayerStore;
 import org.charky.aurora.core.database.PortalStore;
 import org.charky.aurora.core.database.RankStore;
 import org.charky.aurora.core.database.Schema;
+import org.charky.aurora.core.database.LoadoutStore;
 import org.charky.aurora.core.database.SpawnStore;
 import org.charky.aurora.core.database.SpawnerStore;
 import org.charky.aurora.core.database.SuggestionStore;
@@ -45,6 +46,8 @@ import org.charky.aurora.features.keys.AccessManager;
 import org.charky.aurora.features.build.BuildManager;
 import org.charky.aurora.features.pvp.SafeZoneManager;
 import org.charky.aurora.features.keys.KeyItemListener;
+import org.charky.aurora.features.loadout.LoadoutData;
+import org.charky.aurora.features.loadout.LoadoutManager;
 import org.charky.aurora.features.mine.MineListener;
 import org.charky.aurora.features.movement.DashListener;
 import org.charky.aurora.features.movement.DoubleJumpListener;
@@ -137,6 +140,7 @@ public class Aurora extends JavaPlugin {
     private ToolManager toolManager;
     private UpgradeShop upgradeShop;
     private SuggestionManager suggestionManager;
+    private LoadoutManager loadoutManager;
     private DataRegistry registry;
     private Map<World, Location> spawnMap = new HashMap<>();
     private String mainWorld = MAIN_WORLD;
@@ -149,6 +153,7 @@ public class Aurora extends JavaPlugin {
         createPlayerSystems();
         createProgression();
         createWorldSystems();
+        createLoadouts();
         registerMenuActions();
         registerCommands();
         registerListeners();
@@ -246,6 +251,18 @@ public class Aurora extends JavaPlugin {
         this.safeZoneManager = new SafeZoneManager(db, new SafeZoneStore(db));
     }
 
+    // The main and experimental loadouts, after everything that keeps per-player data
+    private void createLoadouts() {
+        List<LoadoutData> holders = List.of(backpackManager, toolManager, rankManager, cosmeticManager,
+                perkManager, collectionManager, armoryManager, accessManager, tutorialManager);
+        this.loadoutManager = new LoadoutManager(registry, db, new LoadoutStore(db), players, buildManager,
+                toolManager, holders, player -> {
+                    scoreboard.setupBoard(player);
+                    levelManager.show(player);
+                    tabManager.updateAll();
+                });
+    }
+
     // What the ACTION buttons in the menu files do. Looked up when clicked, see MenuActions
     private void registerMenuActions() {
         registry.registerAction("collections", collectionManager::open);
@@ -329,7 +346,9 @@ public class Aurora extends JavaPlugin {
                 new CombatListener(this),
                 bossManager,
                 new PagedMenuListener(),
-                new CommandFilter());
+                new CommandFilter(),
+                // Last, after the join spawn, the first-join kit and the build world inventory
+                loadoutManager);
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
         }
@@ -428,6 +447,10 @@ public class Aurora extends JavaPlugin {
         return tutorialManager;
     }
 
+    public LoadoutManager getLoadoutManager() {
+        return loadoutManager;
+    }
+
     public SuggestionManager getSuggestionManager() {
         return suggestionManager;
     }
@@ -472,6 +495,10 @@ public class Aurora extends JavaPlugin {
     // Every manager is checked, enabling may have failed before it was made
     @Override
     public void onDisable() {
+        // Saves queued so far land first, a loadout switch's swap among them, then the
+        // saves below
+        if (db != null) db.flush();
+
         int count = 0;
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {

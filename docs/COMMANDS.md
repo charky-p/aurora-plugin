@@ -46,6 +46,8 @@ The gauntlet and fishing are switched off until they are finished, see [PROGRESS
 
 Without `--send` it prints the commands instead. `--regions gormak,verdant` builds only those, and `--teardown --send` deletes everything it built so it can be built again.
 
+**Two loadouts.** Every world whose name starts with `aurora_test` plays with an **experimental** loadout, every other world with the **main** one, and the swap happens by itself as you go between them. A build world keeps whichever one is in play. Everything Aurora keeps for a player is separate: inventory and ender chest, backpack, tool levels, level, XP, kills, blocks mined, Essence, playtime and rank, collections, gear unlocked from mobs, portal access, perks, cosmetics, bought, donor and staff ranks, and the tutorial. Builder status, the build inventory and suggestions are shared. The first time in a test world starts from nothing with the starter kit. Admin commands like `/a grant` and `/a reset` act on the loadout in play, so a reset in a test world only wipes the experimental one. Leaderboards never show a loadout that is put away, but while you are in a test world your own entry shows your experimental numbers.
+
 ## Worlds
 
 Extra void worlds, saved so they load on every startup.

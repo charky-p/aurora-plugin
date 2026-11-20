@@ -7,6 +7,8 @@ import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.Database;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +16,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class BackpackManager {
+public class BackpackManager implements LoadoutData {
     // Every 5 minutes, so a crash loses at most that much mining
     private static final long AUTOSAVE_TICKS = 6000L;
 
@@ -78,5 +80,11 @@ public class BackpackManager {
         Map<UUID, Map<String, Long>> copy = new HashMap<>();
         backpacks.forEach((uuid, data) -> copy.put(uuid, new HashMap<>(data.getItems())));
         return copy;
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        Swaps.keys(backpacks, player.getUniqueId(), other);
     }
 }

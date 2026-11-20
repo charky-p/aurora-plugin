@@ -10,6 +10,8 @@ import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.UnlockStore;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.tool.ToolManager;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -17,7 +19,7 @@ import java.util.function.Predicate;
 // Gear dropped by mobs is unlocked once, then any copy can be taken from the Gear
 // tab of Collections.
 // Only mob drops, shop gear is consumed by upgrades so it can never be unlimited
-public class ArmoryManager {
+public class ArmoryManager implements LoadoutData {
     private final DataRegistry registry;
     private Map<UUID, Set<String>> unlocks;
     private Database db;
@@ -141,5 +143,11 @@ public class ArmoryManager {
     public void reset(UUID uuid) {
         unlocks.remove(uuid);
         db.async(() -> store.deleteAll(uuid));
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        Swaps.keys(unlocks, player.getUniqueId(), other);
     }
 }

@@ -16,6 +16,8 @@ import org.charky.aurora.core.database.PerkStore;
 import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +25,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 // The perk levels each player has bought, and what those levels do
-public class PerkManager implements Listener {
+public class PerkManager implements Listener, LoadoutData {
     // Ten hearts, what every player has before Vitality
     private static final double BASE_HEALTH = 20.0;
 
@@ -123,6 +125,14 @@ public class PerkManager implements Listener {
         UUID uuid = player.getUniqueId();
         levels.remove(uuid);
         db.async(() -> store.deleteAll(uuid));
+        apply(player);
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        Swaps.keys(levels, player.getUniqueId(), other);
+        // Vitality's hearts are the new loadout's
         apply(player);
     }
 }

@@ -1,6 +1,7 @@
 package org.charky.aurora.core.database;
 
 import org.bukkit.Material;
+import org.charky.aurora.features.loadout.Loadout;
 import org.charky.aurora.features.mine.MineBlock;
 import org.charky.aurora.features.mine.MineData;
 import org.charky.aurora.features.player.PlayerData;
@@ -288,6 +289,66 @@ class StoresTest {
 
         store.delete(1);
         assertEquals(List.of(second), store.loadAll());
+    }
+
+    @Test
+    void loadoutSwapTradesRowsBothWays() {
+        PlayerStore players = new PlayerStore(db);
+        LoadoutStore loadouts = new LoadoutStore(db);
+        UUID uuid = UUID.randomUUID();
+        UUID shadow = Loadout.shadowOf(uuid);
+        players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
+        db.update("INSERT INTO tutorial (uuid, step) VALUES (?, ?)", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setString(2, "MINE");
+        });
+
+        // First time in a test world: the main loadout is put away, nothing comes back
+        loadouts.swap(uuid, shadow, Loadout.EXPERIMENTAL);
+        assertEquals(0, players.load(uuid).getLevel());
+        assertEquals(30, players.load(shadow).getLevel());
+        assertEquals(Map.of(uuid, Loadout.EXPERIMENTAL), loadouts.loadActive());
+
+        players.save(uuid, new PlayerData("MEMBER", 2, 0, 0, 10, 0, 0));
+        loadouts.swap(uuid, shadow, Loadout.MAIN);
+        assertEquals(30, players.load(uuid).getLevel());
+        assertEquals(2, players.load(shadow).getLevel());
+        List<String> steps = new ArrayList<>();
+        db.query("SELECT step FROM tutorial WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()),
+                rs -> steps.add(rs.getString("step")));
+        assertEquals(List.of("MINE"), steps);
+        assertEquals(Map.of(uuid, Loadout.MAIN), loadouts.loadActive());
+    }
+
+    // The loadout put away is never on a leaderboard
+    @Test
+    void putAwayLoadoutIsOffTheLeaderboards() {
+        PlayerStore players = new PlayerStore(db);
+        UUID uuid = UUID.randomUUID();
+        players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
+        new LoadoutStore(db).swap(uuid, Loadout.shadowOf(uuid), Loadout.EXPERIMENTAL);
+        players.save(uuid, new PlayerData("MEMBER", 1, 0, 0, 0, 0, 0));
+
+        assertEquals(List.of(uuid), players.topLevels(10).stream().map(row -> (UUID) row[0]).toList());
+        assertEquals(1, players.top("mined", "kills", 10).size());
+        assertEquals(0, players.ahead("level", 1));
+    }
+
+    // A new per-player table has to be listed, or a switch would leave its rows behind
+    @Test
+    void everyPlayerTableIsInALoadoutOrShared() {
+        List<String> tables = new ArrayList<>();
+        db.query("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'", pst -> {},
+                rs -> tables.add(rs.getString("name")));
+        Set<String> withPlayers = new TreeSet<>();
+        for (String table : tables) {
+            db.query("PRAGMA table_info(" + table + ")", pst -> {}, rs -> {
+                if (rs.getString("name").equalsIgnoreCase("uuid")) withPlayers.add(table);
+            });
+        }
+        Set<String> listed = new TreeSet<>(LoadoutStore.TABLES);
+        listed.addAll(LoadoutStore.SHARED);
+        assertEquals(listed, withPlayers);
     }
 
     private static MineData mine(String name) {

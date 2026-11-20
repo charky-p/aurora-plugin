@@ -174,7 +174,21 @@ public final class Schema {
                     "uuid TEXT, " +
                     "name TEXT, " +
                     "text TEXT, " +
-                    "time INTEGER)"
+                    "time INTEGER)",
+
+            // Which loadout each player has in play, and the id the other one is put away under
+            "CREATE TABLE IF NOT EXISTS loadouts (" +
+                    "uuid TEXT PRIMARY KEY, " +
+                    "shadow TEXT, " +
+                    "active TEXT)",
+
+            // Each loadout's inventory and ender chest from when it was last put away
+            "CREATE TABLE IF NOT EXISTS loadout_inventories (" +
+                    "uuid TEXT, " +
+                    "loadout TEXT, " +
+                    "items BLOB, " +
+                    "ender BLOB, " +
+                    "PRIMARY KEY (uuid, loadout))"
     );
 
     // Columns added after a table first shipped, CREATE TABLE IF NOT EXISTS skips

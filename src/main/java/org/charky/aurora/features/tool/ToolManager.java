@@ -22,6 +22,8 @@ import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.ToolStore;
 import org.charky.aurora.features.tool.Realms.Realm;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +38,7 @@ import java.util.function.Function;
 // pick is one thing in the overworld and another in a mini world. Everything that
 // reads an enchant still reads it off the item, which always shows the levels of
 // whoever holds it, where they are: an item passed to someone else becomes theirs
-public class ToolManager implements Listener {
+public class ToolManager implements Listener, LoadoutData {
     private final Aurora plugin;
     private final DataRegistry registry;
     private final Database db;
@@ -238,5 +240,11 @@ public class ToolManager implements Listener {
         Bukkit.getScheduler().runTask(plugin, () -> {
             if (player.isOnline()) refresh(player);
         });
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        Swaps.keys(levels, player.getUniqueId(), other);
     }
 }

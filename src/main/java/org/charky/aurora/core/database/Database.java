@@ -4,9 +4,12 @@ import org.charky.aurora.core.Aurora;
 
 import java.io.File;
 import java.sql.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -69,6 +72,17 @@ public class Database {
                 logger.log(Level.SEVERE, "Database task failed", e);
             }
         });
+    }
+
+    // Waits until everything queued so far has run, so a save made now lands after it
+    public void flush() {
+        try {
+            worker.submit(() -> {}).get(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException | TimeoutException | RejectedExecutionException e) {
+            logger.warning("Database queue did not finish in time: " + e);
+        }
     }
 
     public synchronized void connect() throws SQLException {

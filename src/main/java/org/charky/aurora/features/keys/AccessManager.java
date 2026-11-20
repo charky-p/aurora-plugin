@@ -8,6 +8,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.core.database.AccessStore;
 import org.charky.aurora.core.database.Database;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.Collections;
 import java.util.Map;
@@ -19,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 // Where each player may go: a pass like the Gormak Pass opens an access id for good,
 // and a portal or warp locked to that id lets only those players through. Kept in
 // Aurora's own database, so nothing outside the plugin can hand it out or take it away
-public class AccessManager implements Listener {
+public class AccessManager implements Listener, LoadoutData {
     private final Database db;
     private final AccessStore store;
     private final DataRegistry registry;
@@ -78,5 +80,11 @@ public class AccessManager implements Listener {
                 player.removeScoreboardTag(id);
             }
         }
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        Swaps.keys(access, player.getUniqueId(), other);
     }
 }

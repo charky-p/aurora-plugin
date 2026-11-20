@@ -35,6 +35,8 @@ import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.features.player.TabManager;
 import org.charky.aurora.features.rank.RankManager;
 import org.charky.aurora.features.rank.Ranks;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +48,7 @@ import java.util.function.Consumer;
 
 // Which cosmetics a player owns and wears, and everywhere they show: the chat line,
 // the tab list, the join message, the trail behind them and the mobs they kill
-public class CosmeticManager implements Listener {
+public class CosmeticManager implements Listener, LoadoutData {
     // How often a trail leaves particles behind a moving player
     private static final long TRAIL_TICKS = 4L;
     // Standing still leaves nothing, this far counts as having moved
@@ -379,5 +381,12 @@ public class CosmeticManager implements Listener {
         db.async(() -> store.deleteAll(uuid));
         tab.updateAll();
         lookChanged.accept(player);
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        Swaps.keys(owned, player.getUniqueId(), other);
+        Swaps.keys(equipped, player.getUniqueId(), other);
     }
 }

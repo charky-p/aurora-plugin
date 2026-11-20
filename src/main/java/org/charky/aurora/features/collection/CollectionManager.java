@@ -14,6 +14,8 @@ import org.charky.aurora.core.database.CollectionStore;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,7 +26,7 @@ import java.util.UUID;
 
 // Collections count every resource a player has ever mined or looted. Passing a
 // tier pays Essence, see CollectionTiers. Keys are not collected, only resources
-public class CollectionManager {
+public class CollectionManager implements LoadoutData {
     // Every 5 minutes like the backpack, so a crash loses at most that much
     private static final long AUTOSAVE_TICKS = 6000L;
 
@@ -111,5 +113,13 @@ public class CollectionManager {
         collections.remove(uuid);
         changed.remove(uuid);
         db.async(() -> store.deleteAll(uuid));
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        Swaps.keys(collections, player.getUniqueId(), other);
+        // Totals not saved yet are saved under whichever id they now belong to
+        Swaps.members(changed, player.getUniqueId(), other);
     }
 }

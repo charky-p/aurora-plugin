@@ -15,6 +15,8 @@ import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 import org.charky.aurora.features.player.TabManager;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -25,7 +27,7 @@ import java.util.UUID;
 // ranks come with hours online, shop ranks are bought with Essence. The worn rank
 // shows in chat, the tab list and the sidebar, and changes nothing else. Donor and
 // staff ranks are handed out by an admin
-public class RankManager implements Listener {
+public class RankManager implements Listener, LoadoutData {
     // Playtime is counted a minute at a time
     private static final long PLAYTIME_SECONDS = 60;
     private static final long PLAYTIME_TICKS = PLAYTIME_SECONDS * 20;
@@ -216,5 +218,11 @@ public class RankManager implements Listener {
             data.addPlaytime(-data.getPlaytime());
         }
         refresh(player);
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        Swaps.keys(bought, player.getUniqueId(), other);
     }
 }

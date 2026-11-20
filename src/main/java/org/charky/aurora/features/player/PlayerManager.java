@@ -22,6 +22,8 @@ public class PlayerManager {
     private static final long AUTOSAVE_TICKS = 12000L;
 
     private final ConcurrentMap<UUID, PlayerData> profiles = new ConcurrentHashMap<>();
+    // Counts each player's loads, so a load overtaken by a newer one is dropped. Main thread only
+    private final Map<UUID, Integer> loads = new HashMap<>();
     private final Plugin plugin;
     private final Database db;
     private final PlayerStore store;
@@ -42,12 +44,13 @@ public class PlayerManager {
     // so a quick rejoin can never read the old row. onLoaded runs on the main thread
     public void handleJoin(Player player, Runnable onLoaded) {
         UUID uuid = player.getUniqueId();
+        int load = loads.merge(uuid, 1, Integer::sum);
         db.async(() -> {
             PlayerData data = store.load(uuid);
 
             Bukkit.getScheduler().runTask(plugin, () -> {
-                // Left again before the load came back
-                if (!player.isOnline()) return;
+                // Left again before the load came back, or a loadout switch loads it again
+                if (!player.isOnline() || !Integer.valueOf(load).equals(loads.get(uuid))) return;
 
                 profiles.put(uuid, data);
                 onLoaded.run();
@@ -59,8 +62,20 @@ public class PlayerManager {
     // so a late save can never remove the profile of a player who already rejoined
     public void handleQuit(Player player) {
         UUID uuid = player.getUniqueId();
+        loads.remove(uuid);
         PlayerData data = profiles.remove(uuid);
         if (data != null) db.async(() -> store.save(uuid, data));
+    }
+
+    // For a loadout switch: the profile is saved and dropped, then betweenLoads runs on
+    // the database thread, then the profile is loaded again as on a join. Until then
+    // get() returns null, as while joining
+    public void reload(Player player, Runnable betweenLoads, Runnable onLoaded) {
+        UUID uuid = player.getUniqueId();
+        PlayerData data = profiles.remove(uuid);
+        if (data != null) db.async(() -> store.save(uuid, data));
+        db.async(betweenLoads);
+        handleJoin(player, onLoaded);
     }
 
     public record Standing(UUID uuid, int level, long xp) {

@@ -18,6 +18,8 @@ import org.charky.aurora.core.database.TutorialStore;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
+import org.charky.aurora.common.util.Swaps;
+import org.charky.aurora.features.loadout.LoadoutData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +30,7 @@ import java.util.UUID;
 // through mining, the backpack, the trader and a first upgrade. The step shows in a
 // boss bar, each one ends by itself when it is done. Finishing pays a little Essence and
 // the Newcomer suffix. Players who joined before it existed never get it
-public class TutorialManager implements Listener {
+public class TutorialManager implements Listener, LoadoutData {
     public static final int ESSENCE_REWARD = 50;
     public static final String SUFFIX_REWARD = "suffix_newcomer";
     private static final String MINED = "cobblestone";
@@ -243,5 +245,17 @@ public class TutorialManager implements Listener {
             bar.name(name);
             bar.progress(fill);
         }
+    }
+
+    // Trades what it holds for the player with their other loadout, see LoadoutManager
+    @Override
+    public void swapLoadout(Player player, UUID other) {
+        UUID uuid = player.getUniqueId();
+        progress.remove(uuid);
+        BossBar bar = bars.remove(uuid);
+        if (bar != null) player.hideBossBar(bar);
+        Swaps.keys(steps, uuid, other);
+        // The loadout coming back may be partway through it
+        if (isIn(player)) showLater(player);
     }
 }

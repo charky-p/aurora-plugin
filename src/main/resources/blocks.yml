@@ -416,35 +416,126 @@ items:
         min: 2
         max: 4
 
-  peat:
-    material: BROWN_TERRACOTTA
-    density: 14
-    xp: 11
+  swamp_mud:
+    material: MUD
+    xp: 10
     independent:
-      - id: peat
+      - id: mud
 
-  bog_moss:
-    material: MOSSY_COBBLESTONE
-    density: 14
-    xp: 11
+  muddy_roots:
+    material: MUDDY_MANGROVE_ROOTS
+    xp: 10
     independent:
-      - id: peat
+      - id: mud
         min: 2
         max: 4
 
-  mossy_ruin:
+  slime_block:
+    material: SLIME_BLOCK
+    density: 2
+    xp: 11
+    independent:
+      - id: bog_slime
+
+  mangrove_log:
+    material: MANGROVE_LOG
+    density: 4
+    xp: 11
+    independent:
+      - id: mangrove_log
+
+  mangrove_wood:
+    material: MANGROVE_WOOD
+    density: 4
+    xp: 11
+    independent:
+      - id: mangrove_log
+        min: 2
+        max: 4
+
+  mangrove_roots:
+    material: MANGROVE_ROOTS
+    density: 4
+    xp: 11
+    independent:
+      - id: mangrove_log
+        min: 2
+        max: 4
+
+  mossy_cobble:
+    material: MOSSY_COBBLESTONE
+    density: 17
+    xp: 12
+    independent:
+      - id: bog_stone
+
+  mossy_bricks:
     material: MOSSY_STONE_BRICKS
-    density: 18
+    density: 17
+    xp: 12
+    independent:
+      - id: bog_stone
+        min: 2
+        max: 4
+
+  fen_soil:
+    material: COARSE_DIRT
+    density: 5
+    xp: 12
+    independent:
+      - id: fen_soil
+
+  bog_moss:
+    material: MOSS_BLOCK
+    xp: 12
+    independent:
+      - id: moss
+
+  verdigris:
+    material: OXIDIZED_COPPER
+    density: 20
     xp: 12
     independent:
       - id: verdigris
 
-  verdigris:
-    material: OXIDIZED_COPPER
-    density: 18
+  verdigris_cut:
+    material: OXIDIZED_CUT_COPPER
+    density: 20
     xp: 12
     independent:
       - id: verdigris
+        min: 2
+        max: 4
+
+  mangrove_leaves:
+    material: MANGROVE_LEAVES
+    density: 3
+    xp: 12
+    independent:
+      - id: mangrove_leaves
+
+  ochre_froglight:
+    material: OCHRE_FROGLIGHT
+    density: 6
+    xp: 13
+    independent:
+      - id: froglight
+
+  verdant_froglight:
+    material: VERDANT_FROGLIGHT
+    density: 6
+    xp: 13
+    independent:
+      - id: froglight
+        min: 2
+        max: 4
+
+  pearlescent_froglight:
+    material: PEARLESCENT_FROGLIGHT
+    density: 6
+    xp: 13
+    independent:
+      - id: froglight
         min: 2
         max: 4
 

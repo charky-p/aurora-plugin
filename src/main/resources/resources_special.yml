@@ -52,16 +52,6 @@ items:
       - "<dark_gray>Right click to use"
     unlocks: elderwood
 
-  hydra_key:
-    display: "<dark_green><b>Hydra Fang"
-    material: TRIAL_KEY
-    world: "overworld"
-    region: "marsh_hydra"
-    lore:
-      - "<gray>Wakes the Hydra"
-      - "<dark_gray>Right click by the pool"
-    summons: hydra
-
   silk_key:
     display: "<white><b>Silk Key"
     material: TRIAL_KEY

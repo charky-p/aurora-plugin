@@ -1,5 +1,5 @@
-id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices
-grove_horse,<#7BA05B><b>Grove Horse,HORSE,60,3,0,,,3,,,MOVEMENT_SPEED:0.2,horsehair:100:2-4,,
-hollow_fox,<#D9D3B0><b>Hollow Fox,FOX,105,5,0,,,4,,,MOVEMENT_SPEED:0.15,fox_fur:100:2-4,,
-ridge_wolf,<#4F7A4A><b>Ridge Wolf,WOLF,190,7,0,,,5,,,MOVEMENT_SPEED:0.28,wolf_pelt:100:2-4,,
-thicket_sniffer,<#6B4F35><b>Thicket Sniffer,SNIFFER,235,11,0,,,6,,,MOVEMENT_SPEED:0.1,ancient_seed:100:2-4,,
+id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices,glowing
+grove_horse,<#7BA05B><b>Grove Horse,HORSE,60,3,0,,,3,,,MOVEMENT_SPEED:0.2,horsehair:100:2-4,,,
+hollow_fox,<#D9D3B0><b>Hollow Fox,FOX,105,5,0,,,4,,,MOVEMENT_SPEED:0.15,fox_fur:100:2-4,,,
+ridge_wolf,<#4F7A4A><b>Ridge Wolf,WOLF,190,7,0,,,5,,,MOVEMENT_SPEED:0.28,wolf_pelt:100:2-4,,,
+thicket_sniffer,<#6B4F35><b>Thicket Sniffer,SNIFFER,235,11,0,,,6,,,MOVEMENT_SPEED:0.1,ancient_seed:100:2-4,,,

@@ -14,6 +14,7 @@
 #   attributes: (Optional)
 #     - attr: [BUKKIT_ATTRIBUTE]
 #       value: 1
+#   glowing: true (Optional, an outline seen through walls)
 #   independent: (Optional - Every drop roll is independent)
 #     - id: [item_id]
 #       chance: 100 (Default)
@@ -38,6 +39,16 @@ items:
       - id: frog_leg
         max: 2
 
+  swamp_slime:
+    display: "<#8FD16F><b>Swamp Slime"
+    entity: SLIME
+    health: 330.0
+    defence: 18.0
+    density: 8
+    independent:
+      - id: swamp_gel
+        max: 2
+
   bog_walker:
     display: "<#4E6B3A><b>Bog Walker"
     entity: ZOMBIE
@@ -60,44 +71,20 @@ items:
       - id: poison_quill
         max: 2
 
-  sunken_drowned:
-    display: "<dark_aqua><b>Sunken Drowned"
-    entity: DROWNED
-    health: 640.0
-    defence: 58.0
-    attack: 37.0
-    density: 13
-    independent:
-      - id: drowned_scale
-        max: 2
-
-  marsh_lurker:
-    display: "<dark_aqua><b>Marsh Lurker"
-    entity: DROWNED
-    health: 1850.0
+  glow_wisp:
+    display: "<aqua><b>Glow Wisp"
+    entity: ALLAY
+    health: 1400.0
     defence: 126.0
-    attack: 44.0
-    density: 16
-    independent:
-      - id: lurker_fang
-        max: 2
-      - id: hydra_key
-        chance: 4
-
-  hydra:
-    display: "<dark_green><b>The Hydra"
-    entity: RAVAGER
-    health: 15400.0
-    defence: 140.0
-    attack: 48.0
     density: 16
     attributes:
       - attr: SCALE
-        value: 1.4
-      - attr: KNOCKBACK_RESISTANCE
-        value: 1.0
-      - attr: FOLLOW_RANGE
-        value: 48.0
+        value: 2.0
+      - attr: FLYING_SPEED
+        value: 0.05
+      - attr: MOVEMENT_SPEED
+        value: 0.05
+    glowing: true
     independent:
-      - id: hydra_scale
+      - id: wisp_dust
         max: 2

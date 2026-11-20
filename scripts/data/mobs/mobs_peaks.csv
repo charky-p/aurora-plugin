@@ -1,9 +1,9 @@
-id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices
-mountain_goat,<white><b>Mountain Goat,GOAT,1140,0,0,,,18,,,,goat_hide:100:1-2,,
-frost_spider,<aqua><b>Frost Spider,SPIDER,1480,133,47,,,19,,,,spider_silk:100:1-2,,
-snow_fox,<white><b>Snow Fox,FOX,1140,0,0,,,20,,,,snow_pelt:100:1-2,,
-peak_stray,<aqua><b>Peak Stray,STRAY,1480,133,49,,,21,,,,frost_arrow:100:1-2,,
-cliff_goat,<gray><b>Cliff Goat,GOAT,1140,0,0,,,22,,,,cliff_horn:100:1-2,,
-cave_spider,<dark_green><b>Cave Spider,CAVE_SPIDER,1480,133,51,,,23,,,,venom_sac:100:1-2|silk_key:4,,
-spider_rider,<white><b>Spider Rider,SKELETON,1480,133,51,,,23,,,,rider_bone:100:1-2|silk_key:4,,
-arachne,<dark_red><b>Arachne,SPIDER,20900,190,57,,,23,,,SCALE:2|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,arachne_eye:100:1-2,,
+id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices,glowing
+mountain_goat,<white><b>Mountain Goat,GOAT,1140,0,0,,,18,,,,goat_hide:100:1-2,,,
+frost_spider,<aqua><b>Frost Spider,SPIDER,1480,133,47,,,19,,,,spider_silk:100:1-2,,,
+snow_fox,<white><b>Snow Fox,FOX,1140,0,0,,,20,,,,snow_pelt:100:1-2,,,
+peak_stray,<aqua><b>Peak Stray,STRAY,1480,133,49,,,21,,,,frost_arrow:100:1-2,,,
+cliff_goat,<gray><b>Cliff Goat,GOAT,1140,0,0,,,22,,,,cliff_horn:100:1-2,,,
+cave_spider,<dark_green><b>Cave Spider,CAVE_SPIDER,1480,133,51,,,23,,,,venom_sac:100:1-2|silk_key:4,,,
+spider_rider,<white><b>Spider Rider,SKELETON,1480,133,51,,,23,,,,rider_bone:100:1-2|silk_key:4,,,
+arachne,<dark_red><b>Arachne,SPIDER,20900,190,57,,,23,,,SCALE:2|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,arachne_eye:100:1-2,,,

@@ -86,6 +86,11 @@ BLOCK = {
     "STRIPPED_PALE_OAK_LOG": (2.0, 0), "SMOOTH_QUARTZ": (2.0, 0), "MANGROVE_LOG": (2.0, 0),
     "STRIPPED_MANGROVE_LOG": (2.0, 0), "CLAY": (0.6, 0), "LIGHT_BLUE_TERRACOTTA": (1.25, 0),
     "DIAMOND_ORE": (3.0, 2), "DEEPSLATE_DIAMOND_ORE": (4.5, 2),
+    # Sunken Marsh. Slime breaks at once in vanilla (hardness 0), a tiny number keeps
+    # dig_seconds from dividing by zero and still reads as instant
+    "MUD": (0.5, 0), "MUDDY_MANGROVE_ROOTS": (0.7, 0), "SLIME_BLOCK": (0.001, 0), "MANGROVE_WOOD": (2.0, 0),
+    "MOSS_BLOCK": (0.1, 0), "OXIDIZED_CUT_COPPER": (3.0, 1), "MANGROVE_LEAVES": (0.2, 0),
+    "OCHRE_FROGLIGHT": (0.3, 0), "VERDANT_FROGLIGHT": (0.3, 0), "PEARLESCENT_FROGLIGHT": (0.3, 0),
 }
 # Mobs that shoot arrows instead of hitting, they swing half as often and hit half as hard
 RANGED = {"SKELETON", "STRAY", "BOGGED", "PILLAGER"}

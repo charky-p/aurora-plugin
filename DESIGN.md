@@ -21,7 +21,7 @@ world 1 (overworld): 5 main regions
 2. Gormak - desert "mini world" (Duneworld)
 3. Verdant Groves - forest island, grapple unlockable (oak log, birch log, spruce log, dark oak log, tin, bronze, lead, silver, treant or tree zombee in large treehouse), 2 large island
 4. Elderwood Roots - forest "mini world", huge world tree in the middle, this region only deals with around it
-5. Sunken Marsh - swamp area with 1 big island, hydra
+5. Sunken Marsh - swamp area with 1 big island: Mudflats, Slime Hollow, the Fens, Sunken Ruins and Glowmire (froglights, glow wisps), no boss
 6. Khorvath - desert "mini world" region 2
 7. Emerald Peaks  - large mountain island, elytra unlockable (snow, dirt, pumpkin, melon, redstone, lapis, emerald, arachne)
 8. Elderwood Roots pt2 - inside the huge world tree now
@@ -54,7 +54,7 @@ Scarab Zealot uses a Khopesh, Hollowed Legionnaire uses a Halberd (Spear).
 Overworld:
 1. Origin Isles ([Stone], [Coal], [Copper, Chicken], [Iron, Sheep], [Gold, Cow]) -> Duneworld Portal
 2. Verdant Groves ([Oak Log, Tin, Horse], [Birch Log, Bronze, Fox], [Spruce Log, Lead, Wolf], [Dark Oak Log, Silver, Sniffer]) -> Elderwood Roots Portal
-3. Sunken Marsh
+3. Sunken Marsh ([Packed Mud, Mud, Bog Frog], [Bog Slime, Mangrove Log, Swamp Slime], [Bog Stone, Fen Soil, Moss, Bog Walker], [Verdigris, Mangrove Leaves, Bogged Archer], [Froglight, Glow Wisp])
 4. Emerald Peaks - (Snow, Dirt, Redstone, Lapis, Emerald, Pumpkin, Melon, Arachne, Goat, etc) -> Sky Spire
 5. Ironbound Quarry - (tungston, platinum, gravel, pale log, titanium, clay, maple, diamond, pillager, overworld boss) -> Caverns
 

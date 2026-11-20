@@ -1,7 +1,6 @@
-id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices
-bog_frog,<#7BA05B><b>Bog Frog,FROG,255,0,0,,,7,,,,frog_leg:100:1-2,,
-bog_walker,<#4E6B3A><b>Bog Walker,ZOMBIE,410,37,33,,,10,,,,bog_rag:100:1-2,,
-bogged_archer,<dark_green><b>Bogged Archer,BOGGED,640,58,37,,,13,,,,poison_quill:100:1-2,,
-sunken_drowned,<dark_aqua><b>Sunken Drowned,DROWNED,640,58,37,,,13,,,,drowned_scale:100:1-2,,
-marsh_lurker,<dark_aqua><b>Marsh Lurker,DROWNED,1850,126,44,,,16,,,,lurker_fang:100:1-2|hydra_key:4,,
-hydra,<dark_green><b>The Hydra,RAVAGER,15400,140,48,,,16,,,SCALE:1.4|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,hydra_scale:100:1-2,,
+id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices,glowing
+bog_frog,<#7BA05B><b>Bog Frog,FROG,255,0,0,,,7,,,,frog_leg:100:1-2,,,
+swamp_slime,<#8FD16F><b>Swamp Slime,SLIME,330,18,0,,,8,,,,swamp_gel:100:1-2,,,
+bog_walker,<#4E6B3A><b>Bog Walker,ZOMBIE,410,37,33,,,10,,,,bog_rag:100:1-2,,,
+bogged_archer,<dark_green><b>Bogged Archer,BOGGED,640,58,37,,,13,,,,poison_quill:100:1-2,,,
+glow_wisp,<aqua><b>Glow Wisp,ALLAY,1400,126,0,,,16,,,SCALE:2|FLYING_SPEED:0.05|MOVEMENT_SPEED:0.05,wisp_dust:100:1-2,,,yes

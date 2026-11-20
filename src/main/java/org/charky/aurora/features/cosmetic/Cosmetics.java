@@ -102,9 +102,10 @@ public final class Cosmetics {
         zone("bamboo", "<#3A7D2C>", "bamboo");
         zone("amber", "<#3A7D2C>", "amber");
         zone("mudflats", "<#4E6B3A>", "mudflats");
-        zone("peat", "<#4E6B3A>", "peat");
+        zone("slime", "<#4E6B3A>", "slime_hollow");
+        zone("fens", "<#4E6B3A>", "fens");
         zone("sunken ruins", "<#4E6B3A>", "sunken_ruins");
-        zone("hydra", "<#4E6B3A>", "hydra_pool");
+        zone("glowmire", "<#4E6B3A>", "glowmire");
         zone("foothills", "<#2ECC71>", "foothills");
         zone("redstone", "<#2ECC71>", "redstone_mines");
         zone("pumpkin", "<#2ECC71>", "pumpkin_terraces");

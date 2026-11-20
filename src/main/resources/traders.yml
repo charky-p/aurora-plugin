@@ -185,10 +185,17 @@ items:
     profession: toolsmith
     biome: swamp
 
-  peat_trader:
-    display: "<#5C4033><b>Peat Trader"
+  slime_trader:
+    display: "<#7BC96F><b>Slime Hollow Trader"
     entity: VILLAGER
-    gui: upgrades:peat
+    gui: upgrades:slime_hollow
+    profession: toolsmith
+    biome: swamp
+
+  fens_trader:
+    display: "<#6B7F5A><b>Fens Trader"
+    entity: VILLAGER
+    gui: upgrades:fens
     profession: toolsmith
     biome: swamp
 
@@ -199,10 +206,10 @@ items:
     profession: toolsmith
     biome: swamp
 
-  hydra_trader:
-    display: "<dark_green><b>Hydra Trader"
+  glowmire_trader:
+    display: "<#F5D76E><b>Glowmire Trader"
     entity: VILLAGER
-    gui: upgrades:hydra_pool
+    gui: upgrades:glowmire
     profession: cleric
     biome: swamp
 

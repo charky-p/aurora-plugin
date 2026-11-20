@@ -51,6 +51,19 @@ items:
       - "DIAMOND"
       - "NETHERITE"
 
+  hoe:
+    name: Hoe
+    kind: mining
+    item: HOE
+    materials:
+      - "WOODEN"
+      - "STONE"
+      - "COPPER"
+      - "IRON"
+      - "GOLDEN"
+      - "DIAMOND"
+      - "NETHERITE"
+
   sword:
     name: Sword
     kind: combat

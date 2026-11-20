@@ -493,7 +493,16 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 12000
+    collection: 10000
+
+  mud:
+    display: "<#5C4A3A>Mud"
+    material: MUD
+    world: "overworld"
+    region: "marsh_mudflats"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 1000
 
   frog_leg:
     display: "<#7BA05B>Frog Leg"
@@ -502,29 +511,83 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 32
+    collection: 320
 
-  peat:
-    display: "<#5C4033>Peat"
-    material: BROWN_TERRACOTTA
+  bog_slime:
+    display: "<#7BC96F>Bog Slime"
+    material: SLIME_BLOCK
     world: "overworld"
-    region: "marsh_peat"
+    region: "marsh_slime"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 8000
+    collection: 2500
+
+  mangrove_log:
+    display: "<#7A3B2E>Mangrove Log"
+    material: MANGROVE_LOG
+    world: "overworld"
+    region: "marsh_slime"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 4000
+
+  swamp_gel:
+    display: "<#8FD16F>Swamp Gel"
+    material: SLIME_BALL
+    world: "overworld"
+    region: "marsh_slime"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 500
+
+  bog_stone:
+    display: "<#6B7F5A>Bog Stone"
+    material: MOSSY_COBBLESTONE
+    world: "overworld"
+    region: "marsh_fens"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 2500
+
+  fen_soil:
+    display: "<#6B4F35>Fen Soil"
+    material: COARSE_DIRT
+    world: "overworld"
+    region: "marsh_fens"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 1200
+
+  moss:
+    display: "<#5A8F3A>Bog Moss"
+    material: MOSS_BLOCK
+    world: "overworld"
+    region: "marsh_fens"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 1200
 
   bog_rag:
     display: "<#4E6B3A>Bog Rag"
     material: STRING
     world: "overworld"
-    region: "marsh_peat"
+    region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 20
+    collection: 400
 
   verdigris:
     display: "<#4FB39A><b>Verdigris"
     material: OXIDIZED_COPPER
+    world: "overworld"
+    region: "marsh_ruins"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 8000
+
+  mangrove_leaves:
+    display: "<#4F7F3A>Mangrove Leaves"
+    material: MANGROVE_LEAVES
     world: "overworld"
     region: "marsh_ruins"
     lore:
@@ -538,34 +601,25 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 48
+    collection: 2500
 
-  drowned_scale:
-    display: "<dark_aqua>Drowned Scale"
-    material: PRISMARINE_SHARD
+  froglight:
+    display: "<#F5D76E><b>Froglight"
+    material: OCHRE_FROGLIGHT
     world: "overworld"
-    region: "marsh_ruins"
+    region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 16
+    collection: 10000
 
-  lurker_fang:
-    display: "<dark_aqua><b>Lurker Fang"
-    material: BONE
+  wisp_dust:
+    display: "<aqua>Wisp Dust"
+    material: GLOWSTONE_DUST
     world: "overworld"
-    region: "marsh_hydra"
+    region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 16
-
-  hydra_scale:
-    display: "<dark_green><b>Hydra Scale"
-    material: TURTLE_SCUTE
-    world: "overworld"
-    region: "marsh_hydra"
-    lore:
-      - "<dark_gray>Sunken Marsh"
-    collection: 1
+    collection: 3200
 
   dirt:
     display: "<#8B6B4A>Mountain Dirt"

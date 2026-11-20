@@ -24,9 +24,10 @@ jungle_trader,<#9C7A3C><b>Jungle Trader,VILLAGER,upgrades:jungle,fletcher,jungle
 bamboo_trader,<#7BA05B><b>Bamboo Trader,VILLAGER,upgrades:bamboo,fletcher,jungle
 amber_trader,<gold><b>Amber Trader,VILLAGER,upgrades:amber,fletcher,jungle
 mudflats_trader,<#8B6B4A><b>Mudflats Trader,VILLAGER,upgrades:mudflats,toolsmith,swamp
-peat_trader,<#5C4033><b>Peat Trader,VILLAGER,upgrades:peat,toolsmith,swamp
+slime_trader,<#7BC96F><b>Slime Hollow Trader,VILLAGER,upgrades:slime_hollow,toolsmith,swamp
+fens_trader,<#6B7F5A><b>Fens Trader,VILLAGER,upgrades:fens,toolsmith,swamp
 sunken_trader,<#4FB39A><b>Sunken Ruins Trader,VILLAGER,upgrades:sunken_ruins,toolsmith,swamp
-hydra_trader,<dark_green><b>Hydra Trader,VILLAGER,upgrades:hydra_pool,cleric,swamp
+glowmire_trader,<#F5D76E><b>Glowmire Trader,VILLAGER,upgrades:glowmire,cleric,swamp
 foothills_trader,<#8B6B4A><b>Foothills Trader,VILLAGER,upgrades:foothills,mason,snow
 redstone_trader,<red><b>Redstone Trader,VILLAGER,upgrades:redstone_mines,toolsmith,snow
 pumpkin_trader,<gold><b>Pumpkin Trader,VILLAGER,upgrades:pumpkin_terraces,farmer,snow

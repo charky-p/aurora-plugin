@@ -23,8 +23,15 @@ bamboo,axe,bamboo_block:60|bamboo_mosaic:40
 elderbark,axe,elderbark:100
 amber,axe,amber:100
 packed_mud,pick,packed_mud:60|mud_brick:40
-peat,pick,peat:60|bog_moss:40
-verdigris,pick,mossy_ruin:60|verdigris:40
+mud,shovel,swamp_mud:60|muddy_roots:40
+bog_slime,shovel,slime_block:100
+mangrove_log,axe,mangrove_log:60|mangrove_wood:25|mangrove_roots:15
+bog_stone,pick,mossy_cobble:60|mossy_bricks:40
+fen_soil,shovel,fen_soil:100
+moss,hoe,bog_moss:100
+verdigris,pick,verdigris:60|verdigris_cut:40
+mangrove_leaves,hoe,mangrove_leaves:100
+froglight,hoe,ochre_froglight:50|verdant_froglight:30|pearlescent_froglight:20
 dirt,shovel,mountain_dirt:60|coarse_mountain_dirt:40
 redstone,pick,redstone_ore:60|deepslate_redstone_ore:40
 pumpkin,axe,pumpkin:100

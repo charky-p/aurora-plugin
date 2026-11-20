@@ -52,12 +52,12 @@ WALL_H = 4              # too high to be thrown over by a boss
 ARENA_DEPTH = 28        # how far a boss arena reaches out from the strip
 # Zones with only these mobs stay open, the rest are fenced in so their mobs stay put
 PASSIVE = {"CHICKEN", "SHEEP", "COW", "PIG", "RABBIT", "HORSE", "FOX", "WOLF", "SNIFFER", "PANDA", "OCELOT",
-           "FROG", "GOAT"}
+           "FROG", "GOAT", "SLIME", "ALLAY"}
 # The test world each world of regions.csv is built in
 TEST_WORLD = {"overworld": "aurora_test", "duneworld": "aurora_test_gormak",
               "elderworld": "aurora_test_elderwood", "skyworld": "aurora_test_sky"}
 # Bosses a key summons, and the zone whose arena they rise in
-BOSS_ZONE = {"gormak_eternal": "tomb", "khorvath": "sanctuary", "hydra": "hydra_pool", "arachne": "arachne_cave",
+BOSS_ZONE = {"gormak_eternal": "tomb", "khorvath": "sanctuary", "arachne": "arachne_cave",
              "sol": "throne", "elder_treant": "the_crown", "sky_king": "throne_room"}
 # Traders with no zone of their own, by the zone they stand in
 EXTRA_TRADERS = {"cobble": ["food_trader"], "golems_rest": ["core_trader", "essence_trader"]}

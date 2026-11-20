@@ -135,7 +135,7 @@ public class MobSpawner {
     public void spawnMob() {
         if (!active) return;
         // A boss waits for its key, see summon()
-        if (plugin.getRegistry().isSummoned(mob.id())) return;
+        if (plugin.getRegistry().getKeys().isSummoned(mob.id())) return;
 
         World world = Bukkit.getWorld(this.world);
         if (world == null) return;

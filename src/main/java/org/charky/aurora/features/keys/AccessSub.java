@@ -49,8 +49,8 @@ public class AccessSub implements AuroraSubCommand {
 
         String id = args[2].toLowerCase();
         if (args[1].equalsIgnoreCase("give")) {
-            if (!plugin.getRegistry().getUnlockTags().contains(id)) {
-                TextUtils.error(sender, "No pass opens '" + id + "', known: " + String.join(", ", plugin.getRegistry().getUnlockTags()));
+            if (!plugin.getRegistry().getKeys().unlockTags().contains(id)) {
+                TextUtils.error(sender, "No pass opens '" + id + "', known: " + String.join(", ", plugin.getRegistry().getKeys().unlockTags()));
                 return;
             }
             if (access.grant(target.getUniqueId(), id)) TextUtils.success(sender, target.getName() + " can now go to " + id);
@@ -65,7 +65,7 @@ public class AccessSub implements AuroraSubCommand {
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) return TextUtils.playerCompletions(args[0]);
         if (args.length == 2) return TextUtils.getCompletions(args[1], ACTIONS);
-        if (args.length == 3) return TextUtils.getCompletions(args[2], plugin.getRegistry().getUnlockTags());
+        if (args.length == 3) return TextUtils.getCompletions(args[2], plugin.getRegistry().getKeys().unlockTags());
         return List.of();
     }
 

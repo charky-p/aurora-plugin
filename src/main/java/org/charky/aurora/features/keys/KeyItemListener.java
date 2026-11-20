@@ -22,7 +22,7 @@ public class KeyItemListener implements Listener {
 
         ItemStack item = event.getItem();
         String itemId = DataRegistry.itemId(item);
-        if (!registry.isKey(itemId)) return;
+        if (!registry.getKeys().isKey(itemId)) return;
 
         // A tripwire hook or the like must not be placed
         event.setCancelled(true);

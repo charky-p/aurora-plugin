@@ -47,7 +47,7 @@ public class PortalSetTagSub extends PortalSub {
         }
 
         portalManager.setRequiredTag(portal.getName(), tag);
-        List<String> keys = registry.getKeysFor(tag);
+        List<String> keys = registry.getKeys().keysFor(tag);
         TextUtils.success(sender, "Portal '" + portal.getName() + "' now needs the tag '" + tag + "'");
         if (keys.isEmpty()) {
             TextUtils.display(sender, "<yellow>No item gives '" + tag + "' yet, add it to the unlocks column of resources.csv, or use /tag <player> add " + tag);
@@ -62,7 +62,7 @@ public class PortalSetTagSub extends PortalSub {
         if (args.length == 2) {
             Set<String> tags = new LinkedHashSet<>();
             for (var item : registry.getItems()) {
-                String tag = registry.getUnlock(item.getId());
+                String tag = registry.getKeys().unlock(item.getId());
                 if (tag != null) tags.add(tag);
             }
             return TextUtils.getCompletions(args[1], List.copyOf(tags));

@@ -34,7 +34,7 @@ public class BackpackData {
     // where it is used, or to the ground when that is full
     public void collect(Player player, List<MenuItem> drops) {
         for (MenuItem drop : drops) {
-            if (!registry.isKey(drop.getId())) {
+            if (!registry.getKeys().isKey(drop.getId())) {
                 addItem(drop.getId(), drop.getAmount());
                 continue;
             }

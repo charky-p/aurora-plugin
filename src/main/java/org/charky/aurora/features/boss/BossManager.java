@@ -42,7 +42,7 @@ public class BossManager implements Listener {
     public void onSpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
         MobData mob = registry.mobOf(entity);
-        if (mob == null || !registry.isSummoned(mob.id())) return;
+        if (mob == null || !registry.getKeys().isSummoned(mob.id())) return;
 
         fights.put(entity.getUniqueId(), new BossFight(entity, mob, abilitiesFor(mob.id())));
     }

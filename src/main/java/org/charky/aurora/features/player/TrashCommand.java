@@ -73,6 +73,6 @@ public class TrashCommand implements CommandExecutor, Listener {
     private boolean kept(ItemStack item) {
         if (ToolManager.toolId(item) != null) return true;
         String id = DataRegistry.itemId(item);
-        return id != null && (id.equals(BackpackItemListener.ITEM_ID) || registry.isKey(id));
+        return id != null && (id.equals(BackpackItemListener.ITEM_ID) || registry.getKeys().isKey(id));
     }
 }

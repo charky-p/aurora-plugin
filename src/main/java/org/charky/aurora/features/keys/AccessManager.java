@@ -72,7 +72,7 @@ public class AccessManager implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        for (String id : registry.getUnlockTags()) {
+        for (String id : registry.getKeys().unlockTags()) {
             if (player.getScoreboardTags().contains(id)) {
                 grant(player.getUniqueId(), id);
                 player.removeScoreboardTag(id);

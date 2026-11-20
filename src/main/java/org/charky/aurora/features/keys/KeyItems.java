@@ -31,7 +31,7 @@ public final class KeyItems {
     // that is not a key is ignored
     public static void obtained(Player player, String itemId) {
         Aurora plugin = JavaPlugin.getPlugin(Aurora.class);
-        if (plugin.getRegistry().isKey(itemId)) plugin.getArmoryManager().rememberKey(player.getUniqueId(), itemId);
+        if (plugin.getRegistry().getKeys().isKey(itemId)) plugin.getArmoryManager().rememberKey(player.getUniqueId(), itemId);
     }
 
     // Kept by the plugin in its database, see AccessManager
@@ -42,13 +42,13 @@ public final class KeyItems {
     // True when the key was used and one should be taken away
     public static boolean use(Player player, DataRegistry registry, String itemId) {
         obtained(player, itemId);
-        if (registry.getUnlock(itemId) != null) return unlock(player, registry, itemId);
-        if (registry.getSummon(itemId) != null) return summon(player, registry, itemId);
+        if (registry.getKeys().unlock(itemId) != null) return unlock(player, registry, itemId);
+        if (registry.getKeys().summon(itemId) != null) return summon(player, registry, itemId);
         return false;
     }
 
     private static boolean unlock(Player player, DataRegistry registry, String itemId) {
-        String tag = registry.getUnlock(itemId);
+        String tag = registry.getKeys().unlock(itemId);
         Component name = itemName(registry, itemId);
         if (has(player, tag)) {
             player.sendActionBar(TextUtils.parse("<gray>You have already unlocked this portal"));
@@ -61,7 +61,7 @@ public final class KeyItems {
     }
 
     private static boolean summon(Player player, DataRegistry registry, String itemId) {
-        String mobId = registry.getSummon(itemId);
+        String mobId = registry.getKeys().summon(itemId);
         MobData mob = registry.getMob(mobId);
         if (mob == null) return false;
 
@@ -107,7 +107,7 @@ public final class KeyItems {
 
     // What to tell a player turned away, the item that opens it or the bare tag
     public static Component missing(DataRegistry registry, String tag) {
-        List<String> keys = registry.getKeysFor(tag);
+        List<String> keys = registry.getKeys().keysFor(tag);
         if (keys.isEmpty()) return TextUtils.parse("<red>This portal is locked");
         return TextUtils.parse("<red>You need a ").append(itemName(registry, keys.getFirst()))
                 .append(TextUtils.parse("<red> to enter"));

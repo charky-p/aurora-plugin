@@ -117,7 +117,7 @@ public class CollectionMenu extends PagedMenu {
 
         // Keys the player has had come last, the Keyring perk lets them be taken again
         boolean keyring = armory.hasKeyring(player);
-        for (String id : registry.getKeyIds()) {
+        for (String id : registry.getKeys().ids()) {
             if (!shown(player, id)) continue;
             gearIds.add(id);
             if (!armory.isUnlocked(player.getUniqueId(), id)) {

@@ -15,6 +15,7 @@ import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.data.*;
 import org.charky.aurora.core.models.*;
 import org.charky.aurora.features.armory.ArmoryManager;
+import org.charky.aurora.features.keys.Keys;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.trader.Trader;
@@ -64,10 +65,7 @@ public class DataRegistry {
     // Resources in resources.csv order, which is progression order
     private final List<MenuItem> resourceList = new ArrayList<>();
     private final Set<String> resourceIds = new HashSet<>();
-    // Key items, item id to the tag right clicking it gives
-    private final Map<String, String> unlocks = new LinkedHashMap<>();
-    // Item id to the mob right clicking it summons
-    private final Map<String, String> summons = new LinkedHashMap<>();
+    private Keys keys = new Keys();
     // For a resource whose data has no collection amount yet
     private static final int DEFAULT_COLLECTION_BASE = 250;
 
@@ -116,8 +114,7 @@ public class DataRegistry {
         itemRegions.clear();
         resourceList.clear();
         resourceIds.clear();
-        unlocks.clear();
-        summons.clear();
+        keys = new Keys();
         specialIds.clear();
         collectionBases.clear();
         essenceValues.clear();
@@ -278,8 +275,7 @@ public class DataRegistry {
             if (model.region != null) itemRegions.put(id.toLowerCase(), model.region.toLowerCase());
             if (model.collection > 0) collectionBases.put(id.toLowerCase(), model.collection);
             if (model.essence > 0) essenceValues.put(id.toLowerCase(), model.essence);
-            if (model.unlocks != null && !model.unlocks.isBlank()) unlocks.put(id.toLowerCase(), model.unlocks.toLowerCase());
-            if (model.summons != null && !model.summons.isBlank()) summons.put(id.toLowerCase(), model.summons.toLowerCase());
+            keys.add(id, model.unlocks, model.summons);
         });
     }
 
@@ -410,42 +406,9 @@ public class DataRegistry {
         return isResource(id) && !specialIds.contains(id.toLowerCase());
     }
 
-    // Every tag a key gives, the ones locked portals ask for
-    public List<String> getUnlockTags() {
-        return unlocks.values().stream().distinct().toList();
-    }
-
-    // The tag a key item gives, null if it is not a key
-    public String getUnlock(String itemId) {
-        return itemId == null ? null : unlocks.get(itemId.toLowerCase());
-    }
-
-    // The mob a key item summons, null if it summons nothing
-    public String getSummon(String itemId) {
-        return itemId == null ? null : summons.get(itemId.toLowerCase());
-    }
-
-    // Summoned mobs only come from their key, their spawners never spawn them
-    public boolean isSummoned(String mobId) {
-        return mobId != null && summons.containsValue(mobId.toLowerCase());
-    }
-
-    // Every key in data order
-    public List<String> getKeyIds() {
-        return resourceList.stream().map(MenuItem::getId).filter(this::isKey).toList();
-    }
-
-    // Any key, something that does a thing when right clicked
-    public boolean isKey(String itemId) {
-        return getUnlock(itemId) != null || getSummon(itemId) != null;
-    }
-
-    // The items that give a tag, for telling players what they are missing
-    public List<String> getKeysFor(String tag) {
-        return unlocks.entrySet().stream()
-                .filter(entry -> entry.getValue().equalsIgnoreCase(tag))
-                .map(Map.Entry::getKey)
-                .toList();
+    // Passes and summoning keys, what right clicking them does
+    public Keys getKeys() {
+        return keys;
     }
 
     public List<MenuItem> getItems() {

@@ -53,7 +53,7 @@ public class MobLoader {
 
             mobs.put(id.toLowerCase(), new MobData(id, type, displayName,
                     model.health, model.defence, model.attack, model.attack_cooldown, model.damage, model.density,
-                    equipment(model), attributes(id, model), drops));
+                    equipment(model), attributes(id, model), model.glowing, drops));
             addArmoryDrops(model, displayName, armory);
         });
     }

@@ -311,6 +311,7 @@ MOB_HEADER = """\
 #   attributes: (Optional)
 #     - attr: [BUKKIT_ATTRIBUTE]
 #       value: 1
+#   glowing: true (Optional, an outline seen through walls)
 #   independent: (Optional - Every drop roll is independent)
 #     - id: [item_id]
 #       chance: 100 (Default)
@@ -480,6 +481,7 @@ def mob_schema(region):
             ("density",    Int(default=0)),
             ("equip",      PairMap(value=str)),
             ("attributes", PairList("attr", "value", value=float)),
+            ("glowing",    Bool(default=False)),
         ] + loot_fields()),
     }
 

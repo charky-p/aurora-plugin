@@ -6,7 +6,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.charky.aurora.features.perk.PerkManager;
 import org.bukkit.Sound;
-import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -15,8 +14,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.Enchants;
+import org.charky.aurora.common.util.MiningTool;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.build.BuildManager;
 import org.charky.aurora.features.tutorial.TutorialManager;
@@ -106,10 +107,9 @@ public class MineListener implements Listener {
 
         int density = registry.getDensity(dropId);
         // Only the right tool mines a block at all: a pick does nothing to a log. A bare
-        // hand always mines what the axe and shovel do, slowly and with no Fortune
+        // hand always mines what the axe, shovel and hoe do, slowly and with no Fortune
         if (!rightTool(pick, block.getType()) && !bareHanded(pick, block.getType())) {
-            String tool = toolFor(block.getType());
-            player.sendActionBar(Component.text("Wrong tool, this needs " + ("axe".equals(tool) ? "an " : "a ") + tool,
+            player.sendActionBar(Component.text("Wrong tool, this needs " + MiningTool.forBlock(block.getType()).withArticle(),
                     NamedTextColor.RED, TextDecoration.BOLD));
             return;
         }
@@ -155,16 +155,18 @@ public class MineListener implements Listener {
                 .anyMatch(rule -> rule.getBlocks().contains(block));
     }
 
-    // An empty hand on a block for the axe or shovel
+    // An empty hand on a block for the axe, shovel or hoe, so their first purchase
+    // can be paid in blocks punched out
     private static boolean bareHanded(ItemStack hand, Material block) {
         if (hand != null && !hand.getType().isAir()) return false;
-        return !"pickaxe".equals(toolFor(block));
+        return MiningTool.forBlock(block) != MiningTool.PICKAXE;
     }
 
-    private static String toolFor(Material block) {
-        if (Tag.MINEABLE_AXE.isTagged(block)) return "axe";
-        if (Tag.MINEABLE_SHOVEL.isTagged(block)) return "shovel";
-        return "pickaxe";
+    // Leaves in a mine have no logs near them, so they would decay away and drop
+    // saplings. Mine leaves stay until they are mined or the mine resets
+    @EventHandler(ignoreCancelled = true)
+    public void onLeavesDecay(LeavesDecayEvent event) {
+        if (manager.getMineAt(event.getBlock().getLocation()) != null) event.setCancelled(true);
     }
 
     // Every block blast breaks besides the one mined, a patch on the face that was

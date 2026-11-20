@@ -121,6 +121,13 @@ public class SpawnerManager {
                 ageable.setAdult();
             }
 
+            // The smallest size only: a bigger slime or magma cube splits when it dies,
+            // into slimes no spawner counts that drop nothing. Before the attributes,
+            // setting a size resets health and speed
+            if (living instanceof Slime slime) {
+                slime.setSize(1);
+            }
+
             data.attributes().forEach((attr, value) -> {
                 AttributeInstance instance = living.getAttribute(attr);
                 if (instance != null) instance.setBaseValue(value);
@@ -139,6 +146,9 @@ public class SpawnerManager {
                     inv.setItemInOffHand(data.equipment().get(EquipmentSlot.OFF_HAND));
                 }
             }
+
+            // The glowing column, an outline seen through walls
+            if (data.glowing()) living.setGlowing(true);
 
             living.setRemoveWhenFarAway(false);
             // Never saved with the chunk, so a crash can't leave mobs behind to count

@@ -15,6 +15,7 @@ public class MobModel {
     public int density = 0;
     public EquipmentModel equip = new EquipmentModel();
     public List<AttributeEntry> attributes = new ArrayList<>();
+    public boolean glowing = false;
     public List<BlockModel.IndependentPoolModel> independent = new ArrayList<>();
     public BlockModel.CumulativeLootPoolModel choices;
 

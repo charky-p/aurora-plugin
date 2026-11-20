@@ -6,7 +6,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -18,6 +17,7 @@ import org.bukkit.inventory.meta.components.ToolComponent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.MiningTool;
 import org.charky.aurora.core.models.GearModel;
 import org.charky.aurora.core.models.IconModel;
 import org.charky.aurora.core.models.ResourceModel;
@@ -131,18 +131,17 @@ public class ItemFactory {
     // Vanilla wood and gold tiers cannot harvest ores, so they dig them three
     // times slower. Our tools are the right tool for every block of their kind, at
     // their tier's own speed, so every upgrade digs faster. Picks mine pickaxe
-    // blocks, axes wood, shovels dirt, snow, gravel and clay from Emerald Peaks on. The rules are what MineListener checks
+    // blocks, axes wood, shovels dirt, mud, snow, gravel, clay and slime, hoes moss,
+    // leaves and froglights (MiningTool). The rules are what MineListener checks
     // before Fortune counts, so a tool with both rules (a god tool) would do both
     private static void makeRightTool(ItemStack item, ItemMeta meta) {
-        Tag<Material> blocks;
-        if (Tag.ITEMS_PICKAXES.isTagged(item.getType())) blocks = Tag.MINEABLE_PICKAXE;
-        else if (Tag.ITEMS_AXES.isTagged(item.getType())) blocks = Tag.MINEABLE_AXE;
-        else if (Tag.ITEMS_SHOVELS.isTagged(item.getType())) blocks = Tag.MINEABLE_SHOVEL;
-        else return;
+        MiningTool kind = MiningTool.of(item.getType());
+        if (kind == null) return;
 
         ToolComponent tool = meta.getTool();
         tool.setRules(new ArrayList<>());
-        tool.addRule(blocks, tierSpeed(item.getType()), true);
+        tool.addRule(kind.blocks(), tierSpeed(item.getType()), true);
+        if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), tierSpeed(item.getType()), true);
         meta.setTool(tool);
     }
 

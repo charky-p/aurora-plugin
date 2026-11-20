@@ -23,6 +23,8 @@ public record MobData(
         int density,
         Map<EquipmentSlot, ItemStack> equipment,
         Map<Attribute, Double> attributes,
+        // An outline seen through walls, from the glowing column
+        boolean glowing,
         LootPool drops
 ) {
 }

@@ -5,14 +5,16 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
 
 import java.util.List;
 
-// Spawner mobs are never saved with their chunk now, so any that load from disk
-// were left by a crash or by a version before that, and would count towards limits
+// Spawner mobs as entities in the world. They are never saved with their chunk now,
+// so any that load from disk were left by a crash or by a version before that, and
+// would count towards limits. And players cannot right click them
 public class LeftoverMobListener implements Listener {
     // Chunks loaded before the plugin enabled never fire the event
     public static void sweepLoaded() {
@@ -22,6 +24,15 @@ public class LeftoverMobListener implements Listener {
     @EventHandler
     public void onEntitiesLoad(EntitiesLoadEvent event) {
         removeLeftovers(event.getEntities());
+    }
+
+    // Right clicking one does nothing: an allay would take the item in your hand, tools
+    // included, and a lead would walk a frog or a slime off its island
+    @EventHandler(ignoreCancelled = true)
+    public void onInteract(PlayerInteractEntityEvent event) {
+        if (event.getRightClicked().getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+            event.setCancelled(true);
+        }
     }
 
     private static void removeLeftovers(List<Entity> entities) {

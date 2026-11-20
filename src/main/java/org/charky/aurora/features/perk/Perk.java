@@ -60,11 +60,6 @@ public enum Perk {
         return costStep * level;
     }
 
-    // Everything spent to stand at this level
-    public int totalCost(int level) {
-        return costStep * level * (level + 1) / 2;
-    }
-
     // Null for an id saved by a perk that no longer exists
     public static Perk byId(String id) {
         for (Perk perk : values()) {

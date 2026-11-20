@@ -18,7 +18,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
-import org.charky.aurora.features.tool.ToolManager;
 import org.charky.aurora.features.build.BuildManager;
 import org.charky.aurora.features.tutorial.TutorialManager;
 import org.charky.aurora.core.DataRegistry;
@@ -49,14 +48,12 @@ public class MineListener implements Listener {
     private static final int CRIT_MULTIPLIER = 2;
 
     private final TutorialManager tutorial;
-    private final ToolManager tools;
     private final BuildManager build;
 
     public MineListener(Aurora plugin) {
         this.manager = plugin.getMineManager();
         this.players = plugin.getPlayerManager();
         this.tutorial = plugin.getTutorialManager();
-        this.tools = plugin.getToolManager();
         this.scoreboard = plugin.getScoreboardManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();

@@ -95,13 +95,6 @@ public class SpawnerManager {
         return spawnerMap.get(spawnerName);
     }
 
-    public List<String> getSpawnerInfo(String spawnerName) {
-        MobSpawner spawner = spawnerMap.get(spawnerName);
-        if (spawner == null) return new ArrayList<>();
-
-        return spawner.getInfo();
-    }
-
     // The mob it spawned, null if the mob or the spawner does not exist
     public LivingEntity spawnMob(String mob, Location spawnLocation, String spawner) {
         MobData data = registry.getMob(mob);

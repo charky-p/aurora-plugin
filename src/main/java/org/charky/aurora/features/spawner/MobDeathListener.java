@@ -28,8 +28,6 @@ import java.util.List;
 
 public class MobDeathListener implements Listener {
     private static final long MIN_KILL_XP = 10;
-
-    private final SpawnerManager spawnerManager;
     private final DataRegistry registry;
     private final BackpackManager backpackManager;
     private final ArmoryManager armoryManager;
@@ -39,7 +37,6 @@ public class MobDeathListener implements Listener {
     private final CollectionManager collections;
 
     public MobDeathListener(Aurora plugin) {
-        this.spawnerManager = plugin.getSpawnerManager();
         this.registry = plugin.getRegistry();
         this.backpackManager = plugin.getBackpackManager();
         this.armoryManager = plugin.getArmoryManager();

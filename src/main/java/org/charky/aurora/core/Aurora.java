@@ -6,7 +6,6 @@ import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -410,10 +409,6 @@ public class Aurora extends JavaPlugin {
         setSpawn(location);
         spawnStore.setMain(location.getWorld());
         mainWorld = location.getWorld().getName();
-    }
-
-    public String getMainWorld() {
-        return mainWorld;
     }
 
     // Where a player joining lands: the main world's spawn, or its own if none was set

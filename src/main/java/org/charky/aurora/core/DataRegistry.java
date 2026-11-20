@@ -278,11 +278,6 @@ public class DataRegistry {
         return starters;
     }
 
-    // The realm a new player's tools belong to, null with no upgrades at all
-    public String getStarterRealm() {
-        return upgradeZones.isEmpty() ? null : upgradeZones.values().iterator().next().realm();
-    }
-
     // Null for a zone with no upgrades
     public UpgradeZone getUpgradeZone(String id) {
         return id == null ? null : upgradeZones.get(id.toLowerCase());
@@ -531,14 +526,6 @@ public class DataRegistry {
     // Summoned mobs only come from their key, their spawners never spawn them
     public boolean isSummoned(String mobId) {
         return mobId != null && summons.containsValue(mobId.toLowerCase());
-    }
-
-    // The item that summons a mob, for telling players what wakes it
-    public String getSummonKey(String mobId) {
-        return summons.entrySet().stream()
-                .filter(entry -> entry.getValue().equalsIgnoreCase(mobId))
-                .map(Map.Entry::getKey)
-                .findFirst().orElse(null);
     }
 
     // Any key, something that does a thing when right clicked

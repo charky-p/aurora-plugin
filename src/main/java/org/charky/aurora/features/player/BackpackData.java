@@ -29,12 +29,6 @@ public class BackpackData {
         backpack.put(item, Math.max(backpack.getOrDefault(item, 0L) - amount, 0));
     }
 
-    public void addItems(List<MenuItem> drops) {
-        for (MenuItem item : drops) {
-            addItem(item.getId(), item.getAmount());
-        }
-    }
-
     // Adds mined or looted drops and shows the last one on the action bar with the
     // total the player now holds. A key is not a resource, it goes to the inventory
     // where it is used, or to the ground when that is full
@@ -93,15 +87,6 @@ public class BackpackData {
             if (getAmount(player, cost.getId()) < cost.getAmount()) return false;
         }
         return true;
-    }
-
-    public boolean hasPhysicalItem(Player player, MenuItem cost) {
-        int count = 0;
-        for (ItemStack slot : player.getInventory().getContents()) {
-            if (matches(slot, cost.getId())) count += slot.getAmount();
-        }
-
-        return count >= cost.getAmount();
     }
 
     private void removePhysicalItem(Player player, String id, int amountToRemove) {

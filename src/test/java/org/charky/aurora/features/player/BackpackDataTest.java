@@ -75,7 +75,9 @@ class BackpackDataTest {
     @Test
     void dropsStackOnWhatIsHeld() {
         BackpackData backpack = new BackpackData(null);
-        backpack.addItems(List.of(cost("feather", 3), cost("feather", 2), cost("wool", 1)));
+        backpack.addItem("feather", 3);
+        backpack.addItem("feather", 2);
+        backpack.addItem("wool", 1);
 
         assertEquals(5, backpack.getItems().get("feather"));
         assertEquals(1, backpack.getItems().get("wool"));

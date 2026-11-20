@@ -39,15 +39,6 @@ class PerkTest {
         }
     }
 
-    // A first run pays a few hundred Essence, so a full perk is a long way off
-    @Test
-    void aWholePerkIsExpensive() {
-        assertEquals(0, Perk.VITALITY.totalCost(0));
-        assertEquals(150, Perk.VITALITY.totalCost(2));
-        assertEquals(10_500, Perk.VITALITY.totalCost(20));
-        assertEquals(50_500, Perk.CRIT_RATE.totalCost(100));
-    }
-
     @Test
     void perksAreFoundByTheirSavedId() {
         assertSame(Perk.VITALITY, Perk.byId("vitality"));

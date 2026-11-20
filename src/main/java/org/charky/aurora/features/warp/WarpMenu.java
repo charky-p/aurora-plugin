@@ -13,7 +13,6 @@ import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.keys.KeyItems;
-import org.charky.aurora.features.trader.TraderClose;
 
 import java.util.ArrayList;
 import java.util.List;

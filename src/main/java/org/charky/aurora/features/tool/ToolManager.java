@@ -251,11 +251,13 @@ public class ToolManager implements Listener {
     }
 
     // The first zone before this one with a step of the tool not bought yet, null when
-    // there is none. Zones not released yet cannot be bought, so they never hold it up
+    // there is none. A released zone never waits on one not out yet, players cannot buy
+    // there. In a zone not out yet, which only admins reach, every zone before it counts
     public UpgradeZone unfinished(Player player, UpgradeZone zone, String tool) {
+        boolean released = registry.isZoneReleased(zone.id());
         for (String id : zone.before()) {
             UpgradeZone earlier = registry.getUpgradeZone(id);
-            if (earlier == null || !registry.isZoneReleased(id)) continue;
+            if (earlier == null || (released && !registry.isZoneReleased(id))) continue;
             if (next(player, earlier, tool) != null) return earlier;
         }
         return null;

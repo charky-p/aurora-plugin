@@ -110,10 +110,9 @@ public class SpawnerManager {
 
             entity.customName(data.displayName());
             entity.setCustomNameVisible(true);
-            // TODO: add glowing support
             if (!(entity instanceof LivingEntity living)) return;
 
-            // Prevent babies TODO: Add baby support
+            // Spawned mobs are always adults
             if (living instanceof Zombie zombie) {
                 zombie.setBaby(false);
             }

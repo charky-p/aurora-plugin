@@ -330,8 +330,9 @@ def price_all():
     return result
 
 
-def show(zone, priced):
-    print(f"\n{zone['name']}  (target {int(zone['target_seconds']) / 60:.1f} min, mined x{zone.get('mine_scale') or 1},"
+def show(zone, priced, zones):
+    # A zone with only minutes gets its target from them, see target_seconds
+    print(f"\n{zone['name']}  (target {target_seconds(zone, zones) / 60:.1f} min, mined x{zone.get('mine_scale') or 1},"
           f" looted x{zone.get('mob_scale') or 1}, {len(priced)} steps)")
     totals = {}
     for row in priced:
@@ -345,6 +346,7 @@ def show(zone, priced):
 
 if __name__ == "__main__":
     only = sys.argv[1] if len(sys.argv) > 1 else None
+    zones = rows("zones")
     for zone, priced in price_all():
         if only in (None, zone["id"]):
-            show(zone, priced)
+            show(zone, priced, zones)

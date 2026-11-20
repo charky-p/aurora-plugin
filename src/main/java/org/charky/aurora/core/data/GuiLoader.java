@@ -92,7 +92,7 @@ public class GuiLoader {
             costs.add(new MenuItem(costId, items.get(costId), entry.amount));
         }
 
-        return new TraderItem(backpacks, id, new MenuItem(id, items.get(id), component.amount), costs);
+        return new TraderItem(backpacks, new MenuItem(id, items.get(id), component.amount), costs);
     }
 
     private TraderNode broken(String gui, String problem) {

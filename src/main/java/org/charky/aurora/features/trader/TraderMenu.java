@@ -7,8 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
-import org.charky.aurora.common.util.DataKeys;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -40,15 +38,7 @@ public class TraderMenu implements TraderNode, InventoryHolder {
     @Override
     public ItemStack getDisplayItem(Player player) {
         if (displayItem == null) return new ItemStack(Material.AIR);
-        ItemStack display = this.displayItem.clone();
-        display.editMeta(meta -> {
-            meta.getPersistentDataContainer().set(
-                    DataKeys.MENU_KEY,
-                    PersistentDataType.STRING,
-                    menuId
-            );
-        });
-        return display;
+        return displayItem.clone();
     }
 
     @Override

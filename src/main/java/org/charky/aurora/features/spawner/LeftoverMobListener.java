@@ -5,6 +5,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.persistence.PersistentDataType;
@@ -14,7 +15,8 @@ import java.util.List;
 
 // Spawner mobs as entities in the world. They are never saved with their chunk now,
 // so any that load from disk were left by a crash or by a version before that, and
-// would count towards limits. And players cannot right click them
+// would count towards limits. Players cannot right click them, and they drop nothing
+// of their own: what they give comes from the files when they die
 public class LeftoverMobListener implements Listener {
     // Chunks loaded before the plugin enabled never fire the event
     public static void sweepLoaded() {
@@ -31,6 +33,14 @@ public class LeftoverMobListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onInteract(PlayerInteractEntityEvent event) {
         if (event.getRightClicked().getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+            event.setCancelled(true);
+        }
+    }
+
+    // Vanilla drops while alive: a sniffer's dug up seeds and pitcher pods, a chicken's eggs
+    @EventHandler(ignoreCancelled = true)
+    public void onDrop(EntityDropItemEvent event) {
+        if (event.getEntity().getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
             event.setCancelled(true);
         }
     }

@@ -242,6 +242,20 @@ public class ToolManager implements Listener, LoadoutData {
         });
     }
 
+    // A copy for a new loadout of the one in play, see LoadoutManager
+    @Override
+    public void copyLoadout(Player player, UUID other) {
+        Swaps.copy(levels, player.getUniqueId(), other, realms -> {
+            Map<String, Map<String, Map<String, Integer>>> copy = new HashMap<>();
+            realms.forEach((realm, tools) -> {
+                Map<String, Map<String, Integer>> toolCopy = new HashMap<>();
+                tools.forEach((tool, stats) -> toolCopy.put(tool, new HashMap<>(stats)));
+                copy.put(realm, toolCopy);
+            });
+            return copy;
+        });
+    }
+
     // Trades what it holds for the player with their other loadout, see LoadoutManager
     @Override
     public void swapLoadout(Player player, UUID other) {

@@ -2,6 +2,9 @@ package org.charky.aurora.core.database;
 
 import org.charky.aurora.features.loadout.Loadout;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +56,29 @@ public class LoadoutStore {
             pst.setString(2, loadout.id());
             pst.setBytes(3, stash.items());
             pst.setBytes(4, stash.enderChest());
+        });
+    }
+
+    // A new loadout that starts as a copy of the one in play: every row of the player's
+    // own id copied to the put-away one, replacing whatever was there
+    public void copy(UUID uuid, UUID shadow) {
+        db.transaction(conn -> {
+            for (String table : TABLES) {
+                List<String> columns = new ArrayList<>();
+                try (PreparedStatement pst = conn.prepareStatement("PRAGMA table_info(" + table + ")");
+                     ResultSet rs = pst.executeQuery()) {
+                    while (rs.next()) {
+                        if (!rs.getString("name").equalsIgnoreCase("uuid")) columns.add(rs.getString("name"));
+                    }
+                }
+                String rest = String.join(", ", columns);
+                Database.execute(conn, "DELETE FROM " + table + " WHERE uuid = ?", pst -> pst.setString(1, shadow.toString()));
+                Database.execute(conn, "INSERT INTO " + table + " (uuid, " + rest + ") SELECT ?, " + rest
+                        + " FROM " + table + " WHERE uuid = ?", pst -> {
+                    pst.setString(1, shadow.toString());
+                    pst.setString(2, uuid.toString());
+                });
+            }
         });
     }
 

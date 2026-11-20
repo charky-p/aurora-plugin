@@ -12,9 +12,10 @@ import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import java.util.List;
 
 /**
- * Goes to a test world keeping your main loadout, to try what you have built with the
- * progress you really have. It lasts until you are back in a main world. Going to a
- * test world any other way plays the experimental loadout as before
+ * Goes to a test world on the experimental loadout. The first time, when there is no
+ * experimental loadout yet, it starts as a copy of your main one instead of from
+ * nothing, to try what you have built with the progress you really have. After that
+ * the two go their own ways, and this goes to the experimental loadout as it is
  */
 public class TestWorldSub implements AuroraSubCommand {
     private final Aurora plugin;
@@ -37,8 +38,8 @@ public class TestWorldSub implements AuroraSubCommand {
         }
 
         Location spawn = plugin.getSpawn(world);
-        plugin.getLoadoutManager().visitWithMain(player, spawn != null ? spawn : world.getSpawnLocation());
-        TextUtils.success(player, "In " + world.getName() + " with your main loadout, until you go back to a main world");
+        boolean copied = plugin.getLoadoutManager().visit(player, spawn != null ? spawn : world.getSpawnLocation());
+        if (copied) TextUtils.success(player, "Your experimental loadout starts as a copy of your main one");
     }
 
     @Override
@@ -60,6 +61,6 @@ public class TestWorldSub implements AuroraSubCommand {
 
     @Override
     public String getDescription() {
-        return "Go to a test world keeping your main loadout, aurora_test without a world";
+        return "Go to a test world, the first time with your experimental loadout copied from your main one";
     }
 }

@@ -70,6 +70,13 @@ public class PlayerManager {
         if (data != null) db.async(() -> store.save(uuid, data));
     }
 
+    // Saved now, after anything already queued, and kept loaded
+    public void save(Player player) {
+        UUID uuid = player.getUniqueId();
+        PlayerData data = profiles.get(uuid);
+        if (data != null) db.async(() -> store.save(uuid, data));
+    }
+
     // For a loadout switch: the profile is saved and dropped, then betweenLoads runs on
     // the database thread, then the profile is loaded again as on a join. Until then
     // get() returns null, as while joining

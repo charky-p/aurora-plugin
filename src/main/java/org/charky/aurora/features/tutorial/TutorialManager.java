@@ -247,6 +247,12 @@ public class TutorialManager implements Listener, LoadoutData {
         }
     }
 
+    // A copy for a new loadout of the one in play, see LoadoutManager
+    @Override
+    public void copyLoadout(Player player, UUID other) {
+        Swaps.copy(steps, player.getUniqueId(), other, step -> step);
+    }
+
     // Trades what it holds for the player with their other loadout, see LoadoutManager
     @Override
     public void swapLoadout(Player player, UUID other) {

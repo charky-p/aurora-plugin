@@ -8,7 +8,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
@@ -22,10 +21,8 @@ import org.charky.aurora.features.tool.ToolManager;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -37,7 +34,8 @@ import java.util.function.Consumer;
 // access, perks, cosmetics, ranks and the tutorial. Build worlds keep whichever is in
 // play. The loadout put away is kept under its own id (Loadout.shadowOf), so every
 // manager goes on using the player's real id for the one in play. A main loadout that
-// starts fresh starts like a first join, tutorial included; an experimental one does not
+// starts fresh starts like a first join, tutorial included; an experimental one does not.
+// /aurora testworld starts an experimental loadout as a copy of the main one instead
 public class LoadoutManager implements Listener {
     private final DataRegistry registry;
     private final Database db;
@@ -53,9 +51,6 @@ public class LoadoutManager implements Listener {
     private final Consumer<Player> firstJoin;
     // Players who have switched before, everyone else plays MAIN
     private final Map<UUID, Loadout> active;
-    // Taken to a test world with their main loadout (/aurora testworld), until they go
-    // back to a main world or leave the server
-    private final Set<UUID> carrying = new HashSet<>();
     private final Map<UUID, Map<Loadout, Stash>> stashes;
 
     public LoadoutManager(DataRegistry registry, Database db, LoadoutStore store, PlayerManager players,
@@ -91,35 +86,42 @@ public class LoadoutManager implements Listener {
         check(event.getPlayer());
     }
 
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        carrying.remove(event.getPlayer().getUniqueId());
+    // Played the experimental loadout before: it is in play now, or put away
+    public boolean hasExperimental(UUID uuid) {
+        return activeOf(uuid) == Loadout.EXPERIMENTAL
+                || stashes.getOrDefault(uuid, Map.of()).containsKey(Loadout.EXPERIMENTAL);
     }
 
-    // To a test world keeping the main loadout. One with the experimental loadout in
-    // play is swapped back to main first, where they stand
-    public void visitWithMain(Player player, Location to) {
-        UUID uuid = player.getUniqueId();
-        carrying.add(uuid);
-        if (activeOf(uuid) != Loadout.MAIN) switchTo(player, Loadout.MAIN);
+    // /aurora testworld: to a test world on the experimental loadout. True if it was new
+    // and starts as a copy of the main one, false if the player already had one
+    public boolean visit(Player player, Location to) {
+        boolean copied = !hasExperimental(player.getUniqueId());
+        if (copied) copyMainToExperimental(player);
+        // The world change switches to it
         player.teleport(to);
+        return copied;
+    }
+
+    // The main loadout in play becomes the put-away experimental one too: memory, then the
+    // rows, queued after the profile's own save, then the inventory and ender chest
+    private void copyMainToExperimental(Player player) {
+        UUID uuid = player.getUniqueId();
+        UUID shadow = Loadout.shadowOf(uuid);
+        player.closeInventory();
+        for (LoadoutData holder : holders) holder.copyLoadout(player, shadow);
+        players.save(player);
+        db.async(() -> store.copy(uuid, shadow));
+        putAway(player, Loadout.EXPERIMENTAL);
     }
 
     private void check(Player player) {
-        UUID uuid = player.getUniqueId();
-        Loadout wanted = wanted(player.getWorld());
-        // Back in a main world, a visit with the main loadout is over
-        if (wanted == Loadout.MAIN) carrying.remove(uuid);
-        Loadout next = toPlay(wanted, activeOf(uuid), carrying.contains(uuid));
+        Loadout next = toPlay(wanted(player.getWorld()), activeOf(player.getUniqueId()));
         if (next != null) switchTo(player, next);
     }
 
-    // The loadout to switch to, null to stay: a build world (wanted null) keeps the one in
-    // play, and so does a test world visited with the main loadout
-    static Loadout toPlay(Loadout wanted, Loadout active, boolean carryingMain) {
-        if (wanted == null || wanted == active) return null;
-        if (wanted == Loadout.EXPERIMENTAL && carryingMain) return null;
-        return wanted;
+    // The loadout to switch to, null to stay: a build world (wanted null) keeps the one in play
+    static Loadout toPlay(Loadout wanted, Loadout active) {
+        return wanted == null || wanted == active ? null : wanted;
     }
 
     // The loadout a world plays with, null for a build world: it keeps the one in play

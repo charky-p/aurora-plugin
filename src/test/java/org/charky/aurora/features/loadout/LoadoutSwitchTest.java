@@ -10,23 +10,16 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class LoadoutSwitchTest {
     @Test
     void worldsPickTheirLoadout() {
-        assertEquals(EXPERIMENTAL, LoadoutManager.toPlay(EXPERIMENTAL, MAIN, false));
-        assertEquals(MAIN, LoadoutManager.toPlay(MAIN, EXPERIMENTAL, false));
-        assertNull(LoadoutManager.toPlay(MAIN, MAIN, false));
-        assertNull(LoadoutManager.toPlay(EXPERIMENTAL, EXPERIMENTAL, false));
+        assertEquals(EXPERIMENTAL, LoadoutManager.toPlay(EXPERIMENTAL, MAIN));
+        assertEquals(MAIN, LoadoutManager.toPlay(MAIN, EXPERIMENTAL));
+        assertNull(LoadoutManager.toPlay(MAIN, MAIN));
+        assertNull(LoadoutManager.toPlay(EXPERIMENTAL, EXPERIMENTAL));
     }
 
     // A build world keeps whichever is in play
     @Test
     void buildWorldsKeepTheOneInPlay() {
-        assertNull(LoadoutManager.toPlay(null, MAIN, false));
-        assertNull(LoadoutManager.toPlay(null, EXPERIMENTAL, true));
-    }
-
-    // /aurora testworld: the main loadout stays in test worlds, a main world ends the visit
-    @Test
-    void carryingMainStaysInTestWorlds() {
-        assertNull(LoadoutManager.toPlay(EXPERIMENTAL, MAIN, true));
-        assertNull(LoadoutManager.toPlay(MAIN, MAIN, true));
+        assertNull(LoadoutManager.toPlay(null, MAIN));
+        assertNull(LoadoutManager.toPlay(null, EXPERIMENTAL));
     }
 }

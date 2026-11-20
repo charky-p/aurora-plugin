@@ -82,6 +82,16 @@ public class AccessManager implements Listener, LoadoutData {
         }
     }
 
+    // A copy for a new loadout of the one in play, see LoadoutManager
+    @Override
+    public void copyLoadout(Player player, UUID other) {
+        Swaps.copy(access, player.getUniqueId(), other, ids -> {
+            Set<String> copy = ConcurrentHashMap.newKeySet();
+            copy.addAll(ids);
+            return copy;
+        });
+    }
+
     // Trades what it holds for the player with their other loadout, see LoadoutManager
     @Override
     public void swapLoadout(Player player, UUID other) {

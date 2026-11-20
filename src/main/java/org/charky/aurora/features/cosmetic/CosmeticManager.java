@@ -383,6 +383,17 @@ public class CosmeticManager implements Listener, LoadoutData {
         lookChanged.accept(player);
     }
 
+    // A copy for a new loadout of the one in play, see LoadoutManager
+    @Override
+    public void copyLoadout(Player player, UUID other) {
+        Swaps.copy(owned, player.getUniqueId(), other, ids -> {
+            Set<String> copy = ConcurrentHashMap.newKeySet();
+            copy.addAll(ids);
+            return copy;
+        });
+        Swaps.copy(equipped, player.getUniqueId(), other, ConcurrentHashMap::new);
+    }
+
     // Trades what it holds for the player with their other loadout, see LoadoutManager
     @Override
     public void swapLoadout(Player player, UUID other) {

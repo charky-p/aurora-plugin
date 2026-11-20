@@ -358,6 +358,32 @@ class StoresTest {
         assertEquals(30, players.load(Loadout.shadowOf(uuid)).getLevel());
     }
 
+    // /aurora testworld the first time: the experimental loadout starts as a copy of the
+    // main one, then a switch puts the copy in play and the main one away, both intact
+    @Test
+    void copyStartsAnIdenticalLoadout() {
+        PlayerStore players = new PlayerStore(db);
+        LoadoutStore loadouts = new LoadoutStore(db);
+        UUID uuid = UUID.randomUUID();
+        UUID shadow = Loadout.shadowOf(uuid);
+        players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
+        db.update("INSERT INTO tutorial (uuid, step) VALUES (?, ?)", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setString(2, "MINE");
+        });
+
+        loadouts.copy(uuid, shadow);
+        assertEquals(30, players.load(shadow).getLevel());
+        loadouts.swap(uuid, shadow, Loadout.EXPERIMENTAL);
+        players.save(uuid, new PlayerData("MEMBER", 31, 0, 5, 950, 70, 0));
+
+        assertEquals(31, players.load(uuid).getLevel());
+        assertEquals(30, players.load(shadow).getLevel());
+        List<String> owners = new ArrayList<>();
+        db.query("SELECT uuid FROM tutorial ORDER BY uuid", pst -> {}, rs -> owners.add(rs.getString("uuid")));
+        assertEquals(2, owners.size());
+    }
+
     // A new per-player table has to be listed, or a switch would leave its rows behind
     @Test
     void everyPlayerTableIsInALoadoutOrShared() {

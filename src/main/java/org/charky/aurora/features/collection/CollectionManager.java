@@ -115,6 +115,14 @@ public class CollectionManager implements LoadoutData {
         db.async(() -> store.deleteAll(uuid));
     }
 
+    // A copy for a new loadout of the one in play, see LoadoutManager
+    @Override
+    public void copyLoadout(Player player, UUID other) {
+        Swaps.copy(collections, player.getUniqueId(), other, HashMap::new);
+        // Saved under its new id with the next autosave
+        changed.add(other);
+    }
+
     // Trades what it holds for the player with their other loadout, see LoadoutManager
     @Override
     public void swapLoadout(Player player, UUID other) {

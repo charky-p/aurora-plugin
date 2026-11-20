@@ -85,8 +85,9 @@ class ProgressionLoaderTest {
                 "City", zone("Gormak", true, List.of("COBBLE")),
                 "canyons", zone("khorvath", false, List.of("city"))));
 
-        assertEquals("gormak", loaded.zoneRegions().get("city"));
+        assertEquals("gormak", loaded.regions().of("city"));
         assertEquals(List.of("cobble"), loaded.zones().get("city").before());
-        assertEquals(Set.of("gormak"), loaded.releasedRegions());
+        assertTrue(loaded.regions().isReleased("gormak"));
+        assertTrue(!loaded.regions().isReleased("khorvath"));
     }
 }

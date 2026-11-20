@@ -57,10 +57,7 @@ public class DataRegistry {
     private final Map<String, ToolType> toolTypes = new LinkedHashMap<>();
     private Realms realms = new Realms(List.of());
     private final Map<String, UpgradeZone> upgradeZones = new LinkedHashMap<>();
-    // zone id -> the region it has in zones.csv
-    private final Map<String, String> zoneRegions = new LinkedHashMap<>();
-    // Regions marked released in regions.csv, the only ones players are shown
-    private final Set<String> releasedRegions = new HashSet<>();
+    private Regions regions = Regions.none();
     // item id -> the region column it has in the CSVs, like gormak_city or origin_isles
     private final Map<String, String> itemRegions = new HashMap<>();
 
@@ -116,8 +113,6 @@ public class DataRegistry {
         warps.clear();
         toolTypes.clear();
         upgradeZones.clear();
-        zoneRegions.clear();
-        releasedRegions.clear();
         itemRegions.clear();
         resourceList.clear();
         resourceIds.clear();
@@ -156,55 +151,18 @@ public class DataRegistry {
         realms = progression.realms();
         toolTypes.putAll(progression.tools());
         upgradeZones.putAll(progression.zones());
-        zoneRegions.putAll(progression.zoneRegions());
-        releasedRegions.addAll(progression.releasedRegions());
+        regions = progression.regions();
     }
 
-    // The world a zone is part of, as zones.csv names it
-    public String getZoneRegion(String zoneId) {
-        return zoneRegions.getOrDefault(zoneId, "");
-    }
-
-    // ----------------------------------------------------------------- releases
-
-    // A region marked released in regions.csv. Players are only shown these
-    public boolean isRegionReleased(String region) {
-        return region != null && releasedRegions.contains(region.toLowerCase());
-    }
-
-    public boolean isZoneReleased(String zoneId) {
-        return isRegionReleased(getZoneRegion(zoneId));
-    }
-
-    // The released zones in zones.csv order
-    public List<String> getReleasedZoneIds() {
-        return upgradeZones.keySet().stream().filter(this::isZoneReleased).toList();
-    }
-
-    // The region a CSV region column means: the region itself (gormak) or one of its
-    // zones (gormak_city). Null for one that is no region, like fishing
-    public String regionOf(String column) {
-        if (column == null || column.isBlank()) return null;
-        String best = null;
-        for (String region : zoneRegions.values()) {
-            if ((column.equals(region) || column.startsWith(region + "_")) && (best == null || region.length() > best.length())) {
-                best = region;
-            }
-        }
-        return best;
+    // Which region each zone is in and which regions are released
+    public Regions getRegions() {
+        return regions;
     }
 
     // An item players are shown: one with no region, or from a released region. One
     // whose column names no region, like fishing, is switched off and hidden too
     public boolean isItemReleased(String itemId) {
-        String column = itemRegions.get(itemId.toLowerCase());
-        if (column == null || column.isBlank()) return true;
-        return isRegionReleased(regionOf(column));
-    }
-
-    public List<String> getZonesOfRegion(String region) {
-        return zoneRegions.entrySet().stream().filter(entry -> entry.getValue().equals(region))
-                .map(Map.Entry::getKey).toList();
+        return regions.isColumnReleased(itemRegions.get(itemId.toLowerCase()));
     }
 
     // Every zone with upgrades, in zones.csv order

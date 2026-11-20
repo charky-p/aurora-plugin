@@ -78,10 +78,10 @@ public class UpgradeShop {
     // there is none. A released zone never waits on one not out yet, players cannot buy
     // there. In a zone not out yet, which only admins reach, every zone before it counts
     public UpgradeZone unfinished(Player player, UpgradeZone zone, String tool) {
-        boolean released = registry.isZoneReleased(zone.id());
+        boolean released = registry.getRegions().isZoneReleased(zone.id());
         for (String id : zone.before()) {
             UpgradeZone earlier = registry.getUpgradeZone(id);
-            if (earlier == null || (released && !registry.isZoneReleased(id))) continue;
+            if (earlier == null || (released && !registry.getRegions().isZoneReleased(id))) continue;
             if (next(player, earlier, tool) != null) return earlier;
         }
         return null;
@@ -116,7 +116,7 @@ public class UpgradeShop {
     // Every released zone is maxed, what the Overworld Core needs. The ones not out
     // yet cannot be bought
     public boolean maxedAll(Player player) {
-        for (String zone : registry.getReleasedZoneIds()) {
+        for (String zone : registry.getRegions().releasedZones()) {
             if (!maxed(player, zone)) return false;
         }
         return true;
@@ -124,7 +124,7 @@ public class UpgradeShop {
 
     // Every zone of a world is maxed. False for a world with no zones yet
     public boolean maxedRegion(Player player, String region) {
-        List<String> zones = registry.getZonesOfRegion(region);
+        List<String> zones = registry.getRegions().zonesOf(region);
         if (zones.isEmpty()) return false;
         for (String zone : zones) {
             if (!maxed(player, zone)) return false;
@@ -171,7 +171,7 @@ public class UpgradeShop {
 
         player.sendMessage(TextUtils.parse("<gold><b>UPGRADED</b> <gray>" + tool.name() + ": <white>").append(bought));
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1.4f);
-        if (maxed(player, zone.id())) onMaxed.accept(player, zone.id(), registry.getZoneRegion(zone.id()));
+        if (maxed(player, zone.id())) onMaxed.accept(player, zone.id(), registry.getRegions().of(zone.id()));
         onBought.accept(player, zone.id());
         return null;
     }

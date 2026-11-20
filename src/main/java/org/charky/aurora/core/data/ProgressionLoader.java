@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 // A step for a tool, material or enchant that does not exist is skipped and logged
 public class ProgressionLoader {
     public record Progression(Realms realms, Map<String, ToolType> tools, Map<String, UpgradeZone> zones,
-                              Map<String, String> zoneRegions, Set<String> releasedRegions) {
+                              Regions regions) {
     }
 
     private final Logger logger;
@@ -73,7 +73,7 @@ public class ProgressionLoader {
             zoneRegions.put(zoneId, region);
             if (model.released) released.add(region);
         });
-        return new Progression(new Realms(realms), tools, zones, zoneRegions, released);
+        return new Progression(new Realms(realms), tools, zones, new Regions(zoneRegions, released));
     }
 
     private List<MenuItem> costs(String zone, UpgradeModel.StepModel step, Map<String, ItemStack> items) {

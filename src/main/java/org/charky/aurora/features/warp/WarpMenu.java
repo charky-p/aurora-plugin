@@ -28,7 +28,7 @@ public class WarpMenu extends PagedMenu {
         this.plugin = plugin;
         // Warps to a region that is not released yet are left out
         this.warps = plugin.getRegistry().getWarps().stream()
-                .filter(warp -> warp.region().isBlank() || plugin.getRegistry().isRegionReleased(warp.region())).toList();
+                .filter(warp -> warp.region().isBlank() || plugin.getRegistry().getRegions().isReleased(warp.region())).toList();
     }
 
     @Override

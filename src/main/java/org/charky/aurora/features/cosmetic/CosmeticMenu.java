@@ -40,8 +40,8 @@ public class CosmeticMenu extends PagedMenu {
     private List<Cosmetic> visible(Player player) {
         if (player.hasPermission("aurora.admin")) return all;
         return all.stream().filter(cosmetic -> cosmetics.owns(player, cosmetic) || switch (cosmetic.source()) {
-            case ZONE -> registry.isZoneReleased(cosmetic.target());
-            case WORLD -> Cosmetics.regions(cosmetic).stream().allMatch(registry::isRegionReleased);
+            case ZONE -> registry.getRegions().isZoneReleased(cosmetic.target());
+            case WORLD -> Cosmetics.regions(cosmetic).stream().allMatch(registry.getRegions()::isReleased);
             default -> Cosmetics.isReleased(cosmetic);
         }).toList();
     }
@@ -141,7 +141,7 @@ public class CosmeticMenu extends PagedMenu {
             case ESSENCE -> essence >= cosmetic.requirement() ? "<yellow>Click to buy"
                     : "<red>" + String.format("%,d", cosmetic.requirement() - essence) + " more Essence needed";
             case ZONE -> "<red>Buy every upgrade there";
-            case WORLD -> Cosmetics.regions(cosmetic).stream().allMatch(region -> registry.getZonesOfRegion(region).isEmpty())
+            case WORLD -> Cosmetics.regions(cosmetic).stream().allMatch(region -> registry.getRegions().zonesOf(region).isEmpty())
                     ? "<red>Not open yet" : "<red>Max out every zone there";
             default -> "<red>Locked";
         };

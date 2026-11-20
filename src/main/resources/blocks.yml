@@ -519,25 +519,21 @@ items:
     density: 6
     xp: 13
     independent:
-      - id: froglight
+      - id: ochre_froglight
 
   verdant_froglight:
     material: VERDANT_FROGLIGHT
     density: 6
     xp: 13
     independent:
-      - id: froglight
-        min: 2
-        max: 4
+      - id: verdant_froglight
 
   pearlescent_froglight:
     material: PEARLESCENT_FROGLIGHT
     density: 6
     xp: 13
     independent:
-      - id: froglight
-        min: 2
-        max: 4
+      - id: pearlescent_froglight
 
   mountain_dirt:
     material: DIRT

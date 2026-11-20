@@ -31,7 +31,9 @@ fen_soil,shovel,fen_soil:100
 moss,hoe,bog_moss:100
 verdigris,pick,verdigris:60|verdigris_cut:40
 mangrove_leaves,hoe,mangrove_leaves:100
-froglight,hoe,ochre_froglight:50|verdant_froglight:30|pearlescent_froglight:20
+ochre_froglight,hoe,ochre_froglight:100
+verdant_froglight,hoe,verdant_froglight:100
+pearlescent_froglight,hoe,pearlescent_froglight:100
 dirt,shovel,mountain_dirt:60|coarse_mountain_dirt:40
 redstone,pick,redstone_ore:60|deepslate_redstone_ore:40
 pumpkin,axe,pumpkin:100

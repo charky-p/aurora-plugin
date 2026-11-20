@@ -121,7 +121,7 @@ At the end, the portal to Elderwood Roots locked to `elderwood`, with `elderwood
 | Slime Hollow | `bog_slime`: `slime_block 100`, `mangrove_log`: `mangrove_log 60 mangrove_wood 25 mangrove_roots 15` | `swamp_slime` | `slime_trader` |
 | The Fens | `bog_stone`: `mossy_cobble 60 mossy_bricks 40`, `fen_soil`: `fen_soil 100`, `moss`: `bog_moss 100` | `bog_walker` | `fens_trader` |
 | Sunken Ruins | `verdigris`: `verdigris 60 verdigris_cut 40`, `mangrove_leaves`: `mangrove_leaves 100` | `bogged_archer` | `sunken_trader` |
-| Glowmire | `froglight`: `ochre_froglight 50 verdant_froglight 30 pearlescent_froglight 20` | `glow_wisp` | `glowmire_trader` |
+| Glowmire | `ochre_froglight`: `ochre_froglight 100`, `verdant_froglight`: `verdant_froglight 100`, `pearlescent_froglight`: `pearlescent_froglight 100` | `glow_wisp` | `glowmire_trader` |
 
 ### Emerald Peaks
 

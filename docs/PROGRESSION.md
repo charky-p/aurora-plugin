@@ -92,7 +92,7 @@ A zone is priced for a player who has finished every region of every earlier sta
 | Slime Hollow | 10.0 | bog slime, mangrove log | swamp slime | 22 | 2,972 bog slime, 4,250 mangrove log, 580 swamp gel |
 | The Fens | 10.0 | bog stone, fen soil, moss | bog walker | 22 | 1,358 moss, 2,790 bog stone, 1,238 fen soil, 452 bog rag |
 | Sunken Ruins | 10.0 | verdigris, mangrove leaves | bogged archer | 17 | 1,582 mangrove leaves, 9,020 verdigris, 2,820 poison quill |
-| Glowmire | 12.0 | froglight | glow wisp | 24 | 10,150 froglight, 3,796 wisp dust |
+| Glowmire | 12.0 | ochre, verdant and pearlescent froglight | glow wisp | 24 | 764 ochre, 1,890 verdant and 2,270 pearlescent froglight, 3,796 wisp dust |
 | **Emerald Peaks** (stage 4) | | | | | |
 | Foothills | 8.0 | dirt | mountain goat | 14 | 67,000 dirt, 3,650 goat hide |
 | Redstone Mines | 10.0 | redstone | frost spider | 14 | 69,300 redstone, 1,860 spider silk |

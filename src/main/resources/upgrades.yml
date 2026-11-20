@@ -3240,8 +3240,8 @@ items:
         stat: material
         level: "IRON"
         cost:
-          - id: froglight
-            amount: 100
+          - id: ochre_froglight
+            amount: 64
       - tool: helmet
         stat: protection
         level: "5"
@@ -3270,8 +3270,8 @@ items:
         stat: fortune
         level: "7"
         cost:
-          - id: froglight
-            amount: 150
+          - id: ochre_froglight
+            amount: 100
       - tool: sword
         stat: sharpness
         level: "4"
@@ -3288,14 +3288,14 @@ items:
         stat: efficiency
         level: "3"
         cost:
-          - id: froglight
-            amount: 320
+          - id: verdant_froglight
+            amount: 200
       - tool: sword
         stat: looting
         level: "7"
         cost:
-          - id: froglight
-            amount: 400
+          - id: verdant_froglight
+            amount: 250
           - id: wisp_dust
             amount: 120
       - tool: sword
@@ -3308,38 +3308,38 @@ items:
         stat: fortune
         level: "8"
         cost:
-          - id: froglight
-            amount: 480
+          - id: pearlescent_froglight
+            amount: 300
       - tool: helmet
         stat: thorns
         level: "1"
         cost:
-          - id: froglight
-            amount: 500
+          - id: ochre_froglight
+            amount: 300
           - id: wisp_dust
             amount: 160
       - tool: chestplate
         stat: thorns
         level: "1"
         cost:
-          - id: froglight
-            amount: 500
+          - id: verdant_froglight
+            amount: 300
           - id: wisp_dust
             amount: 160
       - tool: leggings
         stat: thorns
         level: "1"
         cost:
-          - id: froglight
-            amount: 500
+          - id: pearlescent_froglight
+            amount: 320
           - id: wisp_dust
             amount: 160
       - tool: boots
         stat: thorns
         level: "1"
         cost:
-          - id: froglight
-            amount: 500
+          - id: ochre_froglight
+            amount: 300
           - id: wisp_dust
             amount: 160
       - tool: sword
@@ -3352,8 +3352,8 @@ items:
         stat: fortune
         level: "9"
         cost:
-          - id: froglight
-            amount: 600
+          - id: pearlescent_froglight
+            amount: 400
           - id: wisp_dust
             amount: 250
       - tool: sword
@@ -3366,8 +3366,10 @@ items:
         stat: luck
         level: "1"
         cost:
-          - id: froglight
-            amount: 1600
+          - id: verdant_froglight
+            amount: 500
+          - id: pearlescent_froglight
+            amount: 500
       - tool: shield
         stat: deflection
         level: "2"
@@ -3384,16 +3386,16 @@ items:
         stat: thrust
         level: "5"
         cost:
-          - id: froglight
-            amount: 2000
+          - id: verdant_froglight
+            amount: 640
           - id: wisp_dust
             amount: 480
       - tool: grapple
         stat: recharge
         level: "5"
         cost:
-          - id: froglight
-            amount: 2500
+          - id: pearlescent_froglight
+            amount: 750
           - id: wisp_dust
             amount: 500
 

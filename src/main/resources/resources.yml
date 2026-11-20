@@ -603,14 +603,32 @@ items:
       - "<dark_gray>Sunken Marsh"
     collection: 2500
 
-  froglight:
-    display: "<#F5D76E><b>Froglight"
+  ochre_froglight:
+    display: "<#F2B94E><b>Ochre Froglight"
     material: OCHRE_FROGLIGHT
     world: "overworld"
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 10000
+    collection: 750
+
+  verdant_froglight:
+    display: "<#9BD86B><b>Verdant Froglight"
+    material: VERDANT_FROGLIGHT
+    world: "overworld"
+    region: "marsh_glowmire"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 1600
+
+  pearlescent_froglight:
+    display: "<#E7B8E6><b>Pearlescent Froglight"
+    material: PEARLESCENT_FROGLIGHT
+    world: "overworld"
+    region: "marsh_glowmire"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 2000
 
   wisp_dust:
     display: "<aqua>Wisp Dust"

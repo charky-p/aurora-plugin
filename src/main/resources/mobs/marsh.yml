@@ -84,7 +84,6 @@ items:
         value: 0.05
       - attr: MOVEMENT_SPEED
         value: 0.05
-    glowing: true
     independent:
       - id: wisp_dust
         max: 2

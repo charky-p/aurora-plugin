@@ -3,4 +3,4 @@ bog_frog,<#7BA05B><b>Bog Frog,FROG,255,0,0,,,7,,,,frog_leg:100:1-2,,,
 swamp_slime,<#8FD16F><b>Swamp Slime,SLIME,330,18,0,,,8,,,,swamp_gel:100:1-2,,,
 bog_walker,<#4E6B3A><b>Bog Walker,ZOMBIE,410,37,33,,,10,,,,bog_rag:100:1-2,,,
 bogged_archer,<dark_green><b>Bogged Archer,BOGGED,640,58,37,,,13,,,,poison_quill:100:1-2,,,
-glow_wisp,<aqua><b>Glow Wisp,ALLAY,1400,126,0,,,16,,,SCALE:2|FLYING_SPEED:0.05|MOVEMENT_SPEED:0.05,wisp_dust:100:1-2,,,yes
+glow_wisp,<aqua><b>Glow Wisp,ALLAY,1400,126,0,,,16,,,SCALE:2|FLYING_SPEED:0.05|MOVEMENT_SPEED:0.05,wisp_dust:100:1-2,,,

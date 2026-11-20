@@ -114,8 +114,7 @@ public class MineListener implements Listener {
             return;
         }
         // Fortune, Luck and the rest come from the held tool
-        ItemStack using = pick;
-        int fortune = Enchants.level(using, "fortune");
+        int fortune = Enchants.level(pick, "fortune");
         if (fortune < density) {
             player.sendActionBar(Component.text("Requires Fortune " + density, NamedTextColor.RED, TextDecoration.BOLD));
             return;
@@ -130,7 +129,7 @@ public class MineListener implements Listener {
         backpackManager.get(player.getUniqueId()).collect(player, blockDrops);
         tutorial.mined(player, blockDrops);
 
-        Essence.roll(player, Enchants.level(using, "luck"), players);
+        Essence.roll(player, Enchants.level(pick, "luck"), players);
 
         // Only break if it is a block with a drop. Counted towards the reset only
         // once broken, or swinging at a block you can't mine would reset the mine

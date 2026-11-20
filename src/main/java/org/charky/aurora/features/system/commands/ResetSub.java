@@ -12,9 +12,10 @@ import java.util.List;
 
 /**
  * Aurora admin command to send a player back to the start, for testing a run from
- * nothing. "tools" resets only the tool levels. "all" also empties the backpack and
- * inventory, sets level, XP, kills and blocks mined to 0, locks the portals again,
- * hands out the starter kit and starts the tutorial, as on a first join. Essence, ranks, cosmetics, perks and collections are never touched
+ * nothing. "tools" resets only the tool levels. "all" erases everything else too: the
+ * backpack and inventory, level, XP, kills, blocks mined, Essence, perks, collections,
+ * gear unlocked from mobs, portal access, cosmetics, playtime and every rank. Then it hands out
+ * the starter kit and starts the tutorial, as on a first join
  */
 public class ResetSub implements AuroraSubCommand {
     private static final List<String> SCOPES = List.of("tools", "all");

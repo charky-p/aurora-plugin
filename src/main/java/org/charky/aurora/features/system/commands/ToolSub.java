@@ -118,8 +118,14 @@ public class ToolSub implements AuroraSubCommand {
             }
         }
 
-        tools.set(target.getUniqueId(), realm.id(), tool.id(), stat, level);
-        TextUtils.success(sender, target.getName() + "'s " + tool.id() + " " + stat + " in " + realm.id() + " is now " + args[4]);
+        // The level asked for is what the tool ends up with there, the realms it builds on included
+        int total = tools.setTotal(target.getUniqueId(), realm, tool.id(), stat, level);
+        String shown = stat.equals(ToolLevels.MATERIAL) ? ToolLevels.material(tool.materials(), total).toLowerCase()
+                : String.valueOf(total);
+        TextUtils.success(sender, target.getName() + "'s " + tool.id() + " " + stat + " in " + realm.id() + " is now " + shown);
+        if (total != level) {
+            TextUtils.error(sender, "Other realms it builds on already give more, set it there to go lower");
+        }
     }
 
     @Override

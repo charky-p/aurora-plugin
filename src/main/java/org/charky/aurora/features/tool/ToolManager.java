@@ -92,6 +92,17 @@ public class ToolManager implements Listener, LoadoutData {
         return false;
     }
 
+    // Sets what the tool has in a realm, counting the realms it builds on: an enchant is
+    // their sum, so the realm's own level becomes the rest, never below 0; the material
+    // is the furthest along, so it is kept as given. The total it comes to
+    public int setTotal(UUID uuid, Realm realm, String tool, String stat, int total) {
+        int own = own(uuid, realm.id(), tool).getOrDefault(stat, 0);
+        int others = effective(uuid, realm, tool).getOrDefault(stat, 0) - own;
+        int level = stat.equals(ToolLevels.MATERIAL) ? total : Math.max(0, total - others);
+        set(uuid, realm.id(), tool, stat, level);
+        return effective(uuid, realm, tool).getOrDefault(stat, 0);
+    }
+
     public void set(UUID uuid, String realm, String tool, String stat, int level) {
         put(uuid, realm, tool, stat, level);
 

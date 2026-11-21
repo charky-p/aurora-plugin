@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MineManager {
     private static final int MAX_MINE_VOLUME = 100000;
@@ -27,6 +30,19 @@ public class MineManager {
     // The store keys on the saved casing, so store calls use the mine's own name
     private final Map<String, Mine> mineMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private final Map<Location, String> blockIdMap = new HashMap<>();
+    // Admins who turned off breaking for real with /aurora breaking: they mine like
+    // players and break nothing outside a mine, until they turn it on or the server restarts
+    private final Set<UUID> noBreaking = ConcurrentHashMap.newKeySet();
+
+    // Admins break blocks for real to build, unless they turned it off
+    public boolean breaksForReal(Player player) {
+        return player.hasPermission("aurora.admin") && !noBreaking.contains(player.getUniqueId());
+    }
+
+    public void setBreaking(UUID uuid, boolean on) {
+        if (on) noBreaking.remove(uuid);
+        else noBreaking.add(uuid);
+    }
 
     public MineManager(Aurora plugin, MineStore store) {
         this.plugin = plugin;

@@ -75,8 +75,9 @@ public class MineListener implements Listener {
         }
         event.setDropItems(false);
         // Players never really break blocks, the mine sets them to air itself below,
-        // so nothing outside a mine can be broken. Admins break for real to build
-        if (!player.hasPermission("aurora.admin")) event.setCancelled(true);
+        // so nothing outside a mine can be broken. Admins break for real to build,
+        // unless they turned it off with /aurora breaking
+        if (!manager.breaksForReal(player)) event.setCancelled(true);
 
         ItemStack pick = player.getInventory().getItemInMainHand();
         processBlock(player, pick, event.getBlock());

@@ -33,7 +33,7 @@ items:
   chicken:
     display: "<white><b>Isle Chicken"
     entity: CHICKEN
-    health: 20.0
+    health: 32.0
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.3
@@ -44,7 +44,7 @@ items:
   sheep:
     display: "<white><b>Isle Sheep"
     entity: SHEEP
-    health: 30.0
+    health: 40.0
     density: 1
     independent:
       - id: wool
@@ -53,7 +53,7 @@ items:
   cow:
     display: "<#8B5A2B><b>Isle Cow"
     entity: COW
-    health: 40.0
+    health: 48.0
     density: 2
     independent:
       - id: leather

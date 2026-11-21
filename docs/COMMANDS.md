@@ -187,6 +187,7 @@ A new player's first join hands out the starter tools, the backpack and a stack 
 | `/a grant <player> <essence\|xp\|hours> <amount>` | Give Essence, XP or hours of playtime, for testing cosmetics, levels and playtime ranks. Hours are counted within a minute, which is when a new playtime rank is handed out |
 | `/a testworld [world]` | Go to a test world on the experimental loadout. The first time, with none yet, it starts as a copy of your main one. `aurora_test` without a world |
 | `/a loadout [main\|experimental\|auto]` | Switch your loadout where you stand. The one picked is played in every world until `auto` or you leave, instead of the one each world plays with; `/a testworld` drops the pick. On its own it shows which loadout is in play |
+| `/a breaking [on\|off]` | Turn off breaking blocks for real: you mine like a player and break nothing outside a mine, until `on` or the server restarts. On its own it switches. Admins break for real by default, to build |
 | `/a suggestions [page]` | What players sent with `/suggest`, newest first with who and when. Each one is also in the server log. Click a number to fill in the delete command |
 | `/a suggestions delete <id>` | Delete one that has been dealt with |
 | `/a help`, `/a info <command>` | Command list, one command in detail |

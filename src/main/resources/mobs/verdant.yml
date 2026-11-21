@@ -33,7 +33,7 @@ items:
   grove_horse:
     display: "<#7BA05B><b>Grove Horse"
     entity: HORSE
-    health: 60.0
+    health: 75.0
     defence: 3.0
     density: 3
     attributes:

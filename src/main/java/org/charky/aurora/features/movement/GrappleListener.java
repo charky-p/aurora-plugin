@@ -35,6 +35,8 @@ public class GrappleListener implements Listener {
     private static final double LIFT = 0.3;
     // The second push, a tick after the first, on top of what is left of it
     private static final double PULL = 0.45;
+    // Sideways reach on top of that, so a throw carries further across without going higher
+    private static final double HORIZONTAL = 1.25;
     // Share of full power: 60% to start, 7% more for each of the first five Thrust
     // levels (the Sunken Marsh, 95% at its end), 9% more for each after that
     private static final double BASE_POWER = 0.6;
@@ -79,7 +81,7 @@ public class GrappleListener implements Listener {
         double power = power(Enchants.level(rod, "thrust"));
 
         Vector direction = player.getLocation().getDirection().normalize();
-        player.setVelocity(direction.clone().multiply(SPEED * power).add(new Vector(0, LIFT, 0)));
+        player.setVelocity(widen(direction.clone().multiply(SPEED * power)).add(new Vector(0, LIFT, 0)));
         player.setFallDistance(0);
         launched.put(player.getUniqueId(), System.currentTimeMillis());
 
@@ -96,10 +98,15 @@ public class GrappleListener implements Listener {
                     cancel();
                     return;
                 }
-                if (ticks == 1) player.setVelocity(player.getVelocity().add(direction.clone().multiply(PULL * power)));
+                if (ticks == 1) player.setVelocity(player.getVelocity().add(widen(direction.clone().multiply(PULL * power))));
                 player.getWorld().spawnParticle(Particle.CLOUD, player.getLocation().add(0, 0.8, 0), 3, 0.15, 0.15, 0.15, 0.01);
             }
         }.runTaskTimer(plugin, 1L, 1L);
+    }
+
+    // The sideways part of a push stretched by HORIZONTAL, the upward part left as it is
+    static Vector widen(Vector push) {
+        return push.setX(push.getX() * HORIZONTAL).setZ(push.getZ() * HORIZONTAL);
     }
 
     // Share of full power at a Thrust level

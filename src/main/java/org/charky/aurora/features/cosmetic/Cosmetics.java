@@ -107,10 +107,10 @@ public final class Cosmetics {
         zone("sunken ruins", "<#4E6B3A>", "sunken_ruins");
         zone("glowmire", "<#4E6B3A>", "glowmire");
         zone("foothills", "<#2ECC71>", "foothills");
-        zone("redstone", "<#2ECC71>", "redstone_mines");
-        zone("pumpkin", "<#2ECC71>", "pumpkin_terraces");
-        zone("lapis", "<#2ECC71>", "lapis_ridge");
-        zone("melon", "<#2ECC71>", "melon_ledges");
+        zone("crags", "<#2ECC71>", "stony_crags");
+        zone("slopes", "<#2ECC71>", "frozen_slopes");
+        zone("grotto", "<#2ECC71>", "lapis_grotto");
+        zone("depths", "<#2ECC71>", "emerald_depths");
         zone("arachne", "<#2ECC71>", "arachne_cave");
         zone("ashen", "<#C9A227>", "ashen");
         zone("judgement", "<#C9A227>", "judgement");

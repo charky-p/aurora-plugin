@@ -568,22 +568,6 @@ items:
         min: 2
         max: 4
 
-  redstone_ore:
-    material: REDSTONE_ORE
-    density: 21
-    xp: 16
-    independent:
-      - id: redstone
-
-  deepslate_redstone_ore:
-    material: DEEPSLATE_REDSTONE_ORE
-    density: 21
-    xp: 16
-    independent:
-      - id: redstone
-        min: 2
-        max: 4
-
   pumpkin:
     material: PUMPKIN
     density: 14
@@ -592,27 +576,12 @@ items:
       - id: pumpkin
         max: 2
 
-  snow_block:
-    material: SNOW_BLOCK
-    density: 4
+  jack_o_lantern:
+    material: JACK_O_LANTERN
+    density: 14
     xp: 14
     independent:
-      - id: snow
-        max: 2
-
-  lapis_ore:
-    material: LAPIS_ORE
-    density: 24
-    xp: 15
-    independent:
-      - id: lapis
-
-  deepslate_lapis_ore:
-    material: DEEPSLATE_LAPIS_ORE
-    density: 24
-    xp: 15
-    independent:
-      - id: lapis
+      - id: pumpkin
         min: 2
         max: 4
 
@@ -624,16 +593,88 @@ items:
       - id: melon
         max: 2
 
+  calcite:
+    material: CALCITE
+    density: 21
+    xp: 15
+    independent:
+      - id: calcite
+
+  dripstone:
+    material: DRIPSTONE_BLOCK
+    density: 21
+    xp: 15
+    independent:
+      - id: calcite
+        min: 2
+        max: 4
+
+  snow_block:
+    material: SNOW_BLOCK
+    density: 4
+    xp: 14
+    independent:
+      - id: snow
+        max: 2
+
+  packed_ice:
+    material: PACKED_ICE
+    density: 24
+    xp: 15
+    independent:
+      - id: packed_ice
+
+  blue_ice:
+    material: BLUE_ICE
+    density: 24
+    xp: 15
+    independent:
+      - id: packed_ice
+        min: 2
+        max: 4
+
+  redstone_ore:
+    material: REDSTONE_ORE
+    density: 26
+    xp: 16
+    independent:
+      - id: redstone
+
+  deepslate_redstone_ore:
+    material: DEEPSLATE_REDSTONE_ORE
+    density: 26
+    xp: 16
+    independent:
+      - id: redstone
+        min: 2
+        max: 4
+
+  lapis_ore:
+    material: LAPIS_ORE
+    density: 27
+    xp: 15
+    independent:
+      - id: lapis
+
+  deepslate_lapis_ore:
+    material: DEEPSLATE_LAPIS_ORE
+    density: 27
+    xp: 15
+    independent:
+      - id: lapis
+        min: 2
+        max: 4
+
   emerald_ore:
     material: EMERALD_ORE
-    density: 28
+    density: 30
     xp: 16
     independent:
       - id: emerald
 
   deepslate_emerald_ore:
     material: DEEPSLATE_EMERALD_ORE
-    density: 28
+    density: 30
     xp: 16
     independent:
       - id: emerald

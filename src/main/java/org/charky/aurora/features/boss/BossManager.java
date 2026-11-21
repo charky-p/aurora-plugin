@@ -50,6 +50,7 @@ public class BossManager implements Listener {
     private BossAbilities abilitiesFor(String mobId) {
         if (GormakEternal.BOSS_ID.equalsIgnoreCase(mobId)) return new GormakEternal(plugin);
         if (MarshHydra.BOSS_ID.equalsIgnoreCase(mobId)) return new MarshHydra(plugin);
+        if (Arachne.BOSS_ID.equalsIgnoreCase(mobId)) return new Arachne(plugin);
         return BossAbilities.NONE;
     }
 

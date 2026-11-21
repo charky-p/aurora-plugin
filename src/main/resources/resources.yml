@@ -673,115 +673,124 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 2500
-
-  goat_hide:
-    display: "<white>Goat Hide"
-    material: LEATHER
-    world: "overworld"
-    region: "peaks_foothills"
-    lore:
-      - "<dark_gray>Emerald Peaks"
-    collection: 32
-
-  redstone:
-    display: "<red><b>Redstone"
-    material: REDSTONE
-    world: "overworld"
-    region: "peaks_redstone"
-    lore:
-      - "<dark_gray>Emerald Peaks"
-    collection: 25000
-
-  spider_silk:
-    display: "<white>Frost Silk"
-    material: COBWEB
-    world: "overworld"
-    region: "peaks_redstone"
-    lore:
-      - "<dark_gray>Emerald Peaks"
-    collection: 12
+    collection: 30000
 
   pumpkin:
     display: "<gold>Pumpkin"
     material: PUMPKIN
     world: "overworld"
-    region: "peaks_pumpkin"
+    region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 3200
+    collection: 32000
 
-  snow:
-    display: "<white>Packed Snow"
-    material: SNOWBALL
+  pork:
+    display: "<#F2A3A3>Mountain Pork"
+    material: PORKCHOP
     world: "overworld"
-    region: "peaks_pumpkin"
+    region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 1200
-
-  snow_pelt:
-    display: "<white>Snow Pelt"
-    material: WHITE_WOOL
-    world: "overworld"
-    region: "peaks_pumpkin"
-    lore:
-      - "<dark_gray>Emerald Peaks"
-    collection: 48
-
-  lapis:
-    display: "<blue><b>Lapis"
-    material: LAPIS_LAZULI
-    world: "overworld"
-    region: "peaks_lapis"
-    lore:
-      - "<dark_gray>Emerald Peaks"
-    collection: 16000
-
-  frost_arrow:
-    display: "<aqua>Frost Arrow"
-    material: TIPPED_ARROW
-    world: "overworld"
-    region: "peaks_lapis"
-    lore:
-      - "<dark_gray>Emerald Peaks"
-    collection: 48
+    collection: 2500
 
   melon:
     display: "<green>Melon"
     material: MELON_SLICE
     world: "overworld"
-    region: "peaks_melon"
+    region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 1200
+    collection: 32000
+
+  calcite:
+    display: "<white>Calcite"
+    material: CALCITE
+    world: "overworld"
+    region: "peaks_crags"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 40000
+
+  goat_hide:
+    display: "<white>Goat Hide"
+    material: LEATHER
+    world: "overworld"
+    region: "peaks_crags"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 4000
+
+  snow:
+    display: "<white>Packed Snow"
+    material: SNOWBALL
+    world: "overworld"
+    region: "peaks_slopes"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 16000
+
+  packed_ice:
+    display: "<#A5C8FF><b>Packed Ice"
+    material: PACKED_ICE
+    world: "overworld"
+    region: "peaks_slopes"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 32000
+
+  frost_arrow:
+    display: "<aqua>Frost Arrow"
+    material: TIPPED_ARROW
+    world: "overworld"
+    region: "peaks_slopes"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 8000
+
+  redstone:
+    display: "<red><b>Redstone"
+    material: REDSTONE
+    world: "overworld"
+    region: "peaks_grotto"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 25000
+
+  lapis:
+    display: "<blue><b>Lapis"
+    material: LAPIS_LAZULI
+    world: "overworld"
+    region: "peaks_grotto"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 32000
+
+  spider_silk:
+    display: "<white>Frost Silk"
+    material: COBWEB
+    world: "overworld"
+    region: "peaks_grotto"
+    lore:
+      - "<dark_gray>Emerald Peaks"
+    collection: 3200
 
   emerald:
     display: "<green><b>Emerald"
     material: EMERALD
     world: "overworld"
-    region: "peaks_melon"
+    region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 20000
-
-  cliff_horn:
-    display: "<gray>Cliff Horn"
-    material: GOAT_HORN
-    world: "overworld"
-    region: "peaks_melon"
-    lore:
-      - "<dark_gray>Emerald Peaks"
-    collection: 32
+    collection: 48000
 
   venom_sac:
     display: "<dark_green>Venom Sac"
     material: FERMENTED_SPIDER_EYE
     world: "overworld"
-    region: "peaks_arachne"
+    region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 16
+    collection: 5000
 
   rider_bone:
     display: "<white>Rider Bone"
@@ -790,7 +799,7 @@ items:
     region: "peaks_arachne"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 80
+    collection: 8000
 
   arachne_eye:
     display: "<dark_red><b>Arachne's Eye"

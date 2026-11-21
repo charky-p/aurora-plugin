@@ -217,35 +217,35 @@ items:
     display: "<#8B6B4A><b>Foothills Trader"
     entity: VILLAGER
     gui: upgrades:foothills
+    profession: farmer
+    biome: snow
+
+  crags_trader:
+    display: "<white><b>Crags Trader"
+    entity: VILLAGER
+    gui: upgrades:stony_crags
     profession: mason
     biome: snow
 
-  redstone_trader:
-    display: "<red><b>Redstone Trader"
+  slopes_trader:
+    display: "<aqua><b>Slopes Trader"
     entity: VILLAGER
-    gui: upgrades:redstone_mines
+    gui: upgrades:frozen_slopes
     profession: toolsmith
     biome: snow
 
-  pumpkin_trader:
-    display: "<gold><b>Pumpkin Trader"
+  grotto_trader:
+    display: "<blue><b>Grotto Trader"
     entity: VILLAGER
-    gui: upgrades:pumpkin_terraces
-    profession: farmer
-    biome: snow
-
-  lapis_trader:
-    display: "<blue><b>Lapis Trader"
-    entity: VILLAGER
-    gui: upgrades:lapis_ridge
+    gui: upgrades:lapis_grotto
     profession: toolsmith
     biome: snow
 
-  melon_trader:
-    display: "<green><b>Melon Trader"
+  depths_trader:
+    display: "<green><b>Depths Trader"
     entity: VILLAGER
-    gui: upgrades:melon_ledges
-    profession: farmer
+    gui: upgrades:emerald_depths
+    profession: armorer
     biome: snow
 
   arachne_trader:

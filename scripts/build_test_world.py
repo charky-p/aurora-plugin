@@ -57,7 +57,7 @@ PASSIVE = {"CHICKEN", "SHEEP", "COW", "PIG", "RABBIT", "HORSE", "FOX", "WOLF", "
 TEST_WORLD = {"overworld": "aurora_test", "duneworld": "aurora_test_gormak",
               "elderworld": "aurora_test_elderwood", "skyworld": "aurora_test_sky"}
 # Bosses a key summons, and the zone whose arena they rise in
-BOSS_ZONE = {"gormak_eternal": "tomb", "khorvath": "sanctuary", "arachne": "arachne_cave",
+BOSS_ZONE = {"gormak_eternal": "tomb", "khorvath": "sanctuary", "arachne": "arachne_cave", "marsh_hydra": "glowmire",
              "sol": "throne", "elder_treant": "the_crown", "sky_king": "throne_room"}
 # Traders with no zone of their own, by the zone they stand in
 EXTRA_TRADERS = {"cobble": ["food_trader"], "golems_rest": ["core_trader", "essence_trader"]}

@@ -19,7 +19,7 @@ A zone is one mine (or two), one or two mobs, one trader and a list of steps in 
 
 **Looting and mob density.** Looting is Fortune for mobs. Every mob has a density: with `L = looting - density`, it drops none of its resources while `L < 0`, then the same curve as Fortune. Drops under 100% grow with the cube root of that multiplier. Gear and keys always drop at their own chance. Killing a mob with too little Looting says "Requires Looting N".
 
-**The right tool.** Wood, pumpkins, melons, bamboo and bee nests are mined with the axe; dirt, snow, gravel, clay, soul soil and concrete powder with the shovel, which is first sold at Emerald Peaks; everything else with the pick. The wrong tool breaks nothing. A bare hand also mines the axe's and the shovel's blocks, slowly and with no Fortune, so the oak logs and dirt that buy the first axe and shovel can be punched.
+**The right tool.** Wood, pumpkins, melons, bamboo and bee nests are mined with the axe; dirt, snow, gravel, clay, soul soil and concrete powder with the shovel, which is first sold at Mudflats; everything else with the pick. The wrong tool breaks nothing. A bare hand also mines the axe's and the shovel's blocks, slowly and with no Fortune, so the oak logs and dirt that buy the first axe and shovel can be punched.
 
 **Efficiency and Blast.** Efficiency is vanilla dig speed. Blast breaks extra blocks per swing: 2x1, 2x2, 3x3, then 3x3 two deep and 3x3x3 at level 5.
 
@@ -94,12 +94,12 @@ A zone is priced for a player who has finished every region of every earlier sta
 | Sunken Ruins | 10.0 | verdigris, mangrove leaves | bogged archer | 17 | 1,582 mangrove leaves, 9,020 verdigris, 2,820 poison quill |
 | Glowmire | 12.0 | ochre, verdant and pearlescent froglight | glow wisp | 24 | 764 ochre, 1,890 verdant and 2,270 pearlescent froglight, 3,796 wisp dust |
 | **Emerald Peaks** (stage 4) | | | | | |
-| Foothills | 8.0 | dirt | mountain goat | 14 | 67,000 dirt, 3,650 goat hide |
-| Redstone Mines | 10.0 | redstone | frost spider | 14 | 69,300 redstone, 1,860 spider silk |
-| Pumpkin Terraces | 10.0 | pumpkin, snow | snow fox | 20 | 28,200 snow, 10,520 pumpkin, 4,890 snow pelt |
-| Lapis Ridge | 10.0 | lapis | peak stray | 14 | 66,900 lapis, 5,500 snow, 10,410 frost arrow, 750 pumpkin |
-| Melon Ledges | 10.0 | melon, emerald | cliff goat | 19 | 62,400 emerald, 7,820 melon, 6,210 cliff horn, 4,000 dirt |
-| Arachne Cave | 12.0 | - | cave spider, spider rider, arachne (boss) | 23 | 4,780 venom sac, 8,640 rider bone |
+| Foothills | 8.0 | dirt, pumpkin | mountain pig | 20 | 30,800 dirt, 39,800 pumpkin, 2,740 pork |
+| Stony Crags | 10.0 | melon, calcite | mountain goat | 18 | 45,600 calcite, 33,400 melon, 4,240 goat hide |
+| Frozen Slopes | 10.0 | snow, packed ice | peak stray | 19 | 19,100 snow, 34,500 packed ice, 8,160 frost arrow |
+| Lapis Grotto | 10.0 | redstone, lapis | frost spider | 14 | 29,900 redstone, 33,300 lapis, 3,350 spider silk |
+| Emerald Depths | 10.0 | emerald | cave spider | 14 | 48,300 emerald, 3,050 venom sac, 4,800 lapis, 12,000 calcite |
+| Arachne Cave | 12.0 | - | spider rider, arachne (boss, with her rider) | 23 | 5,120 venom sac, 8,640 rider bone |
 | **The Duat** (stage 5) | | | | | |
 | Ashen River | 13.0 | basalt, ash | anubis, sobek, osiris | 29 | 39,900 basalt, 856 anubis sigil, 1,470 sobek sigil, 664 osiris sigil, 1,600 ash |
 | Hall of Judgement | 15.0 | scale gold | thoth, maat, horus | 23 | 2,070 thoth sigil, 2,110 maat sigil, 3,480 horus sigil, 8,800 scale gold |

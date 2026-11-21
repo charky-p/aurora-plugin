@@ -3367,50 +3367,96 @@ items:
         level: "COPPER"
         cost:
           - id: dirt
-            amount: 3000
+            amount: 1500
       - tool: shovel
         stat: fortune
         level: "1"
         cost:
           - id: dirt
-            amount: 3200
+            amount: 1600
+      - tool: axe
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: pumpkin
+            amount: 2000
+      - tool: axe
+        stat: fortune
+        level: "1"
+        cost:
+          - id: pumpkin
+            amount: 2500
       - tool: shovel
         stat: fortune
         level: "2"
         cost:
           - id: dirt
-            amount: 4800
+            amount: 2500
       - tool: helmet
         stat: protection
         level: "1"
         cost:
-          - id: goat_hide
-            amount: 200
+          - id: pork
+            amount: 120
       - tool: chestplate
         stat: protection
         level: "1"
         cost:
-          - id: goat_hide
-            amount: 200
+          - id: pork
+            amount: 120
       - tool: leggings
         stat: protection
         level: "1"
         cost:
-          - id: goat_hide
-            amount: 200
+          - id: pork
+            amount: 120
       - tool: boots
         stat: protection
         level: "1"
         cost:
-          - id: goat_hide
-            amount: 200
+          - id: pork
+            amount: 120
       - tool: sword
         stat: looting
         level: "1"
         cost:
           - id: dirt
+            amount: 3000
+          - id: pork
+            amount: 150
+      - tool: axe
+        stat: efficiency
+        level: "2"
+        cost:
+          - id: pumpkin
+            amount: 4800
+      - tool: shovel
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: dirt
+            amount: 4800
+      - tool: axe
+        stat: fortune
+        level: "2"
+        cost:
+          - id: pumpkin
             amount: 5000
-          - id: goat_hide
+          - id: pork
+            amount: 160
+      - tool: pick
+        stat: efficiency
+        level: "1"
+        cost:
+          - id: pork
+            amount: 200
+      - tool: sword
+        stat: looting
+        level: "2"
+        cost:
+          - id: dirt
+            amount: 5000
+          - id: pork
             amount: 250
       - tool: shovel
         stat: fortune
@@ -3418,49 +3464,41 @@ items:
         cost:
           - id: dirt
             amount: 6000
-          - id: goat_hide
+          - id: pork
             amount: 300
-      - tool: pick
-        stat: efficiency
-        level: "1"
+      - tool: axe
+        stat: fortune
+        level: "3"
         cost:
-          - id: goat_hide
-            amount: 320
-      - tool: sword
-        stat: looting
-        level: "2"
-        cost:
-          - id: dirt
-            amount: 8000
-          - id: goat_hide
-            amount: 400
+          - id: pumpkin
+            amount: 7500
       - tool: sword
         stat: looting
         level: "3"
         cost:
-          - id: dirt
-            amount: 10000
-          - id: goat_hide
-            amount: 480
+          - id: pumpkin
+            amount: 8000
+          - id: pork
+            amount: 320
       - tool: grapple
         stat: thrust
         level: "1"
         cost:
           - id: dirt
-            amount: 12000
-          - id: goat_hide
-            amount: 500
+            amount: 6400
+          - id: pork
+            amount: 400
       - tool: grapple
         stat: recharge
         level: "1"
         cost:
-          - id: dirt
-            amount: 15000
-          - id: goat_hide
-            amount: 600
+          - id: pumpkin
+            amount: 10000
+          - id: pork
+            amount: 480
 
-  redstone_mines:
-    name: "Redstone Mines"
+  stony_crags:
+    name: "Stony Crags"
     realm: peaks
     region: peaks
     released: false
@@ -3470,491 +3508,481 @@ items:
         stat: efficiency
         level: "2"
         cost:
-          - id: redstone
-            amount: 2000
+          - id: calcite
+            amount: 1600
       - tool: pick
         stat: fortune
         level: "1"
         cost:
-          - id: redstone
+          - id: calcite
+            amount: 2000
+      - tool: axe
+        stat: efficiency
+        level: "3"
+        cost:
+          - id: melon
             amount: 2500
+      - tool: axe
+        stat: fortune
+        level: "4"
+        cost:
+          - id: melon
+            amount: 3000
       - tool: pick
         stat: efficiency
         level: "3"
         cost:
-          - id: redstone
-            amount: 4000
-      - tool: pick
-        stat: fortune
-        level: "2"
-        cost:
-          - id: redstone
-            amount: 4800
+          - id: calcite
+            amount: 3200
       - tool: helmet
         stat: protection
         level: "2"
         cost:
-          - id: spider_silk
-            amount: 120
+          - id: goat_hide
+            amount: 250
       - tool: chestplate
         stat: protection
         level: "2"
         cost:
-          - id: spider_silk
-            amount: 120
+          - id: goat_hide
+            amount: 250
       - tool: leggings
         stat: protection
         level: "2"
         cost:
-          - id: spider_silk
-            amount: 120
+          - id: goat_hide
+            amount: 250
       - tool: boots
         stat: protection
         level: "2"
         cost:
-          - id: spider_silk
-            amount: 120
+          - id: goat_hide
+            amount: 250
       - tool: sword
         stat: looting
         level: "4"
         cost:
-          - id: redstone
-            amount: 5000
-          - id: spider_silk
-            amount: 150
+          - id: calcite
+            amount: 4000
+          - id: goat_hide
+            amount: 300
       - tool: pick
         stat: fortune
-        level: "3"
+        level: "2"
         cost:
-          - id: redstone
+          - id: calcite
+            amount: 4800
+          - id: goat_hide
+            amount: 320
+      - tool: axe
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: melon
             amount: 6000
-          - id: spider_silk
-            amount: 160
       - tool: sword
         stat: looting
         level: "5"
         cost:
-          - id: redstone
+          - id: melon
+            amount: 6400
+          - id: goat_hide
+            amount: 400
+      - tool: pick
+        stat: fortune
+        level: "3"
+        cost:
+          - id: calcite
             amount: 8000
-          - id: spider_silk
-            amount: 200
+      - tool: axe
+        stat: fortune
+        level: "5"
+        cost:
+          - id: melon
+            amount: 7500
+          - id: goat_hide
+            amount: 480
       - tool: sword
         stat: looting
         level: "6"
         cost:
-          - id: redstone
+          - id: calcite
             amount: 10000
-          - id: spider_silk
-            amount: 250
+          - id: goat_hide
+            amount: 500
       - tool: grapple
         stat: thrust
         level: "2"
         cost:
-          - id: redstone
+          - id: calcite
             amount: 12000
-          - id: spider_silk
-            amount: 300
+          - id: goat_hide
+            amount: 600
       - tool: grapple
         stat: recharge
         level: "2"
         cost:
-          - id: redstone
-            amount: 15000
-          - id: spider_silk
-            amount: 320
+          - id: melon
+            amount: 8000
+          - id: goat_hide
+            amount: 640
 
-  pumpkin_terraces:
-    name: "Pumpkin Terraces"
+  frozen_slopes:
+    name: "Frozen Slopes"
     realm: peaks
     region: peaks
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags]
     steps:
       - tool: shovel
         stat: material
         level: "IRON"
         cost:
           - id: snow
+            amount: 1000
+      - tool: pick
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: packed_ice
+            amount: 1500
+      - tool: pick
+        stat: fortune
+        level: "4"
+        cost:
+          - id: packed_ice
             amount: 1600
-      - tool: axe
-        stat: efficiency
-        level: "1"
-        cost:
-          - id: pumpkin
-            amount: 2500
-      - tool: axe
-        stat: fortune
-        level: "1"
-        cost:
-          - id: pumpkin
-            amount: 3000
-      - tool: axe
-        stat: efficiency
-        level: "2"
-        cost:
-          - id: snow
-            amount: 2500
-      - tool: axe
-        stat: fortune
-        level: "2"
-        cost:
-          - id: snow
-            amount: 3000
       - tool: shovel
         stat: efficiency
-        level: "1"
+        level: "2"
         cost:
           - id: snow
-            amount: 3200
+            amount: 1500
       - tool: shovel
         stat: fortune
         level: "4"
         cost:
           - id: snow
-            amount: 4000
+            amount: 1600
       - tool: helmet
         stat: protection
         level: "3"
         cost:
-          - id: snow_pelt
-            amount: 300
+          - id: frost_arrow
+            amount: 480
       - tool: chestplate
         stat: protection
         level: "3"
         cost:
-          - id: snow_pelt
-            amount: 300
+          - id: frost_arrow
+            amount: 480
       - tool: leggings
         stat: protection
         level: "3"
         cost:
-          - id: snow_pelt
-            amount: 300
+          - id: frost_arrow
+            amount: 480
       - tool: boots
         stat: protection
         level: "3"
         cost:
-          - id: snow_pelt
-            amount: 300
+          - id: frost_arrow
+            amount: 480
       - tool: sword
         stat: looting
         level: "7"
         cost:
-          - id: pumpkin
-            amount: 4000
-          - id: snow_pelt
-            amount: 320
-      - tool: axe
+          - id: packed_ice
+            amount: 2000
+          - id: frost_arrow
+            amount: 500
+      - tool: pick
         stat: fortune
+        level: "5"
+        cost:
+          - id: packed_ice
+            amount: 2500
+          - id: frost_arrow
+            amount: 600
+      - tool: shovel
+        stat: efficiency
         level: "3"
         cost:
-          - id: pumpkin
-            amount: 4800
-          - id: snow_pelt
-            amount: 400
-      - tool: pick
-        stat: efficiency
-        level: "4"
-        cost:
-          - id: snow_pelt
-            amount: 480
+          - id: snow
+            amount: 3000
       - tool: sword
         stat: looting
         level: "8"
         cost:
-          - id: pumpkin
-            amount: 6000
-          - id: snow_pelt
-            amount: 500
-      - tool: sword
-        stat: looting
-        level: "9"
-        cost:
-          - id: pumpkin
-            amount: 6400
-          - id: snow_pelt
-            amount: 600
-      - tool: shovel
-        stat: efficiency
-        level: "2"
-        cost:
           - id: snow
-            amount: 6400
+            amount: 3200
+          - id: frost_arrow
+            amount: 640
+      - tool: pick
+        stat: efficiency
+        level: "5"
+        cost:
+          - id: packed_ice
+            amount: 5000
       - tool: shovel
         stat: fortune
         level: "5"
         cost:
           - id: snow
+            amount: 4000
+          - id: frost_arrow
+            amount: 800
+      - tool: pick
+        stat: fortune
+        level: "6"
+        cost:
+          - id: packed_ice
+            amount: 6400
+      - tool: sword
+        stat: looting
+        level: "9"
+        cost:
+          - id: packed_ice
             amount: 7500
+          - id: frost_arrow
+            amount: 1000
       - tool: grapple
         stat: thrust
         level: "3"
         cost:
-          - id: pumpkin
-            amount: 7500
-          - id: snow_pelt
-            amount: 640
+          - id: packed_ice
+            amount: 8000
+          - id: frost_arrow
+            amount: 1200
       - tool: grapple
         stat: recharge
         level: "3"
         cost:
-          - id: pumpkin
-            amount: 8000
-          - id: snow_pelt
-            amount: 750
+          - id: snow
+            amount: 4800
+          - id: frost_arrow
+            amount: 1500
 
-  lapis_ridge:
-    name: "Lapis Ridge"
+  lapis_grotto:
+    name: "Lapis Grotto"
     realm: peaks
     region: peaks
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes]
     steps:
       - tool: pick
         stat: efficiency
-        level: "5"
+        level: "6"
+        cost:
+          - id: redstone
+            amount: 2500
+      - tool: pick
+        stat: fortune
+        level: "7"
         cost:
           - id: lapis
             amount: 2000
       - tool: pick
         stat: fortune
-        level: "4"
+        level: "8"
         cost:
-          - id: lapis
-            amount: 2500
-      - tool: pick
-        stat: fortune
-        level: "5"
-        cost:
-          - id: snow
-            amount: 2500
+          - id: redstone
+            amount: 5000
       - tool: helmet
         stat: protection
         level: "4"
         cost:
-          - id: frost_arrow
-            amount: 640
+          - id: spider_silk
+            amount: 200
       - tool: chestplate
         stat: protection
         level: "4"
         cost:
-          - id: frost_arrow
-            amount: 640
+          - id: spider_silk
+            amount: 200
       - tool: leggings
         stat: protection
         level: "4"
         cost:
-          - id: frost_arrow
-            amount: 640
+          - id: spider_silk
+            amount: 200
       - tool: boots
         stat: protection
         level: "4"
         cost:
-          - id: frost_arrow
-            amount: 640
+          - id: spider_silk
+            amount: 200
       - tool: sword
         stat: looting
         level: "10"
         cost:
           - id: lapis
-            amount: 5000
-          - id: frost_arrow
-            amount: 750
+            amount: 4800
+          - id: spider_silk
+            amount: 250
       - tool: pick
-        stat: fortune
-        level: "6"
-        cost:
-          - id: lapis
-            amount: 6000
-          - id: frost_arrow
-            amount: 800
-      - tool: pick
-        stat: fortune
+        stat: efficiency
         level: "7"
         cost:
           - id: lapis
-            amount: 6400
-          - id: snow
-            amount: 3000
-          - id: pumpkin
-            amount: 2500
+            amount: 5000
+          - id: redstone
+            amount: 6000
       - tool: sword
         stat: looting
         level: "11"
         cost:
+          - id: redstone
+            amount: 6400
+          - id: spider_silk
+            amount: 320
+      - tool: pick
+        stat: fortune
+        level: "9"
+        cost:
           - id: lapis
-            amount: 8000
-          - id: frost_arrow
-            amount: 1200
+            amount: 6000
+          - id: spider_silk
+            amount: 400
       - tool: sword
         stat: looting
         level: "12"
         cost:
           - id: lapis
-            amount: 10000
-          - id: frost_arrow
-            amount: 1500
+            amount: 7500
+          - id: spider_silk
+            amount: 480
       - tool: grapple
         stat: thrust
         level: "4"
         cost:
-          - id: lapis
-            amount: 12000
-          - id: frost_arrow
-            amount: 1600
+          - id: redstone
+            amount: 10000
+          - id: spider_silk
+            amount: 500
       - tool: grapple
         stat: recharge
         level: "4"
         cost:
           - id: lapis
-            amount: 15000
-          - id: frost_arrow
-            amount: 2000
+            amount: 8000
+          - id: spider_silk
+            amount: 600
 
-  melon_ledges:
-    name: "Melon Ledges"
+  emerald_depths:
+    name: "Emerald Depths"
     realm: peaks
     region: peaks
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto]
     steps:
       - tool: pick
         stat: efficiency
-        level: "6"
+        level: "8"
         cost:
           - id: emerald
             amount: 1600
       - tool: pick
         stat: fortune
-        level: "8"
+        level: "10"
         cost:
           - id: emerald
             amount: 2000
       - tool: pick
         stat: fortune
-        level: "9"
+        level: "11"
         cost:
-          - id: melon
-            amount: 2500
-      - tool: axe
-        stat: efficiency
-        level: "3"
-        cost:
-          - id: melon
-            amount: 3200
-      - tool: axe
-        stat: fortune
-        level: "4"
-        cost:
-          - id: melon
-            amount: 4000
+          - id: emerald
+            amount: 3000
       - tool: helmet
         stat: protection
         level: "5"
         cost:
-          - id: cliff_horn
-            amount: 480
+          - id: venom_sac
+            amount: 200
       - tool: chestplate
         stat: protection
         level: "5"
         cost:
-          - id: cliff_horn
-            amount: 480
+          - id: venom_sac
+            amount: 200
       - tool: leggings
         stat: protection
         level: "5"
         cost:
-          - id: cliff_horn
-            amount: 480
+          - id: venom_sac
+            amount: 200
       - tool: boots
         stat: protection
         level: "5"
         cost:
-          - id: cliff_horn
-            amount: 480
+          - id: venom_sac
+            amount: 200
       - tool: sword
         stat: looting
         level: "13"
         cost:
           - id: emerald
             amount: 4000
-          - id: cliff_horn
-            amount: 500
+          - id: venom_sac
+            amount: 250
       - tool: pick
-        stat: fortune
-        level: "10"
+        stat: efficiency
+        level: "9"
         cost:
           - id: emerald
             amount: 4800
-          - id: cliff_horn
-            amount: 600
-      - tool: pick
-        stat: fortune
-        level: "11"
-        cost:
-          - id: emerald
-            amount: 5000
-          - id: dirt
-            amount: 4000
-          - id: melon
-            amount: 4800
+          - id: venom_sac
+            amount: 300
       - tool: sword
         stat: looting
         level: "14"
         cost:
           - id: emerald
-            amount: 8000
-          - id: cliff_horn
-            amount: 640
+            amount: 5000
+          - id: venom_sac
+            amount: 320
+      - tool: pick
+        stat: fortune
+        level: "12"
+        cost:
+          - id: emerald
+            amount: 6000
+          - id: lapis
+            amount: 4800
+          - id: calcite
+            amount: 12000
       - tool: sword
         stat: looting
         level: "15"
         cost:
           - id: emerald
-            amount: 10000
-          - id: cliff_horn
-            amount: 750
-      - tool: axe
-        stat: efficiency
-        level: "4"
-        cost:
-          - id: melon
-            amount: 7500
-      - tool: axe
-        stat: fortune
-        level: "5"
-        cost:
-          - id: melon
-            amount: 8000
-      - tool: axe
-        stat: efficiency
-        level: "5"
-        cost:
-          - id: melon
-            amount: 10000
+            amount: 6400
+          - id: venom_sac
+            amount: 400
       - tool: grapple
         stat: thrust
         level: "5"
         cost:
           - id: emerald
-            amount: 12000
-          - id: cliff_horn
-            amount: 800
+            amount: 7500
+          - id: venom_sac
+            amount: 480
       - tool: grapple
         stat: recharge
         level: "5"
         cost:
           - id: emerald
-            amount: 15000
-          - id: cliff_horn
-            amount: 1000
+            amount: 8000
+          - id: venom_sac
+            amount: 500
 
   arachne_cave:
     name: "Arachne Cave"
     realm: peaks
     region: peaks
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths]
     steps:
       - tool: helmet
         stat: protection
@@ -4073,37 +4101,37 @@ items:
         level: "3"
         cost:
           - id: venom_sac
-            amount: 300
+            amount: 320
       - tool: pick
         stat: efficiency
-        level: "7"
-        cost:
-          - id: venom_sac
-            amount: 480
-      - tool: shield
-        stat: deflection
-        level: "2"
+        level: "10"
         cost:
           - id: venom_sac
             amount: 500
       - tool: shield
         stat: deflection
-        level: "3"
+        level: "2"
         cost:
           - id: venom_sac
             amount: 600
+      - tool: shield
+        stat: deflection
+        level: "3"
+        cost:
+          - id: venom_sac
+            amount: 640
       - tool: grapple
         stat: thrust
         level: "6"
         cost:
           - id: venom_sac
-            amount: 640
+            amount: 750
       - tool: grapple
         stat: recharge
         level: "6"
         cost:
           - id: venom_sac
-            amount: 750
+            amount: 800
 
   ashen:
     name: "Ashen River"
@@ -4117,31 +4145,31 @@ items:
         level: "NETHERITE"
         cost:
           - id: basalt
-            amount: 2000
+            amount: 3000
       - tool: helmet
         stat: material
         level: "NETHERITE"
         cost:
           - id: basalt
-            amount: 2000
+            amount: 3000
       - tool: chestplate
         stat: material
         level: "NETHERITE"
         cost:
           - id: basalt
-            amount: 2000
+            amount: 3000
       - tool: leggings
         stat: material
         level: "NETHERITE"
         cost:
           - id: basalt
-            amount: 2000
+            amount: 3000
       - tool: boots
         stat: material
         level: "NETHERITE"
         cost:
           - id: basalt
-            amount: 2000
+            amount: 3000
       - tool: helmet
         stat: protection
         level: "1"
@@ -4259,7 +4287,7 @@ items:
         level: "1"
         cost:
           - id: basalt
-            amount: 5000
+            amount: 6400
       - tool: sword
         stat: sharpness
         level: "3"
@@ -4277,7 +4305,7 @@ items:
         level: "4"
         cost:
           - id: basalt
-            amount: 6400
+            amount: 8000
       - tool: shield
         stat: deflection
         level: "2"
@@ -4295,7 +4323,7 @@ items:
         level: "1"
         cost:
           - id: basalt
-            amount: 7500
+            amount: 10000
 
   judgement:
     name: "Hall of Judgement"
@@ -4421,13 +4449,13 @@ items:
         level: "2"
         cost:
           - id: scale_gold
-            amount: 5000
+            amount: 6400
       - tool: sword
         stat: sharpness
         level: "7"
         cost:
           - id: scale_gold
-            amount: 6000
+            amount: 7500
           - id: thoth_sigil
             amount: 160
           - id: maat_sigil
@@ -4577,13 +4605,13 @@ items:
         level: "3"
         cost:
           - id: solar_slag
-            amount: 3200
+            amount: 6000
       - tool: sword
         stat: sharpness
         level: "11"
         cost:
           - id: solar_slag
-            amount: 4000
+            amount: 6400
           - id: sekhmet_sigil
             amount: 160
           - id: ptah_sigil
@@ -4733,13 +4761,13 @@ items:
         level: "4"
         cost:
           - id: nightstone
-            amount: 4800
+            amount: 6400
       - tool: sword
         stat: bloodlust
         level: "1"
         cost:
           - id: nightstone
-            amount: 5000
+            amount: 7500
           - id: set_sigil
             amount: 250
           - id: apep_sigil
@@ -5165,13 +5193,13 @@ items:
         level: "1"
         cost:
           - id: beeswax
-            amount: 3200
+            amount: 5000
       - tool: sword
         stat: sharpness
         level: "11"
         cost:
           - id: beeswax
-            amount: 4000
+            amount: 6000
           - id: hive_stinger
             amount: 750
       - tool: axe
@@ -5482,7 +5510,7 @@ items:
     realm: skyisles
     region: skyisles
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave]
     steps:
       - tool: mace
         stat: unlock
@@ -5495,19 +5523,19 @@ items:
         level: "NETHERITE"
         cost:
           - id: cloudstone
-            amount: 3000
+            amount: 3200
       - tool: pick
         stat: efficiency
         level: "1"
         cost:
           - id: cloudstone
-            amount: 3200
+            amount: 4000
       - tool: pick
         stat: fortune
         level: "1"
         cost:
           - id: cloudstone
-            amount: 4000
+            amount: 4800
       - tool: pick
         stat: fortune
         level: "2"
@@ -5555,7 +5583,7 @@ items:
         level: "1"
         cost:
           - id: cloudstone
-            amount: 6400
+            amount: 8000
           - id: cloud_fleece
             amount: 800
       - tool: pick
@@ -5563,7 +5591,7 @@ items:
         level: "3"
         cost:
           - id: cloudstone
-            amount: 7500
+            amount: 10000
           - id: cloud_fleece
             amount: 1000
       - tool: mace
@@ -5577,7 +5605,7 @@ items:
         level: "2"
         cost:
           - id: cloudstone
-            amount: 8000
+            amount: 12000
           - id: cloud_fleece
             amount: 1500
       - tool: sword
@@ -5585,7 +5613,7 @@ items:
         level: "3"
         cost:
           - id: cloudstone
-            amount: 10000
+            amount: 15000
           - id: cloud_fleece
             amount: 1600
       - tool: shovel
@@ -5612,32 +5640,32 @@ items:
     realm: skyisles
     region: skyisles
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, cloudbank]
     steps:
       - tool: pick
         stat: efficiency
         level: "2"
         cost:
           - id: skyshard
-            amount: 4000
+            amount: 5000
       - tool: pick
         stat: fortune
         level: "4"
         cost:
           - id: skyshard
-            amount: 5000
+            amount: 6400
       - tool: pick
         stat: efficiency
         level: "3"
         cost:
           - id: skyshard
-            amount: 7500
+            amount: 10000
       - tool: pick
         stat: fortune
         level: "5"
         cost:
           - id: skyshard
-            amount: 8000
+            amount: 12000
       - tool: helmet
         stat: protection
         level: "2"
@@ -5667,7 +5695,7 @@ items:
         level: "4"
         cost:
           - id: skyshard
-            amount: 10000
+            amount: 15000
           - id: phantom_veil
             amount: 640
       - tool: pick
@@ -5675,7 +5703,7 @@ items:
         level: "6"
         cost:
           - id: skyshard
-            amount: 12000
+            amount: 16000
           - id: phantom_veil
             amount: 750
       - tool: sword
@@ -5695,7 +5723,7 @@ items:
         level: "5"
         cost:
           - id: skyshard
-            amount: 16000
+            amount: 20000
           - id: phantom_veil
             amount: 1200
 
@@ -5704,32 +5732,32 @@ items:
     realm: skyisles
     region: skyisles
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, cloudbank, skyshard_spires]
     steps:
       - tool: pick
         stat: efficiency
         level: "4"
         cost:
           - id: storm_copper
-            amount: 4000
+            amount: 5000
       - tool: pick
         stat: fortune
         level: "7"
         cost:
           - id: storm_copper
-            amount: 4800
+            amount: 6400
       - tool: pick
         stat: efficiency
         level: "5"
         cost:
           - id: storm_copper
-            amount: 7500
+            amount: 10000
       - tool: pick
         stat: fortune
         level: "8"
         cost:
           - id: storm_copper
-            amount: 8000
+            amount: 12000
       - tool: helmet
         stat: protection
         level: "3"
@@ -5759,7 +5787,7 @@ items:
         level: "6"
         cost:
           - id: storm_copper
-            amount: 10000
+            amount: 15000
           - id: storm_essence
             amount: 640
       - tool: pick
@@ -5767,7 +5795,7 @@ items:
         level: "9"
         cost:
           - id: storm_copper
-            amount: 12000
+            amount: 16000
           - id: storm_essence
             amount: 750
       - tool: mace
@@ -5781,7 +5809,7 @@ items:
         level: "7"
         cost:
           - id: storm_copper
-            amount: 16000
+            amount: 20000
           - id: storm_essence
             amount: 1000
       - tool: sword
@@ -5789,7 +5817,7 @@ items:
         level: "8"
         cost:
           - id: storm_copper
-            amount: 20000
+            amount: 25000
           - id: storm_essence
             amount: 1200
 
@@ -5798,7 +5826,7 @@ items:
     realm: skyisles
     region: skyisles
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, cloudbank, skyshard_spires, storm_front]
     steps:
       - tool: helmet
         stat: protection
@@ -5982,7 +6010,7 @@ items:
     realm: kingdom
     region: kingdom
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour]
     steps:
       - tool: helmet
         stat: protection
@@ -6085,13 +6113,13 @@ items:
         level: "1"
         cost:
           - id: royal_quartz
-            amount: 8000
+            amount: 10000
       - tool: sword
         stat: sharpness
         level: "3"
         cost:
           - id: royal_quartz
-            amount: 10000
+            amount: 12000
           - id: guard_insignia
             amount: 1500
       - tool: sword
@@ -6118,7 +6146,7 @@ items:
     realm: kingdom
     region: kingdom
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls]
     steps:
       - tool: helmet
         stat: protection
@@ -6229,13 +6257,13 @@ items:
         level: "2"
         cost:
           - id: sunpetal
-            amount: 6000
+            amount: 8000
       - tool: sword
         stat: sharpness
         level: "7"
         cost:
           - id: sunpetal
-            amount: 6400
+            amount: 10000
           - id: golden_pollen
             amount: 1000
           - id: gardener_seed
@@ -6270,7 +6298,7 @@ items:
     realm: kingdom
     region: kingdom
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls, gilded_gardens]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls, gilded_gardens]
     steps:
       - tool: helmet
         stat: protection
@@ -6381,13 +6409,13 @@ items:
         level: "3"
         cost:
           - id: celestine
-            amount: 16000
+            amount: 20000
       - tool: sword
         stat: sharpness
         level: "11"
         cost:
           - id: celestine
-            amount: 20000
+            amount: 25000
           - id: knight_crest
             amount: 800
           - id: crossbow_bolt
@@ -6416,7 +6444,7 @@ items:
     realm: kingdom
     region: kingdom
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls, gilded_gardens, royal_treasury]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, cloudbank, skyshard_spires, storm_front, sky_harbour, outer_walls, gilded_gardens, royal_treasury]
     steps:
       - tool: helmet
         stat: protection
@@ -6550,14 +6578,14 @@ items:
     realm: quarry
     region: quarry
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave]
     steps:
       - tool: shovel
         stat: material
         level: "NETHERITE"
         cost:
           - id: tungsten
-            amount: 1000
+            amount: 1600
           - id: gravel
             amount: 1600
       - tool: pick
@@ -6565,13 +6593,13 @@ items:
         level: "1"
         cost:
           - id: tungsten
-            amount: 2500
+            amount: 3200
       - tool: pick
         stat: fortune
         level: "1"
         cost:
           - id: tungsten
-            amount: 3000
+            amount: 4000
       - tool: pick
         stat: efficiency
         level: "2"
@@ -6625,7 +6653,7 @@ items:
         level: "1"
         cost:
           - id: tungsten
-            amount: 5000
+            amount: 6400
           - id: pillager_ration
             amount: 3000
       - tool: pick
@@ -6633,7 +6661,7 @@ items:
         level: "3"
         cost:
           - id: tungsten
-            amount: 6000
+            amount: 7500
           - id: pillager_ration
             amount: 3200
       - tool: sword
@@ -6641,7 +6669,7 @@ items:
         level: "2"
         cost:
           - id: tungsten
-            amount: 7500
+            amount: 10000
           - id: pillager_ration
             amount: 4000
       - tool: sword
@@ -6649,7 +6677,7 @@ items:
         level: "3"
         cost:
           - id: tungsten
-            amount: 8000
+            amount: 12000
           - id: pillager_ration
             amount: 4800
       - tool: shovel
@@ -6657,7 +6685,7 @@ items:
         level: "2"
         cost:
           - id: tungsten
-            amount: 10000
+            amount: 15000
           - id: gravel
             amount: 7500
       - tool: shovel
@@ -6665,7 +6693,7 @@ items:
         level: "2"
         cost:
           - id: tungsten
-            amount: 12000
+            amount: 16000
           - id: gravel
             amount: 8000
       - tool: grapple
@@ -6673,7 +6701,7 @@ items:
         level: "1"
         cost:
           - id: tungsten
-            amount: 15000
+            amount: 20000
           - id: pillager_ration
             amount: 5000
       - tool: grapple
@@ -6681,7 +6709,7 @@ items:
         level: "1"
         cost:
           - id: tungsten
-            amount: 16000
+            amount: 25000
           - id: pillager_ration
             amount: 6000
 
@@ -6690,7 +6718,7 @@ items:
     realm: quarry
     region: quarry
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, gravel_pits]
     steps:
       - tool: axe
         stat: efficiency
@@ -6709,25 +6737,25 @@ items:
         level: "2"
         cost:
           - id: platinum
-            amount: 4000
+            amount: 5000
       - tool: axe
         stat: fortune
         level: "2"
         cost:
           - id: platinum
-            amount: 4800
+            amount: 6000
       - tool: pick
         stat: efficiency
         level: "3"
         cost:
           - id: platinum
-            amount: 5000
+            amount: 6400
       - tool: pick
         stat: fortune
         level: "4"
         cost:
           - id: platinum
-            amount: 6000
+            amount: 7500
       - tool: helmet
         stat: protection
         level: "2"
@@ -6773,7 +6801,7 @@ items:
         level: "5"
         cost:
           - id: platinum
-            amount: 6400
+            amount: 8000
           - id: gravel
             amount: 4000
           - id: pale_log
@@ -6783,13 +6811,13 @@ items:
         level: "4"
         cost:
           - id: platinum
-            amount: 12000
+            amount: 16000
       - tool: pick
         stat: fortune
         level: "6"
         cost:
           - id: platinum
-            amount: 15000
+            amount: 20000
       - tool: sword
         stat: looting
         level: "5"
@@ -6828,7 +6856,7 @@ items:
     realm: quarry
     region: quarry
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits, pale_woods]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, gravel_pits, pale_woods]
     steps:
       - tool: axe
         stat: efficiency
@@ -6911,7 +6939,7 @@ items:
         level: "7"
         cost:
           - id: titanium
-            amount: 3200
+            amount: 4000
           - id: clay
             amount: 5000
           - id: maple
@@ -6921,7 +6949,7 @@ items:
         level: "5"
         cost:
           - id: titanium
-            amount: 5000
+            amount: 6000
           - id: clay
             amount: 6000
           - id: maple
@@ -6931,7 +6959,7 @@ items:
         level: "8"
         cost:
           - id: titanium
-            amount: 6000
+            amount: 6400
           - id: clay
             amount: 6400
           - id: maple
@@ -6941,7 +6969,7 @@ items:
         level: "6"
         cost:
           - id: titanium
-            amount: 6400
+            amount: 8000
           - id: clay
             amount: 7500
           - id: maple
@@ -6951,7 +6979,7 @@ items:
         level: "9"
         cost:
           - id: titanium
-            amount: 7500
+            amount: 10000
           - id: clay
             amount: 8000
           - id: maple
@@ -7012,26 +7040,26 @@ items:
     realm: quarry
     region: quarry
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits, pale_woods, maple_grove]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, gravel_pits, pale_woods, maple_grove]
     steps:
       - tool: pick
         stat: efficiency
         level: "7"
         cost:
           - id: diamond
-            amount: 8000
+            amount: 12000
       - tool: pick
         stat: fortune
         level: "10"
         cost:
           - id: diamond
-            amount: 10000
+            amount: 15000
       - tool: pick
         stat: fortune
         level: "11"
         cost:
           - id: diamond
-            amount: 15000
+            amount: 16000
       - tool: helmet
         stat: protection
         level: "4"
@@ -7061,7 +7089,7 @@ items:
         level: "10"
         cost:
           - id: diamond
-            amount: 16000
+            amount: 20000
           - id: ravager_horn
             amount: 600
       - tool: pick
@@ -7069,7 +7097,7 @@ items:
         level: "12"
         cost:
           - id: diamond
-            amount: 20000
+            amount: 25000
           - id: ravager_horn
             amount: 640
       - tool: pick
@@ -7077,7 +7105,7 @@ items:
         level: "13"
         cost:
           - id: diamond
-            amount: 25000
+            amount: 30000
           - id: maple
             amount: 4000
           - id: clay
@@ -7097,7 +7125,7 @@ items:
         level: "11"
         cost:
           - id: diamond
-            amount: 32000
+            amount: 40000
           - id: ravager_horn
             amount: 1000
       - tool: grapple
@@ -7105,7 +7133,7 @@ items:
         level: "4"
         cost:
           - id: diamond
-            amount: 40000
+            amount: 48000
           - id: ravager_horn
             amount: 1200
       - tool: grapple
@@ -7113,7 +7141,7 @@ items:
         level: "4"
         cost:
           - id: diamond
-            amount: 48000
+            amount: 50000
           - id: ravager_horn
             amount: 1500
 
@@ -7122,7 +7150,7 @@ items:
     realm: quarry
     region: quarry
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits, pale_woods, maple_grove, diamond_depths]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, gravel_pits, pale_woods, maple_grove, diamond_depths]
     steps:
       - tool: helmet
         stat: protection
@@ -7278,7 +7306,7 @@ items:
     realm: quarry
     region: quarry
     released: false
-    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, redstone_mines, pumpkin_terraces, lapis_ridge, melon_ledges, arachne_cave, gravel_pits, pale_woods, maple_grove, diamond_depths, quarry_pit]
+    before: [cobble, coal, copper, iron, gold, oak, birch, spruce, darkoak, mudflats, slime_hollow, fens, sunken_ruins, glowmire, foothills, stony_crags, frozen_slopes, lapis_grotto, emerald_depths, arachne_cave, gravel_pits, pale_woods, maple_grove, diamond_depths, quarry_pit]
     steps:
       - tool: helmet
         stat: protection

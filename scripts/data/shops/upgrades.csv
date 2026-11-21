@@ -168,7 +168,7 @@ oak,1,axe,unlock,1,oak_log=8
 oak,2,axe,material,STONE,tin:1
 oak,3,axe,efficiency,1,tin:1
 oak,4,axe,fortune,1,oak_log:1
-oak,5,axe,efficiency,2,oak_log:1
+oak,5,axe,efficiency,2,oak_log:2.5
 oak,6,pick,luck,1,tin:1
 oak,7,pick,efficiency,1,tin:1
 oak,8,sword,sharpness,1,horsehair:1
@@ -178,7 +178,7 @@ oak,11,leggings,protection,1,horsehair:1
 oak,12,boots,protection,1,horsehair:1
 oak,13,pick,luck,2,tin:0.7|horsehair:0.3
 oak,14,pick,efficiency,2,tin:0.7|horsehair:0.3
-oak,15,pick,fortune,1,tin:0.6|oak_log:0.2|horsehair:0.2
+oak,15,pick,fortune,1,tin:0.6|oak_log:0.5|horsehair:0.2
 oak,16,sword,sharpness,2,horsehair:1
 oak,17,sword,looting,1,horsehair:1
 oak,18,sword,looting,2,horsehair:1

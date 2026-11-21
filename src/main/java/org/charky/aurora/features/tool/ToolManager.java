@@ -123,6 +123,42 @@ public class ToolManager implements Listener, LoadoutData {
         giveStarters(player);
     }
 
+    // Every tool as a player has it on reaching a zone, or on finishing it: every level
+    // in every realm goes, each zone played before it (and the zone itself when finished)
+    // is bought out in full, and every tool that leaves them is handed over
+    public void setToZone(Player player, UpgradeZone zone, boolean finished) {
+        UUID uuid = player.getUniqueId();
+        levels.remove(uuid);
+        db.async(() -> store.deleteAll(uuid));
+
+        List<String> bought = new ArrayList<>(zone.before());
+        if (finished) bought.add(zone.id());
+        for (String id : bought) {
+            UpgradeZone played = registry.getUpgradeZone(id);
+            if (played == null) continue;
+            for (UpgradeZone.Step step : played.steps()) {
+                if (step.level() > level(uuid, played.realm(), step.tool(), step.stat())) {
+                    put(uuid, played.realm(), step.tool(), step.stat(), step.level());
+                }
+            }
+        }
+
+        PlayerInventory inventory = player.getInventory();
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            if (toolId(inventory.getItem(slot)) != null) inventory.setItem(slot, null);
+        }
+        giveStarters(player);
+        // Copied first: handing a tool over may store a level
+        List<String> owned = new ArrayList<>();
+        for (Map<String, Map<String, Integer>> realm : levels.getOrDefault(uuid, Map.of()).values()) {
+            for (String id : realm.keySet()) if (!owned.contains(id)) owned.add(id);
+        }
+        for (String id : owned) {
+            ToolType tool = registry.getToolType(id);
+            if (tool != null) give(player, tool);
+        }
+    }
+
     // Stores a level without redrawing anything
     private void put(UUID uuid, String realm, String tool, String stat, int level) {
         levels.computeIfAbsent(uuid, k -> new HashMap<>())

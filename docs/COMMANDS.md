@@ -105,7 +105,7 @@ A box like a mine. Walking in sends you to its destination, which can be in anot
 | `/a portal info <portal>` | Its box and destination |
 | `/a portal tp <portal> [player]` | Teleport into it |
 
-**Locked portals.** Players get access by right clicking a pass, in their backpack or their hand, which uses it up. Passes are in `scripts/data/resources_special.csv`, the `unlocks` column is the access they give, e.g. `gormak_key` (the Gormak Pass) gives `gormak`. Access is kept by the plugin in its own database (the `portal_access` table), not in vanilla scoreboard tags; `/a access` shows, gives and takes it, and `/a reset <player> all` takes it all away.
+**Locked portals.** Players get access by right clicking a pass, in their backpack or their hand, which uses it up. Passes are in `scripts/data/resources_special.csv`, the `unlocks` column is the access they give, e.g. `gormak_key` (the Dunesworld Pass) gives `gormak`. Access is kept by the plugin in its own database (the `portal_access` table), not in vanilla scoreboard tags; `/a access` shows, gives and takes it, and `/a reset <player> all` takes it all away.
 
 **Summoned bosses.** A key with a `summons` column, e.g. `tomb_key` summons `gormak_eternal`, wakes that mob at its spawner when right clicked within 24 blocks of it. Spawners of a summoned mob never spawn it by themselves, so place the boss's spawner with `/a spawner create` as usual, where it should rise. Its limit is how many can be awake at once.
 
@@ -183,6 +183,7 @@ A new player's first join hands out the starter tools, the backpack and a stack 
 | `/a tool <player> give <tool>` | Hand over a tool that lives on the player (pick, axe, shovel, hoe, sword, helmet, chestplate, leggings, boots). Its item is drawn from the player's levels in the realm they stand in |
 | `/a tool <player> set <tool> <stat> <level> [realm]` | Set what a player's tool has, in their current realm or a named one. The level is the total there, the realms it builds on included: `set pick fortune 10` in the overworld gives Fortune 10, whatever the regions add. The stat is an enchant, or `material` with a name such as `iron` |
 | `/a tool <player> info <tool>` | What the tool has where the player stands, and which realms that builds on |
+| `/a gear <player> <zone> [start\|end]` | Set every tool and armour piece to what a player has on reaching a zone, or on finishing it with `end`: each zone played before it (one region at a time, as in `before` in upgrades.yml) bought out in full. Every other tool level goes, and the tools are handed over. `start` without one |
 | `/a cosmetic <player> <give\|take> <id>` | Give or take a rank, a cosmetic or `suffix_slot_2`. The only way to the donor and staff ranks, the donor-only cosmetics and the second suffix, which comes with a donor package. Tab completes every id |
 | `/a grant <player> <essence\|xp\|hours> <amount>` | Give Essence, XP or hours of playtime, for testing cosmetics, levels and playtime ranks. Hours are counted within a minute, which is when a new playtime rank is handed out |
 | `/a testworld [world]` | Go to a test world on the experimental loadout. The first time, with none yet, it starts as a copy of your main one. `aurora_test` without a world |

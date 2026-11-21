@@ -49,6 +49,7 @@ import org.charky.aurora.features.keys.KeyItemListener;
 import org.charky.aurora.features.loadout.Loadout;
 import org.charky.aurora.features.loadout.LoadoutData;
 import org.charky.aurora.features.loadout.LoadoutManager;
+import org.charky.aurora.features.mine.BlockUseListener;
 import org.charky.aurora.features.mine.MineListener;
 import org.charky.aurora.features.movement.DashListener;
 import org.charky.aurora.features.movement.DoubleJumpListener;
@@ -321,6 +322,7 @@ public class Aurora extends JavaPlugin {
     private void registerListeners() {
         List<Listener> listeners = List.of(
                 new MineListener(this),
+                new BlockUseListener(this),
                 new PlayerSessionListener(this, players, scoreboard, tabManager, levelManager),
                 levelManager,
                 rankManager,

@@ -18,7 +18,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-// Where each player may go: a pass like the Gormak Pass opens an access id for good,
+// Where each player may go: a pass like the Dunesworld Pass opens an access id for good,
 // and a portal or warp locked to that id lets only those players through. Kept in
 // Aurora's own database, so nothing outside the plugin can hand it out or take it away
 public class AccessManager implements Listener, LoadoutData {

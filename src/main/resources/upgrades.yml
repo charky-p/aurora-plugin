@@ -1141,7 +1141,7 @@ items:
         level: "2"
         cost:
           - id: oak_log
-            amount: 40
+            amount: 80
       - tool: pick
         stat: luck
         level: "1"
@@ -1207,7 +1207,7 @@ items:
           - id: tin
             amount: 800
           - id: oak_log
-            amount: 48
+            amount: 100
           - id: horsehair
             amount: 48
       - tool: sword
@@ -1283,25 +1283,25 @@ items:
         level: "2"
         cost:
           - id: fox_fur
-            amount: 40
+            amount: 32
       - tool: chestplate
         stat: protection
         level: "2"
         cost:
           - id: fox_fur
-            amount: 40
+            amount: 32
       - tool: leggings
         stat: protection
         level: "2"
         cost:
           - id: fox_fur
-            amount: 40
+            amount: 32
       - tool: boots
         stat: protection
         level: "2"
         cost:
           - id: fox_fur
-            amount: 40
+            amount: 32
       - tool: pick
         stat: blast
         level: "1"
@@ -1309,7 +1309,7 @@ items:
           - id: bronze
             amount: 1600
           - id: fox_fur
-            amount: 48
+            amount: 40
       - tool: pick
         stat: luck
         level: "4"
@@ -1317,7 +1317,7 @@ items:
           - id: bronze
             amount: 2500
           - id: fox_fur
-            amount: 64
+            amount: 48
       - tool: pick
         stat: fortune
         level: "2"
@@ -1327,37 +1327,37 @@ items:
           - id: birch_log
             amount: 80
           - id: fox_fur
-            amount: 80
+            amount: 64
       - tool: sword
         stat: sharpness
         level: "4"
         cost:
           - id: fox_fur
-            amount: 100
+            amount: 80
       - tool: sword
         stat: looting
         level: "3"
         cost:
           - id: fox_fur
-            amount: 120
+            amount: 100
       - tool: sword
         stat: sharpness
         level: "5"
         cost:
           - id: fox_fur
-            amount: 150
+            amount: 120
       - tool: sword
         stat: looting
         level: "4"
         cost:
           - id: fox_fur
-            amount: 160
+            amount: 150
       - tool: sword
         stat: sharpness
         level: "6"
         cost:
           - id: fox_fur
-            amount: 200
+            amount: 160
       - tool: axe
         stat: efficiency
         level: "5"

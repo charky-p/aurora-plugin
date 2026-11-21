@@ -13,12 +13,12 @@
 
 items:
   gormak_key:
-    display: "<gold><b>Gormak Pass"
+    display: "<gold><b>Dunesworld Pass"
     material: PAPER
     world: "overworld"
     region: "origin_isles"
     lore:
-      - "<gray>Opens the portal to Gormak"
+      - "<gray>Opens the portal to Dunesworld"
       - "<dark_gray>Right click to use"
     unlocks: gormak
 

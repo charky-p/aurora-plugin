@@ -1,5 +1,5 @@
 id,display,material,world,region,lore,unlocks,summons
-gormak_key,<gold><b>Gormak Pass,PAPER,overworld,origin_isles,<gray>Opens the portal to Gormak|<dark_gray>Right click to use,gormak,
+gormak_key,<gold><b>Dunesworld Pass,PAPER,overworld,origin_isles,<gray>Opens the portal to Dunesworld|<dark_gray>Right click to use,gormak,
 tomb_key,<gold><b>Tomb Key,TRIAL_KEY,overworld,gormak_tomb,<gray>Summons Gormak the Eternal|<dark_gray>Right click by the Golden Throne,,gormak_eternal
 sun_key,<gold><b>Sun Key,TRIAL_KEY,overworld,khorvath_sanctuary,"<gray>Summons Khorvath, Avatar of the Sun|<dark_gray>Right click by the Sun Altar",,khorvath
 elderwood_key,<dark_green><b>Elderwood Pass,PAPER,overworld,verdant_darkoak,<gray>Opens the portal to Elderwood Roots|<dark_gray>Right click to use,elderwood,

@@ -238,7 +238,7 @@ items:
     region: "verdant_oak"
     lore:
       - "<dark_gray>Verdant Groves - Oak Grove"
-    collection: 120
+    collection: 200
 
   tin:
     display: "<#7BA05B><b>Tin"
@@ -283,7 +283,7 @@ items:
     region: "verdant_birch"
     lore:
       - "<dark_gray>Dropped by Hollow Foxs"
-    collection: 1000
+    collection: 800
 
   spruce_log:
     display: "<#4F7A4A>Spruce Log"

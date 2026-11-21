@@ -188,7 +188,13 @@ public final class Schema {
                     "loadout TEXT, " +
                     "items BLOB, " +
                     "ender BLOB, " +
-                    "PRIMARY KEY (uuid, loadout))"
+                    "PRIMARY KEY (uuid, loadout))",
+
+            // Teleport pads, the block a player steps on to unlock it from spawn
+            "CREATE TABLE IF NOT EXISTS teleport_pads (" +
+                    "name TEXT PRIMARY KEY, " +
+                    "world TEXT, " +
+                    "x INTEGER, y INTEGER, z INTEGER)"
     );
 
     // Columns added after a table first shipped, CREATE TABLE IF NOT EXISTS skips

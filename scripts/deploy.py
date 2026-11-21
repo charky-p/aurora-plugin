@@ -152,7 +152,7 @@ def backup(server, keep):
 # in its column. blocks follow their mine, worlds and build_worlds name the world
 GAME_TABLES = {"mines": "world", "spawners": "world", "traders": "world", "portals": "world",
                "spawns": "world", "locations": "world", "worlds": "name", "build_worlds": "world",
-               "safe_zones": "world"}
+               "safe_zones": "world", "teleport_pads": "world"}
 # Numbered by the database, the host numbers LocalServer's rows again
 AUTO_IDS = {"traders": "id"}
 # Every per-player table that belongs to a loadout, kept in step with LoadoutStore.TABLES

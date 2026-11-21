@@ -107,6 +107,8 @@ public final class KeyItems {
 
     // What to tell a player turned away, the item that opens it or the bare tag
     public static Component missing(DataRegistry registry, String tag) {
+        // A teleport pad's portal opens by stepping on the pad, there is no pass for it
+        if (tag.startsWith("pad_")) return TextUtils.parse("<red>Step on this teleport pad first to unlock it");
         List<String> keys = registry.getKeys().keysFor(tag);
         if (keys.isEmpty()) return TextUtils.parse("<red>This portal is locked");
         return TextUtils.parse("<red>You need a ").append(itemName(registry, keys.getFirst()))

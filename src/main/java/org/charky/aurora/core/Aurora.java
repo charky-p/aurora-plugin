@@ -14,6 +14,7 @@ import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.database.AccessStore;
 import org.charky.aurora.core.database.BuildStore;
+import org.charky.aurora.core.database.PadStore;
 import org.charky.aurora.core.database.SafeZoneStore;
 import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.CollectionStore;
@@ -44,6 +45,7 @@ import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.combat.SustenanceTask;
 import org.charky.aurora.features.keys.AccessManager;
 import org.charky.aurora.features.build.BuildManager;
+import org.charky.aurora.features.portal.PadManager;
 import org.charky.aurora.features.pvp.SafeZoneManager;
 import org.charky.aurora.features.keys.KeyItemListener;
 import org.charky.aurora.features.loadout.Loadout;
@@ -138,6 +140,7 @@ public class Aurora extends JavaPlugin {
     private TabManager tabManager;
     private TrashCommand trash;
     private SafeZoneManager safeZoneManager;
+    private PadManager padManager;
     private MountManager mountManager;
     private ToolManager toolManager;
     private UpgradeShop upgradeShop;
@@ -251,6 +254,7 @@ public class Aurora extends JavaPlugin {
         this.portalManager = new PortalManager(new PortalStore(db));
         this.buildManager = new BuildManager(db, new BuildStore(db), this::getMainSpawn);
         this.safeZoneManager = new SafeZoneManager(db, new SafeZoneStore(db));
+        this.padManager = new PadManager(db, new PadStore(db), accessManager);
     }
 
     // The main and experimental loadouts, after everything that keeps per-player data
@@ -338,6 +342,7 @@ public class Aurora extends JavaPlugin {
                 accessManager,
                 buildManager,
                 safeZoneManager,
+                padManager,
                 trash,
                 new PortalListener(this),
                 new KeyItemListener(this),
@@ -430,6 +435,10 @@ public class Aurora extends JavaPlugin {
 
     public MountManager getMountManager() {
         return mountManager;
+    }
+
+    public PadManager getPadManager() {
+        return padManager;
     }
 
     public SafeZoneManager getSafeZoneManager() {

@@ -105,6 +105,16 @@ A box like a mine. Walking in sends you to its destination, which can be in anot
 | `/a portal info <portal>` | Its box and destination |
 | `/a portal tp <portal> [player]` | Teleport into it |
 
+**Teleport pads.** A pad is a block players step on to unlock a way back to it. Stand on the block (a diamond block, so players spot it) and `/a pad create <pad>`. Stepping on it opens the access `pad_<pad>` for good, on the loadout in play, with a message. At spawn, select a spot with the wand and `/a pad point <pad>`: that makes the portal `pad_<pad>`, leading to the top of the pad and locked to its access, so it takes only players who have been there and knocks everyone else back with "Step on this teleport pad first". It is an ordinary portal, so the `/a portal` commands work on it.
+
+| Command | What it does |
+|---|---|
+| `/a pad create <pad>` | The block you stand on becomes the pad. Lowercase letters, numbers and `_` |
+| `/a pad point <pad>` | A portal from the wand selection to the pad, for players who unlocked it |
+| `/a pad delete <pad>` | Delete the pad. Its portal stays, delete it with `/a portal delete pad_<pad>` |
+| `/a pad list` | Every pad, where it is and its access |
+| `/a pad tp <pad>` | Teleport onto it |
+
 **Locked portals.** Players get access by right clicking a pass, in their backpack or their hand, which uses it up. Passes are in `scripts/data/resources_special.csv`, the `unlocks` column is the access they give, e.g. `gormak_key` (the Dunesworld Pass) gives `gormak`. Access is kept by the plugin in its own database (the `portal_access` table), not in vanilla scoreboard tags; `/a access` shows, gives and takes it, and `/a reset <player> all` takes it all away.
 
 **Summoned bosses.** A key with a `summons` column, e.g. `tomb_key` summons `gormak_eternal`, wakes that mob at its spawner when right clicked within 24 blocks of it. Spawners of a summoned mob never spawn it by themselves, so place the boss's spawner with `/a spawner create` as usual, where it should rise. Its limit is how many can be awake at once.

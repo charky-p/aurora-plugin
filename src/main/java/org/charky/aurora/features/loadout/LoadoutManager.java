@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
@@ -52,6 +53,9 @@ public class LoadoutManager implements Listener {
     // Players who have switched before, everyone else plays MAIN
     private final Map<UUID, Loadout> active;
     private final Map<UUID, Map<Loadout, Stash>> stashes;
+    // Admins who picked a loadout with /aurora loadout: it is played in every world until
+    // they pick auto or leave, instead of the one the world plays with
+    private final Map<UUID, Loadout> pinned = new ConcurrentHashMap<>();
 
     public LoadoutManager(DataRegistry registry, Database db, LoadoutStore store, PlayerManager players,
                           BuildManager build, ToolManager tools, List<LoadoutData> holders, Consumer<Player> shown,
@@ -97,6 +101,8 @@ public class LoadoutManager implements Listener {
     public boolean visit(Player player, Location to) {
         boolean copied = !hasExperimental(player.getUniqueId());
         if (copied) copyMainToExperimental(player);
+        // A loadout picked with /aurora loadout would keep main in play there
+        pinned.remove(player.getUniqueId());
         // The world change switches to it
         player.teleport(to);
         return copied;
@@ -114,8 +120,28 @@ public class LoadoutManager implements Listener {
         putAway(player, Loadout.EXPERIMENTAL);
     }
 
+    // A pick lasts for the session, the next join follows the world again
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        pinned.remove(event.getPlayer().getUniqueId());
+    }
+
+    // /aurora loadout: plays this loadout in every world from now on, null goes back to
+    // the one each world plays with. Switches straight away when it differs
+    public void pin(Player player, Loadout loadout) {
+        if (loadout == null) pinned.remove(player.getUniqueId());
+        else pinned.put(player.getUniqueId(), loadout);
+        check(player);
+    }
+
+    // The loadout picked with /aurora loadout, null when the world decides
+    public Loadout pinnedOf(UUID uuid) {
+        return pinned.get(uuid);
+    }
+
     private void check(Player player) {
-        Loadout next = toPlay(wanted(player.getWorld()), activeOf(player.getUniqueId()));
+        Loadout pick = pinned.get(player.getUniqueId());
+        Loadout next = toPlay(pick != null ? pick : wanted(player.getWorld()), activeOf(player.getUniqueId()));
         if (next != null) switchTo(player, next);
     }
 

@@ -500,6 +500,8 @@ def connect(config):
     if remote.proto != "sftp":
         remote.close()
         sys.exit("stage, swap and upload need protocol = sftp in deploy.ini")
+    # A stalled connection fails after this long instead of waiting forever; stage resumes
+    remote.sftp.get_channel().settimeout(120)
     return remote
 
 
@@ -518,6 +520,7 @@ def changed(files, sent, live, force):
     """The files the host needs: changed since the last deploy, a different size there,
     or small with no record. Each with its hash, the record swap keeps once it is live."""
     out = []
+    print(f"  comparing {len(files)} files", flush=True)
     for file, path in files:
         size, digest = file.stat().st_size, file_hash(file)
         record = sent.get(path)
@@ -550,19 +553,31 @@ def stage(args, config=None, remote=None):
         return None
 
     own = remote is None
+    print(f"Connecting to {target}", flush=True)
     remote = remote or connect(config)
     try:
+        # The jar and YAML one by one: the host's plugins folder holds other plugins' data too
         live = {}
-        for top in {"plugins"} | ({config["worlds"]["folder"]} if with_worlds else set()):
-            live.update(remote_sizes(remote, top))
+        for _, path in files:
+            if path.startswith("plugins/"):
+                try:
+                    live[path] = remote.sftp.stat(remote.path(path)).st_size
+                except IOError:
+                    pass
+        if with_worlds:
+            for name in listed(config["worlds"]["names"]):
+                print(f"  checking {name} on the host", flush=True)
+                live.update(remote_sizes(remote, f"{config['worlds']['folder']}/{name}"))
         queue = changed(files, sent, live, args.force)
         staged = remote_sizes(remote, STAGING)
-        total = sum(file.stat().st_size for file, _, _ in queue)
+        # Sizes taken once: a running local server can save a world file mid-upload
+        sizes = {path: file.stat().st_size for file, path, _ in queue}
+        total = sum(sizes.values())
         print(f"\nTo {target}: {len(queue)} of {len(files)} files changed ({megabytes(total)})"
               + (", and mines.db at swap" if with_db else ""))
         done = 0
         for number, (file, path, _) in enumerate(queue, 1):
-            size = file.stat().st_size
+            size = sizes[path]
             done += size
             already = staged.get(f"{STAGING}/{path}") == size and size > SMALL
             if not already:
@@ -606,8 +621,13 @@ def swap(args, config=None, remote=None):
                 sys.exit("Nothing is staged on the host, run `python scripts/deploy.py stage` first")
             plan = json.loads(local_plan.read_text())
 
-        # Staged files over the live ones, a rename each
+        # Staged files over the live ones, a rename each. One no longer staged was moved in
+        # by a swap that dropped, so a second swap carries on where it stopped
+        staged = remote_sizes(remote, STAGING)
         for path, digest in plan["files"].items():
+            if f"{STAGING}/{path}" not in staged:
+                sent[path] = digest
+                continue
             remote.make_folders(path)
             try:
                 remote.sftp.remove(remote.path(path))

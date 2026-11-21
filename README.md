@@ -127,15 +127,17 @@ python scripts/deploy.py bundle      # target/aurora-deploy.zip
 
 Stop the live server, unzip `aurora-deploy.zip` over its folder, start it. The zip holds the jar and the game data YAML: the plugin only writes its YAML when a file is missing, so copying the jar alone keeps the old data.
 
-Or send it straight to the host over FTP, FTPS or SFTP, with the login in `scripts/deploy.ini` (gitignored, written on the first run):
+Or send it straight to the host over SFTP, with the login in `scripts/deploy.ini` (gitignored, written on the first run). The host's server stays up while files go up, and is down only for the swap:
 
 ```
-python scripts/deploy.py upload              # build, then the jar and the game data YAML
-python scripts/deploy.py upload --all        # and LocalServer's mines.db and the game worlds
-python scripts/deploy.py upload --dry-run    # list what would be sent
+python scripts/deploy.py stage --all         # build, then send what changed to a staging folder, server running
+                                             # stop the host's server
+python scripts/deploy.py swap                # move it in and merge the database, takes seconds
+                                             # start the host's server
+python scripts/deploy.py stage --dry-run     # list what changed here since the last deploy
 ```
 
-`--db` and `--worlds` pick one of the two. Only the worlds named in `deploy.ini` are sent, never the vanilla overworld, nether or end. Stop the host's server before sending the database or worlds: `--db` replaces every player's progress on the host with the local one, after saving the host's copy to `LocalServer/aurora-backups/`. Files unchanged since the last upload are skipped.
+`stage` sends the jar, the game data YAML and, with `--worlds`, the game world files that differ from the host's: changed since the last deploy (a hash in `target/deploy-uploaded.json`) or another size there. Nothing live is touched until `swap`, so a server started or restarted meanwhile breaks nothing, and a dropped connection is resumed by running `stage` again. `swap` moves the files in, removes world files LocalServer does not have and every world not named in `deploy.ini` (never the vanilla overworld, nether or end, nor the worlds under `keep`), and with `--db` merges LocalServer's game data (mines, spawners, traders, portals) into the host's `mines.db`, keeping its players, after saving the host's copy to `LocalServer/aurora-backups/`. `upload` with the same flags does both in one go, for a host that is already stopped.
 
 Back up before every deploy. On the live server's host, after `save-off` and `save-all flush` in the console (then `save-on`):
 

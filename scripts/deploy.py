@@ -2,18 +2,27 @@
 """
 Aurora deploy helpers, plain Python so they run on the live server's host too.
 
+  python scripts/deploy.py stage [--db] [--worlds] [--all]
+  python scripts/deploy.py swap
+      The safe way to deploy, with the host's server down for seconds. stage builds the
+      plugin and sends what changed to a staging folder on the host (scripts/deploy.ini,
+      SFTP) while its server keeps running: the jar, every generated YAML and, with
+      --worlds, the game world files that differ from the host's. Nothing live is
+      touched, so a server started or restarted meanwhile breaks nothing, and a drop is
+      resumed by running stage again. Then stop the host's server and run swap: it moves
+      the staged files in, removes world files LocalServer does not have and every world
+      not named in deploy.ini (except keep and vanilla's overworld, nether and end), and
+      with --db merges LocalServer's game data (mines, spawners, traders, portals,
+      spawns, worlds, safe zones) into the host's mines.db, keeping its player data and
+      the game data of the worlds under keep. Start the server again after.
+
   python scripts/deploy.py upload [--db] [--worlds] [--all]
-      Builds the plugin and sends it to the host in scripts/deploy.ini over FTP/FTPS/SFTP: the
-      jar and every generated YAML. --db also sends LocalServer's game data (mines,
-      spawners, traders, portals, spawns, worlds, safe zones) and keeps the host's
-      player data and the game data of the worlds under keep in deploy.ini. --worlds
-      replaces the host's game worlds with the ones named in deploy.ini and deletes
-      every other world there, except keep and vanilla's overworld, nether and end.
-      --all is both. Stop the host's server first when sending the database or worlds.
+      stage and swap in one go, for a host whose server is already stopped.
       The first --db with player loadouts makes everything players did on the host so
       far their experimental loadout, so the main one starts fresh on their next join.
       The host's own mines.db is downloaded into LocalServer/aurora-backups first.
-      Files that have not changed since the last upload are skipped, --force sends
+      A file is sent when it changed since the last deploy (a hash kept in
+      target/deploy-uploaded.json) or the host's copy is another size, --force sends
       everything. --dry-run lists what would be sent without connecting,
       --no-build sends the jar already in target/, --yes skips the question.
       The first run writes scripts/deploy.ini (gitignored) for you to fill in.
@@ -38,11 +47,13 @@ import configparser
 import fnmatch
 import ftplib
 import getpass
+import hashlib
 import json
 import os
 import shutil
 import socket
 import sqlite3
+import stat
 import subprocess
 import sys
 import tempfile
@@ -434,106 +445,248 @@ def megabytes(size):
     return f"{size / (1024 * 1024):.1f} MB"
 
 
-def upload(args):
-    config = load_config()
-    host = config["host"]
-    with_db = args.db or args.all
-    with_worlds = args.worlds or args.all
+# Where stage puts the files on the host until swap moves them in: outside world/ and
+# plugins/, so the running server never loads or overwrites them
+STAGING = ".aurora-staging"
+PLAN = f"{STAGING}/plan.json"
+# Files this small are cheap, and with no record of them the size alone proves nothing
+SMALL = 65536
 
+
+def file_hash(file):
+    digest = hashlib.sha1()
+    with open(file, "rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def remote_sizes(remote, folder):
+    """path -> size of every file under a folder on the host, empty if there is none."""
+    sizes = {}
+    if remote.proto != "sftp":
+        return sizes
+    try:
+        entries = remote.sftp.listdir_attr(remote.path(folder))
+    except IOError:
+        return sizes
+    for entry in entries:
+        child = f"{folder}/{entry.filename}"
+        if stat.S_ISDIR(entry.st_mode):
+            sizes.update(remote_sizes(remote, child))
+        else:
+            sizes[child] = entry.st_size
+    return sizes
+
+
+def history_for(config):
+    host = config["host"]
+    target = f"{host.get('host')}{host.get('root', '/')}"
+    history = json.loads(UPLOADED.read_text()) if UPLOADED.exists() else {}
+    return target, history, history.setdefault(target, {})
+
+
+def save_history(history):
+    UPLOADED.parent.mkdir(exist_ok=True)
+    UPLOADED.write_text(json.dumps(history))
+
+
+def connect(config):
+    host = config["host"]
+    if not host.get("host") or not host.get("user"):
+        sys.exit(f"Fill in host and user in {CONFIG.relative_to(ROOT)}")
+    password = host.get("password") or os.environ.get(PASSWORD_ENV) or getpass.getpass(f"FTP password for {host['user']}: ")
+    remote = Host(config, password)
+    if remote.proto != "sftp":
+        remote.close()
+        sys.exit("stage, swap and upload need protocol = sftp in deploy.ini")
+    return remote
+
+
+def wanted_files(config, args):
+    """[(local file, host path)] the deploy is made of: the jar, the YAML, the worlds."""
     if not args.no_build:
         build(config)
     jar = newest_jar()
-
     files = [(jar, f"plugins/{jar.name}")] + data_files()
-    worlds = world_files(config) if with_worlds else []
-    db = LOCAL_SERVER / DB_PATH
-    if with_db and not db.exists():
-        sys.exit(f"No database at {db}")
+    if args.worlds or args.all:
+        files += world_files(config)
+    return jar, files
 
-    # Only what changed since the last upload to this host
-    target = f"{host.get('host')}{host.get('root', '/')}"
-    history = json.loads(UPLOADED.read_text()) if UPLOADED.exists() else {}
-    sent = history.setdefault(target, {})
 
-    def stamp(file):
-        stat = file.stat()
-        return [stat.st_size, stat.st_mtime_ns]
+def changed(files, sent, live, force):
+    """The files the host needs: changed since the last deploy, a different size there,
+    or small with no record. Each with its hash, the record swap keeps once it is live."""
+    out = []
+    for file, path in files:
+        size, digest = file.stat().st_size, file_hash(file)
+        record = sent.get(path)
+        record = record if isinstance(record, str) else None
+        if force or live.get(path) != size or (record and record != digest) or (not record and size <= SMALL):
+            out.append((file, path, digest))
+        else:
+            sent[path] = digest
+    return out
 
-    # A world is replaced whole, its folder on the host is deleted first, so all of it goes
-    queue = [(file, path) for file, path in files if args.force or sent.get(path) != stamp(file)] + worlds
-    skipped = len(files) + len(worlds) - len(queue)
+
+def stage(args, config=None, remote=None):
+    """Sends what changed to the host's staging folder. Safe while its server runs: the
+    live files are not touched. A second run resumes, files already staged are skipped."""
+    config = config or load_config()
+    jar, files = wanted_files(config, args)
+    with_db = args.db or args.all
+    with_worlds = args.worlds or args.all
+    if with_db and not (LOCAL_SERVER / DB_PATH).exists():
+        sys.exit(f"No database at {LOCAL_SERVER / DB_PATH}")
+    target, history, sent = history_for(config)
+
+    if args.dry_run:
+        print(f"\nTo {target}: {len(files)} files" + (", and mines.db at swap" if with_db else ""))
+        print("  The host is not asked what it has, so this lists what changed here since the last deploy")
+        for file, path in files:
+            record = sent.get(path)
+            if args.force or not isinstance(record, str) or record != file_hash(file):
+                print(f"    {path}  {megabytes(file.stat().st_size)}")
+        return None
+
+    own = remote is None
+    remote = remote or connect(config)
+    try:
+        live = {}
+        for top in {"plugins"} | ({config["worlds"]["folder"]} if with_worlds else set()):
+            live.update(remote_sizes(remote, top))
+        queue = changed(files, sent, live, args.force)
+        staged = remote_sizes(remote, STAGING)
+        total = sum(file.stat().st_size for file, _, _ in queue)
+        print(f"\nTo {target}: {len(queue)} of {len(files)} files changed ({megabytes(total)})"
+              + (", and mines.db at swap" if with_db else ""))
+        done = 0
+        for number, (file, path, _) in enumerate(queue, 1):
+            size = file.stat().st_size
+            done += size
+            already = staged.get(f"{STAGING}/{path}") == size and size > SMALL
+            if not already:
+                remote.upload(file, f"{STAGING}/{path}")
+            print(f"  [{number}/{len(queue)}] {'staged' if not already else 'ready '} {path}  "
+                  f"{megabytes(size)}  {done / total:.0%}" if total else f"  [{number}/{len(queue)}] {path}", flush=True)
+
+        plan = {"jar": jar.name, "db": with_db, "worlds": with_worlds,
+                "files": {path: digest for _, path, digest in queue}}
+        with tempfile.TemporaryDirectory() as tmp:
+            local_plan = Path(tmp) / "plan.json"
+            local_plan.write_text(json.dumps(plan))
+            remote.upload(local_plan, PLAN)
+        save_history(history)
+        print(f"Staged. Stop the host's server, run `python scripts/deploy.py swap`, then start it.")
+        return plan
+    finally:
+        if own:
+            remote.close()
+
+
+def swap(args, config=None, remote=None):
+    """Moves the staged files into place, tidies the worlds and merges the database. The
+    host's server has to be stopped; this takes seconds."""
+    config = config or load_config()
+    target, history, sent = history_for(config)
     keep = kept_worlds(config)
     folder = config["worlds"]["folder"]
 
-    print(f"\nTo {target or 'the host'}:")
-    print(f"  {jar.name}, {len(files) - 1} data files" + (f", {len(worlds)} world files" if with_worlds else "")
-          + (", mines.db" if with_db else ""))
-    print(f"  {len(queue)} to send ({megabytes(sum(file.stat().st_size for file, _ in queue))}), {skipped} unchanged")
+    if not args.yes:
+        print("The host's server has to be stopped now, or it writes its own copy back over these.")
+        if input("Is it stopped? Type yes to go on: ").strip().lower() != "yes":
+            sys.exit("Nothing was changed")
 
-    if args.dry_run:
-        for file, path in queue:
-            print(f"    {path}  {megabytes(file.stat().st_size)}")
-        if with_db:
-            print(f"    {DB_PATH.as_posix()}  {megabytes(db.stat().st_size)}")
-        return
-
-    if not host.get("host") or not host.get("user"):
-        sys.exit(f"Fill in host and user in {CONFIG.relative_to(ROOT)}")
-
-    if (with_db or with_worlds) and not args.yes:
-        print("\nThis replaces " + " and ".join(
-            (["the game data in the host's mines.db (player data is kept)"] if with_db else [])
-            + (["its game worlds, and deletes every other world on it"] if with_worlds else [])) + ".")
-        print(f"Kept as they are on the host: {', '.join(keep) or 'nothing'}"
-              + (", and vanilla's overworld, nether and end" if with_worlds else "") + ".")
-        print("The host's server has to be stopped, or it writes its own copy back over the upload.")
-        if input("Type yes to go on: ").strip().lower() != "yes":
-            sys.exit("Nothing was uploaded")
-
-    password = host.get("password") or os.environ.get(PASSWORD_ENV) or getpass.getpass(f"FTP password for {host['user']}: ")
-    remote = Host(config, password)
+    own = remote is None
+    remote = remote or connect(config)
     try:
-        if with_worlds:
-            names = set(listed(config["worlds"]["names"]))
-            for name in remote.names(folder):
-                if name in VANILLA_WORLDS or name in keep:
-                    continue
-                remote.delete_tree(f"{folder}/{name}")
-                print(f"  {'replacing' if name in names else 'deleted'} world {name}")
+        with tempfile.TemporaryDirectory() as tmp:
+            local_plan = Path(tmp) / "plan.json"
+            if not remote.download(PLAN, local_plan):
+                sys.exit("Nothing is staged on the host, run `python scripts/deploy.py stage` first")
+            plan = json.loads(local_plan.read_text())
 
-        for number, (file, path) in enumerate(queue, 1):
-            print(f"  [{number}/{len(queue)}] {path}  {megabytes(file.stat().st_size)}")
-            remote.upload(file, path)
-            sent[path] = stamp(file)
+        # Staged files over the live ones, a rename each
+        for path, digest in plan["files"].items():
+            remote.make_folders(path)
+            try:
+                remote.sftp.remove(remote.path(path))
+            except IOError:
+                pass
+            remote.sftp.rename(remote.path(f"{STAGING}/{path}"), remote.path(path))
+            sent[path] = digest
+        print(f"  {len(plan['files'])} files moved in")
 
         # A second Aurora jar would be loaded instead of the new one, or beside it
         for name in remote.names("plugins"):
-            if fnmatch.fnmatch(name, JAR_PATTERN) and name != jar.name:
+            if fnmatch.fnmatch(name, JAR_PATTERN) and name != plan["jar"]:
                 remote.delete(f"plugins/{name}")
                 print(f"  removed old {name}")
 
-        if with_db:
-            backups = LOCAL_SERVER / BACKUP_DIR
-            backups.mkdir(exist_ok=True)
-            kept = backups / f"host-mines-{time.strftime('%Y%m%d-%H%M%S')}.db"
-            if remote.download(DB_PATH.as_posix(), kept):
-                print(f"  the host's mines.db is kept in {kept.relative_to(ROOT)}")
-            with tempfile.TemporaryDirectory() as tmp:
-                local_copy = copy_database(db, tmp)
-                if kept.exists():
-                    merged = Path(tmp) / "merged.db"
-                    merge_database(kept, local_copy, merged, keep)
-                    remote.upload(merged, DB_PATH.as_posix())
-                    print(f"  {DB_PATH.as_posix()}: LocalServer's game data, the host's players and "
-                          f"{', '.join(keep) or 'no kept worlds'}")
-                else:
-                    remote.upload(local_copy, DB_PATH.as_posix())
-                    print(f"  {DB_PATH.as_posix()}: the host had none, LocalServer's as it is")
+        if plan["worlds"]:
+            names = set(listed(config["worlds"]["names"]))
+            wanted = {path for _, path in world_files(config)}
+            for name in remote.names(folder):
+                if name in VANILLA_WORLDS or name in keep:
+                    continue
+                if name not in names:
+                    remote.delete_tree(f"{folder}/{name}")
+                    print(f"  deleted world {name}")
+                    continue
+                # What the host has in a game world and LocalServer does not, like chunks it made
+                for path in remote_sizes(remote, f"{folder}/{name}"):
+                    if path not in wanted and not path.endswith("session.lock"):
+                        remote.delete(path)
+                        sent.pop(path, None)
+                        print(f"  removed {path}")
+
+        if plan["db"]:
+            merge_upload(remote, keep)
+        remote.delete_tree(STAGING)
+    finally:
+        save_history(history)
+        if own:
+            remote.close()
+    print("Swapped. Start the host's server to load it.")
+
+
+def merge_upload(remote, keep):
+    backups = LOCAL_SERVER / BACKUP_DIR
+    backups.mkdir(exist_ok=True)
+    kept = backups / f"host-mines-{time.strftime('%Y%m%d-%H%M%S')}.db"
+    if remote.download(DB_PATH.as_posix(), kept):
+        print(f"  the host's mines.db is kept in {kept.relative_to(ROOT)}")
+    with tempfile.TemporaryDirectory() as tmp:
+        local_copy = copy_database(LOCAL_SERVER / DB_PATH, tmp)
+        if kept.exists():
+            merged = Path(tmp) / "merged.db"
+            merge_database(kept, local_copy, merged, keep)
+            remote.upload(merged, DB_PATH.as_posix())
+            print(f"  {DB_PATH.as_posix()}: LocalServer's game data, the host's players and "
+                  f"{', '.join(keep) or 'no kept worlds'}")
+        else:
+            remote.upload(local_copy, DB_PATH.as_posix())
+            print(f"  {DB_PATH.as_posix()}: the host had none, LocalServer's as it is")
+
+
+def upload(args):
+    """stage then swap in one go, for a host whose server is already stopped."""
+    config = load_config()
+    if args.dry_run:
+        stage(args, config)
+        return
+    if (args.db or args.worlds or args.all) and not args.yes:
+        print("The host's server has to be stopped for the whole upload. To keep it running while"
+              " files go up, use stage now and swap later.")
+        if input("Is it stopped? Type yes to go on: ").strip().lower() != "yes":
+            sys.exit("Nothing was uploaded")
+    remote = connect(config)
+    try:
+        stage(args, config, remote)
+        args.yes = True
+        swap(args, config, remote)
     finally:
         remote.close()
-        UPLOADED.parent.mkdir(exist_ok=True)
-        UPLOADED.write_text(json.dumps(history))
-    print("Uploaded. Start or restart the host's server to load it.")
 
 
 def main():
@@ -548,6 +701,14 @@ def main():
     u.add_argument("--force", action="store_true", help="send files that have not changed too")
     u.add_argument("--dry-run", action="store_true", help="list what would be sent, connect to nothing")
     u.add_argument("--yes", action="store_true", help="do not ask before overwriting the database or worlds")
+    s = sub.add_parser("stage")
+    for flag, text in (("--db", "merge LocalServer's mines.db in at swap"), ("--worlds", "also stage the game worlds"),
+                       ("--all", "--db and --worlds"), ("--no-build", "stage the jar already in target/"),
+                       ("--force", "stage files that have not changed too"),
+                       ("--dry-run", "list what changed here, connect to nothing")):
+        s.add_argument(flag, action="store_true", help=text)
+    w = sub.add_parser("swap")
+    w.add_argument("--yes", action="store_true", help="do not ask whether the host's server is stopped")
     b = sub.add_parser("backup")
     b.add_argument("server")
     b.add_argument("--keep", type=int, default=14)
@@ -557,6 +718,10 @@ def main():
         bundle()
     elif args.command == "upload":
         upload(args)
+    elif args.command == "stage":
+        stage(args)
+    elif args.command == "swap":
+        swap(args)
     else:
         backup(args.server, args.keep)
 

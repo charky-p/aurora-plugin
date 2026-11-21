@@ -177,7 +177,7 @@ Player health is real, mob health is pseudo, run `/data get entity @s Health`
 
 Reload CSV Data: run `generate.py --live`
 
-Server Transfer: `python scripts/deploy.py upload` sends the jar and YAML to the host, `--all` adds the database and worlds, see the README.
+Server Transfer: `python scripts/deploy.py stage --all` sends what changed to a staging folder on the host while it runs, `swap` moves it in with the server stopped, see the README.
 
 Drop Calculation (Fortune): with `L = fortune - density`, a block drops nothing if `L < 0`, otherwise
 

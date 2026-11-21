@@ -87,3 +87,36 @@ items:
     independent:
       - id: wisp_dust
         max: 2
+      - id: hydra_key
+        chance: 4
+
+  marsh_hydra:
+    display: "<dark_green><b>Marsh Hydra"
+    entity: ZOGLIN
+    health: 12000.0
+    defence: 126.0
+    attack: 45.0
+    density: 16
+    attributes:
+      - attr: SCALE
+        value: 1.6
+      - attr: MOVEMENT_SPEED
+        value: 0.2
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 48.0
+    glowing: true
+
+  hydra_head:
+    display: "<#7BC96F><b>Hydra Head"
+    entity: BOGGED
+    health: 1000.0
+    defence: 126.0
+    attack: 37.0
+    density: 16
+    attributes:
+      - attr: SCALE
+        value: 0.7
+      - attr: FOLLOW_RANGE
+        value: 48.0

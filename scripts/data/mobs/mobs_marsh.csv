@@ -3,4 +3,6 @@ bog_frog,<#7BA05B><b>Bog Frog,FROG,255,0,0,,,7,,,,frog_leg:100:1-2,,,
 swamp_slime,<#8FD16F><b>Swamp Slime,SLIME,330,18,0,,,8,,,,swamp_gel:100:1-2,,,
 bog_walker,<#4E6B3A><b>Bog Walker,ZOMBIE,410,37,33,,,10,,,,bog_rag:100:1-2,,,
 bogged_archer,<dark_green><b>Bogged Archer,BOGGED,640,58,37,,,13,,,,poison_quill:100:1-2,,,
-glow_wisp,<aqua><b>Glow Wisp,ALLAY,1400,126,0,,,16,,,SCALE:2|FLYING_SPEED:0.05|MOVEMENT_SPEED:0.05,wisp_dust:100:1-2,,,
+glow_wisp,<aqua><b>Glow Wisp,ALLAY,1400,126,0,,,16,,,SCALE:2|FLYING_SPEED:0.05|MOVEMENT_SPEED:0.05,wisp_dust:100:1-2|hydra_key:4,,,
+marsh_hydra,<dark_green><b>Marsh Hydra,ZOGLIN,12000,126,45,,,16,,,SCALE:1.6|MOVEMENT_SPEED:0.2|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,,,,true
+hydra_head,<#7BC96F><b>Hydra Head,BOGGED,1000,126,37,,,16,,,SCALE:0.7|FOLLOW_RANGE:48,,,,

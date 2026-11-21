@@ -49,7 +49,22 @@ public class BossManager implements Listener {
 
     private BossAbilities abilitiesFor(String mobId) {
         if (GormakEternal.BOSS_ID.equalsIgnoreCase(mobId)) return new GormakEternal(plugin);
+        if (MarshHydra.BOSS_ID.equalsIgnoreCase(mobId)) return new MarshHydra(plugin);
         return BossAbilities.NONE;
+    }
+
+    // Before CombatListener, so a refused hit never reaches the boss's health
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onBossHit(EntityDamageByEntityEvent event) {
+        BossFight fight = fights.get(event.getEntity().getUniqueId());
+        if (fight == null) return;
+
+        Player attacker = switch (event.getDamager()) {
+            case Player player -> player;
+            case Projectile projectile when projectile.getShooter() instanceof Player shooter -> shooter;
+            default -> null;
+        };
+        if (attacker != null && fight.shields(attacker)) event.setCancelled(true);
     }
 
     // After CombatListener, so a hit a shield stopped is already cancelled

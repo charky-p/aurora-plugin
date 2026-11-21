@@ -48,6 +48,10 @@ public class BossFight {
         return abilities.lastStand(this);
     }
 
+    boolean shields(Player attacker) {
+        return abilities.shields(this, attacker);
+    }
+
     void end() {
         for (UUID uuid : viewers) {
             Player player = Bukkit.getPlayer(uuid);

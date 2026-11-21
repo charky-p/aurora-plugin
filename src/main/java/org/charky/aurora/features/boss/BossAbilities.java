@@ -1,5 +1,7 @@
 package org.charky.aurora.features.boss;
 
+import org.bukkit.entity.Player;
+
 // What a boss does during its fight besides swinging. A boss without any of its
 // own still gets the boss bar
 public interface BossAbilities {
@@ -12,6 +14,11 @@ public interface BossAbilities {
 
     // A hit is about to kill the boss. True if it saved itself and set its own health
     default boolean lastStand(BossFight fight) {
+        return false;
+    }
+
+    // A player is about to hit the boss. True if the hit is refused outright
+    default boolean shields(BossFight fight, Player attacker) {
         return false;
     }
 

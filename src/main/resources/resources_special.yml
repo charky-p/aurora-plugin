@@ -101,3 +101,13 @@ items:
       - "<gray>Summons the Sky King"
       - "<dark_gray>Right click before the Throne"
     summons: sky_king
+
+  hydra_key:
+    display: "<dark_green><b>Hydra Key"
+    material: TRIAL_KEY
+    world: "overworld"
+    region: "marsh_glowmire"
+    lore:
+      - "<gray>Wakes the Marsh Hydra"
+      - "<dark_gray>Right click by its lair"
+    summons: marsh_hydra

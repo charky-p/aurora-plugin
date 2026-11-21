@@ -43,8 +43,8 @@ melon,axe,melon:100
 calcite,pick,calcite:80|dripstone:20
 snow,shovel,snow_block:100
 packed_ice,pick,packed_ice:80|blue_ice:20
-redstone,pick,redstone_ore:80|deepslate_redstone_ore:20
-lapis,pick,lapis_ore:80|deepslate_lapis_ore:20
+redstone,pick,redstone_ore:80|redstone_block:20
+lapis,pick,lapis_ore:80|lapis_block:20
 emerald,pick,emerald_ore:80|deepslate_emerald_ore:20
 basalt,pick,ashen_basalt:60|polished_ashen_basalt:40
 ash,shovel,river_ash:100

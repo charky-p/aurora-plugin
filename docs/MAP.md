@@ -130,8 +130,8 @@ At the end, the portal to Elderwood Roots locked to `elderwood`, with `elderwood
 | Foothills | `dirt`: `mountain_dirt 80 coarse_mountain_dirt 20`, `pumpkin`: `pumpkin 80 jack_o_lantern 20` | `mountain_pig` | `foothills_trader` |
 | Stony Crags | `melon`: `melon 100`, `calcite`: `calcite 80 dripstone 20` | `mountain_goat` | `crags_trader` |
 | Frozen Slopes | `snow`: `snow_block 100`, `packed_ice`: `packed_ice 80 blue_ice 20` | `peak_stray` | `slopes_trader` |
-| Lapis Grotto | `redstone`: `redstone_ore 80 deepslate_redstone_ore 20`, `lapis`: `lapis_ore 80 deepslate_lapis_ore 20` | `frost_spider` | `grotto_trader` |
-| Emerald Depths | `emerald`: `emerald_ore 80 deepslate_emerald_ore 20` | `cave_spider` | `depths_trader` |
+| Redstone Grotto | `redstone`: `redstone_ore 80 redstone_block 20` | `frost_spider` | `grotto_trader` |
+| Emerald Depths | `emerald`: `emerald_ore 80 deepslate_emerald_ore 20`, `lapis`: `lapis_ore 80 lapis_block 20` | `cave_spider` | `depths_trader` |
 | Arachne Cave | - | `spider_rider`, `arachne` (boss spawner, she wakes with `arachne_rider` on her back) | `arachne_trader` |
 
 At the end, the portal to Cloud Isles locked to `sky`, with `sky_gate_trader` beside it.

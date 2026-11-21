@@ -31,7 +31,7 @@ glowmire_trader,<#F5D76E><b>Glowmire Trader,VILLAGER,upgrades:glowmire,cleric,sw
 foothills_trader,<#8B6B4A><b>Foothills Trader,VILLAGER,upgrades:foothills,farmer,snow
 crags_trader,<white><b>Crags Trader,VILLAGER,upgrades:stony_crags,mason,snow
 slopes_trader,<aqua><b>Slopes Trader,VILLAGER,upgrades:frozen_slopes,toolsmith,snow
-grotto_trader,<blue><b>Grotto Trader,VILLAGER,upgrades:lapis_grotto,toolsmith,snow
+grotto_trader,<red><b>Grotto Trader,VILLAGER,upgrades:redstone_grotto,toolsmith,snow
 depths_trader,<green><b>Depths Trader,VILLAGER,upgrades:emerald_depths,armorer,snow
 arachne_trader,<dark_red><b>Cave Trader,VILLAGER,upgrades:arachne_cave,weaponsmith,snow
 ashen_trader,<gray><b>Ashen Trader,VILLAGER,upgrades:ashen,armorer,desert

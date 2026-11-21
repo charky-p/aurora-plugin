@@ -109,7 +109,7 @@ public final class Cosmetics {
         zone("foothills", "<#2ECC71>", "foothills");
         zone("crags", "<#2ECC71>", "stony_crags");
         zone("slopes", "<#2ECC71>", "frozen_slopes");
-        zone("grotto", "<#2ECC71>", "lapis_grotto");
+        zone("grotto", "<#2ECC71>", "redstone_grotto");
         zone("depths", "<#2ECC71>", "emerald_depths");
         zone("arachne", "<#2ECC71>", "arachne_cave");
         zone("ashen", "<#C9A227>", "ashen");

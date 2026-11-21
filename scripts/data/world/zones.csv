@@ -28,8 +28,8 @@ glowmire,Glowmire,marsh,overworld,marsh,,26,,12,ochre_froglight|verdant_frogligh
 foothills,Foothills,peaks,overworld,peaks,,27,,8,dirt|pumpkin,mountain_pig,1,0.5,
 stony_crags,Stony Crags,peaks,overworld,peaks,,28,,10,melon|calcite,mountain_goat,1,0.5,foothills
 frozen_slopes,Frozen Slopes,peaks,overworld,peaks,,29,,10,snow|packed_ice,peak_stray,1,0.5,stony_crags
-lapis_grotto,Lapis Grotto,peaks,overworld,peaks,,30,,10,redstone|lapis,frost_spider,1,0.5,frozen_slopes
-emerald_depths,Emerald Depths,peaks,overworld,peaks,,31,,10,emerald,cave_spider,1,0.5,lapis_grotto
+redstone_grotto,Redstone Grotto,peaks,overworld,peaks,,30,,10,redstone,frost_spider,1,0.5,frozen_slopes
+emerald_depths,Emerald Depths,peaks,overworld,peaks,,31,,10,emerald|lapis,cave_spider,1,0.5,redstone_grotto
 arachne_cave,Arachne Cave,peaks,overworld,peaks,,32,,12,,spider_rider,1,0.5,emerald_depths
 ashen,Ashen River,duat,overworld,duat,,33,,13,basalt|ash,anubis|sobek|osiris,1,1,
 judgement,Hall of Judgement,duat,overworld,duat,,34,,15,scale_gold,thoth|maat|horus,1,1,ashen

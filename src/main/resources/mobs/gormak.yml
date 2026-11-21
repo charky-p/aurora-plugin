@@ -37,7 +37,7 @@ items:
     defence: 2.0
     attack: 11.0
     damage: 1.5
-    density: 3
+    density: 5
     equip:
       head: serf_helmet_1
       chest: serf_chestplate_1
@@ -61,7 +61,7 @@ items:
     defence: 3.0
     attack: 11.0
     damage: 1.5
-    density: 3
+    density: 5
     equip:
       head: scavenger_helmet_1
       chest: scavenger_chestplate_1
@@ -89,7 +89,7 @@ items:
     defence: 4.0
     attack: 15.0
     damage: 1.5
-    density: 4
+    density: 8
     equip:
       head: scout_helmet_1
       chest: scout_chestplate_1
@@ -115,7 +115,7 @@ items:
     defence: 5.0
     attack: 11.0
     damage: 1.5
-    density: 4
+    density: 8
     equip:
       head: stalker_helmet_1
       chest: stalker_chestplate_1
@@ -142,7 +142,7 @@ items:
     defence: 10.0
     attack: 23.0
     damage: 1.5
-    density: 5
+    density: 11
     equip:
       head: guard_helmet_1
       chest: guard_chestplate_1
@@ -170,7 +170,7 @@ items:
     defence: 12.0
     attack: 23.0
     damage: 1.5
-    density: 5
+    density: 11
     equip:
       head: vizier_helmet_1
       chest: vizier_chestplate_1
@@ -197,6 +197,7 @@ items:
     attack: 29.0
     attack_cooldown: 3.0
     damage: 1.5
+    density: 14
     equip:
       head: eternal_helmet_1
       chest: eternal_chestplate_1
@@ -245,7 +246,7 @@ items:
     defence: 4.0
     attack: 21.0
     damage: 1.5
-    density: 6
+    density: 14
     equip:
       head: serf_helmet_1
       hand: serf_cleaver
@@ -267,7 +268,7 @@ items:
     defence: 16.0
     attack: 25.0
     damage: 1.5
-    density: 6
+    density: 14
     equip:
       head: guard_helmet_1
       chest: eternal_chestplate_1

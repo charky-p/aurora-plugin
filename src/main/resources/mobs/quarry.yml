@@ -37,7 +37,7 @@ items:
     defence: 569.0
     attack: 76.0
     damage: 1.3
-    density: 37
+    density: 86
     independent:
       - id: pillager_ration
         max: 2
@@ -49,7 +49,7 @@ items:
     defence: 569.0
     attack: 77.0
     damage: 1.3
-    density: 38
+    density: 90
     independent:
       - id: iron_tag
         max: 2
@@ -61,7 +61,7 @@ items:
     defence: 891.0
     attack: 85.0
     damage: 1.3
-    density: 42
+    density: 100
     independent:
       - id: ravager_horn
         max: 2
@@ -73,7 +73,7 @@ items:
     defence: 920.0
     attack: 86.0
     damage: 1.3
-    density: 43
+    density: 103
     independent:
       - id: captain_banner
         max: 2
@@ -85,7 +85,7 @@ items:
     defence: 920.0
     attack: 86.0
     damage: 1.3
-    density: 43
+    density: 103
     independent:
       - id: warden_plate
         max: 2
@@ -97,7 +97,7 @@ items:
     defence: 1258.0
     attack: 96.0
     damage: 1.3
-    density: 46
+    density: 106
     attributes:
       - attr: SCALE
         value: 2.5

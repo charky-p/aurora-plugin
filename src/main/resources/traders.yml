@@ -235,9 +235,9 @@ items:
     biome: snow
 
   grotto_trader:
-    display: "<blue><b>Grotto Trader"
+    display: "<red><b>Grotto Trader"
     entity: VILLAGER
-    gui: upgrades:lapis_grotto
+    gui: upgrades:redstone_grotto
     profession: toolsmith
     biome: snow
 

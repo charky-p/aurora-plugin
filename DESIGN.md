@@ -55,7 +55,7 @@ Overworld:
 1. Origin Isles ([Stone], [Coal], [Copper, Chicken], [Iron, Sheep], [Gold, Cow]) -> Duneworld Portal
 2. Verdant Groves ([Oak Log, Tin, Horse], [Birch Log, Bronze, Fox], [Spruce Log, Lead, Wolf], [Dark Oak Log, Silver, Sniffer]) -> Elderwood Roots Portal
 3. Sunken Marsh ([Packed Mud, Mud, Bog Frog], [Bog Slime, Mangrove Log, Swamp Slime], [Bog Stone, Fen Soil, Moss, Bog Walker], [Verdigris, Mangrove Leaves, Bogged Archer], [Ochre, Verdant and Pearlescent Froglight, Glow Wisp])
-4. Emerald Peaks ([Dirt, Pumpkin, Pig], [Melon, Calcite, Goat], [Snow, Packed Ice, Stray], [Redstone, Lapis, Spider], [Emerald, Cave Spider], [Arachne]) -> Sky Spire
+4. Emerald Peaks ([Dirt, Pumpkin, Pig], [Melon, Calcite, Goat], [Snow, Packed Ice, Stray], [Redstone, Spider], [Emerald, Lapis, Cave Spider], [Arachne]) -> Sky Spire
 5. Ironbound Quarry - (tungston, platinum, gravel, pale log, titanium, clay, maple, diamond, pillager, overworld boss) -> Caverns
 
 Duneworld:
@@ -106,8 +106,8 @@ Emerald Peaks
 - snow, packed ice
 - stray
 4. Cave Area
-- Lapis Grotto: redstone, lapis, spider
-- Emerald Depths: emerald, cave spider
+- Redstone Grotto: redstone, spider
+- Emerald Depths: emerald, lapis, cave spider
 - Arachne Cave: spider rider, Arachne (boss, a spider with a skeleton riding her)
 
 Gormak - Fallen King

@@ -34,7 +34,7 @@ items:
     display: "<#F2A3A3><b>Mountain Pig"
     entity: PIG
     health: 1140.0
-    density: 47
+    density: 18
     independent:
       - id: pork
         max: 2
@@ -43,7 +43,7 @@ items:
     display: "<white><b>Mountain Goat"
     entity: GOAT
     health: 1140.0
-    density: 51
+    density: 19
     independent:
       - id: goat_hide
         max: 2
@@ -54,7 +54,7 @@ items:
     health: 1480.0
     defence: 133.0
     attack: 49.0
-    density: 55
+    density: 20
     independent:
       - id: frost_arrow
         max: 2
@@ -65,7 +65,7 @@ items:
     health: 1480.0
     defence: 133.0
     attack: 47.0
-    density: 59
+    density: 21
     independent:
       - id: spider_silk
         max: 2
@@ -76,7 +76,7 @@ items:
     health: 1480.0
     defence: 133.0
     attack: 51.0
-    density: 63
+    density: 22
     independent:
       - id: venom_sac
         max: 2
@@ -89,7 +89,7 @@ items:
     health: 1480.0
     defence: 133.0
     attack: 51.0
-    density: 67
+    density: 23
     independent:
       - id: rider_bone
         max: 2
@@ -102,7 +102,7 @@ items:
     health: 20900.0
     defence: 190.0
     attack: 57.0
-    density: 67
+    density: 23
     attributes:
       - attr: SCALE
         value: 2.0
@@ -121,7 +121,7 @@ items:
     health: 4000.0
     defence: 190.0
     attack: 57.0
-    density: 67
+    density: 23
     attributes:
       - attr: FOLLOW_RANGE
         value: 48.0

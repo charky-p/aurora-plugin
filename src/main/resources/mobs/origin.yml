@@ -54,7 +54,7 @@ items:
     display: "<#8B5A2B><b>Isle Cow"
     entity: COW
     health: 40.0
-    density: 3
+    density: 2
     independent:
       - id: leather
         max: 3

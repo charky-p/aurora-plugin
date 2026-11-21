@@ -49,12 +49,14 @@ items:
 
   copper_ore:
     material: COPPER_ORE
+    density: 1
     xp: 3
     independent:
       - id: copper
 
   copper_block:
     material: COPPER_BLOCK
+    density: 1
     xp: 3
     independent:
       - id: copper
@@ -63,14 +65,14 @@ items:
 
   iron_ore:
     material: IRON_ORE
-    density: 1
+    density: 2
     xp: 4
     independent:
       - id: iron
 
   iron_block:
     material: IRON_BLOCK
-    density: 1
+    density: 2
     xp: 4
     independent:
       - id: iron
@@ -79,14 +81,14 @@ items:
 
   gold_ore:
     material: GOLD_ORE
-    density: 2
+    density: 3
     xp: 5
     independent:
       - id: gold
 
   gold_block:
     material: GOLD_BLOCK
-    density: 2
+    density: 3
     xp: 5
     independent:
       - id: gold
@@ -95,14 +97,14 @@ items:
 
   carved_brick:
     material: STONE_BRICKS
-    density: 3
+    density: 4
     xp: 6
     independent:
       - id: carved_brick
 
   cracked_brick:
     material: CRACKED_STONE_BRICKS
-    density: 3
+    density: 4
     xp: 6
     independent:
       - id: carved_brick
@@ -111,14 +113,14 @@ items:
 
   sunbaked_sand:
     material: SANDSTONE
-    density: 6
+    density: 4
     xp: 7
     independent:
       - id: sunbaked_sand
 
   cut_sunbaked_sand:
     material: CUT_SANDSTONE
-    density: 6
+    density: 4
     xp: 7
     independent:
       - id: sunbaked_sand
@@ -127,14 +129,14 @@ items:
 
   crimson_sand:
     material: RED_SANDSTONE
-    density: 16
+    density: 5
     xp: 8
     independent:
       - id: crimson_sand
 
   cut_crimson_sand:
     material: CUT_RED_SANDSTONE
-    density: 16
+    density: 5
     xp: 8
     independent:
       - id: crimson_sand
@@ -143,14 +145,14 @@ items:
 
   raw_gold_block:
     material: RAW_GOLD_BLOCK
-    density: 10
+    density: 6
     xp: 9
     independent:
       - id: raw_gold
 
   gilded_stone:
     material: GOLD_BLOCK
-    density: 10
+    density: 6
     xp: 9
     independent:
       - id: raw_gold
@@ -181,14 +183,14 @@ items:
 
   tin_ore:
     material: LIGHT_GRAY_CONCRETE
-    density: 3
+    density: 4
     xp: 6
     independent:
       - id: tin
 
   tin_rich:
     material: LIGHT_GRAY_GLAZED_TERRACOTTA
-    density: 3
+    density: 4
     xp: 6
     independent:
       - id: tin
@@ -197,12 +199,14 @@ items:
 
   birch_log:
     material: BIRCH_LOG
+    density: 1
     xp: 7
     independent:
       - id: birch_log
 
   birch_wood:
     material: BIRCH_WOOD
+    density: 1
     xp: 7
     independent:
       - id: birch_log
@@ -211,6 +215,7 @@ items:
 
   stripped_birch_log:
     material: STRIPPED_BIRCH_LOG
+    density: 1
     xp: 7
     independent:
       - id: birch_log
@@ -219,14 +224,14 @@ items:
 
   bronze_ore:
     material: BROWN_CONCRETE
-    density: 6
+    density: 5
     xp: 7
     independent:
       - id: bronze
 
   bronze_rich:
     material: BROWN_GLAZED_TERRACOTTA
-    density: 6
+    density: 5
     xp: 7
     independent:
       - id: bronze
@@ -235,12 +240,14 @@ items:
 
   spruce_log:
     material: SPRUCE_LOG
+    density: 2
     xp: 8
     independent:
       - id: spruce_log
 
   spruce_wood:
     material: SPRUCE_WOOD
+    density: 2
     xp: 8
     independent:
       - id: spruce_log
@@ -249,6 +256,7 @@ items:
 
   stripped_spruce_log:
     material: STRIPPED_SPRUCE_LOG
+    density: 2
     xp: 8
     independent:
       - id: spruce_log
@@ -257,14 +265,14 @@ items:
 
   lead_ore:
     material: GRAY_CONCRETE
-    density: 10
+    density: 6
     xp: 8
     independent:
       - id: lead
 
   lead_rich:
     material: GRAY_GLAZED_TERRACOTTA
-    density: 10
+    density: 6
     xp: 8
     independent:
       - id: lead
@@ -273,14 +281,14 @@ items:
 
   dark_oak_log:
     material: DARK_OAK_LOG
-    density: 1
+    density: 3
     xp: 9
     independent:
       - id: dark_oak_log
 
   darkoak_wood:
     material: DARK_OAK_WOOD
-    density: 1
+    density: 3
     xp: 9
     independent:
       - id: dark_oak_log
@@ -289,7 +297,7 @@ items:
 
   stripped_dark_oak_log:
     material: STRIPPED_DARK_OAK_LOG
-    density: 1
+    density: 3
     xp: 9
     independent:
       - id: dark_oak_log
@@ -298,14 +306,14 @@ items:
 
   silver_ore:
     material: IRON_BLOCK
-    density: 14
+    density: 7
     xp: 9
     independent:
       - id: silver
 
   silver_rich:
     material: WHITE_GLAZED_TERRACOTTA
-    density: 14
+    density: 7
     xp: 9
     independent:
       - id: silver
@@ -314,14 +322,14 @@ items:
 
   relic_stone:
     material: CHISELED_RED_SANDSTONE
-    density: 22
+    density: 14
     xp: 12
     independent:
       - id: relic_stone
 
   sunfired_tile:
     material: ORANGE_TERRACOTTA
-    density: 22
+    density: 14
     xp: 12
     independent:
       - id: relic_stone
@@ -330,14 +338,14 @@ items:
 
   ossuary_bone:
     material: BONE_BLOCK
-    density: 28
+    density: 18
     xp: 10
     independent:
       - id: ossuary_bone
 
   tomb_brick:
     material: SMOOTH_SANDSTONE
-    density: 28
+    density: 18
     xp: 10
     independent:
       - id: ossuary_bone
@@ -346,14 +354,14 @@ items:
 
   jungle_log:
     material: JUNGLE_LOG
-    density: 2
+    density: 4
     xp: 12
     independent:
       - id: jungle_log
 
   stripped_jungle_log:
     material: STRIPPED_JUNGLE_LOG
-    density: 2
+    density: 4
     xp: 12
     independent:
       - id: jungle_log
@@ -362,14 +370,14 @@ items:
 
   bamboo_block:
     material: BAMBOO_BLOCK
-    density: 5
+    density: 7
     xp: 10
     independent:
       - id: bamboo
 
   bamboo_mosaic:
     material: BAMBOO_MOSAIC
-    density: 5
+    density: 7
     xp: 10
     independent:
       - id: bamboo
@@ -378,7 +386,7 @@ items:
 
   elderbark:
     material: JUNGLE_WOOD
-    density: 11
+    density: 10
     xp: 11
     independent:
       - id: elderbark
@@ -386,7 +394,7 @@ items:
 
   amber:
     material: BEE_NEST
-    density: 11
+    density: 10
     xp: 11
     independent:
       - id: amber
@@ -394,14 +402,14 @@ items:
 
   packed_mud:
     material: PACKED_MUD
-    density: 16
+    density: 11
     xp: 10
     independent:
       - id: packed_mud
 
   mud_brick:
     material: MUD_BRICKS
-    density: 16
+    density: 11
     xp: 10
     independent:
       - id: packed_mud
@@ -424,6 +432,7 @@ items:
 
   slime_block:
     material: SLIME_BLOCK
+    density: 2
     xp: 11
     independent:
       - id: bog_slime
@@ -437,7 +446,7 @@ items:
 
   mangrove_wood:
     material: MANGROVE_WOOD
-    density: 2
+    density: 4
     xp: 11
     independent:
       - id: mangrove_log
@@ -446,21 +455,21 @@ items:
 
   mangrove_roots:
     material: MANGROVE_ROOTS
-    density: 2
+    density: 4
     xp: 11
     independent:
       - id: mangrove_log
 
   mossy_cobble:
     material: MOSSY_COBBLESTONE
-    density: 24
+    density: 17
     xp: 12
     independent:
       - id: bog_stone
 
   mossy_bricks:
     material: MOSSY_STONE_BRICKS
-    density: 24
+    density: 17
     xp: 12
     independent:
       - id: bog_stone
@@ -469,7 +478,7 @@ items:
 
   fen_soil:
     material: COARSE_DIRT
-    density: 3
+    density: 5
     xp: 12
     independent:
       - id: fen_soil
@@ -482,14 +491,14 @@ items:
 
   verdigris:
     material: OXIDIZED_COPPER
-    density: 31
+    density: 20
     xp: 12
     independent:
       - id: verdigris
 
   verdigris_cut:
     material: OXIDIZED_CUT_COPPER
-    density: 31
+    density: 20
     xp: 12
     independent:
       - id: verdigris
@@ -498,62 +507,61 @@ items:
 
   mangrove_leaves:
     material: MANGROVE_LEAVES
+    density: 1
     xp: 12
     independent:
       - id: mangrove_leaves
 
   mushroom_stem:
     material: MUSHROOM_STEM
-    density: 11
+    density: 6
     xp: 12
     independent:
       - id: mushroom_stem
 
   ochre_froglight:
     material: OCHRE_FROGLIGHT
-    density: 3
+    density: 2
     xp: 13
     independent:
       - id: ochre_froglight
 
   verdant_froglight:
     material: VERDANT_FROGLIGHT
-    density: 3
+    density: 2
     xp: 13
     independent:
       - id: verdant_froglight
 
   pearlescent_froglight:
     material: PEARLESCENT_FROGLIGHT
-    density: 3
+    density: 2
     xp: 13
     independent:
       - id: pearlescent_froglight
 
   red_mushroom:
     material: RED_MUSHROOM_BLOCK
-    density: 17
+    density: 7
     xp: 13
     independent:
       - id: red_mushroom
 
   brown_mushroom:
     material: BROWN_MUSHROOM_BLOCK
-    density: 17
+    density: 7
     xp: 13
     independent:
       - id: brown_mushroom
 
   mountain_dirt:
     material: DIRT
-    density: 6
     xp: 15
     independent:
       - id: dirt
 
   coarse_mountain_dirt:
     material: COARSE_DIRT
-    density: 6
     xp: 15
     independent:
       - id: dirt
@@ -562,7 +570,7 @@ items:
 
   pumpkin:
     material: PUMPKIN
-    density: 20
+    density: 14
     xp: 14
     independent:
       - id: pumpkin
@@ -570,7 +578,7 @@ items:
 
   jack_o_lantern:
     material: JACK_O_LANTERN
-    density: 20
+    density: 14
     xp: 14
     independent:
       - id: pumpkin
@@ -579,7 +587,7 @@ items:
 
   melon:
     material: MELON
-    density: 23
+    density: 15
     xp: 16
     independent:
       - id: melon
@@ -587,14 +595,14 @@ items:
 
   calcite:
     material: CALCITE
-    density: 44
+    density: 21
     xp: 15
     independent:
       - id: calcite
 
   dripstone:
     material: DRIPSTONE_BLOCK
-    density: 44
+    density: 21
     xp: 15
     independent:
       - id: calcite
@@ -603,7 +611,7 @@ items:
 
   snow_block:
     material: SNOW_BLOCK
-    density: 9
+    density: 1
     xp: 14
     independent:
       - id: snow
@@ -611,14 +619,14 @@ items:
 
   packed_ice:
     material: PACKED_ICE
-    density: 47
+    density: 22
     xp: 15
     independent:
       - id: packed_ice
 
   blue_ice:
     material: BLUE_ICE
-    density: 47
+    density: 22
     xp: 15
     independent:
       - id: packed_ice
@@ -627,14 +635,14 @@ items:
 
   redstone_ore:
     material: REDSTONE_ORE
-    density: 50
+    density: 23
     xp: 16
     independent:
       - id: redstone
 
   redstone_block:
     material: REDSTONE_BLOCK
-    density: 50
+    density: 23
     xp: 16
     independent:
       - id: redstone
@@ -643,14 +651,14 @@ items:
 
   lapis_ore:
     material: LAPIS_ORE
-    density: 53
+    density: 24
     xp: 15
     independent:
       - id: lapis
 
   lapis_block:
     material: LAPIS_BLOCK
-    density: 53
+    density: 24
     xp: 15
     independent:
       - id: lapis
@@ -659,14 +667,14 @@ items:
 
   emerald_ore:
     material: EMERALD_ORE
-    density: 53
+    density: 24
     xp: 16
     independent:
       - id: emerald
 
   deepslate_emerald_ore:
     material: DEEPSLATE_EMERALD_ORE
-    density: 53
+    density: 24
     xp: 16
     independent:
       - id: emerald
@@ -675,14 +683,14 @@ items:
 
   ashen_basalt:
     material: BASALT
-    density: 57
+    density: 32
     xp: 20
     independent:
       - id: basalt
 
   polished_ashen_basalt:
     material: POLISHED_BASALT
-    density: 57
+    density: 32
     xp: 20
     independent:
       - id: basalt
@@ -691,7 +699,7 @@ items:
 
   river_ash:
     material: SOUL_SOIL
-    density: 11
+    density: 5
     xp: 20
     independent:
       - id: ash
@@ -699,14 +707,14 @@ items:
 
   judgement_brick:
     material: POLISHED_BLACKSTONE_BRICKS
-    density: 64
+    density: 36
     xp: 21
     independent:
       - id: scale_gold
 
   scale_gold:
     material: WAXED_EXPOSED_COPPER
-    density: 64
+    density: 36
     xp: 21
     independent:
       - id: scale_gold
@@ -715,14 +723,14 @@ items:
 
   forge_magma:
     material: MAGMA_BLOCK
-    density: 71
+    density: 40
     xp: 19
     independent:
       - id: solar_slag
 
   forge_obsidian:
     material: CRYING_OBSIDIAN
-    density: 71
+    density: 40
     xp: 19
     independent:
       - id: solar_slag
@@ -731,7 +739,7 @@ items:
 
   nightstone:
     material: BLACK_CONCRETE
-    density: 80
+    density: 45
     xp: 20
     independent:
       - id: nightstone
@@ -739,14 +747,14 @@ items:
 
   heartwood_log:
     material: STRIPPED_JUNGLE_WOOD
-    density: 26
+    density: 18
     xp: 21
     independent:
       - id: heartwood_log
 
   root_knot:
     material: MANGROVE_ROOTS
-    density: 26
+    density: 18
     xp: 21
     independent:
       - id: heartwood_log
@@ -755,14 +763,14 @@ items:
 
   vine_stem:
     material: MUSHROOM_STEM
-    density: 28
+    density: 19
     xp: 19
     independent:
       - id: elder_vine
 
   vine_cap:
     material: BROWN_MUSHROOM_BLOCK
-    density: 28
+    density: 19
     xp: 19
     independent:
       - id: elder_vine
@@ -771,7 +779,7 @@ items:
 
   wax_comb:
     material: BEEHIVE
-    density: 31
+    density: 20
     xp: 20
     independent:
       - id: wax_comb
@@ -779,7 +787,7 @@ items:
 
   beeswax:
     material: RESIN_BRICKS
-    density: 65
+    density: 36
     xp: 20
     independent:
       - id: beeswax
@@ -787,7 +795,7 @@ items:
 
   cloudstone:
     material: WHITE_CONCRETE
-    density: 57
+    density: 32
     xp: 20
     independent:
       - id: cloudstone
@@ -795,7 +803,7 @@ items:
 
   cloud_dust:
     material: WHITE_CONCRETE_POWDER
-    density: 11
+    density: 5
     xp: 20
     independent:
       - id: cloud_dust
@@ -803,14 +811,14 @@ items:
 
   skyshard:
     material: LIGHT_BLUE_GLAZED_TERRACOTTA
-    density: 64
+    density: 36
     xp: 21
     independent:
       - id: skyshard
 
   sky_quartz:
     material: QUARTZ_BLOCK
-    density: 64
+    density: 36
     xp: 21
     independent:
       - id: skyshard
@@ -819,14 +827,14 @@ items:
 
   storm_copper:
     material: WEATHERED_CUT_COPPER
-    density: 71
+    density: 40
     xp: 19
     independent:
       - id: storm_copper
 
   storm_grate:
     material: WEATHERED_COPPER_GRATE
-    density: 71
+    density: 40
     xp: 19
     independent:
       - id: storm_copper
@@ -835,14 +843,14 @@ items:
 
   royal_quartz:
     material: QUARTZ_BRICKS
-    density: 86
+    density: 46
     xp: 26
     independent:
       - id: royal_quartz
 
   royal_pillar:
     material: QUARTZ_PILLAR
-    density: 86
+    density: 46
     xp: 26
     independent:
       - id: royal_quartz
@@ -851,7 +859,7 @@ items:
 
   cherry_log:
     material: CHERRY_LOG
-    density: 34
+    density: 21
     xp: 24
     independent:
       - id: cherry_log
@@ -859,7 +867,7 @@ items:
 
   sunpetal:
     material: YELLOW_CONCRETE
-    density: 92
+    density: 50
     xp: 24
     independent:
       - id: sunpetal
@@ -867,7 +875,7 @@ items:
 
   celestine:
     material: LIGHT_BLUE_CONCRETE
-    density: 101
+    density: 54
     xp: 25
     independent:
       - id: celestine
@@ -875,7 +883,7 @@ items:
 
   aurium:
     material: YELLOW_GLAZED_TERRACOTTA
-    density: 101
+    density: 54
     xp: 25
     independent:
       - id: aurium
@@ -883,7 +891,7 @@ items:
 
   gravel:
     material: GRAVEL
-    density: 15
+    density: 6
     xp: 24
     independent:
       - id: gravel
@@ -891,14 +899,14 @@ items:
 
   tungsten_ore:
     material: DEEPSLATE_IRON_ORE
-    density: 86
+    density: 46
     xp: 24
     independent:
       - id: tungsten
 
   tungsten_rich:
     material: RAW_IRON_BLOCK
-    density: 86
+    density: 46
     xp: 24
     independent:
       - id: tungsten
@@ -907,14 +915,14 @@ items:
 
   pale_log:
     material: PALE_OAK_LOG
-    density: 34
+    density: 21
     xp: 25
     independent:
       - id: pale_log
 
   stripped_pale_log:
     material: STRIPPED_PALE_OAK_LOG
-    density: 34
+    density: 21
     xp: 25
     independent:
       - id: pale_log
@@ -923,7 +931,7 @@ items:
 
   platinum:
     material: SMOOTH_QUARTZ
-    density: 89
+    density: 49
     xp: 25
     independent:
       - id: platinum
@@ -931,14 +939,14 @@ items:
 
   maple_log:
     material: MANGROVE_LOG
-    density: 37
+    density: 24
     xp: 26
     independent:
       - id: maple
 
   stripped_maple_log:
     material: STRIPPED_MANGROVE_LOG
-    density: 37
+    density: 24
     xp: 26
     independent:
       - id: maple
@@ -947,7 +955,7 @@ items:
 
   clay:
     material: CLAY
-    density: 17
+    density: 7
     xp: 26
     independent:
       - id: clay
@@ -955,7 +963,7 @@ items:
 
   titanium:
     material: LIGHT_BLUE_TERRACOTTA
-    density: 95
+    density: 52
     xp: 26
     independent:
       - id: titanium
@@ -963,14 +971,14 @@ items:
 
   diamond_ore:
     material: DIAMOND_ORE
-    density: 101
+    density: 54
     xp: 24
     independent:
       - id: diamond
 
   deepslate_diamond_ore:
     material: DEEPSLATE_DIAMOND_ORE
-    density: 101
+    density: 54
     xp: 24
     independent:
       - id: diamond

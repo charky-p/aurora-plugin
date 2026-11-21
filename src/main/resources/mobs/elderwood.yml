@@ -36,7 +36,7 @@ items:
     health: 295.0
     defence: 14.0
     attack: 25.0
-    density: 41
+    density: 16
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.26
@@ -56,7 +56,7 @@ items:
     defence: 18.0
     attack: 29.0
     attack_cooldown: 2.0
-    density: 41
+    density: 16
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.24
@@ -77,7 +77,7 @@ items:
     display: "<white><b>Jungle Panda"
     entity: PANDA
     health: 255.0
-    density: 17
+    density: 7
     independent:
       - id: panda_fur
         max: 2
@@ -86,7 +86,7 @@ items:
     display: "<yellow><b>Jungle Ocelot"
     entity: OCELOT
     health: 315.0
-    density: 26
+    density: 10
     independent:
       - id: ocelot_whisker
         max: 2
@@ -97,7 +97,7 @@ items:
     health: 640.0
     defence: 58.0
     attack: 37.0
-    density: 34
+    density: 13
     independent:
       - id: royal_jelly
         max: 2
@@ -109,7 +109,7 @@ items:
     defence: 152.0
     attack: 53.0
     damage: 1.3
-    density: 68
+    density: 24
     attributes:
       - attr: SCALE
         value: 0.7
@@ -126,7 +126,7 @@ items:
     defence: 184.0
     attack: 55.0
     damage: 1.3
-    density: 69
+    density: 25
     independent:
       - id: canopy_silk
         max: 2
@@ -138,7 +138,7 @@ items:
     defence: 184.0
     attack: 55.0
     damage: 1.3
-    density: 69
+    density: 25
     independent:
       - id: canopy_silk
         max: 2
@@ -150,7 +150,7 @@ items:
     defence: 255.0
     attack: 60.0
     damage: 1.3
-    density: 74
+    density: 28
     independent:
       - id: hive_stinger
         max: 2
@@ -162,7 +162,7 @@ items:
     defence: 357.0
     attack: 65.0
     damage: 1.3
-    density: 78
+    density: 31
     independent:
       - id: sentry_arrowhead
         max: 2
@@ -176,7 +176,7 @@ items:
     defence: 459.0
     attack: 67.0
     damage: 1.3
-    density: 78
+    density: 31
     attributes:
       - attr: SCALE
         value: 1.5
@@ -195,7 +195,7 @@ items:
     defence: 652.0
     attack: 76.0
     damage: 1.3
-    density: 78
+    density: 34
     attributes:
       - attr: SCALE
         value: 2.2

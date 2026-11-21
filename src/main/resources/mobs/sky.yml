@@ -34,7 +34,7 @@ items:
     display: "<white><b>Sky Sheep"
     entity: SHEEP
     health: 1305.0
-    density: 68
+    density: 24
     independent:
       - id: cloud_fleece
         max: 2
@@ -45,7 +45,7 @@ items:
     health: 2435.0
     defence: 219.0
     attack: 58.0
-    density: 73
+    density: 27
     independent:
       - id: phantom_veil
         max: 2
@@ -56,7 +56,7 @@ items:
     health: 3470.0
     defence: 312.0
     attack: 63.0
-    density: 77
+    density: 30
     independent:
       - id: storm_essence
         max: 2
@@ -67,7 +67,7 @@ items:
     health: 4505.0
     defence: 404.0
     attack: 68.0
-    density: 82
+    density: 33
     independent:
       - id: pirate_doubloon
         max: 2
@@ -78,7 +78,7 @@ items:
     health: 7620.0
     defence: 520.0
     attack: 70.0
-    density: 82
+    density: 33
     equip:
       hand: storm_mace
     independent:
@@ -94,7 +94,7 @@ items:
     defence: 569.0
     attack: 76.0
     damage: 1.4
-    density: 86
+    density: 37
     independent:
       - id: guard_insignia
         max: 2
@@ -106,7 +106,7 @@ items:
     defence: 630.0
     attack: 79.0
     damage: 1.4
-    density: 91
+    density: 39
     independent:
       - id: golden_pollen
         max: 2
@@ -118,7 +118,7 @@ items:
     defence: 630.0
     attack: 79.0
     damage: 1.4
-    density: 91
+    density: 39
     independent:
       - id: gardener_seed
         max: 2
@@ -130,7 +130,7 @@ items:
     defence: 891.0
     attack: 85.0
     damage: 1.4
-    density: 100
+    density: 42
     independent:
       - id: knight_crest
         max: 2
@@ -144,7 +144,7 @@ items:
     defence: 693.0
     attack: 83.0
     damage: 1.4
-    density: 100
+    density: 42
     independent:
       - id: crossbow_bolt
         max: 2
@@ -158,7 +158,7 @@ items:
     defence: 1008.0
     attack: 88.0
     damage: 1.4
-    density: 104
+    density: 44
     independent:
       - id: throne_seal
         max: 2
@@ -170,7 +170,7 @@ items:
     defence: 1120.0
     attack: 92.0
     damage: 1.4
-    density: 104
+    density: 44
     attributes:
       - attr: SCALE
         value: 1.8

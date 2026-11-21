@@ -34,7 +34,7 @@ items:
     display: "<#7BA05B><b>Bog Frog"
     entity: FROG
     health: 255.0
-    density: 17
+    density: 7
     independent:
       - id: frog_leg
         max: 2
@@ -44,7 +44,7 @@ items:
     entity: SLIME
     health: 330.0
     defence: 18.0
-    density: 21
+    density: 8
     independent:
       - id: swamp_gel
         max: 2
@@ -55,7 +55,7 @@ items:
     health: 410.0
     defence: 37.0
     attack: 33.0
-    density: 29
+    density: 10
     independent:
       - id: bog_rag
         max: 2
@@ -66,7 +66,7 @@ items:
     health: 640.0
     defence: 58.0
     attack: 37.0
-    density: 36
+    density: 13
     independent:
       - id: poison_quill
         max: 2
@@ -76,7 +76,7 @@ items:
     entity: ALLAY
     health: 1400.0
     defence: 126.0
-    density: 43
+    density: 16
     attributes:
       - attr: SCALE
         value: 2.0
@@ -96,7 +96,7 @@ items:
     health: 12000.0
     defence: 126.0
     attack: 45.0
-    density: 43
+    density: 16
     attributes:
       - attr: SCALE
         value: 1.6
@@ -114,7 +114,7 @@ items:
     health: 1000.0
     defence: 126.0
     attack: 37.0
-    density: 43
+    density: 16
     attributes:
       - attr: SCALE
         value: 0.7

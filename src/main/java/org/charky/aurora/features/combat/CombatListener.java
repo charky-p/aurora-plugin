@@ -1,5 +1,6 @@
 package org.charky.aurora.features.combat;
 
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -10,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.charky.aurora.common.util.Enchants;
@@ -158,6 +160,17 @@ public class CombatListener implements Listener {
             case Projectile projectile when projectile.getShooter() instanceof LivingEntity shooter -> shooter;
             default -> null;
         };
+    }
+
+    // Our mobs' arrows hurt by their attack level alone: the Poison a Bogged's carries
+    // and the Slowness of a Stray's would deal vanilla damage past it
+    @EventHandler(ignoreCancelled = true)
+    public void onMobShoot(EntityShootBowEvent event) {
+        if (!CustomHealth.isTracked(event.getEntity())) return;
+        if (event.getProjectile() instanceof Arrow arrow) {
+            arrow.clearCustomEffects();
+            arrow.setBasePotionType(null);
+        }
     }
 
     // An arrow a mob shot is gone the moment it lands, in a player or in the ground,

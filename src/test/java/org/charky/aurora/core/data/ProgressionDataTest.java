@@ -178,14 +178,15 @@ class ProgressionDataTest {
         assertNone(problems);
     }
 
-    // What a mob wears and holds is looked up by id when it spawns
+    // What a mob wears and holds is looked up by id when it spawns, or is a plain
+    // vanilla item named by its material in capitals (hand: BOW)
     @Test
     void everyMobWearsGearThatExists() {
         List<String> problems = new ArrayList<>();
         mobs.forEach((id, mob) -> {
             if (!(mob.get("equip") instanceof Map<?, ?> equip)) return;
             equip.forEach((slot, item) -> {
-                if (item != null && !isItem(item.toString())) {
+                if (item != null && !isItem(item.toString()) && org.bukkit.Material.matchMaterial(item.toString()) == null) {
                     problems.add("mob " + id + " wears unknown " + item + " on " + slot);
                 }
             });

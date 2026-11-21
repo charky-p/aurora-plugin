@@ -2,6 +2,7 @@ package org.charky.aurora.core.data;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
@@ -80,8 +81,15 @@ public class MobLoader {
         return equipment;
     }
 
+    // An Aurora item by id, or a plain vanilla one by material in capitals (hand: BOW)
     private void equip(Map<EquipmentSlot, ItemStack> equipment, EquipmentSlot slot, String itemId) {
-        if (itemId != null && items.containsKey(itemId)) equipment.put(slot, items.get(itemId));
+        if (itemId == null) return;
+        if (items.containsKey(itemId)) {
+            equipment.put(slot, items.get(itemId));
+            return;
+        }
+        Material material = Material.matchMaterial(itemId);
+        if (material != null && material.isItem()) equipment.put(slot, new ItemStack(material));
     }
 
     private Map<Attribute, Double> attributes(String id, MobModel model) {

@@ -5,7 +5,7 @@
 #   display: "<color><b><i>Display Name"
 #   entity: [BUKKIT_ENTITY_TYPE]
 #   equip: (Optional)
-#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id, or a vanilla MATERIAL in capitals)
 #     chest: [item_id] (Optional)
 #     legs: [item_id] (Optional)
 #     feet: [item_id] (Optional)

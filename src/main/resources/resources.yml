@@ -493,7 +493,7 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 80000
+    collection: 120000
 
   mud:
     display: "<#5C4A3A>Mud"
@@ -520,7 +520,7 @@ items:
     region: "marsh_slime"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1600
+    collection: 3000
 
   mangrove_log:
     display: "<#7A3B2E>Mangrove Log"
@@ -547,7 +547,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 50000
+    collection: 120000
 
   fen_soil:
     display: "<#6B4F35>Fen Soil"
@@ -556,7 +556,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1200
+    collection: 4000
 
   moss:
     display: "<#5A8F3A>Bog Moss"
@@ -583,7 +583,7 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 120000
+    collection: 320000
 
   mangrove_leaves:
     display: "<#4F7F3A>Mangrove Leaves"
@@ -601,7 +601,7 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 15000
+    collection: 16000
 
   ochre_froglight:
     display: "<#F2B94E><b>Ochre Froglight"
@@ -637,7 +637,7 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 8000
+    collection: 12000
 
   red_mushroom:
     display: "<#C8382E>Red Mushroom Block"
@@ -646,7 +646,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 20000
+    collection: 25000
 
   brown_mushroom:
     display: "<#8D6A4F>Brown Mushroom Block"
@@ -655,7 +655,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 25000
+    collection: 30000
 
   wisp_dust:
     display: "<aqua>Wisp Dust"
@@ -664,7 +664,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 12000
+    collection: 16000
 
   dirt:
     display: "<#8B6B4A>Mountain Dirt"
@@ -673,7 +673,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 20000
+    collection: 12000
 
   pumpkin:
     display: "<gold>Pumpkin"
@@ -682,7 +682,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 40000
+    collection: 100000
 
   pork:
     display: "<#F2A3A3>Mountain Pork"
@@ -691,7 +691,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 10000
+    collection: 15000
 
   melon:
     display: "<green>Melon"
@@ -700,7 +700,7 @@ items:
     region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 40000
+    collection: 100000
 
   calcite:
     display: "<white>Calcite"
@@ -709,7 +709,7 @@ items:
     region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 640000
+    collection: 1200000
 
   goat_hide:
     display: "<white>Goat Hide"
@@ -718,7 +718,7 @@ items:
     region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 12000
+    collection: 20000
 
   snow:
     display: "<white>Packed Snow"
@@ -727,7 +727,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 20000
+    collection: 12000
 
   packed_ice:
     display: "<#A5C8FF><b>Packed Ice"
@@ -736,7 +736,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 400000
+    collection: 800000
 
   frost_arrow:
     display: "<aqua>Frost Arrow"
@@ -745,7 +745,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 32000
+    collection: 40000
 
   redstone:
     display: "<red><b>Redstone"
@@ -754,7 +754,7 @@ items:
     region: "peaks_grotto"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 750000
+    collection: 1200000
 
   lapis:
     display: "<blue><b>Lapis"
@@ -763,7 +763,7 @@ items:
     region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 120000
+    collection: 200000
 
   spider_silk:
     display: "<white>Frost Silk"
@@ -772,7 +772,7 @@ items:
     region: "peaks_grotto"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 40000
+    collection: 50000
 
   emerald:
     display: "<green><b>Emerald"
@@ -781,7 +781,7 @@ items:
     region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 640000
+    collection: 1000000
 
   venom_sac:
     display: "<dark_green>Venom Sac"
@@ -790,7 +790,7 @@ items:
     region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 50000
+    collection: 64000
 
   rider_bone:
     display: "<white>Rider Bone"
@@ -799,7 +799,7 @@ items:
     region: "peaks_arachne"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 20000
+    collection: 30000
 
   arachne_eye:
     display: "<dark_red><b>Arachne's Eye"

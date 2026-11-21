@@ -5,7 +5,7 @@
 #   display: "<color><b><i>Display Name"
 #   entity: [BUKKIT_ENTITY_TYPE]
 #   equip: (Optional)
-#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id, or a vanilla MATERIAL in capitals)
 #     chest: [item_id] (Optional)
 #     legs: [item_id] (Optional)
 #     feet: [item_id] (Optional)
@@ -55,7 +55,7 @@ items:
     health: 410.0
     defence: 37.0
     attack: 33.0
-    density: 10
+    density: 9
     independent:
       - id: bog_rag
         max: 2
@@ -66,7 +66,9 @@ items:
     health: 640.0
     defence: 58.0
     attack: 37.0
-    density: 13
+    density: 10
+    equip:
+      hand: BOW
     independent:
       - id: poison_quill
         max: 2
@@ -76,7 +78,7 @@ items:
     entity: ALLAY
     health: 1400.0
     defence: 126.0
-    density: 16
+    density: 11
     attributes:
       - attr: SCALE
         value: 2.0
@@ -96,7 +98,7 @@ items:
     health: 12000.0
     defence: 126.0
     attack: 45.0
-    density: 16
+    density: 11
     attributes:
       - attr: SCALE
         value: 1.6
@@ -114,7 +116,7 @@ items:
     health: 1000.0
     defence: 126.0
     attack: 37.0
-    density: 16
+    density: 11
     attributes:
       - attr: SCALE
         value: 0.7

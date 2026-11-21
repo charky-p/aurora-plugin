@@ -5,7 +5,7 @@
 #   display: "<color><b><i>Display Name"
 #   entity: [BUKKIT_ENTITY_TYPE]
 #   equip: (Optional)
-#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id, or a vanilla MATERIAL in capitals)
 #     chest: [item_id] (Optional)
 #     legs: [item_id] (Optional)
 #     feet: [item_id] (Optional)
@@ -34,7 +34,7 @@ items:
     display: "<#F2A3A3><b>Mountain Pig"
     entity: PIG
     health: 1140.0
-    density: 18
+    density: 12
     independent:
       - id: pork
         max: 2
@@ -43,7 +43,7 @@ items:
     display: "<white><b>Mountain Goat"
     entity: GOAT
     health: 1140.0
-    density: 19
+    density: 13
     independent:
       - id: goat_hide
         max: 2
@@ -54,7 +54,7 @@ items:
     health: 1480.0
     defence: 133.0
     attack: 49.0
-    density: 20
+    density: 14
     independent:
       - id: frost_arrow
         max: 2
@@ -65,7 +65,7 @@ items:
     health: 1480.0
     defence: 133.0
     attack: 47.0
-    density: 21
+    density: 15
     independent:
       - id: spider_silk
         max: 2
@@ -76,7 +76,7 @@ items:
     health: 1480.0
     defence: 133.0
     attack: 51.0
-    density: 22
+    density: 16
     independent:
       - id: venom_sac
         max: 2
@@ -89,7 +89,7 @@ items:
     health: 1480.0
     defence: 133.0
     attack: 51.0
-    density: 23
+    density: 17
     independent:
       - id: rider_bone
         max: 2
@@ -102,7 +102,7 @@ items:
     health: 20900.0
     defence: 190.0
     attack: 57.0
-    density: 23
+    density: 17
     attributes:
       - attr: SCALE
         value: 2.0
@@ -121,7 +121,7 @@ items:
     health: 4000.0
     defence: 190.0
     attack: 57.0
-    density: 23
+    density: 17
     attributes:
       - attr: FOLLOW_RANGE
         value: 48.0

@@ -302,7 +302,7 @@ MOB_HEADER = """\
 #   display: "<color><b><i>Display Name"
 #   entity: [BUKKIT_ENTITY_TYPE]
 #   equip: (Optional)
-#     head: [item_id] (Optional, item_id = gear_id or resource_id)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id, or a vanilla MATERIAL in capitals)
 #     chest: [item_id] (Optional)
 #     legs: [item_id] (Optional)
 #     feet: [item_id] (Optional)
@@ -792,7 +792,8 @@ def validate(built):
             worn.add(item)
             if slot not in EQUIP_SLOTS:
                 errors.append(f"mob '{mid}': unknown equip slot '{slot}'")
-            if item not in items:
+            # UPPER_CASE is a plain vanilla item (hand:BOW), anything else an Aurora item
+            if item not in items and not item.isupper():
                 errors.append(f"mob '{mid}': wears unknown item '{item}'")
         for drop in _drop_ids(entry):
             dropped.add(drop)

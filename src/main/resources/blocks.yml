@@ -402,14 +402,14 @@ items:
 
   packed_mud:
     material: PACKED_MUD
-    density: 11
+    density: 8
     xp: 10
     independent:
       - id: packed_mud
 
   mud_brick:
     material: MUD_BRICKS
-    density: 11
+    density: 8
     xp: 10
     independent:
       - id: packed_mud
@@ -432,7 +432,7 @@ items:
 
   slime_block:
     material: SLIME_BLOCK
-    density: 2
+    density: 1
     xp: 11
     independent:
       - id: bog_slime
@@ -462,14 +462,14 @@ items:
 
   mossy_cobble:
     material: MOSSY_COBBLESTONE
-    density: 17
+    density: 9
     xp: 12
     independent:
       - id: bog_stone
 
   mossy_bricks:
     material: MOSSY_STONE_BRICKS
-    density: 17
+    density: 9
     xp: 12
     independent:
       - id: bog_stone
@@ -478,7 +478,7 @@ items:
 
   fen_soil:
     material: COARSE_DIRT
-    density: 5
+    density: 2
     xp: 12
     independent:
       - id: fen_soil
@@ -491,14 +491,14 @@ items:
 
   verdigris:
     material: OXIDIZED_COPPER
-    density: 20
+    density: 10
     xp: 12
     independent:
       - id: verdigris
 
   verdigris_cut:
     material: OXIDIZED_CUT_COPPER
-    density: 20
+    density: 10
     xp: 12
     independent:
       - id: verdigris
@@ -514,7 +514,7 @@ items:
 
   mushroom_stem:
     material: MUSHROOM_STEM
-    density: 6
+    density: 5
     xp: 12
     independent:
       - id: mushroom_stem
@@ -542,26 +542,28 @@ items:
 
   red_mushroom:
     material: RED_MUSHROOM_BLOCK
-    density: 7
+    density: 6
     xp: 13
     independent:
       - id: red_mushroom
 
   brown_mushroom:
     material: BROWN_MUSHROOM_BLOCK
-    density: 7
+    density: 6
     xp: 13
     independent:
       - id: brown_mushroom
 
   mountain_dirt:
     material: DIRT
+    density: 3
     xp: 15
     independent:
       - id: dirt
 
   coarse_mountain_dirt:
     material: COARSE_DIRT
+    density: 3
     xp: 15
     independent:
       - id: dirt
@@ -570,7 +572,7 @@ items:
 
   pumpkin:
     material: PUMPKIN
-    density: 14
+    density: 7
     xp: 14
     independent:
       - id: pumpkin
@@ -578,7 +580,7 @@ items:
 
   jack_o_lantern:
     material: JACK_O_LANTERN
-    density: 14
+    density: 7
     xp: 14
     independent:
       - id: pumpkin
@@ -587,7 +589,7 @@ items:
 
   melon:
     material: MELON
-    density: 15
+    density: 8
     xp: 16
     independent:
       - id: melon
@@ -595,14 +597,14 @@ items:
 
   calcite:
     material: CALCITE
-    density: 21
+    density: 11
     xp: 15
     independent:
       - id: calcite
 
   dripstone:
     material: DRIPSTONE_BLOCK
-    density: 21
+    density: 11
     xp: 15
     independent:
       - id: calcite
@@ -611,7 +613,7 @@ items:
 
   snow_block:
     material: SNOW_BLOCK
-    density: 1
+    density: 4
     xp: 14
     independent:
       - id: snow
@@ -619,14 +621,14 @@ items:
 
   packed_ice:
     material: PACKED_ICE
-    density: 22
+    density: 12
     xp: 15
     independent:
       - id: packed_ice
 
   blue_ice:
     material: BLUE_ICE
-    density: 22
+    density: 12
     xp: 15
     independent:
       - id: packed_ice
@@ -635,14 +637,14 @@ items:
 
   redstone_ore:
     material: REDSTONE_ORE
-    density: 23
+    density: 13
     xp: 16
     independent:
       - id: redstone
 
   redstone_block:
     material: REDSTONE_BLOCK
-    density: 23
+    density: 13
     xp: 16
     independent:
       - id: redstone
@@ -651,14 +653,14 @@ items:
 
   lapis_ore:
     material: LAPIS_ORE
-    density: 24
+    density: 14
     xp: 15
     independent:
       - id: lapis
 
   lapis_block:
     material: LAPIS_BLOCK
-    density: 24
+    density: 14
     xp: 15
     independent:
       - id: lapis
@@ -667,14 +669,14 @@ items:
 
   emerald_ore:
     material: EMERALD_ORE
-    density: 24
+    density: 14
     xp: 16
     independent:
       - id: emerald
 
   deepslate_emerald_ore:
     material: DEEPSLATE_EMERALD_ORE
-    density: 24
+    density: 14
     xp: 16
     independent:
       - id: emerald

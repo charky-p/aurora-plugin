@@ -64,45 +64,21 @@ items:
     rows: 3
     layout:
       - "BBBBIBBBB"
-      - "B  u U  B"
+      - "B  u k  B"
       - "BBBBBBBBX"
     components:
       u:
         type: ACTION
         id: upgrades:tomb
         icon: icon_upgrades
-      U:
-        type: GUI
-        id: tomb_utility
-
-  tomb_utility:
-    title: "<gold><b>Royal Tomb <dark_gray>| <gray>Utility"
-    icon: icon_utility
-    rows: 3
-    layout:
-      - "BBBBIBBBB"
-      - "B  12   B"
-      - "zBBBBBBBX"
-    components:
-      '1':
+      k:
         type: TRADE
-        id: totem
+        id: tomb_key
         cost:
-          - id: ancient_nugget
-            amount: 170
-          - id: tomb_dust
-            amount: 5
-      '2':
-        type: TRADE
-        id: gormak_talisman
-        cost:
-          - id: ancient_heart
-            amount: 3
           - id: guardian_sigil
-            amount: 5
-      z:
-        type: GUI
-        id: tomb_shop
+            amount: 20
+          - id: tomb_dust
+            amount: 20
 
   aurora_hub:
     title: "<aqua><b>Aurora"

@@ -87,6 +87,8 @@ BLOCK = {
     "STRIPPED_PALE_OAK_LOG": (2.0, 0), "SMOOTH_QUARTZ": (2.0, 0), "MANGROVE_LOG": (2.0, 0),
     "STRIPPED_MANGROVE_LOG": (2.0, 0), "CLAY": (0.6, 0), "LIGHT_BLUE_TERRACOTTA": (1.25, 0),
     "DIAMOND_ORE": (3.0, 2), "DEEPSLATE_DIAMOND_ORE": (4.5, 2),
+    # Khorvath, the Howling Canyons' shovel mine
+    "SAND": (0.5, 0), "RED_SAND": (0.5, 0),
     # Sunken Marsh. Slime breaks at once in vanilla (hardness 0), a tiny number keeps
     # dig_seconds from dividing by zero and still reads as instant
     "MUD": (0.5, 0), "MUDDY_MANGROVE_ROOTS": (0.7, 0), "SLIME_BLOCK": (0.001, 0), "MANGROVE_WOOD": (2.0, 0),

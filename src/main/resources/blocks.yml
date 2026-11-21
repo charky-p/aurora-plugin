@@ -143,6 +143,20 @@ items:
         min: 2
         max: 4
 
+  canyon_sand:
+    material: RED_SAND
+    xp: 8
+    independent:
+      - id: canyon_sand
+
+  drift_sand:
+    material: SAND
+    xp: 8
+    independent:
+      - id: canyon_sand
+        min: 2
+        max: 4
+
   raw_gold_block:
     material: RAW_GOLD_BLOCK
     density: 6

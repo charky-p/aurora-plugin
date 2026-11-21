@@ -79,10 +79,10 @@ At the end, the portal to Gormak locked to `gormak`, with `gate_trader` beside i
 
 | Zone | Mines (`setblocks`) | Spawner mobs | Trader |
 |---|---|---|---|
-| Abandoned City | `carved_brick`: `carved_brick 90 cracked_brick 10` | `hollowed_serf`, `scavenger_husk` | `city_trader` |
+| Abandoned City | `carved_brick`: `carved_brick 80 cracked_brick 20` | `hollowed_serf`, `scavenger_husk` | `city_trader` |
 | The Dunes | `sunbaked_sand`: `sunbaked_sand 80 cut_sunbaked_sand 20` | `dune_scout`, `sand_stalker` | `dunes_trader` |
 | Sun Temple | `raw_gold`: `raw_gold_block 20 gilded_stone 80` | `tomb_guard`, `vizier_mage` | `temple_trader` |
-| Royal Tomb | - | `gormak_minion`, `gormak_guardian`, `gormak_eternal` (boss spawner) | `tomb_trader` |
+| Royal Tomb | - | `gormak_guardian`, `gormak_eternal` (boss spawner; it summons the minions) | `tomb_trader` |
 
 ### Verdant Groves
 
@@ -99,7 +99,7 @@ At the end, the portal to Elderwood Roots locked to `elderwood`, with `elderwood
 
 | Zone | Mines (`setblocks`) | Spawner mobs | Trader |
 |---|---|---|---|
-| Howling Canyons | `crimson_sand`: `crimson_sand 80 cut_crimson_sand 20` | `scarab_zealot`, `hollowed_legionnaire` | `canyons_trader` |
+| Howling Canyons | `crimson_sand`: `crimson_sand 80 cut_crimson_sand 20`; `canyon_sand` (shovel): `red_sand 80 sand 20` | `scarab_zealot`, `hollowed_legionnaire` | `canyons_trader` |
 | Ancient Ruins | `relic_stone`: `relic_stone 70 sunfired_tile 30` | `scarab_zealot`, `relic_warrior` | `ruins_trader` |
 | Catacombs | `ossuary_bone`: `ossuary_bone 70 tomb_brick 30` | `royal_myrmidon`, `pharaoh` | `catacombs_trader` |
 | Sanctuary of the Sun | - | `anubite_executioner`, `sphinx`, `khorvath` (boss spawner) | `sanctuary_trader` |

@@ -93,7 +93,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Gormak - Abandoned City"
-    collection: 1200
+    collection: 1600
 
   tattered_cloth:
     display: "<gray>Tattered Cloth"
@@ -138,7 +138,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Sand Stalkers"
-    collection: 300
+    collection: 80
 
   crimson_sand:
     display: "<#B4462A>Crimson Sandstone"
@@ -147,7 +147,16 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 120000
+    collection: 100000
+
+  canyon_sand:
+    display: "<#D9894A>Canyon Sand"
+    material: RED_SAND
+    world: "overworld"
+    region: "khorvath_canyons"
+    lore:
+      - "<dark_gray>Khorvath"
+    collection: 250
 
   scarab_shell:
     display: "<dark_purple><b>Scarab Shell"
@@ -165,7 +174,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 3200
+    collection: 3000
 
   raw_gold:
     display: "<gold>Raw Gold"
@@ -367,7 +376,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 40
+    collection: 48
 
   relic_stone:
     display: "<#B4462A>Relic Stone"
@@ -556,7 +565,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 4000
+    collection: 7500
 
   moss:
     display: "<#5A8F3A>Bog Moss"
@@ -673,7 +682,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 12000
+    collection: 20000
 
   pumpkin:
     display: "<gold>Pumpkin"
@@ -727,7 +736,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 12000
+    collection: 16000
 
   packed_ice:
     display: "<#A5C8FF><b>Packed Ice"
@@ -826,7 +835,7 @@ items:
     region: "duat_ashen"
     lore:
       - "<dark_gray>The Duat"
-    collection: 1500
+    collection: 2000
 
   scale_gold:
     display: "<gold><b>Scale Gold"
@@ -1078,7 +1087,7 @@ items:
     region: "skyisles_cloudbank"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 50000
+    collection: 64000
 
   cloud_fleece:
     display: "<white>Cloud Fleece"
@@ -1258,7 +1267,7 @@ items:
     region: "quarry_gravel"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 32000
+    collection: 40000
 
   tungsten:
     display: "<dark_gray><b>Tungsten"
@@ -1321,7 +1330,7 @@ items:
     region: "quarry_maple"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 64000
+    collection: 80000
 
   titanium:
     display: "<aqua><b>Titanium"
@@ -1384,7 +1393,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Gormak"
-    collection: 1200
+    collection: 400
 
   guardian_sigil:
     display: "<gold><b>Guardian Sigil"
@@ -1393,7 +1402,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Gormak"
-    collection: 640
+    collection: 400
 
   fishing_junk:
     display: "<dark_gray>Junk"

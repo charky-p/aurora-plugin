@@ -1,8 +1,5 @@
 gui,key,type,id,amount,cost,icon
 gate_shop,1,TRADE,gormak_key,1,gold*300+leather*20,
-tomb_utility,1,TRADE,totem,1,ancient_nugget*170+tomb_dust*5,
-tomb_utility,2,TRADE,gormak_talisman,1,ancient_heart*3+guardian_sigil*5,
-tomb_utility,z,GUI,tomb_shop,,,
 aurora_hub,1,ACTION,howto,,,icon_howto
 aurora_hub,4,ACTION,backpack,,,icon_backpack
 aurora_hub,6,ACTION,collections,,,icon_collections
@@ -11,7 +8,7 @@ aurora_hub,9,ACTION,spawn,,,icon_spawn
 aurora_hub,w,ACTION,warps,,,icon_warps
 starter_shop,1,ACTION,tools,,,icon_tools
 tomb_shop,u,ACTION,upgrades:tomb,,,icon_upgrades
-tomb_shop,U,GUI,tomb_utility,,,
+tomb_shop,k,TRADE,tomb_key,1,guardian_sigil*20+tomb_dust*20,
 food_shop,1,TRADE,bread,64,cobblestone*16,
 food_shop,2,TRADE,baked_potato,64,coal*32,
 food_shop,3,TRADE,cooked_chicken,64,iron*48,

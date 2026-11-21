@@ -7,12 +7,12 @@ gold,Gold Reef,overworld,overworld,origin_isles,,5,402,5,gold,cow,0.75,0.25,iron
 city,Abandoned City,gormak,overworld,gormak,,6,360,5.3,carved_brick,hollowed_serf|scavenger_husk,1,0.5,
 dunes,The Dunes,gormak,overworld,gormak,,7,360,5.3,sunbaked_sand,dune_scout|sand_stalker,1,0.5,city
 temple,Sun Temple,gormak,overworld,gormak,,8,360,5.3,raw_gold,tomb_guard|vizier_mage,1,0.5,dunes
-tomb,Royal Tomb,gormak,overworld,gormak,,9,600,8.8,,gormak_minion|gormak_guardian,1,0.5,temple
+tomb,Royal Tomb,gormak,overworld,gormak,,9,600,8.8,,gormak_guardian,1,0.5,temple
 oak,Oak Grove,verdant,overworld,verdant,,10,360,5.3,oak_log|tin,grove_horse,1,0.5,
 birch,Birch Hollow,verdant,overworld,verdant,,11,360,5.3,birch_log|bronze,hollow_fox,1,0.4,oak
 spruce,Spruce Ridge,verdant,overworld,verdant,,12,360,5.3,spruce_log|lead,ridge_wolf,1,0.5,birch
 darkoak,Dark Oak Thicket,verdant,overworld,verdant,,13,360,5.3,dark_oak_log|silver,thicket_sniffer,1,0.5,spruce
-canyons,Howling Canyons,khorvath,overworld,khorvath,,14,,8,crimson_sand,scarab_zealot|hollowed_legionnaire,1,0.5,
+canyons,Howling Canyons,khorvath,overworld,khorvath,,14,,8,crimson_sand|canyon_sand,scarab_zealot|hollowed_legionnaire,1,0.5,
 ruins,Ancient Ruins,khorvath,overworld,khorvath,,15,,10,relic_stone,scarab_zealot|relic_warrior,1,1,canyons
 catacombs,Catacombs,khorvath,overworld,khorvath,,16,,10,ossuary_bone,royal_myrmidon|pharaoh,1,1,ruins
 sanctuary,Sanctuary of the Sun,khorvath,overworld,khorvath,,17,,12,,anubite_executioner|sphinx,1,1,catacombs

@@ -4,9 +4,10 @@ coal,pick,coal_ore:60|coal_block:40
 copper,pick,copper_ore:60|copper_block:40
 iron,pick,iron_ore:60|iron_block:40
 gold,pick,gold_ore:60|gold_block:40
-carved_brick,pick,carved_brick:90|cracked_brick:10
+carved_brick,pick,carved_brick:80|cracked_brick:20
 sunbaked_sand,pick,sunbaked_sand:80|cut_sunbaked_sand:20
 crimson_sand,pick,crimson_sand:80|cut_crimson_sand:20
+canyon_sand,shovel,canyon_sand:80|drift_sand:20
 raw_gold,pick,raw_gold_block:20|gilded_stone:80
 oak_log,axe,oak_log:60|oak_wood:25|stripped_oak_log:15
 tin,pick,tin_ore:60|tin_rich:40

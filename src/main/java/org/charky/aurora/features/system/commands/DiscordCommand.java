@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 // /discord, a link to the server's Discord to click
 public class DiscordCommand implements CommandExecutor {
-    // TODO: the invite, like https://discord.gg/abc123. While blank /discord says it is coming soon
-    private static final String INVITE = "";
+    // While blank /discord says it is coming soon
+    private static final String INVITE = "https://discord.gg/MefQWSgkBA";
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,

@@ -21,7 +21,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/shop` | The Essence shop: Dash, Double Jump (press jump again in mid-air for a normal second jump), mounts, the Keyring and ranks. Mounts have three levels, each faster: left click upgrades one you own, right click gives its saddle again. Click anything else you own to use it again |
 | `/dash` | The Dash Feather again, once Dash is bought: right click it to dash the way you face, once a second |
 | `/tutorial skip` | Leave the first-join tutorial without its reward. The Skip link in chat runs it |
-| `/discord` | A link to the Aurora Discord, says it is coming soon until the invite is set in `DiscordCommand` |
+| `/discord` | A clickable link to the Aurora Discord, https://discord.gg/MefQWSgkBA |
 | `/suggest <your idea>` | Send an idea to the staff, up to 256 characters, one a minute. Staff online see it straight away, and it is saved for `/a suggestions` |
 
 **In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.

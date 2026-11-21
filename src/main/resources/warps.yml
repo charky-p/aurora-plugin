@@ -16,7 +16,7 @@ items:
 
   gormak:
     icon: icon_gormak
-    world: aurora_test_gormak
+    world: aurora_duneworld
     region: gormak
     tag: gormak
 

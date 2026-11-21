@@ -493,7 +493,7 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 8000
+    collection: 7500
 
   mud:
     display: "<#5C4A3A>Mud"
@@ -502,7 +502,7 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1200
+    collection: 1500
 
   frog_leg:
     display: "<#7BA05B>Frog Leg"
@@ -520,7 +520,7 @@ items:
     region: "marsh_slime"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 2500
+    collection: 2000
 
   mangrove_log:
     display: "<#7A3B2E>Mangrove Log"
@@ -529,7 +529,7 @@ items:
     region: "marsh_slime"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 3200
+    collection: 4000
 
   swamp_gel:
     display: "<#8FD16F>Swamp Gel"
@@ -547,7 +547,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 2500
+    collection: 4000
 
   fen_soil:
     display: "<#6B4F35>Fen Soil"
@@ -574,7 +574,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 500
+    collection: 400
 
   verdigris:
     display: "<#4FB39A><b>Verdigris"
@@ -583,7 +583,7 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 6400
+    collection: 6000
 
   mangrove_leaves:
     display: "<#4F7F3A>Mangrove Leaves"
@@ -592,7 +592,7 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1000
+    collection: 1200
 
   poison_quill:
     display: "<dark_green>Poison Quill"
@@ -619,7 +619,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1500
+    collection: 1600
 
   pearlescent_froglight:
     display: "<#E7B8E6><b>Pearlescent Froglight"
@@ -655,7 +655,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1000
+    collection: 800
 
   wisp_dust:
     display: "<aqua>Wisp Dust"

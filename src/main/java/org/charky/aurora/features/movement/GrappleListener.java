@@ -25,9 +25,9 @@ import java.util.UUID;
 // The grapple, a tool bought at the end of Verdant Groves. Right click, on the ground
 // or in the air, throws you the way you look: a burst, a second push a tick later so
 // it feels like being pulled, and a trail of wind behind you. The rod shows the
-// cooldown. The landing after a launch does no fall damage. It starts at half the
-// throw it once had and a 10 second cooldown. Every zone after Verdant Groves sells one
-// grapple upgrade, Thrust and Recharge in turn, and each level is a big step
+// cooldown. The landing after a launch does no fall damage. It starts at 60% of the
+// throw it once had and a 10 second cooldown. Only the overworld regions after Verdant
+// Groves upgrade it: every zone there sells one Thrust and one Recharge
 public class GrappleListener implements Listener {
     public static final String ITEM_ID = "grapple";
     // Full power, what a grapple threw before it could be upgraded
@@ -35,13 +35,16 @@ public class GrappleListener implements Listener {
     private static final double LIFT = 0.3;
     // The second push, a tick after the first, on top of what is left of it
     private static final double PULL = 0.45;
-    // Share of full power: half to start, a twentieth more for each Thrust level
-    private static final double BASE_POWER = 0.5;
-    private static final double POWER_PER_THRUST = 0.05;
-    // 10 seconds to start, half a second less for each Recharge level
+    // Share of full power: 60% to start, 7% more for each of the first five Thrust
+    // levels (the Sunken Marsh, 95% at its end), 9% more for each after that
+    private static final double BASE_POWER = 0.6;
+    private static final int EARLY_THRUST = 5;
+    private static final double POWER_PER_EARLY_THRUST = 0.07;
+    private static final double POWER_PER_THRUST = 0.09;
+    // 10 seconds to start, half a second less for each Recharge level, never under 2
     private static final int BASE_COOLDOWN_TICKS = 200;
     private static final int TICKS_PER_RECHARGE = 10;
-    private static final int MIN_COOLDOWN_TICKS = 30;
+    private static final int MIN_COOLDOWN_TICKS = 40;
     private static final int TRAIL_TICKS = 12;
     // How long after a launch a fall still counts as the grapple's
     private static final long SAFE_LANDING_MS = 6000;
@@ -73,7 +76,7 @@ public class GrappleListener implements Listener {
         int recharge = Enchants.level(rod, "recharge");
         player.setCooldown(Material.FISHING_ROD,
                 Math.max(MIN_COOLDOWN_TICKS, BASE_COOLDOWN_TICKS - TICKS_PER_RECHARGE * recharge));
-        double power = BASE_POWER + POWER_PER_THRUST * Enchants.level(rod, "thrust");
+        double power = power(Enchants.level(rod, "thrust"));
 
         Vector direction = player.getLocation().getDirection().normalize();
         player.setVelocity(direction.clone().multiply(SPEED * power).add(new Vector(0, LIFT, 0)));
@@ -97,6 +100,12 @@ public class GrappleListener implements Listener {
                 player.getWorld().spawnParticle(Particle.CLOUD, player.getLocation().add(0, 0.8, 0), 3, 0.15, 0.15, 0.15, 0.01);
             }
         }.runTaskTimer(plugin, 1L, 1L);
+    }
+
+    // Share of full power at a Thrust level
+    static double power(int thrust) {
+        int early = Math.min(thrust, EARLY_THRUST);
+        return BASE_POWER + POWER_PER_EARLY_THRUST * early + POWER_PER_THRUST * (thrust - early);
     }
 
     @EventHandler(ignoreCancelled = true)

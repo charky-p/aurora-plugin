@@ -1117,7 +1117,7 @@ items:
         level: "1"
         cost:
           - id: oak_log
-            amount: 16
+            amount: 8
       - tool: axe
         stat: material
         level: "STONE"

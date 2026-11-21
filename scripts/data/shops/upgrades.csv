@@ -164,7 +164,7 @@ tomb,20,pick,efficiency,9,tomb_dust:1
 tomb,21,shield,deflection,9,tomb_dust:1
 tomb,22,shield,deflection,10,tomb_dust:1
 tomb,23,shield,deflection,11,tomb_dust:1
-oak,1,axe,unlock,1,oak_log=16
+oak,1,axe,unlock,1,oak_log=8
 oak,2,axe,material,STONE,tin:1
 oak,3,axe,efficiency,1,tin:1
 oak,4,axe,fortune,1,oak_log:1

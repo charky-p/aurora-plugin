@@ -83,8 +83,8 @@ items:
       - id: silk_key
         chance: 4
 
-  spider_rider:
-    display: "<white><b>Spider Rider"
+  cave_skeleton:
+    display: "<white><b>Cave Skeleton"
     entity: SKELETON
     health: 1480.0
     defence: 133.0

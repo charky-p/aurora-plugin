@@ -4,6 +4,6 @@ mountain_goat,<white><b>Mountain Goat,GOAT,1140,0,0,,,51,,,,goat_hide:100:1-2,,,
 peak_stray,<aqua><b>Peak Stray,STRAY,1480,133,49,,,55,,,,frost_arrow:100:1-2,,,
 frost_spider,<aqua><b>Frost Spider,SPIDER,1480,133,47,,,59,,,,spider_silk:100:1-2,,,
 cave_spider,<dark_green><b>Cave Spider,CAVE_SPIDER,1480,133,51,,,63,,,,venom_sac:100:1-2|silk_key:4,,,
-spider_rider,<white><b>Spider Rider,SKELETON,1480,133,51,,,67,,,,rider_bone:100:1-2|silk_key:4,,,
+cave_skeleton,<white><b>Cave Skeleton,SKELETON,1480,133,51,,,67,,,,rider_bone:100:1-2|silk_key:4,,,
 arachne,<dark_red><b>Arachne,SPIDER,20900,190,57,,,67,,,SCALE:2|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,arachne_eye:100:1-2,,,true
 arachne_rider,<dark_red><b>Arachne's Rider,SKELETON,4000,190,57,,,67,,,FOLLOW_RANGE:48,,,,

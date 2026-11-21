@@ -132,7 +132,7 @@ At the end, the portal to Elderwood Roots locked to `elderwood`, with `elderwood
 | Frozen Slopes | `snow`: `snow_block 100`, `packed_ice`: `packed_ice 80 blue_ice 20` | `peak_stray` | `slopes_trader` |
 | Redstone Grotto | `redstone`: `redstone_ore 80 redstone_block 20` | `frost_spider` | `grotto_trader` |
 | Emerald Depths | `emerald`: `emerald_ore 80 deepslate_emerald_ore 20`, `lapis`: `lapis_ore 80 lapis_block 20` | `cave_spider` | `depths_trader` |
-| Arachne Cave | - | `spider_rider`, `arachne` (boss spawner, she wakes with `arachne_rider` on her back) | `arachne_trader` |
+| Arachne Cave | - | `cave_skeleton`, `arachne` (boss spawner, she wakes with `arachne_rider` on her back) | `arachne_trader` |
 
 At the end, the portal to Cloud Isles locked to `sky`, with `sky_gate_trader` beside it.
 

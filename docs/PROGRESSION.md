@@ -99,7 +99,7 @@ A zone is priced for a player who has finished every region of every earlier sta
 | Frozen Slopes | 10.0 | snow, packed ice | peak stray | 29 | 2,970 snow, 17,950 packed ice, 651 frost arrow |
 | Redstone Grotto | 10.0 | redstone | frost spider | 24 | 24,450 redstone, 543 spider silk |
 | Emerald Depths | 10.0 | emerald, lapis | cave spider | 24 | 19,720 emerald, 3,450 lapis, 562 venom sac, 5,000 calcite |
-| Arachne Cave | 12.0 | - | spider rider, arachne (boss, with her rider) | 25 | 1,468 venom sac, 192 rider bone |
+| Arachne Cave | 12.0 | - | cave skeleton, arachne (boss, with her rider) | 25 | 1,468 venom sac, 192 rider bone |
 | **The Duat** (stage 5) | | | | | |
 | Ashen River | 13.0 | basalt, ash | anubis, sobek, osiris | 30 | 51,300 basalt, 84 anubis sigil, 160 sobek sigil, 80 osiris sigil, 250 ash |
 | Hall of Judgement | 15.0 | scale gold | thoth, maat, horus | 25 | 124 thoth sigil, 196 maat sigil, 256 horus sigil, 28,500 scale gold |

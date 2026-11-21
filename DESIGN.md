@@ -108,7 +108,7 @@ Emerald Peaks
 4. Cave Area
 - Redstone Grotto: redstone, spider
 - Emerald Depths: emerald, lapis, cave spider
-- Arachne Cave: spider rider, Arachne (boss, a spider with a skeleton riding her)
+- Arachne Cave: cave skeleton, Arachne (boss, a spider with a skeleton riding her)
 
 Gormak - Fallen King
 1. Abandoned City

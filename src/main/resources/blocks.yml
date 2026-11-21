@@ -459,8 +459,6 @@ items:
     xp: 11
     independent:
       - id: mangrove_log
-        min: 2
-        max: 4
 
   mossy_cobble:
     material: MOSSY_COBBLESTONE
@@ -514,6 +512,13 @@ items:
     independent:
       - id: mangrove_leaves
 
+  mushroom_stem:
+    material: MUSHROOM_STEM
+    density: 13
+    xp: 12
+    independent:
+      - id: mushroom_stem
+
   ochre_froglight:
     material: OCHRE_FROGLIGHT
     density: 6
@@ -534,6 +539,20 @@ items:
     xp: 13
     independent:
       - id: pearlescent_froglight
+
+  red_mushroom:
+    material: RED_MUSHROOM_BLOCK
+    density: 19
+    xp: 13
+    independent:
+      - id: red_mushroom
+
+  brown_mushroom:
+    material: BROWN_MUSHROOM_BLOCK
+    density: 19
+    xp: 13
+    independent:
+      - id: brown_mushroom
 
   mountain_dirt:
     material: DIRT

@@ -23,8 +23,8 @@ treehouse,Treant Grove,elderwood,overworld,elderwood,,21,,10,,tree_zombee|treant
 mudflats,Mudflats,marsh,overworld,marsh,,22,,8,packed_mud|mud,bog_frog,1,0.5,
 slime_hollow,Slime Hollow,marsh,overworld,marsh,,23,,10,bog_slime|mangrove_log,swamp_slime,1,0.5,mudflats
 fens,The Fens,marsh,overworld,marsh,,24,,10,bog_stone|fen_soil|moss,bog_walker,1,0.5,slime_hollow
-sunken_ruins,Sunken Ruins,marsh,overworld,marsh,,25,,10,verdigris|mangrove_leaves,bogged_archer,1,0.5,fens
-glowmire,Glowmire,marsh,overworld,marsh,,26,,12,ochre_froglight|verdant_froglight|pearlescent_froglight,glow_wisp,1,0.5,sunken_ruins
+sunken_ruins,Sunken Ruins,marsh,overworld,marsh,,25,,10,verdigris|mangrove_leaves|mushroom_stem,bogged_archer,1,0.5,fens
+glowmire,Glowmire,marsh,overworld,marsh,,26,,12,ochre_froglight|verdant_froglight|pearlescent_froglight|red_mushroom|brown_mushroom,glow_wisp,1,0.5,sunken_ruins
 foothills,Foothills,peaks,overworld,peaks,,27,,8,dirt,mountain_goat,1,0.5,
 redstone_mines,Redstone Mines,peaks,overworld,peaks,,28,,10,redstone,frost_spider,1,0.5,foothills
 pumpkin_terraces,Pumpkin Terraces,peaks,overworld,peaks,,29,,10,pumpkin|snow,snow_fox,1,0.5,redstone_mines

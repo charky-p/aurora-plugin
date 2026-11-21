@@ -493,7 +493,7 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 10000
+    collection: 8000
 
   mud:
     display: "<#5C4A3A>Mud"
@@ -502,7 +502,7 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1000
+    collection: 1200
 
   frog_leg:
     display: "<#7BA05B>Frog Leg"
@@ -529,7 +529,7 @@ items:
     region: "marsh_slime"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 4000
+    collection: 3200
 
   swamp_gel:
     display: "<#8FD16F>Swamp Gel"
@@ -565,7 +565,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1200
+    collection: 800
 
   bog_rag:
     display: "<#4E6B3A>Bog Rag"
@@ -574,7 +574,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 400
+    collection: 500
 
   verdigris:
     display: "<#4FB39A><b>Verdigris"
@@ -583,7 +583,7 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 8000
+    collection: 6400
 
   mangrove_leaves:
     display: "<#4F7F3A>Mangrove Leaves"
@@ -592,7 +592,7 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1500
+    collection: 1000
 
   poison_quill:
     display: "<dark_green>Poison Quill"
@@ -610,7 +610,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 750
+    collection: 500
 
   verdant_froglight:
     display: "<#9BD86B><b>Verdant Froglight"
@@ -619,7 +619,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1600
+    collection: 1500
 
   pearlescent_froglight:
     display: "<#E7B8E6><b>Pearlescent Froglight"
@@ -628,7 +628,34 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 2000
+    collection: 1000
+
+  mushroom_stem:
+    display: "<#D9CFC1>Mushroom Stem"
+    material: MUSHROOM_STEM
+    world: "overworld"
+    region: "marsh_ruins"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 1200
+
+  red_mushroom:
+    display: "<#C8382E>Red Mushroom Block"
+    material: RED_MUSHROOM_BLOCK
+    world: "overworld"
+    region: "marsh_glowmire"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 640
+
+  brown_mushroom:
+    display: "<#8D6A4F>Brown Mushroom Block"
+    material: BROWN_MUSHROOM_BLOCK
+    world: "overworld"
+    region: "marsh_glowmire"
+    lore:
+      - "<dark_gray>Sunken Marsh"
+    collection: 1000
 
   wisp_dust:
     display: "<aqua>Wisp Dust"

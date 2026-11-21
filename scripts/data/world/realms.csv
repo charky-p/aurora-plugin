@@ -2,7 +2,7 @@ id,name,worlds,base,part_of
 overworld,<green><b>Overworld,aurora_overworld|aurora_test,,
 gormak,<gold><b>Gormak,,,overworld
 verdant,<dark_green><b>Verdant Groves,,,overworld
-duneworld,<gold><b>Duneworld,aurora_test_gormak,overworld,
+duneworld,<gold><b>Duneworld,aurora_duneworld|aurora_test_gormak,overworld,
 khorvath,<#B4462A><b>Khorvath,,,overworld
 elderwood,<#3A7D2C><b>Elderwood Roots,,,overworld
 marsh,<#4E6B3A><b>Sunken Marsh,,,overworld

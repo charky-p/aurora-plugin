@@ -29,6 +29,7 @@ items:
   duneworld:
     name: "<gold><b>Duneworld"
     worlds:
+      - "aurora_duneworld"
       - "aurora_test_gormak"
     base: overworld
 

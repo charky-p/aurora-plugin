@@ -53,7 +53,7 @@ items:
     biome: plains
 
   gate_trader:
-    display: "<gold><b>Gormak Gate"
+    display: "<gold><b>Dunesworld Gate"
     entity: VILLAGER
     gui: gate_shop
     profession: cartographer

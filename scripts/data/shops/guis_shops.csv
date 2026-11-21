@@ -1,6 +1,6 @@
 id,title,icon,rows,layout
 starter_shop,<gold><b>Starter Gear,icon_starter,3,BBBBIBBBB|B   1   B|BBBBBBBBX
-gate_shop,<gold><b>Gormak Gate,icon_gormak,3,BBBBIBBBB|B   1   B|BBBBBBBBX
+gate_shop,<gold><b>Dunesworld Gate,icon_gormak,3,BBBBIBBBB|B   1   B|BBBBBBBBX
 tomb_shop,<gold><b>Royal Tomb,icon_tomb,3,BBBBIBBBB|B  u k  B|BBBBBBBBX
 aurora_hub,<aqua><b>Aurora,icon_menu,6,BBBBBBBBB|B       B|B 1 4 6 B|B 7 s w B|B  9 l  B|BBBBBBBBX
 food_shop,<gold><b>Camp Cook,icon_food,3,BBBBBBBBB|B12345  B|BBBBBBBBX

@@ -41,7 +41,7 @@ items:
         icon: icon_tools
 
   gate_shop:
-    title: "<gold><b>Gormak Gate"
+    title: "<gold><b>Dunesworld Gate"
     icon: icon_gormak
     rows: 3
     layout:

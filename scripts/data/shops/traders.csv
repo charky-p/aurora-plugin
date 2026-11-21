@@ -5,7 +5,7 @@ coal_trader,<dark_gray><b>Coal Trader,VILLAGER,upgrades:coal,toolsmith,plains
 copper_trader,<#D94110><b>Copper Trader,VILLAGER,upgrades:copper,toolsmith,plains
 iron_trader,<white><b>Iron Trader,VILLAGER,upgrades:iron,toolsmith,plains
 gold_trader,<gold><b>Gold Trader,VILLAGER,upgrades:gold,toolsmith,plains
-gate_trader,<gold><b>Gormak Gate,VILLAGER,gate_shop,cartographer,plains
+gate_trader,<gold><b>Dunesworld Gate,VILLAGER,gate_shop,cartographer,plains
 city_trader,<gray><b>City Trader,VILLAGER,upgrades:city,armorer,desert
 dunes_trader,<yellow><b>Dunes Trader,VILLAGER,upgrades:dunes,armorer,desert
 canyons_trader,<#B4462A><b>Canyon Trader,VILLAGER,upgrades:canyons,armorer,desert

@@ -174,7 +174,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 3000
+    collection: 3200
 
   raw_gold:
     display: "<gold>Raw Gold"
@@ -412,7 +412,7 @@ items:
     region: "khorvath_sanctuary"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 5000
+    collection: 6000
 
   sphinx_claw:
     display: "<gold><b>Sphinx Claw"
@@ -583,7 +583,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 3200
+    collection: 5000
 
   verdigris:
     display: "<#4FB39A><b>Verdigris"
@@ -880,7 +880,7 @@ items:
     region: "duat_ashen"
     lore:
       - "<dark_gray>The Duat"
-    collection: 10000
+    collection: 16000
 
   sobek_sigil:
     display: "<gold>Sigil of Sobek"
@@ -889,7 +889,7 @@ items:
     region: "duat_ashen"
     lore:
       - "<dark_gray>The Duat"
-    collection: 16000
+    collection: 32000
 
   osiris_sigil:
     display: "<gold>Sigil of Osiris"
@@ -898,7 +898,7 @@ items:
     region: "duat_ashen"
     lore:
       - "<dark_gray>The Duat"
-    collection: 8000
+    collection: 16000
 
   thoth_sigil:
     display: "<gold>Sigil of Thoth"
@@ -907,7 +907,7 @@ items:
     region: "duat_judgement"
     lore:
       - "<dark_gray>The Duat"
-    collection: 16000
+    collection: 30000
 
   maat_sigil:
     display: "<gold>Sigil of Ma'at"
@@ -916,7 +916,7 @@ items:
     region: "duat_judgement"
     lore:
       - "<dark_gray>The Duat"
-    collection: 20000
+    collection: 40000
 
   horus_sigil:
     display: "<gold>Sigil of Horus"
@@ -934,7 +934,7 @@ items:
     region: "duat_forge"
     lore:
       - "<dark_gray>The Duat"
-    collection: 25000
+    collection: 40000
 
   ptah_sigil:
     display: "<gold>Sigil of Ptah"
@@ -943,7 +943,7 @@ items:
     region: "duat_forge"
     lore:
       - "<dark_gray>The Duat"
-    collection: 40000
+    collection: 64000
 
   khnum_sigil:
     display: "<gold>Sigil of Khnum"
@@ -952,7 +952,7 @@ items:
     region: "duat_forge"
     lore:
       - "<dark_gray>The Duat"
-    collection: 20000
+    collection: 32000
 
   set_sigil:
     display: "<gold>Sigil of Set"
@@ -961,7 +961,7 @@ items:
     region: "duat_throne"
     lore:
       - "<dark_gray>The Duat"
-    collection: 50000
+    collection: 64000
 
   apep_sigil:
     display: "<gold>Sigil of Apep"

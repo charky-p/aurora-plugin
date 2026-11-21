@@ -18,7 +18,7 @@ import java.util.List;
 public class CustomiseMenu extends PagedMenu {
     private static final Material[] ICONS = {Material.OAK_HANGING_SIGN, Material.BLUE_DYE, Material.PAINTING,
             Material.OAK_SIGN, Material.BLAZE_POWDER, Material.IRON_SWORD, Material.SKELETON_SKULL,
-            Cosmetics.TRIM_ICON, Material.AMETHYST_SHARD};
+            Cosmetics.TRIM_ICON, Material.AMETHYST_SHARD, Material.GOLDEN_PICKAXE, Material.GOLDEN_CHESTPLATE};
 
     private final CosmeticManager cosmetics;
     private final RankManager ranks;

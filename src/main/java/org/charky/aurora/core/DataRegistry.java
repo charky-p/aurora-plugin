@@ -218,7 +218,16 @@ public class DataRegistry {
     // enchant level written on it the way gear from the files has them, so mining
     // and combat read it like any other item. The realm may be null
     public ItemStack createTool(ToolType tool, Map<String, Integer> stats, Realms.Realm realm) {
-        String material = ToolLevels.material(tool.materials(), stats.getOrDefault(ToolLevels.MATERIAL, 0));
+        return createTool(tool, stats, realm, null);
+    }
+
+    // Drawn in the look's material when the player has bought it for this tool, the
+    // best one owned otherwise. It digs at the best one's speed whatever it shows
+    public ItemStack createTool(ToolType tool, Map<String, Integer> stats, Realms.Realm realm, String look) {
+        int owned = stats.getOrDefault(ToolLevels.MATERIAL, 0);
+        String best = ToolLevels.material(tool.materials(), owned);
+        int lookLevel = look == null ? -1 : ToolLevels.materialLevel(tool.materials(), look);
+        String material = lookLevel >= 0 && lookLevel <= owned ? tool.materials().get(lookLevel) : best;
 
         GearModel model = new GearModel();
         // A tool that only comes one way, a shield, has no material in its name
@@ -235,6 +244,10 @@ public class DataRegistry {
         });
 
         ItemStack item = itemFactory.createGear(model, enchants);
+        if (!material.equals(best)) {
+            Material speed = Material.matchMaterial(best + "_" + tool.item());
+            if (speed != null) ItemFactory.setSpeed(item, speed);
+        }
         item.editMeta(meta -> {
             meta.getPersistentDataContainer().set(DataKeys.TOOL_KEY, PersistentDataType.STRING, tool.id());
             meta.getPersistentDataContainer().set(DataKeys.ITEM_KEY, PersistentDataType.STRING, "tool_" + tool.id());

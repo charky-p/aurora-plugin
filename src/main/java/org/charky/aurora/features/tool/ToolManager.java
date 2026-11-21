@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 // Tools that live on the player. A tool's stats are levels kept per player and per
@@ -51,6 +52,30 @@ public class ToolManager implements Listener, LoadoutData {
     public void setTrims(Function<Player, ArmorTrim> trims) {
         this.trims = trims;
     }
+
+    // The material a player picked to show, for armour (true) or tools, null for the best owned
+    private BiFunction<Player, Boolean, String> looks = (player, armor) -> null;
+
+    public void setLooks(BiFunction<Player, Boolean, String> looks) {
+        this.looks = looks;
+    }
+
+    // Whether any tool of the kind, armour or not, has this material or a later one where
+    // the player stands. What unlocks a look
+    public boolean ownsMaterial(Player player, boolean armor, String material) {
+        Realm realm = realmOf(player);
+        if (realm == null) return false;
+        for (String id : registry.getToolIds()) {
+            ToolType tool = registry.getToolType(id);
+            if (tool == null || armor != ARMOR_KIND.equals(tool.kind())) continue;
+            int wanted = ToolLevels.materialLevel(tool.materials(), material);
+            if (wanted < 0 || !owns(player.getUniqueId(), id)) continue;
+            if (effective(player.getUniqueId(), realm, id).getOrDefault(ToolLevels.MATERIAL, 0) >= wanted) return true;
+        }
+        return false;
+    }
+
+    private static final String ARMOR_KIND = "armor";
 
     public ToolManager(Aurora plugin, Database db, ToolStore store) {
         this.plugin = plugin;
@@ -192,7 +217,7 @@ public class ToolManager implements Listener, LoadoutData {
     public ItemStack build(Player player, ToolType tool) {
         Realm realm = realmOf(player);
         Map<String, Integer> stats = realm == null ? Map.of() : effective(player.getUniqueId(), realm, tool.id());
-        ItemStack item = registry.createTool(tool, stats, realm);
+        ItemStack item = registry.createTool(tool, stats, realm, looks.apply(player, ARMOR_KIND.equals(tool.kind())));
 
         // Only armour has an ArmorMeta, so this leaves every other tool alone
         ArmorTrim trim = trims.apply(player);

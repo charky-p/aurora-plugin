@@ -21,7 +21,9 @@ public record Cosmetic(String id, Type type, String display, Material icon, Sour
         KILL_EFFECT("Kill Effects", "What happens where a mob you kill falls"),
         DEATH_MESSAGE("Death Messages", "What everyone reads when you die"),
         TRIM_PATTERN("Armour Trims", "The pattern on the armour you wear"),
-        TRIM_MATERIAL("Trim Colours", "What your armour trim is made of");
+        TRIM_MATERIAL("Trim Colours", "What your armour trim is made of"),
+        TOOL_LOOK("Tool Looks", "The material your tools show, any you have bought"),
+        ARMOR_LOOK("Armour Looks", "The material your armour shows, any you have bought");
 
         private final String title;
         private final String description;
@@ -47,7 +49,9 @@ public record Cosmetic(String id, Type type, String display, Material icon, Sour
         // Bought with Essence in /customise
         ESSENCE,
         // Handed out by an admin, for donors and events
-        GRANT
+        GRANT,
+        // Owned with that material on a tool of its kind, the target: tools or armor
+        MATERIAL
     }
 
     // Where a cosmetic is worn. Suffixes have two places, everything else one
@@ -61,7 +65,9 @@ public record Cosmetic(String id, Type type, String display, Material icon, Sour
         KILL_EFFECT("kill_effect", Type.KILL_EFFECT),
         DEATH_MESSAGE("death_message", Type.DEATH_MESSAGE),
         TRIM_PATTERN("trim_pattern", Type.TRIM_PATTERN),
-        TRIM_MATERIAL("trim_material", Type.TRIM_MATERIAL);
+        TRIM_MATERIAL("trim_material", Type.TRIM_MATERIAL),
+        TOOL_LOOK("tool_look", Type.TOOL_LOOK),
+        ARMOR_LOOK("armor_look", Type.ARMOR_LOOK);
 
         private final String id;
         private final Type type;

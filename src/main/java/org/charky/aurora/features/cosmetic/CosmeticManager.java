@@ -71,6 +71,18 @@ public class CosmeticManager implements Listener, LoadoutData {
     private Consumer<Player> lookChanged = player -> {};
     // Whether a player has maxed out the zone or world of a cosmetic, set with the tools
     private BiPredicate<Player, Cosmetic> maxed = (player, cosmetic) -> false;
+    // Whether a player has bought a look's material on a tool of its kind, set with the tools
+    private BiPredicate<Player, Cosmetic> materialOwned = (player, cosmetic) -> false;
+
+    public void setMaterialOwned(BiPredicate<Player, Cosmetic> materialOwned) {
+        this.materialOwned = materialOwned;
+    }
+
+    // The material a tool of this kind is drawn in, null for the best one owned
+    public String lookFor(Player player, boolean armor) {
+        Cosmetic look = equipped(player.getUniqueId(), armor ? Slot.ARMOR_LOOK : Slot.TOOL_LOOK);
+        return look == null || Cosmetics.NONE.equals(look.value()) || !owns(player, look) ? null : look.value();
+    }
 
     public void setMaxed(BiPredicate<Player, Cosmetic> maxed) {
         this.maxed = maxed;
@@ -158,6 +170,7 @@ public class CosmeticManager implements Listener, LoadoutData {
                     || (cosmetic.type() == Type.CHAT_COLOR && ranks.owns(player, Ranks.get("AURORA")));
             case GRANT -> has(player.getUniqueId(), cosmetic.id());
             case ZONE, WORLD -> maxed.test(player, cosmetic);
+            case MATERIAL -> materialOwned.test(player, cosmetic);
         };
     }
 

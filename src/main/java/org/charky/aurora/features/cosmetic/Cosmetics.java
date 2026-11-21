@@ -66,6 +66,12 @@ public final class Cosmetics {
     };
     private static final String DEFAULT_TRIM_MATERIAL = "quartz";
     private static final int TRIM_MATERIAL_PRICE = 750;
+    // The looks players pick from, every material up to gold. Diamond and netherite are
+    // only sold from the Ironbound Quarry on, and Best Owned shows them
+    private static final String[] TOOL_LOOKS = {"WOODEN", "STONE", "COPPER", "IRON", "GOLDEN"};
+    private static final String[] ARMOR_LOOKS = {"LEATHER", "COPPER", "IRON", "GOLDEN"};
+    public static final String LOOK_TOOLS = "tools";
+    public static final String LOOK_ARMOR = "armor";
 
     static {
         // Suffixes. Only the ones that cost real money are bold
@@ -273,6 +279,17 @@ public final class Cosmetics {
             add("trim_" + name, Type.TRIM_PATTERN, "<yellow>" + title(name), TRIM_ICON, Source.ESSENCE,
                     name.equals(RARE_TRIM) ? RARE_TRIM_PRICE : TRIM_PRICE, null, name, null);
         }
+        // Looks: the material a tool or armour piece shows. Best Owned draws the best one bought
+        add("toollook_best", Type.TOOL_LOOK, "<white>Best Owned", Material.GOLDEN_PICKAXE, Source.DEFAULT, 0, null, NONE, null);
+        for (String material : TOOL_LOOKS) {
+            add("toollook_" + material.toLowerCase(), Type.TOOL_LOOK, "<white>" + title(material.toLowerCase()),
+                    Material.valueOf(material + "_PICKAXE"), Source.MATERIAL, 0, null, material, LOOK_TOOLS);
+        }
+        add("armorlook_best", Type.ARMOR_LOOK, "<white>Best Owned", Material.GOLDEN_CHESTPLATE, Source.DEFAULT, 0, null, NONE, null);
+        for (String material : ARMOR_LOOKS) {
+            add("armorlook_" + material.toLowerCase(), Type.ARMOR_LOOK, "<white>" + title(material.toLowerCase()),
+                    Material.valueOf(material + "_CHESTPLATE"), Source.MATERIAL, 0, null, material, LOOK_ARMOR);
+        }
         for (String[] material : TRIM_MATERIALS) {
             boolean plain = material[0].equals(DEFAULT_TRIM_MATERIAL);
             add("trimcolor_" + material[0], Type.TRIM_MATERIAL, "<" + material[1] + ">" + title(material[0]),
@@ -392,6 +409,8 @@ public final class Cosmetics {
             case DEATH_MESSAGE -> get("death_default");
             case TRIM_PATTERN -> get("trim_none");
             case TRIM_MATERIAL -> get("trimcolor_" + DEFAULT_TRIM_MATERIAL);
+            case TOOL_LOOK -> get("toollook_best");
+            case ARMOR_LOOK -> get("armorlook_best");
             default -> null;
         };
     }

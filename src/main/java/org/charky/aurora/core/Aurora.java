@@ -236,6 +236,9 @@ public class Aurora extends JavaPlugin {
         upgradeShop.setOnMaxed(cosmeticManager::announceMaxed);
         rankManager.setOnPlaytime(cosmeticManager::playtimePassed);
         toolManager.setTrims(cosmeticManager::trim);
+        toolManager.setLooks(cosmeticManager::lookFor);
+        cosmeticManager.setMaterialOwned((player, cosmetic) -> toolManager.ownsMaterial(player,
+                Cosmetics.LOOK_ARMOR.equals(cosmetic.target()), cosmetic.value()));
         cosmeticManager.setLookChanged(toolManager::refresh);
         this.accessManager = new AccessManager(db, new AccessStore(db), registry);
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);

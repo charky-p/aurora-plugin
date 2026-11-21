@@ -129,6 +129,7 @@ public class CosmeticMenu extends PagedMenu {
             case PLAYTIME -> "Earned by playing for " + cosmetic.requirement() / 3600 + "h";
             case ESSENCE -> "Costs " + String.format("%,d", cosmetic.requirement()) + " Essence";
             case GRANT -> "Not sold for Essence";
+            case MATERIAL -> "Unlocked by buying this material";
         };
     }
 
@@ -143,6 +144,7 @@ public class CosmeticMenu extends PagedMenu {
             case ZONE -> "<red>Buy every upgrade there";
             case WORLD -> Cosmetics.regions(cosmetic).stream().allMatch(region -> registry.getRegions().zonesOf(region).isEmpty())
                     ? "<red>Not open yet" : "<red>Max out every zone there";
+            case MATERIAL -> "<red>Buy this material on a " + (Cosmetics.LOOK_ARMOR.equals(cosmetic.target()) ? "piece of armour" : "tool") + " first";
             default -> "<red>Locked";
         };
     }

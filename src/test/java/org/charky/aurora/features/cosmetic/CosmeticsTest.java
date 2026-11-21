@@ -80,12 +80,13 @@ class CosmeticsTest {
         }
     }
 
-    // A zone or a world that is maxed out earns a suffix, and nothing else is tied to one
+    // A zone or a world that is maxed out earns a suffix, and nothing else is tied to one.
+    // A look names the kind of tool whose material unlocks it instead
     @Test
     void zonesAndWorldsEarnSuffixes() {
         for (Cosmetic cosmetic : Cosmetics.all()) {
             boolean earned = cosmetic.source() == Source.ZONE || cosmetic.source() == Source.WORLD;
-            assertEquals(earned, cosmetic.target() != null, cosmetic.id());
+            assertEquals(earned || cosmetic.source() == Source.MATERIAL, cosmetic.target() != null, cosmetic.id());
             if (earned) assertEquals(Type.SUFFIX, cosmetic.type(), cosmetic.id());
         }
         assertEquals("suffix_cobble", Cosmetics.earnedIn(Source.ZONE, "cobble").getFirst().id());

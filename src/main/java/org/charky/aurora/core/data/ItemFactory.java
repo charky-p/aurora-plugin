@@ -145,6 +145,19 @@ public class ItemFactory {
         meta.setTool(tool);
     }
 
+    // Digs at another material's speed, for a tool drawn in an older look
+    public static void setSpeed(ItemStack item, Material speedOf) {
+        MiningTool kind = MiningTool.of(item.getType());
+        if (kind == null) return;
+        item.editMeta(meta -> {
+            ToolComponent tool = meta.getTool();
+            tool.setRules(new ArrayList<>());
+            tool.addRule(kind.blocks(), tierSpeed(speedOf), true);
+            if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), tierSpeed(speedOf), true);
+            meta.setTool(tool);
+        });
+    }
+
     // Vanilla tier speeds, the same for every tool of a tier. Efficiency still adds
     // on top through the enchant
     public static float tierSpeed(Material material) {

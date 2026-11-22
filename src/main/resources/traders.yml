@@ -90,7 +90,7 @@ items:
   tomb_trader:
     display: "<dark_purple><b>Tomb Trader"
     entity: VILLAGER
-    gui: tomb_shop
+    gui: upgrades:tomb
     profession: weaponsmith
     biome: desert
 
@@ -153,7 +153,7 @@ items:
   sanctuary_trader:
     display: "<gold><b>Sanctuary Trader"
     entity: VILLAGER
-    gui: sanctuary_shop
+    gui: upgrades:sanctuary
     profession: cleric
     biome: desert
 
@@ -209,7 +209,7 @@ items:
   glowmire_trader:
     display: "<#F5D76E><b>Glowmire Trader"
     entity: VILLAGER
-    gui: glowmire_shop
+    gui: upgrades:glowmire
     profession: cleric
     biome: swamp
 
@@ -251,7 +251,7 @@ items:
   arachne_trader:
     display: "<dark_red><b>Cave Trader"
     entity: VILLAGER
-    gui: arachne_cave_shop
+    gui: upgrades:arachne_cave
     profession: weaponsmith
     biome: snow
 
@@ -279,7 +279,7 @@ items:
   throne_trader:
     display: "<dark_gray><b>Night Trader"
     entity: VILLAGER
-    gui: throne_shop
+    gui: upgrades:throne
     profession: cleric
     biome: desert
 
@@ -314,7 +314,7 @@ items:
   crown_trader:
     display: "<dark_green><b>Crown Trader"
     entity: VILLAGER
-    gui: the_crown_shop
+    gui: upgrades:the_crown
     profession: cleric
     biome: jungle
 
@@ -370,7 +370,7 @@ items:
   throne_room_trader:
     display: "<gold><b>Throne Trader"
     entity: VILLAGER
-    gui: throne_room_shop
+    gui: upgrades:throne_room
     profession: cleric
     biome: plains
 

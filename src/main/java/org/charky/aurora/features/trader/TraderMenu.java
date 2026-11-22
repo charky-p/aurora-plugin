@@ -9,6 +9,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 public class TraderMenu implements TraderNode, InventoryHolder {
@@ -33,6 +34,11 @@ public class TraderMenu implements TraderNode, InventoryHolder {
 
     public TraderNode getNode(int slot) {
         return contents.get(slot);
+    }
+
+    // Everything it holds, in slot order
+    public List<TraderNode> nodes() {
+        return contents.entrySet().stream().sorted(Map.Entry.comparingByKey()).map(Map.Entry::getValue).toList();
     }
 
     @Override

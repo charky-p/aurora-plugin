@@ -1,13 +1,13 @@
 id,title,icon,rows,layout
 starter_shop,<gold><b>Starter Gear,icon_starter,3,BBBBIBBBB|B   1   B|BBBBBBBBX
 gate_shop,<gold><b>Dunesworld Gate,icon_gormak,3,BBBBIBBBB|B   1   B|BBBBBBBBX
-tomb_shop,<gold><b>Royal Tomb,icon_tomb,3,BBBBIBBBB|B  u k  B|BBBBBBBBX
-glowmire_shop,<#F5D76E><b>Glowmire,icon_glowmire,3,BBBBIBBBB|B  u k  B|BBBBBBBBX
-sanctuary_shop,<#B4462A><b>Sanctuary of the Sun,icon_sanctuary,3,BBBBIBBBB|B  u k  B|BBBBBBBBX
-arachne_cave_shop,<#2ECC71><b>Arachne Cave,icon_arachne_cave,3,BBBBIBBBB|B  u k  B|BBBBBBBBX
-the_crown_shop,<#1E5631><b>The Crown,icon_the_crown,3,BBBBIBBBB|B  u k  B|BBBBBBBBX
-throne_shop,<#C9A227><b>Throne of Night,icon_throne,3,BBBBIBBBB|B  u k  B|BBBBBBBBX
-throne_room_shop,<#FFE680><b>Throne Room,icon_throne_room,3,BBBBIBBBB|B  u k  B|BBBBBBBBX
+tomb_trades,<gold><b>Royal Tomb,icon_tomb,1,BBBBkBBBX
+glowmire_trades,<#F5D76E><b>Glowmire,icon_glowmire,1,BBBBkBBBX
+sanctuary_trades,<#B4462A><b>Sanctuary of the Sun,icon_sanctuary,1,BBBBkBBBX
+arachne_cave_trades,<#2ECC71><b>Arachne Cave,icon_arachne_cave,1,BBBBkBBBX
+the_crown_trades,<#1E5631><b>The Crown,icon_the_crown,1,BBBBkBBBX
+throne_trades,<#C9A227><b>Throne of Night,icon_throne,1,BBBBkBBBX
+throne_room_trades,<#FFE680><b>Throne Room,icon_throne_room,1,BBBBkBBBX
 aurora_hub,<aqua><b>Aurora,icon_menu,6,BBBBBBBBB|B       B|B 1 4 6 B|B 7 s w B|B  9 l  B|BBBBBBBBX
 food_shop,<gold><b>Camp Cook,icon_food,3,BBBBBBBBB|B12345  B|BBBBBBBBX
 elderwood_gate_shop,<dark_green><b>Elderwood Gate,icon_elderwood,3,BBBBIBBBB|B   1   B|BBBBBBBBX

@@ -12,18 +12,24 @@ import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.tool.UpgradeZone.Status;
 import org.charky.aurora.features.tool.UpgradeZone.Step;
+import org.charky.aurora.features.trader.TraderItem;
+import org.charky.aurora.features.trader.TraderMenu;
+import org.charky.aurora.features.trader.TraderNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // A zone's upgrades: one entry for every tool the zone improves, drawn as the
 // player has it. Clicking a tool buys the next step of its chain, and a tool whose
-// chain is finished here says so
+// chain is finished here says so. After the tools, whatever the zone's trades menu
+// sells (guis_shops.csv, <zone>_trades), like a boss key, bought the same way as in
+// any shop
 public class UpgradeMenu extends PagedMenu {
     private final UpgradeShop shop;
     private final ToolManager tools;
     private final UpgradeZone zone;
     private final List<ToolType> types = new ArrayList<>();
+    private final List<TraderItem> trades = new ArrayList<>();
 
     public UpgradeMenu(UpgradeShop shop, DataRegistry registry, UpgradeZone zone) {
         super(registry, zone.name() + " Upgrades");
@@ -34,7 +40,16 @@ public class UpgradeMenu extends PagedMenu {
             ToolType type = registry.getToolType(id);
             if (type != null) types.add(type);
         }
+        TraderMenu extra = registry.getGui(zone.id() + TRADES_SUFFIX);
+        if (extra != null) {
+            for (TraderNode node : extra.nodes()) {
+                if (node instanceof TraderItem item) trades.add(item);
+            }
+        }
     }
+
+    // The menu of things a zone's upgrades also sell
+    public static final String TRADES_SUFFIX = "_trades";
 
     @Override
     protected List<ItemStack> entries(Player player) {
@@ -84,6 +99,7 @@ public class UpgradeMenu extends PagedMenu {
             // stats, so a maxed shop reads at a glance
             items.add(status == Status.MAXED && owned && tools.carries(player, type) ? item.withType(Material.EMERALD_BLOCK) : item);
         }
+        for (TraderItem trade : trades) items.add(trade.getDisplayItem(player));
         return items;
     }
 
@@ -97,7 +113,12 @@ public class UpgradeMenu extends PagedMenu {
 
     @Override
     protected void onEntryClick(Player player, int index) {
-        if (index >= types.size()) return;
+        if (index >= types.size()) {
+            int trade = index - types.size();
+            if (trade < trades.size()) trades.get(trade).onClick(player);
+            render(player);
+            return;
+        }
 
         ToolType type = types.get(index);
         // A tool of theirs they do not carry is handed back, one they never had is bought

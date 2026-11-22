@@ -10,7 +10,7 @@ city_trader,<gray><b>City Trader,VILLAGER,upgrades:city,armorer,desert
 dunes_trader,<yellow><b>Dunes Trader,VILLAGER,upgrades:dunes,armorer,desert
 canyons_trader,<#B4462A><b>Canyon Trader,VILLAGER,upgrades:canyons,armorer,desert
 temple_trader,<gold><b>Temple Trader,VILLAGER,upgrades:temple,armorer,desert
-tomb_trader,<dark_purple><b>Tomb Trader,VILLAGER,tomb_shop,weaponsmith,desert
+tomb_trader,<dark_purple><b>Tomb Trader,VILLAGER,upgrades:tomb,weaponsmith,desert
 oak_trader,<#7BA05B><b>Oak Trader,VILLAGER,upgrades:oak,fletcher,taiga
 birch_trader,<#D9D3B0><b>Birch Trader,VILLAGER,upgrades:birch,fletcher,taiga
 spruce_trader,<#4F7A4A><b>Spruce Trader,VILLAGER,upgrades:spruce,fletcher,taiga
@@ -19,7 +19,7 @@ treehouse_trader,<#2E8B57><b>Grove Trader,VILLAGER,upgrades:treehouse,weaponsmit
 food_trader,<gold><b>Food Trader,VILLAGER,food_shop,butcher,plains
 ruins_trader,<#E07B39><b>Ruins Trader,VILLAGER,upgrades:ruins,armorer,desert
 catacombs_trader,<dark_purple><b>Catacombs Trader,VILLAGER,upgrades:catacombs,armorer,desert
-sanctuary_trader,<gold><b>Sanctuary Trader,VILLAGER,sanctuary_shop,cleric,desert
+sanctuary_trader,<gold><b>Sanctuary Trader,VILLAGER,upgrades:sanctuary,cleric,desert
 jungle_trader,<#9C7A3C><b>Jungle Trader,VILLAGER,upgrades:jungle,fletcher,jungle
 bamboo_trader,<#7BA05B><b>Bamboo Trader,VILLAGER,upgrades:bamboo,fletcher,jungle
 amber_trader,<gold><b>Amber Trader,VILLAGER,upgrades:amber,fletcher,jungle
@@ -27,22 +27,22 @@ mudflats_trader,<#8B6B4A><b>Mudflats Trader,VILLAGER,upgrades:mudflats,toolsmith
 slime_trader,<#7BC96F><b>Slime Hollow Trader,VILLAGER,upgrades:slime_hollow,toolsmith,swamp
 fens_trader,<#6B7F5A><b>Fens Trader,VILLAGER,upgrades:fens,toolsmith,swamp
 sunken_trader,<#4FB39A><b>Sunken Ruins Trader,VILLAGER,upgrades:sunken_ruins,toolsmith,swamp
-glowmire_trader,<#F5D76E><b>Glowmire Trader,VILLAGER,glowmire_shop,cleric,swamp
+glowmire_trader,<#F5D76E><b>Glowmire Trader,VILLAGER,upgrades:glowmire,cleric,swamp
 foothills_trader,<#8B6B4A><b>Foothills Trader,VILLAGER,upgrades:foothills,farmer,snow
 crags_trader,<white><b>Crags Trader,VILLAGER,upgrades:stony_crags,mason,snow
 slopes_trader,<aqua><b>Slopes Trader,VILLAGER,upgrades:frozen_slopes,toolsmith,snow
 grotto_trader,<red><b>Grotto Trader,VILLAGER,upgrades:redstone_grotto,toolsmith,snow
 depths_trader,<green><b>Depths Trader,VILLAGER,upgrades:emerald_depths,armorer,snow
-arachne_trader,<dark_red><b>Cave Trader,VILLAGER,arachne_cave_shop,weaponsmith,snow
+arachne_trader,<dark_red><b>Cave Trader,VILLAGER,upgrades:arachne_cave,weaponsmith,snow
 ashen_trader,<gray><b>Ashen Trader,VILLAGER,upgrades:ashen,armorer,desert
 judgement_trader,<gold><b>Judgement Trader,VILLAGER,upgrades:judgement,librarian,desert
 forge_trader,<red><b>Forge Trader,VILLAGER,upgrades:forge,armorer,desert
-throne_trader,<dark_gray><b>Night Trader,VILLAGER,throne_shop,cleric,desert
+throne_trader,<dark_gray><b>Night Trader,VILLAGER,upgrades:throne,cleric,desert
 cellar_trader,<#6B4F35><b>Root Trader,VILLAGER,upgrades:root_cellar,armorer,jungle
 vine_trader,<#3A7D2C><b>Vine Trader,VILLAGER,upgrades:vine_halls,armorer,jungle
 hive_trader,<gold><b>Hive Trader,VILLAGER,upgrades:hive_chambers,armorer,jungle
 canopy_trader,<dark_green><b>Canopy Trader,VILLAGER,upgrades:upper_canopy,weaponsmith,jungle
-crown_trader,<dark_green><b>Crown Trader,VILLAGER,the_crown_shop,cleric,jungle
+crown_trader,<dark_green><b>Crown Trader,VILLAGER,upgrades:the_crown,cleric,jungle
 cloudbank_trader,<white><b>Cloud Trader,VILLAGER,upgrades:cloudbank,toolsmith,plains
 spires_trader,<aqua><b>Spire Trader,VILLAGER,upgrades:skyshard_spires,toolsmith,plains
 storm_trader,<aqua><b>Storm Trader,VILLAGER,upgrades:storm_front,toolsmith,plains
@@ -50,7 +50,7 @@ harbour_trader,<gold><b>Harbour Trader,VILLAGER,upgrades:sky_harbour,weaponsmith
 walls_trader,<white><b>Wall Trader,VILLAGER,upgrades:outer_walls,armorer,plains
 gardens_trader,<yellow><b>Garden Trader,VILLAGER,upgrades:gilded_gardens,armorer,plains
 treasury_trader,<gold><b>Treasury Trader,VILLAGER,upgrades:royal_treasury,librarian,plains
-throne_room_trader,<gold><b>Throne Trader,VILLAGER,throne_room_shop,cleric,plains
+throne_room_trader,<gold><b>Throne Trader,VILLAGER,upgrades:throne_room,cleric,plains
 gravel_trader,<gray><b>Gravel Trader,VILLAGER,upgrades:gravel_pits,mason,savanna
 pale_trader,<white><b>Pale Trader,VILLAGER,upgrades:pale_woods,fletcher,savanna
 maple_trader,<red><b>Maple Trader,VILLAGER,upgrades:maple_grove,fletcher,savanna

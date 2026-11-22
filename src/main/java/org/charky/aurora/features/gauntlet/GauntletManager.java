@@ -46,6 +46,7 @@ public class GauntletManager {
     private GauntletDuels duels;
     private final GauntletChallenges challenges = new GauntletChallenges(this);
     private final GauntletWeekly weekly;
+    private final GauntletBoards boards;
     private final GauntletAchievements achievements = new GauntletAchievements(this);
     private GauntletSpectate spectate;
     private GauntletParty party;
@@ -64,6 +65,7 @@ public class GauntletManager {
         this.build = build;
         this.arena = new GauntletArena(db, store, plugin.getDataFolder(), plugin.getLogger());
         this.weekly = new GauntletWeekly(this, plugin.getDataFolder(), plugin.getLogger());
+        this.boards = new GauntletBoards(plugin, this);
         profiles.putAll(store.loadAll());
     }
 
@@ -85,6 +87,10 @@ public class GauntletManager {
 
     public GauntletWeekly weekly() {
         return weekly;
+    }
+
+    GauntletBoards boards() {
+        return boards;
     }
 
     public GauntletAchievements achievements() {
@@ -185,8 +191,10 @@ public class GauntletManager {
     public void start() {
         sweep = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             if (world != null) world.everySecond();
-            // The weekly boards pay out once the week has turned
-            if (ticks++ % 60 == 0) weekly.check();
+            // The weekly boards pay out once the week has turned, the lobby's boards catch up
+            if (ticks % 60 == 0) weekly.check();
+            if (ticks % 30 == 0) boards.refresh();
+            ticks++;
         }, 20L, 20L);
         scoreboard.setOverride(new GauntletSidebar(this)::lines);
     }

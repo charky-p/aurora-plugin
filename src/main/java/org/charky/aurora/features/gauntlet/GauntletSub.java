@@ -8,6 +8,7 @@ import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.system.WandManager;
 import org.charky.aurora.features.system.commands.AuroraSubCommand;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
@@ -18,7 +19,7 @@ import java.util.function.BiFunction;
  */
 public class GauntletSub implements AuroraSubCommand {
     private static final List<String> ACTIONS = List.of("lobby", "arena", "spawn", "mobspawn", "clearmobspawns",
-            "package", "pvp", "startportal", "duelarena", "duelspawn", "status", "reset");
+            "package", "pvp", "startportal", "duelarena", "duelspawn", "board", "status", "reset");
 
     private final Aurora plugin;
 
@@ -74,6 +75,7 @@ public class GauntletSub implements AuroraSubCommand {
             case "duelarena" -> fromWand(player, "duel arena", arena::saveDuelArena, "Duel arena saved. Duels paste a copy of it every "
                     + GauntletArena.SLOT_SPACING + " blocks along x. Now set its two spawns with /aurora gauntlet duelspawn 1 and 2, inside it");
             case "duelspawn" -> duelSpawn(player, arena, here, args);
+            case "board" -> board(player, manager, args);
             case "startportal" -> fromWand(player, "start portal", arena::setStart, "Start portal set, walking into it starts a run");
             case "pvp" -> fromWand(player, "PvP zone", arena::setPvp, "PvP zone set, players can fight inside it");
             default -> {
@@ -131,6 +133,27 @@ public class GauntletSub implements AuroraSubCommand {
         TextUtils.success(player, "Duelist " + args[1] + " starts here");
     }
 
+    // A leaderboard standing in the lobby, or the nearest one taken down
+    private static void board(Player player, GauntletManager manager, String[] args) {
+        String kind = args.length < 2 ? "" : args[1].toLowerCase();
+        if (kind.equals("remove")) {
+            String removed = manager.boards().removeNearest(player);
+            if (removed == null) TextUtils.error(player, "No Gauntlet board within 8 blocks");
+            else TextUtils.success(player, "Took down the " + removed + " board");
+            return;
+        }
+        if (!GauntletBoards.KINDS.contains(kind)) {
+            TextUtils.usage(player, "/aurora gauntlet board <" + String.join("|", GauntletBoards.KINDS) + "|remove>");
+            return;
+        }
+        if (!manager.isHere(player)) {
+            TextUtils.error(player, "Boards go in the Gauntlet's world");
+            return;
+        }
+        manager.boards().place(player, kind);
+        TextUtils.success(player, "The " + kind + " board is up, it keeps itself up to date");
+    }
+
     // The wand's selection handed to the arena, which says what is wrong with it or null
     private void fromWand(Player player, String what, BiFunction<Location, Location, String> save, String done) {
         WandManager wand = plugin.getWandManager();
@@ -161,12 +184,17 @@ public class GauntletSub implements AuroraSubCommand {
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) return TextUtils.getCompletions(args[0], ACTIONS);
         if (args.length == 2 && args[0].equalsIgnoreCase("reset")) return TextUtils.playerCompletions(args[1]);
+        if (args.length == 2 && args[0].equalsIgnoreCase("board")) {
+            List<String> options = new ArrayList<>(GauntletBoards.KINDS);
+            options.add("remove");
+            return TextUtils.getCompletions(args[1], options);
+        }
         return List.of();
     }
 
     @Override
     public String getUsage() {
-        return "<lobby|arena|spawn|mobspawn|clearmobspawns|package|pvp|startportal|duelarena|duelspawn|status|reset> [player|1|2]";
+        return "<lobby|arena|spawn|mobspawn|clearmobspawns|package|pvp|startportal|duelarena|duelspawn|board|status|reset> [player|1|2|kind]";
     }
 
     @Override
@@ -192,6 +220,7 @@ public class GauntletSub implements AuroraSubCommand {
                 "startportal - the wand selection, in the lobby, starts a run when walked into",
                 "duelarena - save the wand selection as the duel arena (in the lobby's world); duels paste copies of it",
                 "duelspawn <1|2> - where each duelist starts, inside the duel arena",
+                "board <floors|pvp|duels|week> - a leaderboard where you stand, kept up to date; board remove takes the nearest down",
                 "status - what is still missing",
                 "reset <player> - wipe a player's Gauntlet progress: Shards, Cores, best floor, gear, kit, milestones");
     }

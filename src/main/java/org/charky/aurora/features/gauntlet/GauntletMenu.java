@@ -10,10 +10,7 @@ import org.charky.aurora.common.util.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
 // starting kit, talents, the shop, challenges, achievements, milestones, the boards,
@@ -157,7 +154,7 @@ public class GauntletMenu extends PagedMenu {
     }
 
     private ItemStack topFloors(GauntletProfile profile) {
-        List<String> lines = ranking(manager.top(10), top -> "floor " + top.best, "Nobody has cleared a floor yet");
+        List<String> lines = GauntletBoards.rows(manager.top(10), top -> "floor " + top.best, "Nobody has cleared a floor yet");
         lines.add("");
         lines.add("<gray>Your best: <white>" + profile.best + " <dark_gray>(" + profile.runs + " runs)");
         return button(Material.PLAYER_HEAD, "<aqua><b>Top Floors", lines);
@@ -177,10 +174,10 @@ public class GauntletMenu extends PagedMenu {
                 "",
                 "<yellow>Best floor <gray>(" + (int) data.setting("weekly_floor_1", 0) + " / " + (int) data.setting("weekly_floor_2", 0)
                         + " / " + (int) data.setting("weekly_floor_3", 0) + " Shards)"));
-        lines.addAll(ranking(weekly.top(GauntletWeekly.FLOOR, 3), top -> "floor " + top.stat(GauntletWeekly.FLOOR), "Nobody yet this week"));
+        lines.addAll(GauntletBoards.rows(weekly.top(GauntletWeekly.FLOOR, 3), top -> "floor " + top.stat(GauntletWeekly.FLOOR), "Nobody yet this week"));
         lines.add("<yellow>PvP wins <gray>(" + (int) data.setting("weekly_pvp_1", 0) + " / " + (int) data.setting("weekly_pvp_2", 0)
                 + " / " + (int) data.setting("weekly_pvp_3", 0) + " Shards)");
-        lines.addAll(ranking(weekly.top(GauntletWeekly.PVP, 3), top -> top.stat(GauntletWeekly.PVP) + " wins", "Nobody yet this week"));
+        lines.addAll(GauntletBoards.rows(weekly.top(GauntletWeekly.PVP, 3), top -> top.stat(GauntletWeekly.PVP) + " wins", "Nobody yet this week"));
         return button(Material.SUNFLOWER, "<gold><b>This Week", lines);
     }
 
@@ -193,7 +190,7 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>Your kills: <red>" + profile.stat(GauntletPvp.KILLS) + " <gray>deaths: <white>" + profile.stat(GauntletPvp.DEATHS),
                 "<gray>Best streak: <gold>" + profile.stat(GauntletPvp.BEST_STREAK),
                 ""));
-        lines.addAll(ranking(manager.topBy(GauntletPvp.KILLS, 5), top -> top.stat(GauntletPvp.KILLS) + " kills", "Nobody has a PvP kill yet"));
+        lines.addAll(GauntletBoards.rows(manager.topBy(GauntletPvp.KILLS, 5), top -> top.stat(GauntletPvp.KILLS) + " kills", "Nobody has a PvP kill yet"));
         return button(Material.DIAMOND_SWORD, "<red><b>PvP", lines);
     }
 
@@ -206,7 +203,7 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>Your rating: <gold>" + GauntletDuels.rating(profile) + " <gray>(" + profile.stat(GauntletDuels.WINS)
                         + " won, " + profile.stat(GauntletDuels.LOSSES) + " lost)",
                 ""));
-        lines.addAll(ranking(manager.topBy(GauntletDuels.RATING, 5), top -> String.valueOf(top.stat(GauntletDuels.RATING)),
+        lines.addAll(GauntletBoards.rows(manager.topBy(GauntletDuels.RATING, 5), top -> String.valueOf(top.stat(GauntletDuels.RATING)),
                 "Nobody has fought a duel yet"));
         return button(Material.CROSSBOW, "<gold><b>Duels", lines);
     }
@@ -242,17 +239,6 @@ public class GauntletMenu extends PagedMenu {
             lines.add("<yellow>Click to invite players");
         }
         return button(Material.CAKE, "<aqua><b>Party", lines);
-    }
-
-    // A board's rows, "1. name - value", or what to say while nobody is on it
-    private static List<String> ranking(List<Map.Entry<UUID, GauntletProfile>> top, Function<GauntletProfile, String> value, String empty) {
-        List<String> rows = new ArrayList<>();
-        int place = 1;
-        for (Map.Entry<UUID, GauntletProfile> entry : top) {
-            rows.add("<gray>" + place++ + ". <white>" + GauntletManager.nameOf(entry.getKey()) + " <gray>- " + value.apply(entry.getValue()));
-        }
-        if (rows.isEmpty()) rows.add("<gray>" + empty);
-        return rows;
     }
 
     private static String cosmeticName(String id) {

@@ -1,0 +1,85 @@
+package org.charky.aurora.features.combat;
+
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.charky.aurora.common.util.Enchants;
+import org.charky.aurora.features.tool.ToolManager;
+
+// The bow, bought at the Dunes and upgraded with Power like the sword with Sharpness.
+// A shot carries its Power and how far it was drawn on the arrow, and CombatListener
+// prices the hit from them, not from what the player holds when it lands. Arrows are
+// free: the bow keeps one arrow in the inventory to draw with and never uses it up,
+// and the arrows it fires cannot be picked up
+public class BowListener implements Listener {
+    public static final String BOW_ID = "bow";
+    private static final NamespacedKey POWER_KEY = new NamespacedKey("aurora", "arrow_power");
+    private static final NamespacedKey FORCE_KEY = new NamespacedKey("aurora", "arrow_force");
+
+    @EventHandler(ignoreCancelled = true)
+    public void onShoot(EntityShootBowEvent event) {
+        if (!(event.getEntity() instanceof Player player) || !isBow(event.getBow())) return;
+
+        event.setConsumeItem(false);
+        player.updateInventory();
+        if (!(event.getProjectile() instanceof AbstractArrow arrow)) return;
+
+        arrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
+        PersistentDataContainer pdc = arrow.getPersistentDataContainer();
+        pdc.set(POWER_KEY, PersistentDataType.INTEGER, Enchants.level(event.getBow(), "power"));
+        pdc.set(FORCE_KEY, PersistentDataType.FLOAT, event.getForce());
+    }
+
+    // Vanilla only draws a bow with an arrow to fire, so one is handed over whenever
+    // the bow comes out or is used without one
+    @EventHandler
+    public void onHold(PlayerItemHeldEvent event) {
+        ItemStack held = event.getPlayer().getInventory().getItem(event.getNewSlot());
+        if (isBow(held)) keepArrow(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onUse(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (isBow(event.getItem())) keepArrow(event.getPlayer());
+    }
+
+    private static void keepArrow(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        if (!inventory.contains(Material.ARROW)) inventory.addItem(new ItemStack(Material.ARROW));
+    }
+
+    public static boolean isBow(ItemStack item) {
+        return BOW_ID.equals(ToolManager.toolId(item));
+    }
+
+    // A shot from the Aurora bow, null for any other projectile
+    public static Shot shotOf(Entity projectile) {
+        if (!(projectile instanceof AbstractArrow arrow)) return null;
+        PersistentDataContainer pdc = arrow.getPersistentDataContainer();
+        Integer power = pdc.get(POWER_KEY, PersistentDataType.INTEGER);
+        Float force = pdc.get(FORCE_KEY, PersistentDataType.FLOAT);
+        return power == null || force == null ? null : new Shot(power, force);
+    }
+
+    public record Shot(int power, float force) {
+        // 10 plus Power in Sharpness's brackets, from a fifth for a flick of the bow to
+        // all of it fully drawn, squared like a sword swing's charge
+        public double raw() {
+            double draw = Math.clamp(force, 0f, 1f);
+            return (CombatFormulas.BASE_DAMAGE + CombatFormulas.sharpnessBonus(power)) * (0.2 + 0.8 * draw * draw);
+        }
+    }
+}

@@ -129,7 +129,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Dune Scouts"
-    collection: 200
+    collection: 250
 
   ancient_bone:
     display: "<white><b>Ancient Bone"
@@ -183,7 +183,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Gormak - Sun Temple"
-    collection: 6400
+    collection: 6000
 
   ancient_nugget:
     display: "<gold><b>Ancient Nugget"
@@ -192,7 +192,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Tomb Guards"
-    collection: 160
+    collection: 150
 
   vizier_scroll:
     display: "<yellow><b>Vizier Scroll"
@@ -201,7 +201,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Vizier Mages"
-    collection: 300
+    collection: 320
 
   eternal_soul:
     display: "<dark_purple><b>Eternal Soul"

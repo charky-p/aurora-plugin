@@ -49,8 +49,13 @@ public class CombatListener implements Listener {
             return;
         }
 
+        // An arrow from the bow is priced from the shot, anything else from the swing.
         // Vanilla decides what a crit is (falling, not sprinting, not in water), we scale it
-        double dealt = playerDamage.dealt(attacker, registry.mobOf(victim), event.isCritical());
+        BowListener.Shot shot = BowListener.shotOf(event.getDamager());
+        MobData mob = registry.mobOf(victim);
+        double dealt = shot != null
+                ? Math.max(0.0, Math.round(shot.raw() - (mob == null ? 0.0 : mob.defence())))
+                : playerDamage.dealt(attacker, mob, event.isCritical());
         event.setDamage(CustomHealth.NOMINAL_DAMAGE);
         CustomHealth.apply(victim, dealt, attacker, registry);
         indicator.show(victim, dealt);
@@ -173,10 +178,12 @@ public class CombatListener implements Listener {
         }
     }
 
-    // An arrow a mob shot is gone the moment it lands, in a player or in the ground,
-    // so none are left stuck in players or lying about to be picked up
+    // An arrow a mob shot, or one from the bow, is gone the moment it lands, so none
+    // are left stuck in players or lying about
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMobProjectileLand(ProjectileHitEvent event) {
-        if (!(event.getEntity().getShooter() instanceof Player)) event.getEntity().remove();
+        if (!(event.getEntity().getShooter() instanceof Player) || BowListener.shotOf(event.getEntity()) != null) {
+            event.getEntity().remove();
+        }
     }
 }

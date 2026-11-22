@@ -139,6 +139,13 @@ items:
     materials:
       - "NONE"
 
+  bow:
+    name: Bow
+    kind: combat
+    item: BOW
+    materials:
+      - "NONE"
+
   grapple:
     name: Grapple
     kind: movement

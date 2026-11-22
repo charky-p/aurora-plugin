@@ -38,6 +38,7 @@ import org.charky.aurora.core.database.WorldStore;
 import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.boss.BossManager;
 import org.charky.aurora.features.collection.CollectionManager;
+import org.charky.aurora.features.combat.BowListener;
 import org.charky.aurora.features.combat.CombatListener;
 import org.charky.aurora.features.core.EssenceExchange;
 import org.charky.aurora.features.core.OverworldCore;
@@ -340,6 +341,7 @@ public class Aurora extends JavaPlugin {
                 perkManager,
                 new MobDeathListener(this),
                 new LeftoverMobListener(),
+                new BowListener(),
                 new TraderListener(this),
                 new WandListener(this),
                 new SpawnListener(this),

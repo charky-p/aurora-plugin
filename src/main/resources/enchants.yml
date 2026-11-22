@@ -26,6 +26,9 @@ items:
     display: "<gray>Sharpness"
     enchant: SHARPNESS
 
+  power:
+    display: "<gray>Power"
+
   looting:
     display: "<gray>Looting"
 

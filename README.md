@@ -115,14 +115,20 @@ Logic with no Bukkit in it (level curve, price of perks, collection tiers, tool 
 
 ## Build and run
 
-`scripts/server.sh` builds the plugin and runs the local test server in `LocalServer/`:
+First time: put the Paper 26.3 jar in `LocalServer/versions/26.3/`, run the server once, set `eula=true` in `LocalServer/eula.txt`, and set `log-named-deaths: false` in `spigot.yml` so named mobs dying don't fill the console.
+
+`scripts/server.sh` builds the plugin and runs the local test server in `LocalServer/` (`LocalServer/start.bat` also runs it in a window). Join `127.0.0.1` from Minecraft.
 
 ```bash
 scripts/server.sh build     # build, copies the jar and YAML into LocalServer
 scripts/server.sh start     # start in the background
 scripts/server.sh stop      # stop cleanly
 scripts/server.sh restart   # stop, build, start
+scripts/server.sh status
+scripts/server.sh cmd "<command>"   # run a console command
 ```
+
+Player health is real, mob health is not (Aurora keeps its own); `/data get entity @s Health` shows a player's.
 
 With the server running, data-only changes can be loaded live with `python scripts/generate.py --live` then `/refresh` in game.
 
@@ -165,4 +171,4 @@ CI runs the data check, build and tests on every push.
 
 ## Planning
 
-Ideas and design notes for later regions are in [DESIGN.md](DESIGN.md).
+Ideas not built yet are in [DESIGN.md](DESIGN.md).

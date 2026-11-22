@@ -2,7 +2,7 @@
 
 How a player moves through the game as it is built today, and the rules behind it. The numbers come from the CSVs under `scripts/data/`; when they change, the table in section 3 is the part to regenerate (`python scripts/balance/price_zones.py`).
 
-Ideas for later regions are in [DESIGN.md](../DESIGN.md), not here.
+Ideas not built yet are in [DESIGN.md](../DESIGN.md), not here.
 
 ## 1. The loop
 
@@ -15,7 +15,7 @@ A zone is one mine (or two), one or two mobs, one trader and a list of steps in 
 
 ## 2. The rules
 
-**Fortune and density.** With `L = fortune - density`, a block drops nothing if `L < 0`, otherwise `round(base x (1 + 0.75 L + 0.25 L^2))`, at least 1. Density is what gates a mine: the pick needs Fortune equal to it to get anything.
+**Fortune and density.** With `L = fortune - density`, a block drops nothing if `L < 0`, otherwise `round(base x (1 + 0.75 L + 0.25 L^2))`, at least 1, so the multiplier is 1, 2, 3.5, 5.5, 8, 11 for L = 0 to 5. Density is what gates a mine: the pick needs Fortune equal to it to get anything. Rare drops (under 100% in `blocks.csv`, or a `choices` pool under 100%) grow with the cube root of that multiplier instead, the part after the point being a chance of one more: at L = 20 a common 5-9 becomes 580-1,044, a rare 1-2 becomes 5-10. The formula is in `common/loot/Fortune.java` and `fortune()` in `scripts/price_calculator.py`; keep the two the same.
 
 **Looting and mob density.** Looting is Fortune for mobs. Every mob has a density: with `L = looting - density`, it drops none of its resources while `L < 0`, then the same curve as Fortune. Drops under 100% grow with the cube root of that multiplier. Gear and keys always drop at their own chance. Killing a mob with too little Looting says "Requires Looting N".
 

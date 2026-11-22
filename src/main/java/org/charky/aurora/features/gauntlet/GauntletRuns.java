@@ -8,8 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -269,7 +267,7 @@ public class GauntletRuns implements Listener {
         mate.closeInventory();
         manager.giveKit(mate);
         bonuses.runHealth(mate, profile);
-        heal(mate);
+        GauntletPlayers.heal(mate);
         mate.teleport(spawn);
         mate.showBossBar(run.bar);
         mate.playSound(mate.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
@@ -320,7 +318,7 @@ public class GauntletRuns implements Listener {
         }
         if (why == End.QUIT) return;
 
-        heal(player);
+        GauntletPlayers.heal(player);
         if (manager.isHere(player)) {
             Location lobby = manager.arena().lobby();
             if (lobby != null) player.teleport(lobby);
@@ -415,14 +413,6 @@ public class GauntletRuns implements Listener {
         return value == Math.floor(value) ? String.valueOf((long) value) : String.valueOf(value);
     }
 
-    private static void heal(Player player) {
-        AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
-        player.setHealth(max == null ? 20 : max.getValue());
-        player.setFoodLevel(20);
-        player.setSaturation(10);
-        player.setFireTicks(0);
-    }
-
     private int boonEvery() {
         return Math.max(1, (int) data().setting("boon_every", 5));
     }
@@ -470,8 +460,7 @@ public class GauntletRuns implements Listener {
             member.down = false;
             player.setGameMode(member.mode);
             if (spawn != null) player.teleport(spawn);
-            AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
-            player.setHealth((max == null ? 20 : max.getValue()) / 2);
+            player.setHealth(GauntletPlayers.maxHealth(player) / 2);
             player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5f, 1.4f);
             TextUtils.send(player, "<green>You are back on your feet");
         }
@@ -651,7 +640,7 @@ public class GauntletRuns implements Listener {
             case AltarMenu.ANGEL -> {
                 member.altarHealth += 2 * data().setting("altar_angel_hearts", 1);
                 bonuses.applyBoons(player, member);
-                heal(player);
+                GauntletPlayers.heal(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 0.8f, 1.5f);
                 TextUtils.send(player, "<yellow><b>ANGEL'S PACT</b> <gray>Healed, and a heart stronger");
             }
@@ -666,8 +655,7 @@ public class GauntletRuns implements Listener {
                             + " <gray>" + boon.description());
                 }
                 bonuses.applyBoons(player, member);
-                AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
-                if (max != null && player.getHealth() > max.getValue()) player.setHealth(max.getValue());
+                GauntletPlayers.capHealth(player);
                 player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.4f, 1.6f);
             }
             default -> TextUtils.send(player, "<gray>You walk past the altar");
@@ -833,8 +821,7 @@ public class GauntletRuns implements Listener {
         event.setCancelled(true);
         if (member.revives > 0) {
             member.revives--;
-            AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
-            player.setHealth((max == null ? 20 : max.getValue()) / 2);
+            player.setHealth(GauntletPlayers.maxHealth(player) / 2);
             player.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, player.getLocation().add(0, 1, 0), 40, 0.5, 0.8, 0.5, 0.2);
             player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.7f, 1.2f);
             TextUtils.send(player, "<gold><b>SECOND WIND</b> <gray>You cheat death" + (member.revives > 0 ? " (" + member.revives + " left)" : ""));
@@ -847,7 +834,7 @@ public class GauntletRuns implements Listener {
         }
         member.down = true;
         member.mode = player.getGameMode();
-        heal(player);
+        GauntletPlayers.heal(player);
         player.setGameMode(GameMode.SPECTATOR);
         run.tell("<red><b>DOWN</b> <white>" + player.getName() + " <gray>is down, back once the floor is cleared");
     }
@@ -924,9 +911,7 @@ public class GauntletRuns implements Listener {
     // Bloodthirst: half a heart a kill a stack, and the trident's Riptide
     private void killHeal(Member member, Player killer) {
         double heal = bonuses.boonTotal(member, "killheal") + bonuses.perkTotal(killer, "killheal");
-        if (heal <= 0) return;
-        AttributeInstance max = killer.getAttribute(Attribute.MAX_HEALTH);
-        killer.setHealth(Math.min(max == null ? 20 : max.getValue(), killer.getHealth() + heal));
+        if (heal > 0) GauntletPlayers.heal(killer, heal);
     }
 
     // Every kill of a combo past the first pays combo_step percent more, up to combo_max

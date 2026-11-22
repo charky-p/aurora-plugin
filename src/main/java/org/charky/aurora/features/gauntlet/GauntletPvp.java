@@ -5,8 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -248,9 +246,7 @@ public class GauntletPvp implements Listener {
         manager.giveShards(killer, pay);
         // A kill heals the killer up, ready for the next fight
         double share = data.setting("pvp_kill_heal", 100) / 100;
-        AttributeInstance max = killer.getAttribute(Attribute.MAX_HEALTH);
-        double full = max == null ? 20 : max.getValue();
-        killer.setHealth(Math.min(full, killer.getHealth() + full * share));
+        GauntletPlayers.heal(killer, GauntletPlayers.maxHealth(killer) * share);
         killer.setFoodLevel(20);
         killer.setSaturation(10);
         killer.getWorld().spawnParticle(Particle.HEART, killer.getLocation().add(0, 2, 0), 5, 0.4, 0.2, 0.4, 0);

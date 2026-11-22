@@ -5,8 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -205,7 +203,7 @@ public class GauntletDuels implements Listener {
     private void ready(Player player, Location spawn, Player against) {
         player.closeInventory();
         manager.giveKit(player);
-        heal(player);
+        GauntletPlayers.heal(player);
         if (spawn != null) player.teleport(spawn);
         player.showTitle(Title.title(TextUtils.parse("<red><b>DUEL"), TextUtils.parse("<gray>vs <white>" + against.getName())));
         TextUtils.send(player, "<red><b>DUEL</b> <gray>vs <white>" + against.getName() + " <gray>(rating "
@@ -222,8 +220,7 @@ public class GauntletDuels implements Listener {
     }
 
     private static double share(Player player) {
-        AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
-        return player.getHealth() / (max == null ? 20 : max.getValue());
+        return player.getHealth() / GauntletPlayers.maxHealth(player);
     }
 
     // Rating, wins and losses, the winner's Shards, then both back in the lobby
@@ -233,58 +230,54 @@ public class GauntletDuels implements Listener {
         duels.remove(duel.b);
         if (duel.task != null) duel.task.cancel();
         manager.arena().freeDuelSlot(duel.slot);
-
-        String result;
-        if (winner != null) {
-            UUID loser = duel.other(winner);
-            GauntletProfile won = manager.profile(winner), lost = manager.profile(loser);
-            int[] after = GauntletElo.after(rating(won), rating(lost), manager.data().setting("duel_k", 32));
-            int gain = after[0] - rating(won);
-            manager.setStat(winner, RATING, after[0]);
-            manager.setStat(loser, RATING, after[1]);
-            manager.addStat(winner, WINS, 1);
-            manager.addStat(loser, LOSSES, 1);
-            Player winning = Bukkit.getPlayer(winner);
-            if (!loser.equals(lastPaid.get(winner))) {
-                lastPaid.put(winner, loser);
-                int shards = (int) manager.data().setting("duel_win_shards", 10);
-                if (winning != null) manager.giveShards(winning, shards);
-                else {
-                    won.shards += shards;
-                    manager.save(winner);
-                }
-            }
-            if (winning != null) manager.challenges().add(winning, "pvp_kills", 1);
-            manager.weekly().pvpWin(winner);
-            result = "<gold>" + GauntletManager.nameOf(winner) + " <gray>beat <white>" + GauntletManager.nameOf(loser)
-                    + " <gray>in a duel, " + how + " <dark_gray>(" + after[0] + " +" + gain + " / " + after[1] + " -" + gain + ")";
-        } else {
-            result = "<gray>The duel between <white>" + GauntletManager.nameOf(duel.a) + " <gray>and <white>"
-                    + GauntletManager.nameOf(duel.b) + " <gray>is a draw, " + how;
-        }
+        String result = winner == null
+                ? "<gray>The duel between <white>" + GauntletManager.nameOf(duel.a) + " <gray>and <white>"
+                + GauntletManager.nameOf(duel.b) + " <gray>is a draw, " + how
+                : recordWin(winner, duel.other(winner), how);
         Location lobby = manager.arena().lobby();
         if (lobby != null && lobby.getWorld() != null) {
             for (Player player : lobby.getWorld().getPlayers()) TextUtils.send(player, result);
         }
-        for (UUID id : new UUID[]{duel.a, duel.b}) {
-            Player player = Bukkit.getPlayer(id);
-            if (player == null) continue;
-            boolean won = id.equals(winner);
-            player.showTitle(Title.title(TextUtils.parse(winner == null ? "<gray><b>DRAW" : won ? "<gold><b>VICTORY" : "<red><b>DEFEAT"),
-                    TextUtils.parse("<gray>" + how)));
-            for (PotionEffect effect : player.getActivePotionEffects()) player.removePotionEffect(effect.getType());
-            heal(player);
-            if (manager.isHere(player) && lobby != null) player.teleport(lobby);
-            manager.giveKit(player);
-        }
+        for (UUID id : new UUID[]{duel.a, duel.b}) sendBack(id, winner, how, lobby);
     }
 
-    private static void heal(Player player) {
-        AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
-        player.setHealth(max == null ? 20 : max.getValue());
-        player.setFoodLevel(20);
-        player.setSaturation(10);
-        player.setFireTicks(0);
+    // The ratings the chess way, wins and losses, the winner's Shards (never twice in a
+    // row for beating the same player). The line the lobby is told
+    private String recordWin(UUID winner, UUID loser, String how) {
+        GauntletProfile won = manager.profile(winner), lost = manager.profile(loser);
+        int[] after = GauntletElo.after(rating(won), rating(lost), manager.data().setting("duel_k", 32));
+        int gain = after[0] - rating(won);
+        manager.setStat(winner, RATING, after[0]);
+        manager.setStat(loser, RATING, after[1]);
+        manager.addStat(winner, WINS, 1);
+        manager.addStat(loser, LOSSES, 1);
+        Player winning = Bukkit.getPlayer(winner);
+        if (!loser.equals(lastPaid.get(winner))) {
+            lastPaid.put(winner, loser);
+            int shards = (int) manager.data().setting("duel_win_shards", 10);
+            if (winning != null) manager.giveShards(winning, shards);
+            else {
+                won.shards += shards;
+                manager.save(winner);
+            }
+        }
+        if (winning != null) manager.challenges().add(winning, "pvp_kills", 1);
+        manager.weekly().pvpWin(winner);
+        return "<gold>" + GauntletManager.nameOf(winner) + " <gray>beat <white>" + GauntletManager.nameOf(loser)
+                + " <gray>in a duel, " + how + " <dark_gray>(" + after[0] + " +" + gain + " / " + after[1] + " -" + gain + ")";
+    }
+
+    // A duelist's result on screen, then back in the lobby with their setup
+    private void sendBack(UUID id, UUID winner, String how, Location lobby) {
+        Player player = Bukkit.getPlayer(id);
+        if (player == null) return;
+        boolean won = id.equals(winner);
+        player.showTitle(Title.title(TextUtils.parse(winner == null ? "<gray><b>DRAW" : won ? "<gold><b>VICTORY" : "<red><b>DEFEAT"),
+                TextUtils.parse("<gray>" + how)));
+        for (PotionEffect effect : player.getActivePotionEffects()) player.removePotionEffect(effect.getType());
+        GauntletPlayers.heal(player);
+        if (manager.isHere(player) && lobby != null) player.teleport(lobby);
+        manager.giveKit(player);
     }
 
     // A blow that would kill ends the duel, a totem in hand still saves. Nothing hurts

@@ -1,0 +1,283 @@
+# ===========================================================
+# AURORA MOB TEMPLATE - generated from CSV
+# ===========================================================
+# [mob_id]:
+#   display: "<color><b><i>Display Name"
+#   entity: [BUKKIT_ENTITY_TYPE]
+#   equip: (Optional)
+#     head: [item_id] (Optional, item_id = gear_id or resource_id, or a vanilla MATERIAL in capitals)
+#     chest: [item_id] (Optional)
+#     legs: [item_id] (Optional)
+#     feet: [item_id] (Optional)
+#     hand: [item_id] (Optional)
+#     off_hand: [item_id] (Optional)
+#   attributes: (Optional)
+#     - attr: [BUKKIT_ATTRIBUTE]
+#       value: 1
+#   glowing: true (Optional, an outline seen through walls)
+#   independent: (Optional - Every drop roll is independent)
+#     - id: [item_id]
+#       chance: 100 (Default)
+#       min: 1 (Default)
+#       max: 1 (Default)
+#   choices: (Optional - Picks one drop)
+#     chance: 100 (Default)
+#     options:
+#       - id: [item_id]
+#         weight: 50
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  g_rotter:
+    display: "<gray><b>Rotter"
+    entity: ZOMBIE
+    health: 40.0
+    damage: 1.5
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.24
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_crawler:
+    display: "<dark_gray><b>Crawler"
+    entity: SPIDER
+    health: 30.0
+    damage: 1.2
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.32
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_bonearcher:
+    display: "<white><b>Bone Archer"
+    entity: SKELETON
+    health: 30.0
+    damage: 1.4
+    equip:
+      hand: BOW
+    attributes:
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_sandshade:
+    display: "<yellow><b>Sandshade"
+    entity: HUSK
+    health: 60.0
+    damage: 1.8
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.25
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_drowner:
+    display: "<dark_aqua><b>Drowner"
+    entity: DROWNED
+    health: 55.0
+    damage: 1.6
+    equip:
+      hand: TRIDENT
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.25
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_venomling:
+    display: "<dark_green><b>Venomling"
+    entity: CAVE_SPIDER
+    health: 25.0
+    damage: 1.3
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.36
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_frostbow:
+    display: "<aqua><b>Frostbow"
+    entity: STRAY
+    health: 40.0
+    damage: 1.6
+    equip:
+      hand: BOW
+    attributes:
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_brute:
+    display: "<gold><b>Brute"
+    entity: VINDICATOR
+    health: 90.0
+    attack_cooldown: 1.2
+    damage: 2.4
+    equip:
+      hand: IRON_AXE
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_raider:
+    display: "<gray><b>Raider"
+    entity: PILLAGER
+    health: 50.0
+    damage: 1.8
+    equip:
+      hand: CROSSBOW
+    attributes:
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_ashen_knight:
+    display: "<dark_gray><b>Ashen Knight"
+    entity: WITHER_SKELETON
+    health: 110.0
+    attack_cooldown: 1.0
+    damage: 2.6
+    equip:
+      hand: STONE_SWORD
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.27
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_gale:
+    display: "<white><b>Gale"
+    entity: BREEZE
+    health: 70.0
+    damage: 2.0
+    attributes:
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_blight_boar:
+    display: "<dark_red><b>Blight Boar"
+    entity: ZOGLIN
+    health: 120.0
+    attack_cooldown: 1.0
+    damage: 2.8
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.4
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_mire_archer:
+    display: "<dark_green><b>Mire Archer"
+    entity: BOGGED
+    health: 55.0
+    damage: 1.8
+    equip:
+      hand: BOW
+    attributes:
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_rustling:
+    display: "<gold><b>Rustling"
+    entity: IRON_GOLEM
+    health: 160.0
+    attack_cooldown: 1.4
+    damage: 3.0
+    attributes:
+      - attr: SCALE
+        value: 0.7
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_rot_king:
+    display: "<dark_green><b>The Rot King"
+    entity: ZOMBIE
+    health: 500.0
+    attack_cooldown: 1.0
+    damage: 3.0
+    equip:
+      head: GOLDEN_HELMET
+      hand: IRON_SWORD
+    attributes:
+      - attr: SCALE
+        value: 2.0
+      - attr: MOVEMENT_SPEED
+        value: 0.26
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true
+
+  g_bone_tyrant:
+    display: "<white><b>The Bone Tyrant"
+    entity: WITHER_SKELETON
+    health: 700.0
+    attack_cooldown: 1.0
+    damage: 3.2
+    equip:
+      hand: STONE_AXE
+    attributes:
+      - attr: SCALE
+        value: 1.8
+      - attr: MOVEMENT_SPEED
+        value: 0.28
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.8
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true
+
+  g_ironhorn:
+    display: "<gray><b>Ironhorn"
+    entity: RAVAGER
+    health: 900.0
+    attack_cooldown: 1.5
+    damage: 3.5
+    attributes:
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true
+
+  g_blight_matriarch:
+    display: "<dark_red><b>The Blight Matriarch"
+    entity: ZOGLIN
+    health: 1000.0
+    attack_cooldown: 1.0
+    damage: 3.6
+    attributes:
+      - attr: SCALE
+        value: 1.8
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true
+
+  g_tower_warden:
+    display: "<gold><b>The Tower Warden"
+    entity: IRON_GOLEM
+    health: 1200.0
+    attack_cooldown: 1.5
+    damage: 4.0
+    attributes:
+      - attr: SCALE
+        value: 1.6
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true

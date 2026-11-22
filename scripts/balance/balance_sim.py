@@ -103,7 +103,7 @@ RANGED = {"SKELETON", "STRAY", "BOGGED", "PILLAGER"}
 PLACED = {"gilded_stone": "GILDED_BLACKSTONE"}  # material actually placed by the raw_gold mine
 
 SLOTS = ("helmet", "chestplate", "leggings", "boots")
-# One file per region, the same list as MOB_REGIONS in generate.py
+# One file per region, the same list as MOB_REGIONS in generate.py less the gauntlet, which prices nothing
 MOB_FILES = tuple(f"mobs_{region}" for region in (
     "origin", "gormak", "verdant", "khorvath", "elderwood", "marsh", "peaks", "duat", "sky", "quarry"))
 

@@ -17,6 +17,7 @@ so `coal` alone means chance 100, min 1, max 1.
 """
 
 import csv
+import re
 import os
 import sys
 from collections import OrderedDict
@@ -462,7 +463,7 @@ SCHEMAS["weapons"] = gear_schema("gear_weapons.csv", "gear/weapons.yml", "combat
 SCHEMAS["other"] = gear_schema("gear_other.csv", "gear/other.yml", "")
 
 # One file per region, every one with the same columns. A column a file leaves out takes its default
-MOB_REGIONS = ["origin", "gormak", "verdant", "khorvath", "elderwood", "marsh", "peaks", "duat", "sky", "quarry"]
+MOB_REGIONS = ["origin", "gormak", "verdant", "khorvath", "elderwood", "marsh", "peaks", "duat", "sky", "quarry", "gauntlet"]
 
 
 def mob_schema(region):
@@ -1065,6 +1066,118 @@ def fishing_text(resources):
                                         fish=entries, rod=steps)
     return dump({"header": FISHING_HEADER}, items), len(items), errors
 
+GAUNTLET_HEADER = """# ===========================================================
+# AURORA GAUNTLET - generated from data/gauntlet/*.csv
+# ===========================================================
+# The tower mode, apart from the zones. Floor and gear numbers come from
+# scripts/balance/gauntlet_balance.py; mobs are in mobs/gauntlet.yml
+# floors: one a floor, in order. Past the last the plugin repeats it, harder
+#   - mobs: {g_rotter: 3} (mob id: how many)
+#     health: 1.05 (every mob's health times this)
+#     attack: 1 (attack levels added to every mob)
+#     shards: 4, cores: 0 (paid for clearing it)
+# gear: what can be upgraded, in the forge's order
+#   sword: {name, item, materials: [WOODEN, ...] or [NONE], kind: melee|ranged|thrown|armor|shield,
+#           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed)}
+# levels: [{level, shards, cores, material (index into materials), melee, ranged,
+#           defence, protection, deflection}] (what each gear level costs and gives)
+# boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max}
+# care: care package levels [{level, shards, cores, loot: [{item, min, max, chance}]}]
+#   item is a material, or POTION@TYPE / SPLASH_POTION@TYPE
+# milestones: [{floor, essence, cosmetic}] (best floor reached, paid once)
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ==========================================================="""
+
+GAUNTLET_KINDS = {"melee", "ranged", "thrown", "armor", "shield"}
+GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "guard", "dodge", "absorb"}
+
+
+def _gauntlet_rows(name):
+    path = os.path.join(DATA_DIR, "gauntlet", name)
+    if not os.path.exists(path):
+        return None
+    with open(path, newline="", encoding="utf-8") as f:
+        return [row for row in csv.DictReader(f) if any((v or "").strip() for v in row.values())]
+
+
+def _gauntlet_loot(text, where, errors):
+    loot = []
+    for part in [p for p in (text or "").split(LIST_SEP) if p.strip()]:
+        bits = part.strip().split(PART_SEP)
+        if len(bits) != 3:
+            errors.append(f"gauntlet {where}: loot '{part}' is not item:min-max:chance")
+            continue
+        low, _, high = bits[1].partition(RANGE_SEP)
+        loot.append(OrderedDict(item=bits[0].upper(), min=int(low), max=int(high or low), chance=float(bits[2])))
+    return loot
+
+
+def gauntlet_text(mobs, cosmetics):
+    """gauntlet.yml as text, its floor count and any errors; None without the gauntlet data."""
+    floors_rows = _gauntlet_rows("floors.csv")
+    if floors_rows is None:
+        return None, 0, []
+    errors = []
+    floors = []
+    for row in floors_rows:
+        spawns = OrderedDict()
+        for part in [p for p in row["mobs"].split(LIST_SEP) if p.strip()]:
+            mob, _, count = part.partition(PART_SEP)
+            if mob not in mobs:
+                errors.append(f"gauntlet floor {row['floor']}: no mob '{mob}' in mobs_gauntlet.csv")
+            spawns[mob] = int(count or 1)
+        if not row.get("health"):
+            errors.append(f"gauntlet floor {row['floor']}: no numbers, run scripts/balance/gauntlet_balance.py --write")
+            continue
+        floors.append(OrderedDict(mobs=spawns, health=float(row["health"]), attack=int(row["attack"]),
+                                  shards=int(row["shards"]), cores=int(row["cores"])))
+
+    gear = OrderedDict()
+    for row in _gauntlet_rows("gear.csv") or []:
+        if row["kind"] not in GAUNTLET_KINDS:
+            errors.append(f"gauntlet gear '{row['id']}': unknown kind '{row['kind']}'")
+        gear[row["id"]] = OrderedDict(name=row["name"], item=row["item"], materials=row["materials"].split(LIST_SEP),
+                                      kind=row["kind"], damage=int(row["damage"] or 100),
+                                      unlock_shards=int(row["unlock_shards"] or 0), unlock_floor=int(row["unlock_floor"] or 0))
+
+    levels = [OrderedDict((k, int(v)) for k, v in row.items()) for row in _gauntlet_rows("gear_levels.csv") or []]
+    if not levels:
+        errors.append("gauntlet: no gear_levels.csv, run scripts/balance/gauntlet_balance.py --write")
+
+    boons = OrderedDict()
+    for row in _gauntlet_rows("boons.csv") or []:
+        if row["stat"] not in GAUNTLET_STATS:
+            errors.append(f"gauntlet boon '{row['id']}': unknown stat '{row['stat']}'")
+        boons[row["id"]] = OrderedDict(name=row["name"], icon=row["icon"], description=Quoted(row["description"]),
+                                       stat=row["stat"], amount=float(row["amount"]), max=int(row["max"]))
+
+    care = [OrderedDict(level=int(row["level"]), shards=int(row["shards"]), cores=int(row["cores"]),
+                        loot=_gauntlet_loot(row["loot"], f"care package {row['level']}", errors))
+            for row in _gauntlet_rows("care_package.csv") or []]
+
+    milestones = []
+    for row in _gauntlet_rows("milestones.csv") or []:
+        cosmetic = (row.get("cosmetic") or "").strip()
+        if cosmetic and cosmetics is not None and cosmetic not in cosmetics:
+            errors.append(f"gauntlet milestone {row['floor']}: no cosmetic '{cosmetic}' in Cosmetics.java")
+        milestones.append(OrderedDict(floor=int(row["floor"]), essence=int(row["essence"] or 0), cosmetic=cosmetic))
+
+    data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones)
+    body = yaml.dump(data, Dumper=_Dumper, sort_keys=False, default_flow_style=False, allow_unicode=True,
+                     width=10 ** 6, indent=2)
+    return GAUNTLET_HEADER + "\n" + body, len(floors), errors
+
+
+def java_cosmetics():
+    """The suffix and trail ids Cosmetics.java defines, None if it cannot be read."""
+    path = os.path.join(CUR, "..", "src", "main", "java", "org", "charky", "aurora", "features", "cosmetic", "Cosmetics.java")
+    if not os.path.exists(path):
+        return None
+    with open(path, encoding="utf-8") as f:
+        return {m.group(1) + "_" + m.group(2) for m in re.finditer(r'^\s*(suffix|trail)\("([a-z0-9_]+)"', f.read(), re.M)}
+
+
 def main(check_only=False):
     print("Generating CSV to YAML Conversion")
     changed, skipped, errors = [], [], []
@@ -1120,6 +1233,16 @@ def main(check_only=False):
         errors.append(f"fishing: {exc}")
     if text is not None:
         write_generated("fishing.yml", text, count, check_only, changed)
+
+    # The gauntlet's floors, gear, boons, care packages and milestones
+    try:
+        text, count, gauntlet_errors = gauntlet_text(built.get("mobs_gauntlet") or {}, java_cosmetics())
+        errors += gauntlet_errors
+    except Exception as exc:
+        text, count = None, 0
+        errors.append(f"gauntlet: {exc}")
+    if text is not None:
+        write_generated("gauntlet.yml", text, count, check_only, changed)
 
     # Only when every file built, a missing one would report everything it holds
     if not errors and not skipped:

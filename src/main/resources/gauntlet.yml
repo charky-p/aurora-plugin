@@ -1,0 +1,1246 @@
+# ===========================================================
+# AURORA GAUNTLET - generated from data/gauntlet/*.csv
+# ===========================================================
+# The tower mode, apart from the zones. Floor and gear numbers come from
+# scripts/balance/gauntlet_balance.py; mobs are in mobs/gauntlet.yml
+# floors: one a floor, in order. Past the last the plugin repeats it, harder
+#   - mobs: {g_rotter: 3} (mob id: how many)
+#     health: 1.05 (every mob's health times this)
+#     attack: 1 (attack levels added to every mob)
+#     shards: 4, cores: 0 (paid for clearing it)
+# gear: what can be upgraded, in the forge's order
+#   sword: {name, item, materials: [WOODEN, ...] or [NONE], kind: melee|ranged|thrown|armor|shield,
+#           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed)}
+# levels: [{level, shards, cores, material (index into materials), melee, ranged,
+#           defence, protection, deflection}] (what each gear level costs and gives)
+# boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max}
+# care: care package levels [{level, shards, cores, loot: [{item, min, max, chance}]}]
+#   item is a material, or POTION@TYPE / SPLASH_POTION@TYPE
+# milestones: [{floor, essence, cosmetic}] (best floor reached, paid once)
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+floors:
+  - mobs:
+      g_rotter: 3
+    health: 1.05
+    attack: 1
+    shards: 4
+    cores: 0
+  - mobs:
+      g_rotter: 6
+      g_crawler: 2
+    health: 1.1
+    attack: 2
+    shards: 5
+    cores: 0
+  - mobs:
+      g_rotter: 6
+      g_crawler: 3
+    health: 1.15
+    attack: 4
+    shards: 6
+    cores: 0
+  - mobs:
+      g_rotter: 5
+      g_crawler: 3
+      g_bonearcher: 2
+    health: 1.2
+    attack: 5
+    shards: 7
+    cores: 0
+  - mobs:
+      g_rotter: 6
+      g_crawler: 3
+      g_bonearcher: 3
+    health: 1.25
+    attack: 6
+    shards: 8
+    cores: 0
+  - mobs:
+      g_rotter: 4
+      g_crawler: 3
+      g_bonearcher: 2
+      g_sandshade: 2
+    health: 1.3
+    attack: 7
+    shards: 9
+    cores: 0
+  - mobs:
+      g_rotter: 4
+      g_crawler: 3
+      g_bonearcher: 3
+      g_sandshade: 3
+    health: 1.35
+    attack: 8
+    shards: 10
+    cores: 0
+  - mobs:
+      g_crawler: 4
+      g_bonearcher: 3
+      g_sandshade: 4
+    health: 1.4
+    attack: 10
+    shards: 11
+    cores: 0
+  - mobs:
+      g_rotter: 5
+      g_crawler: 4
+      g_bonearcher: 3
+      g_sandshade: 4
+    health: 1.45
+    attack: 11
+    shards: 12
+    cores: 0
+  - mobs:
+      g_rot_king: 1
+      g_rotter: 4
+    health: 1.5
+    attack: 12
+    shards: 13
+    cores: 1
+  - mobs:
+      g_rotter: 4
+      g_bonearcher: 3
+      g_sandshade: 2
+      g_drowner: 2
+    health: 1.65
+    attack: 13
+    shards: 14
+    cores: 0
+  - mobs:
+      g_crawler: 4
+      g_bonearcher: 3
+      g_sandshade: 3
+      g_drowner: 3
+    health: 1.8
+    attack: 14
+    shards: 15
+    cores: 0
+  - mobs:
+      g_sandshade: 3
+      g_drowner: 3
+      g_venomling: 3
+    health: 1.95
+    attack: 16
+    shards: 16
+    cores: 0
+  - mobs:
+      g_bonearcher: 3
+      g_sandshade: 3
+      g_drowner: 3
+      g_venomling: 4
+    health: 2.1
+    attack: 17
+    shards: 17
+    cores: 0
+  - mobs:
+      g_crawler: 3
+      g_bonearcher: 4
+      g_sandshade: 3
+      g_drowner: 3
+      g_venomling: 4
+    health: 2.25
+    attack: 18
+    shards: 18
+    cores: 0
+  - mobs:
+      g_sandshade: 3
+      g_drowner: 3
+      g_venomling: 3
+      g_frostbow: 2
+    health: 2.4
+    attack: 19
+    shards: 19
+    cores: 0
+  - mobs:
+      g_drowner: 4
+      g_venomling: 4
+      g_frostbow: 3
+    health: 2.55
+    attack: 20
+    shards: 20
+    cores: 0
+  - mobs:
+      g_sandshade: 3
+      g_venomling: 3
+      g_frostbow: 3
+      g_brute: 2
+    health: 2.7
+    attack: 22
+    shards: 21
+    cores: 0
+  - mobs:
+      g_drowner: 4
+      g_venomling: 4
+      g_frostbow: 3
+      g_brute: 3
+    health: 2.85
+    attack: 23
+    shards: 22
+    cores: 0
+  - mobs:
+      g_bone_tyrant: 1
+      g_bonearcher: 3
+      g_frostbow: 2
+    health: 3.0
+    attack: 24
+    shards: 23
+    cores: 2
+  - mobs:
+      g_drowner: 3
+      g_frostbow: 3
+      g_brute: 2
+      g_raider: 2
+    health: 3.25
+    attack: 25
+    shards: 24
+    cores: 0
+  - mobs:
+      g_venomling: 4
+      g_frostbow: 3
+      g_brute: 3
+      g_raider: 3
+    health: 3.5
+    attack: 26
+    shards: 25
+    cores: 0
+  - mobs:
+      g_frostbow: 3
+      g_brute: 3
+      g_raider: 2
+      g_ashen_knight: 2
+    health: 3.75
+    attack: 28
+    shards: 26
+    cores: 0
+  - mobs:
+      g_venomling: 4
+      g_brute: 3
+      g_raider: 3
+      g_ashen_knight: 3
+    health: 4.0
+    attack: 29
+    shards: 27
+    cores: 0
+  - mobs:
+      g_frostbow: 3
+      g_brute: 3
+      g_raider: 3
+      g_ashen_knight: 3
+      g_venomling: 3
+    health: 4.25
+    attack: 30
+    shards: 28
+    cores: 0
+  - mobs:
+      g_brute: 3
+      g_raider: 3
+      g_ashen_knight: 2
+      g_gale: 2
+    health: 4.5
+    attack: 31
+    shards: 29
+    cores: 0
+  - mobs:
+      g_raider: 3
+      g_ashen_knight: 3
+      g_gale: 3
+      g_venomling: 3
+    health: 4.75
+    attack: 32
+    shards: 30
+    cores: 0
+  - mobs:
+      g_brute: 4
+      g_ashen_knight: 3
+      g_gale: 3
+    health: 5.0
+    attack: 34
+    shards: 31
+    cores: 0
+  - mobs:
+      g_raider: 4
+      g_ashen_knight: 4
+      g_gale: 3
+      g_frostbow: 2
+    health: 5.25
+    attack: 35
+    shards: 32
+    cores: 0
+  - mobs:
+      g_ironhorn: 1
+      g_brute: 3
+      g_raider: 2
+    health: 5.5
+    attack: 36
+    shards: 33
+    cores: 2
+  - mobs:
+      g_ashen_knight: 3
+      g_gale: 2
+      g_blight_boar: 2
+      g_raider: 2
+    health: 6.0
+    attack: 37
+    shards: 34
+    cores: 0
+  - mobs:
+      g_ashen_knight: 3
+      g_gale: 3
+      g_blight_boar: 3
+    health: 6.5
+    attack: 38
+    shards: 35
+    cores: 0
+  - mobs:
+      g_brute: 3
+      g_gale: 3
+      g_blight_boar: 3
+      g_raider: 3
+    health: 7.0
+    attack: 40
+    shards: 36
+    cores: 0
+  - mobs:
+      g_ashen_knight: 4
+      g_gale: 3
+      g_blight_boar: 3
+      g_venomling: 3
+    health: 7.5
+    attack: 41
+    shards: 37
+    cores: 0
+  - mobs:
+      g_ashen_knight: 3
+      g_blight_boar: 3
+      g_mire_archer: 3
+      g_gale: 2
+    health: 8.0
+    attack: 42
+    shards: 38
+    cores: 0
+  - mobs:
+      g_blight_boar: 3
+      g_mire_archer: 3
+      g_gale: 3
+      g_brute: 3
+    health: 8.5
+    attack: 43
+    shards: 39
+    cores: 0
+  - mobs:
+      g_ashen_knight: 4
+      g_blight_boar: 3
+      g_mire_archer: 4
+    health: 9.0
+    attack: 44
+    shards: 40
+    cores: 0
+  - mobs:
+      g_blight_boar: 4
+      g_mire_archer: 4
+      g_gale: 3
+      g_raider: 2
+    health: 9.5
+    attack: 46
+    shards: 41
+    cores: 0
+  - mobs:
+      g_ashen_knight: 4
+      g_blight_boar: 4
+      g_mire_archer: 4
+      g_gale: 2
+    health: 10.0
+    attack: 47
+    shards: 42
+    cores: 0
+  - mobs:
+      g_blight_matriarch: 1
+      g_blight_boar: 3
+      g_mire_archer: 2
+    health: 10.5
+    attack: 48
+    shards: 43
+    cores: 3
+  - mobs:
+      g_ashen_knight: 3
+      g_mire_archer: 3
+      g_gale: 2
+      g_rustling: 2
+    health: 11.25
+    attack: 49
+    shards: 44
+    cores: 0
+  - mobs:
+      g_blight_boar: 3
+      g_mire_archer: 3
+      g_rustling: 3
+    health: 12.0
+    attack: 50
+    shards: 45
+    cores: 0
+  - mobs:
+      g_ashen_knight: 4
+      g_gale: 3
+      g_rustling: 3
+    health: 12.75
+    attack: 52
+    shards: 46
+    cores: 0
+  - mobs:
+      g_blight_boar: 4
+      g_mire_archer: 4
+      g_rustling: 3
+    health: 13.5
+    attack: 53
+    shards: 47
+    cores: 0
+  - mobs:
+      g_ashen_knight: 3
+      g_blight_boar: 3
+      g_mire_archer: 3
+      g_rustling: 3
+    health: 14.25
+    attack: 54
+    shards: 48
+    cores: 0
+  - mobs:
+      g_brute: 4
+      g_gale: 3
+      g_rustling: 4
+    health: 15.0
+    attack: 55
+    shards: 49
+    cores: 0
+  - mobs:
+      g_blight_boar: 4
+      g_mire_archer: 4
+      g_gale: 3
+      g_rustling: 3
+    health: 15.75
+    attack: 56
+    shards: 50
+    cores: 0
+  - mobs:
+      g_ashen_knight: 4
+      g_blight_boar: 4
+      g_rustling: 4
+    health: 16.5
+    attack: 58
+    shards: 51
+    cores: 0
+  - mobs:
+      g_ashen_knight: 4
+      g_blight_boar: 4
+      g_mire_archer: 4
+      g_rustling: 4
+    health: 17.25
+    attack: 59
+    shards: 52
+    cores: 0
+  - mobs:
+      g_tower_warden: 1
+      g_rustling: 3
+      g_mire_archer: 2
+    health: 18.0
+    attack: 60
+    shards: 53
+    cores: 3
+gear:
+  sword:
+    name: Sword
+    item: SWORD
+    materials:
+      - WOODEN
+      - STONE
+      - COPPER
+      - IRON
+      - GOLDEN
+      - DIAMOND
+      - NETHERITE
+    kind: melee
+    damage: 100
+    unlock_shards: 0
+    unlock_floor: 0
+  bow:
+    name: Bow
+    item: BOW
+    materials:
+      - NONE
+    kind: ranged
+    damage: 100
+    unlock_shards: 0
+    unlock_floor: 0
+  helmet:
+    name: Helmet
+    item: HELMET
+    materials:
+      - LEATHER
+      - CHAINMAIL
+      - COPPER
+      - IRON
+      - GOLDEN
+      - DIAMOND
+      - NETHERITE
+    kind: armor
+    damage: 100
+    unlock_shards: 0
+    unlock_floor: 0
+  chestplate:
+    name: Chestplate
+    item: CHESTPLATE
+    materials:
+      - LEATHER
+      - CHAINMAIL
+      - COPPER
+      - IRON
+      - GOLDEN
+      - DIAMOND
+      - NETHERITE
+    kind: armor
+    damage: 100
+    unlock_shards: 0
+    unlock_floor: 0
+  leggings:
+    name: Leggings
+    item: LEGGINGS
+    materials:
+      - LEATHER
+      - CHAINMAIL
+      - COPPER
+      - IRON
+      - GOLDEN
+      - DIAMOND
+      - NETHERITE
+    kind: armor
+    damage: 100
+    unlock_shards: 0
+    unlock_floor: 0
+  boots:
+    name: Boots
+    item: BOOTS
+    materials:
+      - LEATHER
+      - CHAINMAIL
+      - COPPER
+      - IRON
+      - GOLDEN
+      - DIAMOND
+      - NETHERITE
+    kind: armor
+    damage: 100
+    unlock_shards: 0
+    unlock_floor: 0
+  axe:
+    name: Axe
+    item: AXE
+    materials:
+      - WOODEN
+      - STONE
+      - COPPER
+      - IRON
+      - GOLDEN
+      - DIAMOND
+      - NETHERITE
+    kind: melee
+    damage: 120
+    unlock_shards: 150
+    unlock_floor: 5
+  shield:
+    name: Shield
+    item: SHIELD
+    materials:
+      - NONE
+    kind: shield
+    damage: 100
+    unlock_shards: 200
+    unlock_floor: 5
+  spear:
+    name: Spear
+    item: SPEAR
+    materials:
+      - WOODEN
+      - STONE
+      - COPPER
+      - IRON
+      - GOLDEN
+      - DIAMOND
+      - NETHERITE
+    kind: melee
+    damage: 110
+    unlock_shards: 300
+    unlock_floor: 10
+  crossbow:
+    name: Crossbow
+    item: CROSSBOW
+    materials:
+      - NONE
+    kind: ranged
+    damage: 120
+    unlock_shards: 400
+    unlock_floor: 10
+  mace:
+    name: Mace
+    item: MACE
+    materials:
+      - NONE
+    kind: melee
+    damage: 90
+    unlock_shards: 600
+    unlock_floor: 15
+  trident:
+    name: Trident
+    item: TRIDENT
+    materials:
+      - NONE
+    kind: thrown
+    damage: 100
+    unlock_shards: 800
+    unlock_floor: 20
+levels:
+  - level: 0
+    shards: 0
+    cores: 0
+    material: 0
+    melee: 0
+    ranged: 0
+    defence: 0
+    protection: 0
+    deflection: 0
+  - level: 1
+    shards: 10
+    cores: 0
+    material: 0
+    melee: 1
+    ranged: 1
+    defence: 0
+    protection: 1
+    deflection: 0
+  - level: 2
+    shards: 15
+    cores: 0
+    material: 0
+    melee: 2
+    ranged: 2
+    defence: 1
+    protection: 2
+    deflection: 0
+  - level: 3
+    shards: 15
+    cores: 0
+    material: 0
+    melee: 3
+    ranged: 3
+    defence: 1
+    protection: 3
+    deflection: 0
+  - level: 4
+    shards: 20
+    cores: 0
+    material: 0
+    melee: 4
+    ranged: 4
+    defence: 2
+    protection: 4
+    deflection: 1
+  - level: 5
+    shards: 20
+    cores: 0
+    material: 1
+    melee: 5
+    ranged: 5
+    defence: 2
+    protection: 5
+    deflection: 3
+  - level: 6
+    shards: 25
+    cores: 0
+    material: 1
+    melee: 6
+    ranged: 6
+    defence: 3
+    protection: 6
+    deflection: 5
+  - level: 7
+    shards: 30
+    cores: 0
+    material: 1
+    melee: 7
+    ranged: 7
+    defence: 3
+    protection: 7
+    deflection: 7
+  - level: 8
+    shards: 35
+    cores: 0
+    material: 1
+    melee: 8
+    ranged: 8
+    defence: 4
+    protection: 8
+    deflection: 8
+  - level: 9
+    shards: 40
+    cores: 0
+    material: 1
+    melee: 9
+    ranged: 9
+    defence: 4
+    protection: 9
+    deflection: 10
+  - level: 10
+    shards: 50
+    cores: 1
+    material: 2
+    melee: 10
+    ranged: 10
+    defence: 5
+    protection: 10
+    deflection: 12
+  - level: 11
+    shards: 55
+    cores: 0
+    material: 2
+    melee: 11
+    ranged: 11
+    defence: 5
+    protection: 11
+    deflection: 14
+  - level: 12
+    shards: 65
+    cores: 0
+    material: 2
+    melee: 12
+    ranged: 12
+    defence: 6
+    protection: 12
+    deflection: 16
+  - level: 13
+    shards: 75
+    cores: 0
+    material: 2
+    melee: 13
+    ranged: 13
+    defence: 6
+    protection: 13
+    deflection: 17
+  - level: 14
+    shards: 90
+    cores: 0
+    material: 2
+    melee: 14
+    ranged: 14
+    defence: 7
+    protection: 14
+    deflection: 19
+  - level: 15
+    shards: 110
+    cores: 1
+    material: 3
+    melee: 15
+    ranged: 15
+    defence: 7
+    protection: 15
+    deflection: 21
+  - level: 16
+    shards: 120
+    cores: 0
+    material: 3
+    melee: 16
+    ranged: 16
+    defence: 8
+    protection: 16
+    deflection: 23
+  - level: 17
+    shards: 140
+    cores: 0
+    material: 3
+    melee: 17
+    ranged: 17
+    defence: 8
+    protection: 17
+    deflection: 25
+  - level: 18
+    shards: 170
+    cores: 0
+    material: 3
+    melee: 18
+    ranged: 18
+    defence: 9
+    protection: 18
+    deflection: 26
+  - level: 19
+    shards: 200
+    cores: 0
+    material: 3
+    melee: 19
+    ranged: 19
+    defence: 9
+    protection: 19
+    deflection: 28
+  - level: 20
+    shards: 230
+    cores: 2
+    material: 4
+    melee: 20
+    ranged: 20
+    defence: 10
+    protection: 20
+    deflection: 30
+  - level: 21
+    shards: 270
+    cores: 0
+    material: 4
+    melee: 21
+    ranged: 21
+    defence: 10
+    protection: 21
+    deflection: 32
+  - level: 22
+    shards: 320
+    cores: 0
+    material: 4
+    melee: 22
+    ranged: 22
+    defence: 11
+    protection: 22
+    deflection: 34
+  - level: 23
+    shards: 370
+    cores: 0
+    material: 4
+    melee: 23
+    ranged: 23
+    defence: 11
+    protection: 23
+    deflection: 35
+  - level: 24
+    shards: 430
+    cores: 0
+    material: 4
+    melee: 24
+    ranged: 24
+    defence: 12
+    protection: 24
+    deflection: 37
+  - level: 25
+    shards: 510
+    cores: 2
+    material: 5
+    melee: 25
+    ranged: 25
+    defence: 12
+    protection: 25
+    deflection: 39
+  - level: 26
+    shards: 590
+    cores: 0
+    material: 5
+    melee: 26
+    ranged: 26
+    defence: 13
+    protection: 26
+    deflection: 41
+  - level: 27
+    shards: 690
+    cores: 0
+    material: 5
+    melee: 27
+    ranged: 27
+    defence: 13
+    protection: 27
+    deflection: 43
+  - level: 28
+    shards: 810
+    cores: 0
+    material: 5
+    melee: 28
+    ranged: 28
+    defence: 14
+    protection: 28
+    deflection: 44
+  - level: 29
+    shards: 950
+    cores: 0
+    material: 5
+    melee: 29
+    ranged: 29
+    defence: 14
+    protection: 29
+    deflection: 46
+  - level: 30
+    shards: 1100
+    cores: 3
+    material: 6
+    melee: 30
+    ranged: 30
+    defence: 15
+    protection: 30
+    deflection: 48
+boons:
+  might:
+    name: Might
+    icon: IRON_SWORD
+    description: "+15% damage"
+    stat: damage
+    amount: 15.0
+    max: 5
+  keen_eye:
+    name: Keen Eye
+    icon: SPECTRAL_ARROW
+    description: "15% chance to hit for double"
+    stat: crit
+    amount: 15.0
+    max: 4
+  bloodthirst:
+    name: Bloodthirst
+    icon: REDSTONE
+    description: "Heal half a heart for every kill"
+    stat: killheal
+    amount: 1.0
+    max: 4
+  vitality:
+    name: Vitality
+    icon: GOLDEN_APPLE
+    description: "+2 max hearts"
+    stat: health
+    amount: 4.0
+    max: 5
+  swiftness:
+    name: Swiftness
+    icon: SUGAR
+    description: "+10% speed"
+    stat: speed
+    amount: 10.0
+    max: 3
+  mending:
+    name: Mending
+    icon: GHAST_TEAR
+    description: "Slowly regenerate health"
+    stat: regen
+    amount: 1.0
+    max: 2
+  iron_skin:
+    name: Iron Skin
+    icon: IRON_CHESTPLATE
+    description: "Take 10% less damage"
+    stat: guard
+    amount: 10.0
+    max: 4
+  evasion:
+    name: Evasion
+    icon: FEATHER
+    description: "10% chance to dodge a hit"
+    stat: dodge
+    amount: 10.0
+    max: 3
+  bulwark:
+    name: Bulwark
+    icon: SHIELD
+    description: "2 absorption hearts at the start of every floor"
+    stat: absorb
+    amount: 4.0
+    max: 3
+care:
+  - level: 1
+    shards: 0
+    cores: 0
+    loot:
+      - item: COOKED_BEEF
+        min: 4
+        max: 6
+        chance: 100.0
+      - item: GOLDEN_APPLE
+        min: 1
+        max: 1
+        chance: 50.0
+      - item: SPLASH_POTION@HEALING
+        min: 1
+        max: 1
+        chance: 40.0
+  - level: 2
+    shards: 100
+    cores: 0
+    loot:
+      - item: COOKED_BEEF
+        min: 4
+        max: 6
+        chance: 100.0
+      - item: GOLDEN_APPLE
+        min: 1
+        max: 2
+        chance: 70.0
+      - item: SPLASH_POTION@HEALING
+        min: 1
+        max: 2
+        chance: 50.0
+      - item: POTION@SWIFTNESS
+        min: 1
+        max: 1
+        chance: 25.0
+  - level: 3
+    shards: 250
+    cores: 0
+    loot:
+      - item: COOKED_BEEF
+        min: 6
+        max: 8
+        chance: 100.0
+      - item: GOLDEN_APPLE
+        min: 1
+        max: 2
+        chance: 85.0
+      - item: SPLASH_POTION@HEALING
+        min: 1
+        max: 2
+        chance: 60.0
+      - item: POTION@SWIFTNESS
+        min: 1
+        max: 1
+        chance: 35.0
+      - item: POTION@STRENGTH
+        min: 1
+        max: 1
+        chance: 20.0
+  - level: 4
+    shards: 500
+    cores: 1
+    loot:
+      - item: COOKED_BEEF
+        min: 6
+        max: 8
+        chance: 100.0
+      - item: GOLDEN_APPLE
+        min: 2
+        max: 3
+        chance: 100.0
+      - item: SPLASH_POTION@STRONG_HEALING
+        min: 1
+        max: 2
+        chance: 50.0
+      - item: POTION@STRENGTH
+        min: 1
+        max: 1
+        chance: 30.0
+      - item: POTION@REGENERATION
+        min: 1
+        max: 1
+        chance: 25.0
+      - item: WIND_CHARGE
+        min: 2
+        max: 4
+        chance: 40.0
+  - level: 5
+    shards: 900
+    cores: 1
+    loot:
+      - item: COOKED_BEEF
+        min: 6
+        max: 8
+        chance: 100.0
+      - item: GOLDEN_APPLE
+        min: 2
+        max: 3
+        chance: 100.0
+      - item: SPLASH_POTION@STRONG_HEALING
+        min: 1
+        max: 2
+        chance: 65.0
+      - item: POTION@STRENGTH
+        min: 1
+        max: 1
+        chance: 40.0
+      - item: POTION@REGENERATION
+        min: 1
+        max: 1
+        chance: 35.0
+      - item: WIND_CHARGE
+        min: 2
+        max: 4
+        chance: 50.0
+      - item: ENCHANTED_GOLDEN_APPLE
+        min: 1
+        max: 1
+        chance: 5.0
+  - level: 6
+    shards: 1500
+    cores: 2
+    loot:
+      - item: GOLDEN_APPLE
+        min: 2
+        max: 4
+        chance: 100.0
+      - item: SPLASH_POTION@STRONG_HEALING
+        min: 2
+        max: 2
+        chance: 75.0
+      - item: POTION@STRONG_STRENGTH
+        min: 1
+        max: 1
+        chance: 30.0
+      - item: POTION@REGENERATION
+        min: 1
+        max: 1
+        chance: 45.0
+      - item: WIND_CHARGE
+        min: 3
+        max: 5
+        chance: 60.0
+      - item: ENCHANTED_GOLDEN_APPLE
+        min: 1
+        max: 1
+        chance: 10.0
+  - level: 7
+    shards: 2500
+    cores: 2
+    loot:
+      - item: GOLDEN_APPLE
+        min: 3
+        max: 4
+        chance: 100.0
+      - item: SPLASH_POTION@STRONG_HEALING
+        min: 2
+        max: 3
+        chance: 85.0
+      - item: POTION@STRONG_STRENGTH
+        min: 1
+        max: 1
+        chance: 40.0
+      - item: POTION@STRONG_REGENERATION
+        min: 1
+        max: 1
+        chance: 35.0
+      - item: WIND_CHARGE
+        min: 3
+        max: 5
+        chance: 70.0
+      - item: ENCHANTED_GOLDEN_APPLE
+        min: 1
+        max: 1
+        chance: 15.0
+      - item: TOTEM_OF_UNDYING
+        min: 1
+        max: 1
+        chance: 5.0
+  - level: 8
+    shards: 4000
+    cores: 3
+    loot:
+      - item: GOLDEN_APPLE
+        min: 3
+        max: 5
+        chance: 100.0
+      - item: SPLASH_POTION@STRONG_HEALING
+        min: 2
+        max: 3
+        chance: 100.0
+      - item: POTION@STRONG_STRENGTH
+        min: 1
+        max: 1
+        chance: 50.0
+      - item: POTION@STRONG_REGENERATION
+        min: 1
+        max: 1
+        chance: 45.0
+      - item: WIND_CHARGE
+        min: 4
+        max: 6
+        chance: 80.0
+      - item: ENCHANTED_GOLDEN_APPLE
+        min: 1
+        max: 1
+        chance: 20.0
+      - item: TOTEM_OF_UNDYING
+        min: 1
+        max: 1
+        chance: 10.0
+  - level: 9
+    shards: 6000
+    cores: 3
+    loot:
+      - item: GOLDEN_APPLE
+        min: 4
+        max: 5
+        chance: 100.0
+      - item: SPLASH_POTION@STRONG_HEALING
+        min: 3
+        max: 3
+        chance: 100.0
+      - item: POTION@STRONG_STRENGTH
+        min: 1
+        max: 2
+        chance: 60.0
+      - item: POTION@STRONG_REGENERATION
+        min: 1
+        max: 1
+        chance: 55.0
+      - item: WIND_CHARGE
+        min: 4
+        max: 6
+        chance: 90.0
+      - item: ENCHANTED_GOLDEN_APPLE
+        min: 1
+        max: 1
+        chance: 30.0
+      - item: TOTEM_OF_UNDYING
+        min: 1
+        max: 1
+        chance: 15.0
+  - level: 10
+    shards: 9000
+    cores: 4
+    loot:
+      - item: GOLDEN_APPLE
+        min: 4
+        max: 6
+        chance: 100.0
+      - item: SPLASH_POTION@STRONG_HEALING
+        min: 3
+        max: 4
+        chance: 100.0
+      - item: POTION@STRONG_STRENGTH
+        min: 1
+        max: 2
+        chance: 75.0
+      - item: POTION@STRONG_REGENERATION
+        min: 1
+        max: 2
+        chance: 65.0
+      - item: WIND_CHARGE
+        min: 5
+        max: 8
+        chance: 100.0
+      - item: ENCHANTED_GOLDEN_APPLE
+        min: 1
+        max: 2
+        chance: 40.0
+      - item: TOTEM_OF_UNDYING
+        min: 1
+        max: 1
+        chance: 25.0
+milestones:
+  - floor: 5
+    essence: 100
+    cosmetic: ''
+  - floor: 10
+    essence: 250
+    cosmetic: suffix_challenger
+  - floor: 15
+    essence: 400
+    cosmetic: ''
+  - floor: 20
+    essence: 750
+    cosmetic: suffix_gladiator
+  - floor: 25
+    essence: 1000
+    cosmetic: trail_bloodsteel
+  - floor: 30
+    essence: 1500
+    cosmetic: suffix_conqueror
+  - floor: 40
+    essence: 2500
+    cosmetic: ''
+  - floor: 50
+    essence: 5000
+    cosmetic: suffix_unbroken

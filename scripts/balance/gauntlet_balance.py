@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+"""
+The gauntlet's numbers: how each floor scales and what a gear level costs.
+
+The gauntlet has its own data (scripts/data/gauntlet/) and its own ladder, apart from
+the zones. One idea holds it together: a player who has kept up has their gear at
+about half the floor they are on (EXPECTED_LEVEL), and the floor is tuned for that.
+
+  weapon        = Sharpness (or Power) equal to its level, so it hits for
+                  10 + the Sharpness brackets (CombatFormulas.sharpnessBonus)
+  floor health  = every mob's health times the hit of the expected weapon over 10,
+                  so a mob takes as many hits on floor 40 as on floor 1
+  floor attack  = ATTACK_PER_FLOOR levels a floor, a little ahead of the armour's
+                  Defence (half its level a piece, so the expected set adds up to
+                  the floor), so hits creep up unless armour is ahead
+  shards        = paid for each floor cleared, SHARDS_BASE + SHARDS_PER_FLOOR x floor
+  cores         = paid on each boss floor (every 10th), 1 + floor / 20
+  gear level L  = costs SHARD_BASE x SHARD_GROWTH^L shards, rounded; every 5th level
+                  is a new material; from the 10th on it also costs cores (CORES)
+
+Past the last floor in floors.csv the plugin repeats it, health times
+ENDLESS_HEALTH and attack + ATTACK_PER_FLOOR a floor (GauntletData).
+
+  python scripts/balance/gauntlet_balance.py           show floors and gear levels
+  python scripts/balance/gauntlet_balance.py --write   fill floors.csv's numbers and
+                                                       write gear_levels.csv
+
+The mobs column of floors.csv is left as it is. generate.py writes gauntlet.yml.
+"""
+import csv
+import math
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+DATA = ROOT / "scripts" / "data" / "gauntlet"
+
+EXPECTED_LEVEL = 0.5            # gear level per floor reached
+ATTACK_PER_FLOOR = 1.2          # mob attack levels added a floor
+SHARDS_BASE, SHARDS_PER_FLOOR = 3, 1.0
+SHARD_BASE, SHARD_GROWTH = 10, 1.17
+MAX_LEVEL = 30
+LEVELS_PER_MATERIAL = 5
+CORES = {10: 1, 15: 1, 20: 2, 25: 2, 30: 3}
+
+# CombatFormulas.sharpnessBonus
+BRACKET_SIZE = 5
+BRACKET_BONUS = [1, 3, 5, 10, 15, 20, 25, 30, 35, 40]
+
+
+def sharpness_bonus(level):
+    total, remaining, bracket = 0.0, level, 0
+    while remaining > 0:
+        levels = min(remaining, BRACKET_SIZE)
+        bonus = BRACKET_BONUS[bracket] if bracket < len(BRACKET_BONUS) else BRACKET_BONUS[-1] + (bracket - len(BRACKET_BONUS) + 1) * 5
+        total += levels * bonus
+        remaining -= levels
+        bracket += 1
+    return total
+
+
+def hit(level):
+    """A weapon's hit at a gear level, interpolated between whole levels."""
+    low = math.floor(level)
+    a, b = 10 + sharpness_bonus(low), 10 + sharpness_bonus(low + 1)
+    return a + (b - a) * (level - low)
+
+
+def floor_numbers(floor):
+    health = round(max(1.0, hit(floor * EXPECTED_LEVEL) / 10), 2)
+    attack = round(floor * ATTACK_PER_FLOOR)
+    shards = round(SHARDS_BASE + SHARDS_PER_FLOOR * floor)
+    cores = 1 + floor // 20 if floor % 10 == 0 else 0
+    return health, attack, shards, cores
+
+
+def nice(value):
+    if value < 100:
+        return int(5 * round(value / 5)) or 5
+    if value < 1000:
+        return int(10 * round(value / 10))
+    return int(50 * round(value / 50))
+
+
+def level_rows():
+    rows = []
+    for level in range(0, MAX_LEVEL + 1):
+        shards = 0 if level == 0 else nice(SHARD_BASE * SHARD_GROWTH ** level)
+        rows.append({
+            "level": level,
+            "shards": shards,
+            "cores": CORES.get(level, 0),
+            "material": level // LEVELS_PER_MATERIAL,
+            "melee": level,
+            "ranged": level,
+            # Per piece, the set of four adds up to twice this
+            "defence": level // 2,
+            "protection": level,
+            # A raised shield covers 11 + 4/3 attack a level (CombatFormulas)
+            "deflection": max(0, round(1.8 * level - 6)),
+        })
+    return rows
+
+
+def read(name):
+    with open(DATA / name, newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def write(name, fields, rows):
+    with open(DATA / name, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fields, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def main():
+    floors = read("floors.csv")
+    for row in floors:
+        health, attack, shards, cores = floor_numbers(int(row["floor"]))
+        row.update(health=health, attack=attack, shards=shards, cores=cores)
+    levels = level_rows()
+
+    print(f"{'floor':>5} {'health x':>8} {'attack':>6} {'shards':>6} {'cores':>5}  mobs")
+    for row in floors:
+        print(f"{row['floor']:>5} {row['health']:>8} {row['attack']:>6} {row['shards']:>6} {row['cores']:>5}  {row['mobs']}")
+    print()
+    total = 0
+    print(f"{'level':>5} {'shards':>6} {'cores':>5} {'total':>7}")
+    for row in levels:
+        total += row["shards"]
+        print(f"{row['level']:>5} {row['shards']:>6} {row['cores']:>5} {total:>7}")
+
+    if "--write" in sys.argv:
+        write("floors.csv", ["floor", "mobs", "health", "attack", "shards", "cores"], floors)
+        write("gear_levels.csv", list(levels[0].keys()), levels)
+        print("\nWrote floors.csv and gear_levels.csv")
+
+
+if __name__ == "__main__":
+    main()

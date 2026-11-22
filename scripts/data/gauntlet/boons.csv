@@ -1,0 +1,10 @@
+id,name,icon,description,stat,amount,max
+might,Might,IRON_SWORD,+15% damage,damage,15,5
+keen_eye,Keen Eye,SPECTRAL_ARROW,15% chance to hit for double,crit,15,4
+bloodthirst,Bloodthirst,REDSTONE,Heal half a heart for every kill,killheal,1,4
+vitality,Vitality,GOLDEN_APPLE,+2 max hearts,health,4,5
+swiftness,Swiftness,SUGAR,+10% speed,speed,10,3
+mending,Mending,GHAST_TEAR,Slowly regenerate health,regen,1,2
+iron_skin,Iron Skin,IRON_CHESTPLATE,Take 10% less damage,guard,10,4
+evasion,Evasion,FEATHER,10% chance to dodge a hit,dodge,10,3
+bulwark,Bulwark,SHIELD,2 absorption hearts at the start of every floor,absorb,4,3

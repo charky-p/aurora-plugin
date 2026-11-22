@@ -131,6 +131,12 @@ public class GauntletSetup implements Listener {
         return GauntletCarePackage.lootItem(setup.item(), setup.count(level));
     }
 
+    // The menu, start and leave items, which never leave their player
+    static boolean isTool(ItemStack item) {
+        String key = keyOf(item);
+        return key != null && TOOL_SLOTS.containsKey(key);
+    }
+
     // An item of the setup that does something when right clicked
     private static ItemStack tool(Material material, NamespacedKey key, String name, List<String> lore) {
         ItemStack item = new ItemStack(material);

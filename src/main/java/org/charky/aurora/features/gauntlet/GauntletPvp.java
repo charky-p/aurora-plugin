@@ -1,6 +1,7 @@
 package org.charky.aurora.features.gauntlet;
 
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -10,12 +11,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.common.util.TextUtils;
@@ -55,7 +58,11 @@ public class GauntletPvp implements Listener {
     // Just come into the zone, so landing in it does no fall damage, until when
     private final Map<UUID, Long> droppingIn = new HashMap<>();
     private static final long DROP_IN_MS = 10_000;
-    // Each player's kills since they last died, and when they last swung at a player
+    // What a death in the zone drops carries this
+    private static final NamespacedKey LOOT_KEY = new NamespacedKey("aurora", "gauntlet_loot");
+    // An item on the ground goes once it has lain this long (vanilla's five minutes)
+    private static final int ITEM_LIFETIME_TICKS = 6000;
+    // Each player's kills since they last died
     private final Map<UUID, Integer> streaks = new HashMap<>();
     // Glowing for a bounty right now
     private final Set<UUID> wanted = new HashSet<>();
@@ -201,13 +208,37 @@ public class GauntletPvp implements Listener {
                 * GauntletPvpFormula.levelFactor(weapon / GauntletPvpFormula.STAT_PER_LEVEL, armourLevel, effect));
     }
 
+    // What someone dying in the zone had on them drops for anyone in it to pick up:
+    // copies, as they come back with their own setup. Loot is only borrowed, gone when
+    // whoever took it dies or walks out (their own setup put back then). It lies
+    // pvp_loot_seconds
+    private void dropLoot(Player victim) {
+        Location at = victim.getLocation();
+        int lies = (int) Math.round(manager.data().setting("pvp_loot_seconds", 60) * 20);
+        for (ItemStack item : victim.getInventory().getContents()) {
+            if (item == null || item.getType().isAir() || GauntletSetup.isTool(item)) continue;
+            ItemStack loot = item.clone();
+            loot.editMeta(meta -> meta.getPersistentDataContainer().set(LOOT_KEY, PersistentDataType.BYTE, (byte) 1));
+            at.getWorld().dropItemNaturally(at, loot, drop -> drop.setTicksLived(Math.max(1, ITEM_LIFETIME_TICKS - lies)));
+        }
+    }
+
+    // Loot is for the zone: nobody outside it picks it up, nor any mob
+    @EventHandler(ignoreCancelled = true)
+    public void onPickup(EntityPickupItemEvent event) {
+        ItemStack item = event.getItem().getItemStack();
+        if (!item.hasItemMeta() || !item.getItemMeta().getPersistentDataContainer().has(LOOT_KEY, PersistentDataType.BYTE)) return;
+        if (!(event.getEntity() instanceof Player player) || !inZone(player)) event.setCancelled(true);
+    }
+
     // A death in the zone: the killer is paid, more on a streak and for ending a streak
     // of 3 or more, and both are counted. The anti-farming rule (KillStreaks) already
-    // stops the same pair trading kills
+    // stops the same pair trading kills. What the dead had on them drops as loot
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(PlayerDeathEvent event) {
         Player victim = event.getPlayer();
         if (!manager.isHere(victim) || manager.inRun(victim) || !manager.arena().inPvp(victim.getLocation())) return;
+        dropLoot(victim);
         Integer ended = streaks.remove(victim.getUniqueId());
         manager.addStat(victim.getUniqueId(), DEATHS, 1);
         Player killer = victim.getKiller();

@@ -1095,6 +1095,8 @@ GAUNTLET_HEADER = """# =========================================================
 #             scale (the goal rises to the player's best floor, rounded down to 5)}
 # bosses: a boss's abilities and their cooldown in seconds {g_rot_king: [{type: summon, cooldown: 14}, ...]}
 #         (slam, volley, charge, leap or summon, see GauntletBossAbilities)
+# perks: what gear unlocks at a level, in runs only [{gear, level, name, description, stat, amount}]
+#        (gear armor_set: every armour piece at the level)
 # settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
@@ -1109,6 +1111,8 @@ GAUNTLET_RARITIES = {"common", "rare", "epic"}
 GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive"}
 GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
 GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon"}
+GAUNTLET_WEAPON_PERK_STATS = {"damage", "crit", "firststrike", "execute", "slayer", "cleave", "killheal"}
+GAUNTLET_SET_PERK_STATS = {"health", "guard", "absorb"}
 
 
 def _gauntlet_rows(name):
@@ -1207,6 +1211,17 @@ def gauntlet_text(mobs, cosmetics):
             abilities.append(OrderedDict(type=kind, cooldown=int(cooldown or 10)))
         bosses[row["id"]] = abilities
 
+    perks = []
+    for row in _gauntlet_rows("perks.csv") or []:
+        armour = row["gear"] == "armor_set"
+        if not armour and row["gear"] not in gear:
+            errors.append(f"gauntlet perk '{row['name']}': no gear '{row['gear']}' in gear.csv")
+        allowed = GAUNTLET_SET_PERK_STATS if armour else GAUNTLET_WEAPON_PERK_STATS
+        if row["stat"] not in allowed:
+            errors.append(f"gauntlet perk '{row['name']}': stat '{row['stat']}' does not work on {row['gear']}")
+        perks.append(OrderedDict(gear=row["gear"], level=int(row["level"]), name=row["name"],
+                                 description=Quoted(row["description"]), stat=row["stat"], amount=float(row["amount"])))
+
     settings = OrderedDict()
     for row in _gauntlet_rows("settings.csv") or []:
         try:
@@ -1232,7 +1247,7 @@ def gauntlet_text(mobs, cosmetics):
                                        description=Quoted(row["description"]))
 
     data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones, setup=setup,
-                       talents=talents, mutators=mutators, challenges=challenges, bosses=bosses, settings=settings)
+                       talents=talents, mutators=mutators, challenges=challenges, bosses=bosses, perks=perks, settings=settings)
     body = yaml.dump(data, Dumper=_Dumper, sort_keys=False, default_flow_style=False, allow_unicode=True,
                      width=10 ** 6, indent=2)
     return GAUNTLET_HEADER + "\n" + body, len(floors), errors

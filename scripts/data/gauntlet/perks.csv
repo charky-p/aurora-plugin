@@ -1,0 +1,25 @@
+gear,level,name,description,stat,amount
+sword,10,Sweeping Edge,Melee hits splash 15% to mobs within 3 blocks,cleave,15
+sword,20,Honed,+10% damage,damage,10
+sword,30,Duelist,10% chance to hit for double,crit,10
+axe,10,Headsman,+25% damage to mobs under 30% health,execute,25
+axe,20,Heavy Blade,+10% damage,damage,10
+axe,30,Giant Feller,+25% damage to bosses and elites,slayer,25
+spear,10,Lunge,+40% damage to mobs at full health,firststrike,40
+spear,20,Long Reach,+10% damage,damage,10
+spear,30,Impale,10% chance to hit for double,crit,10
+mace,10,Crusher,+20% damage to bosses and elites,slayer,20
+mace,20,Quake,Melee hits splash 20% to mobs within 3 blocks,cleave,20
+mace,30,Shatter,+15% damage,damage,15
+bow,10,Steady Aim,+10% damage,damage,10
+bow,20,Hunter,+25% damage to bosses and elites,slayer,25
+bow,30,Deadeye,10% chance to hit for double,crit,10
+crossbow,10,Bolt,+40% damage to mobs at full health,firststrike,40
+crossbow,20,Heavy Bolts,+10% damage,damage,10
+crossbow,30,Piercer,+25% damage to bosses and elites,slayer,25
+trident,10,Tidecaller,+10% damage,damage,10
+trident,20,Riptide,Heal half a heart for every kill,killheal,1
+trident,30,Poseidon,15% chance to hit for double,crit,15
+armor_set,10,Copper Set,+2 max hearts with every armour piece at 10,health,4
+armor_set,20,Gold Set,Take 10% less damage with every armour piece at 20,guard,10
+armor_set,30,Netherite Set,2 absorption hearts every floor with every armour piece at 30,absorb,4

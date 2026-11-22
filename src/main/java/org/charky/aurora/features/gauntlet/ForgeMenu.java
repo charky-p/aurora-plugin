@@ -71,6 +71,18 @@ public class ForgeMenu extends PagedMenu {
                 lore.add(TextUtils.parse("<!italic><yellow>Click to upgrade"));
             }
         }
+        // What the piece unlocks at its milestones, in runs; armour shows the set's
+        List<GauntletData.Perk> perks = data.perksOf(piece.armor() ? GauntletData.ARMOR_SET : piece.id());
+        if (!perks.isEmpty()) {
+            int reached = piece.armor() ? runs.armorSetLevel(profile) : (owned ? level : -1);
+            lore.add(Component.empty());
+            lore.add(TextUtils.parse("<!italic><gray>" + (piece.armor() ? "Set bonuses, every piece at the level <dark_gray>(lowest " + reached + ")" : "Perks in runs")));
+            for (GauntletData.Perk perk : perks) {
+                boolean has = reached >= perk.level();
+                lore.add(TextUtils.parse("<!italic>" + (has ? "<green>✔ " : "<dark_gray>" + perk.level() + " ") + (has ? "<white>" : "<gray>")
+                        + perk.name() + " <dark_gray>- " + (has ? "<gray>" : "<dark_gray>") + perk.description()));
+            }
+        }
         ItemStack shown = item;
         shown.editMeta(meta -> {
             meta.displayName(TextUtils.parse("<!italic><white><b>" + piece.name() + (owned ? " <gray>(" + level + ")" : "")));

@@ -24,7 +24,9 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                            Map<String, Boon> boons, List<CareLevel> care, List<Milestone> milestones,
                            Map<String, SetupItem> setup, Map<String, Talent> talents, Map<String, Mutator> mutators,
                            Map<String, Challenge> challenges, Map<String, List<BossAbility>> bosses,
-                           Map<String, Double> settings) {
+                           List<Perk> perks, Map<String, Double> settings) {
+    // The gear a perk belongs to when it is for the whole armour set
+    public static final String ARMOR_SET = "armor_set";
     private static final String FILE = "gauntlet.yml";
     // Past the last floor in the file it repeats, every mob this much tougher a floor
     // and ATTACK_PER_FLOOR attack levels stronger (gauntlet_balance.py)
@@ -105,6 +107,15 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         }
     }
 
+    // What a piece of gear unlocks at a level, in runs only: a weapon's while it is held,
+    // the armour set's with every piece at the level (perks.csv)
+    public record Perk(String gear, int level, String name, String description, String stat, double amount) {
+    }
+
+    public List<Perk> perksOf(String gearId) {
+        return perks.stream().filter(perk -> perk.gear().equals(gearId)).toList();
+    }
+
     // One of a boss's abilities (see GauntletBossAbilities) and how often, in seconds
     public record BossAbility(String type, int cooldown) {
     }
@@ -138,7 +149,7 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     }
 
     public static GauntletData empty() {
-        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of());
+        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), List.of(), Map.of());
     }
 
     // Empty when the file is missing or broken, the gauntlet then refuses to start
@@ -233,10 +244,15 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                 }
                 bosses.put(id, List.copyOf(abilities));
             });
+            List<Perk> perks = new ArrayList<>();
+            for (Map<String, Object> row : list(root.get("perks"))) {
+                perks.add(new Perk(str(row.get("gear")), num(row.get("level")).intValue(), str(row.get("name")),
+                        str(row.get("description")), str(row.get("stat")), num(row.get("amount")).doubleValue()));
+            }
             Map<String, Double> settings = new LinkedHashMap<>();
             ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
             return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care),
-                    List.copyOf(milestones), setup, talents, mutators, challenges, bosses, settings);
+                    List.copyOf(milestones), setup, talents, mutators, challenges, bosses, List.copyOf(perks), settings);
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load " + FILE, e);
             return empty();

@@ -15,7 +15,7 @@ class GauntletDataTest {
         List<GauntletData.Floor> floors = List.of(
                 new GauntletData.Floor(Map.of("g_rotter", 3), 1.0, 1, 1, 4, 0),
                 new GauntletData.Floor(Map.of("g_rot_king", 1, "g_rotter", 4), 2.0, 10, 2, 10, 1));
-        return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of());
+        return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), List.of(), Map.of());
     }
 
     @Test

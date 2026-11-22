@@ -271,7 +271,8 @@ public class GauntletRuns implements Listener {
         player.closeInventory();
         // The run starts with the setup from the lobby
         manager.giveKit(player);
-        setModifier(player, Attribute.MAX_HEALTH, TALENT_HEALTH, talentTotal(profile, "health"), AttributeModifier.Operation.ADD_NUMBER);
+        setModifier(player, Attribute.MAX_HEALTH, TALENT_HEALTH, talentTotal(profile, "health") + setTotal(profile, "health"),
+                AttributeModifier.Operation.ADD_NUMBER);
         heal(player);
         player.teleport(arena.inSlot(slot, arena.place(GauntletArena.SPAWN)));
         player.playSound(player.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
@@ -470,7 +471,7 @@ public class GauntletRuns implements Listener {
             player.sendActionBar(TextUtils.parse("<gold><b>" + elites + " elite" + (elites > 1 ? "s" : "") + "</b> <gray>on this floor"));
         }
         // Bulwark: absorption hearts at the start of every floor
-        int absorb = (int) Math.round(boonTotal(run, "absorb"));
+        int absorb = (int) Math.round(boonTotal(run, "absorb") + setTotal(manager.profile(player), "absorb"));
         if (absorb > 0) {
             setModifier(player, Attribute.MAX_ABSORPTION, ABSORB_BOON, absorb, AttributeModifier.Operation.ADD_NUMBER);
             player.setAbsorptionAmount(absorb);
@@ -756,8 +757,8 @@ public class GauntletRuns implements Listener {
                     else if (elite) TextUtils.send(player, "<gold>Elite slain <aqua>+" + paid + " Shards");
                 }
             }
-            // Bloodthirst: half a heart a kill a stack
-            double heal = boonTotal(run, "killheal");
+            // Bloodthirst: half a heart a kill a stack, and the trident's Riptide
+            double heal = boonTotal(run, "killheal") + (player == null ? 0 : perkTotal(player, "killheal"));
             if (player != null && heal > 0) {
                 AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
                 player.setHealth(Math.min(max == null ? 20 : max.getValue(), player.getHealth() + heal));
@@ -970,6 +971,41 @@ public class GauntletRuns implements Listener {
         return total;
     }
 
+    // A perk stat of the gear held (or worn as a set), for the levels the player has
+    private double perkTotal(Player player, String stat) {
+        GauntletProfile profile = manager.profile(player);
+        String held = GauntletGear.gearId(player.getInventory().getItemInMainHand());
+        double total = 0;
+        if (held != null) {
+            for (GauntletData.Perk perk : data().perksOf(held)) {
+                if (perk.stat().equals(stat) && profile.level(held) >= perk.level()) total += perk.amount();
+            }
+        }
+        return total + setTotal(profile, stat);
+    }
+
+    // An armour set stat: every set perk whose level all four pieces have reached
+    private double setTotal(GauntletProfile profile, String stat) {
+        int lowest = armorSetLevel(profile);
+        double total = 0;
+        for (GauntletData.Perk perk : data().perksOf(GauntletData.ARMOR_SET)) {
+            if (perk.stat().equals(stat) && lowest >= perk.level()) total += perk.amount();
+        }
+        return total;
+    }
+
+    // The lowest level of the armour pieces, 0 while one is missing
+    int armorSetLevel(GauntletProfile profile) {
+        int lowest = Integer.MAX_VALUE;
+        boolean any = false;
+        for (GauntletData.Gear gear : data().gear().values()) {
+            if (!gear.armor()) continue;
+            any = true;
+            lowest = Math.min(lowest, Math.max(0, profile.level(gear.id())));
+        }
+        return any ? lowest : 0;
+    }
+
     // A talent's stat added up over its levels
     private double talentTotal(GauntletProfile profile, String stat) {
         double total = 0;
@@ -1011,13 +1047,15 @@ public class GauntletRuns implements Listener {
     private double outgoing(Player attacker, LivingEntity victim, boolean ranged) {
         Run run = runs.get(attacker.getUniqueId());
         if (run == null) return 1.0;
-        double percent = boonTotal(run, "damage");
+        double percent = boonTotal(run, "damage") + perkTotal(attacker, "damage");
         double health = CustomHealth.current(victim) / Math.max(1, CustomHealth.max(victim));
-        if (health >= 0.999) percent += boonTotal(run, "firststrike");
-        if (health < EXECUTE_BELOW) percent += boonTotal(run, "execute");
-        if (victim.getUniqueId().equals(run.boss) || run.elites.contains(victim.getUniqueId())) percent += boonTotal(run, "slayer");
+        if (health >= 0.999) percent += boonTotal(run, "firststrike") + perkTotal(attacker, "firststrike");
+        if (health < EXECUTE_BELOW) percent += boonTotal(run, "execute") + perkTotal(attacker, "execute");
+        if (victim.getUniqueId().equals(run.boss) || run.elites.contains(victim.getUniqueId())) {
+            percent += boonTotal(run, "slayer") + perkTotal(attacker, "slayer");
+        }
         double multiplier = 1 + percent / 100;
-        if (ThreadLocalRandom.current().nextDouble(100) < boonTotal(run, "crit")) multiplier *= 2;
+        if (ThreadLocalRandom.current().nextDouble(100) < boonTotal(run, "crit") + perkTotal(attacker, "crit")) multiplier *= 2;
         PotionEffect strength = attacker.getPotionEffect(PotionEffectType.STRENGTH);
         if (strength != null) multiplier *= 1 + STRENGTH_PER_LEVEL * (strength.getAmplifier() + 1);
         if (!ranged) {
@@ -1031,7 +1069,7 @@ public class GauntletRuns implements Listener {
     private void afterHit(Player attacker, LivingEntity victim, double dealt, boolean ranged) {
         Run run = runs.get(attacker.getUniqueId());
         if (run == null || ranged || dealt <= 0 || !run.mobs.contains(victim.getUniqueId())) return;
-        double cleave = boonTotal(run, "cleave");
+        double cleave = boonTotal(run, "cleave") + perkTotal(attacker, "cleave");
         if (cleave <= 0) return;
         double splash = Math.round(dealt * cleave / 100);
         if (splash <= 0) return;
@@ -1051,6 +1089,6 @@ public class GauntletRuns implements Listener {
             victim.playSound(victim.getLocation(), Sound.ENTITY_BREEZE_JUMP, 0.6f, 1.6f);
             return 0;
         }
-        return damage * (1 - Math.min(0.8, boonTotal(run, "guard") / 100));
+        return damage * (1 - Math.min(0.8, (boonTotal(run, "guard") + setTotal(manager.profile(victim), "guard")) / 100));
     }
 }

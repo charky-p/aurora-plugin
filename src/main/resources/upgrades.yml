@@ -3728,14 +3728,14 @@ items:
         stat: efficiency
         level: "3"
         cost:
-          - id: verdant_froglight
-            amount: 640
+          - id: ochre_froglight
+            amount: 800
       - tool: sword
         stat: looting
         level: "12"
         cost:
           - id: verdant_froglight
-            amount: 750
+            amount: 500
           - id: wisp_dust
             amount: 250
       - tool: sword
@@ -3774,8 +3774,8 @@ items:
         stat: luck
         level: "1"
         cost:
-          - id: verdant_froglight
-            amount: 800
+          - id: ochre_froglight
+            amount: 1000
           - id: pearlescent_froglight
             amount: 1000
       - tool: pick
@@ -3810,7 +3810,7 @@ items:
         stat: thrust
         level: "5"
         cost:
-          - id: verdant_froglight
+          - id: ochre_froglight
             amount: 1500
           - id: wisp_dust
             amount: 640
@@ -3819,7 +3819,7 @@ items:
         level: "5"
         cost:
           - id: verdant_froglight
-            amount: 1600
+            amount: 1500
           - id: wisp_dust
             amount: 750
       - tool: axe

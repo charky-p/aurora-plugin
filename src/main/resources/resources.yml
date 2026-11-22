@@ -619,7 +619,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 800
+    collection: 4000
 
   verdant_froglight:
     display: "<#9BD86B><b>Verdant Froglight"
@@ -628,7 +628,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 6400
+    collection: 4000
 
   pearlescent_froglight:
     display: "<#E7B8E6><b>Pearlescent Froglight"

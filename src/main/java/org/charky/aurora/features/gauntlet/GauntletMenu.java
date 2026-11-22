@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -36,6 +37,7 @@ public class GauntletMenu extends PagedMenu {
         GauntletProfile profile = manager.profile(player);
         List<Button> buttons = List.of(
                 new Button(start(player), this::startRun),
+                new Button(tower(profile), this::climbTower),
                 new Button(forge(profile), viewer -> new ForgeMenu(manager, runs).open(viewer)),
                 new Button(kit(), viewer -> new SetupMenu(manager, runs).open(viewer)),
                 new Button(talents(profile), viewer -> new TalentsMenu(manager).open(viewer)),
@@ -73,6 +75,21 @@ public class GauntletMenu extends PagedMenu {
                         : inParty && !party.isLeader(player) ? "<gray>Your party leader starts the run"
                         : inParty ? "<yellow>Click to start for your party of " + party.team(player).size()
                         : "<yellow>Click to start"));
+    }
+
+    // Today's Daily Tower: how it works, how far the best got, and the player's try
+    private ItemStack tower(GauntletProfile profile) {
+        boolean tried = profile.stat(GauntletRuns.TOWER_DAY) == LocalDate.now().toEpochDay();
+        List<String> lines = new ArrayList<>(List.of(
+                "<gray>One try a day, alone, from floor 1.",
+                "<gray>Every floor from " + (int) manager.data().setting("mutator_from", 6) + " is mutated, the",
+                "<gray>same tower for everyone today.",
+                "",
+                "<yellow>Today's best"));
+        lines.addAll(GauntletBoards.rows(runs.towerToday(5), top -> "floor " + top.stat(GauntletRuns.TOWER_BEST), "Nobody has climbed it yet"));
+        lines.add("");
+        lines.add(tried ? "<gray>Your floor today: <white>" + profile.stat(GauntletRuns.TOWER_BEST) : "<yellow>Click to climb it");
+        return button(Material.LODESTONE, "<aqua><b>Daily Tower", lines);
     }
 
     private static ItemStack forge(GauntletProfile profile) {
@@ -316,6 +333,11 @@ public class GauntletMenu extends PagedMenu {
     @Override
     protected void onEntryClick(Player player, int index) {
         if (index < clicks.size() && clicks.get(index) != null) clicks.get(index).accept(player);
+    }
+
+    private void climbTower(Player player) {
+        String problem = runs.beginTower(player);
+        if (problem != null) TextUtils.error(player, problem);
     }
 
     private void startRun(Player player) {

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -58,15 +59,17 @@ final class GauntletWaves {
         return manager.data();
     }
 
-    // A floor's mutator now and then from mutator_from; one that gives every mob an affix
-    // only from affix_from, like elites' affixes
-    GauntletData.Mutator rollMutator(int floor) {
+    // A floor's mutator now and then from mutator_from, on every floor from there in the
+    // Daily Tower; one that gives every mob an affix only from affix_from, like elites'
+    GauntletData.Mutator rollMutator(GauntletRun run) {
+        int floor = run.floor;
         if (data().mutators().isEmpty() || floor < data().setting("mutator_from", 6)) return null;
-        if (ThreadLocalRandom.current().nextDouble(100) >= data().setting("mutator_chance", 25)) return null;
+        Random random = run.floorRandom(1);
+        if (run.towerDay == 0 && random.nextDouble(100) >= data().setting("mutator_chance", 25)) return null;
         boolean affixes = floor >= data().setting("affix_from", 10);
         List<GauntletData.Mutator> all = data().mutators().values().stream()
                 .filter(mutator -> affixes || mutator.affix().isBlank()).toList();
-        return all.isEmpty() ? null : all.get(ThreadLocalRandom.current().nextInt(all.size()));
+        return all.isEmpty() ? null : all.get(random.nextInt(all.size()));
     }
 
     // Percent chance a mob of this floor is elite
@@ -86,7 +89,8 @@ final class GauntletWaves {
         GauntletData.Floor floor = data().floor(run.floor);
         GauntletArena arena = manager.arena();
         List<Location> spawns = new ArrayList<>(arena.mobSpawns().stream().map(spawn -> arena.inSlot(run.slot, spawn)).toList());
-        Collections.shuffle(spawns);
+        Random random = run.floorRandom(2);
+        Collections.shuffle(spawns, random);
         double eliteChance = eliteChance(run);
         run.floorScale = GauntletRun.partyScale(run.members.size(), data().setting("party_mobs", 50));
         double more = (run.mutator == null ? 1 : run.mutator.count()) * run.floorScale;
@@ -97,16 +101,17 @@ final class GauntletWaves {
             int count = boss ? entry.getValue() : (int) Math.ceil(entry.getValue() * more);
             for (int i = 0; i < count; i++) {
                 Location at = spawns.get(next++ % spawns.size()).clone()
-                        .add(ThreadLocalRandom.current().nextDouble(-1.5, 1.5), 0, ThreadLocalRandom.current().nextDouble(-1.5, 1.5));
-                boolean elite = !boss && ThreadLocalRandom.current().nextDouble(100) < eliteChance;
-                if (spawnOne(run, entry.getKey(), boss, elite, at) && elite) elites++;
+                        .add(random.nextDouble(-1.5, 1.5), 0, random.nextDouble(-1.5, 1.5));
+                boolean elite = !boss && random.nextDouble(100) < eliteChance;
+                String affix = elite ? rollAffix(run, random) : null;
+                if (spawnOne(run, entry.getKey(), boss, elite, affix, at) && elite) elites++;
             }
         }
         run.floorMobs = run.mobs.size();
         run.floorStarted = System.currentTimeMillis();
         if (!floor.boss() && run.floor >= data().setting("hoarder_from", 3)
-                && ThreadLocalRandom.current().nextDouble(100) < data().setting("hoarder_chance", 8)) {
-            hoarder(run, spawns.get(ThreadLocalRandom.current().nextInt(spawns.size())));
+                && random.nextDouble(100) < data().setting("hoarder_chance", 8)) {
+            hoarder(run, spawns.get(random.nextInt(spawns.size())));
         }
         if (elites > 0) {
             run.sound(Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.4f, 1.4f);
@@ -118,8 +123,8 @@ final class GauntletWaves {
 
     // One of the floor's mobs: an elite with its affix, any other with the mutator's, or
     // the boss, tougher for a party. Whether it came
-    private boolean spawnOne(GauntletRun run, String kind, boolean boss, boolean elite, Location at) {
-        String affix = elite ? rollAffix(run) : boss || run.mutator == null || run.mutator.affix().isBlank() ? null : run.mutator.affix();
+    private boolean spawnOne(GauntletRun run, String kind, boolean boss, boolean elite, String eliteAffix, Location at) {
+        String affix = elite ? eliteAffix : boss || run.mutator == null || run.mutator.affix().isBlank() ? null : run.mutator.affix();
         String mutatorId = run.mutator == null ? null : run.mutator.id();
         LivingEntity mob = mob(run, new GauntletData.Variant(kind, run.floor, elite, affix, run.heat, mutatorId).id(), at);
         if (mob == null) return false;
@@ -161,10 +166,10 @@ final class GauntletWaves {
     }
 
     // An affix for an elite from affix_from on, null before or without any
-    private String rollAffix(GauntletRun run) {
+    private String rollAffix(GauntletRun run, Random random) {
         if (data().affixes().isEmpty() || run.floor < data().setting("affix_from", 10)) return null;
         List<String> ids = List.copyOf(data().affixes().keySet());
-        return ids.get(ThreadLocalRandom.current().nextInt(ids.size()));
+        return ids.get(random.nextInt(ids.size()));
     }
 
     // One mob of the run, hunting the nearest player standing, sped up by the floor's mutator

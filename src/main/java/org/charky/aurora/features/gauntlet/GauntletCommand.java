@@ -43,6 +43,10 @@ public class GauntletCommand implements TabExecutor {
                     yield "Not a floor: " + args[1];
                 }
             }
+            case "daily" -> {
+                if (!manager.isHere(player)) yield manager.sendToLobby(player);
+                yield runs.beginTower(player);
+            }
             case "duel" -> duel(player, args);
             case "party" -> party(player, args);
             case "spectate" -> {
@@ -134,7 +138,7 @@ public class GauntletCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                       @NotNull String label, @NotNull String @NotNull [] args) {
-        if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "party", "duel", "spectate",
+        if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "daily", "forge", "talents", "party", "duel", "spectate",
                 "achievements", "shop", "boon", "leave"));
         if (args.length == 2 && args[0].equalsIgnoreCase("spectate")) {
             List<String> options = new ArrayList<>(List.of("stop"));

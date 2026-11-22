@@ -26,7 +26,17 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                            Map<String, SetupItem> setup, Map<String, Talent> talents, Map<String, Mutator> mutators,
                            Map<String, Challenge> challenges, Map<String, List<BossAbility>> bosses,
                            List<Perk> perks, Map<String, Affix> affixes, List<Achievement> achievements,
-                           List<ShopItem> shop, Map<String, Double> settings) {
+                           List<ShopItem> shop, Map<String, Double> settings,
+                           List<Theme> themes) {
+    // Without themes, for data put together by hand
+    public GauntletData(List<Floor> floors, Map<String, Gear> gear, List<GearLevel> levels, Map<String, Boon> boons, List<CareLevel> care,
+                        List<Milestone> milestones, Map<String, SetupItem> setup, Map<String, Talent> talents, Map<String, Mutator> mutators,
+                        Map<String, Challenge> challenges, Map<String, List<BossAbility>> bosses, List<Perk> perks, Map<String, Affix> affixes,
+                        List<Achievement> achievements, List<ShopItem> shop, Map<String, Double> settings) {
+        this(floors, gear, levels, boons, care, milestones, setup, talents, mutators, challenges, bosses, perks, affixes, achievements,
+                shop, settings, List.of());
+    }
+
     // The gear a perk belongs to when it is for the whole armour set
     public static final String ARMOR_SET = "armor_set";
     private static final String FILE = "gauntlet.yml";
@@ -179,6 +189,26 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         }
     }
 
+    // A band of floors' theme, from its first floor on: its name, colour and a line about it
+    public record Theme(int floor, String name, String colour, String description) {
+        public String title() {
+            return "<" + colour + ">" + name;
+        }
+    }
+
+    // The theme of a floor: the last to start at or below it. Null without any
+    public Theme theme(int floor) {
+        Theme found = null;
+        for (Theme theme : themes) if (theme.floor() <= floor) found = theme;
+        return found;
+    }
+
+    // The first floor of the next theme after a floor's, or past the tower's last floor
+    public int themeEnd(int floor) {
+        for (Theme theme : themes) if (theme.floor() > floor) return theme.floor() - 1;
+        return Math.max(floor, floors.size());
+    }
+
     public static GauntletData empty() {
         return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(),
                 Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of());
@@ -258,8 +288,10 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         List<ShopItem> shop = rows(root, "shop", row -> new ShopItem(str(row.get("cosmetic")), num(row.get("shards")).intValue()));
         Map<String, Double> settings = new LinkedHashMap<>();
         ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
+        List<Theme> themes = rows(root, "themes", row -> new Theme(num(row.get("floor")).intValue(), str(row.get("name")),
+                str(row.get("colour")), str(row.get("description"))));
         return new GauntletData(floors, gear, levels, boons, care, milestones, setup, talents, mutators, challenges, bosses, perks,
-                affixes, achievements, shop, settings);
+                affixes, achievements, shop, settings, themes);
     }
 
     // A boon's stats and what a stack adds to each; a file from before effects has one

@@ -49,8 +49,8 @@ floors:
     shards: 2
     cores: 0
   - mobs:
-      g_rotter: 6
-      g_crawler: 2
+      g_rotter: 5
+      g_crawler: 3
     health: 1.2
     attack: 4
     kill: 1
@@ -67,7 +67,7 @@ floors:
   - mobs:
       g_rotter: 5
       g_crawler: 3
-      g_bonearcher: 2
+      g_sandshade: 2
     health: 1.4
     attack: 9
     kill: 1
@@ -75,17 +75,16 @@ floors:
     cores: 0
   - mobs:
       g_rotter: 6
-      g_crawler: 3
-      g_bonearcher: 3
+      g_crawler: 4
+      g_sandshade: 2
     health: 1.5
     attack: 11
     kill: 1
     shards: 4
     cores: 0
   - mobs:
-      g_rotter: 4
+      g_rotter: 6
       g_crawler: 3
-      g_bonearcher: 2
       g_sandshade: 2
     health: 1.8
     attack: 13
@@ -93,29 +92,27 @@ floors:
     shards: 5
     cores: 0
   - mobs:
-      g_rotter: 4
-      g_crawler: 3
-      g_bonearcher: 3
-      g_sandshade: 3
+      g_rotter: 7
+      g_crawler: 4
+      g_sandshade: 2
     health: 2.1
     attack: 15
     kill: 2
     shards: 5
     cores: 0
   - mobs:
-      g_crawler: 4
-      g_bonearcher: 3
-      g_sandshade: 4
+      g_rotter: 6
+      g_crawler: 3
+      g_sandshade: 2
     health: 2.4
     attack: 18
     kill: 2
     shards: 6
     cores: 0
   - mobs:
-      g_rotter: 5
-      g_crawler: 4
-      g_bonearcher: 3
-      g_sandshade: 4
+      g_rotter: 8
+      g_crawler: 5
+      g_sandshade: 3
     health: 2.7
     attack: 20
     kill: 2
@@ -130,89 +127,78 @@ floors:
     shards: 7
     cores: 1
   - mobs:
-      g_rotter: 4
-      g_bonearcher: 3
-      g_sandshade: 2
-      g_drowner: 2
+      g_bonearcher: 7
+      g_frostbow: 4
     health: 3.5
     attack: 24
     kill: 2
     shards: 8
     cores: 0
   - mobs:
-      g_crawler: 4
-      g_bonearcher: 3
-      g_sandshade: 3
-      g_drowner: 3
+      g_bonearcher: 8
+      g_frostbow: 5
     health: 4.0
     attack: 26
     kill: 2
     shards: 8
     cores: 0
   - mobs:
-      g_sandshade: 3
-      g_drowner: 3
-      g_venomling: 3
+      g_bonearcher: 6
+      g_frostbow: 3
     health: 4.5
     attack: 29
     kill: 2
     shards: 9
     cores: 0
   - mobs:
-      g_bonearcher: 3
-      g_sandshade: 3
-      g_drowner: 3
-      g_venomling: 4
+      g_bonearcher: 7
+      g_frostbow: 4
+      g_venomling: 2
     health: 5.0
     attack: 31
     kill: 2
     shards: 9
     cores: 0
   - mobs:
-      g_crawler: 3
-      g_bonearcher: 4
-      g_sandshade: 3
-      g_drowner: 3
-      g_venomling: 4
+      g_bonearcher: 9
+      g_frostbow: 5
+      g_venomling: 3
     health: 5.5
     attack: 33
     kill: 2
     shards: 10
     cores: 0
   - mobs:
-      g_sandshade: 3
-      g_drowner: 3
-      g_venomling: 3
-      g_frostbow: 2
+      g_bonearcher: 6
+      g_frostbow: 3
+      g_venomling: 2
     health: 6.5
     attack: 35
     kill: 2
     shards: 11
     cores: 0
   - mobs:
-      g_drowner: 4
-      g_venomling: 4
+      g_bonearcher: 6
       g_frostbow: 3
+      g_venomling: 2
     health: 7.5
     attack: 37
     kill: 2
     shards: 11
     cores: 0
   - mobs:
-      g_sandshade: 3
-      g_venomling: 3
+      g_bonearcher: 6
       g_frostbow: 3
-      g_brute: 2
+      g_venomling: 2
     health: 8.5
     attack: 40
     kill: 2
     shards: 12
     cores: 0
   - mobs:
-      g_drowner: 4
-      g_venomling: 4
-      g_frostbow: 3
-      g_brute: 3
+      g_bonearcher: 7
+      g_frostbow: 4
+      g_venomling: 3
     health: 9.5
     attack: 42
     kill: 3
@@ -228,90 +214,72 @@ floors:
     shards: 13
     cores: 2
   - mobs:
-      g_drowner: 3
-      g_frostbow: 3
-      g_brute: 2
-      g_raider: 2
+      g_raider: 6
+      g_brute: 4
     health: 12.0
     attack: 46
     kill: 3
     shards: 14
     cores: 0
   - mobs:
-      g_venomling: 4
-      g_frostbow: 3
-      g_brute: 3
-      g_raider: 3
+      g_raider: 8
+      g_brute: 5
     health: 13.5
     attack: 48
     kill: 3
     shards: 14
     cores: 0
   - mobs:
-      g_frostbow: 3
-      g_brute: 3
-      g_raider: 2
-      g_ashen_knight: 2
+      g_raider: 6
+      g_brute: 4
     health: 15.0
     attack: 51
     kill: 3
     shards: 15
     cores: 0
   - mobs:
-      g_venomling: 4
-      g_brute: 3
-      g_raider: 3
-      g_ashen_knight: 3
+      g_raider: 8
+      g_brute: 5
     health: 16.5
     attack: 53
     kill: 3
     shards: 15
     cores: 0
   - mobs:
-      g_frostbow: 3
-      g_brute: 3
-      g_raider: 3
-      g_ashen_knight: 3
-      g_venomling: 3
+      g_raider: 9
+      g_brute: 6
     health: 18.0
     attack: 55
     kill: 3
     shards: 16
     cores: 0
   - mobs:
-      g_brute: 3
-      g_raider: 3
-      g_ashen_knight: 2
-      g_gale: 2
+      g_raider: 6
+      g_brute: 4
     health: 20.0
     attack: 57
     kill: 3
     shards: 17
     cores: 0
   - mobs:
-      g_raider: 3
-      g_ashen_knight: 3
-      g_gale: 3
-      g_venomling: 3
+      g_raider: 8
+      g_brute: 4
     health: 22.0
     attack: 59
     kill: 3
     shards: 17
     cores: 0
   - mobs:
+      g_raider: 6
       g_brute: 4
-      g_ashen_knight: 3
-      g_gale: 3
     health: 24.0
     attack: 62
     kill: 3
     shards: 18
     cores: 0
   - mobs:
-      g_raider: 4
-      g_ashen_knight: 4
-      g_gale: 3
-      g_frostbow: 2
+      g_raider: 8
+      g_brute: 5
     health: 26.0
     attack: 64
     kill: 3
@@ -319,96 +287,86 @@ floors:
     cores: 0
   - mobs:
       g_ironhorn: 1
-      g_brute: 3
-      g_raider: 2
+      g_raider: 3
+      g_brute: 2
     health: 28.0
     attack: 66
     kill: 3
     shards: 19
     cores: 2
   - mobs:
-      g_ashen_knight: 3
-      g_gale: 2
-      g_blight_boar: 2
-      g_raider: 2
+      g_blight_boar: 6
+      g_mire_archer: 3
     health: 30.5
     attack: 68
     kill: 3
     shards: 20
     cores: 0
   - mobs:
-      g_ashen_knight: 3
-      g_gale: 3
-      g_blight_boar: 3
+      g_blight_boar: 6
+      g_mire_archer: 3
     health: 33.0
     attack: 70
     kill: 4
     shards: 20
     cores: 0
   - mobs:
-      g_brute: 3
-      g_gale: 3
-      g_blight_boar: 3
-      g_raider: 3
+      g_blight_boar: 8
+      g_mire_archer: 4
     health: 35.5
     attack: 73
     kill: 4
     shards: 21
     cores: 0
   - mobs:
-      g_ashen_knight: 4
-      g_gale: 3
-      g_blight_boar: 3
-      g_venomling: 3
+      g_blight_boar: 7
+      g_mire_archer: 4
+      g_drowner: 2
     health: 38.0
     attack: 75
     kill: 4
     shards: 21
     cores: 0
   - mobs:
-      g_ashen_knight: 3
-      g_blight_boar: 3
+      g_blight_boar: 6
       g_mire_archer: 3
-      g_gale: 2
+      g_drowner: 2
     health: 40.5
     attack: 77
     kill: 4
     shards: 22
     cores: 0
   - mobs:
-      g_blight_boar: 3
-      g_mire_archer: 3
-      g_gale: 3
-      g_brute: 3
+      g_blight_boar: 6
+      g_mire_archer: 4
+      g_drowner: 2
     health: 43.5
     attack: 79
     kill: 4
     shards: 23
     cores: 0
   - mobs:
-      g_ashen_knight: 4
-      g_blight_boar: 3
-      g_mire_archer: 4
+      g_blight_boar: 6
+      g_mire_archer: 3
+      g_drowner: 2
     health: 46.5
     attack: 81
     kill: 4
     shards: 23
     cores: 0
   - mobs:
-      g_blight_boar: 4
+      g_blight_boar: 7
       g_mire_archer: 4
-      g_gale: 3
-      g_raider: 2
+      g_drowner: 2
     health: 49.5
     attack: 84
     kill: 4
     shards: 24
     cores: 0
   - mobs:
-      g_ashen_knight: 4
-      g_blight_boar: 4
+      g_blight_boar: 7
       g_mire_archer: 4
-      g_gale: 2
+      g_drowner: 3
     health: 52.5
     attack: 86
     kill: 4
@@ -424,85 +382,72 @@ floors:
     shards: 25
     cores: 3
   - mobs:
-      g_ashen_knight: 3
-      g_mire_archer: 3
-      g_gale: 2
-      g_rustling: 2
+      g_rustling: 6
+      g_gale: 4
     health: 59.0
     attack: 90
     kill: 4
     shards: 26
     cores: 0
   - mobs:
-      g_blight_boar: 3
-      g_mire_archer: 3
-      g_rustling: 3
+      g_rustling: 6
+      g_gale: 3
     health: 62.5
     attack: 92
     kill: 4
     shards: 26
     cores: 0
   - mobs:
-      g_ashen_knight: 4
-      g_gale: 3
-      g_rustling: 3
+      g_rustling: 6
+      g_gale: 4
     health: 66.0
     attack: 95
     kill: 4
     shards: 27
     cores: 0
   - mobs:
-      g_blight_boar: 4
-      g_mire_archer: 4
-      g_rustling: 3
+      g_rustling: 7
+      g_gale: 4
     health: 69.5
     attack: 97
     kill: 5
     shards: 27
     cores: 0
   - mobs:
-      g_ashen_knight: 3
-      g_blight_boar: 3
-      g_mire_archer: 3
-      g_rustling: 3
+      g_rustling: 8
+      g_gale: 4
     health: 73.0
     attack: 99
     kill: 5
     shards: 28
     cores: 0
   - mobs:
-      g_brute: 4
-      g_gale: 3
-      g_rustling: 4
+      g_rustling: 7
+      g_gale: 4
     health: 77.0
     attack: 101
     kill: 5
     shards: 29
     cores: 0
   - mobs:
-      g_blight_boar: 4
-      g_mire_archer: 4
-      g_gale: 3
-      g_rustling: 3
+      g_rustling: 9
+      g_gale: 5
     health: 81.0
     attack: 103
     kill: 5
     shards: 29
     cores: 0
   - mobs:
-      g_ashen_knight: 4
-      g_blight_boar: 4
-      g_rustling: 4
+      g_rustling: 8
+      g_gale: 4
     health: 85.0
     attack: 106
     kill: 5
     shards: 30
     cores: 0
   - mobs:
-      g_ashen_knight: 4
-      g_blight_boar: 4
-      g_mire_archer: 4
-      g_rustling: 4
+      g_rustling: 10
+      g_gale: 6
     health: 89.0
     attack: 108
     kill: 5
@@ -511,100 +456,79 @@ floors:
   - mobs:
       g_tower_warden: 1
       g_rustling: 3
-      g_mire_archer: 2
+      g_gale: 2
     health: 93.0
     attack: 110
     kill: 5
     shards: 31
     cores: 3
   - mobs:
-      g_mire_archer: 3
-      g_brute: 3
-      g_raider: 4
-      g_blight_boar: 4
-      g_ghoul_pigman: 2
+      g_ghoul_pigman: 10
+      g_infernal: 6
     health: 97.5
     attack: 112
     kill: 5
     shards: 32
     cores: 0
   - mobs:
-      g_ghoul_pigman: 3
-      g_raider: 3
-      g_mire_archer: 4
-      g_ashen_knight: 3
+      g_ghoul_pigman: 8
+      g_infernal: 5
     health: 102.0
     attack: 114
     kill: 5
     shards: 32
     cores: 0
   - mobs:
-      g_ghoul_pigman: 4
-      g_rustling: 3
-      g_raider: 4
-      g_mire_archer: 4
-      g_cinder_cube: 2
+      g_ghoul_pigman: 11
+      g_infernal: 6
     health: 106.5
     attack: 117
     kill: 5
     shards: 33
     cores: 0
   - mobs:
-      g_raider: 4
-      g_cinder_cube: 3
-      g_brute: 4
-      g_ashen_knight: 4
+      g_ghoul_pigman: 9
+      g_infernal: 6
     health: 111.0
     attack: 119
     kill: 5
     shards: 33
     cores: 0
   - mobs:
-      g_ghoul_pigman: 3
-      g_brute: 4
-      g_raider: 4
-      g_blight_boar: 4
+      g_ghoul_pigman: 9
+      g_infernal: 6
     health: 115.5
     attack: 121
     kill: 5
     shards: 34
     cores: 0
   - mobs:
-      g_cinder_cube: 4
-      g_brute: 3
-      g_raider: 4
-      g_rustling: 4
-      g_infernal: 2
+      g_ghoul_pigman: 11
+      g_infernal: 6
     health: 120.5
     attack: 123
     kill: 5
     shards: 35
     cores: 0
   - mobs:
-      g_cinder_cube: 4
-      g_ghoul_pigman: 3
-      g_raider: 3
-      g_rustling: 3
+      g_ghoul_pigman: 8
+      g_infernal: 5
     health: 125.5
     attack: 125
     kill: 6
     shards: 35
     cores: 0
   - mobs:
-      g_brute: 4
-      g_infernal: 4
-      g_ghoul_pigman: 3
-      g_rustling: 4
+      g_ghoul_pigman: 9
+      g_infernal: 6
     health: 130.5
     attack: 128
     kill: 6
     shards: 36
     cores: 0
   - mobs:
-      g_raider: 4
-      g_brute: 4
-      g_ghoul_pigman: 4
-      g_mire_archer: 4
+      g_ghoul_pigman: 10
+      g_infernal: 6
     health: 135.5
     attack: 130
     kill: 6
@@ -612,99 +536,80 @@ floors:
     cores: 0
   - mobs:
       g_infernal_lord: 1
-      g_infernal: 3
-      g_cinder_cube: 3
+      g_ghoul_pigman: 4
+      g_infernal: 2
     health: 140.5
     attack: 132
     kill: 6
     shards: 37
     cores: 4
   - mobs:
-      g_infernal: 4
-      g_mite: 2
-      g_raider: 3
-      g_blight_boar: 3
+      g_voidwalker: 8
+      g_mite: 4
     health: 146.0
     attack: 134
     kill: 6
     shards: 38
     cores: 0
   - mobs:
-      g_mite: 4
-      g_infernal: 3
-      g_cinder_cube: 4
-      g_mire_archer: 4
+      g_voidwalker: 9
+      g_mite: 6
     health: 151.5
     attack: 136
     kill: 6
     shards: 38
     cores: 0
   - mobs:
-      g_infernal: 3
-      g_mite: 4
-      g_ghoul_pigman: 4
-      g_rustling: 4
+      g_voidwalker: 9
+      g_mite: 6
     health: 157.0
     attack: 139
     kill: 6
     shards: 39
     cores: 0
   - mobs:
-      g_ghoul_pigman: 4
-      g_mite: 4
-      g_infernal: 3
-      g_brute: 4
-      g_voidwalker: 2
+      g_voidwalker: 11
+      g_mite: 6
     health: 162.5
     attack: 141
     kill: 6
     shards: 39
     cores: 0
   - mobs:
-      g_mite: 4
-      g_ghoul_pigman: 4
-      g_infernal: 3
-      g_blight_boar: 3
+      g_voidwalker: 9
+      g_mite: 5
     health: 168.0
     attack: 143
     kill: 6
     shards: 40
     cores: 0
   - mobs:
-      g_mite: 3
-      g_cinder_cube: 3
-      g_voidwalker: 4
-      g_ashen_knight: 3
+      g_voidwalker: 8
+      g_mite: 5
     health: 174.0
     attack: 145
     kill: 6
     shards: 41
     cores: 0
   - mobs:
-      g_voidwalker: 3
-      g_cinder_cube: 4
-      g_ghoul_pigman: 4
-      g_ashen_knight: 3
+      g_voidwalker: 9
+      g_mite: 5
     health: 180.0
     attack: 147
     kill: 6
     shards: 41
     cores: 0
   - mobs:
-      g_ghoul_pigman: 4
-      g_infernal: 3
-      g_mite: 3
-      g_rustling: 4
+      g_voidwalker: 9
+      g_mite: 5
     health: 186.0
     attack: 150
     kill: 6
     shards: 42
     cores: 0
   - mobs:
-      g_voidwalker: 4
-      g_cinder_cube: 3
-      g_infernal: 4
-      g_brute: 3
+      g_voidwalker: 9
+      g_mite: 5
     health: 192.0
     attack: 152
     kill: 7
@@ -712,99 +617,80 @@ floors:
     cores: 0
   - mobs:
       g_void_king: 1
-      g_cinder_cube: 3
-      g_infernal: 3
+      g_voidwalker: 4
+      g_mite: 2
     health: 198.0
     attack: 154
     kill: 7
     shards: 43
     cores: 4
   - mobs:
-      g_revenant: 2
-      g_voidwalker: 5
-      g_infernal: 4
-      g_blight_boar: 4
+      g_revenant: 9
+      g_reaper: 6
     health: 204.5
     attack: 156
     kill: 7
     shards: 44
     cores: 0
   - mobs:
-      g_voidwalker: 5
-      g_cinder_cube: 4
-      g_revenant: 4
-      g_brute: 5
+      g_revenant: 11
+      g_reaper: 7
     health: 211.0
     attack: 158
     kill: 7
     shards: 44
     cores: 0
   - mobs:
-      g_mite: 4
-      g_revenant: 5
-      g_infernal: 5
-      g_brute: 4
+      g_revenant: 11
+      g_reaper: 7
     health: 217.5
     attack: 161
     kill: 7
     shards: 45
     cores: 0
   - mobs:
-      g_infernal: 5
-      g_revenant: 4
-      g_voidwalker: 4
-      g_brute: 5
+      g_revenant: 11
+      g_reaper: 7
     health: 224.0
     attack: 163
     kill: 7
     shards: 45
     cores: 0
   - mobs:
-      g_infernal: 4
-      g_mite: 4
-      g_voidwalker: 5
-      g_blight_boar: 4
-      g_reaper: 2
+      g_revenant: 12
+      g_reaper: 7
     health: 230.5
     attack: 165
     kill: 7
     shards: 46
     cores: 0
   - mobs:
-      g_revenant: 4
-      g_infernal: 4
-      g_reaper: 4
-      g_cinder_cube: 4
+      g_revenant: 10
+      g_reaper: 6
     health: 237.5
     attack: 167
     kill: 7
     shards: 47
     cores: 0
   - mobs:
-      g_revenant: 5
-      g_voidwalker: 4
-      g_mite: 5
-      g_cinder_cube: 5
+      g_revenant: 12
+      g_reaper: 7
     health: 244.5
     attack: 169
     kill: 7
     shards: 47
     cores: 0
   - mobs:
-      g_mite: 5
-      g_voidwalker: 5
-      g_infernal: 5
-      g_rustling: 5
+      g_revenant: 12
+      g_reaper: 8
     health: 251.5
     attack: 172
     kill: 7
     shards: 48
     cores: 0
   - mobs:
-      g_revenant: 5
-      g_mite: 5
-      g_reaper: 4
-      g_cinder_cube: 5
+      g_revenant: 12
+      g_reaper: 7
     health: 258.5
     attack: 174
     kill: 7
@@ -812,98 +698,80 @@ floors:
     cores: 0
   - mobs:
       g_hexed_ravager: 1
-      g_infernal: 3
-      g_mite: 3
+      g_revenant: 4
+      g_reaper: 2
     health: 265.5
     attack: 176
     kill: 7
     shards: 49
     cores: 5
   - mobs:
-      g_mite: 5
-      g_infernal: 5
-      g_revenant: 4
-      g_ghoul_pigman: 4
+      g_cinder_cube: 11
+      g_ashen_knight: 7
     health: 273.0
     attack: 178
     kill: 7
     shards: 50
     cores: 0
   - mobs:
-      g_voidwalker: 4
-      g_mite: 4
-      g_revenant: 5
-      g_cinder_cube: 4
+      g_cinder_cube: 11
+      g_ashen_knight: 6
     health: 280.5
     attack: 180
     kill: 8
     shards: 50
     cores: 0
   - mobs:
-      g_reaper: 4
-      g_voidwalker: 4
-      g_revenant: 5
-      g_rustling: 4
+      g_cinder_cube: 11
+      g_ashen_knight: 6
     health: 288.0
     attack: 183
     kill: 8
     shards: 51
     cores: 0
   - mobs:
-      g_revenant: 5
-      g_mite: 4
-      g_infernal: 4
-      g_ashen_knight: 5
+      g_cinder_cube: 11
+      g_ashen_knight: 7
     health: 295.5
     attack: 185
     kill: 8
     shards: 51
     cores: 0
   - mobs:
-      g_voidwalker: 4
-      g_infernal: 5
-      g_mite: 5
-      g_brute: 4
+      g_cinder_cube: 11
+      g_ashen_knight: 7
     health: 303.0
     attack: 187
     kill: 8
     shards: 52
     cores: 0
   - mobs:
-      g_infernal: 4
-      g_revenant: 4
-      g_mite: 4
-      g_raider: 4
+      g_cinder_cube: 10
+      g_ashen_knight: 6
     health: 311.0
     attack: 189
     kill: 8
     shards: 53
     cores: 0
   - mobs:
-      g_infernal: 5
-      g_voidwalker: 5
-      g_reaper: 5
-      g_gale: 4
+      g_cinder_cube: 12
+      g_ashen_knight: 7
     health: 319.0
     attack: 191
     kill: 8
     shards: 53
     cores: 0
   - mobs:
-      g_revenant: 5
-      g_voidwalker: 5
-      g_reaper: 4
-      g_mire_archer: 5
+      g_cinder_cube: 12
+      g_ashen_knight: 7
     health: 327.0
     attack: 194
     kill: 8
     shards: 54
     cores: 0
   - mobs:
-      g_reaper: 5
-      g_voidwalker: 4
-      g_mite: 5
-      g_rustling: 4
+      g_cinder_cube: 11
+      g_ashen_knight: 7
     health: 335.0
     attack: 196
     kill: 8
@@ -911,98 +779,80 @@ floors:
     cores: 0
   - mobs:
       g_molten_titan: 1
-      g_voidwalker: 3
-      g_reaper: 3
+      g_cinder_cube: 4
+      g_ashen_knight: 2
     health: 343.0
     attack: 198
     kill: 8
     shards: 55
     cores: 5
   - mobs:
-      g_voidwalker: 6
-      g_infernal: 5
-      g_mite: 6
-      g_raider: 5
+      g_hollow: 14
+      g_lurker: 8
     health: 351.5
     attack: 200
     kill: 8
     shards: 56
     cores: 0
   - mobs:
-      g_reaper: 5
-      g_infernal: 5
-      g_voidwalker: 5
-      g_gale: 5
+      g_hollow: 12
+      g_lurker: 8
     health: 360.0
     attack: 202
     kill: 8
     shards: 56
     cores: 0
   - mobs:
-      g_mite: 5
-      g_voidwalker: 6
-      g_revenant: 5
-      g_rustling: 6
+      g_hollow: 14
+      g_lurker: 8
     health: 368.5
     attack: 205
     kill: 8
     shards: 57
     cores: 0
   - mobs:
-      g_revenant: 6
-      g_reaper: 5
-      g_mite: 5
-      g_mire_archer: 5
+      g_hollow: 13
+      g_lurker: 8
     health: 377.0
     attack: 207
     kill: 9
     shards: 57
     cores: 0
   - mobs:
-      g_reaper: 6
-      g_infernal: 6
-      g_voidwalker: 5
-      g_cinder_cube: 5
+      g_hollow: 14
+      g_lurker: 8
     health: 385.5
     attack: 209
     kill: 9
     shards: 58
     cores: 0
   - mobs:
-      g_infernal: 6
-      g_reaper: 6
-      g_mite: 6
-      g_cinder_cube: 6
+      g_hollow: 15
+      g_lurker: 9
     health: 394.5
     attack: 211
     kill: 9
     shards: 59
     cores: 0
   - mobs:
-      g_mite: 5
-      g_infernal: 6
-      g_revenant: 6
-      g_cinder_cube: 6
+      g_hollow: 14
+      g_lurker: 9
     health: 403.5
     attack: 213
     kill: 9
     shards: 59
     cores: 0
   - mobs:
-      g_infernal: 6
-      g_reaper: 5
-      g_voidwalker: 5
-      g_mire_archer: 5
+      g_hollow: 13
+      g_lurker: 8
     health: 412.5
     attack: 216
     kill: 9
     shards: 60
     cores: 0
   - mobs:
-      g_revenant: 6
-      g_voidwalker: 6
-      g_infernal: 5
-      g_cinder_cube: 6
+      g_hollow: 14
+      g_lurker: 9
     health: 421.5
     attack: 218
     kill: 9
@@ -1010,8 +860,8 @@ floors:
     cores: 0
   - mobs:
       g_deep_one: 1
-      g_voidwalker: 3
-      g_revenant: 3
+      g_hollow: 4
+      g_lurker: 2
     health: 430.5
     attack: 220
     kill: 9
@@ -3039,3 +2889,44 @@ settings:
   hard_shards: 25.0
   hard_floors_a_level: 2.0
   choice_seconds: 45.0
+themes:
+  - floor: 1
+    name: The Rot
+    colour: dark_green
+    description: "The dead walk the bottom of the tower"
+  - floor: 11
+    name: The Bone Halls
+    colour: white
+    description: "Archers in the dark and spiders in the walls"
+  - floor: 21
+    name: The Raid
+    colour: gray
+    description: "Raiders hold these floors with their brutes"
+  - floor: 31
+    name: The Blight
+    colour: dark_red
+    description: "A sickness that crawled out of the swamp"
+  - floor: 41
+    name: The Tower
+    colour: gold
+    description: "The tower's own guardians and its winds"
+  - floor: 51
+    name: The Inferno
+    colour: red
+    description: "Fire climbs up from below"
+  - floor: 61
+    name: The Void
+    colour: dark_purple
+    description: "Where the walls stop meaning anything"
+  - floor: 71
+    name: The Hex
+    colour: dark_green
+    description: "The cursed and the reapers who follow them"
+  - floor: 81
+    name: The Forge
+    colour: red
+    description: "Molten stone and the knights of ash"
+  - floor: 91
+    name: The Deep
+    colour: dark_aqua
+    description: "What the tower was built over"

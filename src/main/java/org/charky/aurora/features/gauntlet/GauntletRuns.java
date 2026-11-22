@@ -539,7 +539,11 @@ public class GauntletRuns implements Listener {
         GauntletData.Floor floor = data().floor(run.floor);
         boolean boss = floor != null && floor.boss();
         run.mutator = boss ? null : waves.rollMutator(run);
+        // The first floor of a theme names it
+        GauntletData.Theme theme = data().theme(run.floor);
+        boolean entering = theme != null && theme.floor() == run.floor;
         Component subtitle = boss ? bossIntro(floor)
+                : entering ? TextUtils.parse(theme.title() + " <gray>- " + theme.description())
                 : TextUtils.parse(run.mutator != null ? "<light_purple>" + run.mutator.name() + " <gray>- " + run.mutator.description()
                 : "<gray>Get ready");
         Title title = Title.title(TextUtils.parse((boss ? "<dark_red><b>" : "<red><b>") + "FLOOR " + run.floor
@@ -547,6 +551,8 @@ public class GauntletRuns implements Listener {
                 subtitle, Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(1800), Duration.ofMillis(400)));
         if (boss) run.sound(Sound.ENTITY_WITHER_SPAWN, 0.4f, 0.8f);
         for (Player player : run.online()) player.showTitle(title);
+        if (entering) run.tell("<" + theme.colour() + "><b>" + theme.name().toUpperCase() + "</b> <gray>floors " + theme.floor() + "-"
+                + data().themeEnd(run.floor) + ": " + theme.description());
         if (run.mutator != null) run.tell("<light_purple><b>MUTATOR</b> <white>" + run.mutator.name()
                 + " <gray>" + run.mutator.description() + " <aqua>(+" + run.mutator.shards() + "% Shards this floor)");
         Bukkit.getScheduler().runTaskLater(plugin, () -> {

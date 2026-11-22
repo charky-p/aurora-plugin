@@ -1161,6 +1161,9 @@ def gauntlet_text(mobs, cosmetics):
         if not row.get("health"):
             errors.append(f"gauntlet floor {row['floor']}: no numbers, run scripts/balance/gauntlet_balance.py --write")
             continue
+        # On a boss floor the boss is the one mob of a kind; a second single mob would be a second boss
+        if int(row["cores"] or 0) > 0 and sum(1 for count in spawns.values() if count == 1) != 1:
+            errors.append(f"gauntlet floor {row['floor']}: a boss floor needs exactly one mob with a count of 1, its boss")
         floors.append(OrderedDict(mobs=spawns, health=float(row["health"]), attack=int(row["attack"]),
                                   kill=int(row["kill"]), shards=int(row["shards"]), cores=int(row["cores"])))
 
@@ -1296,9 +1299,16 @@ def gauntlet_text(mobs, cosmetics):
                                        max=int(row["max"]), shards=int(row["shards"]), cores=int(row["cores"] or 0),
                                        description=Quoted(row["description"]))
 
+    # Each band of floors' theme, from its first floor
+    themes = []
+    for row in _gauntlet_rows("themes.csv") or []:
+        themes.append(OrderedDict(floor=int(row["from"]), name=row["name"], colour=row["colour"],
+                                  description=Quoted(row["description"])))
+    if themes and themes[0]["floor"] != 1:
+        errors.append("gauntlet themes: the first theme has to start on floor 1")
     data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones, setup=setup,
                        talents=talents, mutators=mutators, challenges=challenges, bosses=bosses, perks=perks,
-                       affixes=affixes, achievements=achievements, shop=shop, settings=settings)
+                       affixes=affixes, achievements=achievements, shop=shop, settings=settings, themes=themes)
     body = yaml.dump(data, Dumper=_Dumper, sort_keys=False, default_flow_style=False, allow_unicode=True,
                      width=10 ** 6, indent=2)
     return GAUNTLET_HEADER + "\n" + body, len(floors), errors

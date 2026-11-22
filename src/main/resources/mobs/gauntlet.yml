@@ -33,7 +33,7 @@ items:
   g_rotter:
     display: "<gray><b>Rotter"
     entity: ZOMBIE
-    health: 40.0
+    health: 39.0
     damage: 1.5
     attributes:
       - attr: MOVEMENT_SPEED
@@ -44,7 +44,7 @@ items:
   g_crawler:
     display: "<dark_gray><b>Crawler"
     entity: SPIDER
-    health: 30.0
+    health: 29.0
     damage: 1.2
     attributes:
       - attr: MOVEMENT_SPEED
@@ -55,8 +55,8 @@ items:
   g_bonearcher:
     display: "<white><b>Bone Archer"
     entity: SKELETON
-    health: 30.0
-    damage: 1.4
+    health: 40.0
+    damage: 1.49
     equip:
       hand: BOW
     attributes:
@@ -66,8 +66,8 @@ items:
   g_sandshade:
     display: "<yellow><b>Sandshade"
     entity: HUSK
-    health: 60.0
-    damage: 1.8
+    health: 58.0
+    damage: 1.79
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.25
@@ -77,8 +77,8 @@ items:
   g_drowner:
     display: "<dark_aqua><b>Drowner"
     entity: DROWNED
-    health: 55.0
-    damage: 1.6
+    health: 52.0
+    damage: 1.57
     equip:
       hand: TRIDENT
     attributes:
@@ -90,8 +90,8 @@ items:
   g_venomling:
     display: "<dark_green><b>Venomling"
     entity: CAVE_SPIDER
-    health: 25.0
-    damage: 1.3
+    health: 34.0
+    damage: 1.39
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.36
@@ -101,8 +101,8 @@ items:
   g_frostbow:
     display: "<aqua><b>Frostbow"
     entity: STRAY
-    health: 40.0
-    damage: 1.6
+    health: 54.0
+    damage: 1.71
     equip:
       hand: BOW
     attributes:
@@ -112,9 +112,9 @@ items:
   g_brute:
     display: "<gold><b>Brute"
     entity: VINDICATOR
-    health: 90.0
+    health: 92.0
     attack_cooldown: 1.2
-    damage: 2.4
+    damage: 2.36
     equip:
       hand: IRON_AXE
     attributes:
@@ -126,8 +126,8 @@ items:
   g_raider:
     display: "<gray><b>Raider"
     entity: PILLAGER
-    health: 50.0
-    damage: 1.8
+    health: 51.0
+    damage: 1.77
     equip:
       hand: CROSSBOW
     attributes:
@@ -137,9 +137,9 @@ items:
   g_ashen_knight:
     display: "<dark_gray><b>Ashen Knight"
     entity: WITHER_SKELETON
-    health: 110.0
+    health: 138.0
     attack_cooldown: 1.0
-    damage: 2.6
+    damage: 2.75
     equip:
       hand: STONE_SWORD
     attributes:
@@ -151,8 +151,8 @@ items:
   g_gale:
     display: "<white><b>Gale"
     entity: BREEZE
-    health: 70.0
-    damage: 2.0
+    health: 61.0
+    damage: 1.91
     attributes:
       - attr: FOLLOW_RANGE
         value: 48.0
@@ -160,9 +160,9 @@ items:
   g_blight_boar:
     display: "<dark_red><b>Blight Boar"
     entity: ZOGLIN
-    health: 120.0
+    health: 114.0
     attack_cooldown: 1.0
-    damage: 2.8
+    damage: 2.74
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.3
@@ -174,8 +174,8 @@ items:
   g_mire_archer:
     display: "<dark_green><b>Mire Archer"
     entity: BOGGED
-    health: 55.0
-    damage: 1.8
+    health: 52.0
+    damage: 1.76
     equip:
       hand: BOW
     attributes:
@@ -185,14 +185,46 @@ items:
   g_rustling:
     display: "<gold><b>Rustling"
     entity: IRON_GOLEM
-    health: 160.0
+    health: 139.0
     attack_cooldown: 1.4
-    damage: 3.0
+    damage: 2.87
     attributes:
       - attr: SCALE
         value: 0.7
       - attr: MOVEMENT_SPEED
         value: 0.3
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_hollow:
+    display: "<dark_aqua><b>Hollow"
+    entity: ZOMBIE
+    health: 135.0
+    attack_cooldown: 1.0
+    damage: 2.65
+    equip:
+      head: NETHERITE_HELMET
+      hand: NETHERITE_AXE
+    attributes:
+      - attr: SCALE
+        value: 1.1
+      - attr: MOVEMENT_SPEED
+        value: 0.27
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.5
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_lurker:
+    display: "<dark_aqua><b>Lurker"
+    entity: SPIDER
+    health: 114.0
+    damage: 2.48
+    attributes:
+      - attr: SCALE
+        value: 1.4
+      - attr: MOVEMENT_SPEED
+        value: 0.36
       - attr: FOLLOW_RANGE
         value: 48.0
 
@@ -297,9 +329,9 @@ items:
   g_ghoul_pigman:
     display: "<gold><b>Ghoul Pigman"
     entity: ZOMBIFIED_PIGLIN
-    health: 130.0
+    health: 102.0
     attack_cooldown: 1.0
-    damage: 2.6
+    damage: 2.4
     equip:
       hand: GOLDEN_SWORD
     attributes:
@@ -311,9 +343,9 @@ items:
   g_cinder_cube:
     display: "<red><b>Cinder Cube"
     entity: MAGMA_CUBE
-    health: 100.0
+    health: 126.0
     attack_cooldown: 1.0
-    damage: 2.4
+    damage: 2.54
     attributes:
       - attr: SCALE
         value: 1.6
@@ -325,8 +357,8 @@ items:
   g_infernal:
     display: "<gold><b>Infernal"
     entity: BLAZE
-    health: 110.0
-    damage: 2.4
+    health: 86.0
+    damage: 2.22
     attributes:
       - attr: FOLLOW_RANGE
         value: 48.0
@@ -334,8 +366,8 @@ items:
   g_mite:
     display: "<gray><b>Mite"
     entity: SILVERFISH
-    health: 40.0
-    damage: 1.8
+    health: 34.0
+    damage: 1.7
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.4
@@ -345,9 +377,9 @@ items:
   g_voidwalker:
     display: "<dark_purple><b>Voidwalker"
     entity: ENDERMAN
-    health: 170.0
+    health: 145.0
     attack_cooldown: 1.0
-    damage: 3.0
+    damage: 2.83
     attributes:
       - attr: MOVEMENT_SPEED
         value: 0.32
@@ -357,9 +389,9 @@ items:
   g_revenant:
     display: "<dark_green><b>Revenant"
     entity: ZOMBIE_VILLAGER
-    health: 180.0
+    health: 121.0
     attack_cooldown: 1.0
-    damage: 3.0
+    damage: 2.51
     equip:
       head: IRON_HELMET
       chest: IRON_CHESTPLATE
@@ -375,9 +407,9 @@ items:
   g_reaper:
     display: "<dark_gray><b>Reaper"
     entity: WITHER_SKELETON
-    health: 200.0
+    health: 134.0
     attack_cooldown: 1.0
-    damage: 3.3
+    damage: 2.76
     equip:
       hand: NETHERITE_SWORD
     attributes:

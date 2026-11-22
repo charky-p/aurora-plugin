@@ -15,9 +15,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-// Every mob of the tower in the order it first comes in, "???" until the player has
-// killed one: then the floor it first comes in on, its health and attack there, a boss's
-// abilities, and how many they have killed
+// Every mob of the tower in the order it first comes in, with the theme of its floors,
+// "???" until the player has killed one: then the floor it first comes in on, its health
+// and attack there, a boss's abilities, and how many they have killed
 public class BestiaryMenu extends PagedMenu {
     private final GauntletManager manager;
 
@@ -54,12 +54,15 @@ public class BestiaryMenu extends PagedMenu {
         boolean boss = data.floors().get(floor - 1).isBoss(id);
         int slain = profile.stat(GauntletRuns.SLAIN + id);
         MobData there = manager.registry().getMob(new GauntletData.Variant(id, floor, false, 0, null).id());
+        GauntletData.Theme theme = data.theme(floor);
+        String band = theme == null ? "" : theme.title() + " <dark_gray>(floors " + theme.floor() + "-" + data.themeEnd(floor) + ")";
         if (slain == 0 || there == null) {
-            return button(Material.GRAY_DYE, "<dark_gray><b>???", List.of(
+            return button(Material.GRAY_DYE, "<dark_gray><b>???", List.of(band,
                     "<gray>Comes in on floor <white>" + floor + (boss ? " <dark_red>as its boss" : ""),
                     "<dark_gray>Kill one to learn more"));
         }
         List<String> lines = new ArrayList<>();
+        if (!band.isEmpty()) lines.add(band);
         lines.add("<gray>Comes in on floor <white>" + floor + (boss ? " <dark_red>as its boss" : ""));
         lines.add("<gray>There: <red>" + Math.round(there.health()) + " health <gray>and <white>" + Math.round(there.attack()) + " attack");
         List<GauntletData.BossAbility> abilities = data.bosses().getOrDefault(id, List.of());

@@ -70,7 +70,9 @@ items:
     attack: 27.0
     density: 10
     equip:
+      head: LEATHER_HELMET
       hand: BOW
+      feet: LEATHER_BOOTS
     independent:
       - id: poison_quill
         max: 2
@@ -119,6 +121,9 @@ items:
     defence: 126.0
     attack: 27.0
     density: 11
+    equip:
+      head: LEATHER_HELMET
+      feet: LEATHER_BOOTS
     attributes:
       - attr: SCALE
         value: 0.7

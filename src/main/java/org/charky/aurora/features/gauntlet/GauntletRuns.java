@@ -136,6 +136,7 @@ public class GauntletRuns implements Listener {
         // A Shard Hoarder running loose, and how many were caught
         UUID hoarder;
         int hoarders;
+        int bossKills;
 
         Run(UUID player, int slot) {
             this.player = player;
@@ -238,6 +239,7 @@ public class GauntletRuns implements Listener {
         if (!manager.isHere(player)) return "Go to the Gauntlet first, /gauntlet";
         if (manager.pvp() != null && manager.pvp().inZone(player)) return "Leave the PvP zone first, /spawn";
         if (manager.inDuel(player)) return "Not during a duel";
+        if (manager.isWatching(player)) return "Stop spectating first, /gauntlet spectate stop";
         if (!data().ready()) return "The Gauntlet's data did not load";
         String missing = manager.arena().missing();
         if (missing != null) return "The arena is not set up yet (" + missing + ")";
@@ -333,6 +335,9 @@ public class GauntletRuns implements Listener {
         manager.bank(player, banked, run.cores, cleared);
         manager.addStat(player.getUniqueId(), "kills", run.kills);
         manager.addStat(player.getUniqueId(), "elite_kills", run.eliteKills);
+        manager.addStat(player.getUniqueId(), "boss_kills", run.bossKills);
+        manager.addStat(player.getUniqueId(), "hoarders", run.hoarders);
+        manager.addStat(player.getUniqueId(), "fast_clears", run.fastClears);
         if (run.bestCombo > profile.stat(BEST_COMBO)) manager.setStat(player.getUniqueId(), BEST_COMBO, run.bestCombo);
         // A run counts for the challenge once it cleared a floor
         if (cleared >= run.startFloor) manager.challenges().add(player, "runs", 1);
@@ -761,6 +766,7 @@ public class GauntletRuns implements Listener {
             boolean boss = id.equals(run.boss);
             if (boss) {
                 run.boss = null;
+                run.bossKills++;
                 abilities.forget(id);
             }
             if (player != null) {

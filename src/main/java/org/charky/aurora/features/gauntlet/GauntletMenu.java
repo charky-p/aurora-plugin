@@ -1,6 +1,7 @@
 package org.charky.aurora.features.gauntlet;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -16,8 +17,8 @@ import java.util.UUID;
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
 // starting kit, milestones, the top floors, and the way out
 public class GauntletMenu extends PagedMenu {
-    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, CHALLENGES = 4, MILESTONES = 5, TOP = 6, WEEKLY = 7,
-            PVP = 8, DUELS = 9, LEAVE = 10;
+    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, CHALLENGES = 4, ACHIEVEMENTS = 5, MILESTONES = 6,
+            TOP = 7, WEEKLY = 8, PVP = 9, DUELS = 10, SPECTATE = 11, LEAVE = 12;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -74,6 +75,14 @@ public class GauntletMenu extends PagedMenu {
             daily.add("   <aqua>" + challenges.reward(player, challenge) + " Shards" + (challenge.cores() > 0 ? " <light_purple>+" + challenge.cores() + " Core" : ""));
         }
         items.add(button(Material.CLOCK, "<aqua><b>Daily Challenges <gray>" + challenges.doneToday(player) + "/" + challenges.today().size(), daily));
+
+        items.add(button(Material.GOLD_BLOCK, "<gold><b>Achievements <gray>" + manager.achievements().doneCount(profile)
+                + "/" + manager.data().achievements().size(), List.of(
+                "<gray>Long goals: kills, bosses, combos,",
+                "<gray>duels and more. Each pays Essence,",
+                "<gray>Shards, and some a cosmetic.",
+                "",
+                "<yellow>Click to see them")));
 
         List<String> milestones = new ArrayList<>();
         List<GauntletData.Milestone> all = manager.data().milestones();
@@ -158,6 +167,13 @@ public class GauntletMenu extends PagedMenu {
         if (seat == 1) duels.add("<gray>Nobody has fought a duel yet");
         items.add(button(Material.CROSSBOW, "<gold><b>Duels", duels));
 
+        long live = Bukkit.getOnlinePlayers().stream().filter(other -> manager.inRun(other) || manager.inDuel(other)).count();
+        items.add(button(Material.ENDER_EYE, "<aqua><b>Spectate", List.of(
+                "<gray>Watch someone's run or duel live.",
+                "",
+                "<gray>Live right now: <white>" + live,
+                "<yellow>Click to pick one")));
+
         items.add(button(Material.OAK_DOOR, "<gray><b>Leave the Gauntlet", List.of(
                 "<gray>Back to the main spawn,", "<gray>with your own inventory.")));
         return items;
@@ -201,6 +217,8 @@ public class GauntletMenu extends PagedMenu {
                 if (problem != null) TextUtils.error(player, problem);
             }
             case TALENTS -> new TalentsMenu(manager).open(player);
+            case ACHIEVEMENTS -> new AchievementsMenu(manager).open(player);
+            case SPECTATE -> new SpectateMenu(manager).open(player);
             case FORGE -> new ForgeMenu(manager, runs).open(player);
             case KIT -> new SetupMenu(manager, runs).open(player);
             case LEAVE -> {

@@ -43,6 +43,22 @@ public class GauntletCommand implements TabExecutor {
                 }
             }
             case "duel" -> duel(player, args);
+            case "spectate" -> {
+                if (args.length < 2) {
+                    new SpectateMenu(manager).open(player);
+                    yield null;
+                }
+                if (args[1].equalsIgnoreCase("stop")) {
+                    if (!manager.isWatching(player)) yield "You are not spectating";
+                    manager.spectate().stop(player, "Stopped spectating");
+                    yield null;
+                }
+                yield manager.spectate().watch(player, Bukkit.getPlayerExact(args[1]));
+            }
+            case "achievements" -> {
+                new AchievementsMenu(manager).open(player);
+                yield null;
+            }
             case "talents" -> {
                 if (!manager.isHere(player)) yield manager.sendToLobby(player);
                 new TalentsMenu(manager).open(player);
@@ -86,7 +102,15 @@ public class GauntletCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                       @NotNull String label, @NotNull String @NotNull [] args) {
-        if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "duel", "boon", "leave"));
+        if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "duel", "spectate",
+                "achievements", "boon", "leave"));
+        if (args.length == 2 && args[0].equalsIgnoreCase("spectate")) {
+            List<String> options = new ArrayList<>(List.of("stop"));
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                if (!online.equals(sender) && (manager.inRun(online) || manager.inDuel(online))) options.add(online.getName());
+            }
+            return TextUtils.getCompletions(args[1], options);
+        }
         if (args.length == 2 && args[0].equalsIgnoreCase("duel")) {
             List<String> options = new ArrayList<>(List.of("accept", "decline", "forfeit"));
             for (Player online : Bukkit.getOnlinePlayers()) if (!online.equals(sender)) options.add(online.getName());

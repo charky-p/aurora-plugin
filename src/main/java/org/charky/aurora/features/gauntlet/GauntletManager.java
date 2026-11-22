@@ -71,6 +71,8 @@ public class GauntletManager implements Listener {
     private GauntletDuels duels;
     private final GauntletChallenges challenges = new GauntletChallenges(this);
     private final GauntletWeekly weekly;
+    private final GauntletAchievements achievements = new GauntletAchievements(this);
+    private GauntletSpectate spectate;
     private BukkitTask sweep;
     private int ticks;
 
@@ -106,6 +108,37 @@ public class GauntletManager implements Listener {
 
     public GauntletWeekly weekly() {
         return weekly;
+    }
+
+    public GauntletAchievements achievements() {
+        return achievements;
+    }
+
+    public GauntletRuns runs() {
+        return runs;
+    }
+
+    public void setSpectate(GauntletSpectate spectate) {
+        this.spectate = spectate;
+    }
+
+    public GauntletSpectate spectate() {
+        return spectate;
+    }
+
+    public boolean isWatching(Player player) {
+        return spectate != null && spectate.isWatching(player);
+    }
+
+    // An achievement's reward: Essence into the main game, Shards, a cosmetic
+    void reward(Player player, int essence, int shards, String cosmetic) {
+        if (essence > 0) players.addEssence(player, essence);
+        if (shards > 0) {
+            profile(player).shards += shards;
+            save(player.getUniqueId());
+        }
+        if (cosmetic != null && !cosmetic.isBlank()) cosmetics.give(player.getUniqueId(), cosmetic);
+        refreshBoard(player);
     }
 
     public void setDuels(GauntletDuels duels) {
@@ -162,8 +195,16 @@ public class GauntletManager implements Listener {
                 TextUtils.parse("<gray>• SHARDS: <aqua>" + profile.shards),
                 TextUtils.parse("<gray>• CORES: <light_purple>" + profile.cores),
                 TextUtils.parse("<gray>• BEST FLOOR: <white>" + profile.best)));
+        Player watched = spectate == null ? null : spectate.target(player);
         Player opponent = duels == null ? null : duels.opponent(player);
-        if (opponent != null) {
+        if (watched != null) {
+            lines.add(Component.empty());
+            lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>SPECTATING</b></gradient>"));
+            lines.add(TextUtils.parse("<gray>• PLAYER: <white>" + watched.getName()));
+            lines.add(TextUtils.parse(runs != null && runs.inRun(watched)
+                    ? "<gray>• FLOOR: <white>" + runs.floorOf(watched) + " <gray>SHARDS: <aqua>" + runs.shardsOf(watched)
+                    : "<gray>• IN A DUEL"));
+        } else if (opponent != null) {
             lines.add(Component.empty());
             lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>DUEL</b></gradient>"));
             lines.add(TextUtils.parse("<gray>• VS: <white>" + opponent.getName()));
@@ -263,12 +304,14 @@ public class GauntletManager implements Listener {
     public int addStat(UUID uuid, String stat, int amount) {
         int value = profile(uuid).stats.merge(stat, amount, Integer::sum);
         db.async(() -> store.saveStat(uuid, stat, value));
+        if (!stat.startsWith(GauntletAchievements.DONE)) achievements.check(uuid);
         return value;
     }
 
     public void setStat(UUID uuid, String stat, int value) {
         profile(uuid).stats.put(stat, value);
         db.async(() -> store.saveStat(uuid, stat, value));
+        if (!stat.startsWith(GauntletAchievements.DONE)) achievements.check(uuid);
     }
 
     // Shards paid straight into the bank, not through a run
@@ -355,6 +398,7 @@ public class GauntletManager implements Listener {
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             if (!player.isOnline()) return;
             weekly.notice(player);
+            achievements.check(player.getUniqueId());
             if (isHere(player)) {
                 Location lobby = arena.lobby();
                 if (lobby != null) player.teleport(lobby);
@@ -389,7 +433,7 @@ public class GauntletManager implements Listener {
     // Until their first run, players standing in the lobby are told how to start
     private void hintNewPlayers() {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
-            if (!isHere(player) || inRun(player) || profile(player).runs > 0) continue;
+            if (!isHere(player) || inRun(player) || isWatching(player) || profile(player).runs > 0) continue;
             if (pvp != null && pvp.inZone(player)) continue;
             player.sendActionBar(TextUtils.parse(arena.hasStart()
                     ? "<green><b>Walk into the portal</b> <gray>to start your first run"
@@ -525,6 +569,7 @@ public class GauntletManager implements Listener {
         if (cleared > 0) weekly.floorCleared(uuid, cleared);
         save(uuid);
         if (record) milestones(player, profile);
+        achievements.check(uuid);
         refreshBoard(player);
     }
 

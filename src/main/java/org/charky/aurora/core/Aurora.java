@@ -97,6 +97,7 @@ import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.gauntlet.GauntletDuels;
 import org.charky.aurora.features.gauntlet.GauntletPvp;
 import org.charky.aurora.features.gauntlet.GauntletRuns;
+import org.charky.aurora.features.gauntlet.GauntletSpectate;
 import org.charky.aurora.features.gauntlet.GauntletSetup;
 import org.charky.aurora.features.quest.QuestManager;
 import org.charky.aurora.features.tutorial.TutorialCommand;
@@ -162,6 +163,7 @@ public class Aurora extends JavaPlugin {
     private GauntletSetup gauntletSetup;
     private GauntletPvp gauntletPvp;
     private GauntletDuels gauntletDuels;
+    private GauntletSpectate gauntletSpectate;
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
@@ -328,6 +330,9 @@ public class Aurora extends JavaPlugin {
         gauntletManager.setPvp(gauntletPvp);
         this.gauntletDuels = new GauntletDuels(this, gauntletManager);
         gauntletManager.setDuels(gauntletDuels);
+        this.gauntletSpectate = new GauntletSpectate(this, gauntletManager);
+        gauntletManager.setSpectate(gauntletSpectate);
+        gauntletSpectate.start();
         gauntletManager.start();
         gauntletRuns.start();
     }
@@ -443,6 +448,7 @@ public class Aurora extends JavaPlugin {
                 gauntletSetup,
                 gauntletPvp,
                 gauntletDuels,
+                gauntletSpectate,
                 accessManager,
                 buildManager,
                 safeZoneManager,
@@ -654,6 +660,7 @@ public class Aurora extends JavaPlugin {
         if (cosmeticManager != null) cosmeticManager.shutdown();
         if (tutorialManager != null) tutorialManager.shutdown();
         if (questManager != null) questManager.shutdown();
+        if (gauntletSpectate != null) gauntletSpectate.shutdown();
         if (gauntletDuels != null) gauntletDuels.shutdown();
         if (gauntletRuns != null) gauntletRuns.shutdown();
         if (gauntletManager != null) gauntletManager.shutdown();

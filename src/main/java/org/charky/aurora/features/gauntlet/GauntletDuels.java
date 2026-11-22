@@ -109,6 +109,7 @@ public class GauntletDuels implements Listener {
         if (!manager.isHere(player)) return "Go to the Gauntlet first";
         if (manager.inRun(player)) return "Not during a run";
         if (inDuel(player)) return "Already in a duel";
+        if (manager.isWatching(player)) return "Stop spectating first";
         if (manager.pvp() != null && manager.pvp().inZone(player)) return "Leave the PvP zone first";
         return null;
     }

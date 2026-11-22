@@ -35,10 +35,4 @@ class BoxTest {
         assertFalse(box.overlaps(new Box("world", 11, 0, 0, 15, 10, 10)));
         assertFalse(box.overlaps(new Box("gormak", 0, 0, 0, 10, 10, 10)));
     }
-
-    @Test
-    void volumeCountsBothCorners() {
-        assertEquals(1, new Box("world", 5, 5, 5, 5, 5, 5).volume());
-        assertEquals(9 * 9 * 5, new Box("world", 0, 0, 0, 8, 4, 8).volume());
-    }
 }

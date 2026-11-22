@@ -14,10 +14,6 @@ class GauntletWeeklyTest {
         assertEquals(202647, GauntletWeekly.week(LocalDate.of(2026, 11, 16)));
         assertEquals(202647, GauntletWeekly.week(LocalDate.of(2026, 11, 22)));
         assertNotEquals(202647, GauntletWeekly.week(LocalDate.of(2026, 11, 23)));
-    }
-
-    @Test
-    void theNewYearKeepsCounting() {
         // 1 January 2027 is a Friday, still in the last week of 2026
         assertEquals(202653, GauntletWeekly.week(LocalDate.of(2027, 1, 1)));
     }

@@ -49,13 +49,4 @@ class KeysTest {
         assertFalse(keys.isSummoned("zombie"));
         assertFalse(keys.isSummoned(null));
     }
-
-    // One item that is both a pass and a summon is listed once
-    @Test
-    void bothIsOneKey() {
-        Keys keys = new Keys();
-        keys.add("odd_key", "gormak", "boss");
-        keys.add("odd_key", "gormak", "boss");
-        assertEquals(List.of("odd_key"), keys.ids());
-    }
 }

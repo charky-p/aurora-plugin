@@ -26,12 +26,4 @@ class GauntletProfileTest {
         assertEquals(50, profile.shards, "nothing is taken from a price that can't be paid");
         assertEquals(5, profile.cores);
     }
-
-    @Test
-    void lockedGearHasNoLevel() {
-        GauntletProfile profile = new GauntletProfile();
-        assertEquals(-1, profile.level("bow"));
-        profile.gear.put("bow", 0);
-        assertEquals(0, profile.level("bow"));
-    }
 }

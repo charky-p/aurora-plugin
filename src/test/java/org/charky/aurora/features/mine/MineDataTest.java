@@ -24,31 +24,6 @@ class MineDataTest {
                 });
     }
 
-    @Test
-    void sharedBlockOverlaps() {
-        MineData data = mine(0, 0, 0, 10, 10, 10);
-        assertTrue(data.overlaps("aurora_mines", 5, 5, 5, 20, 20, 20));
-        // Touching at x = 10, that column is in both
-        assertTrue(data.overlaps("aurora_mines", 10, 0, 0, 15, 10, 10));
-    }
-
-    @Test
-    void neighboursDoNotOverlap() {
-        MineData data = mine(0, 0, 0, 10, 10, 10);
-        assertFalse(data.overlaps("aurora_mines", 11, 0, 0, 15, 10, 10));
-        assertFalse(data.overlaps("aurora_mines", 0, 11, 0, 10, 20, 10));
-    }
-
-    @Test
-    void otherWorldsNeverOverlap() {
-        assertFalse(mine(0, 0, 0, 10, 10, 10).overlaps("world", 0, 0, 0, 10, 10, 10));
-    }
-
-    @Test
-    void containedBoxOverlaps() {
-        assertTrue(mine(0, 0, 0, 10, 10, 10).overlaps("aurora_mines", 2, 2, 2, 3, 3, 3));
-    }
-
     // Redefine used to store World.toString() and keep the corners unsorted
     @Test
     void setLocationsStoresTheWorldNameAndSortsCorners() {

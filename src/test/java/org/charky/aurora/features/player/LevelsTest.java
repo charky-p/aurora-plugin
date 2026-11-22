@@ -1,9 +1,10 @@
 package org.charky.aurora.features.player;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LevelsTest {
@@ -80,28 +81,12 @@ class LevelsTest {
         assertEquals(Levels.essenceFor(1) + Levels.essenceFor(2) + Levels.essenceFor(3), gain.essence());
     }
 
-    @Test
-    void higherLevelsPayMore() {
-        assertEquals(3, Levels.essenceFor(1));
-        assertEquals(3, Levels.essenceFor(9));
-        assertEquals(6, Levels.essenceFor(11));
-        assertEquals(18, Levels.essenceFor(55));
-        assertEquals(30, Levels.essenceFor(99));
-    }
-
-    @Test
-    void everyTenthLevelPaysFiveTimesOver() {
-        assertEquals(30, Levels.essenceFor(10));
-        assertEquals(90, Levels.essenceFor(50));
-        assertTrue(Levels.isMilestone(50));
-        assertFalse(Levels.isMilestone(51));
-    }
-
-    @Test
-    void everyHundredthLevelIsMonumental() {
-        assertEquals(1_500, Levels.essenceFor(100));
-        assertEquals(1_500, Levels.essenceFor(200));
-        assertTrue(Levels.essenceFor(100) > Levels.essenceFor(90) * 5);
+    // Higher levels pay more, every tenth five times over, every hundredth far more
+    @ParameterizedTest
+    @CsvSource({"1, 3", "9, 3", "10, 30", "11, 6", "50, 90", "55, 18", "99, 30", "100, 1500", "200, 1500"})
+    void essenceForALevel(int level, int essence) {
+        assertEquals(essence, Levels.essenceFor(level));
+        assertEquals(level % 10 == 0, Levels.isMilestone(level));
     }
 
     // Levels alone should buy a perk or a few cosmetics by the end of Gormak, never the best

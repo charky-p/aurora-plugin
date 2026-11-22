@@ -1,27 +1,15 @@
 package org.charky.aurora.common.loot;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LuckTest {
-    @Test
-    void noLuckKeepsTheChance() {
-        assertEquals(2.0, Luck.chance(2.0, 0));
-        assertEquals(2.0, Luck.chance(2.0, -3));
-    }
-
-    @Test
-    void everyLevelAddsATenthOfTheChance() {
-        assertEquals(2.2, Luck.chance(2.0, 1), 1e-9);
-        assertEquals(4.0, Luck.chance(2.0, 10), 1e-9);
-        assertEquals(5.0, Luck.chance(2.0, 15), 1e-9);
-        // Gormak's blade
-        assertEquals(37.5, Luck.chance(15.0, 15), 1e-9);
-    }
-
-    @Test
-    void aChanceNeverPassesCertain() {
-        assertEquals(100.0, Luck.chance(80.0, 10));
+    // A tenth of the chance a level, none below 0, never past certain
+    @ParameterizedTest
+    @CsvSource({"2, 0, 2", "2, -3, 2", "2, 1, 2.2", "2, 10, 4", "15, 15, 37.5", "80, 10, 100"})
+    void everyLevelAddsATenthOfTheChance(double chance, int level, double expected) {
+        assertEquals(expected, Luck.chance(chance, level), 1e-9);
     }
 }

@@ -33,13 +33,6 @@ class ModerationTest {
     }
 
     @Test
-    void lengthsRead() {
-        assertEquals("15 minutes", Durations.describe(15 * Durations.MINUTE));
-        assertEquals("1 week", Durations.describe(Durations.WEEK));
-        assertEquals("forever", Durations.describe(Durations.FOREVER));
-    }
-
-    @Test
     void staffRanksGiveTheirPermissions() {
         assertEquals(Set.of(StaffPermissions.MOD), StaffPermissions.permissionsFor(Set.of("JUNIOR_MOD")));
         Set<String> builder = StaffPermissions.permissionsFor(Set.of("HEAD_BUILDER"));

@@ -1,6 +1,8 @@
 package org.charky.aurora.features.combat;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,62 +12,40 @@ class CombatFormulasTest {
     private static final double LEVELS_PER_TIER = 4.0;
     private static final double EPSILON = 1e-6;
 
-    // hearts(gap) in the sim, for gaps -2, -1, -0.5, 0, 0.5, 1, 2, 3, 4, 5 tiers
-    private static final double[] GAPS = {-2, -1, -0.5, 0, 0.5, 1, 2, 3, 4, 5};
-    private static final double[] SIM_HEARTS = {
-            0.263737, 0.351501, 0.52591, 1.0, 1.517456, 2.0, 2.877223, 3.658546, 4.362887, 5.004064};
-
-    @Test
-    void heartsMatchTheSimulator() {
-        for (int i = 0; i < GAPS.length; i++) {
-            double hearts = CombatFormulas.heartsPerHit(GAPS[i] * LEVELS_PER_TIER, 0);
-            assertEquals(SIM_HEARTS[i], hearts, EPSILON, "gap " + GAPS[i]);
-        }
+    // hearts(gap) in the sim, the gap in tiers
+    @ParameterizedTest
+    @CsvSource({"-2, 0.263737", "-1, 0.351501", "-0.5, 0.52591", "0, 1.0", "0.5, 1.517456",
+            "1, 2.0", "2, 2.877223", "3, 3.658546", "4, 4.362887", "5, 5.004064"})
+    void heartsMatchTheSimulator(double gap, double hearts) {
+        assertEquals(hearts, CombatFormulas.heartsPerHit(gap * LEVELS_PER_TIER, 0), EPSILON);
     }
 
     @Test
-    void sameTierIsOneHeart() {
-        assertEquals(1.0, CombatFormulas.heartsPerHit(20, 20), EPSILON);
-    }
-
-    @Test
-    void heartsNeverDropBelowAQuarter() {
-        assertTrue(CombatFormulas.heartsPerHit(0, 1000) >= 0.25);
-    }
-
-    @Test
-    void heartsRiseWithAttack() {
+    void heartsRiseWithAttackAndNeverDropBelowAQuarter() {
         double previous = 0;
         for (int attack = 0; attack <= 80; attack++) {
             double hearts = CombatFormulas.heartsPerHit(attack, 40);
             assertTrue(hearts > previous, "attack " + attack);
             previous = hearts;
         }
+        assertTrue(CombatFormulas.heartsPerHit(0, 1000) >= 0.25);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"-3, 0", "0, 0", "1, 1", "5, 5", "6, 8", "10, 20", "11, 25", "50, 920", "51, 965", "60, 1395"})
+    void sharpnessMatchesTheSimulator(int level, double bonus) {
+        assertEquals(bonus, CombatFormulas.sharpnessBonus(level), EPSILON);
     }
 
     // A share off every hit, steep at first, 90% at the cap of 100 levels and no more past it
     @Test
     void protectionTakesAShareUpToTheCap() {
         assertEquals(1.0, CombatFormulas.protectionMultiplier(0), EPSILON);
-        assertEquals(1 - 0.9 * Math.pow(0.5, 0.4), CombatFormulas.protectionMultiplier(50), EPSILON);
+        assertEquals(1.0, CombatFormulas.protectionMultiplier(-5), EPSILON);
         assertEquals(0.73, CombatFormulas.protectionMultiplier(5), 0.005);
+        assertEquals(1 - 0.9 * Math.pow(0.5, 0.4), CombatFormulas.protectionMultiplier(50), EPSILON);
         assertEquals(0.1, CombatFormulas.protectionMultiplier(100), EPSILON);
         assertEquals(0.1, CombatFormulas.protectionMultiplier(250), EPSILON);
-        assertEquals(1.0, CombatFormulas.protectionMultiplier(-5), EPSILON);
-    }
-
-    @Test
-    void sharpnessMatchesTheSimulator() {
-        int[] levels = {0, 1, 5, 6, 10, 11, 50, 51, 60};
-        double[] simBonus = {0, 1, 5, 8, 20, 25, 920, 965, 1395};
-        for (int i = 0; i < levels.length; i++) {
-            assertEquals(simBonus[i], CombatFormulas.sharpnessBonus(levels[i]), EPSILON, "sharpness " + levels[i]);
-        }
-    }
-
-    @Test
-    void negativeSharpnessGivesNothing() {
-        assertEquals(0.0, CombatFormulas.sharpnessBonus(-3));
     }
 
     @Test
@@ -76,33 +56,19 @@ class CombatFormulasTest {
         assertEquals(1.0, CombatFormulas.chargeMultiplier(5000), EPSILON);
     }
 
-    // Each zone's shields against each zone's mobs: Abandoned City 11, Dunes 15,
-    // Canyons 19, Sun Temple 23, Royal Tomb 25
+    // Shields: Abandoned City 11 (deflection 0), Dunes 15 (3), Canyons 19 (6), Sun Temple 23 (9).
+    // A zone's shield stops its own mobs, one zone up lets part through, two zones up breaks it
     @Test
     void shieldOfTheZoneStopsItsOwnMobs() {
-        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(11, 0)), EPSILON);
-        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(15, 3)), EPSILON);
-        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(19, 6)), EPSILON);
-        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(23, 9)), EPSILON);
-    }
-
-    @Test
-    void sameTierShieldIsExactlyCovered() {
         assertEquals(0.0, CombatFormulas.deflectionGap(15, 3), EPSILON);
         assertEquals(-1.0, CombatFormulas.deflectionGap(11, 3), EPSILON);
-    }
+        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(11, 0)), EPSILON);
+        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(23, 9)), EPSILON);
 
-    @Test
-    void oneZoneUpLetsPartOfTheHitThrough() {
-        // City shield against Dunes mobs, one tier above
-        double through = CombatFormulas.throughShield(CombatFormulas.deflectionGap(15, 0));
-        assertTrue(through > 0 && through < 1, "got " + through);
+        double oneUp = CombatFormulas.throughShield(CombatFormulas.deflectionGap(15, 0));
+        assertTrue(oneUp > 0 && oneUp < 1, "got " + oneUp);
         assertFalse(CombatFormulas.breaksShield(CombatFormulas.deflectionGap(15, 0)));
-    }
 
-    @Test
-    void twoZonesUpBreaksTheShield() {
-        // City shield against Canyon mobs
         assertTrue(CombatFormulas.breaksShield(CombatFormulas.deflectionGap(19, 0)));
         assertEquals(1.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(19, 0)), EPSILON);
     }
@@ -112,8 +78,7 @@ class CombatFormulasTest {
         double previous = -1;
         for (int attack = 11; attack <= 30; attack++) {
             double through = CombatFormulas.throughShield(CombatFormulas.deflectionGap(attack, 3));
-            assertTrue(through >= previous, "attack " + attack);
-            assertTrue(through >= 0 && through <= 1);
+            assertTrue(through >= previous && through <= 1, "attack " + attack);
             previous = through;
         }
     }

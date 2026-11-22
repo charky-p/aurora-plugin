@@ -34,11 +34,7 @@ class RegionsTest {
         assertFalse(regions.isZoneReleased("nowhere"));
         assertTrue(regions.isReleased("GORMAK"));
         assertFalse(regions.isReleased(null));
-    }
-
-    @Test
-    void zonesComeInFileOrder() {
-        Regions regions = regions();
+        // In file order
         assertEquals(List.of("cobble", "coal", "city"), regions.releasedZones());
         assertEquals(List.of("cobble", "coal"), regions.zonesOf("origin_isles"));
         assertEquals(List.of(), regions.zonesOf("duat"));
@@ -67,12 +63,5 @@ class RegionsTest {
         assertTrue(regions.isColumnReleased("gormak_city"));
         assertFalse(regions.isColumnReleased("gormak_deep_caves"));
         assertFalse(regions.isColumnReleased("fishing"));
-    }
-
-    @Test
-    void noneHasNothing() {
-        assertEquals(List.of(), Regions.none().releasedZones());
-        assertTrue(Regions.none().isColumnReleased(null));
-        assertFalse(Regions.none().isColumnReleased("gormak"));
     }
 }

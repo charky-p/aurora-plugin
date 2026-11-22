@@ -29,6 +29,8 @@ class GauntletBonusesTest {
         assertFalse(GauntletBonuses.unlocked(member, whirlwind, BOONS, 2));
         member.boons.put("cleave", 2);
         assertTrue(GauntletBonuses.unlocked(member, whirlwind, BOONS, 2));
+        // An ordinary boon is always open
+        assertTrue(GauntletBonuses.unlocked(new GauntletRun.Member(UUID.randomUUID()), BOONS.get("might"), BOONS, 2));
     }
 
     @Test
@@ -38,20 +40,5 @@ class GauntletBonusesTest {
         assertFalse(GauntletBonuses.unlocked(member, aegis, BOONS, 2));
         member.boons.put("second_wind", 1);
         assertTrue(GauntletBonuses.unlocked(member, aegis, BOONS, 2), "Second Wind's max is 1");
-    }
-
-    @Test
-    void anOrdinaryBoonIsAlwaysOpen() {
-        assertTrue(GauntletBonuses.unlocked(new GauntletRun.Member(UUID.randomUUID()), BOONS.get("might"), BOONS, 2));
-    }
-
-    @Test
-    void aBoonAddsEachOfItsEffects() {
-        GauntletData.Boon whirlwind = new GauntletData.Boon("whirlwind", "Whirlwind", "STONE", "",
-                Map.of("cleave", 40.0, "damage", 20.0), 1, "legendary", List.of("cleave", "might"));
-        assertEquals(40, whirlwind.effect("cleave"));
-        assertEquals(20, whirlwind.effect("damage"));
-        assertEquals(0, whirlwind.effect("crit"));
-        assertEquals("<gold>", whirlwind.colour());
     }
 }

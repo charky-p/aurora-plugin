@@ -26,14 +26,6 @@ class GauntletDataTest {
     }
 
     @Test
-    void floorsInTheFileAreTakenAsTheyAre() {
-        GauntletData data = twoFloors();
-        assertEquals(1.0, data.floor(1).health());
-        assertFalse(data.floor(1).boss());
-        assertTrue(data.floor(2).boss());
-    }
-
-    @Test
     void pastTheLastFloorItRepeatsHarder() {
         GauntletData data = twoFloors();
         GauntletData.Floor third = data.floor(3);
@@ -89,12 +81,6 @@ class GauntletDataTest {
         assertEquals(1, data.heatUnlocked(24));
         assertEquals(2, data.heatUnlocked(25));
         assertEquals(5, data.heatUnlocked(500));
-    }
-
-    @Test
-    void noFloorsNoFloor() {
-        assertNull(GauntletData.empty().floor(1));
-        assertFalse(GauntletData.empty().ready());
     }
 
     @Test

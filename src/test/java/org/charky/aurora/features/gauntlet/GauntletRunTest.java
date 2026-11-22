@@ -10,17 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GauntletRunTest {
-    @Test
-    void aSoloRunIsNeverScaled() {
-        assertEquals(1.0, GauntletRun.partyScale(1, 50));
-        assertEquals(1.0, GauntletRun.partyScale(0, 50), "nobody left is no less than one player");
-    }
-
+    // Every player past the first adds the percent; a solo run, or nobody left, is never scaled
     @Test
     void everyPlayerPastTheFirstAddsThePercent() {
+        assertEquals(1.0, GauntletRun.partyScale(1, 50));
+        assertEquals(1.0, GauntletRun.partyScale(0, 50));
         assertEquals(1.5, GauntletRun.partyScale(2, 50));
         assertEquals(2.8, GauntletRun.partyScale(4, 60), 1e-9);
-        assertEquals(1.0, GauntletRun.partyScale(4, 0), "0 percent for a party pays what one player gets");
+        assertEquals(1.0, GauntletRun.partyScale(4, 0));
     }
 
     @Test

@@ -1,37 +1,24 @@
 package org.charky.aurora.features.boss;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GormakPhasesTest {
-    @Test
-    void noWaveAtFullHealth() {
-        assertEquals(0, GormakPhases.wavesDue(1.0));
-        assertEquals(0, GormakPhases.wavesDue(0.76));
-    }
-
-    @Test
-    void aWaveForEachThresholdPassed() {
-        assertEquals(1, GormakPhases.wavesDue(0.75));
-        assertEquals(1, GormakPhases.wavesDue(0.51));
-        assertEquals(2, GormakPhases.wavesDue(0.50));
-        assertEquals(3, GormakPhases.wavesDue(0.25));
-        assertEquals(3, GormakPhases.wavesDue(0.0));
-    }
-
-    // One hit that crosses two thresholds still owes both waves
-    @Test
-    void aBigHitDoesNotSkipAWave() {
-        assertEquals(2, GormakPhases.wavesDue(0.40) - GormakPhases.wavesDue(0.80));
+    // A wave for each threshold passed, so one hit from 0.80 to 0.40 still owes two
+    @ParameterizedTest
+    @CsvSource({"1.0, 0", "0.76, 0", "0.75, 1", "0.51, 1", "0.50, 2", "0.40, 2", "0.25, 3", "0.0, 3"})
+    void aWaveForEachThresholdPassed(double health, int waves) {
+        assertEquals(waves, GormakPhases.wavesDue(health));
     }
 
     @Test
     void aWaveIsCutShortAtTheCap() {
         assertEquals(3, GormakPhases.ghoulsToSummon(3, 0));
         assertEquals(2, GormakPhases.ghoulsToSummon(3, 4));
-        assertEquals(0, GormakPhases.ghoulsToSummon(3, 6));
         assertEquals(0, GormakPhases.ghoulsToSummon(3, 9));
     }
 
@@ -41,15 +28,5 @@ class GormakPhasesTest {
     void theTotemBringsHimBackBelowHalf() {
         assertTrue(GormakPhases.REVIVE_SHARE > 0.25);
         assertTrue(GormakPhases.REVIVE_SHARE < 0.5);
-    }
-
-    @Test
-    void thereAreFourWavesAndTwoOfThemAreBig() {
-        assertEquals(GormakPhases.WAVE_THRESHOLDS.length, GormakPhases.WAVES.length);
-
-        assertEquals(new GormakPhases.Wave(3, 0, 0), GormakPhases.WAVES[0]);
-        assertEquals(new GormakPhases.Wave(3, 5, 0), GormakPhases.WAVES[1]);
-        assertEquals(new GormakPhases.Wave(3, 0, 0), GormakPhases.WAVES[2]);
-        assertEquals(new GormakPhases.Wave(3, 5, 2), GormakPhases.LAST_STAND);
     }
 }

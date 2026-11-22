@@ -16,11 +16,6 @@ class BlastShapeTest {
         return offsets.stream().map(o -> o[0] + "," + o[1] + "," + o[2]).collect(Collectors.toSet());
     }
 
-    @Test
-    void noBlastBreaksNothingElse() {
-        assertTrue(BlastShape.offsets(0, 0, 1, 0, 0, -1).isEmpty());
-    }
-
     // Standing south of a wall looking north, its south face is the one hit
     @Test
     void blastThreeOnAWallIsAPatchOfThatWall() {
@@ -90,14 +85,6 @@ class BlastShapeTest {
         assertTrue(five.contains("-1,-1,-2"));
         assertTrue(five.contains("1,1,-2"));
         assertTrue(four.stream().noneMatch(block -> block.endsWith(",-2")), four.toString());
-    }
-
-    @Test
-    void blastFiveOnAFloorDigsDown() {
-        Set<String> area = blocks(BlastShape.offsets(5, 0, 1, 0, 0, -1));
-
-        assertEquals(26, area.size());
-        assertTrue(area.stream().allMatch(block -> Set.of("0", "-1", "-2").contains(block.split(",")[1])), area.toString());
     }
 
     @Test

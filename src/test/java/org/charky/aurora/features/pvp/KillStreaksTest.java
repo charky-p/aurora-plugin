@@ -26,21 +26,15 @@ class KillStreaksTest {
         assertEquals(0, streaks.cooldownLeft(a, b, 2 + KillStreaks.COOLDOWN_MS));
     }
 
+    // Killing someone else, or being killed back, starts the streak again
     @Test
-    void killingSomeoneElseStartsAgain() {
-        KillStreaks streaks = new KillStreaks();
-        streaks.kill(a, b, 0);
-        streaks.kill(a, b, 1);
-        streaks.kill(a, c, 2);
-        assertFalse(streaks.kill(a, b, 3));
-    }
-
-    @Test
-    void beingKilledBackStartsAgain() {
-        KillStreaks streaks = new KillStreaks();
-        streaks.kill(a, b, 0);
-        streaks.kill(a, b, 1);
-        streaks.kill(b, a, 2);
-        assertFalse(streaks.kill(a, b, 3));
+    void anotherKillStartsAgain() {
+        for (UUID[] between : new UUID[][]{{a, c}, {b, a}}) {
+            KillStreaks streaks = new KillStreaks();
+            streaks.kill(a, b, 0);
+            streaks.kill(a, b, 1);
+            streaks.kill(between[0], between[1], 2);
+            assertFalse(streaks.kill(a, b, 3));
+        }
     }
 }

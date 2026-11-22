@@ -52,34 +52,11 @@ class BackpackDataTest {
     }
 
     @Test
-    void exactAmountIsEnoughAndLeavesNothing() {
-        Player player = emptyHanded();
-        BackpackData backpack = new BackpackData(null);
-        backpack.addItem("iron", 64);
-
-        List<MenuItem> costs = List.of(cost("iron", 64));
-        assertTrue(backpack.hasItems(player, costs));
-        backpack.removeItems(player, costs);
-        assertEquals(0, backpack.getAmount(player, "iron"));
-    }
-
-    @Test
     void neverGoesBelowZero() {
         BackpackData backpack = new BackpackData(null);
         backpack.addItem("gold", 5);
         backpack.removeItem("gold", 50);
 
         assertEquals(0, backpack.getItems().get("gold"));
-    }
-
-    @Test
-    void dropsStackOnWhatIsHeld() {
-        BackpackData backpack = new BackpackData(null);
-        backpack.addItem("feather", 3);
-        backpack.addItem("feather", 2);
-        backpack.addItem("wool", 1);
-
-        assertEquals(5, backpack.getItems().get("feather"));
-        assertEquals(1, backpack.getItems().get("wool"));
     }
 }

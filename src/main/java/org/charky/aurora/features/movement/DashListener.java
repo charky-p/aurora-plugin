@@ -26,10 +26,10 @@ import java.util.Map;
 import java.util.UUID;
 
 // Dash, an Essence shop perk: right click the Dash Feather to dash the way you face,
-// once a second. /dash, or clicking Dash in the shop, hands the feather over again
+// up to four times a second. /dash, or clicking Dash in the shop, hands the feather over again
 public class DashListener implements Listener, CommandExecutor {
     public static final String ITEM = "dash_feather";
-    private static final long COOLDOWN_MS = 1000;
+    private static final long COOLDOWN_MS = 250;
     private static final double SPEED = 1.4;
     private static final double LIFT = 0.25;
 

@@ -10,7 +10,7 @@ golden_carrot,<white>Golden Carrot,GOLDEN_CARROT,0,,overworld,origin_isles,,<dar
 grapple,<#9C7A3C><b>Grapple,FISHING_ROD,1,,overworld,,,"<gray>Right click to throw yourself where you look|<dark_gray>Every 3 seconds, in the air too"
 elytra,<white><b>Elytra,ELYTRA,1,,overworld,,,"<gray>Glide from a ledge, rockets to climb"
 rocket,<red>Rocket,FIREWORK_ROCKET,1,,overworld,,,<gray>Right click while gliding
-dash_feather,<aqua><b>Dash Feather,FEATHER,0,,overworld,,,<gray>Right click to dash the way you face|<dark_gray>Once a second
+dash_feather,<aqua><b>Dash Feather,FEATHER,0,,overworld,,,<gray>Right click to dash the way you face|<dark_gray>Up to four times a second
 mount_pig,<light_purple><b>Pig Saddle,SADDLE,0,,overworld,,,<gray>Right click to ride your pig|<dark_gray>Shift to get off
 mount_chicken,<white><b>Chicken Saddle,SADDLE,0,,overworld,,,<gray>Right click to ride your chicken|<dark_gray>Shift to get off
 mount_horse,<gold><b>Horse Saddle,SADDLE,0,,overworld,,,<gray>Right click to ride your horse|<dark_gray>Shift to get off

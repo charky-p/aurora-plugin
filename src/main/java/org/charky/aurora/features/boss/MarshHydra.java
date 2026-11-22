@@ -8,49 +8,75 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
+import org.charky.aurora.features.combat.MobDamage;
+import org.charky.aurora.features.spawner.MobData;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-// The Marsh Hydra's fight: a zoglin body with a stack of Hydra Heads, bogged that
-// ride on its back and shoot.
-//  - Guarded: while it has a head, the body takes no hits at all
-//  - Heads: three to start, stacked one on another. The bottom one is in reach;
-//    kill it and the ones above drop down a place
-//  - Regrowth: every head killed grows back on top of the stack a while later. Kill
-//    all three and the body is open until the first one is back
-// Vanilla would let the first rider steer a mob it rides, the way a skeleton steers
-// its spider, so the heads ride an invisible marker on its back instead and the
-// zoglin keeps walking at players by itself. Heads go with the body
+// The Marsh Hydra's fight: a zoglin with a Bogged Rider on its back that shoots.
+//  - Rider: rides an invisible seat on the zoglin, so the zoglin keeps walking at
+//    players by itself instead of being steered. Killed, it stays dead for the fight
+//  - Charge: every few seconds it roars and paws the ground for a second, then
+//    lunges at a player, hitting whoever it runs into for twice a normal hit and
+//    throwing them back
+//  - Sludge: it lobs sludge where a player stands. After a second's warning the
+//    puddle slows anyone in it and stings them every second for a few seconds
+// All its damage comes from its own row in mobs_marsh.csv (attack and damage), so
+// it is tuned there like any other mob
 public class MarshHydra implements BossAbilities {
     public static final String BOSS_ID = "marsh_hydra";
-    public static final String HEAD_ID = "hydra_head";
+    public static final String RIDER_ID = "hydra_rider";
 
-    private static final int HEADS = 3;
-    // From a head dying to it growing back, 20 seconds
-    private static final int REGROW_TICKS = 400;
-    // A player hitting the guarded body is told why, at most this often
-    private static final long GUARD_MESSAGE_MS = 1500;
     private static final double TARGET_RANGE = 48.0;
 
+    // Charge: seconds between, the wind-up, how long the lunge can hit, and its push
+    private static final int CHARGE_EVERY_TICKS = 160;
+    private static final int CHARGE_JITTER_TICKS = 40;
+    private static final int CHARGE_WINDUP_TICKS = 20;
+    private static final int CHARGE_HIT_TICKS = 15;
+    private static final double CHARGE_RANGE = 24.0;
+    private static final double CHARGE_SPEED = 1.6;
+    private static final double CHARGE_REACH = 2.2;
+    private static final double CHARGE_HIT_SCALE = 2.0;
+
+    // Sludge: seconds between, the warning, how long a puddle lasts, its size and sting
+    private static final int SLUDGE_EVERY_TICKS = 240;
+    private static final int SLUDGE_JITTER_TICKS = 40;
+    private static final int SLUDGE_WARN_TICKS = 20;
+    private static final int SLUDGE_LASTS_TICKS = 80;
+    private static final int SLUDGE_STING_TICKS = 20;
+    private static final double SLUDGE_RADIUS = 3.0;
+    private static final double SLUDGE_HIT_SCALE = 0.4;
+
     private final Aurora plugin;
-    // Bottom of the stack first
-    private final List<UUID> heads = new ArrayList<>();
-    // The fight tick each missing head died on, the first to grow back first
-    private final Deque<Integer> regrowing = new ArrayDeque<>();
-    private final Map<UUID, Long> told = new HashMap<>();
     private ArmorStand seat;
+    private UUID rider;
+    private boolean mounted = false;
     private int age = 0;
-    private boolean grown = false;
-    private boolean warned = false;
+
+    private int nextCharge = CHARGE_EVERY_TICKS;
+    private int windupEnds = -1;
+    private int lungeEnds = -1;
+    private UUID chargeTarget;
+    private Vector lunge;
+    private final Set<UUID> hitByLunge = new HashSet<>();
+
+    private int nextSludge = SLUDGE_EVERY_TICKS / 2;
+    private final List<Puddle> puddles = new ArrayList<>();
+
+    private record Puddle(Location centre, int lands, int dries) {
+    }
 
     public MarshHydra(Aurora plugin) {
         this.plugin = plugin;
@@ -59,66 +85,45 @@ public class MarshHydra implements BossAbilities {
     @Override
     public void tick(BossFight fight) {
         age += BossManager.TICKS;
+        LivingEntity boss = fight.boss();
 
         // Not in the constructor: the body is still being added to the world then
-        if (!grown) {
-            grown = true;
-            for (int i = 0; i < HEADS; i++) grow(fight, false);
+        if (!mounted) {
+            mounted = true;
+            mountRider(fight);
         }
+        keepRiderSeated(boss);
 
-        int before = heads.size();
-        heads.removeIf(uuid -> {
-            Entity head = plugin.getServer().getEntity(uuid);
-            return head == null || !head.isValid() || head.isDead();
-        });
-        for (int i = heads.size(); i < before; i++) regrowing.add(age);
-
-        if (before > 0 && heads.isEmpty()) {
-            LivingEntity boss = fight.boss();
-            boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_ZOGLIN_ANGRY, 1.5f, 0.5f);
-            for (Player player : fight.playersWithin(TARGET_RANGE)) {
-                player.sendActionBar(TextUtils.parse("<green>The Hydra has no heads, strike the body!"));
-            }
-        }
-
-        while (!regrowing.isEmpty() && heads.size() < HEADS && age - regrowing.peek() >= REGROW_TICKS) {
-            regrowing.poll();
-            if (!grow(fight, true)) break;
-        }
-
-        restack(fight);
+        charge(fight);
+        sludge(fight);
     }
 
-    // One more head on top of the stack. False if the head mob is not in the registry
-    private boolean grow(BossFight fight, boolean regrown) {
+    private void mountRider(BossFight fight) {
         String spawner = fight.spawnerName();
-        if (spawner == null) return false;
+        if (spawner == null) return;
 
         LivingEntity boss = fight.boss();
-        Location at = boss.getLocation().add(0, boss.getHeight(), 0);
-        LivingEntity head = plugin.getSpawnerManager().spawnMob(HEAD_ID, at, spawner);
-        if (head == null) {
-            if (!warned) plugin.getLogger().warning("The Marsh Hydra has no '" + HEAD_ID + "' mob in the registry to grow");
-            warned = true;
-            return false;
+        LivingEntity archer = plugin.getSpawnerManager().spawnMob(RIDER_ID, boss.getLocation().add(0, boss.getHeight(), 0), spawner);
+        if (archer == null) {
+            plugin.getLogger().warning("The Marsh Hydra has no '" + RIDER_ID + "' mob in the registry to carry");
+            return;
         }
-
-        heads.add(head.getUniqueId());
+        rider = archer.getUniqueId();
         List<Player> targets = fight.playersWithin(TARGET_RANGE);
-        if (head instanceof Mob mob && !targets.isEmpty()) {
+        if (archer instanceof Mob mob && !targets.isEmpty()) {
             mob.setTarget(targets.get(ThreadLocalRandom.current().nextInt(targets.size())));
         }
-        if (regrown) {
-            boss.getWorld().playSound(at, Sound.ENTITY_SLIME_SQUISH, 1.5f, 0.5f);
-            boss.getWorld().spawnParticle(Particle.ITEM_SLIME, at, 30, 0.4, 0.4, 0.4, 0.05);
-        }
-        return true;
+        boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_ZOGLIN_ANGRY, 1.5f, 0.5f);
     }
 
-    // Body, seat, then each head on the one below. A head that died took the ones
-    // above it off with it; they climb back on a place lower
-    private void restack(BossFight fight) {
-        LivingEntity boss = fight.boss();
+    // Vanilla lets the first rider steer, so the archer sits on a marker on the
+    // zoglin's back instead of on the zoglin itself
+    private void keepRiderSeated(LivingEntity boss) {
+        Entity archer = rider == null ? null : plugin.getServer().getEntity(rider);
+        if (archer == null || !archer.isValid() || archer.isDead()) {
+            rider = null;
+            return;
+        }
         if (seat == null || !seat.isValid()) {
             seat = boss.getWorld().spawn(boss.getLocation(), ArmorStand.class, stand -> {
                 stand.setInvisible(true);
@@ -129,51 +134,159 @@ public class MarshHydra implements BossAbilities {
             });
         }
         mount(boss, seat);
+        mount(seat, archer);
+    }
 
-        Entity below = seat;
-        for (UUID uuid : heads) {
-            Entity head = plugin.getServer().getEntity(uuid);
-            if (head == null) continue;
+    private static void mount(Entity vehicle, Entity passenger) {
+        if (passenger.getVehicle() == vehicle) return;
 
-            mount(below, head);
-            below = head;
+        passenger.leaveVehicle();
+        vehicle.addPassenger(passenger);
+    }
+
+    private void charge(BossFight fight) {
+        LivingEntity boss = fight.boss();
+
+        if (windupEnds < 0 && lungeEnds < 0 && age >= nextCharge) {
+            Player target = nearest(fight, CHARGE_RANGE);
+            if (target == null) {
+                nextCharge = age + CHARGE_JITTER_TICKS;
+                return;
+            }
+            chargeTarget = target.getUniqueId();
+            windupEnds = age + CHARGE_WINDUP_TICKS;
+            boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_ZOGLIN_ANGRY, 2f, 0.6f);
+            target.sendActionBar(TextUtils.parse("<red>The Hydra is about to charge you!"));
+        }
+
+        if (windupEnds >= 0) {
+            boss.getWorld().spawnParticle(Particle.BLOCK, boss.getLocation(), 12, 0.6, 0.1, 0.6,
+                    boss.getLocation().subtract(0, 1, 0).getBlock().getBlockData());
+            if (age < windupEnds) return;
+
+            windupEnds = -1;
+            Player target = chargeTarget == null ? null : plugin.getServer().getPlayer(chargeTarget);
+            if (target == null || !target.getWorld().equals(boss.getWorld())) {
+                nextCharge = age + CHARGE_EVERY_TICKS;
+                return;
+            }
+            Vector direction = target.getLocation().toVector().subtract(boss.getLocation().toVector()).setY(0);
+            if (direction.lengthSquared() < 0.01) direction = boss.getLocation().getDirection().setY(0);
+            lunge = direction.normalize().multiply(CHARGE_SPEED);
+            boss.setVelocity(lunge.clone().setY(0.25));
+            boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_RAVAGER_ROAR, 1.5f, 1.2f);
+            hitByLunge.clear();
+            lungeEnds = age + CHARGE_HIT_TICKS;
+        }
+
+        if (lungeEnds >= 0) {
+            boss.getWorld().spawnParticle(Particle.CLOUD, boss.getLocation(), 4, 0.4, 0.2, 0.4, 0.01);
+            for (Player player : fight.playersWithin(CHARGE_REACH)) {
+                if (!hitByLunge.add(player.getUniqueId())) continue;
+
+                hurt(boss, player, CHARGE_HIT_SCALE);
+                player.setVelocity(lunge.clone().multiply(0.8).setY(0.5));
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_KNOCKBACK, 1f, 0.7f);
+            }
+            if (age >= lungeEnds) {
+                lungeEnds = -1;
+                nextCharge = age + CHARGE_EVERY_TICKS + ThreadLocalRandom.current().nextInt(-CHARGE_JITTER_TICKS, CHARGE_JITTER_TICKS + 1);
+            }
         }
     }
 
-    private static void mount(Entity vehicle, Entity rider) {
-        if (rider.getVehicle() == vehicle) return;
+    private void sludge(BossFight fight) {
+        LivingEntity boss = fight.boss();
 
-        rider.leaveVehicle();
-        vehicle.addPassenger(rider);
+        if (age >= nextSludge) {
+            List<Player> targets = fight.playersWithin(TARGET_RANGE);
+            nextSludge = age + SLUDGE_EVERY_TICKS + ThreadLocalRandom.current().nextInt(-SLUDGE_JITTER_TICKS, SLUDGE_JITTER_TICKS + 1);
+            if (!targets.isEmpty()) {
+                Player target = targets.get(ThreadLocalRandom.current().nextInt(targets.size()));
+                Location centre = target.getLocation().clone();
+                puddles.add(new Puddle(centre, age + SLUDGE_WARN_TICKS, age + SLUDGE_WARN_TICKS + SLUDGE_LASTS_TICKS));
+                boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_SLIME_JUMP, 1.5f, 0.5f);
+                target.sendActionBar(TextUtils.parse("<dark_green>Sludge is coming down on you, move!"));
+            }
+        }
+
+        for (Iterator<Puddle> it = puddles.iterator(); it.hasNext(); ) {
+            Puddle puddle = it.next();
+            if (age >= puddle.dries()) {
+                it.remove();
+                continue;
+            }
+            Location centre = puddle.centre();
+            if (age < puddle.lands()) {
+                // The warning: a ring where it will land
+                ring(centre, Particle.ITEM_SLIME, 16);
+                continue;
+            }
+            if (age - puddle.lands() < BossManager.TICKS) {
+                centre.getWorld().playSound(centre, Sound.BLOCK_SLIME_BLOCK_BREAK, 1.5f, 0.6f);
+            }
+            centre.getWorld().spawnParticle(Particle.ITEM_SLIME, centre, 25, SLUDGE_RADIUS * 0.6, 0.1, SLUDGE_RADIUS * 0.6, 0.02);
+            ring(centre, Particle.SNEEZE, 10);
+
+            boolean sting = (age - puddle.lands()) % SLUDGE_STING_TICKS < BossManager.TICKS;
+            for (Player player : centre.getWorld().getPlayers()) {
+                if (!fight.playersWithin(TARGET_RANGE).contains(player)) continue;
+                Location at = player.getLocation();
+                if (Math.abs(at.getY() - centre.getY()) > 2 || horizontalDistanceSquared(at, centre) > SLUDGE_RADIUS * SLUDGE_RADIUS) continue;
+
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 1, false, true, true));
+                if (sting) hurt(boss, player, SLUDGE_HIT_SCALE);
+            }
+        }
     }
 
-    @Override
-    public boolean shields(BossFight fight, Player attacker) {
-        if (heads.isEmpty()) return false;
-
-        long now = System.currentTimeMillis();
-        Long last = told.get(attacker.getUniqueId());
-        if (last == null || now - last >= GUARD_MESSAGE_MS) {
-            told.put(attacker.getUniqueId(), now);
-            attacker.sendActionBar(TextUtils.parse("<red>The heads guard the body, cut them off first"));
-            attacker.playSound(fight.boss().getLocation(), Sound.ITEM_SHIELD_BLOCK, 1f, 0.6f);
+    private static void ring(Location centre, Particle particle, int points) {
+        for (int i = 0; i < points; i++) {
+            double angle = 2 * Math.PI * i / points;
+            centre.getWorld().spawnParticle(particle, centre.clone().add(Math.cos(angle) * SLUDGE_RADIUS, 0.1, Math.sin(angle) * SLUDGE_RADIUS),
+                    1, 0, 0, 0, 0);
         }
-        return true;
+    }
+
+    private static double horizontalDistanceSquared(Location a, Location b) {
+        double dx = a.getX() - b.getX();
+        double dz = a.getZ() - b.getZ();
+        return dx * dx + dz * dz;
+    }
+
+    // A share of the Hydra's own hit, from its attack and damage in the data. Dealt
+    // without a source so CombatListener does not price it again as a swing
+    private void hurt(LivingEntity boss, Player player, double scale) {
+        MobData mob = plugin.getRegistry().mobOf(boss);
+        if (mob == null) return;
+        player.damage(MobDamage.dealt(mob, player, false) * scale);
+    }
+
+    private Player nearest(BossFight fight, double range) {
+        Location at = fight.boss().getLocation();
+        Player best = null;
+        double bestDistance = Double.MAX_VALUE;
+        for (Player player : fight.playersWithin(range)) {
+            double distance = player.getLocation().distanceSquared(at);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                best = player;
+            }
+        }
+        return best;
     }
 
     @Override
     public void end(BossFight fight) {
-        for (UUID uuid : heads) {
-            Entity head = plugin.getServer().getEntity(uuid);
-            if (head == null || !head.isValid()) continue;
-
-            head.getWorld().spawnParticle(Particle.ITEM_SLIME, head.getLocation(), 15, 0.3, 0.3, 0.3, 0.05);
-            head.remove();
+        Entity archer = rider == null ? null : plugin.getServer().getEntity(rider);
+        if (archer != null && archer.isValid()) {
+            archer.getWorld().spawnParticle(Particle.ITEM_SLIME, archer.getLocation(), 15, 0.3, 0.3, 0.3, 0.05);
+            archer.remove();
         }
-        heads.clear();
-        regrowing.clear();
-        told.clear();
+        rider = null;
         if (seat != null) seat.remove();
         seat = null;
+        puddles.clear();
+        hitByLunge.clear();
     }
 }

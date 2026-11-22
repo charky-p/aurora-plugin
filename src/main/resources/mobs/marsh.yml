@@ -102,12 +102,13 @@ items:
     health: 12000.0
     defence: 126.0
     attack: 31.0
+    damage: 0.6
     density: 11
     attributes:
       - attr: SCALE
         value: 1.6
       - attr: MOVEMENT_SPEED
-        value: 0.2
+        value: 0.3
       - attr: KNOCKBACK_RESISTANCE
         value: 1.0
       - attr: FOLLOW_RANGE
@@ -117,8 +118,8 @@ items:
       - id: hydra_fang
         max: 2
 
-  hydra_head:
-    display: "<#7BC96F><b>Hydra Head"
+  hydra_rider:
+    display: "<#7BC96F><b>Bogged Rider"
     entity: BOGGED
     health: 1000.0
     defence: 126.0
@@ -126,9 +127,8 @@ items:
     density: 11
     equip:
       head: LEATHER_HELMET
+      hand: BOW
       feet: LEATHER_BOOTS
     attributes:
-      - attr: SCALE
-        value: 0.7
       - attr: FOLLOW_RANGE
         value: 48.0

@@ -139,10 +139,12 @@ public class Mine {
         }
     }
 
+    // Feet inside the blocks being refilled. Upper bounds are exclusive, so someone
+    // standing on top of the mine (feet at y2 + 1) stays where they are
     private boolean isInside(Location location) {
-        return location.getX() >= data.getX1() && location.getX() <= data.getX2() + 1 &&
-                location.getY() >= data.getY1() && location.getY() <= data.getY2() + 1 &&
-                location.getZ() >= data.getZ1() && location.getZ() <= data.getZ2() + 1;
+        return location.getX() >= data.getX1() && location.getX() < data.getX2() + 1 &&
+                location.getY() >= data.getY1() && location.getY() < data.getY2() + 1 &&
+                location.getZ() >= data.getZ1() && location.getZ() < data.getZ2() + 1;
     }
 
     private MineBlock getRandomBlock() {

@@ -91,14 +91,29 @@ public class SpawnerManager {
         return true;
     }
 
+    // What gauntlet mobs carry as their spawner
+    public static final String GAUNTLET = "gauntlet";
+
     public MobSpawner getSpawner(String spawnerName) {
         return spawnerMap.get(spawnerName);
     }
 
     // The mob it spawned, null if the mob or the spawner does not exist
     public LivingEntity spawnMob(String mob, Location spawnLocation, String spawner) {
+        if (!this.spawnerExists(spawner)) return null;
+        LivingEntity spawned = spawn(mob, spawnLocation, spawner);
+        if (spawned != null) countSpawned(spawner);
+        return spawned;
+    }
+
+    // A gauntlet mob, set up like a spawner's but no spawner counts it or pays for its kill
+    public LivingEntity spawnGauntletMob(String mob, Location spawnLocation) {
+        return spawn(mob, spawnLocation, GAUNTLET);
+    }
+
+    private LivingEntity spawn(String mob, Location spawnLocation, String spawner) {
         MobData data = registry.getMob(mob);
-        if (data == null || !this.spawnerExists(spawner)) return null;
+        if (data == null) return null;
 
         Entity spawned = spawnLocation.getWorld().spawn(spawnLocation, data.type().getEntityClass(), entity -> {
             // Remove jockeys: riders vanilla put on it, and the chicken (or other mount)
@@ -162,7 +177,6 @@ public class SpawnerManager {
             living.setPersistent(false);
         });
 
-        countSpawned(spawner);
         return spawned instanceof LivingEntity living ? living : null;
     }
 

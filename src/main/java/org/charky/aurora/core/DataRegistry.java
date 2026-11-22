@@ -16,6 +16,7 @@ import org.charky.aurora.core.data.*;
 import org.charky.aurora.core.models.FishingSpotModel;
 import org.charky.aurora.core.models.*;
 import org.charky.aurora.features.armory.ArmoryManager;
+import org.charky.aurora.features.gauntlet.GauntletData;
 import org.charky.aurora.features.keys.Keys;
 import org.charky.aurora.features.player.BackpackManager;
 import org.charky.aurora.features.spawner.MobData;
@@ -31,19 +32,22 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 // All game data from the generated YAML, loaded through core.data and looked up here
 public class DataRegistry {
     // One file per region under mobs/, generated from scripts/data/mobs/mobs_<name>.csv
     private static final List<String> MOB_FILES = List.of(
             "origin", "gormak", "verdant", "khorvath", "elderwood", "marsh",
-            "peaks", "duat", "sky", "quarry");
+            "peaks", "duat", "sky", "quarry", "gauntlet");
 
     private record BlockData(Material material, int density, int xp, List<LootPool> pools) {}
 
     private final Aurora plugin;
     private final YamlLoader yaml;
     private final ItemFactory itemFactory = new ItemFactory();
+    private Function<String, MobData> mobVariants = id -> null;
+    private GauntletData gauntlet = GauntletData.empty();
     private BackpackManager backpackManager;
     private ArmoryManager armoryManager;
     private final MenuActions actions = new MenuActions();
@@ -143,6 +147,7 @@ public class DataRegistry {
         loadWarps();
         fishingSpots.putAll(yaml.load("fishing.yml", FishingSpotModel.class));
         loadProgression();
+        gauntlet = GauntletData.load(plugin, mobs.keySet());
     }
 
     // Realms, tools and every zone's upgrades, after the items their steps cost
@@ -383,17 +388,34 @@ public class DataRegistry {
     }
 
     public boolean hasMob(String id) {
-        return mobs.containsKey(id);
+        return getMob(id) != null;
     }
 
+    // A mob from the files, or a variant made on the fly (a gauntlet mob on its floor,
+    // see GauntletData.variant) for an id the files do not have
     public MobData getMob(String id) {
-        return mobs.get(id);
+        MobData mob = mobs.get(id);
+        return mob != null || id == null ? mob : mobVariants.apply(id);
+    }
+
+    public void setMobVariants(Function<String, MobData> variants) {
+        this.mobVariants = variants;
     }
 
     // The Aurora mob an entity was spawned as, null for anything else
     public MobData mobOf(Entity entity) {
         String mobId = entity.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
-        return mobId == null ? null : mobs.get(mobId);
+        return mobId == null ? null : getMob(mobId);
+    }
+
+    // The gauntlet's floors, gear, boons, care packages and milestones
+    public GauntletData getGauntlet() {
+        return gauntlet;
+    }
+
+    // An Aurora gear item drawn from a model, with its enchants stored like any other
+    public ItemStack createGear(GearModel model) {
+        return itemFactory.createGear(model, enchants);
     }
 
     public List<String> getMobs() {

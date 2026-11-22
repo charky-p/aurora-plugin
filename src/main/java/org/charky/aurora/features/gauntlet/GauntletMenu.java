@@ -1,0 +1,118 @@
+package org.charky.aurora.features.gauntlet;
+
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.charky.aurora.common.menu.PagedMenu;
+import org.charky.aurora.common.util.TextUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+// /gauntlet in the gauntlet's world: start a run, the forge, milestones, the top
+// floors, and the way out
+public class GauntletMenu extends PagedMenu {
+    private static final int START = 0, FORGE = 1, MILESTONES = 2, TOP = 3, LEAVE = 4;
+
+    private final GauntletManager manager;
+    private final GauntletRuns runs;
+
+    public GauntletMenu(GauntletManager manager, GauntletRuns runs) {
+        super(manager.registry(), "The Gauntlet");
+        this.manager = manager;
+        this.runs = runs;
+    }
+
+    @Override
+    protected List<ItemStack> entries(Player player) {
+        GauntletProfile profile = manager.profile(player);
+        List<ItemStack> items = new ArrayList<>();
+        items.add(button(Material.IRON_SWORD, "<red><b>Start a Run", List.of(
+                "<gray>Climb the tower floor by floor.",
+                "<gray>Every 5 floors: a care package",
+                "<gray>and a boon for this run.",
+                "<gray>Shards and Cores are kept when it ends.",
+                "",
+                runs.inRun(player) ? "<red>You are in a run" : "<yellow>Click to start")));
+        items.add(button(Material.ANVIL, "<gold><b>The Forge", List.of(
+                "<gray>Unlock and upgrade your gear",
+                "<gray>and your care package.",
+                "",
+                "<gray>Shards: <aqua>" + profile.shards,
+                "<gray>Cores: <light_purple>" + profile.cores)));
+
+        List<String> milestones = new ArrayList<>();
+        for (GauntletData.Milestone milestone : manager.data().milestones()) {
+            boolean done = profile.milestones.contains(milestone.floor());
+            String reward = (milestone.essence() > 0 ? milestone.essence() + " Essence" : "")
+                    + (!milestone.cosmetic().isBlank() ? (milestone.essence() > 0 ? " + " : "") + cosmeticName(milestone.cosmetic()) : "");
+            milestones.add((done ? "<green>✔ " : "<gray>• ") + "Floor " + milestone.floor() + ": <white>" + reward);
+        }
+        items.add(button(Material.GOLD_INGOT, "<yellow><b>Milestones", milestones));
+
+        List<String> top = new ArrayList<>();
+        int place = 1;
+        for (Map.Entry<UUID, GauntletProfile> entry : manager.top(10)) {
+            top.add("<gray>" + place++ + ". <white>" + GauntletManager.nameOf(entry.getKey()) + " <gray>- floor " + entry.getValue().best);
+        }
+        if (top.isEmpty()) top.add("<gray>Nobody has cleared a floor yet");
+        top.add("");
+        top.add("<gray>Your best: <white>" + profile.best + " <dark_gray>(" + profile.runs + " runs)");
+        items.add(button(Material.PLAYER_HEAD, "<aqua><b>Top Floors", top));
+
+        items.add(button(Material.OAK_DOOR, "<gray><b>Leave the Gauntlet", List.of(
+                "<gray>Back to the main spawn,", "<gray>with your own inventory.")));
+        return items;
+    }
+
+    private static String cosmeticName(String id) {
+        int sep = id.indexOf('_');
+        String kind = sep < 0 ? "" : id.substring(0, sep);
+        String name = (sep < 0 ? id : id.substring(sep + 1)).replace('_', ' ').toUpperCase();
+        return switch (kind) {
+            case "suffix" -> "[" + name + "] suffix";
+            case "trail" -> name.charAt(0) + name.substring(1).toLowerCase() + " trail";
+            default -> name;
+        };
+    }
+
+    private static ItemStack button(Material material, String name, List<String> lines) {
+        ItemStack item = new ItemStack(material);
+        item.editMeta(meta -> {
+            meta.displayName(TextUtils.parse("<!italic>" + name));
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            List<Component> lore = new ArrayList<>();
+            for (String line : lines) lore.add(line.isEmpty() ? Component.empty() : TextUtils.parse("<!italic>" + line));
+            meta.lore(lore);
+        });
+        return item;
+    }
+
+    @Override
+    protected List<Component> info(Player player, List<ItemStack> entries) {
+        return List.of(TextUtils.parse("<!italic><gray>A game of its own: gear here"),
+                TextUtils.parse("<!italic><gray>stays here. Milestones pay Essence"),
+                TextUtils.parse("<!italic><gray>and cosmetics for the main game."));
+    }
+
+    @Override
+    protected void onEntryClick(Player player, int index) {
+        switch (index) {
+            case START -> {
+                String problem = runs.begin(player);
+                if (problem != null) TextUtils.error(player, problem);
+            }
+            case FORGE -> new ForgeMenu(manager, runs).open(player);
+            case LEAVE -> {
+                player.closeInventory();
+                manager.leave(player);
+            }
+            default -> {
+            }
+        }
+    }
+}

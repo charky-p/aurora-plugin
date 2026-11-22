@@ -4,6 +4,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -56,6 +57,7 @@ public class CombatListener implements Listener {
         double dealt = shot != null
                 ? Math.max(0.0, Math.round(shot.raw() - (mob == null ? 0.0 : mob.defence())))
                 : playerDamage.dealt(attacker, mob, event.isCritical());
+        dealt = Math.round(dealt * CombatHooks.outgoing(attacker, shot != null));
         event.setDamage(CustomHealth.NOMINAL_DAMAGE);
         CustomHealth.apply(victim, dealt, attacker, registry);
         indicator.show(victim, dealt);
@@ -81,7 +83,11 @@ public class CombatListener implements Listener {
             return;
         }
 
-        double damage = MobDamage.dealt(mob, player, event.getDamager() instanceof Projectile);
+        double damage = CombatHooks.incoming(player, MobDamage.dealt(mob, player, event.getDamager() instanceof Projectile));
+        if (damage <= 0) {
+            event.setCancelled(true);
+            return;
+        }
         thorns.reflect(player, source);
 
         // Vanilla would stop a blocked hit fully and knock the player back, so the
@@ -182,6 +188,8 @@ public class CombatListener implements Listener {
     // are left stuck in players or lying about
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMobProjectileLand(ProjectileHitEvent event) {
+        // A player's trident flies back to them, a mob's is gone like its arrows
+        if (event.getEntity() instanceof Trident && event.getEntity().getShooter() instanceof Player) return;
         if (!(event.getEntity().getShooter() instanceof Player) || BowListener.shotOf(event.getEntity()) != null) {
             event.getEntity().remove();
         }

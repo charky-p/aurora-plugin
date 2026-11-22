@@ -142,6 +142,34 @@ public final class Schema {
                     "uuid TEXT PRIMARY KEY, " +
                     "step TEXT)",
 
+            // The gauntlet, kept for the person whatever loadout is in play: Shards and
+            // Cores to spend, the best floor cleared, runs played and the care package level
+            "CREATE TABLE IF NOT EXISTS gauntlet_players (" +
+                    "uuid TEXT PRIMARY KEY, " +
+                    "shards INTEGER DEFAULT 0, " +
+                    "cores INTEGER DEFAULT 0, " +
+                    "best INTEGER DEFAULT 0, " +
+                    "runs INTEGER DEFAULT 0, " +
+                    "care INTEGER DEFAULT 1)",
+
+            // Each piece of gauntlet gear a player has unlocked and its level
+            "CREATE TABLE IF NOT EXISTS gauntlet_gear (" +
+                    "uuid TEXT, " +
+                    "gear TEXT, " +
+                    "level INTEGER, " +
+                    "PRIMARY KEY (uuid, gear))",
+
+            // Gauntlet milestones paid out, by floor
+            "CREATE TABLE IF NOT EXISTS gauntlet_milestones (" +
+                    "uuid TEXT, " +
+                    "floor INTEGER, " +
+                    "PRIMARY KEY (uuid, floor))",
+
+            // The inventory a player brought into the gauntlet's world, handed back on the way out
+            "CREATE TABLE IF NOT EXISTS gauntlet_inventories (" +
+                    "uuid TEXT PRIMARY KEY, " +
+                    "items BLOB)",
+
             // Named spots that belong to no world's spawn, like where the tutorial starts
             "CREATE TABLE IF NOT EXISTS locations (" +
                     "name TEXT PRIMARY KEY, " +

@@ -21,12 +21,13 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/shop` | The Essence shop: Dash, Double Jump (press jump again in mid-air for a normal second jump), mounts, the Keyring and ranks. Mounts have three levels, each faster: left click upgrades one you own, right click gives its saddle again. Click anything else you own to use it again |
 | `/dash` | The Dash Feather again, once Dash is bought: right click it to dash the way you face, once a second |
 | `/tutorial skip` | Leave the first-join tutorial without its reward. The Skip link in chat runs it |
+| `/gauntlet` | Go to the Gauntlet's lobby; there, open its menu: start a run, the forge, milestones, top floors, leave. `/gauntlet boon` reopens a boon waiting to be picked, `/gauntlet leave` goes back to the main spawn with your own inventory |
 | `/discord` | A clickable link to the Aurora Discord, https://discord.gg/MefQWSgkBA |
 | `/suggest <your idea>` | Send an idea to the staff, up to 256 characters, one a minute. Staff online see it straight away, and it is saved for `/a suggestions` |
 
 **In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.
 
-The gauntlet and fishing are switched off until they are finished, see [PROGRESSION.md](PROGRESSION.md). Selling donor ranks and cosmetics through a store is in [STORE.md](STORE.md).
+Fishing is switched off until it is finished, see [PROGRESSION.md](PROGRESSION.md). Selling donor ranks and cosmetics through a store is in [STORE.md](STORE.md).
 
 ## Building a region, in order
 
@@ -193,6 +194,29 @@ A new player's first join hands out the starter tools, the backpack and a stack 
 | `/a tutorial tp` | Go to where it starts |
 | `/a tutorial start [player]` | Put a player through it from the first step. `/a reset <player> all` does this too |
 | `/a tutorial skip [player]` | Take a player out of it, no reward |
+
+## Gauntlet
+
+A tower mode in a world of its own (`scripts/data/gauntlet/`, see [PROGRESSION.md](PROGRESSION.md)). Walking into its world puts your inventory away and hands out your gauntlet gear; leaving gives it back. Make a void world for it (`/a world create gauntlet`), build a lobby, a PvP area and one arena, then:
+
+1. `/a gauntlet lobby` where players arrive. Its world becomes the Gauntlet's world, never the main world.
+2. `/a wand`, select the arena, `/a gauntlet arena`. It is saved as a template (`plugins/Aurora/gauntlet_arena.nbt`); every run pastes its own copy 1,000 blocks further along z, so keep that strip of the world empty. Saving it again replaces the template.
+3. Inside the arena you saved: `/a gauntlet spawn` (where players start), `/a gauntlet mobspawn` a few times (where mobs come in), `/a gauntlet package` (where care packages land).
+4. Select the PvP area with the wand, `/a gauntlet pvp`. Players can only hurt each other inside it, and never during a run.
+5. `/a gauntlet status` says what is missing.
+
+| Command | Does |
+|---|---|
+| `/a gauntlet lobby` | Players arrive here; its world becomes the Gauntlet's |
+| `/a gauntlet arena` | Save the wand selection as the arena template |
+| `/a gauntlet spawn` | Where a run starts, inside the arena |
+| `/a gauntlet mobspawn` | Add a mob spawn inside the arena |
+| `/a gauntlet clearmobspawns` | Remove every mob spawn |
+| `/a gauntlet package` | Where care packages land, inside the arena |
+| `/a gauntlet pvp` | The wand selection is the PvP zone |
+| `/a gauntlet status` | What is still missing |
+
+To build in the Gauntlet's world, make it a build world (`/a world build`) while you work; it plays as the Gauntlet again once it is not. Dying anywhere in it costs nothing and you come back in the lobby. Main-game gear taken out there (from the Armory) is taken away, and the ender chest does not open.
 
 ## Staff and moderation
 

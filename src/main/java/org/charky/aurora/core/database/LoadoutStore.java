@@ -24,7 +24,7 @@ public class LoadoutStore {
             "unlocked_gear", "portal_access", "tutorial", "quest", "fishing_rod");
     // Tables with a uuid that are not part of a loadout: a suggestion is the person's
     static final List<String> SHARED = List.of("builders", "build_inventories", "loadouts", "loadout_inventories", "loadout_homes", "punishments",
-            "suggestions");
+            "suggestions", "gauntlet_players", "gauntlet_gear", "gauntlet_milestones", "gauntlet_inventories");
 
     // What a loadout was holding when it was put away
     public record Stash(byte[] items, byte[] enderChest) {

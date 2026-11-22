@@ -62,7 +62,8 @@ public class MobDeathListener implements Listener {
                 DataKeys.SPAWNER_KEY,
                 PersistentDataType.STRING
         );
-        if (spawnerName == null) return;
+        // The gauntlet pays for its own kills, see RunManager
+        if (spawnerName == null || spawnerName.equals(SpawnerManager.GAUNTLET)) return;
 
         Player killer = victim.getKiller();
         if (killer == null) return;

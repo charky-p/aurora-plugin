@@ -15,6 +15,7 @@ import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.database.AccessStore;
 import org.charky.aurora.core.database.BuildStore;
 import org.charky.aurora.core.database.PadStore;
+import org.charky.aurora.core.database.GauntletStore;
 import org.charky.aurora.core.database.QuestStore;
 import org.charky.aurora.core.database.SafeZoneStore;
 import org.charky.aurora.core.database.BackpackStore;
@@ -89,6 +90,9 @@ import org.charky.aurora.features.spawner.SpawnerManager;
 import org.charky.aurora.features.suggestion.SuggestCommand;
 import org.charky.aurora.features.suggestion.SuggestionManager;
 import org.charky.aurora.features.system.SpawnListener;
+import org.charky.aurora.features.gauntlet.GauntletCommand;
+import org.charky.aurora.features.gauntlet.GauntletManager;
+import org.charky.aurora.features.gauntlet.GauntletRuns;
 import org.charky.aurora.features.quest.QuestManager;
 import org.charky.aurora.features.tutorial.TutorialCommand;
 import org.charky.aurora.features.tutorial.TutorialManager;
@@ -148,6 +152,8 @@ public class Aurora extends JavaPlugin {
     private CosmeticManager cosmeticManager;
     private TutorialManager tutorialManager;
     private QuestManager questManager;
+    private GauntletManager gauntletManager;
+    private GauntletRuns gauntletRuns;
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
@@ -176,6 +182,7 @@ public class Aurora extends JavaPlugin {
         createProgression();
         createWorldSystems();
         createQuests();
+        createGauntlet();
         createLoadouts();
         registerMenuActions();
         registerCommands();
@@ -298,6 +305,18 @@ public class Aurora extends JavaPlugin {
         questManager.start();
     }
 
+    // The gauntlet, a tower mode in a world of its own. Its mobs on each floor are
+    // variants of the ones in mobs/gauntlet.yml, made when first asked for
+    private void createGauntlet() {
+        registry.setMobVariants(id -> registry.getGauntlet().variant(id, registry::getMob));
+        this.gauntletManager = new GauntletManager(this, db, new GauntletStore(db), players, scoreboard,
+                cosmeticManager, buildManager);
+        this.gauntletRuns = new GauntletRuns(this, gauntletManager, spawnerManager);
+        gauntletManager.setRuns(gauntletRuns);
+        gauntletManager.start();
+        gauntletRuns.start();
+    }
+
     // The main and experimental loadouts, after everything that keeps per-player data
     private void createLoadouts() {
         List<LoadoutData> holders = List.of(backpackManager, toolManager, rankManager, cosmeticManager,
@@ -320,8 +339,6 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("armory", collectionManager::openGear);
         registry.registerAction("ranks", rankManager::openRanks);
         registry.registerAction("customise", cosmeticManager::openHub);
-        // TODO: later. Switched off until it is finished, the code is all still here:
-        //  - the gauntlet (features/gauntlet), /gauntlet and its listener
         // Fishing: the Fish Merchant, and each spot's trader opens fishing:<spot>
         registry.registerAction("fish_merchant", player ->
                 new FishMerchantMenu(registry, fishingManager, backpackManager, players).open(player));
@@ -371,6 +388,7 @@ public class Aurora extends JavaPlugin {
         command("trash", trash);
         command("collections", new OpenMenuCommand(collectionManager::open));
         command("tutorial", new TutorialCommand(tutorialManager));
+        command("gauntlet", new GauntletCommand(gauntletManager, gauntletRuns));
         command("shop", new OpenMenuCommand(player -> new RankShopMenu(this).open(player)));
         command("dash", dashListener);
         command("discord", new DiscordCommand());
@@ -395,6 +413,8 @@ public class Aurora extends JavaPlugin {
                 new SpawnListener(this),
                 tutorialManager,
                 questManager,
+                gauntletManager,
+                gauntletRuns,
                 accessManager,
                 buildManager,
                 safeZoneManager,
@@ -521,6 +541,10 @@ public class Aurora extends JavaPlugin {
         return accessManager;
     }
 
+    public GauntletManager getGauntletManager() {
+        return gauntletManager;
+    }
+
     public QuestManager getQuestManager() {
         return questManager;
     }
@@ -602,6 +626,8 @@ public class Aurora extends JavaPlugin {
         if (cosmeticManager != null) cosmeticManager.shutdown();
         if (tutorialManager != null) tutorialManager.shutdown();
         if (questManager != null) questManager.shutdown();
+        if (gauntletRuns != null) gauntletRuns.shutdown();
+        if (gauntletManager != null) gauntletManager.shutdown();
         if (mountManager != null) mountManager.shutdown();
         if (collectionManager != null) collectionManager.shutdown();
 

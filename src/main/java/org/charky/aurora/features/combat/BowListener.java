@@ -5,10 +5,12 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
@@ -27,6 +29,8 @@ public class BowListener implements Listener {
     public static final String BOW_ID = "bow";
     private static final NamespacedKey POWER_KEY = new NamespacedKey("aurora", "arrow_power");
     private static final NamespacedKey FORCE_KEY = new NamespacedKey("aurora", "arrow_force");
+    // On every piece of gauntlet gear, its gear id (see GauntletGear)
+    public static final NamespacedKey GAUNTLET_KEY = new NamespacedKey("aurora", "gauntlet_gear");
 
     @EventHandler(ignoreCancelled = true)
     public void onShoot(EntityShootBowEvent event) {
@@ -61,8 +65,22 @@ public class BowListener implements Listener {
         if (!inventory.contains(Material.ARROW)) inventory.addItem(new ItemStack(Material.ARROW));
     }
 
+    // The Aurora bow, or a gauntlet bow or crossbow
     public static boolean isBow(ItemStack item) {
-        return BOW_ID.equals(ToolManager.toolId(item));
+        if (BOW_ID.equals(ToolManager.toolId(item))) return true;
+        return item != null && (item.getType() == Material.BOW || item.getType() == Material.CROSSBOW)
+                && item.hasItemMeta() && item.getItemMeta().getPersistentDataContainer().has(GAUNTLET_KEY, PersistentDataType.STRING);
+    }
+
+    // A gauntlet trident thrown by a player is priced like an arrow, from its Power at full draw
+    @EventHandler(ignoreCancelled = true)
+    public void onThrow(ProjectileLaunchEvent event) {
+        if (!(event.getEntity() instanceof Trident trident) || !(trident.getShooter() instanceof Player)) return;
+        ItemStack item = trident.getItemStack();
+        if (!item.hasItemMeta() || !item.getItemMeta().getPersistentDataContainer().has(GAUNTLET_KEY, PersistentDataType.STRING)) return;
+        PersistentDataContainer pdc = trident.getPersistentDataContainer();
+        pdc.set(POWER_KEY, PersistentDataType.INTEGER, Enchants.level(item, "power"));
+        pdc.set(FORCE_KEY, PersistentDataType.FLOAT, 1f);
     }
 
     // A shot from the Aurora bow, null for any other projectile

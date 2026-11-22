@@ -153,11 +153,23 @@ The zones add up to about 10.5 hours of real play.
 - **Tutorial.** A new player starts by the Cobblestone Quarry and is walked through mining 10 cobblestone, the backpack, the trader and a first upgrade. It pays 50 Essence and the Newcomer suffix, and can be skipped.
 - **Origin Isles questline.** After the tutorial a boss bar leads the player zone by zone: max out the zone, then follow a particle trail to the next zone's trader, and after the Gold Reef to the Dunesworld Gate. 25 Essence a maxed zone, 100 and the Islander suffix at the gate. Players past the tutorial before it existed join at their first zone not maxed.
 
+## 4b. The Gauntlet
+
+A tower mode apart from the zones, in a world of its own, solo (setup in [COMMANDS.md](COMMANDS.md)). Its data is in `scripts/data/gauntlet/`; `scripts/balance/gauntlet_balance.py --write` fills the numbers in `floors.csv` and writes `gear_levels.csv`, and `generate.py` writes `gauntlet.yml` and `mobs/gauntlet.yml`.
+
+- **Apart from the main game.** Entering its world puts the inventory away and hands out the gauntlet gear; nothing crosses over. Its progress is the person's, the same in every loadout. Milestones pay into the main game: Essence and cosmetics.
+- **A run.** `/gauntlet`, Start a Run: the player gets their own copy of the arena and fights floor after floor. Each floor is a wave from `floors.csv`, the mobs from `mobs_gauntlet.csv` (`g_` ids) with health times the floor's `health` and the floor's `attack` added. A new mob comes in every couple of floors, few at first; every 10th floor is a boss (the Rot King, the Bone Tyrant, Ironhorn, the Blight Matriarch, the Tower Warden). Past floor 50 the last floor repeats, 8% tougher and 1.2 attack stronger a floor.
+- **Every 5 floors** a care package lands (a chest at the package spot) and the player picks one of three boons (`boons.csv`): Might, Keen Eye, Bloodthirst, Vitality, Swiftness, Mending, Iron Skin, Evasion, Bulwark. Boons stack up to their `max` and last for the run. Care package loot, gapples, potions, wind charges and at high levels enchanted gapples and totems, is taken back when the run ends. Vanilla Strength adds 30% a level to hits in a run.
+- **Ending.** A hit that would kill ends the run instead (a totem in hand still saves). Leaving or logging out ends it too. Every floor cleared pays its `shards`, boss floors `cores`, all kept however the run ends.
+- **The forge.** Shards and Cores buy gear levels (`gear_levels.csv`): every level adds 1 Sharpness or Power, half a Defence and 1 Protection a piece of armour, and Deflection on the shield; every 5th level is the next material, and from level 10 these cost Cores. Starting gear is the sword, bow and four armour pieces; the axe, shield, spear, crossbow, mace and trident are unlocked with Shards once the best floor is high enough (`gear.csv`). A weapon's `damage` is its share of a melee hit (the axe 120%, the mace 90% plus its smash). The care package's level (`care_package.csv`) is bought here too.
+- **Tuned for** gear at about half the floor: a mob takes as many hits on floor 40 as on floor 1 with gear that has kept up. Shards: 3 + 1 a floor cleared; a level costs 10 x 1.17^level, about 7,500 for one piece from 0 to 30.
+- **Milestones** (`milestones.csv`), for the best floor, each paid once: Essence at every one (100 at floor 5 up to 5,000 at 50), and the Challenger (10), Gladiator (20), Conqueror (30) and Unbroken (50) suffixes, and the Bloodsteel trail (25).
+- **PvP zone.** Players fight each other only inside it, with their gauntlet gear and no boons.
+
 ## 5. Switched off for now
 
 Built but not finished, so not reachable in game. The code is kept; `core/Aurora.java` lists what to register again.
 
-- **The gauntlet** (`/gauntlet`).
 - **Fishing**: the rods and their catch tables.
 
 ## 6. Tuning

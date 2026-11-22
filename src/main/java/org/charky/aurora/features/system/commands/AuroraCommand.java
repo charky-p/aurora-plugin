@@ -24,6 +24,7 @@ import org.charky.aurora.features.loadout.TestWorldSub;
 import org.charky.aurora.features.build.BuilderSub;
 import org.charky.aurora.features.pvp.SafeZoneSub;
 import org.charky.aurora.features.suggestion.SuggestionsSub;
+import org.charky.aurora.features.gauntlet.GauntletSub;
 import org.charky.aurora.features.tutorial.TutorialSub;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,6 +58,7 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
         register(new ToolSub(plugin));
         register(new ResetSub(plugin));
         register(new TutorialSub(plugin));
+        register(new GauntletSub(plugin));
         register(new AccessSub(plugin));
         register(new BuilderSub(plugin));
         register(new SafeZoneSub(plugin));

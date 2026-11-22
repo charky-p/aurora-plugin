@@ -6,17 +6,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,185 +21,64 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlotGroup;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
-import org.charky.aurora.features.combat.CombatHooks;
 import org.charky.aurora.features.combat.CustomHealth;
-import org.charky.aurora.features.combat.MobDamage;
+import org.charky.aurora.features.gauntlet.GauntletRun.Member;
+import org.charky.aurora.features.gauntlet.GauntletRun.State;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.spawner.SpawnerManager;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
-// A run up the tower in its own copy of the arena, alone or with a party (the
-// leader starts it for everyone). Every floor is a wave of mobs from floors.csv, made
-// tougher by the floor, with more of them and tougher bosses for every extra player;
-// some are elites (tougher, they pay more, and from floor 10 an affix) and from floor 6
-// a floor can carry a mutator. Bosses call for help as they weaken, rage at the last
-// third and have abilities of their own. Every kill pays Shards into the party's pot,
-// clearing the floor a bonus (and more under its par time), boss floors Cores. Every
-// boon_every floors a care package lands and every player picks their own boon; altars
-// offer pacts. A hit that would kill (unless a totem or a Second Wind saves them) puts
-// a player down until the next floor; the run ends when everyone is down. Everyone
-// banks the pot with their own Greed and day's first run. Veterans can start past
-// the boss floors the whole party has cleared, and at a heat they have unlocked
+// Runs up the tower, each in its own copy of the arena, alone or with a party (the
+// leader starts it for everyone). Floor after floor (GauntletWaves brings each wave):
+// every kill pays Shards into the party's pot at once, clearing a floor a bonus (more
+// under its par time), boss floors Cores. Every boon_every floors a care package lands
+// and every player picks their own boon; altars offer pacts. A hit that would kill
+// (unless a totem or a Second Wind saves them) puts a player down until the floor is
+// cleared, and the run ends when nobody is standing. Everyone banks the pot with their
+// own Greed and day's first run. Veterans can start past the boss floors the whole
+// party has cleared, and at a heat they have unlocked. GauntletBonuses adds up boons,
+// perks and talents, GauntletRunCombat puts them into hits
 public class GauntletRuns implements Listener {
     public enum End { DIED, LEFT, QUIT }
 
     private static final long FLOOR_DELAY_TICKS = 60L;
-    // A mob this far from the arena's spawn has fallen off or wandered, it is brought back
-    private static final double STRAY_DISTANCE = 80;
-    private static final double CLEAVE_RANGE = 3;
-    private static final double EXECUTE_BELOW = 0.3;
     private static final String DAILY_DAY = "daily_day";
     private static final String HEAT_CHOICE = "heat_choice";
-    private static final String HOARDER = "g_hoarder";
     public static final String BEST_COMBO = "best_combo";
-    private static final NamespacedKey HEALTH_BOON = new NamespacedKey("aurora", "gauntlet_health");
-    private static final NamespacedKey SPEED_BOON = new NamespacedKey("aurora", "gauntlet_speed");
-    private static final NamespacedKey ABSORB_BOON = new NamespacedKey("aurora", "gauntlet_absorb");
-    private static final NamespacedKey TALENT_HEALTH = new NamespacedKey("aurora", "gauntlet_talent_health");
-    private static final NamespacedKey ENRAGE = new NamespacedKey("aurora", "gauntlet_enrage");
-    // Vanilla Strength does nothing to Aurora hits, in a run each level adds this much
-    private static final double STRENGTH_PER_LEVEL = 0.3;
 
     private final Aurora plugin;
     private final GauntletManager manager;
-    private final SpawnerManager spawners;
+    private final GauntletBonuses bonuses;
+    private final GauntletWaves waves;
+    private final GauntletCarePackage care;
     // Every player in a run, to the run they share
-    private final Map<UUID, Run> runs = new HashMap<>();
-    private final GauntletBossAbilities abilities;
+    private final Map<UUID, GauntletRun> runs = new HashMap<>();
     private BukkitTask task;
     // The plugin is disabling: runs only end, nothing moves on to a next floor
     private boolean stopping;
 
-    private enum State { STARTING, FIGHTING, CHOOSING }
-
-    // What each player of a run has of their own
-    private static final class Member {
-        final UUID id;
-        final Map<String, Integer> boons = new LinkedHashMap<>();
-        // Boons offered right now, empty once chosen; an altar waiting for this player
-        List<String> offered = List.of();
-        boolean altar;
-        double altarHealth;
-        int rerolls;
-        int revives;
-        boolean daily;
-        int bestBefore;
-        boolean newBest;
-        // Down until the floor is cleared, watching; the game mode to give back
-        boolean down;
-        GameMode mode;
-        int kills;
-        int eliteKills;
-        long lastKill;
-        int combo;
-        int bestCombo;
-
-        Member(UUID id) {
-            this.id = id;
-        }
-
-        int stacks(String boon) {
-            return boons.getOrDefault(boon, 0);
-        }
-
-        boolean choosing() {
-            return altar || !offered.isEmpty();
-        }
-    }
-
-    private static final class Run {
-        final int slot;
-        final long started = System.currentTimeMillis();
-        final Map<UUID, Member> members = new LinkedHashMap<>();
-        int startFloor = 1;
-        int heat;
-        int floor;
-        int shards;
-        int cores;
-        State state = State.STARTING;
-        long choosingSince;
-        boolean over;
-        final Set<UUID> mobs = new HashSet<>();
-        final Set<UUID> elites = new HashSet<>();
-        // Elites' affixes, by mob
-        final Map<UUID, String> affixes = new HashMap<>();
-        // This floor: its mutator, how many mobs it started with and when, its boss, and
-        // how many more mobs it has for the party (their kills pay that much less)
-        GauntletData.Mutator mutator;
-        int floorMobs;
-        double floorScale = 1;
-        long floorStarted;
-        UUID boss;
-        int bossPhase;
-        // The party's run so far: how many started it, every mob killed by any of them
-        int partySize;
-        int kills;
-        int fastClears;
-        int bossKills;
-        UUID hoarder;
-        int hoarders;
-        BossBar bar;
-        // Everyone is down and on the way out: no "left the run" for each, no second wipe
-        boolean wiping;
-
-        Run(int slot) {
-            this.slot = slot;
-        }
-
-        int cleared() {
-            return state == State.FIGHTING || state == State.STARTING ? floor - 1 : floor;
-        }
-
-        List<Player> online() {
-            List<Player> players = new ArrayList<>();
-            for (UUID id : members.keySet()) {
-                Player player = Bukkit.getPlayer(id);
-                if (player != null) players.add(player);
-            }
-            return players;
-        }
-
-        List<Player> standing() {
-            List<Player> players = new ArrayList<>();
-            for (Member member : members.values()) {
-                Player player = Bukkit.getPlayer(member.id);
-                if (player != null && !member.down) players.add(player);
-            }
-            return players;
-        }
-    }
-
     public GauntletRuns(Aurora plugin, GauntletManager manager, SpawnerManager spawners) {
         this.plugin = plugin;
         this.manager = manager;
-        this.spawners = spawners;
-        this.abilities = new GauntletBossAbilities(plugin, manager.registry());
-        CombatHooks.set(this::outgoing, this::incoming, this::afterHit);
+        this.bonuses = new GauntletBonuses(manager);
+        GauntletRunCombat combat = new GauntletRunCombat(manager, this, bonuses);
+        this.waves = new GauntletWaves(plugin, manager, spawners, combat);
+        this.care = new GauntletCarePackage(manager, bonuses);
     }
 
     public void start() {
@@ -220,25 +95,34 @@ public class GauntletRuns implements Listener {
         return runs.containsKey(player.getUniqueId());
     }
 
+    GauntletRun runOf(Player player) {
+        return runs.get(player.getUniqueId());
+    }
+
+    Member memberOf(Player player) {
+        GauntletRun run = runs.get(player.getUniqueId());
+        return run == null ? null : run.members.get(player.getUniqueId());
+    }
+
     // For the sidebar, 0 outside a run
     int floorOf(Player player) {
-        Run run = runs.get(player.getUniqueId());
+        GauntletRun run = runOf(player);
         return run == null ? 0 : run.floor;
     }
 
     int shardsOf(Player player) {
-        Run run = runs.get(player.getUniqueId());
+        GauntletRun run = runOf(player);
         return run == null ? 0 : run.shards;
     }
 
     int coresOf(Player player) {
-        Run run = runs.get(player.getUniqueId());
+        GauntletRun run = runOf(player);
         return run == null ? 0 : run.cores;
     }
 
     // The party's health for the sidebar, empty for a solo run
     List<String> teamLines(Player player) {
-        Run run = runs.get(player.getUniqueId());
+        GauntletRun run = runOf(player);
         if (run == null || run.members.size() < 2) return List.of();
         List<String> lines = new ArrayList<>();
         for (Member member : run.members.values()) {
@@ -250,27 +134,17 @@ public class GauntletRuns implements Listener {
         return lines;
     }
 
+    // The lowest level of the armour pieces, for the forge's set bonuses
+    int armorSetLevel(GauntletProfile profile) {
+        return bonuses.armorSetLevel(profile);
+    }
+
     private GauntletData data() {
         return manager.data();
     }
 
-    private Member member(Player player) {
-        Run run = runs.get(player.getUniqueId());
-        return run == null ? null : run.members.get(player.getUniqueId());
-    }
-
     private List<Player> team(Player player) {
         return manager.party() == null ? List.of(player) : manager.party().team(player);
-    }
-
-    // ---- Messages to the whole party ----
-
-    private static void tell(Run run, String message) {
-        for (Player player : run.online()) TextUtils.send(player, message);
-    }
-
-    private static void sound(Run run, Sound sound, float volume, float pitch) {
-        for (Player player : run.online()) player.playSound(player.getLocation(), sound, volume, pitch);
     }
 
     // ---- Starting and ending ----
@@ -315,7 +189,7 @@ public class GauntletRuns implements Listener {
         manager.setStat(player.getUniqueId(), HEAT_CHOICE, next);
     }
 
-    private double heatPay(Run run) {
+    private double heatPay(GauntletRun run) {
         return 1 + run.heat * data().setting("heat_shards", 30) / 100;
     }
 
@@ -354,7 +228,7 @@ public class GauntletRuns implements Listener {
         List<Player> team = team(player);
         GauntletArena arena = manager.arena();
         int slot = arena.claimSlot();
-        Run run = new Run(slot);
+        GauntletRun run = new GauntletRun(slot);
         run.partySize = team.size();
         run.startFloor = startFloor;
         run.heat = heat(player);
@@ -368,8 +242,8 @@ public class GauntletRuns implements Listener {
             GauntletProfile profile = manager.profile(mate);
             Member member = new Member(mate.getUniqueId());
             member.bestBefore = profile.best;
-            member.rerolls = (int) talentTotal(profile, "reroll");
-            member.revives = (int) talentTotal(profile, "revive");
+            member.rerolls = (int) bonuses.talentTotal(profile, "reroll");
+            member.revives = (int) bonuses.talentTotal(profile, "revive");
             member.daily = profile.stat(DAILY_DAY) != today;
             if (member.daily) manager.setStat(mate.getUniqueId(), DAILY_DAY, (int) today);
             boolean first = profile.runs == 0;
@@ -379,8 +253,7 @@ public class GauntletRuns implements Listener {
             mate.closeInventory();
             // The run starts with the setup from the lobby
             manager.giveKit(mate);
-            setModifier(mate, Attribute.MAX_HEALTH, TALENT_HEALTH, talentTotal(profile, "health") + setTotal(profile, "health"),
-                    AttributeModifier.Operation.ADD_NUMBER);
+            bonuses.runHealth(mate, profile);
             heal(mate);
             mate.teleport(spawn);
             mate.showBossBar(run.bar);
@@ -390,9 +263,9 @@ public class GauntletRuns implements Listener {
             if (first) TextUtils.send(mate, "<yellow><b>TIP</b> <gray>Kill every mob to clear a floor. Every "
                     + boonEvery() + " floors a care package lands and you pick a boon. If you fall, you keep the Shards you earned.");
         }
-        if (team.size() > 1) tell(run, "<aqua><b>PARTY RUN</b> <gray>" + team.size() + " climbing together: more mobs, tougher bosses, "
+        if (team.size() > 1) run.tell("<aqua><b>PARTY RUN</b> <gray>" + team.size() + " climbing together: more mobs, tougher bosses, "
                 + "one pot of Shards for everyone. A fallen player is back once the floor is cleared");
-        if (run.heat > 0) tell(run, "<gold><b>HEAT " + run.heat + "</b> <gray>Mobs have <white>+"
+        if (run.heat > 0) run.tell("<gold><b>HEAT " + run.heat + "</b> <gray>Mobs have <white>+"
                 + fmt(run.heat * data().setting("heat_health", 25)) + "%</white> health and hit <white>+"
                 + fmt(run.heat * data().setting("heat_damage", 15)) + "%</white> harder, for <aqua>+"
                 + fmt(run.heat * data().setting("heat_shards", 30)) + "% Shards");
@@ -402,17 +275,18 @@ public class GauntletRuns implements Listener {
                 Player mate = Bukkit.getPlayer(member.id);
                 List<String> given = new ArrayList<>();
                 for (int i = 0; i < (startFloor - 1) / boonEvery(); i++) {
-                    List<String> pick = pickBoons(member, 1, null);
+                    List<String> pick = bonuses.pickBoons(member, 1, null);
                     if (pick.isEmpty()) break;
-                    member.boons.merge(pick.getFirst(), 1, Integer::sum);
-                    given.add(data().boons().get(pick.getFirst()).name());
+                    GauntletData.Boon boon = data().boons().get(pick.getFirst());
+                    grant(member, boon);
+                    given.add(boon.name());
                 }
                 if (mate == null) continue;
-                applyBoons(mate, member);
+                bonuses.applyBoons(mate, member);
                 if (!given.isEmpty()) TextUtils.send(mate, "<gold><b>CHECKPOINT</b> <gray>Starting on floor " + startFloor
                         + " with: <white>" + String.join(", ", given));
             }
-            carePackage(run);
+            care.drop(run);
         }
         nextFloor(run);
         return null;
@@ -422,18 +296,18 @@ public class GauntletRuns implements Listener {
     // back in the lobby with their setup. The run goes on for the rest, and ends with
     // the last of them
     public void end(Player player, End why) {
-        Run run = runs.remove(player.getUniqueId());
+        GauntletRun run = runs.remove(player.getUniqueId());
         if (run == null) return;
         Member member = run.members.remove(player.getUniqueId());
         if (run.bar != null) player.hideBossBar(run.bar);
         if (member.down) player.setGameMode(member.mode);
-        clearBoons(player);
-        takeRunItems(player);
+        bonuses.clearBoons(player);
+        GauntletCarePackage.takeRunItems(player);
         bank(player, run, member, why);
 
         if (run.members.isEmpty()) close(run);
         else if (!run.wiping && !stopping) {
-            tell(run, "<gray>" + player.getName() + " left the run");
+            run.tell("<gray>" + player.getName() + " left the run");
             // Nobody left standing to clear the floor
             if (run.standing().isEmpty()) wipe(run);
             else if (run.state == State.CHOOSING) choicesDone(run);
@@ -449,7 +323,7 @@ public class GauntletRuns implements Listener {
     }
 
     // Everyone is down: the run is over for all of them
-    private void wipe(Run run) {
+    private void wipe(GauntletRun run) {
         run.wiping = true;
         for (Player player : run.online()) end(player, End.DIED);
         for (UUID id : run.members.keySet()) runs.remove(id);
@@ -458,25 +332,26 @@ public class GauntletRuns implements Listener {
     }
 
     // The last player is out: the run's mobs go and its arena copy is free again
-    private void close(Run run) {
+    private void close(GauntletRun run) {
         run.over = true;
         for (UUID id : run.mobs) {
             Entity mob = Bukkit.getEntity(id);
             if (mob != null) mob.remove();
         }
+        if (run.boss != null) waves.bossGone(run.boss);
         Entity hoarder = run.hoarder == null ? null : Bukkit.getEntity(run.hoarder);
         if (hoarder != null) hoarder.remove();
         manager.arena().freeSlot(run.slot);
     }
 
-    private void bank(Player player, Run run, Member member, End why) {
+    private void bank(Player player, GauntletRun run, Member member, End why) {
         GauntletProfile profile = manager.profile(player);
         int cleared = run.cleared();
         boolean record = cleared > member.bestBefore;
-        double greed = boonTotal(member, "shards") + talentTotal(profile, "shards");
+        double greed = bonuses.boonTotal(member, "shards") + bonuses.talentTotal(profile, "shards");
         double daily = member.daily ? data().setting("daily_bonus", 2) : 1;
         // Everyone in a party banks the whole pot, and party_shards more for each of the others
-        double party = 1 + Math.max(0, run.partySize - 1) * data().setting("party_shards", 0) / 100;
+        double party = GauntletRun.partyScale(run.partySize, data().setting("party_shards", 0));
         int banked = (int) Math.round(run.shards * (1 + greed / 100) * daily * party);
         manager.bank(player, banked, run.cores, cleared);
         UUID uuid = player.getUniqueId();
@@ -499,7 +374,7 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    private void summary(Player player, Run run, Member member, End why, int cleared, boolean record, double greed, double daily,
+    private void summary(Player player, GauntletRun run, Member member, End why, int cleared, boolean record, double greed, double daily,
                          double partyPay, int banked) {
         long seconds = (System.currentTimeMillis() - run.started) / 1000;
         String time = seconds / 60 + ":" + String.format("%02d", seconds % 60);
@@ -546,18 +421,9 @@ public class GauntletRuns implements Listener {
         return Math.max(1, (int) data().setting("boon_every", 5));
     }
 
-    // More mobs and tougher bosses for every player past the first
-    private double partyMobs(Run run) {
-        return 1 + Math.max(0, run.members.size() - 1) * data().setting("party_mobs", 50) / 100;
-    }
-
-    private double partyBoss(Run run) {
-        return 1 + Math.max(0, run.members.size() - 1) * data().setting("party_boss_health", 60) / 100;
-    }
-
     // ---- Floors ----
 
-    private void nextFloor(Run run) {
+    private void nextFloor(GauntletRun run) {
         if (run.over) return;
         run.floor++;
         run.state = State.STARTING;
@@ -566,7 +432,7 @@ public class GauntletRuns implements Listener {
         revive(run);
         GauntletData.Floor floor = data().floor(run.floor);
         boolean boss = floor != null && floor.boss();
-        run.mutator = boss ? null : rollMutator(run.floor);
+        run.mutator = boss ? null : waves.rollMutator(run.floor);
         String subtitle = boss ? "<gold>A boss awaits"
                 : run.mutator != null ? "<light_purple>" + run.mutator.name() + " <gray>- " + run.mutator.description()
                 : "<gray>Get ready";
@@ -574,16 +440,23 @@ public class GauntletRuns implements Listener {
                         + (run.heat > 0 ? " <gold>H" + run.heat : "")),
                 TextUtils.parse(subtitle), Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(1800), Duration.ofMillis(400)));
         for (Player player : run.online()) player.showTitle(title);
-        if (run.mutator != null) tell(run, "<light_purple><b>MUTATOR</b> <white>" + run.mutator.name()
+        if (run.mutator != null) run.tell("<light_purple><b>MUTATOR</b> <white>" + run.mutator.name()
                 + " <gray>" + run.mutator.description() + " <aqua>(+" + run.mutator.shards() + "% Shards this floor)");
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if (!run.over && !run.members.isEmpty()) spawnFloor(run);
+            if (!run.over && !run.members.isEmpty()) startFight(run);
         }, FLOOR_DELAY_TICKS);
+    }
+
+    // The floor's wave comes in, and Bulwark and the Netherite Set give their absorption
+    private void startFight(GauntletRun run) {
+        waves.spawn(run);
+        for (Player player : run.standing()) bonuses.floorAbsorption(player, run.members.get(player.getUniqueId()));
+        run.state = State.FIGHTING;
     }
 
     // Everyone down is back on their feet at the arena's spawn, at half health: once the
     // floor is cleared, in time for the boons and the care package
-    private void revive(Run run) {
+    private void revive(GauntletRun run) {
         Location spawn = manager.arena().inSlot(run.slot, manager.arena().place(GauntletArena.SPAWN));
         for (Member member : run.members.values()) {
             Player player = Bukkit.getPlayer(member.id);
@@ -598,166 +471,16 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    private GauntletData.Mutator rollMutator(int floor) {
-        if (data().mutators().isEmpty() || floor < data().setting("mutator_from", 6)) return null;
-        if (ThreadLocalRandom.current().nextDouble(100) >= data().setting("mutator_chance", 25)) return null;
-        List<GauntletData.Mutator> all = List.copyOf(data().mutators().values());
-        return all.get(ThreadLocalRandom.current().nextInt(all.size()));
-    }
-
-    // Percent chance a mob of this floor is elite
-    private double eliteChance(Run run) {
-        GauntletData data = data();
-        double from = data.setting("elite_from", 3);
-        if (run.floor < from) return 0;
-        double chance = Math.min(data.setting("elite_chance_max", 15),
-                data.setting("elite_chance", 4) + data.setting("elite_chance_per_floor", 0.2) * (run.floor - from));
-        return chance * (run.mutator == null ? 1 : run.mutator.elites());
-    }
-
-    private void spawnFloor(Run run) {
-        GauntletData.Floor floor = data().floor(run.floor);
-        GauntletArena arena = manager.arena();
-        List<Location> spawns = new ArrayList<>(arena.mobSpawns().stream().map(spawn -> arena.inSlot(run.slot, spawn)).toList());
-        Collections.shuffle(spawns);
-        double eliteChance = eliteChance(run);
-        String mutatorId = run.mutator == null ? null : run.mutator.id();
-        run.floorScale = partyMobs(run);
-        double more = (run.mutator == null ? 1 : run.mutator.count()) * run.floorScale;
-        int next = 0;
-        int elites = 0;
-        for (Map.Entry<String, Integer> entry : floor.mobs().entrySet()) {
-            boolean boss = floor.isBoss(entry.getKey());
-            int count = boss ? entry.getValue() : (int) Math.ceil(entry.getValue() * more);
-            for (int i = 0; i < count; i++) {
-                boolean elite = !boss && ThreadLocalRandom.current().nextDouble(100) < eliteChance;
-                String affix = elite ? rollAffix(run) : null;
-                String id = new GauntletData.Variant(entry.getKey(), run.floor, elite, affix, run.heat, mutatorId).id();
-                Location at = spawns.get(next++ % spawns.size()).clone()
-                        .add(ThreadLocalRandom.current().nextDouble(-1.5, 1.5), 0, ThreadLocalRandom.current().nextDouble(-1.5, 1.5));
-                LivingEntity mob = spawn(run, id, at);
-                if (mob == null) continue;
-                if (boss) {
-                    run.boss = mob.getUniqueId();
-                    if (run.members.size() > 1) CustomHealth.scale(mob, partyBoss(run), manager.registry());
-                }
-                if (elite) {
-                    run.elites.add(mob.getUniqueId());
-                    elites++;
-                }
-                if (affix != null) {
-                    run.affixes.put(mob.getUniqueId(), affix);
-                    if (affix.equals("swift")) {
-                        AttributeInstance speed = mob.getAttribute(Attribute.MOVEMENT_SPEED);
-                        if (speed != null) speed.setBaseValue(speed.getBaseValue() * 1.4);
-                    }
-                }
-            }
-        }
-        run.floorMobs = run.mobs.size();
-        run.floorStarted = System.currentTimeMillis();
-        if (!floor.boss() && run.floor >= data().setting("hoarder_from", 3)
-                && ThreadLocalRandom.current().nextDouble(100) < data().setting("hoarder_chance", 8)) {
-            hoarder(run, spawns.get(ThreadLocalRandom.current().nextInt(spawns.size())));
-        }
-        if (elites > 0) {
-            sound(run, Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.4f, 1.4f);
-            for (Player player : run.online()) {
-                player.sendActionBar(TextUtils.parse("<gold><b>" + elites + " elite" + (elites > 1 ? "s" : "") + "</b> <gray>on this floor"));
-            }
-        }
-        // Bulwark and the Netherite Set: absorption hearts at the start of every floor
-        for (Player player : run.standing()) {
-            Member member = run.members.get(player.getUniqueId());
-            int absorb = (int) Math.round(boonTotal(member, "absorb") + setTotal(manager.profile(player), "absorb"));
-            if (absorb <= 0) continue;
-            setModifier(player, Attribute.MAX_ABSORPTION, ABSORB_BOON, absorb, AttributeModifier.Operation.ADD_NUMBER);
-            player.setAbsorptionAmount(absorb);
-        }
-        run.state = State.FIGHTING;
-    }
-
-    // A Shard Hoarder: quick, glowing, harmless, not needed to clear the floor, and worth
-    // hoarder_pay kills if caught before it gets away
-    private void hoarder(Run run, Location at) {
-        if (manager.registry().getMob(HOARDER) == null) return;
-        LivingEntity hoarder = spawners.spawnGauntletMob(new GauntletData.Variant(HOARDER, run.floor, false, run.heat, null).id(), at);
-        if (hoarder == null) return;
-        run.hoarder = hoarder.getUniqueId();
-        int seconds = (int) data().setting("hoarder_seconds", 20);
-        sound(run, Sound.ENTITY_PLAYER_LEVELUP, 0.6f, 2f);
-        tell(run, "<gold><b>SHARD HOARDER</b> <gray>appeared! Catch it in <white>" + seconds + " seconds</white> for a pile of Shards");
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if (!hoarder.isValid() || hoarder.isDead()) return;
-            hoarder.getWorld().spawnParticle(Particle.POOF, hoarder.getLocation(), 20, 0.3, 0.3, 0.3, 0.05);
-            hoarder.remove();
-            if (!run.over && hoarder.getUniqueId().equals(run.hoarder)) {
-                run.hoarder = null;
-                tell(run, "<gray>The Shard Hoarder got away");
-            }
-        }, seconds * 20L);
-    }
-
-    // An affix for an elite from affix_from on, null before or without any
-    private String rollAffix(Run run) {
-        if (data().affixes().isEmpty() || run.floor < data().setting("affix_from", 10)) return null;
-        List<String> ids = List.copyOf(data().affixes().keySet());
-        return ids.get(ThreadLocalRandom.current().nextInt(ids.size()));
-    }
-
-    // One mob of the run, hunting the nearest player standing, sped up by the floor's mutator
-    private LivingEntity spawn(Run run, String id, Location at) {
-        LivingEntity mob = spawners.spawnGauntletMob(id, at);
-        if (mob == null) return null;
-        run.mobs.add(mob.getUniqueId());
-        if (run.mutator != null && run.mutator.speed() != 1) {
-            AttributeInstance speed = mob.getAttribute(Attribute.MOVEMENT_SPEED);
-            if (speed != null) speed.setBaseValue(speed.getBaseValue() * run.mutator.speed());
-        }
-        Player target = nearest(run.standing(), at);
-        if (mob instanceof Mob hunter && target != null) hunter.setTarget(target);
-        return mob;
-    }
-
-    // The player nearest a spot, null if there is nobody
-    private static Player nearest(List<Player> players, Location at) {
-        Player best = null;
-        double distance = Double.MAX_VALUE;
-        for (Player player : players) {
-            if (!player.getWorld().equals(at.getWorld())) continue;
-            double d = player.getLocation().distanceSquared(at);
-            if (d < distance) {
-                distance = d;
-                best = player;
-            }
-        }
-        return best;
-    }
-
-    // Every second: mobs that are gone count as dead, strays are brought back and hunt
-    // the nearest player standing, a boss calls for help as it weakens, the floor ends
-    // when none are left, a choice nobody made is made, and the bars show how it is going
+    // Every second: the wave hunts and the boss fights, the floor ends when no mob is
+    // left, a choice nobody made is made, and the bars show how it is going
     private void tick() {
-        for (Run run : new HashSet<>(runs.values())) {
+        for (GauntletRun run : new HashSet<>(runs.values())) {
             if (run.over || run.members.isEmpty()) continue;
             Location spawn = manager.arena().inSlot(run.slot, manager.arena().place(GauntletArena.SPAWN));
             if (run.state == State.FIGHTING) {
-                List<Player> standing = run.standing();
-                run.mobs.removeIf(id -> {
-                    Entity mob = Bukkit.getEntity(id);
-                    if (mob == null || !mob.isValid() || mob.isDead()) return true;
-                    if (spawn != null && (!mob.getWorld().equals(spawn.getWorld()) || mob.getLocation().distance(spawn) > STRAY_DISTANCE)) {
-                        mob.teleport(spawn);
-                    }
-                    // Hunting nobody, or someone down or gone: the nearest player standing instead
-                    if (mob instanceof Mob hunter && !(hunter.getTarget() instanceof Player target && standing.contains(target))) {
-                        Player near = nearest(standing, mob.getLocation());
-                        if (near != null) hunter.setTarget(near);
-                    }
-                    return false;
-                });
-                bossPhases(run);
-                bossAbilities(run);
+                waves.hunt(run, spawn);
+                waves.bossPhases(run);
+                waves.bossAbilities(run);
                 if (run.mobs.isEmpty()) cleared(run);
             } else if (run.state == State.CHOOSING
                     && System.currentTimeMillis() - run.choosingSince > data().setting("choice_seconds", 45) * 1000) {
@@ -774,7 +497,7 @@ public class GauntletRuns implements Listener {
                     player.teleport(spawn);
                 }
                 String status = switch (run.state) {
-                    case FIGHTING -> member.down ? "<red>You are down <gray>- back next floor"
+                    case FIGHTING -> member.down ? "<red>You are down <gray>- back once the floor is cleared"
                             : "<red>Floor " + run.floor + " <dark_gray>| <white>" + run.mobs.size() + " left"
                             + (member.combo >= 2 && System.currentTimeMillis() - member.lastKill <= data().setting("combo_window", 3) * 1000
                             ? " <dark_gray>| <gold><b>x" + member.combo + " COMBO</b>" : "");
@@ -791,7 +514,7 @@ public class GauntletRuns implements Listener {
     }
 
     // The boss's health on a boss floor, otherwise how much of the floor is cleared
-    private void updateBar(Run run) {
+    private void updateBar(GauntletRun run) {
         if (run.bar == null) return;
         LivingEntity boss = run.boss == null ? null : Bukkit.getEntity(run.boss) instanceof LivingEntity living ? living : null;
         if (run.state == State.FIGHTING && boss != null && boss.isValid()) {
@@ -824,83 +547,15 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    // At two thirds and one third of its health a boss calls the floor's other mobs to
-    // its side; at the last third it rages, moving faster
-    private void bossPhases(Run run) {
-        if (run.boss == null || run.bossPhase >= 2 || !(Bukkit.getEntity(run.boss) instanceof LivingEntity boss) || !boss.isValid()) return;
-        double left = CustomHealth.current(boss) / CustomHealth.max(boss);
-        while (run.bossPhase < 2 && left <= (2 - run.bossPhase) / 3.0) {
-            run.bossPhase++;
-            callAdds(run, boss, (int) data().setting("boss_adds", 2) + run.floor / 10);
-            if (run.bossPhase == 2) {
-                AttributeInstance speed = boss.getAttribute(Attribute.MOVEMENT_SPEED);
-                if (speed != null) {
-                    speed.removeModifier(ENRAGE);
-                    speed.addModifier(new AttributeModifier(ENRAGE, data().setting("boss_enrage_speed", 20) / 100,
-                            AttributeModifier.Operation.ADD_SCALAR, EquipmentSlotGroup.ANY));
-                }
-                boss.getWorld().spawnParticle(Particle.ANGRY_VILLAGER, boss.getLocation().add(0, boss.getHeight(), 0), 10, 0.5, 0.3, 0.5, 0);
-                sound(run, Sound.ENTITY_RAVAGER_ROAR, 0.8f, 0.8f);
-                tell(run, "<dark_red><b>ENRAGED</b> <gray>The boss moves faster now");
-            }
-        }
-    }
-
-    // The boss's own abilities (bosses.csv), at the player standing nearest it
-    private void bossAbilities(Run run) {
-        if (run.boss == null || !(Bukkit.getEntity(run.boss) instanceof LivingEntity boss) || !boss.isValid()) return;
-        Player target = nearest(run.standing(), boss.getLocation());
-        if (target == null) return;
-        String mobId = boss.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
-        List<GauntletData.BossAbility> list = data().bosses().getOrDefault(GauntletData.baseMobId(mobId), List.of());
-        abilities.tick(target, boss, list, run.floor, new GauntletBossAbilities.Fight() {
-            @Override
-            public boolean on() {
-                return !run.over && run.state == State.FIGHTING;
-            }
-
-            @Override
-            public void summon(int count) {
-                callAdds(run, boss, count);
-            }
-
-            @Override
-            public double incoming(Player victim, double damage) {
-                return GauntletRuns.this.incoming(victim, boss, damage);
-            }
-        });
-    }
-
-    private void callAdds(Run run, LivingEntity boss, int adds) {
-        if (spawnAdds(run, boss.getLocation(), adds) == 0) return;
-        sound(run, Sound.EVENT_RAID_HORN, 0.5f, 1.4f);
-        tell(run, "<dark_red><b>REINFORCEMENTS</b> <gray>The boss calls <white>" + adds + "</white> to its side");
-    }
-
-    // The floor's other mobs, plain ones, around a spot. How many came
-    private int spawnAdds(Run run, Location around, int adds) {
-        GauntletData.Floor floor = data().floor(run.floor);
-        List<String> kinds = floor.mobs().keySet().stream().filter(id -> !floor.isBoss(id)).toList();
-        if (kinds.isEmpty() || adds <= 0) return 0;
-        String mutatorId = run.mutator == null ? null : run.mutator.id();
-        for (int i = 0; i < adds; i++) {
-            String kind = kinds.get(ThreadLocalRandom.current().nextInt(kinds.size()));
-            Location at = around.clone().add(ThreadLocalRandom.current().nextDouble(-2, 2), 0, ThreadLocalRandom.current().nextDouble(-2, 2));
-            spawn(run, new GauntletData.Variant(kind, run.floor, false, run.heat, mutatorId).id(), at);
-        }
-        run.floorMobs += adds;
-        return adds;
-    }
-
-    private void cleared(Run run) {
+    private void cleared(GauntletRun run) {
         revive(run);
         GauntletData.Floor floor = data().floor(run.floor);
         double mutated = (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run);
         int bonus = (int) Math.round(floor.shards() * mutated);
         run.shards += bonus;
         run.cores += floor.cores();
-        sound(run, Sound.ENTITY_PLAYER_LEVELUP, 0.7f, 1.3f);
-        tell(run, "<green>Floor " + run.floor + " cleared <aqua>+" + bonus + " bonus Shards"
+        run.sound(Sound.ENTITY_PLAYER_LEVELUP, 0.7f, 1.3f);
+        run.tell("<green>Floor " + run.floor + " cleared <aqua>+" + bonus + " bonus Shards"
                 + (floor.cores() > 0 ? " <light_purple>+" + floor.cores() + " Core" + (floor.cores() > 1 ? "s" : "") : ""));
 
         // Under its par time: a share of the clear bonus again
@@ -911,7 +566,7 @@ public class GauntletRuns implements Listener {
             int extra = Math.max(1, (int) Math.round(bonus * data().setting("fast_bonus", 50) / 100));
             run.shards += extra;
             run.fastClears++;
-            tell(run, "<yellow><b>FAST CLEAR</b> <gray>" + Math.round(seconds) + "s (par " + Math.round(par) + "s) <aqua>+" + extra + " Shards");
+            run.tell("<yellow><b>FAST CLEAR</b> <gray>" + Math.round(seconds) + "s (par " + Math.round(par) + "s) <aqua>+" + extra + " Shards");
         }
         for (Player player : run.online()) {
             Member member = run.members.get(player.getUniqueId());
@@ -928,15 +583,15 @@ public class GauntletRuns implements Listener {
         if (altarFloor(run.floor)) {
             run.state = State.CHOOSING;
             run.choosingSince = System.currentTimeMillis();
-            sound(run, Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 0.7f);
-            tell(run, "<light_purple><b>AN ALTAR</b> <gray>A pact for the climb, or walk on: "
+            run.sound(Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 0.7f);
+            run.tell("<light_purple><b>AN ALTAR</b> <gray>A pact for the climb, or walk on: "
                     + "<yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
             for (Player player : run.online()) {
                 run.members.get(player.getUniqueId()).altar = true;
                 new AltarMenu(manager, this).open(player);
             }
         } else if (run.floor % boonEvery() == 0) {
-            carePackage(run);
+            care.drop(run);
             offerBoons(run);
         } else {
             nextFloor(run);
@@ -949,10 +604,12 @@ public class GauntletRuns implements Listener {
         return floor >= first && (floor - first) % every == 0;
     }
 
+    // ---- Choices ----
+
     // A player's altar choice: the angel's heal and heart, the devil's epic boon for hearts, or nothing
     void altar(Player player, String choice) {
-        Run run = runs.get(player.getUniqueId());
-        Member member = member(player);
+        GauntletRun run = runOf(player);
+        Member member = memberOf(player);
         if (run == null || member == null || !member.altar) return;
         member.altar = false;
         player.closeInventory();
@@ -964,23 +621,22 @@ public class GauntletRuns implements Listener {
         switch (choice) {
             case AltarMenu.ANGEL -> {
                 member.altarHealth += 2 * data().setting("altar_angel_hearts", 1);
-                applyBoons(player, member);
+                bonuses.applyBoons(player, member);
                 heal(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 0.8f, 1.5f);
                 TextUtils.send(player, "<yellow><b>ANGEL'S PACT</b> <gray>Healed, and a heart stronger");
             }
             case AltarMenu.DEVIL -> {
-                List<String> epic = pickBoons(member, 1, "epic");
-                if (epic.isEmpty()) epic = pickBoons(member, 1, "rare");
+                List<String> epic = bonuses.pickBoons(member, 1, "epic");
+                if (epic.isEmpty()) epic = bonuses.pickBoons(member, 1, "rare");
                 member.altarHealth = Math.max(-10, member.altarHealth - 2 * data().setting("altar_devil_hearts", 2));
                 if (!epic.isEmpty()) {
                     GauntletData.Boon boon = data().boons().get(epic.getFirst());
-                    member.boons.merge(boon.id(), 1, Integer::sum);
-                    if (boon.stat().equals("revive")) member.revives += (int) boon.amount();
+                    grant(member, boon);
                     TextUtils.send(player, "<dark_red><b>DEVIL'S PACT</b> <gray>For your hearts: " + boon.colour() + boon.name()
                             + " <gray>" + boon.description());
                 }
-                applyBoons(player, member);
+                bonuses.applyBoons(player, member);
                 AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
                 if (max != null && player.getHealth() > max.getValue()) player.setHealth(max.getValue());
                 player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.4f, 1.6f);
@@ -990,15 +646,14 @@ public class GauntletRuns implements Listener {
     }
 
     // Once nobody has a boon or altar choice left, the next floor
-    private void choicesDone(Run run) {
-        if (run.over || run.state != State.CHOOSING) return;
-        if (run.members.values().stream().anyMatch(Member::choosing)) return;
+    private void choicesDone(GauntletRun run) {
+        if (run.over || run.state != State.CHOOSING || run.anyChoosing()) return;
         nextFloor(run);
     }
 
     // The choice timed out: the first boon offered, or walking past the altar, for
     // whoever has not chosen
-    private void autoChoose(Run run) {
+    private void autoChoose(GauntletRun run) {
         for (Member member : run.members.values()) {
             if (!member.choosing()) continue;
             Player player = Bukkit.getPlayer(member.id);
@@ -1022,12 +677,121 @@ public class GauntletRuns implements Listener {
         choicesDone(run);
     }
 
+    // Every player's own pick of boons. The run is choosing before any menu opens, the
+    // menu shows only what is offered while it is
+    private void offerBoons(GauntletRun run) {
+        List<Player> choosing = new ArrayList<>();
+        for (Player player : run.online()) {
+            Member member = run.members.get(player.getUniqueId());
+            int choices = (int) data().setting("boon_choices", 3) + (int) bonuses.talentTotal(manager.profile(player), "insight");
+            member.offered = List.copyOf(bonuses.pickBoons(member, choices, null));
+            if (!member.offered.isEmpty()) choosing.add(player);
+        }
+        if (choosing.isEmpty()) {
+            nextFloor(run);
+            return;
+        }
+        run.state = State.CHOOSING;
+        run.choosingSince = System.currentTimeMillis();
+        for (Player player : choosing) {
+            TextUtils.send(player, "<gold><b>BOON</b> <gray>Pick an upgrade for this run. Loot the care package first if you like: "
+                    + "<yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+            new BoonMenu(manager.registry(), this, player).open(player);
+        }
+    }
+
+    // For /gauntlet boon. Null if the menu opened, otherwise why not
+    public String openBoons(Player player) {
+        GauntletRun run = runOf(player);
+        Member member = memberOf(player);
+        if (run == null || member == null || run.state != State.CHOOSING || !member.choosing()) return "There is no boon to pick right now";
+        if (member.altar) new AltarMenu(manager, this).open(player);
+        else new BoonMenu(manager.registry(), this, player).open(player);
+        return null;
+    }
+
+    List<GauntletData.Boon> offered(Player player) {
+        GauntletRun run = runOf(player);
+        Member member = memberOf(player);
+        if (run == null || member == null || run.state != State.CHOOSING) return List.of();
+        return member.offered.stream().map(id -> data().boons().get(id)).filter(Objects::nonNull).toList();
+    }
+
+    int stacks(Player player, String boon) {
+        Member member = memberOf(player);
+        return member == null ? 0 : member.stacks(boon);
+    }
+
+    int rerolls(Player player) {
+        Member member = memberOf(player);
+        return member == null ? 0 : member.rerolls;
+    }
+
+    // A fresh pick of boons, for a reroll. Null if it worked, otherwise why not
+    String reroll(Player player) {
+        GauntletRun run = runOf(player);
+        Member member = memberOf(player);
+        if (run == null || member == null || run.state != State.CHOOSING || member.offered.isEmpty()) return "There is no boon to pick right now";
+        if (member.rerolls <= 0) return "No rerolls left this run";
+        member.rerolls--;
+        member.offered = List.copyOf(bonuses.pickBoons(member, member.offered.size(), null));
+        player.playSound(player.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 0.8f, 1f);
+        return null;
+    }
+
+    void choose(Player player, String boonId) {
+        GauntletRun run = runOf(player);
+        Member member = memberOf(player);
+        if (run == null || member == null || run.state != State.CHOOSING || !member.offered.contains(boonId)) return;
+        member.offered = List.of();
+        take(player, member, boonId);
+        player.closeInventory();
+        if (run.anyChoosing()) TextUtils.send(player, "<gray>Waiting for the rest of the party to choose");
+        choicesDone(run);
+    }
+
+    // A boon a player takes, by choice or out of time
+    private void take(Player player, Member member, String boonId) {
+        GauntletData.Boon boon = data().boons().get(boonId);
+        if (boon == null) return;
+        grant(member, boon);
+        if (player == null) return;
+        bonuses.applyBoons(player, member);
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.8f, 1.4f);
+        TextUtils.send(player, boon.colour() + boon.name() + " <gray>" + boon.description() + " <dark_gray>(x" + member.stacks(boonId) + ")");
+    }
+
+    // A boon into a player's run: one more stack, and Second Wind's revives at once
+    private static void grant(Member member, GauntletData.Boon boon) {
+        member.boons.merge(boon.id(), 1, Integer::sum);
+        if (boon.stat().equals("revive")) member.revives += (int) boon.amount();
+    }
+
+    // A care package emptied and closed is gone. Closing the boon or altar menu without
+    // choosing leaves the choice waiting, /gauntlet boon reopens it
+    @EventHandler
+    public void onClose(InventoryCloseEvent event) {
+        if (!(event.getPlayer() instanceof Player player)) return;
+        GauntletRun run = runOf(player);
+        Member member = memberOf(player);
+        if (run == null || member == null) return;
+        if (event.getInventory().getHolder(false) instanceof Chest chest) {
+            if (event.getInventory().isEmpty()) care.closedEmpty(run, chest);
+        } else if (event.getInventory().getHolder(false) instanceof AltarMenu && member.altar) {
+            TextUtils.send(player, "<gray>The altar waits: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+        } else if (event.getInventory().getHolder(false) instanceof BoonMenu && !member.offered.isEmpty()) {
+            TextUtils.send(player, "<gray>Your boon is waiting: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+        }
+    }
+
+    // ---- Deaths ----
+
     // A hit that would kill: a totem in hand or a Second Wind saves them; otherwise they
     // are down until the floor is cleared while anyone stands, and the run ends when nobody does
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onLethal(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player player) || !inRun(player)) return;
-        Run run = runs.get(player.getUniqueId());
+        GauntletRun run = runOf(player);
         Member member = run.members.get(player.getUniqueId());
         if (member.down) {
             event.setCancelled(true);
@@ -1056,7 +820,7 @@ public class GauntletRuns implements Listener {
         member.mode = player.getGameMode();
         heal(player);
         player.setGameMode(GameMode.SPECTATOR);
-        tell(run, "<red><b>DOWN</b> <white>" + player.getName() + " <gray>is down, back once the floor is cleared");
+        run.tell("<red><b>DOWN</b> <white>" + player.getName() + " <gray>is down, back once the floor is cleared");
     }
 
     // Every kill pays Shards into the party's pot at once, kept even if the run ends
@@ -1065,7 +829,7 @@ public class GauntletRuns implements Listener {
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
         UUID id = event.getEntity().getUniqueId();
-        for (Run run : new HashSet<>(runs.values())) {
+        for (GauntletRun run : new HashSet<>(runs.values())) {
             if (id.equals(run.hoarder)) {
                 caughtHoarder(run);
                 return;
@@ -1088,12 +852,11 @@ public class GauntletRuns implements Listener {
                 member.bestCombo = Math.max(member.bestCombo, member.combo);
             }
             String affix = run.affixes.remove(id);
-            if (affix != null) afterAffixDeath(run, event.getEntity(), affix);
-            boolean boss = id.equals(run.boss);
-            if (boss) {
+            if (affix != null) waves.affixDeath(run, event.getEntity(), affix);
+            if (id.equals(run.boss)) {
                 run.boss = null;
                 run.bossKills++;
-                abilities.forget(id);
+                waves.bossGone(id);
                 for (Player player : run.online()) manager.challenges().add(player, "boss_kills", 1);
             }
             if (member != null) {
@@ -1110,13 +873,13 @@ public class GauntletRuns implements Listener {
                         / (floor.isBoss(base) ? 1 : run.floorScale);
                 int paid = (int) Math.round(pay);
                 run.shards += paid;
-                if (killer != null && member != null) killer.playSound(killer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.4f, 1.6f);
-                if (floor.isBoss(base)) tell(run, "<gold>Boss slain <aqua>+" + paid + " Shards");
-                else if (elite && killer != null && member != null) TextUtils.send(killer, "<gold>Elite slain <aqua>+" + paid + " Shards");
+                if (member != null) killer.playSound(killer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.4f, 1.6f);
+                if (floor.isBoss(base)) run.tell("<gold>Boss slain <aqua>+" + paid + " Shards");
+                else if (elite && member != null) TextUtils.send(killer, "<gold>Elite slain <aqua>+" + paid + " Shards");
             }
             // Bloodthirst: half a heart a kill a stack, and the trident's Riptide
-            if (killer != null && member != null) {
-                double heal = boonTotal(member, "killheal") + perkTotal(killer, "killheal");
+            if (member != null) {
+                double heal = bonuses.boonTotal(member, "killheal") + bonuses.perkTotal(killer, "killheal");
                 if (heal > 0) {
                     AttributeInstance max = killer.getAttribute(Attribute.MAX_HEALTH);
                     killer.setHealth(Math.min(max == null ? 20 : max.getValue(), killer.getHealth() + heal));
@@ -1126,33 +889,6 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    // Explosive goes off a second after it dies; Summoner calls two of the floor's mobs
-    private void afterAffixDeath(Run run, LivingEntity dead, String affix) {
-        Location at = dead.getLocation();
-        if (affix.equals("summoner")) {
-            if (spawnAdds(run, at, 2) > 0) {
-                at.getWorld().spawnParticle(Particle.SOUL, at.clone().add(0, 1, 0), 25, 0.6, 0.6, 0.6, 0.02);
-                at.getWorld().playSound(at, Sound.ENTITY_EVOKER_PREPARE_SUMMON, 0.8f, 1.2f);
-            }
-            return;
-        }
-        if (!affix.equals("explosive")) return;
-        MobData mob = manager.registry().mobOf(dead);
-        at.getWorld().spawnParticle(Particle.SMOKE, at.clone().add(0, 0.5, 0), 30, 0.4, 0.3, 0.4, 0.02);
-        at.getWorld().playSound(at, Sound.ENTITY_CREEPER_PRIMED, 1f, 1f);
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if (run.over) return;
-            at.getWorld().spawnParticle(Particle.EXPLOSION, at, 3, 0.5, 0.3, 0.5, 0);
-            at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 1.1f);
-            for (Player player : run.standing()) {
-                if (!player.getWorld().equals(at.getWorld()) || player.getLocation().distance(at) > 3.5) continue;
-                double damage = mob == null ? 4 : MobDamage.dealt(mob, player, false) * 1.5;
-                damage = incoming(player, null, damage);
-                if (damage > 0) player.damage(damage);
-            }
-        }, 20L);
-    }
-
     // Every kill of a combo past the first pays combo_step percent more, up to combo_max
     private double comboPay(Member member) {
         if (member == null) return 1;
@@ -1160,375 +896,21 @@ public class GauntletRuns implements Listener {
         return 1 + Math.max(0, steps) * data().setting("combo_step", 5) / 100;
     }
 
-    private void caughtHoarder(Run run) {
+    private void caughtHoarder(GauntletRun run) {
         run.hoarder = null;
         run.hoarders++;
         GauntletData.Floor floor = data().floor(run.floor);
         int paid = floor == null ? 0 : (int) Math.round(floor.kill() * data().setting("hoarder_pay", 20) * heatPay(run));
         run.shards += paid;
-        sound(run, Sound.ENTITY_PLAYER_LEVELUP, 0.8f, 1.6f);
+        run.sound(Sound.ENTITY_PLAYER_LEVELUP, 0.8f, 1.6f);
         for (Player player : run.standing()) {
             player.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, player.getLocation().add(0, 1, 0), 30, 0.5, 0.8, 0.5, 0.2);
         }
-        tell(run, "<gold><b>CAUGHT!</b> <gray>The Shard Hoarder drops <aqua>" + paid + " Shards");
+        run.tell("<gold><b>CAUGHT!</b> <gray>The Shard Hoarder drops <aqua>" + paid + " Shards");
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         end(event.getPlayer(), End.QUIT);
-    }
-
-    // ---- Care packages ----
-
-    // A chest by the arena's package spot with the care package's loot, at the best care
-    // level in the party, every item a little likelier with Scavenger. All of it is taken
-    // back when the run ends
-    private void carePackage(Run run) {
-        GauntletArena arena = manager.arena();
-        Location at = arena.place(GauntletArena.PACKAGE);
-        List<Player> online = run.online();
-        if (online.isEmpty()) return;
-        at = at == null ? online.getFirst().getLocation() : arena.inSlot(run.slot, at);
-        Block block = at.getBlock();
-        block.setType(Material.CHEST);
-        if (!(block.getState() instanceof Chest chest)) return;
-
-        int level = 1;
-        double scavenger = 0;
-        for (Player player : online) {
-            GauntletProfile profile = manager.profile(player);
-            level = Math.max(level, profile.care);
-            scavenger = Math.max(scavenger, talentTotal(profile, "care"));
-        }
-        GauntletData.CareLevel care = data().careLevel(level);
-        if (care != null) {
-            for (GauntletData.Loot loot : care.loot()) {
-                if (ThreadLocalRandom.current().nextDouble(100) >= loot.chance() + scavenger) continue;
-                ItemStack item = lootItem(loot.item(), ThreadLocalRandom.current().nextInt(loot.min(), loot.max() + 1));
-                if (item == null) continue;
-                GauntletGear.markRunItem(item);
-                chest.getBlockInventory().addItem(item);
-            }
-        }
-        block.getWorld().spawnParticle(Particle.FIREWORK, block.getLocation().add(0.5, 1, 0.5), 40, 0.4, 0.6, 0.4, 0.05);
-        block.getWorld().playSound(block.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1f);
-        tell(run, "<gold><b>CARE PACKAGE</b> <gray>A chest has landed in the arena (level " + level + ")");
-    }
-
-    // A material, or POTION@TYPE / SPLASH_POTION@TYPE. Null for anything unknown
-    static ItemStack lootItem(String id, int amount) {
-        String[] parts = id.split("@", 2);
-        Material material = Material.matchMaterial(parts[0]);
-        if (material == null || !material.isItem() || amount <= 0) return null;
-        ItemStack item = new ItemStack(material, amount);
-        if (parts.length == 2 && item.getItemMeta() instanceof PotionMeta) {
-            PotionType type;
-            try {
-                type = PotionType.valueOf(parts[1].toUpperCase());
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-            item.editMeta(PotionMeta.class, meta -> meta.setBasePotionType(type));
-        }
-        return item;
-    }
-
-    private void takeRunItems(Player player) {
-        PlayerInventory inventory = player.getInventory();
-        for (int slot = 0; slot < inventory.getSize(); slot++) {
-            if (GauntletGear.isRunItem(inventory.getItem(slot))) inventory.setItem(slot, null);
-        }
-        ItemStack cursor = player.getItemOnCursor();
-        if (GauntletGear.isRunItem(cursor)) player.setItemOnCursor(null);
-    }
-
-    // ---- Boons ----
-
-    // Boons not taken to their max, picked by the weight of their rarity, none twice, of
-    // one rarity only when one is given
-    private List<String> pickBoons(Member member, int count, String rarity) {
-        List<GauntletData.Boon> open = new ArrayList<>();
-        for (GauntletData.Boon boon : data().boons().values()) {
-            if (member.stacks(boon.id()) < boon.max() && (rarity == null || boon.rarity().equals(rarity))) open.add(boon);
-        }
-        List<String> picked = new ArrayList<>();
-        while (picked.size() < count && !open.isEmpty()) {
-            double total = 0;
-            for (GauntletData.Boon boon : open) total += rarityWeight(boon);
-            double roll = ThreadLocalRandom.current().nextDouble(total);
-            GauntletData.Boon chosen = open.getLast();
-            for (GauntletData.Boon boon : open) {
-                roll -= rarityWeight(boon);
-                if (roll < 0) {
-                    chosen = boon;
-                    break;
-                }
-            }
-            picked.add(chosen.id());
-            open.remove(chosen);
-        }
-        return picked;
-    }
-
-    private double rarityWeight(GauntletData.Boon boon) {
-        return Math.max(0.01, data().setting("rarity_" + boon.rarity(), boon.rarity().equals("common") ? 60 : 30));
-    }
-
-    // Every player's own pick of boons. The run is choosing before any menu opens, the
-    // menu shows only what is offered while it is
-    private void offerBoons(Run run) {
-        List<Player> choosing = new ArrayList<>();
-        for (Player player : run.online()) {
-            Member member = run.members.get(player.getUniqueId());
-            int choices = (int) data().setting("boon_choices", 3) + (int) talentTotal(manager.profile(player), "insight");
-            member.offered = List.copyOf(pickBoons(member, choices, null));
-            if (!member.offered.isEmpty()) choosing.add(player);
-        }
-        if (choosing.isEmpty()) {
-            nextFloor(run);
-            return;
-        }
-        run.state = State.CHOOSING;
-        run.choosingSince = System.currentTimeMillis();
-        for (Player player : choosing) {
-            TextUtils.send(player, "<gold><b>BOON</b> <gray>Pick an upgrade for this run. Loot the care package first if you like: "
-                    + "<yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
-            new BoonMenu(manager.registry(), this, player).open(player);
-        }
-    }
-
-    // For /gauntlet boon. Null if the menu opened, otherwise why not
-    public String openBoons(Player player) {
-        Run run = runs.get(player.getUniqueId());
-        Member member = member(player);
-        if (run == null || member == null || run.state != State.CHOOSING || !member.choosing()) return "There is no boon to pick right now";
-        if (member.altar) new AltarMenu(manager, this).open(player);
-        else new BoonMenu(manager.registry(), this, player).open(player);
-        return null;
-    }
-
-    List<GauntletData.Boon> offered(Player player) {
-        Run run = runs.get(player.getUniqueId());
-        Member member = member(player);
-        if (run == null || member == null || run.state != State.CHOOSING) return List.of();
-        return member.offered.stream().map(id -> data().boons().get(id)).filter(Objects::nonNull).toList();
-    }
-
-    int stacks(Player player, String boon) {
-        Member member = member(player);
-        return member == null ? 0 : member.stacks(boon);
-    }
-
-    int rerolls(Player player) {
-        Member member = member(player);
-        return member == null ? 0 : member.rerolls;
-    }
-
-    // A fresh pick of boons, for a reroll. Null if it worked, otherwise why not
-    String reroll(Player player) {
-        Run run = runs.get(player.getUniqueId());
-        Member member = member(player);
-        if (run == null || member == null || run.state != State.CHOOSING || member.offered.isEmpty()) return "There is no boon to pick right now";
-        if (member.rerolls <= 0) return "No rerolls left this run";
-        member.rerolls--;
-        member.offered = List.copyOf(pickBoons(member, member.offered.size(), null));
-        player.playSound(player.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 0.8f, 1f);
-        return null;
-    }
-
-    void choose(Player player, String boonId) {
-        Run run = runs.get(player.getUniqueId());
-        Member member = member(player);
-        if (run == null || member == null || run.state != State.CHOOSING || !member.offered.contains(boonId)) return;
-        member.offered = List.of();
-        take(player, member, boonId);
-        if (player != null) {
-            player.closeInventory();
-            if (run.members.values().stream().anyMatch(Member::choosing)) {
-                TextUtils.send(player, "<gray>Waiting for the rest of the party to choose");
-            }
-        }
-        choicesDone(run);
-    }
-
-    // A boon a player takes, by choice or out of time
-    private void take(Player player, Member member, String boonId) {
-        GauntletData.Boon boon = data().boons().get(boonId);
-        if (boon == null) return;
-        member.boons.merge(boonId, 1, Integer::sum);
-        if (boon.stat().equals("revive")) member.revives += (int) boon.amount();
-        if (player == null) return;
-        applyBoons(player, member);
-        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.8f, 1.4f);
-        TextUtils.send(player, boon.colour() + boon.name() + " <gray>" + boon.description() + " <dark_gray>(x" + member.stacks(boonId) + ")");
-    }
-
-    // A care package emptied and closed is gone. Closing the boon or altar menu without
-    // choosing leaves the choice waiting, /gauntlet boon reopens it
-    @EventHandler
-    public void onClose(InventoryCloseEvent event) {
-        if (event.getInventory().getHolder(false) instanceof Chest chest && event.getInventory().isEmpty()
-                && event.getPlayer() instanceof Player owner) {
-            Run run = runs.get(owner.getUniqueId());
-            Block block = chest.getBlock();
-            if (run != null && manager.arena().isInSlot(run.slot, block.getLocation())) {
-                block.setType(Material.AIR);
-                block.getWorld().spawnParticle(Particle.POOF, block.getLocation().add(0.5, 0.5, 0.5), 15, 0.3, 0.3, 0.3, 0.02);
-                block.getWorld().playSound(block.getLocation(), Sound.BLOCK_WOOL_BREAK, 0.8f, 1f);
-            }
-            return;
-        }
-        if (!(event.getPlayer() instanceof Player player)) return;
-        Member member = member(player);
-        if (member == null) return;
-        if (event.getInventory().getHolder(false) instanceof AltarMenu && member.altar) {
-            TextUtils.send(player, "<gray>The altar waits: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
-        } else if (event.getInventory().getHolder(false) instanceof BoonMenu && !member.offered.isEmpty()) {
-            TextUtils.send(player, "<gray>Your boon is waiting: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
-        }
-    }
-
-    // A boon's stat added up over its stacks
-    private double boonTotal(Member member, String stat) {
-        if (member == null) return 0;
-        double total = 0;
-        for (Map.Entry<String, Integer> entry : member.boons.entrySet()) {
-            GauntletData.Boon boon = data().boons().get(entry.getKey());
-            if (boon != null && boon.stat().equals(stat)) total += boon.amount() * entry.getValue();
-        }
-        return total;
-    }
-
-    // A perk stat of the gear held (or worn as a set), for the levels the player has
-    private double perkTotal(Player player, String stat) {
-        GauntletProfile profile = manager.profile(player);
-        String held = GauntletGear.gearId(player.getInventory().getItemInMainHand());
-        double total = 0;
-        if (held != null) {
-            for (GauntletData.Perk perk : data().perksOf(held)) {
-                if (perk.stat().equals(stat) && profile.level(held) >= perk.level()) total += perk.amount();
-            }
-        }
-        return total + setTotal(profile, stat);
-    }
-
-    // An armour set stat: every set perk whose level all four pieces have reached
-    private double setTotal(GauntletProfile profile, String stat) {
-        int lowest = armorSetLevel(profile);
-        double total = 0;
-        for (GauntletData.Perk perk : data().perksOf(GauntletData.ARMOR_SET)) {
-            if (perk.stat().equals(stat) && lowest >= perk.level()) total += perk.amount();
-        }
-        return total;
-    }
-
-    // The lowest level of the armour pieces, 0 while one is missing
-    int armorSetLevel(GauntletProfile profile) {
-        int lowest = Integer.MAX_VALUE;
-        boolean any = false;
-        for (GauntletData.Gear gear : data().gear().values()) {
-            if (!gear.armor()) continue;
-            any = true;
-            lowest = Math.min(lowest, Math.max(0, profile.level(gear.id())));
-        }
-        return any ? lowest : 0;
-    }
-
-    // A talent's stat added up over its levels
-    private double talentTotal(GauntletProfile profile, String stat) {
-        double total = 0;
-        for (GauntletData.Talent talent : data().talents().values()) {
-            if (talent.stat().equals(stat)) total += talent.amount() * profile.talent(talent.id());
-        }
-        return total;
-    }
-
-    private void applyBoons(Player player, Member member) {
-        setModifier(player, Attribute.MAX_HEALTH, HEALTH_BOON, boonTotal(member, "health") + member.altarHealth, AttributeModifier.Operation.ADD_NUMBER);
-        setModifier(player, Attribute.MOVEMENT_SPEED, SPEED_BOON, boonTotal(member, "speed") / 100, AttributeModifier.Operation.ADD_SCALAR);
-        int regen = (int) Math.round(boonTotal(member, "regen"));
-        player.removePotionEffect(PotionEffectType.REGENERATION);
-        if (regen > 0) player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, PotionEffect.INFINITE_DURATION, regen - 1, true, false));
-    }
-
-    private void clearBoons(Player player) {
-        setModifier(player, Attribute.MAX_HEALTH, HEALTH_BOON, 0, AttributeModifier.Operation.ADD_NUMBER);
-        setModifier(player, Attribute.MAX_HEALTH, TALENT_HEALTH, 0, AttributeModifier.Operation.ADD_NUMBER);
-        setModifier(player, Attribute.MOVEMENT_SPEED, SPEED_BOON, 0, AttributeModifier.Operation.ADD_SCALAR);
-        setModifier(player, Attribute.MAX_ABSORPTION, ABSORB_BOON, 0, AttributeModifier.Operation.ADD_NUMBER);
-        player.setAbsorptionAmount(0);
-        for (PotionEffect effect : player.getActivePotionEffects()) player.removePotionEffect(effect.getType());
-    }
-
-    private static void setModifier(Player player, Attribute attribute, NamespacedKey key, double amount,
-                                    AttributeModifier.Operation operation) {
-        AttributeInstance instance = player.getAttribute(attribute);
-        if (instance == null) return;
-        instance.removeModifier(key);
-        if (amount != 0) instance.addModifier(new AttributeModifier(key, amount, operation, EquipmentSlotGroup.ANY));
-    }
-
-    // ---- Combat ----
-
-    // Might, First Strike, Executioner and Giant Slayer add up; Keen Eye doubles; then
-    // Strength potions and the weapon's own share, in a run only, each player their own
-    private double outgoing(Player attacker, LivingEntity victim, boolean ranged) {
-        Run run = runs.get(attacker.getUniqueId());
-        Member member = member(attacker);
-        if (run == null || member == null) return 1.0;
-        double percent = boonTotal(member, "damage") + perkTotal(attacker, "damage");
-        double health = CustomHealth.current(victim) / Math.max(1, CustomHealth.max(victim));
-        if (health >= 0.999) percent += boonTotal(member, "firststrike") + perkTotal(attacker, "firststrike");
-        if (health < EXECUTE_BELOW) percent += boonTotal(member, "execute") + perkTotal(attacker, "execute");
-        if (victim.getUniqueId().equals(run.boss) || run.elites.contains(victim.getUniqueId())) {
-            percent += boonTotal(member, "slayer") + perkTotal(attacker, "slayer");
-        }
-        double multiplier = 1 + percent / 100;
-        if ("shielded".equals(run.affixes.get(victim.getUniqueId())) && health >= 0.5) multiplier *= 0.5;
-        if (ThreadLocalRandom.current().nextDouble(100) < boonTotal(member, "crit") + perkTotal(attacker, "crit")) multiplier *= 2;
-        PotionEffect strength = attacker.getPotionEffect(PotionEffectType.STRENGTH);
-        if (strength != null) multiplier *= 1 + STRENGTH_PER_LEVEL * (strength.getAmplifier() + 1);
-        if (!ranged) {
-            GauntletData.Gear gear = data().gear().get(GauntletGear.gearId(attacker.getInventory().getItemInMainHand()));
-            if (gear != null) multiplier *= gear.damage() / 100.0;
-        }
-        return multiplier;
-    }
-
-    // Cleave: a share of every melee hit to the run's other mobs close to the one struck
-    private void afterHit(Player attacker, LivingEntity victim, double dealt, boolean ranged) {
-        Run run = runs.get(attacker.getUniqueId());
-        Member member = member(attacker);
-        if (run == null || member == null || ranged || dealt <= 0 || !run.mobs.contains(victim.getUniqueId())) return;
-        double cleave = boonTotal(member, "cleave") + perkTotal(attacker, "cleave");
-        if (cleave <= 0) return;
-        double splash = Math.round(dealt * cleave / 100);
-        if (splash <= 0) return;
-        for (Entity near : victim.getNearbyEntities(CLEAVE_RANGE, CLEAVE_RANGE, CLEAVE_RANGE)) {
-            if (near instanceof LivingEntity other && run.mobs.contains(other.getUniqueId()) && !other.isDead()) {
-                CustomHealth.apply(other, splash, attacker, manager.registry());
-                other.getWorld().spawnParticle(Particle.SWEEP_ATTACK, other.getLocation().add(0, 1, 0), 1);
-            }
-        }
-    }
-
-    // Evasion and Iron Skin, and the attacking elite's affix: Vampiric heals, Frenzied
-    // hits harder below half health
-    private double incoming(Player victim, LivingEntity source, double damage) {
-        Run run = runs.get(victim.getUniqueId());
-        Member member = member(victim);
-        if (run == null || member == null) return damage;
-        if (member.down) return 0;
-        String affix = source == null ? null : run.affixes.get(source.getUniqueId());
-        if ("frenzied".equals(affix) && CustomHealth.current(source) < CustomHealth.max(source) / 2) damage *= 1.3;
-        if ("vampiric".equals(affix)) {
-            CustomHealth.heal(source, CustomHealth.max(source) * 0.1, manager.registry());
-            source.getWorld().spawnParticle(Particle.HEART, source.getLocation().add(0, source.getHeight(), 0), 2, 0.3, 0.2, 0.3, 0);
-        }
-        if (ThreadLocalRandom.current().nextDouble(100) < boonTotal(member, "dodge")) {
-            victim.playSound(victim.getLocation(), Sound.ENTITY_BREEZE_JUMP, 0.6f, 1.6f);
-            return 0;
-        }
-        return damage * (1 - Math.min(0.8, (boonTotal(member, "guard") + setTotal(manager.profile(victim), "guard")) / 100));
     }
 }

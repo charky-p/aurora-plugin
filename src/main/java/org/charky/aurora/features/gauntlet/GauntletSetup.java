@@ -84,7 +84,7 @@ public class GauntletSetup implements Listener {
         for (GauntletData.SetupItem setup : data.setup().values()) {
             int level = profile.setup.getOrDefault(setup.id(), 0);
             if (level <= 0) continue;
-            ItemStack item = GauntletRuns.lootItem(setup.item(), Math.min(setup.amount() * level, 64));
+            ItemStack item = GauntletCarePackage.lootItem(setup.item(), Math.min(setup.amount() * level, 64));
             if (item == null) continue;
             item.editMeta(meta -> {
                 // The elytra never wears out

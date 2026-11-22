@@ -31,7 +31,7 @@ public class SetupMenu extends PagedMenu {
         List<ItemStack> shown = new ArrayList<>();
         for (GauntletData.SetupItem setup : items) {
             int level = profile.setup.getOrDefault(setup.id(), 0);
-            ItemStack item = GauntletRuns.lootItem(setup.item(), 1);
+            ItemStack item = GauntletCarePackage.lootItem(setup.item(), 1);
             if (item == null) item = new ItemStack(Material.BARRIER);
             item.editMeta(meta -> {
                 meta.displayName(TextUtils.parse("<!italic><gold><b>" + setup.name()

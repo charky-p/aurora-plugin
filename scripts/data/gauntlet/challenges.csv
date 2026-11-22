@@ -1,0 +1,8 @@
+id,description,stat,goal,shards,cores,scale
+climb,Clear floor {goal} in one run,floor,5,60,0,yes
+slayer,Kill {goal} mobs,kills,60,40,0,no
+elite_hunter,Kill {goal} elites,elite_kills,5,50,0,no
+speedrunner,Get {goal} fast clears,fast_clears,6,50,0,no
+boss_breaker,Defeat {goal} boss,boss_kills,1,80,1,no
+gladiator,Win {goal} fights in the PvP zone,pvp_kills,3,60,0,no
+regular,Finish {goal} runs,runs,3,40,0,no

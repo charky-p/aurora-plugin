@@ -23,7 +23,7 @@ import java.util.logging.Level;
 public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<GearLevel> levels,
                            Map<String, Boon> boons, List<CareLevel> care, List<Milestone> milestones,
                            Map<String, SetupItem> setup, Map<String, Talent> talents, Map<String, Mutator> mutators,
-                           Map<String, Double> settings) {
+                           Map<String, Challenge> challenges, Map<String, Double> settings) {
     private static final String FILE = "gauntlet.yml";
     // Past the last floor in the file it repeats, every mob this much tougher a floor
     // and ATTACK_PER_FLOOR attack levels stronger (gauntlet_balance.py)
@@ -92,6 +92,18 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         }
     }
 
+    // A daily challenge: reach goal of a stat counted over the day (floor is the best
+    // floor cleared in one run). With scale the goal rises to the player's best floor
+    public record Challenge(String id, String description, String stat, int goal, int shards, int cores, boolean scale) {
+        public int goalFor(int best) {
+            return scale ? Math.max(goal, best / 5 * 5) : goal;
+        }
+
+        public String describe(int best) {
+            return description.replace("{goal}", String.valueOf(goalFor(best)));
+        }
+    }
+
     // What can change a floor: its mobs' health, hits, speed, how many there are, how
     // often they are elite, and the percent more Shards the floor pays
     public record Mutator(String id, String name, String description, double health, double damage, double speed,
@@ -121,7 +133,7 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     }
 
     public static GauntletData empty() {
-        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of());
+        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of());
     }
 
     // Empty when the file is missing or broken, the gauntlet then refuses to start
@@ -203,10 +215,15 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                     mutators.put(id, new Mutator(id, str(row.get("name")), str(row.get("description")),
                             num(row.get("health")).doubleValue(), num(row.get("damage")).doubleValue(), num(row.get("speed")).doubleValue(),
                             num(row.get("count")).doubleValue(), num(row.get("elites")).doubleValue(), num(row.get("shards")).intValue())));
+            Map<String, Challenge> challenges = new LinkedHashMap<>();
+            ((Map<String, Map<String, Object>>) root.getOrDefault("challenges", Map.of())).forEach((id, row) ->
+                    challenges.put(id, new Challenge(id, str(row.get("description")), str(row.get("stat")),
+                            num(row.get("goal")).intValue(), num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
+                            Boolean.TRUE.equals(row.get("scale")))));
             Map<String, Double> settings = new LinkedHashMap<>();
             ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
             return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care),
-                    List.copyOf(milestones), setup, talents, mutators, settings);
+                    List.copyOf(milestones), setup, talents, mutators, challenges, settings);
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load " + FILE, e);
             return empty();

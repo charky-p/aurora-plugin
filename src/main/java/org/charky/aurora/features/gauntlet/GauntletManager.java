@@ -68,6 +68,7 @@ public class GauntletManager implements Listener {
     private GauntletRuns runs;
     private GauntletSetup setup;
     private GauntletPvp pvp;
+    private final GauntletChallenges challenges = new GauntletChallenges(this);
     private BukkitTask sweep;
 
     public GauntletManager(Aurora plugin, Database db, GauntletStore store, PlayerManager players,
@@ -93,6 +94,10 @@ public class GauntletManager implements Listener {
 
     public GauntletSetup setup() {
         return setup;
+    }
+
+    public GauntletChallenges challenges() {
+        return challenges;
     }
 
     public void setPvp(GauntletPvp pvp) {
@@ -344,6 +349,10 @@ public class GauntletManager implements Listener {
                 + "<click:run_command:'/gauntlet start'><hover:show_text:'<gray>Start a run now'><green><b>[START A RUN]</b></hover></click> "
                 + "<click:run_command:'/gauntlet forge'><hover:show_text:'<gray>Upgrade your gear'><gold><b>[FORGE]</b></hover></click> "
                 + "<click:run_command:'/gauntlet'><hover:show_text:'<gray>Everything else'><yellow><b>[MENU]</b></hover></click>");
+        int done = challenges.doneToday(player);
+        int total = challenges.today().size();
+        if (total > 0) TextUtils.send(player, "<gray>Daily challenges: <white>" + done + "/" + total + "</white> done "
+                + "<click:run_command:'/gauntlet'><hover:show_text:'<gray>See them in the menu'><yellow>[SEE]</hover></click>");
         TextUtils.send(player, "<dark_gray>Your own inventory is kept for when you leave, /gauntlet leave.");
         TextUtils.send(player, "");
     }

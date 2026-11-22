@@ -16,7 +16,7 @@ import java.util.UUID;
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
 // starting kit, milestones, the top floors, and the way out
 public class GauntletMenu extends PagedMenu {
-    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, MILESTONES = 4, TOP = 5, PVP = 6, LEAVE = 7;
+    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, CHALLENGES = 4, MILESTONES = 5, TOP = 6, PVP = 7, LEAVE = 8;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -62,6 +62,17 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>hearts, Shards, rerolls, a Second Wind.",
                 "",
                 "<gray>Learned: <white>" + learned + "/" + total)));
+
+        GauntletChallenges challenges = manager.challenges();
+        List<String> daily = new ArrayList<>(List.of("<gray>New ones every day, the same for", "<gray>everyone. Done the moment you are.", ""));
+        for (GauntletData.Challenge challenge : challenges.today()) {
+            boolean done = challenges.done(player, challenge);
+            int goal = challenges.goal(player, challenge);
+            daily.add((done ? "<green>✔ " : "<gray>• <white>") + challenge.describe(profile.best)
+                    + (done ? "" : " <gray>" + Math.min(goal, challenges.progress(player, challenge)) + "/" + goal));
+            daily.add("   <aqua>" + challenges.reward(player, challenge) + " Shards" + (challenge.cores() > 0 ? " <light_purple>+" + challenge.cores() + " Core" : ""));
+        }
+        items.add(button(Material.CLOCK, "<aqua><b>Daily Challenges <gray>" + challenges.doneToday(player) + "/" + challenges.today().size(), daily));
 
         List<String> milestones = new ArrayList<>();
         List<GauntletData.Milestone> all = manager.data().milestones();

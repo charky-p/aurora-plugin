@@ -15,7 +15,7 @@ class GauntletDataTest {
         List<GauntletData.Floor> floors = List.of(
                 new GauntletData.Floor(Map.of("g_rotter", 3), 1.0, 1, 1, 4, 0),
                 new GauntletData.Floor(Map.of("g_rot_king", 1, "g_rotter", 4), 2.0, 10, 2, 10, 1));
-        return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of());
+        return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of());
     }
 
     @Test
@@ -58,6 +58,16 @@ class GauntletDataTest {
         assertEquals("g_rot_king", GauntletData.baseMobId(full.id()));
         assertNull(GauntletData.Variant.parse("g_rotter"));
         assertNull(GauntletData.Variant.parse("g_rotter#x"));
+    }
+
+    @Test
+    void aScaledChallengeRisesWithTheBestFloor() {
+        GauntletData.Challenge climb = new GauntletData.Challenge("climb", "Clear floor {goal}", "floor", 5, 60, 0, true);
+        assertEquals(5, climb.goalFor(0));
+        assertEquals(20, climb.goalFor(23));
+        assertEquals("Clear floor 20", climb.describe(23));
+        GauntletData.Challenge kills = new GauntletData.Challenge("slayer", "Kill {goal} mobs", "kills", 60, 40, 0, false);
+        assertEquals(60, kills.goalFor(40));
     }
 
     @Test

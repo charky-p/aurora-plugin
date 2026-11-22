@@ -239,6 +239,7 @@ public class GauntletPvp implements Listener {
         int pay = (int) Math.round(data.setting("pvp_kill_shards", 5)
                 + data.setting("pvp_streak_shards", 2) * Math.min(streak - 1, 5)) + shutdown;
         manager.giveShards(killer, pay);
+        manager.challenges().add(killer, "pvp_kills", 1);
         killer.playSound(killer.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.6f, 1.6f);
         TextUtils.send(killer, "<red>You killed " + victim.getName() + " <aqua>+" + pay + " Shards"
                 + (streak > 1 ? " <gray>(streak <white>" + streak + "<gray>)" : ""));

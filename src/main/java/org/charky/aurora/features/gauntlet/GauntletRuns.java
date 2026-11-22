@@ -288,6 +288,8 @@ public class GauntletRuns implements Listener {
         manager.bank(player, banked, run.cores, cleared);
         manager.addStat(player.getUniqueId(), "kills", run.kills);
         manager.addStat(player.getUniqueId(), "elite_kills", run.eliteKills);
+        // A run counts for the challenge once it cleared a floor
+        if (cleared >= run.startFloor) manager.challenges().add(player, "runs", 1);
         if (why == End.QUIT) return;
 
         heal(player);
@@ -566,8 +568,11 @@ public class GauntletRuns implements Listener {
             int fast = Math.max(1, (int) Math.round(bonus * data().setting("fast_bonus", 50) / 100));
             run.shards += fast;
             run.fastClears++;
+            manager.challenges().add(player, "fast_clears", 1);
             TextUtils.send(player, "<yellow><b>FAST CLEAR</b> <gray>" + Math.round(seconds) + "s (par " + Math.round(par) + "s) <aqua>+" + fast + " Shards");
         }
+
+        manager.challenges().best(player, "floor", run.floor);
 
         // Past the old record, once a run, unless it is the first one ever
         if (!run.newBest && run.floor > run.bestBefore && run.bestBefore > 0) {
@@ -618,7 +623,14 @@ public class GauntletRuns implements Listener {
             run.kills++;
             boolean elite = run.elites.remove(id);
             if (elite) run.eliteKills++;
-            if (id.equals(run.boss)) run.boss = null;
+            boolean boss = id.equals(run.boss);
+            if (boss) run.boss = null;
+            if (player != null) {
+                GauntletChallenges challenges = manager.challenges();
+                challenges.add(player, "kills", 1);
+                if (elite) challenges.add(player, "elite_kills", 1);
+                if (boss) challenges.add(player, "boss_kills", 1);
+            }
             String mobId = event.getEntity().getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
             GauntletData.Floor floor = data().floor(run.floor);
             if (mobId != null && floor != null) {

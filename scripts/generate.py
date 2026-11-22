@@ -1091,6 +1091,8 @@ GAUNTLET_HEADER = """# =========================================================
 #          shards (the first level), growth (each level costs this many times the last), cores (a level)}
 # mutators: what can change a floor {name, description, health, damage, speed, count, elites (times),
 #           shards (percent more for the floor)}
+# challenges: the daily challenge pool {description ({goal} is filled in), stat, goal, shards, cores,
+#             scale (the goal rises to the player's best floor, rounded down to 5)}
 # settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
@@ -1103,6 +1105,7 @@ GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "gua
                   "firststrike", "shards", "execute", "slayer", "cleave", "revive"}
 GAUNTLET_RARITIES = {"common", "rare", "epic"}
 GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive"}
+GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
 
 
 def _gauntlet_rows(name):
@@ -1181,6 +1184,14 @@ def gauntlet_text(mobs, cosmetics):
                                           health=float(row["health"]), damage=float(row["damage"]), speed=float(row["speed"]),
                                           count=float(row["count"]), elites=float(row["elites"]), shards=int(row["shards"]))
 
+    challenges = OrderedDict()
+    for row in _gauntlet_rows("challenges.csv") or []:
+        if row["stat"] not in GAUNTLET_CHALLENGE_STATS:
+            errors.append(f"gauntlet challenge '{row['id']}': unknown stat '{row['stat']}'")
+        challenges[row["id"]] = OrderedDict(description=Quoted(row["description"]), stat=row["stat"], goal=int(row["goal"]),
+                                            shards=int(row["shards"]), cores=int(row["cores"] or 0),
+                                            scale=(row.get("scale") or "").strip().lower() == "yes")
+
     settings = OrderedDict()
     for row in _gauntlet_rows("settings.csv") or []:
         try:
@@ -1206,7 +1217,7 @@ def gauntlet_text(mobs, cosmetics):
                                        description=Quoted(row["description"]))
 
     data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones, setup=setup,
-                       talents=talents, mutators=mutators, settings=settings)
+                       talents=talents, mutators=mutators, challenges=challenges, settings=settings)
     body = yaml.dump(data, Dumper=_Dumper, sort_keys=False, default_flow_style=False, allow_unicode=True,
                      width=10 ** 6, indent=2)
     return GAUNTLET_HEADER + "\n" + body, len(floors), errors

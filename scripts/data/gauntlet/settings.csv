@@ -22,3 +22,5 @@ boss_enrage_speed,20,Percent faster a boss moves below one third of its health
 pvp_kill_shards,5,Shards for a kill in the PvP zone
 pvp_streak_shards,2,More Shards a kill for each kill of a streak (up to 5)
 pvp_shutdown_shards,3,Shards for each kill of a streak of 3 or more that you end
+challenges_per_day,3,"Daily challenges a day, the same for everyone"
+challenge_reward_per_floor,10,A challenge pays this percent more Shards for every floor of your best

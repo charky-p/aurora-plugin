@@ -14,6 +14,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/backpack`, `/bp` | Open your backpack |
 | `/customise`, `/customize`, `/cosmetics` | Choose how you look: rank, suffixes, chat and name colour, join and death message, trail, kill effect, the trim on your armour, and the look of your tools and armour (any material you have bought, wood to gold; Best Owned shows the newest). A look changes only how it shows: a tool digs at its best material's speed. Cosmetics are bought here with Essence |
 | `/ranks`, `/rank` | Choose the rank shown by your name, from the ones you have unlocked |
+| `/playtime [player]` | How long you have played, or an online player has, and how long until the next playtime rank |
 | `/collections`, `/collection` | Every resource you have gathered, its tier and what the next one pays |
 | `/leaderboard` | The top ten by level, blocks mined, mob kills, Essence and playtime, as player heads; the arrows switch stats, and your own place is shown |
 | `/trash` | A bin: whatever is left in it when you close it is deleted. Tools, the backpack and keys are handed back |

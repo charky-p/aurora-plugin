@@ -18,6 +18,7 @@ public class CommandFilter implements Listener {
             "backpack", "bp",
             "customise", "customize", "cosmetics",
             "ranks", "rank",
+            "playtime",
             "collections", "collection",
             "leaderboard",
             "tutorial",

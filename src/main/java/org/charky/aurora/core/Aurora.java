@@ -83,6 +83,7 @@ import org.charky.aurora.features.system.Tips;
 import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.system.CommandFilter;
 import org.charky.aurora.features.rank.RankManager;
+import org.charky.aurora.features.rank.PlaytimeCommand;
 import org.charky.aurora.features.rank.RankShopMenu;
 import org.charky.aurora.features.spawner.LeftoverMobListener;
 import org.charky.aurora.features.spawner.MobDeathListener;
@@ -406,6 +407,7 @@ public class Aurora extends JavaPlugin {
         }
         command("refresh", new RefreshCommand(this));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
+        command("playtime", new PlaytimeCommand(rankManager));
         command("customise", new OpenMenuCommand(cosmeticManager::openHub));
         command("leaderboard", new TopCommand(registry, players));
         command("trash", trash);

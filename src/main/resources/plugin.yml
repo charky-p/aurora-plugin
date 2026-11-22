@@ -28,6 +28,9 @@ commands:
     description: Choose the rank shown by your name
     usage: /ranks
     aliases: [ rank ]
+  playtime:
+    description: How long you or another player has played, and the time to the next playtime rank
+    usage: /playtime [player]
   customise:
     description: Ranks, suffixes, colours, join messages, trails and kill effects
     usage: /customise

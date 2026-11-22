@@ -691,7 +691,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 12000
+    collection: 25000
 
   pumpkin:
     display: "<gold>Pumpkin"
@@ -700,7 +700,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 25000
+    collection: 50000
 
   pork:
     display: "<#F2A3A3>Mountain Pork"
@@ -709,7 +709,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 4000
+    collection: 16000
 
   melon:
     display: "<green>Melon"
@@ -718,7 +718,7 @@ items:
     region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 32000
+    collection: 64000
 
   calcite:
     display: "<white>Calcite"
@@ -727,7 +727,7 @@ items:
     region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 500000
+    collection: 1000000
 
   goat_hide:
     display: "<white>Goat Hide"
@@ -736,7 +736,7 @@ items:
     region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 6400
+    collection: 25000
 
   snow:
     display: "<white>Packed Snow"
@@ -745,7 +745,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 12000
+    collection: 20000
 
   packed_ice:
     display: "<#A5C8FF><b>Packed Ice"
@@ -754,7 +754,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 320000
+    collection: 640000
 
   frost_arrow:
     display: "<aqua>Frost Arrow"
@@ -763,7 +763,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 15000
+    collection: 50000
 
   redstone:
     display: "<red><b>Redstone"
@@ -772,7 +772,7 @@ items:
     region: "peaks_grotto"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 500000
+    collection: 1000000
 
   lapis:
     display: "<blue><b>Lapis"
@@ -781,7 +781,7 @@ items:
     region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 100000
+    collection: 200000
 
   spider_silk:
     display: "<white>Frost Silk"
@@ -790,7 +790,7 @@ items:
     region: "peaks_grotto"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 6000
+    collection: 20000
 
   emerald:
     display: "<green><b>Emerald"
@@ -799,7 +799,7 @@ items:
     region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 480000
+    collection: 1000000
 
   venom_sac:
     display: "<dark_green>Venom Sac"
@@ -808,7 +808,7 @@ items:
     region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 16000
+    collection: 64000
 
   rider_bone:
     display: "<white>Rider Bone"
@@ -817,7 +817,7 @@ items:
     region: "peaks_arachne"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 12000
+    collection: 50000
 
   arachne_eye:
     display: "<dark_red><b>Arachne's Eye"

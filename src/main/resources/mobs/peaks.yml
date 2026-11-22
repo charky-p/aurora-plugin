@@ -55,6 +55,9 @@ items:
     defence: 133.0
     attack: 33.0
     density: 14
+    equip:
+      head: LEATHER_HELMET
+      feet: LEATHER_BOOTS
     independent:
       - id: frost_arrow
         max: 2

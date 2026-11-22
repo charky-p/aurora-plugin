@@ -35,7 +35,7 @@ public class TabManager {
         String headerStr = "<gradient:#7F7FD5:#91EAE4><bold>AURORAMINES</bold></gradient>\n" +
                             "<yellow>☀ ᴏɴʟɪɴᴇ: " + toSmallCaps(String.valueOf(Bukkit.getOnlinePlayers().size()));
 
-        String footerStr = "<white>ɪᴘ: <aqua>ᴀᴜʀᴀᴍɪɴᴇs100.ᴍɪɴᴇʜᴜᴛ.ᴄᴏᴍ</white>";
+        String footerStr = "<white>ɪᴘ: <aqua>ᴀᴜʀᴀᴍɪɴᴇs100.ᴍɪɴᴇꜰᴏʀᴛ.ᴄᴏᴍ</white>";
 
         Component header = mm.deserialize(headerStr);
         Component footer = mm.deserialize(footerStr);

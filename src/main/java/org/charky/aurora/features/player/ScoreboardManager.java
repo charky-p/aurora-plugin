@@ -82,7 +82,7 @@ public class ScoreboardManager {
                 TextUtils.parse("<gray>• ESSENCE: <gold>" + data.getEssence()),
                 Component.empty(),
                 TextUtils.parse("<light_purple>🎮 <gray>EVENT: ALPHA"),
-                TextUtils.parse("<aqua>ᴀᴜʀᴀᴍɪɴᴇs100.ᴍɪɴᴇʜᴜᴛ.ᴄᴏᴍ")
+                TextUtils.parse("<aqua>ᴀᴜʀᴀᴍɪɴᴇs100.ᴍɪɴᴇꜰᴏʀᴛ.ᴄᴏᴍ")
         );
     }
 }

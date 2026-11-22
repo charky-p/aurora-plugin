@@ -81,7 +81,7 @@ public class ScoreboardManager {
                 TextUtils.parse("<gray>• MINED: <green>" + data.getMined()),
                 TextUtils.parse("<gray>• ESSENCE: <gold>" + data.getEssence()),
                 Component.empty(),
-                TextUtils.parse("<light_purple>🎮 <gray>EVENT: BETA"),
+                TextUtils.parse("<light_purple>🎮 <gray>EVENT: ALPHA"),
                 TextUtils.parse("<aqua>ᴀᴜʀᴀᴍɪɴᴇs100.ᴍɪɴᴇʜᴜᴛ.ᴄᴏᴍ")
         );
     }

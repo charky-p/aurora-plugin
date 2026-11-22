@@ -87,6 +87,8 @@ public final class Cosmetics {
         // Gauntlet achievements (scripts/data/gauntlet/achievements.csv)
         suffix("relentless", "<gray>[<dark_red>RELENTLESS<gray>]", Source.GRANT, 0, "Kill 1,000 mobs in the Gauntlet");
         suffix("duelist", "<gray>[<gold>DUELIST<gray>]", Source.GRANT, 0, "Win 25 Gauntlet duels");
+        suffix("voidborn", "<gray>[<dark_purple>VOIDBORN<gray>]", Source.GRANT, 0, "Reach floor 60 of the Gauntlet");
+        suffix("tower_lord", "<gray>[<gradient:#FFD200:#F7971E:#FF416C>TOWER LORD</gradient><gray>]", Source.GRANT, 0, "Reach floor 100 of the Gauntlet");
         suffix("regular", "<gray>[<dark_gray>REGULAR<gray>]", Source.PLAYTIME, 10 * HOUR, null);
         suffix("devoted", "<gray>[<white>DEVOTED<gray>]", Source.PLAYTIME, 50 * HOUR, null);
         suffix("veteran", "<gray>[<dark_gray>VETERAN<gray>]", Source.PLAYTIME, 100 * HOUR, null);
@@ -259,6 +261,7 @@ public final class Cosmetics {
         trail("end", "<white><b>Starlight", Material.END_ROD, Source.GRANT, 0, "END_ROD");
         trail("bloodsteel", "<red><b>Bloodsteel", Material.NETHERITE_SWORD, Source.GRANT, 0, "DAMAGE_INDICATOR");
         trail("shardstorm", "<aqua><b>Shardstorm", Material.AMETHYST_SHARD, Source.GRANT, 0, "WAX_OFF");
+        trail("cinders", "<red><b>Cinders", Material.MAGMA_CREAM, Source.GRANT, 0, "LAVA");
 
         // The value is the effect, see KillEffects
         kill("flames", "<gold>Burn", Material.FIRE_CHARGE, 1_500);

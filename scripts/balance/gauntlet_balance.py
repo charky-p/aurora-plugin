@@ -46,9 +46,9 @@ SHARDS_BASE, SHARDS_PER_FLOOR = 1.0, 0.6
 KILL_BASE, KILL_PER_FLOOR = 1.0, 0.08   # KILL_PER_FLOOR is also in GauntletData
 BOSS_KILLS = 5                  # GauntletData.BOSS_KILLS
 SHARD_BASE, SHARD_GROWTH = 10, 1.17
-MAX_LEVEL = 30
+MAX_LEVEL = 50
 LEVELS_PER_MATERIAL = 5
-CORES = {10: 1, 15: 1, 20: 2, 25: 2, 30: 3}
+CORES = {10: 1, 15: 1, 20: 2, 25: 2, 30: 3, 35: 3, 40: 4, 45: 4, 50: 5}
 
 # CombatFormulas.sharpnessBonus
 BRACKET_SIZE = 5

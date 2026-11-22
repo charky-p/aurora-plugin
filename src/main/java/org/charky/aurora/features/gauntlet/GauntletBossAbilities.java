@@ -8,6 +8,7 @@ import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.SmallFireball;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.charky.aurora.core.DataRegistry;
@@ -29,6 +30,10 @@ import java.util.UUID;
 //   charge  a roar, then a rush at the player; caught within CHARGE_REACH, 2x a hit
 //   leap    a jump at the player, landing a blow within LEAP_RADIUS, 1.2x a hit
 //   summon  the floor's other mobs called to its side
+//   fireball three fireballs at the player, each a ranged hit (they set nothing alight)
+//   blink   a swirl of portal dust, then it steps behind the player; still close, 1.5x a hit
+//   sonic   a charge that lights the line to the player, then a blast down it, 2.5x a
+//           hit if the boss can still see them within SONIC_RANGE
 //
 // A hit is the boss's own melee hit on the player's armour (MobDamage), through the
 // run's Evasion and Iron Skin
@@ -36,6 +41,7 @@ public class GauntletBossAbilities {
     private static final double SLAM_RADIUS = 5;
     private static final double LEAP_RADIUS = 4;
     private static final double CHARGE_REACH = 3;
+    private static final double SONIC_RANGE = 15;
     private static final Particle.DustOptions WARNING = new Particle.DustOptions(Color.fromRGB(0xFF3030), 1.6f);
 
     // The run a boss fights in: whether it is still on, calling help, and the run's
@@ -86,6 +92,9 @@ public class GauntletBossAbilities {
             case "volley" -> volley(player, boss);
             case "charge" -> charge(player, boss, fight);
             case "leap" -> leap(player, boss, fight);
+            case "fireball" -> fireball(player, boss);
+            case "blink" -> blink(player, boss, fight);
+            case "sonic" -> sonic(player, boss, fight);
             case "summon" -> {
                 boss.getWorld().spawnParticle(Particle.SOUL, boss.getLocation().add(0, 1, 0), 30, 1, 1, 1, 0.02);
                 fight.summon(2 + floor / 20);
@@ -150,6 +159,64 @@ public class GauntletBossAbilities {
             at.getWorld().playSound(at, Sound.ENTITY_IRON_GOLEM_DAMAGE, 1f, 0.5f);
             blowAround(player, boss, at, LEAP_RADIUS, 1.2, 0.9, fight);
         });
+    }
+
+    private void fireball(Player player, LivingEntity boss) {
+        Location eyes = boss.getEyeLocation();
+        Vector aim = player.getEyeLocation().toVector().subtract(eyes.toVector()).normalize();
+        boss.getWorld().playSound(eyes, Sound.ENTITY_BLAZE_SHOOT, 1f, 0.8f);
+        for (int i = -1; i <= 1; i++) {
+            SmallFireball ball = boss.launchProjectile(SmallFireball.class, aim.clone().rotateAroundY(Math.toRadians(i * 10)).multiply(1.2));
+            ball.setIsIncendiary(false);
+        }
+    }
+
+    private void blink(Player player, LivingEntity boss, Fight fight) {
+        boss.getWorld().spawnParticle(Particle.PORTAL, boss.getLocation().add(0, 1, 0), 60, 0.5, 1, 0.5, 0.5);
+        boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_ENDERMAN_STARE, 0.8f, 1.4f);
+        later(12, () -> {
+            if (!fight.on() || !boss.isValid() || !player.isOnline() || !player.getWorld().equals(boss.getWorld())) return;
+            Vector behind = player.getLocation().getDirection().setY(0);
+            if (behind.lengthSquared() < 0.01) behind = new Vector(0, 0, 1);
+            Location to = player.getLocation().clone().subtract(behind.normalize().multiply(2));
+            to.setDirection(player.getLocation().toVector().subtract(to.toVector()));
+            boss.teleport(to);
+            boss.getWorld().playSound(to, Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 0.8f);
+            later(10, () -> {
+                if (!fight.on() || !boss.isValid() || !player.isOnline() || !player.getWorld().equals(boss.getWorld())) return;
+                if (player.getLocation().distance(boss.getLocation()) <= CHARGE_REACH) hit(player, boss, 1.5, fight);
+            });
+        });
+    }
+
+    private void sonic(Player player, LivingEntity boss, Fight fight) {
+        boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_WARDEN_SONIC_CHARGE, 1.5f, 1f);
+        for (int tick = 0; tick < 30; tick += 6) {
+            later(tick, () -> {
+                if (fight.on() && boss.isValid() && player.isOnline() && player.getWorld().equals(boss.getWorld())) line(boss, player, Particle.CRIT);
+            });
+        }
+        later(34, () -> {
+            if (!fight.on() || !boss.isValid() || !player.isOnline() || !player.getWorld().equals(boss.getWorld())) return;
+            boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 2f, 1f);
+            line(boss, player, Particle.SONIC_BOOM);
+            if (player.getLocation().distance(boss.getLocation()) <= SONIC_RANGE && boss.hasLineOfSight(player)) {
+                hit(player, boss, 2.5, fight);
+                throwBack(player, boss.getLocation(), 1.0);
+            }
+        });
+    }
+
+    // Dots from the boss's eyes to the player's
+    private static void line(LivingEntity boss, Player player, Particle particle) {
+        Location from = boss.getEyeLocation();
+        Vector step = player.getEyeLocation().toVector().subtract(from.toVector());
+        double length = Math.min(SONIC_RANGE, step.length());
+        if (length < 0.5) return;
+        step.normalize();
+        for (double along = 1; along <= length; along += particle == Particle.SONIC_BOOM ? 2 : 0.8) {
+            from.getWorld().spawnParticle(particle, from.clone().add(step.clone().multiply(along)), 1, 0, 0, 0, 0);
+        }
     }
 
     // The player, if close enough, takes the blow and is thrown back

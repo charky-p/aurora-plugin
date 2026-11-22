@@ -26,7 +26,7 @@
 # challenges: the daily challenge pool {description ({goal} is filled in), stat, goal, shards, cores,
 #             scale (the goal rises to the player's best floor, rounded down to 5)}
 # bosses: a boss's abilities and their cooldown in seconds {g_rot_king: [{type: summon, cooldown: 14}, ...]}
-#         (slam, volley, charge, leap or summon, see GauntletBossAbilities)
+#         (slam, volley, charge, leap, summon, fireball, blink or sonic, see GauntletBossAbilities)
 # perks: what gear unlocks at a level, in runs only [{gear, level, name, description, stat, amount}]
 #        (gear armor_set: every armour piece at the level)
 # affixes: what an elite can roll from affix_from on {name, colour, description} (see GauntletRuns)
@@ -514,6 +514,506 @@ floors:
     kill: 5
     shards: 31
     cores: 3
+  - mobs:
+      g_mire_archer: 3
+      g_brute: 3
+      g_raider: 4
+      g_blight_boar: 4
+      g_ghoul_pigman: 2
+    health: 97.5
+    attack: 112
+    kill: 5
+    shards: 32
+    cores: 0
+  - mobs:
+      g_ghoul_pigman: 3
+      g_raider: 3
+      g_mire_archer: 4
+      g_ashen_knight: 3
+    health: 102.0
+    attack: 114
+    kill: 5
+    shards: 32
+    cores: 0
+  - mobs:
+      g_ghoul_pigman: 4
+      g_rustling: 3
+      g_raider: 4
+      g_mire_archer: 4
+      g_cinder_cube: 2
+    health: 106.5
+    attack: 117
+    kill: 5
+    shards: 33
+    cores: 0
+  - mobs:
+      g_raider: 4
+      g_cinder_cube: 3
+      g_brute: 4
+      g_ashen_knight: 4
+    health: 111.0
+    attack: 119
+    kill: 5
+    shards: 33
+    cores: 0
+  - mobs:
+      g_ghoul_pigman: 3
+      g_brute: 4
+      g_raider: 4
+      g_blight_boar: 4
+    health: 115.5
+    attack: 121
+    kill: 5
+    shards: 34
+    cores: 0
+  - mobs:
+      g_cinder_cube: 4
+      g_brute: 3
+      g_raider: 4
+      g_rustling: 4
+      g_infernal: 2
+    health: 120.5
+    attack: 123
+    kill: 5
+    shards: 35
+    cores: 0
+  - mobs:
+      g_cinder_cube: 4
+      g_ghoul_pigman: 3
+      g_raider: 3
+      g_rustling: 3
+    health: 125.5
+    attack: 125
+    kill: 6
+    shards: 35
+    cores: 0
+  - mobs:
+      g_brute: 4
+      g_infernal: 4
+      g_ghoul_pigman: 3
+      g_rustling: 4
+    health: 130.5
+    attack: 128
+    kill: 6
+    shards: 36
+    cores: 0
+  - mobs:
+      g_raider: 4
+      g_brute: 4
+      g_ghoul_pigman: 4
+      g_mire_archer: 4
+    health: 135.5
+    attack: 130
+    kill: 6
+    shards: 36
+    cores: 0
+  - mobs:
+      g_infernal_lord: 1
+      g_infernal: 3
+      g_cinder_cube: 3
+    health: 140.5
+    attack: 132
+    kill: 6
+    shards: 37
+    cores: 4
+  - mobs:
+      g_infernal: 4
+      g_mite: 2
+      g_raider: 3
+      g_blight_boar: 3
+    health: 146.0
+    attack: 134
+    kill: 6
+    shards: 38
+    cores: 0
+  - mobs:
+      g_mite: 4
+      g_infernal: 3
+      g_cinder_cube: 4
+      g_mire_archer: 4
+    health: 151.5
+    attack: 136
+    kill: 6
+    shards: 38
+    cores: 0
+  - mobs:
+      g_infernal: 3
+      g_mite: 4
+      g_ghoul_pigman: 4
+      g_rustling: 4
+    health: 157.0
+    attack: 139
+    kill: 6
+    shards: 39
+    cores: 0
+  - mobs:
+      g_ghoul_pigman: 4
+      g_mite: 4
+      g_infernal: 3
+      g_brute: 4
+      g_voidwalker: 2
+    health: 162.5
+    attack: 141
+    kill: 6
+    shards: 39
+    cores: 0
+  - mobs:
+      g_mite: 4
+      g_ghoul_pigman: 4
+      g_infernal: 3
+      g_blight_boar: 3
+    health: 168.0
+    attack: 143
+    kill: 6
+    shards: 40
+    cores: 0
+  - mobs:
+      g_mite: 3
+      g_cinder_cube: 3
+      g_voidwalker: 4
+      g_ashen_knight: 3
+    health: 174.0
+    attack: 145
+    kill: 6
+    shards: 41
+    cores: 0
+  - mobs:
+      g_voidwalker: 3
+      g_cinder_cube: 4
+      g_ghoul_pigman: 4
+      g_ashen_knight: 3
+    health: 180.0
+    attack: 147
+    kill: 6
+    shards: 41
+    cores: 0
+  - mobs:
+      g_ghoul_pigman: 4
+      g_infernal: 3
+      g_mite: 3
+      g_rustling: 4
+    health: 186.0
+    attack: 150
+    kill: 6
+    shards: 42
+    cores: 0
+  - mobs:
+      g_voidwalker: 4
+      g_cinder_cube: 3
+      g_infernal: 4
+      g_brute: 3
+    health: 192.0
+    attack: 152
+    kill: 7
+    shards: 42
+    cores: 0
+  - mobs:
+      g_void_king: 1
+      g_cinder_cube: 3
+      g_infernal: 3
+    health: 198.0
+    attack: 154
+    kill: 7
+    shards: 43
+    cores: 4
+  - mobs:
+      g_revenant: 2
+      g_voidwalker: 5
+      g_infernal: 4
+      g_blight_boar: 4
+    health: 204.5
+    attack: 156
+    kill: 7
+    shards: 44
+    cores: 0
+  - mobs:
+      g_voidwalker: 5
+      g_cinder_cube: 4
+      g_revenant: 4
+      g_brute: 5
+    health: 211.0
+    attack: 158
+    kill: 7
+    shards: 44
+    cores: 0
+  - mobs:
+      g_mite: 4
+      g_revenant: 5
+      g_infernal: 5
+      g_brute: 4
+    health: 217.5
+    attack: 161
+    kill: 7
+    shards: 45
+    cores: 0
+  - mobs:
+      g_infernal: 5
+      g_revenant: 4
+      g_voidwalker: 4
+      g_brute: 5
+    health: 224.0
+    attack: 163
+    kill: 7
+    shards: 45
+    cores: 0
+  - mobs:
+      g_infernal: 4
+      g_mite: 4
+      g_voidwalker: 5
+      g_blight_boar: 4
+      g_reaper: 2
+    health: 230.5
+    attack: 165
+    kill: 7
+    shards: 46
+    cores: 0
+  - mobs:
+      g_revenant: 4
+      g_infernal: 4
+      g_reaper: 4
+      g_cinder_cube: 4
+    health: 237.5
+    attack: 167
+    kill: 7
+    shards: 47
+    cores: 0
+  - mobs:
+      g_revenant: 5
+      g_voidwalker: 4
+      g_mite: 5
+      g_cinder_cube: 5
+    health: 244.5
+    attack: 169
+    kill: 7
+    shards: 47
+    cores: 0
+  - mobs:
+      g_mite: 5
+      g_voidwalker: 5
+      g_infernal: 5
+      g_rustling: 5
+    health: 251.5
+    attack: 172
+    kill: 7
+    shards: 48
+    cores: 0
+  - mobs:
+      g_revenant: 5
+      g_mite: 5
+      g_reaper: 4
+      g_cinder_cube: 5
+    health: 258.5
+    attack: 174
+    kill: 7
+    shards: 48
+    cores: 0
+  - mobs:
+      g_hexed_ravager: 1
+      g_infernal: 3
+      g_mite: 3
+    health: 265.5
+    attack: 176
+    kill: 7
+    shards: 49
+    cores: 5
+  - mobs:
+      g_mite: 5
+      g_infernal: 5
+      g_revenant: 4
+      g_ghoul_pigman: 4
+    health: 273.0
+    attack: 178
+    kill: 7
+    shards: 50
+    cores: 0
+  - mobs:
+      g_voidwalker: 4
+      g_mite: 4
+      g_revenant: 5
+      g_cinder_cube: 4
+    health: 280.5
+    attack: 180
+    kill: 8
+    shards: 50
+    cores: 0
+  - mobs:
+      g_reaper: 4
+      g_voidwalker: 4
+      g_revenant: 5
+      g_rustling: 4
+    health: 288.0
+    attack: 183
+    kill: 8
+    shards: 51
+    cores: 0
+  - mobs:
+      g_revenant: 5
+      g_mite: 4
+      g_infernal: 4
+      g_ashen_knight: 5
+    health: 295.5
+    attack: 185
+    kill: 8
+    shards: 51
+    cores: 0
+  - mobs:
+      g_voidwalker: 4
+      g_infernal: 5
+      g_mite: 5
+      g_brute: 4
+    health: 303.0
+    attack: 187
+    kill: 8
+    shards: 52
+    cores: 0
+  - mobs:
+      g_infernal: 4
+      g_revenant: 4
+      g_mite: 4
+      g_raider: 4
+    health: 311.0
+    attack: 189
+    kill: 8
+    shards: 53
+    cores: 0
+  - mobs:
+      g_infernal: 5
+      g_voidwalker: 5
+      g_reaper: 5
+      g_gale: 4
+    health: 319.0
+    attack: 191
+    kill: 8
+    shards: 53
+    cores: 0
+  - mobs:
+      g_revenant: 5
+      g_voidwalker: 5
+      g_reaper: 4
+      g_mire_archer: 5
+    health: 327.0
+    attack: 194
+    kill: 8
+    shards: 54
+    cores: 0
+  - mobs:
+      g_reaper: 5
+      g_voidwalker: 4
+      g_mite: 5
+      g_rustling: 4
+    health: 335.0
+    attack: 196
+    kill: 8
+    shards: 54
+    cores: 0
+  - mobs:
+      g_molten_titan: 1
+      g_voidwalker: 3
+      g_reaper: 3
+    health: 343.0
+    attack: 198
+    kill: 8
+    shards: 55
+    cores: 5
+  - mobs:
+      g_voidwalker: 6
+      g_infernal: 5
+      g_mite: 6
+      g_raider: 5
+    health: 351.5
+    attack: 200
+    kill: 8
+    shards: 56
+    cores: 0
+  - mobs:
+      g_reaper: 5
+      g_infernal: 5
+      g_voidwalker: 5
+      g_gale: 5
+    health: 360.0
+    attack: 202
+    kill: 8
+    shards: 56
+    cores: 0
+  - mobs:
+      g_mite: 5
+      g_voidwalker: 6
+      g_revenant: 5
+      g_rustling: 6
+    health: 368.5
+    attack: 205
+    kill: 8
+    shards: 57
+    cores: 0
+  - mobs:
+      g_revenant: 6
+      g_reaper: 5
+      g_mite: 5
+      g_mire_archer: 5
+    health: 377.0
+    attack: 207
+    kill: 9
+    shards: 57
+    cores: 0
+  - mobs:
+      g_reaper: 6
+      g_infernal: 6
+      g_voidwalker: 5
+      g_cinder_cube: 5
+    health: 385.5
+    attack: 209
+    kill: 9
+    shards: 58
+    cores: 0
+  - mobs:
+      g_infernal: 6
+      g_reaper: 6
+      g_mite: 6
+      g_cinder_cube: 6
+    health: 394.5
+    attack: 211
+    kill: 9
+    shards: 59
+    cores: 0
+  - mobs:
+      g_mite: 5
+      g_infernal: 6
+      g_revenant: 6
+      g_cinder_cube: 6
+    health: 403.5
+    attack: 213
+    kill: 9
+    shards: 59
+    cores: 0
+  - mobs:
+      g_infernal: 6
+      g_reaper: 5
+      g_voidwalker: 5
+      g_mire_archer: 5
+    health: 412.5
+    attack: 216
+    kill: 9
+    shards: 60
+    cores: 0
+  - mobs:
+      g_revenant: 6
+      g_voidwalker: 6
+      g_infernal: 5
+      g_cinder_cube: 6
+    health: 421.5
+    attack: 218
+    kill: 9
+    shards: 60
+    cores: 0
+  - mobs:
+      g_deep_one: 1
+      g_voidwalker: 3
+      g_revenant: 3
+    health: 430.5
+    attack: 220
+    kill: 9
+    shards: 61
+    cores: 6
 gear:
   sword:
     name: Sword
@@ -945,6 +1445,186 @@ levels:
     defence: 30
     protection: 60
     deflection: 93
+  - level: 31
+    shards: 1300
+    cores: 0
+    material: 6
+    melee: 62
+    ranged: 62
+    defence: 31
+    protection: 62
+    deflection: 96
+  - level: 32
+    shards: 1500
+    cores: 0
+    material: 6
+    melee: 64
+    ranged: 64
+    defence: 32
+    protection: 64
+    deflection: 99
+  - level: 33
+    shards: 1800
+    cores: 0
+    material: 6
+    melee: 66
+    ranged: 66
+    defence: 33
+    protection: 66
+    deflection: 103
+  - level: 34
+    shards: 2100
+    cores: 0
+    material: 6
+    melee: 68
+    ranged: 68
+    defence: 34
+    protection: 68
+    deflection: 106
+  - level: 35
+    shards: 2450
+    cores: 3
+    material: 7
+    melee: 70
+    ranged: 70
+    defence: 35
+    protection: 70
+    deflection: 109
+  - level: 36
+    shards: 2850
+    cores: 0
+    material: 7
+    melee: 72
+    ranged: 72
+    defence: 36
+    protection: 72
+    deflection: 113
+  - level: 37
+    shards: 3350
+    cores: 0
+    material: 7
+    melee: 74
+    ranged: 74
+    defence: 37
+    protection: 74
+    deflection: 116
+  - level: 38
+    shards: 3900
+    cores: 0
+    material: 7
+    melee: 76
+    ranged: 76
+    defence: 38
+    protection: 76
+    deflection: 119
+  - level: 39
+    shards: 4550
+    cores: 0
+    material: 7
+    melee: 78
+    ranged: 78
+    defence: 39
+    protection: 78
+    deflection: 122
+  - level: 40
+    shards: 5350
+    cores: 4
+    material: 8
+    melee: 80
+    ranged: 80
+    defence: 40
+    protection: 80
+    deflection: 126
+  - level: 41
+    shards: 6250
+    cores: 0
+    material: 8
+    melee: 82
+    ranged: 82
+    defence: 41
+    protection: 82
+    deflection: 129
+  - level: 42
+    shards: 7300
+    cores: 0
+    material: 8
+    melee: 84
+    ranged: 84
+    defence: 42
+    protection: 84
+    deflection: 132
+  - level: 43
+    shards: 8550
+    cores: 0
+    material: 8
+    melee: 86
+    ranged: 86
+    defence: 43
+    protection: 86
+    deflection: 136
+  - level: 44
+    shards: 10000
+    cores: 0
+    material: 8
+    melee: 88
+    ranged: 88
+    defence: 44
+    protection: 88
+    deflection: 139
+  - level: 45
+    shards: 11700
+    cores: 4
+    material: 9
+    melee: 90
+    ranged: 90
+    defence: 45
+    protection: 90
+    deflection: 142
+  - level: 46
+    shards: 13700
+    cores: 0
+    material: 9
+    melee: 92
+    ranged: 92
+    defence: 46
+    protection: 92
+    deflection: 146
+  - level: 47
+    shards: 16000
+    cores: 0
+    material: 9
+    melee: 94
+    ranged: 94
+    defence: 47
+    protection: 94
+    deflection: 149
+  - level: 48
+    shards: 18750
+    cores: 0
+    material: 9
+    melee: 96
+    ranged: 96
+    defence: 48
+    protection: 96
+    deflection: 152
+  - level: 49
+    shards: 21950
+    cores: 0
+    material: 9
+    melee: 98
+    ranged: 98
+    defence: 49
+    protection: 98
+    deflection: 155
+  - level: 50
+    shards: 25650
+    cores: 5
+    material: 10
+    melee: 100
+    ranged: 100
+    defence: 50
+    protection: 100
+    deflection: 159
 boons:
   might:
     name: Might
@@ -1408,6 +2088,15 @@ milestones:
   - floor: 50
     essence: 5000
     cosmetic: suffix_unbroken
+  - floor: 60
+    essence: 7500
+    cosmetic: suffix_voidborn
+  - floor: 75
+    essence: 10000
+    cosmetic: trail_cinders
+  - floor: 100
+    essence: 25000
+    cosmetic: suffix_tower_lord
 setup:
   quiver:
     name: Quiver
@@ -1691,6 +2380,41 @@ bosses:
       cooldown: 10
     - type: leap
       cooldown: 13
+  g_infernal_lord:
+    - type: fireball
+      cooldown: 5
+    - type: summon
+      cooldown: 14
+    - type: slam
+      cooldown: 10
+  g_void_king:
+    - type: blink
+      cooldown: 6
+    - type: summon
+      cooldown: 15
+    - type: slam
+      cooldown: 11
+  g_hexed_ravager:
+    - type: charge
+      cooldown: 6
+    - type: leap
+      cooldown: 10
+    - type: summon
+      cooldown: 16
+  g_molten_titan:
+    - type: slam
+      cooldown: 7
+    - type: fireball
+      cooldown: 8
+    - type: leap
+      cooldown: 12
+  g_deep_one:
+    - type: sonic
+      cooldown: 7
+    - type: slam
+      cooldown: 9
+    - type: summon
+      cooldown: 18
 perks:
   - gear: sword
     level: 10
@@ -1965,6 +2689,14 @@ achievements:
     goal: 100
     essence: 2000
     shards: 1500
+    cosmetic: ''
+  - id: summit
+    name: Summit
+    description: "Clear floor {goal}"
+    stat: best
+    goal: 100
+    essence: 10000
+    shards: 5000
     cosmetic: ''
 settings:
   boon_every: 5.0

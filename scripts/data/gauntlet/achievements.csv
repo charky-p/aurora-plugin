@@ -12,3 +12,4 @@ climber,Climber,Clear floor {goal},best,40,1000,500,
 brawler,Brawler,Win {goal} fights in the PvP zone,pvp_kills,50,500,300,
 duelist,Duelist,Win {goal} duels,duel_wins,25,600,400,suffix_duelist
 champion,Champion,Win {goal} duels,duel_wins,100,2000,1500,
+summit,Summit,Clear floor {goal},best,100,10000,5000,

@@ -4,3 +4,8 @@ g_bone_tyrant,volley:6|leap:11
 g_ironhorn,charge:7|slam:12
 g_blight_matriarch,charge:6|summon:15
 g_tower_warden,slam:8|volley:10|leap:13
+g_infernal_lord,fireball:5|summon:14|slam:10
+g_void_king,blink:6|summon:15|slam:11
+g_hexed_ravager,charge:6|leap:10|summon:16
+g_molten_titan,slam:7|fireball:8|leap:12
+g_deep_one,sonic:7|slam:9|summon:18

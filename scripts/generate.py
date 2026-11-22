@@ -1094,7 +1094,7 @@ GAUNTLET_HEADER = """# =========================================================
 # challenges: the daily challenge pool {description ({goal} is filled in), stat, goal, shards, cores,
 #             scale (the goal rises to the player's best floor, rounded down to 5)}
 # bosses: a boss's abilities and their cooldown in seconds {g_rot_king: [{type: summon, cooldown: 14}, ...]}
-#         (slam, volley, charge, leap or summon, see GauntletBossAbilities)
+#         (slam, volley, charge, leap, summon, fireball, blink or sonic, see GauntletBossAbilities)
 # perks: what gear unlocks at a level, in runs only [{gear, level, name, description, stat, amount}]
 #        (gear armor_set: every armour piece at the level)
 # affixes: what an elite can roll from affix_from on {name, colour, description} (see GauntletRuns)
@@ -1112,7 +1112,7 @@ GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "gua
 GAUNTLET_RARITIES = {"common", "rare", "epic"}
 GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive"}
 GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
-GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon"}
+GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon", "fireball", "blink", "sonic"}
 GAUNTLET_WEAPON_PERK_STATS = {"damage", "crit", "firststrike", "execute", "slayer", "cleave", "killheal"}
 GAUNTLET_SET_PERK_STATS = {"health", "guard", "absorb"}
 GAUNTLET_AFFIXES = {"vampiric", "explosive", "shielded", "swift", "frenzied", "summoner"}

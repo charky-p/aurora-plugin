@@ -293,3 +293,172 @@ items:
       - attr: FOLLOW_RANGE
         value: 16.0
     glowing: true
+
+  g_ghoul_pigman:
+    display: "<gold><b>Ghoul Pigman"
+    entity: ZOMBIFIED_PIGLIN
+    health: 130.0
+    attack_cooldown: 1.0
+    damage: 2.6
+    equip:
+      hand: GOLDEN_SWORD
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.28
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_cinder_cube:
+    display: "<red><b>Cinder Cube"
+    entity: MAGMA_CUBE
+    health: 100.0
+    attack_cooldown: 1.0
+    damage: 2.4
+    attributes:
+      - attr: SCALE
+        value: 1.6
+      - attr: MOVEMENT_SPEED
+        value: 0.35
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_infernal:
+    display: "<gold><b>Infernal"
+    entity: BLAZE
+    health: 110.0
+    damage: 2.4
+    attributes:
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_mite:
+    display: "<gray><b>Mite"
+    entity: SILVERFISH
+    health: 40.0
+    damage: 1.8
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.4
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_voidwalker:
+    display: "<dark_purple><b>Voidwalker"
+    entity: ENDERMAN
+    health: 170.0
+    attack_cooldown: 1.0
+    damage: 3.0
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.32
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_revenant:
+    display: "<dark_green><b>Revenant"
+    entity: ZOMBIE_VILLAGER
+    health: 180.0
+    attack_cooldown: 1.0
+    damage: 3.0
+    equip:
+      head: IRON_HELMET
+      chest: IRON_CHESTPLATE
+      hand: IRON_SWORD
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.27
+      - attr: KNOCKBACK_RESISTANCE
+        value: 0.4
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_reaper:
+    display: "<dark_gray><b>Reaper"
+    entity: WITHER_SKELETON
+    health: 200.0
+    attack_cooldown: 1.0
+    damage: 3.3
+    equip:
+      hand: NETHERITE_SWORD
+    attributes:
+      - attr: SCALE
+        value: 1.2
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: FOLLOW_RANGE
+        value: 48.0
+
+  g_infernal_lord:
+    display: "<gold><b>The Infernal Lord"
+    entity: BLAZE
+    health: 1300.0
+    attack_cooldown: 1.0
+    damage: 4.0
+    attributes:
+      - attr: SCALE
+        value: 2.0
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true
+
+  g_void_king:
+    display: "<dark_purple><b>The Void King"
+    entity: ENDERMAN
+    health: 1400.0
+    attack_cooldown: 1.0
+    damage: 4.2
+    attributes:
+      - attr: SCALE
+        value: 1.5
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true
+
+  g_hexed_ravager:
+    display: "<dark_red><b>The Hexed Ravager"
+    entity: RAVAGER
+    health: 1500.0
+    attack_cooldown: 1.5
+    damage: 4.4
+    attributes:
+      - attr: SCALE
+        value: 1.2
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true
+
+  g_molten_titan:
+    display: "<red><b>The Molten Titan"
+    entity: MAGMA_CUBE
+    health: 1600.0
+    attack_cooldown: 1.5
+    damage: 4.6
+    attributes:
+      - attr: SCALE
+        value: 3.0
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: MOVEMENT_SPEED
+        value: 0.3
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true
+
+  g_deep_one:
+    display: "<dark_aqua><b>The Deep One"
+    entity: WARDEN
+    health: 2000.0
+    attack_cooldown: 1.5
+    damage: 5.0
+    attributes:
+      - attr: KNOCKBACK_RESISTANCE
+        value: 1.0
+      - attr: FOLLOW_RANGE
+        value: 64.0
+    glowing: true

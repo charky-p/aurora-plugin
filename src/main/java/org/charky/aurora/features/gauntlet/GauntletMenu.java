@@ -17,8 +17,8 @@ import java.util.UUID;
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
 // starting kit, milestones, the top floors, and the way out
 public class GauntletMenu extends PagedMenu {
-    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, CHALLENGES = 4, ACHIEVEMENTS = 5, MILESTONES = 6,
-            TOP = 7, WEEKLY = 8, PVP = 9, DUELS = 10, SPECTATE = 11, LEAVE = 12;
+    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, SHOP = 4, CHALLENGES = 5, ACHIEVEMENTS = 6,
+            MILESTONES = 7, TOP = 8, WEEKLY = 9, PVP = 10, DUELS = 11, SPECTATE = 12, LEAVE = 13;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -64,6 +64,12 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>hearts, Shards, rerolls, a Second Wind.",
                 "",
                 "<gray>Learned: <white>" + learned + "/" + total)));
+
+        items.add(button(Material.AMETHYST_SHARD, "<aqua><b>Shard Shop", List.of(
+                "<gray>Cosmetics only the Gauntlet sells,",
+                "<gray>worn everywhere in /customise.",
+                "",
+                "<gray>Shards: <aqua>" + profile.shards)));
 
         GauntletChallenges challenges = manager.challenges();
         List<String> daily = new ArrayList<>(List.of("<gray>New ones every day, the same for", "<gray>everyone. Done the moment you are.", ""));
@@ -217,6 +223,7 @@ public class GauntletMenu extends PagedMenu {
                 if (problem != null) TextUtils.error(player, problem);
             }
             case TALENTS -> new TalentsMenu(manager).open(player);
+            case SHOP -> new ShardShopMenu(manager).open(player);
             case ACHIEVEMENTS -> new AchievementsMenu(manager).open(player);
             case SPECTATE -> new SpectateMenu(manager).open(player);
             case FORGE -> new ForgeMenu(manager, runs).open(player);

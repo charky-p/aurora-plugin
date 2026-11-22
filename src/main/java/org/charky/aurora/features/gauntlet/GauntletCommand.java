@@ -55,6 +55,11 @@ public class GauntletCommand implements TabExecutor {
                 }
                 yield manager.spectate().watch(player, Bukkit.getPlayerExact(args[1]));
             }
+            case "shop" -> {
+                if (!manager.isHere(player)) yield manager.sendToLobby(player);
+                new ShardShopMenu(manager).open(player);
+                yield null;
+            }
             case "achievements" -> {
                 new AchievementsMenu(manager).open(player);
                 yield null;
@@ -103,7 +108,7 @@ public class GauntletCommand implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                       @NotNull String label, @NotNull String @NotNull [] args) {
         if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "duel", "spectate",
-                "achievements", "boon", "leave"));
+                "achievements", "shop", "boon", "leave"));
         if (args.length == 2 && args[0].equalsIgnoreCase("spectate")) {
             List<String> options = new ArrayList<>(List.of("stop"));
             for (Player online : Bukkit.getOnlinePlayers()) {

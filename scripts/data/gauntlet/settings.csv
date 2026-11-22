@@ -48,3 +48,7 @@ weekly_pvp_2,600,Shards for the second most PvP wins of the week
 weekly_pvp_3,300,Shards for the third most PvP wins of the week
 affix_from,10,The first floor elites roll an affix
 pvp_kill_heal,100,Percent of their health a kill in the PvP zone gives back (and a full hunger bar)
+altar_first,12,The first floor an altar comes after
+altar_every,20,Floors between altars after that
+altar_angel_hearts,1,Max hearts the angel's pact adds for the run (and a full heal)
+altar_devil_hearts,2,Max hearts the devil's pact takes for the run (for an epic boon)

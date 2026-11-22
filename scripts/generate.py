@@ -1099,6 +1099,7 @@ GAUNTLET_HEADER = """# =========================================================
 #        (gear armor_set: every armour piece at the level)
 # affixes: what an elite can roll from affix_from on {name, colour, description} (see GauntletRuns)
 # achievements: long goals [{id, name, description ({goal} filled in), stat, goal, essence, shards, cosmetic}]
+# shop: cosmetics sold for Shards in the Shard Shop [{cosmetic, shards}]
 # settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
@@ -1244,6 +1245,12 @@ def gauntlet_text(mobs, cosmetics):
                                         goal=int(row["goal"]), essence=int(row["essence"] or 0), shards=int(row["shards"] or 0),
                                         cosmetic=cosmetic))
 
+    shop = []
+    for row in _gauntlet_rows("shardshop.csv") or []:
+        if cosmetics is not None and row["cosmetic"] not in cosmetics:
+            errors.append(f"gauntlet shard shop: no cosmetic '{row['cosmetic']}' in Cosmetics.java")
+        shop.append(OrderedDict(cosmetic=row["cosmetic"], shards=int(row["shards"])))
+
     settings = OrderedDict()
     for row in _gauntlet_rows("settings.csv") or []:
         try:
@@ -1270,7 +1277,7 @@ def gauntlet_text(mobs, cosmetics):
 
     data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones, setup=setup,
                        talents=talents, mutators=mutators, challenges=challenges, bosses=bosses, perks=perks,
-                       affixes=affixes, achievements=achievements, settings=settings)
+                       affixes=affixes, achievements=achievements, shop=shop, settings=settings)
     body = yaml.dump(data, Dumper=_Dumper, sort_keys=False, default_flow_style=False, allow_unicode=True,
                      width=10 ** 6, indent=2)
     return GAUNTLET_HEADER + "\n" + body, len(floors), errors

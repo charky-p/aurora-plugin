@@ -32,7 +32,9 @@ import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.core.database.Database;
 import org.charky.aurora.core.database.GauntletStore;
 import org.charky.aurora.features.build.BuildManager;
+import org.charky.aurora.features.cosmetic.Cosmetic;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
+import org.charky.aurora.features.cosmetic.Cosmetics;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 
@@ -128,6 +130,25 @@ public class GauntletManager implements Listener {
 
     public boolean isWatching(Player player) {
         return spectate != null && spectate.isWatching(player);
+    }
+
+    public boolean ownsCosmetic(Player player, Cosmetic cosmetic) {
+        return cosmetics.owns(player, cosmetic);
+    }
+
+    // A Shard Shop cosmetic. Null if it worked, otherwise why not
+    public String buyCosmetic(Player player, GauntletData.ShopItem item) {
+        Cosmetic cosmetic = Cosmetics.get(item.cosmetic());
+        if (cosmetic == null) return "That cosmetic does not exist";
+        if (cosmetics.owns(player, cosmetic)) return "You already own it";
+        GauntletProfile profile = profile(player);
+        if (profile.shards < item.shards()) return "You need " + (item.shards() - profile.shards) + " more Shards";
+        profile.shards -= item.shards();
+        save(player.getUniqueId());
+        cosmetics.give(player.getUniqueId(), cosmetic.id());
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.6f, 1.4f);
+        refreshBoard(player);
+        return null;
     }
 
     // An achievement's reward: Essence into the main game, Shards, a cosmetic

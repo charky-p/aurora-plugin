@@ -137,6 +137,9 @@ public class GauntletRuns implements Listener {
         UUID hoarder;
         int hoarders;
         int bossKills;
+        // An altar waiting for its choice, and the hearts its pacts gave or took this run
+        boolean altar;
+        double altarHealth;
 
         Run(UUID player, int slot) {
             this.player = player;
@@ -569,7 +572,8 @@ public class GauntletRuns implements Listener {
                 case FIGHTING -> "<red>Floor " + run.floor + " <dark_gray>| <white>" + run.mobs.size() + " left"
                         + (run.combo >= 2 && System.currentTimeMillis() - run.lastKill <= data().setting("combo_window", 3) * 1000
                         ? " <dark_gray>| <gold><b>x" + run.combo + " COMBO</b>" : "");
-                case CHOOSING -> "<gold>Pick a boon <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>/gauntlet boon</click>";
+                case CHOOSING -> (run.altar ? "<light_purple>Choose at the altar" : "<gold>Pick a boon")
+                        + " <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>/gauntlet boon</click>";
                 case STARTING -> "<red>Floor " + run.floor;
             };
             manager.refreshBoard(player);
@@ -601,7 +605,7 @@ public class GauntletRuns implements Listener {
                 run.bar.progress((float) Math.clamp(1 - (double) run.mobs.size() / total, 0, 1));
             }
             case CHOOSING -> {
-                run.bar.name(TextUtils.parse("<gold><b>Pick a boon</b> <gray>to go on"));
+                run.bar.name(TextUtils.parse(run.altar ? "<light_purple><b>An altar</b> <gray>choose to go on" : "<gold><b>Pick a boon</b> <gray>to go on"));
                 run.bar.progress(1f);
             }
             case STARTING -> {
@@ -711,12 +715,60 @@ public class GauntletRuns implements Listener {
             TextUtils.send(player, "<gold><b>NEW BEST!</b> <gray>Past your old record of floor " + run.bestBefore);
         }
 
-        if (run.floor % boonEvery() == 0) {
+        if (altarFloor(run.floor)) {
+            run.altar = true;
+            run.state = State.CHOOSING;
+            player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 0.7f);
+            TextUtils.send(player, "<light_purple><b>AN ALTAR</b> <gray>A pact for the climb, or walk on: "
+                    + "<yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+            new AltarMenu(manager, this).open(player);
+        } else if (run.floor % boonEvery() == 0) {
             carePackage(player, run);
             offerBoons(player, run);
         } else {
             nextFloor(player, run);
         }
+    }
+
+    // An altar comes after altar_first, then every altar_every floors
+    private boolean altarFloor(int floor) {
+        int first = (int) data().setting("altar_first", 12), every = Math.max(1, (int) data().setting("altar_every", 20));
+        return floor >= first && (floor - first) % every == 0;
+    }
+
+    // The altar's choice: the angel's heal and heart, the devil's epic boon for hearts, or nothing
+    void altar(Player player, String choice) {
+        Run run = runs.get(player.getUniqueId());
+        if (run == null || !run.altar) return;
+        run.altar = false;
+        player.closeInventory();
+        switch (choice) {
+            case AltarMenu.ANGEL -> {
+                run.altarHealth += 2 * data().setting("altar_angel_hearts", 1);
+                applyBoons(player, run);
+                heal(player);
+                player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 0.8f, 1.5f);
+                TextUtils.send(player, "<yellow><b>ANGEL'S PACT</b> <gray>Healed, and a heart stronger");
+            }
+            case AltarMenu.DEVIL -> {
+                List<String> epic = pickBoons(run, 1, "epic");
+                if (epic.isEmpty()) epic = pickBoons(run, 1, "rare");
+                run.altarHealth = Math.max(-10, run.altarHealth - 2 * data().setting("altar_devil_hearts", 2));
+                if (!epic.isEmpty()) {
+                    GauntletData.Boon boon = data().boons().get(epic.getFirst());
+                    run.boons.merge(boon.id(), 1, Integer::sum);
+                    if (boon.stat().equals("revive")) run.revives += (int) boon.amount();
+                    TextUtils.send(player, "<dark_red><b>DEVIL'S PACT</b> <gray>For your hearts: " + boon.colour() + boon.name()
+                            + " <gray>" + boon.description());
+                }
+                applyBoons(player, run);
+                AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
+                if (max != null && player.getHealth() > max.getValue()) player.setHealth(max.getValue());
+                player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.4f, 1.6f);
+            }
+            default -> TextUtils.send(player, "<gray>You walk past the altar");
+        }
+        nextFloor(player, run);
     }
 
     // A hit that would kill ends the run, unless a totem in hand or a Second Wind saves them
@@ -908,9 +960,14 @@ public class GauntletRuns implements Listener {
 
     // Boons not taken to their max, picked by the weight of their rarity, none twice
     private List<String> pickBoons(Run run, int count) {
+        return pickBoons(run, count, null);
+    }
+
+    // The same, of one rarity only when one is given
+    private List<String> pickBoons(Run run, int count, String rarity) {
         List<GauntletData.Boon> open = new ArrayList<>();
         for (GauntletData.Boon boon : data().boons().values()) {
-            if (run.stacks(boon.id()) < boon.max()) open.add(boon);
+            if (run.stacks(boon.id()) < boon.max() && (rarity == null || boon.rarity().equals(rarity))) open.add(boon);
         }
         List<String> picked = new ArrayList<>();
         while (picked.size() < count && !open.isEmpty()) {
@@ -952,7 +1009,8 @@ public class GauntletRuns implements Listener {
     public String openBoons(Player player) {
         Run run = runs.get(player.getUniqueId());
         if (run == null || run.state != State.CHOOSING) return "There is no boon to pick right now";
-        new BoonMenu(manager.registry(), this, player).open(player);
+        if (run.altar) new AltarMenu(manager, this).open(player);
+        else new BoonMenu(manager.registry(), this, player).open(player);
         return null;
     }
 
@@ -1010,6 +1068,11 @@ public class GauntletRuns implements Listener {
                 block.getWorld().spawnParticle(Particle.POOF, block.getLocation().add(0.5, 0.5, 0.5), 15, 0.3, 0.3, 0.3, 0.02);
                 owner.playSound(block.getLocation(), Sound.BLOCK_WOOL_BREAK, 0.8f, 1f);
             }
+            return;
+        }
+        if (event.getInventory().getHolder(false) instanceof AltarMenu && event.getPlayer() instanceof Player player) {
+            Run run = runs.get(player.getUniqueId());
+            if (run != null && run.altar) TextUtils.send(player, "<gray>The altar waits: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
             return;
         }
         if (!(event.getInventory().getHolder(false) instanceof BoonMenu)) return;
@@ -1073,7 +1136,7 @@ public class GauntletRuns implements Listener {
     }
 
     private void applyBoons(Player player, Run run) {
-        setModifier(player, Attribute.MAX_HEALTH, HEALTH_BOON, boonTotal(run, "health"), AttributeModifier.Operation.ADD_NUMBER);
+        setModifier(player, Attribute.MAX_HEALTH, HEALTH_BOON, boonTotal(run, "health") + run.altarHealth, AttributeModifier.Operation.ADD_NUMBER);
         setModifier(player, Attribute.MOVEMENT_SPEED, SPEED_BOON, boonTotal(run, "speed") / 100, AttributeModifier.Operation.ADD_SCALAR);
         int regen = (int) Math.round(boonTotal(run, "regen"));
         player.removePotionEffect(PotionEffectType.REGENERATION);

@@ -25,7 +25,7 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                            Map<String, SetupItem> setup, Map<String, Talent> talents, Map<String, Mutator> mutators,
                            Map<String, Challenge> challenges, Map<String, List<BossAbility>> bosses,
                            List<Perk> perks, Map<String, Affix> affixes, List<Achievement> achievements,
-                           Map<String, Double> settings) {
+                           List<ShopItem> shop, Map<String, Double> settings) {
     // The gear a perk belongs to when it is for the whole armour set
     public static final String ARMOR_SET = "armor_set";
     private static final String FILE = "gauntlet.yml";
@@ -117,6 +117,10 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         return perks.stream().filter(perk -> perk.gear().equals(gearId)).toList();
     }
 
+    // A cosmetic sold for Shards in the Shard Shop (shardshop.csv)
+    public record ShopItem(String cosmetic, int shards) {
+    }
+
     // What an elite can roll from affix_from on (affixes.csv), shown in its name
     public record Affix(String id, String name, String colour, String description) {
     }
@@ -163,7 +167,7 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
 
     public static GauntletData empty() {
         return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(),
-                Map.of(), List.of(), Map.of(), List.of(), Map.of());
+                Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of());
     }
 
     // Empty when the file is missing or broken, the gauntlet then refuses to start
@@ -272,11 +276,15 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                         str(row.get("stat")), num(row.get("goal")).intValue(), num(row.get("essence")).intValue(),
                         num(row.get("shards")).intValue(), str(row.get("cosmetic"))));
             }
+            List<ShopItem> shop = new ArrayList<>();
+            for (Map<String, Object> row : list(root.get("shop"))) {
+                shop.add(new ShopItem(str(row.get("cosmetic")), num(row.get("shards")).intValue()));
+            }
             Map<String, Double> settings = new LinkedHashMap<>();
             ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
             return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care),
                     List.copyOf(milestones), setup, talents, mutators, challenges, bosses, List.copyOf(perks), affixes,
-                    List.copyOf(achievements), settings);
+                    List.copyOf(achievements), List.copyOf(shop), settings);
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load " + FILE, e);
             return empty();

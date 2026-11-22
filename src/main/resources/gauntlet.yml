@@ -31,6 +31,7 @@
 #        (gear armor_set: every armour piece at the level)
 # affixes: what an elite can roll from affix_from on {name, colour, description} (see GauntletRuns)
 # achievements: long goals [{id, name, description ({goal} filled in), stat, goal, essence, shards, cosmetic}]
+# shop: cosmetics sold for Shards in the Shard Shop [{cosmetic, shards}]
 # settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
@@ -2698,6 +2699,17 @@ achievements:
     essence: 10000
     shards: 5000
     cosmetic: ''
+shop:
+  - cosmetic: suffix_towerborn
+    shards: 1500
+  - cosmetic: trail_sculk
+    shards: 2500
+  - cosmetic: trail_rift
+    shards: 3500
+  - cosmetic: trail_void_drip
+    shards: 4500
+  - cosmetic: suffix_shardlord
+    shards: 8000
 settings:
   boon_every: 5.0
   boon_choices: 3.0
@@ -2748,3 +2760,7 @@ settings:
   weekly_pvp_3: 300.0
   affix_from: 10.0
   pvp_kill_heal: 100.0
+  altar_first: 12.0
+  altar_every: 20.0
+  altar_angel_hearts: 1.0
+  altar_devil_hearts: 2.0

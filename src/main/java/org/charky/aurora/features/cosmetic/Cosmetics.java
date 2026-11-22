@@ -89,6 +89,9 @@ public final class Cosmetics {
         suffix("duelist", "<gray>[<gold>DUELIST<gray>]", Source.GRANT, 0, "Win 25 Gauntlet duels");
         suffix("voidborn", "<gray>[<dark_purple>VOIDBORN<gray>]", Source.GRANT, 0, "Reach floor 60 of the Gauntlet");
         suffix("tower_lord", "<gray>[<gradient:#FFD200:#F7971E:#FF416C>TOWER LORD</gradient><gray>]", Source.GRANT, 0, "Reach floor 100 of the Gauntlet");
+        // Sold for Shards in the Gauntlet's Shard Shop (scripts/data/gauntlet/shardshop.csv)
+        suffix("towerborn", "<gray>[<red>TOWERBORN<gray>]", Source.GRANT, 0, "From the Gauntlet's Shard Shop");
+        suffix("shardlord", "<gray>[<gradient:#00C6FF:#0072FF>SHARDLORD</gradient><gray>]", Source.GRANT, 0, "From the Gauntlet's Shard Shop");
         suffix("regular", "<gray>[<dark_gray>REGULAR<gray>]", Source.PLAYTIME, 10 * HOUR, null);
         suffix("devoted", "<gray>[<white>DEVOTED<gray>]", Source.PLAYTIME, 50 * HOUR, null);
         suffix("veteran", "<gray>[<dark_gray>VETERAN<gray>]", Source.PLAYTIME, 100 * HOUR, null);
@@ -262,6 +265,9 @@ public final class Cosmetics {
         trail("bloodsteel", "<red><b>Bloodsteel", Material.NETHERITE_SWORD, Source.GRANT, 0, "DAMAGE_INDICATOR");
         trail("shardstorm", "<aqua><b>Shardstorm", Material.AMETHYST_SHARD, Source.GRANT, 0, "WAX_OFF");
         trail("cinders", "<red><b>Cinders", Material.MAGMA_CREAM, Source.GRANT, 0, "LAVA");
+        trail("sculk", "<dark_aqua><b>Sculk Souls", Material.SCULK, Source.GRANT, 0, "SCULK_SOUL");
+        trail("rift", "<light_purple><b>Rift", Material.CRYING_OBSIDIAN, Source.GRANT, 0, "REVERSE_PORTAL");
+        trail("void_drip", "<dark_purple><b>Void Drip", Material.ENDER_EYE, Source.GRANT, 0, "DRIPPING_OBSIDIAN_TEAR");
 
         // The value is the effect, see KillEffects
         kill("flames", "<gold>Burn", Material.FIRE_CHARGE, 1_500);

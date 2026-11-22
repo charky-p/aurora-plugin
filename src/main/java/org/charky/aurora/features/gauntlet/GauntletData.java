@@ -360,14 +360,10 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         }
     }
 
-    public static String floorMobId(String mobId, int floor) {
-        return new Variant(mobId, floor, false, 0, null).id();
-    }
-
     // The base mob of a floor mob id, g_rotter from g_rotter#12*~swift
-    public static String baseMobId(String floorMobId) {
-        Variant variant = Variant.parse(floorMobId);
-        return variant == null ? floorMobId : variant.base();
+    public static String baseMobId(String variantId) {
+        Variant variant = Variant.parse(variantId);
+        return variant == null ? variantId : variant.base();
     }
 
     // A mob on its floor: the base mob's health times the floor's, its attack plus the

@@ -216,6 +216,7 @@ A tower mode in a world of its own (`scripts/data/gauntlet/`, see [PROGRESSION.m
 | `/a gauntlet package` | Where care packages land, inside the arena |
 | `/a gauntlet pvp` | The wand selection is the PvP zone |
 | `/a gauntlet status` | What is still missing |
+| `/a gauntlet reset <player>` | Wipe a player's Gauntlet progress back to a new player's: Shards, Cores, best floor, runs, gear, care package, starting kit, layout and milestones (so they can be earned again; Essence and cosmetics they already paid are kept). Ends a run in progress. Online players only. `/a reset <player> all` does not touch the Gauntlet |
 
 To build in the Gauntlet's world, make it a build world (`/a world build`) while you work; it plays as the Gauntlet again once it is not. Dying anywhere in it costs nothing and you come back in the lobby with your setup. Main-game gear taken out there (from the Armory) is taken away, and the ender chest does not open.
 

@@ -186,6 +186,27 @@ public class GauntletManager implements Listener {
         return profile;
     }
 
+    // Back to a new player's: Shards, Cores, best floor, runs, gear, care package,
+    // starting kit, layout and milestones all go. A run in progress ends first, and
+    // what milestones already paid (Essence, cosmetics) is kept
+    public void reset(Player player) {
+        if (runs != null) runs.end(player, GauntletRuns.End.LEFT);
+        UUID uuid = player.getUniqueId();
+        profiles.remove(uuid);
+        db.async(() -> {
+            store.reset(uuid);
+            // The new profile's starter gear, saved after the rows above are gone
+            GauntletProfile fresh = profiles.get(uuid);
+            if (fresh != null) {
+                store.save(uuid, fresh);
+                fresh.gear.forEach((gear, level) -> store.saveGear(uuid, gear, level));
+            }
+        });
+        profile(player);
+        if (isHere(player)) giveKit(player);
+        refreshBoard(player);
+    }
+
     void save(UUID uuid) {
         GauntletProfile profile = profiles.get(uuid);
         if (profile != null) db.async(() -> store.save(uuid, profile));

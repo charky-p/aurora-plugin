@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public class GauntletSub implements AuroraSubCommand {
     private static final List<String> ACTIONS = List.of("lobby", "arena", "spawn", "mobspawn", "clearmobspawns",
-            "package", "pvp", "status");
+            "package", "pvp", "status", "reset");
 
     private final Aurora plugin;
 
@@ -43,6 +43,19 @@ public class GauntletSub implements AuroraSubCommand {
                     : "<red>Not ready: " + missing);
             return;
         }
+        if (action.equals("reset")) {
+            if (args.length < 2) {
+                TextUtils.usage(sender, "/aurora gauntlet reset <player>");
+                return;
+            }
+            Player target = AuroraSubCommand.targetPlayer(sender, args, 1);
+            if (target == null) return;
+            manager.reset(target);
+            TextUtils.success(sender, target.getName() + "'s Gauntlet progress is reset");
+            if (!target.equals(sender)) TextUtils.send(target, "<red>Your Gauntlet progress was reset by staff");
+            return;
+        }
+
         if (!(sender instanceof Player player)) {
             TextUtils.error(sender, "Stand where it goes, from in game");
             return;
@@ -122,12 +135,13 @@ public class GauntletSub implements AuroraSubCommand {
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length == 1) return TextUtils.getCompletions(args[0], ACTIONS);
+        if (args.length == 2 && args[0].equalsIgnoreCase("reset")) return TextUtils.playerCompletions(args[1]);
         return List.of();
     }
 
     @Override
     public String getUsage() {
-        return "<lobby|arena|spawn|mobspawn|clearmobspawns|package|pvp|status>";
+        return "<lobby|arena|spawn|mobspawn|clearmobspawns|package|pvp|status|reset> [player]";
     }
 
     @Override
@@ -150,6 +164,7 @@ public class GauntletSub implements AuroraSubCommand {
                 "clearmobspawns - remove every mob spawn",
                 "package - where care packages land, inside the arena",
                 "pvp - the wand selection is the PvP zone, the only place players can fight",
-                "status - what is still missing");
+                "status - what is still missing",
+                "reset <player> - wipe a player's Gauntlet progress: Shards, Cores, best floor, gear, kit, milestones");
     }
 }

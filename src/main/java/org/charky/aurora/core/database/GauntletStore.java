@@ -111,6 +111,13 @@ public class GauntletStore {
         });
     }
 
+    // Every bit of a player's gauntlet progress, the inventory they brought in excepted
+    public void reset(UUID uuid) {
+        for (String table : new String[]{"gauntlet_players", "gauntlet_gear", "gauntlet_milestones", "gauntlet_setup", "gauntlet_layouts"}) {
+            db.update("DELETE FROM " + table + " WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()));
+        }
+    }
+
     // Null when nothing is put away
     public byte[] loadInventory(UUID uuid) {
         byte[][] items = {null};

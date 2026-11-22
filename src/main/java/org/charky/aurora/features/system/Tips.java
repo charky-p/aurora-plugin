@@ -13,16 +13,26 @@ public final class Tips {
     private static final long EVERY_TICKS = 5 * 60 * 20L;
     private static final String PREFIX = "<gradient:#7F7FD5:#91EAE4><b>TIP</b></gradient> <dark_gray>» <gray>";
 
+    // Progress tips and command tips take turns
     private static final List<String> TIPS = List.of(
             "Stuck? Gormak and Verdant Groves add their Fortune and levels to the same tools. Playing both makes each one faster.",
+            "<white>/a<gray> opens the Aurora menu: How to Play, your backpack, collections, the shop and more.",
             "Gormak is where the sword, armour and shield get strong. Verdant Groves is where the pick and axe do. Keep both going.",
+            "Everything you mine and loot goes to your backpack. Open it with <white>/bp<gray>.",
             "A block drops nothing until your Fortune reaches its density. Buy the zone's Fortune upgrades first.",
+            "<white>/collections<gray> shows everything you have gathered and the Essence the next tier pays.",
             "\"Requires Looting\" on a kill means the mob drops nothing yet. Upgrade your sword's Looting.",
+            "Lost? <white>/spawn<gray> takes you back to this world's spawn.",
             "Wait for a full swing: a spammed hit does a fifth of the damage. Jump as you hit for a 1.5x crit.",
+            "Type <white>[item]<gray> in chat to show what you hold, or <white>[inv]<gray> to share your inventory.",
             "Hold up your shield to block hits. Deflection upgrades let it stop stronger mobs.",
+            "<white>/leaderboard<gray> shows the top ten by level, blocks mined, kills, Essence and playtime.",
             "Mob gear drops are unlocked for good. Take a copy out any time from the Gear tab in <white>/collections<gray>.",
-            "Collections and levels pay Essence. Spend it in <white>/shop<gray> and <white>/customise<gray>.",
+            "<white>/customise<gray> changes your suffix, colours, trail, kill effect, armour trim and tool looks.",
+            "Collections and levels pay Essence. Spend it on perks like Dash and mounts in <white>/shop<gray>.",
+            "Too much junk? <white>/trash<gray> opens a bin. Tools, the backpack and keys are always kept.",
             "Max out a zone to earn its suffix, shown in <white>/customise<gray>.",
+            "<white>/ranks<gray> picks which of your ranks shows by your name.",
             "In the Royal Tomb, a Tomb Key summons Gormak the Eternal. His Ancient Hearts pay for the Tomb's last upgrades.",
             "Have an idea? Send it with <white>/suggest<gray>, or join us on <white>/discord<gray>.");
 

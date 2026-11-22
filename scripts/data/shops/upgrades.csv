@@ -595,6 +595,7 @@ glowmire,25,axe,efficiency,6,red_mushroom:0.5|brown_mushroom:0.5|hydra_fang=1
 glowmire,26,axe,fortune,8,red_mushroom:1|hydra_fang=1
 glowmire,27,axe,fortune,9,brown_mushroom:1|hydra_fang=1
 glowmire,28,helmet,defence,2,wisp_dust:1
+glowmire,29,pick,blast,3,verdant_froglight:0.4|pearlescent_froglight:0.4|wisp_dust:0.2
 foothills,1,shovel,material,COPPER,dirt:1
 foothills,2,shovel,fortune,1,dirt:1
 foothills,3,axe,efficiency,1,pumpkin:1

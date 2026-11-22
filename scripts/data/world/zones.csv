@@ -25,12 +25,12 @@ slime_hollow,Slime Hollow,marsh,overworld,marsh,,23,,10,bog_slime|mangrove_log,s
 fens,The Fens,marsh,overworld,marsh,,24,,10,bog_stone|fen_soil|moss,bog_walker,1.5,0.5,slime_hollow
 sunken_ruins,Sunken Ruins,marsh,overworld,marsh,,25,,10,verdigris|mangrove_leaves|mushroom_stem,bogged_archer,1,0.5,fens
 glowmire,Glowmire,marsh,overworld,marsh,,26,,12,ochre_froglight|verdant_froglight|pearlescent_froglight|red_mushroom|brown_mushroom,glow_wisp,1,0.5,sunken_ruins
-foothills,Foothills,peaks,overworld,peaks,,27,,8,dirt|pumpkin,mountain_pig,2,2,
-stony_crags,Stony Crags,peaks,overworld,peaks,,28,,10,melon|calcite,mountain_goat,2,2,foothills
-frozen_slopes,Frozen Slopes,peaks,overworld,peaks,,29,,10,snow|packed_ice,peak_stray,2,2,stony_crags
-redstone_grotto,Redstone Grotto,peaks,overworld,peaks,,30,,10,redstone,frost_spider,2,2,frozen_slopes
-emerald_depths,Emerald Depths,peaks,overworld,peaks,,31,,10,emerald|lapis,cave_spider,2,2,redstone_grotto
-arachne_cave,Arachne Cave,peaks,overworld,peaks,,32,,12,,cave_skeleton,2,2,emerald_depths
+foothills,Foothills,peaks,overworld,peaks,,27,,8,dirt|pumpkin,mountain_pig,1.5,1.5,
+stony_crags,Stony Crags,peaks,overworld,peaks,,28,,10,melon|calcite,mountain_goat,1.5,1.5,foothills
+frozen_slopes,Frozen Slopes,peaks,overworld,peaks,,29,,10,snow|packed_ice,peak_stray,1.5,1.5,stony_crags
+redstone_grotto,Redstone Grotto,peaks,overworld,peaks,,30,,10,redstone,frost_spider,1.5,1.5,frozen_slopes
+emerald_depths,Emerald Depths,peaks,overworld,peaks,,31,,10,emerald|lapis,cave_spider,1.5,1.5,redstone_grotto
+arachne_cave,Arachne Cave,peaks,overworld,peaks,,32,,12,,cave_skeleton,1.5,1.5,emerald_depths
 ashen,Ashen River,duat,overworld,duat,,33,,13,basalt|ash,anubis|sobek|osiris,1,1,
 judgement,Hall of Judgement,duat,overworld,duat,,34,,15,scale_gold,thoth|maat|horus,1,1,ashen
 forge,Solar Forge,duat,overworld,duat,,35,,15,solar_slag,sekhmet|ptah|khnum,1,1,judgement

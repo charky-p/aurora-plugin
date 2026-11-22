@@ -2918,6 +2918,8 @@ settings:
   hard_floors_a_level: 2.0
   pvp_level_effect: 3.0
   pvp_loot_seconds: 60.0
+  clearlag_minutes: 5.0
+  clearlag_warning: 30.0
   choice_seconds: 45.0
 themes:
   - floor: 1

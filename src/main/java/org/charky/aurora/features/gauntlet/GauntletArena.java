@@ -5,12 +5,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Container;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Trident;
 import org.bukkit.block.structure.Mirror;
 import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.structure.Structure;
@@ -252,6 +254,30 @@ public class GauntletArena {
             if (entity instanceof Item || entity instanceof Projectile || entity instanceof ExperienceOrb
                     || entity instanceof AreaEffectCloud || entity instanceof Display) entity.remove();
         }
+    }
+
+    // What lies on the ground in the Gauntlet's world, for its clear-lag: dropped items
+    // (PvP loot among them), arrows stuck in blocks and experience orbs. Not in the copies
+    // of runs and duels still going (they are cleared when they end), nor items kept on
+    // show for good
+    public List<Entity> groundClutter() {
+        World world = world();
+        if (world == null) return List.of();
+        List<Entity> clutter = new ArrayList<>();
+        for (Entity entity : world.getEntities()) {
+            boolean lying = entity instanceof Item item ? !item.isUnlimitedLifetime()
+                    : entity instanceof ExperienceOrb
+                    || entity instanceof AbstractArrow arrow && !(arrow instanceof Trident) && arrow.isInBlock();
+            if (lying && !inUse(entity.getLocation())) clutter.add(entity);
+        }
+        return clutter;
+    }
+
+    // In the copy of a run or duel still going
+    private boolean inUse(Location location) {
+        for (int slot : usedSlots) if (isOverSlot(slot, location)) return true;
+        for (int slot : usedDuelSlots) if (isInDuelSlot(slot, location)) return true;
+        return false;
     }
 
     // A place saved in the template, moved to a slot's copy

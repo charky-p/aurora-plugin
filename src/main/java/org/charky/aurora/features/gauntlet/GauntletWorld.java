@@ -3,6 +3,7 @@ package org.charky.aurora.features.gauntlet;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -28,6 +29,7 @@ import org.charky.aurora.features.build.BuildManager;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -60,6 +62,7 @@ public class GauntletWorld implements Listener {
     void everySecond() {
         sweepAll();
         hintNewPlayers();
+        clearLag();
     }
 
     // ---- Coming and going ----
@@ -209,6 +212,41 @@ public class GauntletWorld implements Listener {
                     inventory.setItem(slot, null);
                 }
             }
+        }
+    }
+
+    // ---- Clear-lag ----
+
+    // Seconds since the ground was last cleared, and whether this round's warning went out
+    private int sinceClear;
+    private boolean warned;
+
+    // Every clearlag_minutes what lies on the ground outside runs and duels is cleared
+    // (GauntletArena.groundClutter), clearlag_warning seconds after a warning to everyone
+    // it reaches. With nothing on the ground at the warning, that round clears nothing
+    private void clearLag() {
+        GauntletData data = manager.data();
+        int every = (int) Math.round(data.setting("clearlag_minutes", 5) * 60);
+        if (every <= 0) return;
+        int left = every - ++sinceClear;
+        int warning = (int) Math.round(data.setting("clearlag_warning", 30));
+        if (left == warning && !arena.groundClutter().isEmpty()) {
+            warned = true;
+            tellOutside("<yellow>Items on the ground are cleared in <white>" + warning + " seconds");
+        }
+        if (left > 0) return;
+        sinceClear = 0;
+        if (!warned) return;
+        warned = false;
+        List<Entity> clutter = arena.groundClutter();
+        clutter.forEach(Entity::remove);
+        if (!clutter.isEmpty()) tellOutside("<gray>Cleared <white>" + clutter.size() + "</white> items from the ground");
+    }
+
+    // Everyone in the lobby and the PvP zone, where a clear reaches
+    private void tellOutside(String message) {
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            if (manager.isHere(player) && !manager.inRun(player) && !manager.inDuel(player)) TextUtils.send(player, message);
         }
     }
 

@@ -22,6 +22,7 @@ public class CommandFilter implements Listener {
             "collections", "collection",
             "leaderboard",
             "tutorial",
+            "gauntlet",
             "shop",
             "trash",
             "dash",

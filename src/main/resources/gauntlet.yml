@@ -2884,6 +2884,22 @@ achievements:
     essence: 500
     shards: 300
     cosmetic: ''
+  - id: tower_regular
+    name: Tower Regular
+    description: "Climb the Daily Tower {goal} times"
+    stat: tower_climbs
+    goal: 7
+    essence: 400
+    shards: 300
+    cosmetic: ''
+  - id: tower_champion
+    name: Tower Champion
+    description: "Top the Daily Tower {goal} times"
+    stat: tower_wins
+    goal: 3
+    essence: 1000
+    shards: 600
+    cosmetic: ''
   - id: climber
     name: Climber
     description: "Clear floor {goal}"

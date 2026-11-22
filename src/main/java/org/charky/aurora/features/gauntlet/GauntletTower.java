@@ -19,6 +19,9 @@ final class GauntletTower {
     static final String DAY = "tower_day";
     static final String BEST = "tower_best";
     private static final String NOTICE = "tower_notice";
+    // Counted for achievements: tries, and days topped
+    private static final String CLIMBS = "tower_climbs";
+    private static final String WINS = "tower_wins";
 
     private final GauntletManager manager;
     private final GauntletPaid paid;
@@ -39,6 +42,7 @@ final class GauntletTower {
     void started(UUID uuid) {
         manager.setStat(uuid, DAY, (int) today());
         manager.setStat(uuid, BEST, 0);
+        manager.addStat(uuid, CLIMBS, 1);
     }
 
     // How far a day's climbers got, furthest first
@@ -71,6 +75,7 @@ final class GauntletTower {
         List<Map.Entry<UUID, GauntletProfile>> top = top(day, 3);
         for (int place = 0; place < top.size(); place++) {
             UUID uuid = top.get(place).getKey();
+            if (place == 0) manager.addStat(uuid, WINS, 1);
             int shards = (int) manager.data().setting("tower_" + (place + 1), 0);
             if (shards <= 0) continue;
             GauntletProfile profile = top.get(place).getValue();

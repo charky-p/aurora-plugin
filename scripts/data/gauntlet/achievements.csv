@@ -10,6 +10,8 @@ combo_master,Combo Master,Reach a {goal} kill combo,best_combo,25,500,300,trail_
 veteran,Veteran,Finish {goal} runs,runs,50,300,200,
 together,Together,Finish {goal} runs in a party,party_runs,25,400,250,
 lifeline,Lifeline,Revive {goal} teammates,revives,25,500,300,
+tower_regular,Tower Regular,Climb the Daily Tower {goal} times,tower_climbs,7,400,300,
+tower_champion,Tower Champion,Top the Daily Tower {goal} times,tower_wins,3,1000,600,
 climber,Climber,Clear floor {goal},best,40,1000,500,
 naturalist,Naturalist,Meet {goal} of the tower's mobs,discovered,20,1000,500,
 brawler,Brawler,Win {goal} fights in the PvP zone,pvp_kills,50,500,300,

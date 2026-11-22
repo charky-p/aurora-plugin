@@ -1120,7 +1120,8 @@ GAUNTLET_WEAPON_PERK_STATS = {"damage", "crit", "firststrike", "execute", "slaye
 GAUNTLET_SET_PERK_STATS = {"health", "guard", "absorb"}
 GAUNTLET_AFFIXES = {"vampiric", "explosive", "shielded", "swift", "frenzied", "summoner"}
 GAUNTLET_ACHIEVEMENT_STATS = {"kills", "elite_kills", "boss_kills", "hoarders", "fast_clears", "best_combo", "runs",
-                              "best", "pvp_kills", "duel_wins", "revives", "party_runs", "discovered"}
+                              "best", "pvp_kills", "duel_wins", "revives", "party_runs", "discovered",
+                              "tower_climbs", "tower_wins"}
 
 
 def _gauntlet_rows(name):

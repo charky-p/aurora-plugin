@@ -3,7 +3,6 @@ package org.charky.aurora.features.gauntlet;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
@@ -32,21 +31,11 @@ public class AltarMenu extends PagedMenu {
         int angel = (int) manager.data().setting("altar_angel_hearts", 1);
         int devil = (int) manager.data().setting("altar_devil_hearts", 2);
         return List.of(
-                item(Material.GOLDEN_APPLE, "<yellow><b>Angel's Pact", List.of("<gray>Heal to full and <white>+" + angel + " max heart"
+                button(Material.GOLDEN_APPLE, "<yellow><b>Angel's Pact", List.of("<gray>Heal to full and <white>+" + angel + " max heart"
                         + (angel == 1 ? "" : "s") + "</white> for this run")),
-                item(Material.WITHER_SKELETON_SKULL, "<dark_red><b>Devil's Pact", List.of("<gray>A random <light_purple>epic boon</light_purple>,",
+                button(Material.WITHER_SKELETON_SKULL, "<dark_red><b>Devil's Pact", List.of("<gray>A random <light_purple>epic boon</light_purple>,",
                         "<gray>but <red>" + devil + " fewer max hearts</red> for this run")),
-                item(Material.BARRIER, "<gray><b>Walk On", List.of("<gray>Leave the altar as it is")));
-    }
-
-    private static ItemStack item(Material material, String name, List<String> lines) {
-        ItemStack item = new ItemStack(material);
-        item.editMeta(meta -> {
-            meta.displayName(TextUtils.parse("<!italic>" + name));
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-            meta.lore(lines.stream().map(line -> (Component) TextUtils.parse("<!italic>" + line)).toList());
-        });
-        return item;
+                button(Material.BARRIER, "<gray><b>Walk On", List.of("<gray>Leave the altar as it is")));
     }
 
     @Override

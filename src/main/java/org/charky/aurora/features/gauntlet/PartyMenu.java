@@ -33,9 +33,9 @@ public class PartyMenu extends PagedMenu {
         List<Supplier<String>> clicks = new ArrayList<>();
         Player inviter = party.inviter(player);
         if (inviter != null && !party.inParty(player)) {
-            items.add(entry(Material.LIME_DYE, "<green><b>Join " + inviter.getName() + "'s party", "<yellow>Click to accept"));
+            items.add(button(Material.LIME_DYE, "<green><b>Join " + inviter.getName() + "'s party", List.of("<yellow>Click to accept")));
             clicks.add(() -> party.accept(player));
-            items.add(entry(Material.GRAY_DYE, "<red><b>Decline the invite", "<gray>Click to decline"));
+            items.add(button(Material.GRAY_DYE, "<red><b>Decline the invite", List.of("<gray>Click to decline")));
             clicks.add(() -> party.decline(player));
         }
         boolean leader = party.isLeader(player);
@@ -44,16 +44,16 @@ public class PartyMenu extends PagedMenu {
             for (Player member : team) {
                 boolean leads = member.equals(team.getFirst());
                 items.add(head(member, (leads ? "<gold>★ " : "<white>") + member.getName(),
-                        leads ? "<gray>Leader, starts the runs" : leader ? "<red>Click to remove" : ""));
+                        leads ? List.of("<gray>Leader, starts the runs") : leader ? List.of("<red>Click to remove") : List.of()));
                 clicks.add(leader && !leads ? () -> party.kick(player, member) : null);
             }
-            items.add(entry(Material.BARRIER, "<red><b>Leave the party", "<gray>Click to leave"));
+            items.add(button(Material.BARRIER, "<red><b>Leave the party", List.of("<gray>Click to leave")));
             clicks.add(() -> party.leave(player));
         }
         if (leader && team.size() < party.max()) {
             for (Player other : Bukkit.getOnlinePlayers()) {
                 if (other.equals(player) || !manager.isHere(other) || party.inParty(other)) continue;
-                items.add(head(other, "<white>" + other.getName(), "<yellow>Click to invite"));
+                items.add(head(other, "<white>" + other.getName(), List.of("<yellow>Click to invite")));
                 clicks.add(() -> party.invite(player, other));
             }
         }
@@ -61,17 +61,8 @@ public class PartyMenu extends PagedMenu {
         return items;
     }
 
-    private static ItemStack entry(Material material, String name, String lore) {
-        ItemStack item = new ItemStack(material);
-        item.editMeta(meta -> {
-            meta.displayName(TextUtils.parse("<!italic>" + name));
-            if (!lore.isEmpty()) meta.lore(List.of(TextUtils.parse("<!italic>" + lore)));
-        });
-        return item;
-    }
-
-    private static ItemStack head(Player owner, String name, String lore) {
-        ItemStack item = entry(Material.PLAYER_HEAD, name, lore);
+    private static ItemStack head(Player owner, String name, List<String> lore) {
+        ItemStack item = button(Material.PLAYER_HEAD, name, lore);
         item.editMeta(SkullMeta.class, meta -> meta.setOwningPlayer(owner));
         return item;
     }

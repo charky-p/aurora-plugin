@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
@@ -219,18 +218,6 @@ public class GauntletMenu extends PagedMenu {
             case "trail" -> name.charAt(0) + name.substring(1).toLowerCase() + " trail";
             default -> name;
         };
-    }
-
-    private static ItemStack button(Material material, String name, List<String> lines) {
-        ItemStack item = new ItemStack(material);
-        item.editMeta(meta -> {
-            meta.displayName(TextUtils.parse("<!italic>" + name));
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            List<Component> lore = new ArrayList<>();
-            for (String line : lines) lore.add(line.isEmpty() ? Component.empty() : TextUtils.parse("<!italic>" + line));
-            meta.lore(lore);
-        });
-        return item;
     }
 
     @Override

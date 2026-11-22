@@ -7,6 +7,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
@@ -155,6 +156,19 @@ public abstract class PagedMenu implements InventoryHolder {
         item.editMeta(meta -> {
             if (name == null) meta.setHideTooltip(true);
             else meta.displayName(TextUtils.parse("<!italic>" + name));
+        });
+        return item;
+    }
+
+    // A named item with lines of lore, an empty line a gap, and none of the vanilla
+    // tooltip lines (attributes, stored enchantments) a menu button doesn't want
+    protected static ItemStack button(Material material, String name, List<String> lore) {
+        ItemStack item = button(material, name);
+        item.editMeta(meta -> {
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            List<Component> lines = new ArrayList<>();
+            for (String line : lore) lines.add(line.isEmpty() ? Component.empty() : TextUtils.parse("<!italic>" + line));
+            meta.lore(lines);
         });
         return item;
     }

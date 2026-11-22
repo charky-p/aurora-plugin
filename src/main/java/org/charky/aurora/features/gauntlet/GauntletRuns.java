@@ -667,12 +667,15 @@ public class GauntletRuns implements Listener {
         return true;
     }
 
-    // Each player's daily challenges, and NEW BEST once a run past their old record
+    // Each player's daily challenges and NEW BEST once a run past their old record; a
+    // tenth floor cleared for the first time is told to the whole Gauntlet
     private void records(GauntletRun run, boolean fast) {
+        List<String> firsts = new ArrayList<>();
         for (Player player : run.online()) {
             Member member = run.members.get(player.getUniqueId());
             if (fast) manager.challenges().add(player, "fast_clears", 1);
             manager.challenges().best(player, "floor", run.floor);
+            if (run.floor > member.bestBefore && run.floor % 10 == 0) firsts.add(player.getName());
             // Past their old record, once a run, unless it is their first run ever
             if (!member.newBest && run.floor > member.bestBefore && member.bestBefore > 0) {
                 member.newBest = true;
@@ -680,6 +683,21 @@ public class GauntletRuns implements Listener {
                 TextUtils.send(player, "<gold><b>NEW BEST!</b> <gray>Past your old record of floor " + member.bestBefore);
             }
         }
+        if (!firsts.isEmpty()) announce("<gold>★ <white>" + names(firsts) + " <gray>cleared floor <gold>" + run.floor
+                + "</gold> for the first time" + (run.heat > 0 ? " <gray>at <gold>heat " + run.heat : ""));
+    }
+
+    // To everyone in the Gauntlet's world, in a run or not
+    private void announce(String message) {
+        Location lobby = manager.arena().lobby();
+        if (lobby == null || lobby.getWorld() == null) return;
+        for (Player player : lobby.getWorld().getPlayers()) TextUtils.send(player, message);
+    }
+
+    // "A", "A and B", "A, B and C"
+    static String names(List<String> names) {
+        if (names.size() <= 1) return String.join("", names);
+        return String.join(", ", names.subList(0, names.size() - 1)) + " and " + names.getLast();
     }
 
     // Everyone chooses a pact at the altar before the next floor

@@ -238,7 +238,7 @@ public class GauntletDuels implements Listener {
         if (lobby != null && lobby.getWorld() != null) {
             for (Player player : lobby.getWorld().getPlayers()) TextUtils.send(player, result);
         }
-        for (UUID id : new UUID[]{duel.a, duel.b}) sendBack(id, winner, how, lobby);
+        for (UUID id : new UUID[]{duel.a, duel.b}) sendBack(duel, id, winner, how, lobby);
     }
 
     // The ratings the chess way, wins and losses, the winner's Shards (never twice in a
@@ -267,8 +267,8 @@ public class GauntletDuels implements Listener {
                 + " <gray>in a duel, " + how + " <dark_gray>(" + after[0] + " +" + gain + " / " + after[1] + " -" + gain + ")";
     }
 
-    // A duelist's result on screen, then back in the lobby with their setup
-    private void sendBack(UUID id, UUID winner, String how, Location lobby) {
+    // A duelist's result on screen, then back in the lobby with their setup, and a rematch a click away
+    private void sendBack(Duel duel, UUID id, UUID winner, String how, Location lobby) {
         Player player = Bukkit.getPlayer(id);
         if (player == null) return;
         boolean won = id.equals(winner);
@@ -278,6 +278,9 @@ public class GauntletDuels implements Listener {
         GauntletPlayers.heal(player);
         if (manager.isHere(player) && lobby != null) player.teleport(lobby);
         manager.giveKit(player);
+        String opponent = GauntletManager.nameOf(duel.other(id));
+        TextUtils.send(player, "<gray>Again? <click:run_command:'/gauntlet duel " + opponent + "'><hover:show_text:'<gray>Challenge "
+                + opponent + " again'><gold><b>[REMATCH]</b></hover></click>");
     }
 
     // A blow that would kill ends the duel, a totem in hand still saves. Nothing hurts

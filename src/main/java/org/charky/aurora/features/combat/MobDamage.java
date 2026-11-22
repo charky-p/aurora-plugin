@@ -10,27 +10,34 @@ import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.features.spawner.MobData;
 
-// What a mob's hit does to a player: hearts from the attack level against the
-// player's protection, and the slow swing of heavy hitters
+// What a mob's hit does to a player: hearts from the mob's attack level less the
+// player's Defence, then a share taken off by their Protection, and the slow swing
+// of heavy hitters
 public final class MobDamage {
-    // Defence on a carried shield counts as this many extra protection levels each
-    private static final double DEFENCE_LEVELS = 1.0;
 
     private MobDamage() {
     }
 
     // In vanilla health points, one heart is two
     public static double dealt(MobData mob, Player player, boolean ranged) {
-        double hearts = CombatFormulas.heartsPerHit(mob.attack(), protection(player)) * CombatFormulas.MOB_DAMAGE_SCALE * mob.damage();
+        double hearts = CombatFormulas.heartsPerHit(mob.attack(), defence(player))
+                * CombatFormulas.protectionMultiplier(protection(player))
+                * CombatFormulas.MOB_DAMAGE_SCALE * mob.damage();
         if (ranged) hearts *= CombatFormulas.RANGED_SCALE;
         return hearts * 2.0;
     }
 
-    // Average protection over the four slots, plus Defence from the best shield
-    // carried anywhere, held or not
+    // Average Protection over the four armour slots
     static double protection(Player player) {
-        double armour = Enchants.average(player.getInventory().getArmorContents(), "protection");
-        return armour + shieldDefence(player) * DEFENCE_LEVELS;
+        return Enchants.average(player.getInventory().getArmorContents(), "protection");
+    }
+
+    // Defence adds up: every armour piece worn, and the best shield carried anywhere,
+    // held or not
+    static int defence(Player player) {
+        int total = shieldDefence(player);
+        for (ItemStack piece : player.getInventory().getArmorContents()) total += Enchants.level(piece, "defence");
+        return total;
     }
 
     private static int shieldDefence(Player player) {

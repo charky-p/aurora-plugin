@@ -55,6 +55,7 @@ items:
     health: 400.0
     defence: 37.0
     attack: 24.0
+    damage: 0.57
     density: 9
     equip:
       head: LEATHER_HELMET
@@ -68,6 +69,7 @@ items:
     health: 640.0
     defence: 58.0
     attack: 27.0
+    damage: 0.65
     density: 10
     equip:
       head: LEATHER_HELMET
@@ -102,7 +104,7 @@ items:
     health: 12000.0
     defence: 126.0
     attack: 31.0
-    damage: 0.6
+    damage: 0.44
     density: 11
     attributes:
       - attr: SCALE
@@ -124,6 +126,7 @@ items:
     health: 1000.0
     defence: 126.0
     attack: 27.0
+    damage: 0.65
     density: 11
     equip:
       head: LEATHER_HELMET

@@ -6,7 +6,8 @@ Nothing here prices anything, price_zones.py does that. This holds the plugin's 
 formulas and the vanilla tables they need, read against the CSVs in scripts/data/:
 
   player hit    = 10 + sharpnessBonus(S) - mob defence                     CombatListener
-  damage taken  = hearts(gap), gap = (attack level - average protection) / LEVELS_PER_TIER
+  damage taken  = hearts(gap) x (1 - 0.9 x min(average protection, 100) / 100) x mob damage,
+                  gap = (attack level - defence) / LEVELS_PER_TIER, defence adds up over armour and shield
                   gap >= 0: 1 + LOG_A * ln(1 + LOG_B * gap)   (1, 2, 2.9, 3.7, 4.4, 5 ...)
                   gap <  0: 0.25 + 0.75 * e^(2 * gap)         (never below a quarter of a heart)
   block drops   = roll * (1 + 0.75 L + 0.25 L^2), L = fortune - density, nothing if L < 0   DataRegistry
@@ -25,7 +26,8 @@ DATA = ROOT / "scripts" / "data"
 # ------------------------------------------------------------------ ASSUMPTIONS
 LEVELS_PER_TIER = 4.0          # protection levels per zone tier (CombatListener)
 LOG_A, LOG_B = 1 / math.log(1.15), 0.15   # shape of the hearts curve above your tier
-ARMOUR_FLOOR = 0.25            # the least a hit does to armour far ahead of the mob, in hearts
+ARMOUR_FLOOR = 0.25            # the least a hit does when Defence is far past the attack, in hearts
+MAX_PROTECTION, REDUCTION_AT_MAX = 100, 0.9   # CombatFormulas: Protection's share off a hit, capped
 MOB_DAMAGE_SCALE, RANGED_SCALE = 0.6, 0.5  # CombatFormulas, every mob hit, and arrows on top
 HUMAN_BLOCKS_PER_SEC = 5.0     # cap when blocks insta-break
 MINING_EFFICIENCY = 0.8        # aiming and walking inside the mine
@@ -137,7 +139,7 @@ BLOCKS = {r["id"]: {"material": r["material"], "density": int(r["density"]),
                     "drops": parse_drops(r["independent"])} for r in rows("blocks")}
 MOBS = {r["id"]: {"entity": r["entity"], "hp": float(r["health"] or 20), "def": float(r["defence"] or 0),
                   "atk": float(r["attack"] or 0), "density": int(r.get("density") or 0),
-                  "respawn": float(r.get("respawn") or 0),
+                  "respawn": float(r.get("respawn") or 0), "dmg": float(r.get("damage") or 1),
                   "drops": parse_drops(r["independent"])}
         for f in MOB_FILES for r in rows(f)}
 # Mine layouts, the mix scripts/build_test_world.py builds: mine id -> {block id: share},
@@ -168,6 +170,10 @@ def hearts(gap):
     if gap >= 0:
         return 1 + LOG_A * math.log(1 + LOG_B * gap)
     return ARMOUR_FLOOR + (1 - ARMOUR_FLOOR) * math.exp(2 * gap)
+
+
+def protection_multiplier(protection):
+    return 1 - REDUCTION_AT_MAX * min(max(protection, 0), MAX_PROTECTION) / MAX_PROTECTION
 
 
 def mob_rate(mob):

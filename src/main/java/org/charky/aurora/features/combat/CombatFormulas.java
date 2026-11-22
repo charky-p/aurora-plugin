@@ -40,15 +40,27 @@ public final class CombatFormulas {
     static final double DEFLECT_FREE_TIERS = 0.5;
     static final double DEFLECT_BREAK_TIERS = 2.0;
 
+    // Protection takes a share off every hit, more a level up to MAX_PROTECTION,
+    // where it takes off REDUCTION_AT_MAX. Levels past it add nothing
+    public static final int MAX_PROTECTION = 100;
+    static final double REDUCTION_AT_MAX = 0.9;
+
     private CombatFormulas() {
     }
 
-    // Same tier is one heart. Above it grows like a log, 2, 2.9, 3.7, 4.4, 5, so
-    // big hits break through armour. Below it armour pays off quickly: half a heart
-    // two Protection levels ahead, a third a tier ahead, tapering to a quarter of a
-    // heart, never less. Both sides meet at exactly 1 so there is no jump at gap 0
-    public static double heartsPerHit(double attackLevel, double protectionLevel) {
-        double gap = (attackLevel - protectionLevel) / LEVELS_PER_TIER;
+    // What is left of a hit after Protection: 1 with none, 0.1 at the cap
+    public static double protectionMultiplier(double protection) {
+        double levels = Math.clamp(protection, 0, MAX_PROTECTION);
+        return 1 - REDUCTION_AT_MAX * levels / MAX_PROTECTION;
+    }
+
+    // A hit before Protection, from the mob's attack level less the player's Defence.
+    // At an attack of 0 it is one heart. Above it grows like a log, 2, 2.9, 3.7, 4.4,
+    // 5 a tier at a time. Defence past the attack makes it fall fast, half a heart two
+    // levels past, tapering to a quarter of a heart, never less. Both sides meet at
+    // exactly 1 so there is no jump
+    public static double heartsPerHit(double attackLevel, double defence) {
+        double gap = (attackLevel - defence) / LEVELS_PER_TIER;
         if (gap >= 0) return 1 + LOG_A * Math.log(1 + LOG_B * gap);
         return ARMOUR_FLOOR + (1 - ARMOUR_FLOOR) * Math.exp(2 * gap);
     }

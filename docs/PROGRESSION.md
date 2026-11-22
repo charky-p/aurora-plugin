@@ -27,9 +27,9 @@ A zone is one mine (or two), one or two mobs, one trader and a list of steps in 
 
 **Player damage.** A hit is `10 + Sharpness bonus - mob defence`. Sharpness gives 1 a level for levels 1 to 5, 3 for 6 to 10, 5 for 11 to 15, 10 for 16 to 20 and so on. A spammed swing does 20%, a fully charged one (625 ms) 100%, a jump crit 1.5x. A mace hit while falling smashes: `1 + 0.2` a block fallen, at most 3x, on top of a crit. Bloodlust adds 5% a level for each of up to 3 stacks, a stack per kill, lasting 6 seconds.
 
-**Mob damage.** Mobs hit in hearts, set by the gap between the mob's attack level and the player's average Protection, four levels to a tier: 1 heart at the same tier, rising like a log above it (2, 2.9, 3.7 ...), falling fast below it to a floor of a quarter heart. Every hit is then multiplied by 0.6, arrows by a further 0.5, and by the mob's own `damage` column (0.45 for Gormak mobs, 0.225 for the Vizier Mage).
+**Mob damage.** A hit starts from the mob's attack level less the player's **Defence**, which adds up over all four armour pieces and the best shield carried: four levels to a tier, 1 heart at 0, rising like a log above it (2, 2.9, 3.7 ...) and falling fast below it to a floor of a quarter heart. **Protection** then takes a share off: the four pieces' average, 0.9% a level up to 100 levels, where it takes off 90%; levels past 100 add nothing. Every hit is then multiplied by 0.6, arrows by a further 0.5, and by the mob's own `damage` column, re-tuned in 0.3 so a hit with the armour a player arrives with stays what it was.
 
-**Shield.** A raised shield stops hits up to an attack level set by Deflection; hits two tiers above that break through and put it on cooldown. Defence counts as extra Protection whether the shield is raised or not.
+**Shield.** A raised shield stops hits up to an attack level set by Deflection; hits two tiers above that break through and put it on cooldown. Its Defence counts towards the player's Defence whether it is raised or not.
 
 **Thorns and Sustenance.** Thorns returns a fixed 20 damage per average level. Sustenance heals over time.
 

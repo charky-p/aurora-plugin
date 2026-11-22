@@ -36,6 +36,7 @@ items:
     health: 300.0
     defence: 14.0
     attack: 25.0
+    damage: 0.6
     density: 16
     attributes:
       - attr: MOVEMENT_SPEED
@@ -56,6 +57,7 @@ items:
     defence: 18.0
     attack: 29.0
     attack_cooldown: 2.0
+    damage: 0.7
     density: 16
     attributes:
       - attr: MOVEMENT_SPEED
@@ -97,6 +99,7 @@ items:
     health: 640.0
     defence: 58.0
     attack: 37.0
+    damage: 0.82
     density: 13
     independent:
       - id: royal_jelly
@@ -108,7 +111,7 @@ items:
     health: 1600.0
     defence: 152.0
     attack: 53.0
-    damage: 1.3
+    damage: 1.16
     density: 24
     attributes:
       - attr: SCALE
@@ -125,7 +128,7 @@ items:
     health: 2000.0
     defence: 184.0
     attack: 55.0
-    damage: 1.3
+    damage: 1.19
     density: 25
     independent:
       - id: canopy_silk
@@ -137,7 +140,7 @@ items:
     health: 2000.0
     defence: 184.0
     attack: 55.0
-    damage: 1.3
+    damage: 1.19
     density: 25
     independent:
       - id: canopy_silk
@@ -149,7 +152,7 @@ items:
     health: 3000.0
     defence: 255.0
     attack: 60.0
-    damage: 1.3
+    damage: 1.24
     density: 28
     independent:
       - id: hive_stinger
@@ -161,7 +164,7 @@ items:
     health: 4000.0
     defence: 357.0
     attack: 65.0
-    damage: 1.3
+    damage: 1.28
     density: 31
     independent:
       - id: sentry_arrowhead
@@ -194,7 +197,7 @@ items:
     health: 75000.0
     defence: 652.0
     attack: 76.0
-    damage: 1.3
+    damage: 1.36
     density: 34
     attributes:
       - attr: SCALE

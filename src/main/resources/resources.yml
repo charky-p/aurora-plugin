@@ -102,7 +102,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Hollowed Serfs"
-    collection: 150
+    collection: 300
 
   ancient_scrap:
     display: "<gray><b>Ancient Scrap"
@@ -111,7 +111,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Scavenger Husks"
-    collection: 160
+    collection: 320
 
   sunbaked_sand:
     display: "<yellow>Sunbaked Sandstone"
@@ -129,7 +129,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Dune Scouts"
-    collection: 100
+    collection: 200
 
   ancient_bone:
     display: "<white><b>Ancient Bone"
@@ -138,7 +138,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Sand Stalkers"
-    collection: 80
+    collection: 100
 
   crimson_sand:
     display: "<#B4462A>Crimson Sandstone"
@@ -165,7 +165,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 8000
+    collection: 5000
 
   legion_plate:
     display: "<gray><b>Legion Plate"
@@ -174,7 +174,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 3200
+    collection: 2000
 
   raw_gold:
     display: "<gold>Raw Gold"
@@ -192,7 +192,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Tomb Guards"
-    collection: 64
+    collection: 120
 
   vizier_scroll:
     display: "<yellow><b>Vizier Scroll"
@@ -201,7 +201,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Vizier Mages"
-    collection: 120
+    collection: 300
 
   eternal_soul:
     display: "<dark_purple><b>Eternal Soul"
@@ -210,7 +210,7 @@ items:
     region: "khorvath_catacombs"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 2500
+    collection: 1000
 
   royal_seal:
     display: "<gold><b>Royal Seal"
@@ -219,7 +219,7 @@ items:
     region: "khorvath_catacombs"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 1600
+    collection: 800
 
   ancient_heart:
     display: "<dark_red><b>Ancient Heart"
@@ -358,7 +358,7 @@ items:
     region: "elderwood_treehouse"
     lore:
       - "<dark_gray>Elderwood Roots"
-    collection: 15000
+    collection: 10000
 
   heartwood:
     display: "<dark_green><b>Heartwood"
@@ -376,7 +376,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 48
+    collection: 40
 
   relic_stone:
     display: "<#B4462A>Relic Stone"
@@ -394,7 +394,7 @@ items:
     region: "khorvath_ruins"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 500
+    collection: 320
 
   ossuary_bone:
     display: "<white>Ossuary Bone"
@@ -412,7 +412,7 @@ items:
     region: "khorvath_sanctuary"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 200
+    collection: 120
 
   sphinx_claw:
     display: "<gold><b>Sphinx Claw"
@@ -421,7 +421,7 @@ items:
     region: "khorvath_sanctuary"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 120
+    collection: 48
 
   solar_core:
     display: "<gold><b>Solar Core"
@@ -583,7 +583,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 3200
+    collection: 2500
 
   verdigris:
     display: "<#4FB39A><b>Verdigris"
@@ -763,7 +763,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 50000
+    collection: 40000
 
   redstone:
     display: "<red><b>Redstone"
@@ -790,7 +790,7 @@ items:
     region: "peaks_grotto"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 20000
+    collection: 50000
 
   emerald:
     display: "<green><b>Emerald"
@@ -808,7 +808,7 @@ items:
     region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 64000
+    collection: 100000
 
   rider_bone:
     display: "<white>Rider Bone"
@@ -817,7 +817,7 @@ items:
     region: "peaks_arachne"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 50000
+    collection: 30000
 
   arachne_eye:
     display: "<dark_red><b>Arachne's Eye"
@@ -1006,7 +1006,7 @@ items:
     region: "elderheart_cellar"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 320
+    collection: 200
 
   elder_vine:
     display: "<#3A7D2C>Elder Vine"
@@ -1024,7 +1024,7 @@ items:
     region: "elderheart_vines"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 250
+    collection: 200
 
   wax_comb:
     display: "<gold>Wax Comb"
@@ -1051,7 +1051,7 @@ items:
     region: "elderheart_hive"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 150
+    collection: 120
 
   sentry_arrowhead:
     display: "<gray>Sentry Arrowhead"
@@ -1060,7 +1060,7 @@ items:
     region: "elderheart_canopy"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 300
+    collection: 200
 
   canopy_bark:
     display: "<dark_green>Canopy Bark"
@@ -1069,7 +1069,7 @@ items:
     region: "elderheart_canopy"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 80
+    collection: 64
 
   elder_heart:
     display: "<dark_green><b>Elder Heart"
@@ -1177,7 +1177,7 @@ items:
     region: "kingdom_walls"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 1200
+    collection: 1000
 
   cherry_log:
     display: "<light_purple>Cherry Log"
@@ -1204,7 +1204,7 @@ items:
     region: "kingdom_gardens"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 750
+    collection: 500
 
   gardener_seed:
     display: "<green>Gardener's Seed"
@@ -1213,7 +1213,7 @@ items:
     region: "kingdom_gardens"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 500
+    collection: 320
 
   celestine:
     display: "<aqua><b>Celestine"
@@ -1240,7 +1240,7 @@ items:
     region: "kingdom_treasury"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 400
+    collection: 320
 
   crossbow_bolt:
     display: "<gray>Crossbow Bolt"
@@ -1249,7 +1249,7 @@ items:
     region: "kingdom_treasury"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 2500
+    collection: 1600
 
   throne_seal:
     display: "<gold><b>Throne Seal"
@@ -1258,7 +1258,7 @@ items:
     region: "kingdom_throne"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 800
+    collection: 640
 
   kings_crown:
     display: "<gold><b>King's Crown"
@@ -1294,7 +1294,7 @@ items:
     region: "quarry_gravel"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 1200
+    collection: 1000
 
   pale_log:
     display: "<white>Pale Log"
@@ -1321,7 +1321,7 @@ items:
     region: "quarry_pale"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 500
+    collection: 400
 
   maple:
     display: "<red>Maple Log"
@@ -1366,7 +1366,7 @@ items:
     region: "quarry_diamond"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 100
+    collection: 80
 
   captain_banner:
     display: "<gray><b>Captain's Banner"
@@ -1375,7 +1375,7 @@ items:
     region: "quarry_pit"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 480
+    collection: 320
 
   warden_plate:
     display: "<gray><b>Warden Plate"
@@ -1384,7 +1384,7 @@ items:
     region: "quarry_pit"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 48
+    collection: 32
 
   golem_shard:
     display: "<white><b>Golem Core Shard"
@@ -1402,7 +1402,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Gormak"
-    collection: 250
+    collection: 400
 
   guardian_sigil:
     display: "<gold><b>Guardian Sigil"
@@ -1411,7 +1411,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Gormak"
-    collection: 250
+    collection: 400
 
   fishing_junk:
     display: "<dark_gray>Junk"

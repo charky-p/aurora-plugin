@@ -43,6 +43,16 @@ class CombatFormulasTest {
         }
     }
 
+    // A share off every hit, 90% at the cap of 100 levels and no more past it
+    @Test
+    void protectionTakesAShareUpToTheCap() {
+        assertEquals(1.0, CombatFormulas.protectionMultiplier(0), EPSILON);
+        assertEquals(0.55, CombatFormulas.protectionMultiplier(50), EPSILON);
+        assertEquals(0.1, CombatFormulas.protectionMultiplier(100), EPSILON);
+        assertEquals(0.1, CombatFormulas.protectionMultiplier(250), EPSILON);
+        assertEquals(1.0, CombatFormulas.protectionMultiplier(-5), EPSILON);
+    }
+
     @Test
     void sharpnessMatchesTheSimulator() {
         int[] levels = {0, 1, 5, 6, 10, 11, 50, 51, 60};

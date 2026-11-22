@@ -121,8 +121,9 @@ def kill_seconds(state, mob_id):
     total = fight + sim.KILL_OVERHEAD_S
     if mob["atk"] > 0:
         protection = sum(level(state, slot, "protection") for slot in sim.SLOTS) / len(sim.SLOTS)
-        scale = sim.MOB_DAMAGE_SCALE * (sim.RANGED_SCALE if mob["entity"] in sim.RANGED else 1.0)
-        taken = sim.hearts((mob["atk"] - protection) / sim.LEVELS_PER_TIER) * scale
+        defence = sum(level(state, slot, "defence") for slot in sim.SLOTS) + level(state, "shield", "defence")
+        scale = sim.MOB_DAMAGE_SCALE * mob["dmg"] * (sim.RANGED_SCALE if mob["entity"] in sim.RANGED else 1.0)
+        taken = sim.hearts((mob["atk"] - defence) / sim.LEVELS_PER_TIER) * sim.protection_multiplier(protection) * scale
         lost = taken * sim.mob_rate(mob_id) * fight
         total += max(0.0, lost - sim.REGEN_HEARTS_PER_SEC * total) / sim.REGEN_HEARTS_PER_SEC
     # A world boss like the Overworld Golem comes back on its own timer, the respawn column

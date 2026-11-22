@@ -36,7 +36,7 @@ items:
     health: 4800.0
     defence: 218.0
     attack: 57.0
-    damage: 1.5
+    damage: 1.39
     density: 24
     attributes:
       - attr: SCALE
@@ -55,7 +55,7 @@ items:
     health: 4800.0
     defence: 218.0
     attack: 57.0
-    damage: 1.5
+    damage: 1.39
     density: 24
     attributes:
       - attr: SCALE
@@ -74,7 +74,7 @@ items:
     health: 4800.0
     defence: 218.0
     attack: 57.0
-    damage: 1.5
+    damage: 1.39
     density: 24
     attributes:
       - attr: SCALE
@@ -93,7 +93,7 @@ items:
     health: 6400.0
     defence: 312.0
     attack: 62.0
-    damage: 1.5
+    damage: 1.45
     density: 27
     attributes:
       - attr: SCALE
@@ -112,7 +112,7 @@ items:
     health: 6400.0
     defence: 312.0
     attack: 62.0
-    damage: 1.5
+    damage: 1.45
     density: 27
     attributes:
       - attr: SCALE
@@ -131,7 +131,7 @@ items:
     health: 6400.0
     defence: 312.0
     attack: 62.0
-    damage: 1.5
+    damage: 1.45
     density: 27
     attributes:
       - attr: SCALE
@@ -207,7 +207,7 @@ items:
     health: 12000.0
     defence: 578.0
     attack: 72.0
-    damage: 1.5
+    damage: 1.54
     density: 33
     attributes:
       - attr: SCALE
@@ -228,7 +228,7 @@ items:
     health: 12000.0
     defence: 578.0
     attack: 72.0
-    damage: 1.5
+    damage: 1.54
     density: 33
     attributes:
       - attr: SCALE
@@ -249,7 +249,7 @@ items:
     health: 12000.0
     defence: 578.0
     attack: 72.0
-    damage: 1.5
+    damage: 1.54
     density: 33
     attributes:
       - attr: SCALE
@@ -270,7 +270,7 @@ items:
     health: 64000.0
     defence: 578.0
     attack: 74.0
-    damage: 1.5
+    damage: 1.55
     density: 33
     equip:
       hand: gormak_blade

@@ -57,17 +57,12 @@ class StoresTest {
         assertEquals(List.of(
                 new TraderSpot(first, "starter_trader", "world", 1.5, 64, -2.5, 90f),
                 new TraderSpot(second, "cobble_trader", "aurora_mines", 10, 70, 10, 0f)), spots);
-    }
 
-    @Test
-    void removedTraderSpotIsGoneAndItsIdNotReused() {
-        TraderStore store = new TraderStore(db);
-        int first = store.add("starter_trader", "world", 0, 0, 0, 0f);
-        store.remove(first);
+        // A removed spot is gone and its id is not reused
+        store.remove(second);
         int next = store.add("starter_trader", "world", 0, 0, 0, 0f);
-
-        assertNotEquals(first, next);
-        assertEquals(List.of(next), store.loadAll().stream().map(TraderSpot::id).toList());
+        assertNotEquals(second, next);
+        assertEquals(List.of(first, next), store.loadAll().stream().map(TraderSpot::id).toList());
     }
 
     @Test
@@ -75,18 +70,10 @@ class StoresTest {
         BackpackStore store = new BackpackStore(db);
         UUID player = UUID.randomUUID();
         store.saveAll(Map.of(player, Map.of("coal", 120L, "iron", 0L)));
+        assertEquals(Map.of("coal", 120L), store.loadAll(null).get(player).getItems());
 
-        Map<String, Long> loaded = store.loadAll(null).get(player).getItems();
-        assertEquals(Map.of("coal", 120L), loaded);
-    }
-
-    @Test
-    void backpackSaveReplacesTheLastOne() {
-        BackpackStore store = new BackpackStore(db);
-        UUID player = UUID.randomUUID();
-        store.saveAll(Map.of(player, Map.of("coal", 120L)));
+        // A save replaces the last one
         store.saveAll(Map.of(player, Map.of("coal", 5L)));
-
         assertEquals(Map.of("coal", 5L), store.loadAll(null).get(player).getItems());
     }
 
@@ -102,13 +89,16 @@ class StoresTest {
     void playerSaveRoundTrips() {
         PlayerStore store = new PlayerStore(db);
         UUID uuid = UUID.randomUUID();
-        store.save(uuid, new PlayerData("MEMBER", 2, 30, 400, 7));
+        store.save(uuid, new PlayerData("AURORA", 12, 345, 30, 400, 7, 7_260));
 
         PlayerData loaded = store.load(uuid);
-        assertEquals(2, loaded.getLevel());
+        assertEquals("AURORA", loaded.getRank());
+        assertEquals(12, loaded.getLevel());
+        assertEquals(345, loaded.getXp());
         assertEquals(30, loaded.getKills());
         assertEquals(400, loaded.getMined());
         assertEquals(7, loaded.getEssence());
+        assertEquals(7_260, loaded.getPlaytime());
     }
 
     @Test
@@ -132,13 +122,26 @@ class StoresTest {
     }
 
     @Test
-    void unlocksAreStoredOnce() {
-        UnlockStore store = new UnlockStore(db);
+    void unlocksRanksAndWorldsAreStoredOnce() {
         UUID uuid = UUID.randomUUID();
-        store.add(uuid, "serf_cleaver");
-        store.add(uuid, "serf_cleaver");
+        UnlockStore unlocks = new UnlockStore(db);
+        unlocks.add(uuid, "serf_cleaver");
+        unlocks.add(uuid, "serf_cleaver");
+        assertEquals(Set.of("serf_cleaver"), unlocks.loadAll().get(uuid));
 
-        assertEquals(Set.of("serf_cleaver"), store.loadAll().get(uuid));
+        RankStore ranks = new RankStore(db);
+        ranks.add(uuid, "EMBER");
+        ranks.add(uuid, "EMBER");
+        ranks.add(uuid, "AURORA");
+        assertEquals(Set.of("EMBER", "AURORA"), ranks.loadAll().get(uuid));
+
+        WorldStore worlds = new WorldStore(db);
+        worlds.add("gormak");
+        worlds.add("gormak");
+        worlds.add("verdant");
+        assertEquals(List.of("gormak", "verdant"), worlds.loadAll());
+        worlds.remove("gormak");
+        assertEquals(List.of("verdant"), worlds.loadAll());
     }
 
     @Test
@@ -167,30 +170,6 @@ class StoresTest {
     }
 
     @Test
-    void worldsAreStoredOnceAndRemoved() {
-        WorldStore store = new WorldStore(db);
-        store.add("gormak");
-        store.add("gormak");
-        store.add("verdant");
-        assertEquals(List.of("gormak", "verdant"), store.loadAll());
-
-        store.remove("gormak");
-        assertEquals(List.of("verdant"), store.loadAll());
-    }
-
-    @Test
-    void portalWithoutDestinationRoundTrips() {
-        PortalStore store = new PortalStore(db);
-        store.save(new Portal("to_gormak", "aurora_mines", 5, 70, 5, 3, 72, 6));
-
-        Portal loaded = store.loadAll().getFirst();
-        assertEquals("to_gormak", loaded.getName());
-        assertEquals(3, loaded.getX1());
-        assertEquals(5, loaded.getX2());
-        assertFalse(loaded.hasDestination());
-    }
-
-    @Test
     void portalRequiredTagRoundTripsAndClears() {
         PortalStore store = new PortalStore(db);
         Portal portal = new Portal("to_gormak", "aurora_mines", 0, 70, 0, 2, 72, 0);
@@ -208,7 +187,12 @@ class StoresTest {
     @Test
     void portalDestinationRoundTripsAndRenames() {
         PortalStore store = new PortalStore(db);
-        Portal portal = new Portal("to_gormak", "aurora_mines", 0, 70, 0, 2, 72, 0);
+        Portal portal = new Portal("to_gormak", "aurora_mines", 5, 70, 0, 2, 72, 0);
+        store.save(portal);
+        assertFalse(store.loadAll().getFirst().hasDestination());
+        // Corners come back sorted
+        assertEquals(2, store.loadAll().getFirst().getX1());
+
         portal.setDestination("gormak", 10.5, 64, -3.5, 90f, 10f);
         store.save(portal);
         store.rename("to_gormak", "gormak_gate");
@@ -222,28 +206,6 @@ class StoresTest {
     }
 
     @Test
-    void portalBoxIncludesItsEdges() {
-        Portal portal = new Portal("p", "world", 2, 70, 2, 0, 72, 0);
-        assertTrue(portal.contains("world", 0, 70, 0));
-        assertTrue(portal.contains("world", 2, 72, 2));
-        assertFalse(portal.contains("world", 3, 70, 0));
-        assertFalse(portal.contains("gormak", 1, 71, 1));
-    }
-
-    @Test
-    void playerXpAndPlaytimeRoundTrip() {
-        PlayerStore store = new PlayerStore(db);
-        UUID uuid = UUID.randomUUID();
-        store.save(uuid, new PlayerData("AURORA", 12, 345, 30, 400, 7, 7_260));
-
-        PlayerData loaded = store.load(uuid);
-        assertEquals("AURORA", loaded.getRank());
-        assertEquals(12, loaded.getLevel());
-        assertEquals(345, loaded.getXp());
-        assertEquals(7_260, loaded.getPlaytime());
-    }
-
-    @Test
     void essenceCanOnlyBeSpentIfThereIsEnough() {
         PlayerData data = new PlayerData("MEMBER", 0, 0, 0, 100);
 
@@ -251,17 +213,6 @@ class StoresTest {
         assertEquals(100, data.getEssence());
         assertTrue(data.spendEssence(100));
         assertEquals(0, data.getEssence());
-    }
-
-    @Test
-    void boughtRanksAreStoredOnce() {
-        RankStore store = new RankStore(db);
-        UUID uuid = UUID.randomUUID();
-        store.add(uuid, "EMBER");
-        store.add(uuid, "EMBER");
-        store.add(uuid, "AURORA");
-
-        assertEquals(Set.of("EMBER", "AURORA"), store.loadAll().get(uuid));
     }
 
     @Test

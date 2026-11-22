@@ -54,7 +54,7 @@ items:
     entity: ZOMBIE
     health: 410.0
     defence: 37.0
-    attack: 33.0
+    attack: 24.0
     density: 9
     independent:
       - id: bog_rag
@@ -65,7 +65,7 @@ items:
     entity: BOGGED
     health: 640.0
     defence: 58.0
-    attack: 37.0
+    attack: 27.0
     density: 10
     equip:
       hand: BOW
@@ -97,7 +97,7 @@ items:
     entity: ZOGLIN
     health: 12000.0
     defence: 126.0
-    attack: 45.0
+    attack: 31.0
     density: 11
     attributes:
       - attr: SCALE
@@ -115,7 +115,7 @@ items:
     entity: BOGGED
     health: 1000.0
     defence: 126.0
-    attack: 37.0
+    attack: 27.0
     density: 11
     attributes:
       - attr: SCALE

@@ -58,6 +58,11 @@ DATA = sim.DATA
 SPAWN_SECONDS = 5.0
 # Share of mining time spent killing hostile mobs that come at you, in a zone that has them
 AMBIENT_FIGHT = 0.3
+# How far through the other regions of its own stage a zone assumes the player is, as a
+# share of how far they are through its own: 0 prices for someone playing one region at
+# a time, 1 for someone keeping them all level. In between, a region played alone is
+# slower than its target and one played alongside the others faster
+PARALLEL_SHARE = 0.35
 
 # What a new player holds: wooden tools, leather armour, nothing levelled
 START = {("pick", "material"): "WOODEN", ("axe", "material"): "WOODEN", ("sword", "material"): "WOODEN"}
@@ -246,9 +251,10 @@ def zone_states(zones=None, steps_by_zone=None):
     plus what the zone's own region sold before it.
 
     Regions of one stage are played side by side and their levels add up. A zone is
-    priced for a player who has finished every region of every earlier stage, and
-    has gone as far through the other regions of its own stage as through its own:
-    halfway through the Sunken Marsh means halfway through Khorvath and Elderwood too.
+    priced for a player who has finished every released region of every earlier stage,
+    and has gone PARALLEL_SHARE as far through the other released regions of its own
+    stage as through its own. A region that is not released counts only when it leads
+    to the zone, so nothing is priced on levels no player can have yet.
     """
     zones = zones or sorted(rows("zones"), key=lambda z: int(z["order"]))
     steps_by_zone = steps_by_zone or read_steps()
@@ -260,6 +266,20 @@ def zone_states(zones=None, steps_by_zone=None):
 
     def stage(zone):
         return int(zone.get("stage") or regions[zone["region"]]["stage"])
+
+    def released(region):
+        return (regions.get(region, {}).get("released") or "").strip().lower() in ("yes", "true", "1")
+
+    def leading(region):
+        """The regions a region follows, by after or by the portal leading in."""
+        found, row = set(), regions.get(region)
+        while row:
+            parent = (row.get("after") or "").strip() or (row.get("portal") or "").strip()
+            if not parent or parent == region or parent in found:
+                break
+            found.add(parent)
+            row = regions.get(parent)
+        return found
 
     def own(region, depth):
         """What the first `depth` zones of a region sell, in its realm's own levels."""
@@ -275,14 +295,15 @@ def zone_states(zones=None, steps_by_zone=None):
         index = chain[region].index(zone["id"])
         progress = index / len(chain[region])
         entry = dict(START)
+        leads = leading(region)
         for other, ids in chain.items():
-            if other == region:
+            if other == region or not (released(other) or other in leads):
                 continue
             other_stage = min(stage(by_id[i]) for i in ids)
             if other_stage < here:
                 entry = add(entry, own(other, len(ids)))
             elif other_stage == here:
-                entry = add(entry, own(other, int(progress * len(ids))))
+                entry = add(entry, own(other, int(progress * PARALLEL_SHARE * len(ids))))
         states[zone["id"]] = (entry, add(entry, own(region, index)))
     return states
 

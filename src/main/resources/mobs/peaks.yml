@@ -53,7 +53,7 @@ items:
     entity: STRAY
     health: 1480.0
     defence: 133.0
-    attack: 49.0
+    attack: 33.0
     density: 14
     independent:
       - id: frost_arrow
@@ -64,7 +64,7 @@ items:
     entity: SPIDER
     health: 1480.0
     defence: 133.0
-    attack: 47.0
+    attack: 36.0
     density: 15
     independent:
       - id: spider_silk
@@ -75,7 +75,7 @@ items:
     entity: CAVE_SPIDER
     health: 1480.0
     defence: 133.0
-    attack: 51.0
+    attack: 39.0
     density: 16
     independent:
       - id: venom_sac
@@ -88,7 +88,7 @@ items:
     entity: SKELETON
     health: 1480.0
     defence: 133.0
-    attack: 51.0
+    attack: 42.0
     density: 17
     independent:
       - id: rider_bone
@@ -101,7 +101,7 @@ items:
     entity: SPIDER
     health: 20900.0
     defence: 190.0
-    attack: 57.0
+    attack: 46.0
     density: 17
     attributes:
       - attr: SCALE
@@ -120,7 +120,7 @@ items:
     entity: SKELETON
     health: 4000.0
     defence: 190.0
-    attack: 57.0
+    attack: 46.0
     density: 17
     attributes:
       - attr: FOLLOW_RANGE

@@ -57,7 +57,7 @@ Every region has a stage. Regions of one stage are played side by side, each wit
 | 6 | Sky Kingdom (fighting), Ironbound Quarry (everything, across a gap) |
 | 7 | Golem's Rest, then the Overworld Core |
 
-A zone is priced for a player who has finished every region of every earlier stage, and gone as far through the other regions of its own stage as through its own. Rushing one region is slower, never closed. Minutes below are real play; the model works in its own seconds, `pace` times as many (see Tuning).
+A zone is priced for a player who has finished every released region of every earlier stage, and gone a third of the way (`PARALLEL_SHARE` 0.35 in `price_zones.py`) through the other released regions of its own stage as through its own. A region not released yet counts only when it leads to the zone. So Verdant Groves alone is close to its targets (the Dark Oak Thicket about 1.6x), and about twice as fast with Gormak played alongside; the Sunken Marsh without Gormak is meant to be hard, up to about 4.5x its targets at Mudflats, and on target with it. Marsh and Peaks mobs hit about 6 attack levels above the Protection a player with Gormak arrives with, about 1.5 hearts a hit, about 2.6 without Gormak's armour. Rushing one region is slower, never closed. Minutes below are real play; the model works in its own seconds, `pace` times as many (see Tuning).
 
 | Zone | Minutes | Mines | Mobs | Steps | Total cost |
 |---|---|---|---|---|---|

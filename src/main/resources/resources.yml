@@ -165,7 +165,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 6400
+    collection: 5000
 
   legion_plate:
     display: "<gray><b>Legion Plate"
@@ -219,7 +219,7 @@ items:
     region: "khorvath_catacombs"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 800
+    collection: 1000
 
   ancient_heart:
     display: "<dark_red><b>Ancient Heart"
@@ -376,7 +376,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 40
+    collection: 48
 
   relic_stone:
     display: "<#B4462A>Relic Stone"
@@ -385,7 +385,7 @@ items:
     region: "khorvath_ruins"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 50000
+    collection: 40000
 
   relic_shard:
     display: "<#E07B39><b>Relic Shard"
@@ -394,7 +394,7 @@ items:
     region: "khorvath_ruins"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 320
+    collection: 400
 
   ossuary_bone:
     display: "<white>Ossuary Bone"
@@ -403,7 +403,7 @@ items:
     region: "khorvath_catacombs"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 40000
+    collection: 32000
 
   anubite_mark:
     display: "<dark_purple><b>Anubite Mark"
@@ -412,7 +412,7 @@ items:
     region: "khorvath_sanctuary"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 160
+    collection: 120
 
   sphinx_claw:
     display: "<gold><b>Sphinx Claw"
@@ -421,7 +421,7 @@ items:
     region: "khorvath_sanctuary"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 48
+    collection: 64
 
   solar_core:
     display: "<gold><b>Solar Core"
@@ -439,7 +439,7 @@ items:
     region: "elderwood_jungle"
     lore:
       - "<dark_gray>Elderwood Roots"
-    collection: 8000
+    collection: 6400
 
   panda_fur:
     display: "<white>Panda Fur"
@@ -457,7 +457,7 @@ items:
     region: "elderwood_bamboo"
     lore:
       - "<dark_gray>Elderwood Roots"
-    collection: 8000
+    collection: 6400
 
   ocelot_whisker:
     display: "<yellow>Ocelot Whisker"
@@ -466,7 +466,7 @@ items:
     region: "elderwood_bamboo"
     lore:
       - "<dark_gray>Elderwood Roots"
-    collection: 3200
+    collection: 4000
 
   elderbark:
     display: "<#6B4F35>Elderbark"
@@ -475,7 +475,7 @@ items:
     region: "elderwood_amber"
     lore:
       - "<dark_gray>Elderwood Roots"
-    collection: 3000
+    collection: 2500
 
   amber:
     display: "<gold><b>Amber"
@@ -484,7 +484,7 @@ items:
     region: "elderwood_amber"
     lore:
       - "<dark_gray>Elderwood Roots"
-    collection: 300
+    collection: 250
 
   royal_jelly:
     display: "<yellow><b>Royal Jelly"
@@ -511,7 +511,7 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1200
+    collection: 1000
 
   frog_leg:
     display: "<#7BA05B>Frog Leg"
@@ -520,7 +520,7 @@ items:
     region: "marsh_mudflats"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1600
+    collection: 2000
 
   bog_slime:
     display: "<#7BC96F>Bog Slime"
@@ -547,7 +547,7 @@ items:
     region: "marsh_slime"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 3200
+    collection: 4000
 
   bog_stone:
     display: "<#6B7F5A>Bog Stone"
@@ -556,7 +556,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 160000
+    collection: 120000
 
   fen_soil:
     display: "<#6B4F35>Fen Soil"
@@ -565,7 +565,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 6400
+    collection: 6000
 
   moss:
     display: "<#5A8F3A>Bog Moss"
@@ -601,7 +601,7 @@ items:
     region: "marsh_ruins"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 1500
+    collection: 1200
 
   poison_quill:
     display: "<dark_green>Poison Quill"
@@ -619,7 +619,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 4000
+    collection: 3200
 
   verdant_froglight:
     display: "<#9BD86B><b>Verdant Froglight"
@@ -637,7 +637,7 @@ items:
     region: "marsh_glowmire"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 5000
+    collection: 4000
 
   mushroom_stem:
     display: "<#D9CFC1>Mushroom Stem"
@@ -691,7 +691,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 25000
+    collection: 20000
 
   pumpkin:
     display: "<gold>Pumpkin"
@@ -709,7 +709,7 @@ items:
     region: "peaks_foothills"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 16000
+    collection: 20000
 
   melon:
     display: "<green>Melon"
@@ -718,7 +718,7 @@ items:
     region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 64000
+    collection: 50000
 
   calcite:
     display: "<white>Calcite"
@@ -736,7 +736,7 @@ items:
     region: "peaks_crags"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 25000
+    collection: 32000
 
   snow:
     display: "<white>Packed Snow"
@@ -763,7 +763,7 @@ items:
     region: "peaks_slopes"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 40000
+    collection: 50000
 
   redstone:
     display: "<red><b>Redstone"
@@ -790,7 +790,7 @@ items:
     region: "peaks_grotto"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 50000
+    collection: 60000
 
   emerald:
     display: "<green><b>Emerald"
@@ -799,7 +799,7 @@ items:
     region: "peaks_depths"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 1000000
+    collection: 800000
 
   venom_sac:
     display: "<dark_green>Venom Sac"
@@ -817,7 +817,7 @@ items:
     region: "peaks_arachne"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 30000
+    collection: 40000
 
   arachne_eye:
     display: "<dark_red><b>Arachne's Eye"
@@ -1033,7 +1033,7 @@ items:
     region: "elderheart_hive"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 640
+    collection: 600
 
   beeswax:
     display: "<#E8A33D><b>Beeswax"
@@ -1051,7 +1051,7 @@ items:
     region: "elderheart_hive"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 100
+    collection: 120
 
   sentry_arrowhead:
     display: "<gray>Sentry Arrowhead"
@@ -1096,7 +1096,7 @@ items:
     region: "skyisles_cloudbank"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 50000
+    collection: 40000
 
   cloud_fleece:
     display: "<white>Cloud Fleece"
@@ -1105,7 +1105,7 @@ items:
     region: "skyisles_cloudbank"
     lore:
       - "<dark_gray>Cloud Isles"
-    collection: 10000
+    collection: 12000
 
   skyshard:
     display: "<aqua><b>Skyshard"
@@ -1195,7 +1195,7 @@ items:
     region: "kingdom_gardens"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 100000
+    collection: 80000
 
   golden_pollen:
     display: "<yellow>Golden Pollen"
@@ -1213,7 +1213,7 @@ items:
     region: "kingdom_gardens"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 320
+    collection: 400
 
   celestine:
     display: "<aqua><b>Celestine"
@@ -1222,7 +1222,7 @@ items:
     region: "kingdom_treasury"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 120000
+    collection: 100000
 
   aurium:
     display: "<gold><b>Aurium"
@@ -1249,7 +1249,7 @@ items:
     region: "kingdom_treasury"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 1600
+    collection: 2000
 
   throne_seal:
     display: "<gold><b>Throne Seal"
@@ -1276,7 +1276,7 @@ items:
     region: "quarry_gravel"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 16000
+    collection: 12000
 
   tungsten:
     display: "<dark_gray><b>Tungsten"
@@ -1312,7 +1312,7 @@ items:
     region: "quarry_pale"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 3000
+    collection: 2500
 
   iron_tag:
     display: "<gray>Iron Tag"
@@ -1339,7 +1339,7 @@ items:
     region: "quarry_maple"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 40000
+    collection: 32000
 
   titanium:
     display: "<aqua><b>Titanium"
@@ -1348,7 +1348,7 @@ items:
     region: "quarry_maple"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 1600
+    collection: 1500
 
   diamond:
     display: "<aqua><b>Diamond"
@@ -1384,7 +1384,7 @@ items:
     region: "quarry_pit"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 32
+    collection: 40
 
   golem_shard:
     display: "<white><b>Golem Core Shard"

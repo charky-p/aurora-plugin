@@ -36,7 +36,7 @@ items:
     health: 4800.0
     defence: 218.0
     attack: 57.0
-    damage: 2.23
+    damage: 2.32
     density: 24
     attributes:
       - attr: SCALE
@@ -55,7 +55,7 @@ items:
     health: 4800.0
     defence: 218.0
     attack: 57.0
-    damage: 2.23
+    damage: 2.32
     density: 24
     attributes:
       - attr: SCALE
@@ -74,7 +74,7 @@ items:
     health: 4800.0
     defence: 218.0
     attack: 57.0
-    damage: 2.23
+    damage: 2.32
     density: 24
     attributes:
       - attr: SCALE
@@ -93,7 +93,7 @@ items:
     health: 6400.0
     defence: 312.0
     attack: 62.0
-    damage: 2.32
+    damage: 2.41
     density: 27
     attributes:
       - attr: SCALE
@@ -112,7 +112,7 @@ items:
     health: 6400.0
     defence: 312.0
     attack: 62.0
-    damage: 2.32
+    damage: 2.41
     density: 27
     attributes:
       - attr: SCALE
@@ -131,7 +131,7 @@ items:
     health: 6400.0
     defence: 312.0
     attack: 62.0
-    damage: 2.32
+    damage: 2.41
     density: 27
     attributes:
       - attr: SCALE
@@ -150,7 +150,7 @@ items:
     health: 10000.0
     defence: 445.0
     attack: 67.0
-    damage: 2.4
+    damage: 2.48
     density: 30
     attributes:
       - attr: SCALE
@@ -169,7 +169,7 @@ items:
     health: 10000.0
     defence: 445.0
     attack: 67.0
-    damage: 2.4
+    damage: 2.48
     density: 30
     attributes:
       - attr: SCALE
@@ -188,7 +188,7 @@ items:
     health: 10000.0
     defence: 445.0
     attack: 67.0
-    damage: 2.4
+    damage: 2.48
     density: 30
     attributes:
       - attr: SCALE
@@ -207,7 +207,7 @@ items:
     health: 12000.0
     defence: 578.0
     attack: 72.0
-    damage: 2.47
+    damage: 2.54
     density: 33
     attributes:
       - attr: SCALE
@@ -228,7 +228,7 @@ items:
     health: 12000.0
     defence: 578.0
     attack: 72.0
-    damage: 2.47
+    damage: 2.54
     density: 33
     attributes:
       - attr: SCALE
@@ -249,7 +249,7 @@ items:
     health: 12000.0
     defence: 578.0
     attack: 72.0
-    damage: 2.47
+    damage: 2.54
     density: 33
     attributes:
       - attr: SCALE
@@ -270,7 +270,7 @@ items:
     health: 64000.0
     defence: 578.0
     attack: 74.0
-    damage: 2.49
+    damage: 2.56
     density: 33
     equip:
       hand: gormak_blade

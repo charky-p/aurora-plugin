@@ -271,6 +271,7 @@ canyons,27,shield,deflection,3,legion_plate:1
 canyons,28,sword,sharpness,3,legion_plate:1
 canyons,29,shovel,fortune,2,canyon_sand:1
 canyons,30,sword,looting,1,crimson_sand:0.6|deserter_coin:0.2|legion_plate:0.2
+canyons,31,helmet,defence,1,deserter_coin:1
 ruins,1,helmet,protection,4,scarab_shell:1
 ruins,2,chestplate,protection,4,scarab_shell:1
 ruins,3,leggings,protection,4,scarab_shell:1
@@ -296,6 +297,7 @@ ruins,22,sword,sharpness,6,relic_stone:0.6|scarab_shell:0.2|relic_shard:0.2
 ruins,23,sword,sharpness,7,scarab_shell:1
 ruins,24,shield,deflection,5,scarab_shell:1
 ruins,25,shield,deflection,6,scarab_shell:1
+ruins,26,chestplate,defence,1,relic_shard:1
 catacombs,1,helmet,protection,6,eternal_soul:1
 catacombs,2,chestplate,protection,6,eternal_soul:1
 catacombs,3,leggings,protection,6,eternal_soul:1
@@ -321,6 +323,7 @@ catacombs,22,sword,sharpness,10,ossuary_bone:0.6|eternal_soul:0.2|royal_seal:0.2
 catacombs,23,sword,sharpness,11,eternal_soul:1
 catacombs,24,shield,deflection,8,eternal_soul:1
 catacombs,25,shield,deflection,9,eternal_soul:1
+catacombs,26,leggings,defence,1,royal_seal:1
 sanctuary,1,helmet,protection,8,anubite_mark:1
 sanctuary,2,chestplate,protection,8,anubite_mark:1
 sanctuary,3,leggings,protection,8,anubite_mark:1
@@ -344,6 +347,7 @@ sanctuary,20,pick,fortune,9,anubite_mark:1|solar_core=1
 sanctuary,21,pick,efficiency,9,anubite_mark:1|solar_core=1
 sanctuary,22,shield,deflection,11,anubite_mark:1|solar_core=1
 sanctuary,23,shield,deflection,12,anubite_mark:1|solar_core=1
+sanctuary,24,boots,defence,1,sphinx_claw:1
 jungle,1,axe,efficiency,1,jungle_log:1
 jungle,2,axe,efficiency,2,jungle_log:1
 jungle,3,axe,fortune,1,jungle_log:1
@@ -361,6 +365,7 @@ jungle,14,sword,looting,2,jungle_log:0.6|panda_fur:0.4
 jungle,15,sword,looting,3,jungle_log:0.6|panda_fur:0.4
 jungle,16,sword,looting,4,jungle_log:0.6|panda_fur:0.4
 jungle,17,sword,sharpness,1,jungle_log:0.6|panda_fur:0.4
+jungle,18,helmet,defence,1,panda_fur:1
 bamboo,1,axe,efficiency,3,bamboo:1
 bamboo,2,axe,fortune,4,bamboo:1
 bamboo,3,axe,efficiency,4,bamboo:1
@@ -378,6 +383,7 @@ bamboo,14,sword,looting,6,bamboo:0.6|ocelot_whisker:0.4
 bamboo,15,sword,looting,7,bamboo:0.6|ocelot_whisker:0.4
 bamboo,16,sword,looting,8,bamboo:0.6|ocelot_whisker:0.4
 bamboo,17,sword,sharpness,2,bamboo:0.6|ocelot_whisker:0.4
+bamboo,18,chestplate,defence,1,ocelot_whisker:1
 amber,1,axe,efficiency,5,elderbark:1
 amber,2,axe,fortune,7,elderbark:1
 amber,3,axe,efficiency,6,amber:1
@@ -403,6 +409,7 @@ amber,22,sword,looting,10,elderbark:0.6|royal_jelly:0.4
 amber,23,sword,looting,11,elderbark:0.6|royal_jelly:0.4
 amber,24,sword,sharpness,3,elderbark:0.6|royal_jelly:0.4
 amber,25,sword,looting,12,elderbark:0.6|royal_jelly:0.4
+amber,26,leggings,defence,1,royal_jelly:1
 treehouse,1,helmet,protection,6,tree_sap:1
 treehouse,2,chestplate,protection,6,tree_sap:1
 treehouse,3,leggings,protection,6,tree_sap:1
@@ -426,6 +433,7 @@ treehouse,20,leggings,protection,7,tree_sap:1
 treehouse,21,leggings,protection,8,tree_sap:1
 treehouse,22,boots,protection,7,tree_sap:1
 treehouse,23,boots,protection,8,tree_sap:1
+treehouse,24,boots,defence,1,tree_sap:1
 mudflats,1,pick,efficiency,1,packed_mud:1
 mudflats,2,shovel,unlock,1,mud=32
 mudflats,3,pick,efficiency,2,packed_mud:1
@@ -447,6 +455,7 @@ mudflats,18,sword,looting,4,packed_mud:0.6|frog_leg:0.4
 mudflats,19,sword,sharpness,1,packed_mud:0.6|frog_leg:0.4
 mudflats,20,grapple,thrust,1,mud:0.6|frog_leg:0.4
 mudflats,21,grapple,recharge,1,mud:0.6|frog_leg:0.4
+mudflats,22,helmet,defence,1,frog_leg:1
 slime_hollow,1,shovel,fortune,3,bog_slime:1
 slime_hollow,2,axe,efficiency,1,mangrove_log:1
 slime_hollow,3,pick,efficiency,3,bog_slime:0.5|mangrove_log:0.5
@@ -471,6 +480,7 @@ slime_hollow,21,axe,fortune,3,mangrove_log:0.6|swamp_gel:0.4
 slime_hollow,22,shovel,fortune,5,bog_slime:0.6|swamp_gel:0.4
 slime_hollow,23,grapple,thrust,2,mangrove_log:0.6|swamp_gel:0.4
 slime_hollow,24,grapple,recharge,2,mangrove_log:0.6|swamp_gel:0.4
+slime_hollow,25,chestplate,defence,1,swamp_gel:1
 fens,1,hoe,unlock,1,moss=32
 fens,2,pick,fortune,6,bog_stone:1
 fens,3,shovel,fortune,6,fen_soil:1
@@ -505,6 +515,7 @@ fens,31,sword,sharpness,6,fen_soil:0.6|bog_rag:0.4
 fens,32,shovel,fortune,8,fen_soil:0.6|bog_rag:0.4
 fens,33,grapple,thrust,3,bog_stone:0.6|bog_rag:0.4
 fens,34,grapple,recharge,3,bog_stone:0.6|bog_rag:0.4
+fens,35,leggings,defence,1,bog_rag:1
 sunken_ruins,1,hoe,material,COPPER,mangrove_leaves:1
 sunken_ruins,2,pick,fortune,9,verdigris:1
 sunken_ruins,3,hoe,fortune,3,mangrove_leaves:1
@@ -539,6 +550,7 @@ sunken_ruins,31,axe,fortune,4,mushroom_stem:1
 sunken_ruins,32,axe,efficiency,4,mushroom_stem:1
 sunken_ruins,33,axe,fortune,5,mushroom_stem:1
 sunken_ruins,34,axe,fortune,6,mushroom_stem:1
+sunken_ruins,35,boots,defence,1,poison_quill:1
 glowmire,1,hoe,material,IRON,ochre_froglight:1
 glowmire,2,helmet,protection,9,wisp_dust:1
 glowmire,3,chestplate,protection,9,wisp_dust:1
@@ -566,6 +578,7 @@ glowmire,24,axe,fortune,7,brown_mushroom:1|hydra_fang=1
 glowmire,25,axe,efficiency,6,red_mushroom:0.5|brown_mushroom:0.5|hydra_fang=1
 glowmire,26,axe,fortune,8,red_mushroom:1|hydra_fang=1
 glowmire,27,axe,fortune,9,brown_mushroom:1|hydra_fang=1
+glowmire,28,helmet,defence,2,wisp_dust:1
 foothills,1,shovel,material,COPPER,dirt:1
 foothills,2,shovel,fortune,1,dirt:1
 foothills,3,axe,efficiency,1,pumpkin:1
@@ -590,6 +603,7 @@ foothills,21,sword,looting,4,pumpkin:0.6|pork:0.4
 foothills,22,sword,sharpness,1,pumpkin:0.6|pork:0.4
 foothills,23,grapple,thrust,1,dirt:0.6|pork:0.4
 foothills,24,grapple,recharge,1,pumpkin:0.6|pork:0.4
+foothills,25,chestplate,defence,1,pork:1
 stony_crags,1,pick,efficiency,3,calcite:1
 stony_crags,2,pick,fortune,2,calcite:1
 stony_crags,3,axe,efficiency,3,melon:1
@@ -611,6 +625,7 @@ stony_crags,18,sword,looting,8,calcite:0.6|goat_hide:0.4
 stony_crags,19,sword,sharpness,2,calcite:0.6|goat_hide:0.4
 stony_crags,20,grapple,thrust,2,calcite:0.6|goat_hide:0.4
 stony_crags,21,grapple,recharge,2,melon:0.6|goat_hide:0.4
+stony_crags,22,leggings,defence,1,goat_hide:1
 frozen_slopes,1,shovel,material,IRON,snow:1
 frozen_slopes,2,pick,efficiency,5,packed_ice:1
 frozen_slopes,3,pick,fortune,5,packed_ice:1
@@ -640,6 +655,7 @@ frozen_slopes,26,sword,sharpness,3,packed_ice:0.6|frost_arrow:0.4
 frozen_slopes,27,sword,looting,12,packed_ice:0.6|frost_arrow:0.4
 frozen_slopes,28,grapple,thrust,3,packed_ice:0.6|frost_arrow:0.4
 frozen_slopes,29,grapple,recharge,3,snow:0.6|frost_arrow:0.4
+frozen_slopes,30,boots,defence,1,frost_arrow:1
 redstone_grotto,1,pick,efficiency,7,redstone:1
 redstone_grotto,2,pick,fortune,8,redstone:1
 redstone_grotto,3,pick,fortune,9,redstone:1
@@ -664,6 +680,7 @@ redstone_grotto,21,sword,sharpness,4,redstone:0.6|spider_silk:0.4
 redstone_grotto,22,sword,looting,16,redstone:0.6|spider_silk:0.4
 redstone_grotto,23,grapple,thrust,4,redstone:0.6|spider_silk:0.4
 redstone_grotto,24,grapple,recharge,4,redstone:0.6|spider_silk:0.4
+redstone_grotto,25,helmet,defence,1,spider_silk:1
 emerald_depths,1,pick,efficiency,9,emerald:1
 emerald_depths,2,pick,fortune,11,emerald:1
 emerald_depths,3,pick,fortune,12,lapis:1
@@ -688,6 +705,7 @@ emerald_depths,21,sword,sharpness,5,emerald:0.6|venom_sac:0.4
 emerald_depths,22,sword,looting,20,emerald:0.6|venom_sac:0.4
 emerald_depths,23,grapple,thrust,5,emerald:0.6|venom_sac:0.4
 emerald_depths,24,grapple,recharge,5,emerald:0.6|venom_sac:0.4
+emerald_depths,25,chestplate,defence,2,venom_sac:1
 arachne_cave,1,helmet,protection,12,venom_sac:1
 arachne_cave,2,chestplate,protection,12,venom_sac:1
 arachne_cave,3,leggings,protection,12,venom_sac:1
@@ -713,6 +731,7 @@ arachne_cave,22,shield,deflection,2,venom_sac:1|arachne_eye=1
 arachne_cave,23,shield,deflection,3,venom_sac:1|arachne_eye=1
 arachne_cave,24,grapple,thrust,6,venom_sac:1|arachne_eye=1
 arachne_cave,25,grapple,recharge,6,venom_sac:1|arachne_eye=1
+arachne_cave,26,leggings,defence,2,rider_bone:1
 ashen,1,sword,sharpness,1,basalt:1
 ashen,2,helmet,protection,1,basalt:1
 ashen,3,chestplate,protection,1,basalt:1
@@ -743,6 +762,7 @@ ashen,27,shovel,fortune,1,basalt:1
 ashen,28,shovel,efficiency,2,basalt:1
 ashen,29,shovel,fortune,2,basalt:1
 ashen,30,shovel,efficiency,3,basalt:1
+ashen,31,boots,defence,1,sobek_sigil:1
 judgement,1,helmet,protection,4,thoth_sigil:1
 judgement,2,chestplate,protection,4,thoth_sigil:1
 judgement,3,leggings,protection,4,thoth_sigil:1
@@ -768,6 +788,7 @@ judgement,22,sword,sharpness,7,scale_gold:0.4|thoth_sigil:0.2|maat_sigil:0.2|hor
 judgement,23,sword,sharpness,8,thoth_sigil:1
 judgement,24,shield,deflection,5,maat_sigil:1
 judgement,25,shield,deflection,6,maat_sigil:1
+judgement,26,helmet,defence,1,maat_sigil:1
 forge,1,helmet,protection,6,sekhmet_sigil:1
 forge,2,chestplate,protection,6,sekhmet_sigil:1
 forge,3,leggings,protection,6,sekhmet_sigil:1
@@ -793,6 +814,7 @@ forge,22,sword,sharpness,11,solar_slag:0.4|sekhmet_sigil:0.2|ptah_sigil:0.2|khnu
 forge,23,sword,sharpness,12,sekhmet_sigil:1
 forge,24,shield,deflection,8,ptah_sigil:1
 forge,25,shield,deflection,9,ptah_sigil:1
+forge,26,chestplate,defence,1,ptah_sigil:1
 throne,1,helmet,protection,8,set_sigil:1
 throne,2,chestplate,protection,8,set_sigil:1
 throne,3,leggings,protection,8,set_sigil:1
@@ -818,6 +840,7 @@ throne,22,sword,bloodlust,1,nightstone:0.4|set_sigil:0.2|apep_sigil:0.2|nephthys
 throne,23,sword,sharpness,15,set_sigil:1|sol_heart=1
 throne,24,shield,deflection,11,apep_sigil:1|sol_heart=1
 throne,25,shield,deflection,12,apep_sigil:1|sol_heart=1
+throne,26,leggings,defence,1,apep_sigil:1
 root_cellar,1,axe,efficiency,1,heartwood_log:1
 root_cellar,2,axe,fortune,1,heartwood_log:1
 root_cellar,3,axe,efficiency,2,heartwood_log:1
@@ -846,6 +869,7 @@ root_cellar,25,pick,fortune,1,sapling_twig:1
 root_cellar,26,pick,efficiency,2,sapling_twig:1
 root_cellar,27,shield,deflection,2,sapling_twig:1
 root_cellar,28,shield,deflection,3,sapling_twig:1
+root_cellar,29,boots,defence,1,sapling_twig:1
 vine_halls,1,helmet,protection,3,canopy_silk:1
 vine_halls,2,chestplate,protection,3,canopy_silk:1
 vine_halls,3,leggings,protection,3,canopy_silk:1
@@ -874,6 +898,7 @@ vine_halls,25,pick,fortune,2,canopy_silk:1
 vine_halls,26,pick,efficiency,4,canopy_silk:1
 vine_halls,27,shield,deflection,5,canopy_silk:1
 vine_halls,28,shield,deflection,6,canopy_silk:1
+vine_halls,29,helmet,defence,1,elder_vine:1
 hive_chambers,1,helmet,protection,5,hive_stinger:1
 hive_chambers,2,chestplate,protection,5,hive_stinger:1
 hive_chambers,3,leggings,protection,5,hive_stinger:1
@@ -904,6 +929,7 @@ hive_chambers,27,axe,efficiency,7,wax_comb:1
 hive_chambers,28,sword,sharpness,12,hive_stinger:1
 hive_chambers,29,shield,deflection,8,hive_stinger:1
 hive_chambers,30,shield,deflection,9,hive_stinger:1
+hive_chambers,31,chestplate,defence,1,hive_stinger:1
 upper_canopy,1,helmet,protection,7,sentry_arrowhead:1
 upper_canopy,2,chestplate,protection,7,sentry_arrowhead:1
 upper_canopy,3,leggings,protection,7,sentry_arrowhead:1
@@ -927,6 +953,7 @@ upper_canopy,20,pick,fortune,6,sentry_arrowhead:1
 upper_canopy,21,pick,efficiency,8,sentry_arrowhead:1
 upper_canopy,22,shield,deflection,11,sentry_arrowhead:1
 upper_canopy,23,shield,deflection,12,sentry_arrowhead:1
+upper_canopy,24,leggings,defence,1,canopy_bark:1
 the_crown,1,helmet,protection,9,canopy_bark:1
 the_crown,2,chestplate,protection,9,canopy_bark:1
 the_crown,3,leggings,protection,9,canopy_bark:1
@@ -950,6 +977,7 @@ the_crown,20,pick,fortune,7,canopy_bark:1|elder_heart=1
 the_crown,21,pick,efficiency,10,canopy_bark:1|elder_heart=1
 the_crown,22,shield,deflection,14,canopy_bark:1|elder_heart=1
 the_crown,23,shield,deflection,15,canopy_bark:1|elder_heart=1
+the_crown,24,boots,defence,2,canopy_bark:1
 cloudbank,1,mace,unlock,1,cloud_fleece:1.0
 cloudbank,2,pick,efficiency,1,cloudstone:1
 cloudbank,3,pick,efficiency,2,cloudstone:1
@@ -969,6 +997,7 @@ cloudbank,16,sword,looting,3,cloudstone:0.6|cloud_fleece:0.4
 cloudbank,17,shovel,efficiency,2,cloud_dust:1
 cloudbank,18,shovel,fortune,2,cloud_dust:1
 cloudbank,19,shovel,efficiency,3,cloud_dust:1
+cloudbank,20,helmet,defence,1,cloud_fleece:1
 skyshard_spires,1,pick,efficiency,3,skyshard:1
 skyshard_spires,2,pick,fortune,4,skyshard:1
 skyshard_spires,3,pick,efficiency,4,skyshard:1
@@ -991,6 +1020,7 @@ skyshard_spires,19,sword,sharpness,1,phantom_veil:1
 skyshard_spires,20,mace,sharpness,2,phantom_veil:1.0
 skyshard_spires,21,sword,looting,5,skyshard:0.6|phantom_veil:0.4
 skyshard_spires,22,sword,sharpness,2,skyshard:0.6|phantom_veil:0.4
+skyshard_spires,23,chestplate,defence,1,phantom_veil:1
 storm_front,1,pick,efficiency,5,storm_copper:1
 storm_front,2,pick,fortune,7,storm_copper:1
 storm_front,3,pick,efficiency,6,storm_copper:1
@@ -1013,6 +1043,7 @@ storm_front,19,mace,sharpness,3,storm_essence:1.0
 storm_front,20,sword,looting,7,storm_copper:0.6|storm_essence:0.4
 storm_front,21,sword,looting,8,storm_copper:0.6|storm_essence:0.4
 storm_front,22,sword,sharpness,3,storm_copper:0.6|storm_essence:0.4
+storm_front,23,leggings,defence,1,storm_essence:1
 sky_harbour,1,helmet,protection,8,pirate_doubloon:1
 sky_harbour,2,chestplate,protection,8,pirate_doubloon:1
 sky_harbour,3,leggings,protection,8,pirate_doubloon:1
@@ -1036,6 +1067,7 @@ sky_harbour,20,pick,fortune,10,pirate_doubloon:1
 sky_harbour,21,pick,efficiency,8,pirate_doubloon:1
 sky_harbour,22,shield,deflection,2,pirate_doubloon:1
 sky_harbour,23,shield,deflection,3,pirate_doubloon:1
+sky_harbour,24,boots,defence,1,captain_compass:1
 outer_walls,1,helmet,protection,1,guard_insignia:1
 outer_walls,2,chestplate,protection,1,guard_insignia:1
 outer_walls,3,leggings,protection,1,guard_insignia:1
@@ -1061,6 +1093,7 @@ outer_walls,22,sword,sharpness,3,royal_quartz:0.6|guard_insignia:0.2|guard_insig
 outer_walls,23,sword,sharpness,4,guard_insignia:1
 outer_walls,24,shield,deflection,2,guard_insignia:1
 outer_walls,25,shield,deflection,3,guard_insignia:1
+outer_walls,26,helmet,defence,1,guard_insignia:1
 gilded_gardens,1,helmet,protection,3,golden_pollen:1
 gilded_gardens,2,chestplate,protection,3,golden_pollen:1
 gilded_gardens,3,leggings,protection,3,golden_pollen:1
@@ -1091,6 +1124,7 @@ gilded_gardens,27,axe,efficiency,2,cherry_log:1
 gilded_gardens,28,sword,sharpness,8,golden_pollen:1
 gilded_gardens,29,shield,deflection,5,golden_pollen:1
 gilded_gardens,30,shield,deflection,6,golden_pollen:1
+gilded_gardens,31,chestplate,defence,1,gardener_seed:1
 royal_treasury,1,helmet,protection,5,knight_crest:1
 royal_treasury,2,chestplate,protection,5,knight_crest:1
 royal_treasury,3,leggings,protection,5,knight_crest:1
@@ -1116,6 +1150,7 @@ royal_treasury,22,sword,sharpness,11,celestine:0.6|knight_crest:0.2|crossbow_bol
 royal_treasury,23,sword,sharpness,12,knight_crest:1
 royal_treasury,24,shield,deflection,8,knight_crest:1
 royal_treasury,25,shield,deflection,9,knight_crest:1
+royal_treasury,26,leggings,defence,1,crossbow_bolt:1
 throne_room,1,helmet,protection,7,throne_seal:1
 throne_room,2,chestplate,protection,7,throne_seal:1
 throne_room,3,leggings,protection,7,throne_seal:1
@@ -1139,6 +1174,7 @@ throne_room,20,pick,fortune,10,throne_seal:1|kings_crown=1
 throne_room,21,pick,efficiency,8,throne_seal:1|kings_crown=1
 throne_room,22,shield,deflection,11,throne_seal:1|kings_crown=1
 throne_room,23,shield,deflection,12,throne_seal:1|kings_crown=1
+throne_room,24,boots,defence,1,throne_seal:1
 gravel_pits,1,shovel,material,NETHERITE,tungsten:0.5|gravel:0.5
 gravel_pits,2,pick,efficiency,1,tungsten:1
 gravel_pits,3,pick,fortune,1,tungsten:1
@@ -1168,6 +1204,7 @@ gravel_pits,26,shovel,efficiency,2,tungsten:0.5|gravel:0.5
 gravel_pits,27,shovel,fortune,2,tungsten:0.5|gravel:0.5
 gravel_pits,28,grapple,thrust,1,tungsten:0.6|pillager_ration:0.4
 gravel_pits,29,grapple,recharge,1,tungsten:0.6|pillager_ration:0.4
+gravel_pits,30,helmet,defence,1,pillager_ration:1
 pale_woods,1,axe,efficiency,1,pale_log:1
 pale_woods,2,axe,fortune,1,pale_log:1
 pale_woods,3,axe,efficiency,2,platinum:1
@@ -1197,6 +1234,7 @@ pale_woods,26,sword,sharpness,2,pale_log:0.6|iron_tag:0.4
 pale_woods,27,sword,looting,8,pale_log:0.6|iron_tag:0.4
 pale_woods,28,grapple,thrust,2,pale_log:0.6|iron_tag:0.4
 pale_woods,29,grapple,recharge,2,pale_log:0.6|iron_tag:0.4
+pale_woods,30,chestplate,defence,1,iron_tag:1
 maple_grove,1,axe,efficiency,3,maple:1
 maple_grove,2,axe,fortune,4,maple:1
 maple_grove,3,axe,efficiency,4,clay:1
@@ -1231,6 +1269,7 @@ maple_grove,31,shovel,fortune,4,clay:1
 maple_grove,32,shovel,efficiency,5,clay:1
 maple_grove,33,grapple,thrust,3,maple:0.6|iron_tag:0.4
 maple_grove,34,grapple,recharge,3,maple:0.6|iron_tag:0.4
+maple_grove,35,leggings,defence,1,iron_tag:1
 diamond_depths,1,pick,efficiency,7,diamond:1
 diamond_depths,2,pick,fortune,10,diamond:1
 diamond_depths,3,pick,fortune,11,diamond:1
@@ -1255,6 +1294,7 @@ diamond_depths,21,sword,sharpness,5,diamond:0.6|ravager_horn:0.4
 diamond_depths,22,sword,looting,15,diamond:0.6|ravager_horn:0.4
 diamond_depths,23,grapple,thrust,4,diamond:0.6|ravager_horn:0.4
 diamond_depths,24,grapple,recharge,4,diamond:0.6|ravager_horn:0.4
+diamond_depths,25,boots,defence,1,ravager_horn:1
 quarry_pit,1,helmet,protection,13,captain_banner:1
 quarry_pit,2,chestplate,protection,13,captain_banner:1
 quarry_pit,3,leggings,protection,13,captain_banner:1
@@ -1280,6 +1320,7 @@ quarry_pit,22,shield,deflection,2,captain_banner:1
 quarry_pit,23,shield,deflection,3,captain_banner:1
 quarry_pit,24,grapple,thrust,5,captain_banner:1
 quarry_pit,25,grapple,recharge,5,captain_banner:1
+quarry_pit,26,helmet,defence,2,warden_plate:1
 golems_rest,1,helmet,protection,15,golem_shard:1
 golems_rest,2,chestplate,protection,15,golem_shard:1
 golems_rest,3,leggings,protection,15,golem_shard:1
@@ -1304,3 +1345,4 @@ golems_rest,21,leggings,protection,17,golem_shard:1
 golems_rest,22,boots,protection,16,golem_shard:1
 golems_rest,23,boots,protection,17,golem_shard:1
 golems_rest,24,grapple,thrust,6,golem_shard:1
+golems_rest,25,chestplate,defence,2,golem_shard:1

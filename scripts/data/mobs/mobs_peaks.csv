@@ -1,9 +1,9 @@
 id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices,glowing
 mountain_pig,<#F2A3A3><b>Mountain Pig,PIG,1200,0,0,,,12,,,,pork:100:1-2,,,
 mountain_goat,<white><b>Mountain Goat,GOAT,1200,0,0,,,13,,,,goat_hide:100:1-2,,,
-peak_stray,<aqua><b>Peak Stray,STRAY,1500,133,33,,0.83,14,,head:LEATHER_HELMET|feet:LEATHER_BOOTS,,frost_arrow:100:1-2,,,
-frost_spider,<aqua><b>Frost Spider,SPIDER,1500,133,36,,0.24,15,,,,spider_silk:100:1-2,,,
-cave_spider,<dark_green><b>Cave Spider,CAVE_SPIDER,1500,133,39,,0.27,16,,,,venom_sac:100:1-2|silk_key:4,,,
-cave_skeleton,<white><b>Cave Skeleton,SKELETON,1500,133,42,,1.18,17,,,,rider_bone:100:1-2|silk_key:4,,,
-arachne,<dark_red><b>Arachne,SPIDER,20000,190,46,,0.32,17,,,SCALE:2|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,arachne_eye:100:1-2,,,true
-arachne_rider,<dark_red><b>Arachne's Rider,SKELETON,4000,190,46,,0.64,17,,,FOLLOW_RANGE:48,,,,
+peak_stray,<aqua><b>Peak Stray,STRAY,1500,133,33,,0.92,14,,head:LEATHER_HELMET|feet:LEATHER_BOOTS,,frost_arrow:100:1-2,,,
+frost_spider,<aqua><b>Frost Spider,SPIDER,1500,133,36,,0.27,15,,,,spider_silk:100:1-2,,,
+cave_spider,<dark_green><b>Cave Spider,CAVE_SPIDER,1500,133,39,,0.29,16,,,,venom_sac:100:1-2|silk_key:4,,,
+cave_skeleton,<white><b>Cave Skeleton,SKELETON,1500,133,42,,1.27,17,,,,rider_bone:100:1-2|silk_key:4,,,
+arachne,<dark_red><b>Arachne,SPIDER,20000,190,46,,0.34,17,,,SCALE:2|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,arachne_eye:100:1-2,,,true
+arachne_rider,<dark_red><b>Arachne's Rider,SKELETON,4000,190,46,,0.69,17,,,FOLLOW_RANGE:48,,,,

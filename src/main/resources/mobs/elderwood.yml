@@ -111,7 +111,7 @@ items:
     health: 1600.0
     defence: 152.0
     attack: 53.0
-    damage: 1.86
+    damage: 1.94
     density: 24
     attributes:
       - attr: SCALE
@@ -128,7 +128,7 @@ items:
     health: 2000.0
     defence: 184.0
     attack: 55.0
-    damage: 1.9
+    damage: 1.98
     density: 25
     independent:
       - id: canopy_silk
@@ -140,7 +140,7 @@ items:
     health: 2000.0
     defence: 184.0
     attack: 55.0
-    damage: 1.9
+    damage: 1.98
     density: 25
     independent:
       - id: canopy_silk
@@ -152,7 +152,7 @@ items:
     health: 3000.0
     defence: 255.0
     attack: 60.0
-    damage: 1.98
+    damage: 2.06
     density: 28
     independent:
       - id: hive_stinger
@@ -164,7 +164,7 @@ items:
     health: 4000.0
     defence: 357.0
     attack: 65.0
-    damage: 2.05
+    damage: 2.12
     density: 31
     independent:
       - id: sentry_arrowhead
@@ -178,7 +178,7 @@ items:
     health: 6400.0
     defence: 459.0
     attack: 67.0
-    damage: 2.07
+    damage: 2.14
     density: 31
     attributes:
       - attr: SCALE
@@ -197,7 +197,7 @@ items:
     health: 75000.0
     defence: 652.0
     attack: 76.0
-    damage: 2.16
+    damage: 2.22
     density: 34
     attributes:
       - attr: SCALE

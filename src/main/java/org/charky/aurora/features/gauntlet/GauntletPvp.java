@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -35,6 +36,9 @@ public class GauntletPvp implements Listener {
     private final Map<UUID, BukkitTask> leaving = new HashMap<>();
     private final Map<UUID, UUID> lastHitBy = new HashMap<>();
     private final Map<UUID, Long> lastHitAt = new HashMap<>();
+    // Just come into the zone, so landing in it does no fall damage, until when
+    private final Map<UUID, Long> droppingIn = new HashMap<>();
+    private static final long DROP_IN_MS = 10_000;
 
     public GauntletPvp(Aurora plugin, GauntletManager manager) {
         this.plugin = plugin;
@@ -93,7 +97,14 @@ public class GauntletPvp implements Listener {
         Location from = event.getFrom(), to = event.getTo();
         if (from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) return;
         Player player = event.getPlayer();
-        if (!inZone(player) || manager.arena().inPvp(to)) return;
+        if (!inZone(player)) {
+            // Coming in, a jump or a drop from the lobby lands without fall damage
+            if (manager.isHere(player) && !manager.inRun(player) && manager.arena().inPvp(to)) {
+                droppingIn.put(player.getUniqueId(), System.currentTimeMillis() + DROP_IN_MS);
+            }
+            return;
+        }
+        if (manager.arena().inPvp(to)) return;
         event.setTo(from.clone().setDirection(to.getDirection()));
         player.sendActionBar(TextUtils.parse("<red>You can't walk out of the PvP zone. <white>/spawn</white> leaves in "
                 + COUNTDOWN_SECONDS + " seconds"));
@@ -137,6 +148,14 @@ public class GauntletPvp implements Listener {
         if (problem != null) TextUtils.error(player, problem);
     }
 
+    // The first landing after coming into the zone is free
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onFall(EntityDamageEvent event) {
+        if (event.getCause() != EntityDamageEvent.DamageCause.FALL || !(event.getEntity() instanceof Player player)) return;
+        Long until = droppingIn.remove(player.getUniqueId());
+        if (until != null && System.currentTimeMillis() < until && inZone(player)) event.setCancelled(true);
+    }
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onHit(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player victim) || !inZone(victim)) return;
@@ -154,6 +173,7 @@ public class GauntletPvp implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         stop(player);
+        droppingIn.remove(uuid);
         UUID by = lastHitBy.remove(uuid);
         Long at = lastHitAt.remove(uuid);
         if (!inZone(player)) return;

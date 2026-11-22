@@ -4,5 +4,5 @@ swamp_slime,<#8FD16F><b>Swamp Slime,SLIME,320,18,0,,,8,,,,swamp_gel:100:1-2,,,
 bog_walker,<#4E6B3A><b>Bog Walker,ZOMBIE,400,37,24,,,9,,head:LEATHER_HELMET,,bog_rag:100:1-2,,,
 bogged_archer,<dark_green><b>Bogged Archer,BOGGED,640,58,27,,,10,,head:LEATHER_HELMET|hand:BOW|feet:LEATHER_BOOTS,,poison_quill:100:1-2,,,
 glow_wisp,<aqua><b>Glow Wisp,ALLAY,1500,126,0,,,11,,,SCALE:2|FLYING_SPEED:0.05|MOVEMENT_SPEED:0.05,wisp_dust:100:1-2|hydra_key:4,,,
-marsh_hydra,<dark_green><b>Marsh Hydra,ZOGLIN,12000,126,31,,,11,,,SCALE:1.6|MOVEMENT_SPEED:0.2|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,,,,true
+marsh_hydra,<dark_green><b>Marsh Hydra,ZOGLIN,12000,126,31,,,11,,,SCALE:1.6|MOVEMENT_SPEED:0.2|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:48,hydra_fang:100:1-2,,,true
 hydra_head,<#7BC96F><b>Hydra Head,BOGGED,1000,126,27,,,11,,head:LEATHER_HELMET|feet:LEATHER_BOOTS,SCALE:0.7|FOLLOW_RANGE:48,,,,

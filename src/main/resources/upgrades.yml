@@ -3828,12 +3828,16 @@ items:
         cost:
           - id: red_mushroom
             amount: 1200
+          - id: hydra_fang
+            amount: 1
       - tool: axe
         stat: fortune
         level: "7"
         cost:
           - id: brown_mushroom
             amount: 1200
+          - id: hydra_fang
+            amount: 1
       - tool: axe
         stat: efficiency
         level: "6"
@@ -3842,18 +3846,24 @@ items:
             amount: 1500
           - id: brown_mushroom
             amount: 1500
+          - id: hydra_fang
+            amount: 1
       - tool: axe
         stat: fortune
         level: "8"
         cost:
           - id: red_mushroom
             amount: 1600
+          - id: hydra_fang
+            amount: 1
       - tool: axe
         stat: fortune
         level: "9"
         cost:
           - id: brown_mushroom
             amount: 2500
+          - id: hydra_fang
+            amount: 1
 
   foothills:
     name: "Foothills"

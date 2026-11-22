@@ -4,6 +4,7 @@ icon_origin,<green><b>Origin Isles,GRASS_BLOCK,true,<gray>Where everyone starts.
 icon_gormak,<gold><b>Gormak,SAND,true,<gray>The buried kingdom.
 icon_starter,<gray><b>Starter Gear,WOODEN_PICKAXE,false,<gray>Free. Barely works.
 icon_tomb,<dark_purple><b>Royal Tomb,GILDED_BLACKSTONE,true,"<gray>Myrmidons, pharaohs, and him."
+icon_glowmire,<#F5D76E><b>Glowmire,OCHRE_FROGLIGHT,true,"<gray>Froglights, wisps, and the Hydra."
 icon_menu,<aqua><b>Aurora,NETHER_STAR,true,<gray>Everything in one place.
 icon_howto,<yellow><b>How to Play,BOOK,false,<gray>New here? Start here.
 icon_backpack,<gold><b>Backpack,CHEST,false,<gray>Everything you have mined.

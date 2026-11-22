@@ -47,6 +47,13 @@ items:
     lore:
       - "<gray>Myrmidons, pharaohs, and him."
 
+  icon_glowmire:
+    display: "<#F5D76E><b>Glowmire"
+    material: OCHRE_FROGLIGHT
+    glow: true
+    lore:
+      - "<gray>Froglights, wisps, and the Hydra."
+
   icon_menu:
     display: "<aqua><b>Aurora"
     material: NETHER_STAR

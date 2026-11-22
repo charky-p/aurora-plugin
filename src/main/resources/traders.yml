@@ -209,7 +209,7 @@ items:
   glowmire_trader:
     display: "<#F5D76E><b>Glowmire Trader"
     entity: VILLAGER
-    gui: upgrades:glowmire
+    gui: glowmire_shop
     profession: cleric
     biome: swamp
 

@@ -561,11 +561,11 @@ glowmire,19,shield,deflection,2,wisp_dust:1
 glowmire,20,shield,deflection,3,wisp_dust:1
 glowmire,21,grapple,thrust,5,ochre_froglight:0.6|wisp_dust:0.4
 glowmire,22,grapple,recharge,5,verdant_froglight:0.6|wisp_dust:0.4
-glowmire,23,axe,efficiency,5,red_mushroom:1
-glowmire,24,axe,fortune,7,brown_mushroom:1
-glowmire,25,axe,efficiency,6,red_mushroom:0.5|brown_mushroom:0.5
-glowmire,26,axe,fortune,8,red_mushroom:1
-glowmire,27,axe,fortune,9,brown_mushroom:1
+glowmire,23,axe,efficiency,5,red_mushroom:1|hydra_fang=1
+glowmire,24,axe,fortune,7,brown_mushroom:1|hydra_fang=1
+glowmire,25,axe,efficiency,6,red_mushroom:0.5|brown_mushroom:0.5|hydra_fang=1
+glowmire,26,axe,fortune,8,red_mushroom:1|hydra_fang=1
+glowmire,27,axe,fortune,9,brown_mushroom:1|hydra_fang=1
 foothills,1,shovel,material,COPPER,dirt:1
 foothills,2,shovel,fortune,1,dirt:1
 foothills,3,axe,efficiency,1,pumpkin:1

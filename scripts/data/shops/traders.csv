@@ -27,7 +27,7 @@ mudflats_trader,<#8B6B4A><b>Mudflats Trader,VILLAGER,upgrades:mudflats,toolsmith
 slime_trader,<#7BC96F><b>Slime Hollow Trader,VILLAGER,upgrades:slime_hollow,toolsmith,swamp
 fens_trader,<#6B7F5A><b>Fens Trader,VILLAGER,upgrades:fens,toolsmith,swamp
 sunken_trader,<#4FB39A><b>Sunken Ruins Trader,VILLAGER,upgrades:sunken_ruins,toolsmith,swamp
-glowmire_trader,<#F5D76E><b>Glowmire Trader,VILLAGER,upgrades:glowmire,cleric,swamp
+glowmire_trader,<#F5D76E><b>Glowmire Trader,VILLAGER,glowmire_shop,cleric,swamp
 foothills_trader,<#8B6B4A><b>Foothills Trader,VILLAGER,upgrades:foothills,farmer,snow
 crags_trader,<white><b>Crags Trader,VILLAGER,upgrades:stony_crags,mason,snow
 slopes_trader,<aqua><b>Slopes Trader,VILLAGER,upgrades:frozen_slopes,toolsmith,snow

@@ -113,6 +113,9 @@ items:
       - attr: FOLLOW_RANGE
         value: 48.0
     glowing: true
+    independent:
+      - id: hydra_fang
+        max: 2
 
   hydra_head:
     display: "<#7BC96F><b>Hydra Head"

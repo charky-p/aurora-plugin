@@ -675,6 +675,15 @@ items:
       - "<dark_gray>Sunken Marsh"
     collection: 5000
 
+  hydra_fang:
+    display: "<dark_green><b>Hydra Fang"
+    material: PRISMARINE_SHARD
+    world: "overworld"
+    region: "marsh_glowmire"
+    lore:
+      - "<dark_gray>Dropped by the Marsh Hydra"
+    collection: 4
+
   dirt:
     display: "<#8B6B4A>Mountain Dirt"
     material: DIRT

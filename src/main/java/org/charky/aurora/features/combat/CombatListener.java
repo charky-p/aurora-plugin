@@ -1,9 +1,12 @@
 package org.charky.aurora.features.combat;
 
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,6 +16,7 @@ import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.charky.aurora.common.util.Enchants;
@@ -182,6 +186,24 @@ public class CombatListener implements Listener {
         if (event.getProjectile() instanceof Arrow arrow) {
             arrow.clearCustomEffects();
             arrow.setBasePotionType(null);
+        }
+    }
+
+    // A witch's potion is her attack: whatever she throws (harming, poison, slowness,
+    // weakness) lands on each player it splashes as one ranged hit at her attack level,
+    // priced by onMobAttack like an arrow. No vanilla effect lands on anyone, or poison
+    // would deal vanilla damage past it. All the players in one splash are hit, so a
+    // witch's attack_cooldown is left empty: vanilla already throws every 3 seconds
+    @EventHandler(ignoreCancelled = true)
+    public void onMobPotion(PotionSplashEvent event) {
+        ThrownPotion potion = event.getPotion();
+        if (!(potion.getShooter() instanceof LivingEntity thrower) || !CustomHealth.isTracked(thrower)) return;
+
+        DamageSource source = DamageSource.builder(DamageType.INDIRECT_MAGIC)
+                .withCausingEntity(thrower).withDirectEntity(potion).build();
+        for (LivingEntity hit : event.getAffectedEntities()) {
+            event.setIntensity(hit, 0);
+            if (hit instanceof Player player) player.damage(1.0, source);
         }
     }
 

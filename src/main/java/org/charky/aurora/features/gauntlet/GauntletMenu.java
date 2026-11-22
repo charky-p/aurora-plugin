@@ -42,6 +42,7 @@ public class GauntletMenu extends PagedMenu {
                 new Button(shop(profile), viewer -> new ShardShopMenu(manager).open(viewer)),
                 new Button(challenges(player, profile), null),
                 new Button(achievements(profile), viewer -> new AchievementsMenu(manager).open(viewer)),
+                new Button(bestiary(profile), viewer -> new BestiaryMenu(manager).open(viewer)),
                 new Button(milestones(profile), null),
                 new Button(topFloors(profile), null),
                 new Button(week(player), null),
@@ -130,6 +131,16 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>duels and more. Each pays Essence,",
                 "<gray>Shards, and some a cosmetic.",
                 "",
+                "<yellow>Click to see them"));
+    }
+
+    private ItemStack bestiary(GauntletProfile profile) {
+        GauntletData data = manager.data();
+        return button(Material.KNOWLEDGE_BOOK, "<dark_aqua><b>Bestiary", List.of(
+                "<gray>Every mob of the tower, what it",
+                "<gray>is and where it comes in.",
+                "",
+                "<gray>Met: <white>" + BestiaryMenu.met(data, profile) + "/" + BestiaryMenu.firstFloors(data).size(),
                 "<yellow>Click to see them"));
     }
 

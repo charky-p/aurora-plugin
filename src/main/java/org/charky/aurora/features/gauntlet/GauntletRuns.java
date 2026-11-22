@@ -62,6 +62,9 @@ public class GauntletRuns implements Listener {
     private static final String DAILY_DAY = "daily_day";
     private static final String HEAT_CHOICE = "heat_choice";
     public static final String BEST_COMBO = "best_combo";
+    // A player's kills of one mob, slain:g_rotter, and how many mobs they have met
+    static final String SLAIN = "slain:";
+    static final String DISCOVERED = "discovered";
 
     private final Aurora plugin;
     private final GauntletManager manager;
@@ -375,6 +378,10 @@ public class GauntletRuns implements Listener {
         manager.addStat(uuid, "hoarders", run.hoarders);
         manager.addStat(uuid, "fast_clears", run.fastClears);
         if (member.bestCombo > profile.stat(BEST_COMBO)) manager.setStat(uuid, BEST_COMBO, member.bestCombo);
+        if (!member.slain.isEmpty()) {
+            member.slain.forEach((mob, count) -> manager.addStat(uuid, SLAIN + mob, count));
+            manager.setStat(uuid, DISCOVERED, BestiaryMenu.met(data(), profile));
+        }
         // A run counts for the challenge once it cleared a floor
         if (cleared >= run.startFloor) {
             manager.challenges().add(player, "runs", 1);
@@ -958,7 +965,9 @@ public class GauntletRuns implements Listener {
             Player killer = killerOf(run, mob);
             Member member = killer == null ? null : run.members.get(killer.getUniqueId());
             boolean elite = run.elites.remove(id);
-            if (member != null) credit(member, killer, elite);
+            String mobId = mob.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
+            String base = mobId == null ? null : GauntletData.baseMobId(mobId);
+            if (member != null) credit(member, killer, elite, base);
             String affix = run.affixes.remove(id);
             if (affix != null) waves.affixDeath(run, mob, affix);
             if (id.equals(run.boss)) {
@@ -967,7 +976,7 @@ public class GauntletRuns implements Listener {
                 waves.bossGone(id);
                 for (Player player : run.online()) manager.challenges().add(player, "boss_kills", 1);
             }
-            payKill(run, mob, killer, member, elite);
+            payKill(run, base, killer, member, elite);
             if (member != null) killHeal(member, killer);
             return;
         }
@@ -981,10 +990,11 @@ public class GauntletRuns implements Listener {
         return run.members.size() == 1 ? Bukkit.getPlayer(run.members.keySet().iterator().next()) : null;
     }
 
-    // The kill counts for whoever landed it: their kills, their combo, their challenges
-    private void credit(Member member, Player killer, boolean elite) {
+    // The kill counts for whoever landed it: their kills, the bestiary's, their combo, their challenges
+    private void credit(Member member, Player killer, boolean elite, String base) {
         member.kills++;
         if (elite) member.eliteKills++;
+        if (base != null) member.slain.merge(base, 1, Integer::sum);
         long now = System.currentTimeMillis();
         member.combo = now - member.lastKill <= data().setting("combo_window", 3) * 1000 ? member.combo + 1 : 1;
         member.lastKill = now;
@@ -995,11 +1005,9 @@ public class GauntletRuns implements Listener {
 
     // What the kill pays into the pot. A party's floor pays what the same floor pays
     // alone, its extra mobs share it
-    private void payKill(GauntletRun run, LivingEntity mob, Player killer, Member member, boolean elite) {
-        String mobId = mob.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
+    private void payKill(GauntletRun run, String base, Player killer, Member member, boolean elite) {
         GauntletData.Floor floor = data().floor(run.floor);
-        if (mobId == null || floor == null) return;
-        String base = GauntletData.baseMobId(mobId);
+        if (base == null || floor == null) return;
         double pay = floor.killPay(base) * (elite ? data().setting("elite_pay", 3) : 1)
                 * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run) * comboPay(member)
                 / (floor.isBoss(base) ? 1 : run.floorScale);

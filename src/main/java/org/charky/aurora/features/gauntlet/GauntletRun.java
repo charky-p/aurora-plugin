@@ -45,6 +45,8 @@ final class GauntletRun {
         int reviving;
         int kills;
         int eliteKills;
+        // Their kills this run by mob, for the bestiary
+        final Map<String, Integer> slain = new HashMap<>();
         long lastKill;
         int combo;
         int bestCombo;

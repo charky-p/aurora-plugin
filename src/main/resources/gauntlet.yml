@@ -2884,6 +2884,14 @@ achievements:
     essence: 1000
     shards: 500
     cosmetic: ''
+  - id: naturalist
+    name: Naturalist
+    description: "Meet {goal} of the tower's mobs"
+    stat: discovered
+    goal: 20
+    essence: 1000
+    shards: 500
+    cosmetic: ''
   - id: brawler
     name: Brawler
     description: "Win {goal} fights in the PvP zone"

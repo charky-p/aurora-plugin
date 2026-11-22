@@ -11,6 +11,7 @@ veteran,Veteran,Finish {goal} runs,runs,50,300,200,
 together,Together,Finish {goal} runs in a party,party_runs,25,400,250,
 lifeline,Lifeline,Revive {goal} teammates,revives,25,500,300,
 climber,Climber,Clear floor {goal},best,40,1000,500,
+naturalist,Naturalist,Meet {goal} of the tower's mobs,discovered,20,1000,500,
 brawler,Brawler,Win {goal} fights in the PvP zone,pvp_kills,50,500,300,
 duelist,Duelist,Win {goal} duels,duel_wins,25,600,400,suffix_duelist
 champion,Champion,Win {goal} duels,duel_wins,100,2000,1500,

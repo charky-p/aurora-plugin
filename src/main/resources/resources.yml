@@ -556,7 +556,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 100000
+    collection: 160000
 
   fen_soil:
     display: "<#6B4F35>Fen Soil"
@@ -565,7 +565,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 4000
+    collection: 6400
 
   moss:
     display: "<#5A8F3A>Bog Moss"
@@ -574,7 +574,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 320
+    collection: 500
 
   bog_rag:
     display: "<#4E6B3A>Bog Rag"

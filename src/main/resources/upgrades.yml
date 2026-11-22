@@ -3229,219 +3229,219 @@ items:
         level: "6"
         cost:
           - id: bog_stone
-            amount: 8000
+            amount: 10000
       - tool: shovel
         stat: fortune
         level: "6"
         cost:
           - id: fen_soil
-            amount: 48
+            amount: 80
       - tool: hoe
         stat: material
         level: "STONE"
         cost:
           - id: moss
-            amount: 20
+            amount: 24
       - tool: pick
         stat: efficiency
         level: "4"
         cost:
           - id: bog_stone
-            amount: 10000
+            amount: 16000
       - tool: shovel
         stat: efficiency
         level: "4"
         cost:
           - id: fen_soil
-            amount: 100
+            amount: 150
       - tool: hoe
         stat: fortune
         level: "1"
         cost:
           - id: moss
-            amount: 40
+            amount: 64
       - tool: helmet
         stat: protection
         level: "3"
-        cost:
-          - id: bog_rag
-            amount: 3
-      - tool: helmet
-        stat: protection
-        level: "4"
         cost:
           - id: bog_rag
             amount: 4
       - tool: helmet
         stat: protection
-        level: "5"
+        level: "4"
         cost:
           - id: bog_rag
             amount: 8
-      - tool: chestplate
+      - tool: helmet
         stat: protection
-        level: "3"
+        level: "5"
         cost:
           - id: bog_rag
             amount: 12
       - tool: chestplate
         stat: protection
-        level: "4"
+        level: "3"
         cost:
           - id: bog_rag
             amount: 16
       - tool: chestplate
         stat: protection
-        level: "5"
+        level: "4"
         cost:
           - id: bog_rag
             amount: 20
-      - tool: leggings
+      - tool: chestplate
         stat: protection
-        level: "3"
+        level: "5"
         cost:
           - id: bog_rag
             amount: 24
       - tool: leggings
         stat: protection
-        level: "4"
+        level: "3"
         cost:
           - id: bog_rag
             amount: 32
       - tool: leggings
         stat: protection
-        level: "5"
+        level: "4"
         cost:
           - id: bog_rag
             amount: 40
-      - tool: boots
+      - tool: leggings
         stat: protection
-        level: "3"
+        level: "5"
         cost:
           - id: bog_rag
             amount: 48
       - tool: boots
         stat: protection
-        level: "4"
+        level: "3"
         cost:
           - id: bog_rag
             amount: 64
       - tool: boots
         stat: protection
-        level: "5"
+        level: "4"
         cost:
           - id: bog_rag
             amount: 80
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: bog_rag
+            amount: 100
       - tool: shovel
         stat: fortune
         level: "7"
         cost:
           - id: fen_soil
-            amount: 300
+            amount: 400
       - tool: hoe
         stat: efficiency
         level: "1"
         cost:
           - id: moss
-            amount: 120
+            amount: 200
       - tool: sword
         stat: sharpness
         level: "4"
         cost:
           - id: bog_rag
-            amount: 100
+            amount: 120
       - tool: pick
         stat: fortune
         level: "7"
         cost:
           - id: bog_stone
-            amount: 12000
+            amount: 20000
           - id: bog_rag
-            amount: 120
+            amount: 150
       - tool: pick
         stat: fortune
         level: "8"
         cost:
           - id: bog_stone
-            amount: 15000
+            amount: 25000
           - id: bog_rag
-            amount: 150
+            amount: 160
       - tool: pick
         stat: efficiency
         level: "5"
         cost:
           - id: bog_stone
-            amount: 16000
+            amount: 30000
           - id: bog_rag
-            amount: 160
+            amount: 200
       - tool: shovel
         stat: efficiency
         level: "5"
         cost:
           - id: fen_soil
-            amount: 480
+            amount: 640
       - tool: hoe
         stat: fortune
         level: "2"
         cost:
           - id: moss
-            amount: 160
+            amount: 250
       - tool: sword
         stat: looting
         level: "8"
         cost:
           - id: fen_soil
-            amount: 500
+            amount: 750
           - id: bog_rag
-            amount: 200
+            amount: 250
       - tool: sword
         stat: sharpness
         level: "5"
         cost:
           - id: fen_soil
-            amount: 600
+            amount: 800
           - id: bog_rag
-            amount: 250
+            amount: 300
       - tool: sword
         stat: looting
         level: "9"
         cost:
           - id: fen_soil
-            amount: 640
+            amount: 1000
           - id: bog_rag
-            amount: 300
+            amount: 320
       - tool: sword
         stat: sharpness
         level: "6"
         cost:
           - id: fen_soil
-            amount: 750
+            amount: 1200
           - id: bog_rag
-            amount: 320
+            amount: 400
       - tool: shovel
         stat: fortune
         level: "8"
         cost:
           - id: fen_soil
-            amount: 800
+            amount: 1500
           - id: bog_rag
-            amount: 400
+            amount: 480
       - tool: grapple
         stat: thrust
         level: "3"
         cost:
           - id: bog_stone
-            amount: 20000
+            amount: 32000
           - id: bog_rag
-            amount: 480
+            amount: 500
       - tool: grapple
         stat: recharge
         level: "3"
         cost:
           - id: bog_stone
-            amount: 25000
+            amount: 40000
           - id: bog_rag
-            amount: 500
+            amount: 600
 
   sunken_ruins:
     name: "Sunken Ruins"

@@ -1080,30 +1080,40 @@ items:
         cost:
           - id: tomb_dust
             amount: 24
+          - id: ancient_heart
+            amount: 1
       - tool: pick
         stat: efficiency
         level: "9"
         cost:
           - id: tomb_dust
             amount: 32
+          - id: ancient_heart
+            amount: 1
       - tool: shield
         stat: deflection
         level: "9"
         cost:
           - id: tomb_dust
             amount: 40
+          - id: ancient_heart
+            amount: 1
       - tool: shield
         stat: deflection
         level: "10"
         cost:
           - id: tomb_dust
             amount: 48
+          - id: ancient_heart
+            amount: 1
       - tool: shield
         stat: deflection
         level: "11"
         cost:
           - id: tomb_dust
             amount: 64
+          - id: ancient_heart
+            amount: 1
 
   oak:
     name: "Oak Grove"

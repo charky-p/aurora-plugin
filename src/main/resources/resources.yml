@@ -120,7 +120,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Gormak - The Dunes"
-    collection: 6000
+    collection: 3200
 
   ancient_flesh:
     display: "<dark_red>Ancient Flesh"
@@ -183,7 +183,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Gormak - Sun Temple"
-    collection: 12000
+    collection: 6400
 
   ancient_nugget:
     display: "<gold><b>Ancient Nugget"
@@ -201,7 +201,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Vizier Mages"
-    collection: 100
+    collection: 120
 
   eternal_soul:
     display: "<dark_purple><b>Eternal Soul"

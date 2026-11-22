@@ -159,11 +159,11 @@ tomb,15,boots,thorns,1,guardian_sigil:1
 tomb,16,sword,bloodlust,2,tomb_dust:0.33|guardian_sigil:0.33|ancient_nugget:0.33
 tomb,17,sword,sharpness,9,tomb_dust:1
 tomb,18,pick,efficiency,8,tomb_dust:1
-tomb,19,pick,fortune,9,tomb_dust:1
-tomb,20,pick,efficiency,9,tomb_dust:1
-tomb,21,shield,deflection,9,tomb_dust:1
-tomb,22,shield,deflection,10,tomb_dust:1
-tomb,23,shield,deflection,11,tomb_dust:1
+tomb,19,pick,fortune,9,tomb_dust:1|ancient_heart=1
+tomb,20,pick,efficiency,9,tomb_dust:1|ancient_heart=1
+tomb,21,shield,deflection,9,tomb_dust:1|ancient_heart=1
+tomb,22,shield,deflection,10,tomb_dust:1|ancient_heart=1
+tomb,23,shield,deflection,11,tomb_dust:1|ancient_heart=1
 oak,1,axe,unlock,1,oak_log=8
 oak,2,axe,material,STONE,tin:1
 oak,3,axe,efficiency,1,tin:1

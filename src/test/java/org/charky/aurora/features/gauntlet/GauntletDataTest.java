@@ -2,8 +2,14 @@ package org.charky.aurora.features.gauntlet;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -89,5 +95,44 @@ class GauntletDataTest {
     void noFloorsNoFloor() {
         assertNull(GauntletData.empty().floor(1));
         assertFalse(GauntletData.empty().ready());
+    }
+
+    @Test
+    void parsingLeavesOutUnknownMobsAndFillsDefaults() {
+        Map<String, Object> mobs = new LinkedHashMap<>();
+        mobs.put("g_rotter", 3);
+        mobs.put("g_nobody", 2);
+        Map<String, Object> root = Map.of(
+                "floors", List.of(Map.of("mobs", mobs, "health", 1.5, "attack", 2, "kill", 0, "shards", 4, "cores", 0)),
+                "boons", Map.of("might", Map.of("name", "Might", "stat", "damage", "amount", 10, "max", 5)),
+                "bosses", Map.of("g_rot_king", List.of(Map.of("type", "slam", "cooldown", 0))),
+                "settings", Map.of("party_max", "4"));
+        List<String> logged = new ArrayList<>();
+        Logger logger = Logger.getAnonymousLogger();
+        logger.setUseParentHandlers(false);
+        logger.addHandler(new Handler() {
+            @Override
+            public void publish(LogRecord record) {
+                logged.add(record.getMessage());
+            }
+
+            @Override
+            public void flush() {
+            }
+
+            @Override
+            public void close() {
+            }
+        });
+
+        GauntletData data = GauntletData.parse(root, Set.of("g_rotter"), logger);
+
+        assertEquals(Map.of("g_rotter", 3), data.floors().getFirst().mobs());
+        assertEquals(List.of("GAUNTLET ERROR: no mob 'g_nobody'"), logged);
+        assertEquals(1, data.floors().getFirst().kill(), "a kill pays at least 1 Shard");
+        assertEquals("common", data.boons().get("might").rarity(), "a boon without a rarity is common");
+        assertEquals(1, data.bosses().get("g_rot_king").getFirst().cooldown(), "a cooldown is at least a second");
+        assertEquals(4, data.setting("party_max", 0), "settings read as numbers");
+        assertTrue(data.gear().isEmpty() && data.levels().isEmpty(), "missing sections are empty");
     }
 }

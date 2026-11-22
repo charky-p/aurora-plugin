@@ -9,13 +9,14 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 // gauntlet.yml, from scripts/data/gauntlet/ through generate.py: the floors, the gear
 // and what each level of it costs, the boons, the care package levels and the
@@ -171,7 +172,6 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     }
 
     // Empty when the file is missing or broken, the gauntlet then refuses to start
-    @SuppressWarnings("unchecked")
     public static GauntletData load(JavaPlugin plugin, Collection<String> knownMobs) {
         File file = new File(plugin.getDataFolder(), FILE);
         if (!file.exists()) {
@@ -183,112 +183,82 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         }
         try (InputStream in = new FileInputStream(file)) {
             Map<String, Object> root = new Yaml().load(in);
-            if (root == null) return empty();
-
-            List<Floor> floors = new ArrayList<>();
-            for (Map<String, Object> row : list(root.get("floors"))) {
-                Map<String, Integer> mobs = new LinkedHashMap<>();
-                ((Map<String, Object>) row.get("mobs")).forEach((mob, count) -> {
-                    if (knownMobs.contains(mob)) mobs.put(mob, num(count).intValue());
-                    else plugin.getLogger().severe("GAUNTLET ERROR: no mob '" + mob + "'");
-                });
-                floors.add(new Floor(mobs, num(row.get("health")).doubleValue(), num(row.get("attack")).intValue(),
-                        Math.max(1, num(row.get("kill")).intValue()), num(row.get("shards")).intValue(),
-                        num(row.get("cores")).intValue()));
-            }
-
-            Map<String, Gear> gear = new LinkedHashMap<>();
-            ((Map<String, Map<String, Object>>) root.getOrDefault("gear", Map.of())).forEach((id, row) ->
-                    gear.put(id, new Gear(id, str(row.get("name")), str(row.get("item")),
-                            ((List<Object>) row.get("materials")).stream().map(String::valueOf).toList(), str(row.get("kind")),
-                            num(row.get("damage")).intValue(), num(row.get("unlock_shards")).intValue(),
-                            num(row.get("unlock_floor")).intValue())));
-
-            List<GearLevel> levels = new ArrayList<>();
-            for (Map<String, Object> row : list(root.get("levels"))) {
-                levels.add(new GearLevel(num(row.get("level")).intValue(), num(row.get("shards")).intValue(),
-                        num(row.get("cores")).intValue(), num(row.get("material")).intValue(), num(row.get("melee")).intValue(),
-                        num(row.get("ranged")).intValue(), num(row.get("defence")).intValue(),
-                        num(row.get("protection")).intValue(), num(row.get("deflection")).intValue()));
-            }
-
-            Map<String, Boon> boons = new LinkedHashMap<>();
-            ((Map<String, Map<String, Object>>) root.getOrDefault("boons", Map.of())).forEach((id, row) ->
-                    boons.put(id, new Boon(id, str(row.get("name")), str(row.get("icon")), str(row.get("description")),
-                            str(row.get("stat")), num(row.get("amount")).doubleValue(), num(row.get("max")).intValue(),
-                            row.get("rarity") == null ? "common" : str(row.get("rarity")))));
-
-            List<CareLevel> care = new ArrayList<>();
-            for (Map<String, Object> row : list(root.get("care"))) {
-                List<Loot> loot = new ArrayList<>();
-                for (Map<String, Object> entry : list(row.get("loot"))) {
-                    loot.add(new Loot(str(entry.get("item")), num(entry.get("min")).intValue(),
-                            num(entry.get("max")).intValue(), num(entry.get("chance")).doubleValue()));
-                }
-                care.add(new CareLevel(num(row.get("level")).intValue(), num(row.get("shards")).intValue(),
-                        num(row.get("cores")).intValue(), loot));
-            }
-
-            List<Milestone> milestones = new ArrayList<>();
-            for (Map<String, Object> row : list(root.get("milestones"))) {
-                milestones.add(new Milestone(num(row.get("floor")).intValue(), num(row.get("essence")).intValue(),
-                        str(row.get("cosmetic"))));
-            }
-            Map<String, SetupItem> setup = new LinkedHashMap<>();
-            ((Map<String, Map<String, Object>>) root.getOrDefault("setup", Map.of())).forEach((id, row) ->
-                    setup.put(id, new SetupItem(id, str(row.get("name")), str(row.get("item")), num(row.get("amount")).intValue(),
-                            num(row.get("max")).intValue(), num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
-                            str(row.get("description")))));
-            Map<String, Talent> talents = new LinkedHashMap<>();
-            ((Map<String, Map<String, Object>>) root.getOrDefault("talents", Map.of())).forEach((id, row) ->
-                    talents.put(id, new Talent(id, str(row.get("name")), str(row.get("icon")), str(row.get("description")),
-                            str(row.get("stat")), num(row.get("amount")).doubleValue(), num(row.get("max")).intValue(),
-                            num(row.get("shards")).intValue(), num(row.get("growth")).doubleValue(), num(row.get("cores")).intValue())));
-            Map<String, Mutator> mutators = new LinkedHashMap<>();
-            ((Map<String, Map<String, Object>>) root.getOrDefault("mutators", Map.of())).forEach((id, row) ->
-                    mutators.put(id, new Mutator(id, str(row.get("name")), str(row.get("description")),
-                            num(row.get("health")).doubleValue(), num(row.get("damage")).doubleValue(), num(row.get("speed")).doubleValue(),
-                            num(row.get("count")).doubleValue(), num(row.get("elites")).doubleValue(), num(row.get("shards")).intValue())));
-            Map<String, Challenge> challenges = new LinkedHashMap<>();
-            ((Map<String, Map<String, Object>>) root.getOrDefault("challenges", Map.of())).forEach((id, row) ->
-                    challenges.put(id, new Challenge(id, str(row.get("description")), str(row.get("stat")),
-                            num(row.get("goal")).intValue(), num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
-                            Boolean.TRUE.equals(row.get("scale")))));
-            Map<String, List<BossAbility>> bosses = new LinkedHashMap<>();
-            ((Map<String, Object>) root.getOrDefault("bosses", Map.of())).forEach((id, value) -> {
-                List<BossAbility> abilities = new ArrayList<>();
-                for (Map<String, Object> ability : list(value)) {
-                    abilities.add(new BossAbility(str(ability.get("type")), Math.max(1, num(ability.get("cooldown")).intValue())));
-                }
-                bosses.put(id, List.copyOf(abilities));
-            });
-            List<Perk> perks = new ArrayList<>();
-            for (Map<String, Object> row : list(root.get("perks"))) {
-                perks.add(new Perk(str(row.get("gear")), num(row.get("level")).intValue(), str(row.get("name")),
-                        str(row.get("description")), str(row.get("stat")), num(row.get("amount")).doubleValue()));
-            }
-            Map<String, Affix> affixes = new LinkedHashMap<>();
-            ((Map<String, Map<String, Object>>) root.getOrDefault("affixes", Map.of())).forEach((id, row) ->
-                    affixes.put(id, new Affix(id, str(row.get("name")), str(row.get("colour")), str(row.get("description")))));
-            List<Achievement> achievements = new ArrayList<>();
-            for (Map<String, Object> row : list(root.get("achievements"))) {
-                achievements.add(new Achievement(str(row.get("id")), str(row.get("name")), str(row.get("description")),
-                        str(row.get("stat")), num(row.get("goal")).intValue(), num(row.get("essence")).intValue(),
-                        num(row.get("shards")).intValue(), str(row.get("cosmetic"))));
-            }
-            List<ShopItem> shop = new ArrayList<>();
-            for (Map<String, Object> row : list(root.get("shop"))) {
-                shop.add(new ShopItem(str(row.get("cosmetic")), num(row.get("shards")).intValue()));
-            }
-            Map<String, Double> settings = new LinkedHashMap<>();
-            ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
-            return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care),
-                    List.copyOf(milestones), setup, talents, mutators, challenges, bosses, List.copyOf(perks), affixes,
-                    List.copyOf(achievements), List.copyOf(shop), settings);
+            return root == null ? empty() : parse(root, knownMobs, plugin.getLogger());
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load " + FILE, e);
             return empty();
         }
+    }
+
+    // gauntlet.yml as generate.py writes it. A floor's mobs that don't exist are left out and logged
+    @SuppressWarnings("unchecked")
+    static GauntletData parse(Map<String, Object> root, Collection<String> knownMobs, Logger logger) {
+        List<Floor> floors = rows(root, "floors", row -> {
+            Map<String, Integer> mobs = new LinkedHashMap<>();
+            ((Map<String, Object>) row.getOrDefault("mobs", Map.of())).forEach((mob, count) -> {
+                if (knownMobs.contains(mob)) mobs.put(mob, num(count).intValue());
+                else logger.severe("GAUNTLET ERROR: no mob '" + mob + "'");
+            });
+            return new Floor(mobs, num(row.get("health")).doubleValue(), num(row.get("attack")).intValue(),
+                    Math.max(1, num(row.get("kill")).intValue()), num(row.get("shards")).intValue(), num(row.get("cores")).intValue());
+        });
+        Map<String, Gear> gear = byId(root, "gear", (id, row) -> new Gear(id, str(row.get("name")), str(row.get("item")),
+                ((List<Object>) row.getOrDefault("materials", List.of())).stream().map(String::valueOf).toList(), str(row.get("kind")),
+                num(row.get("damage")).intValue(), num(row.get("unlock_shards")).intValue(), num(row.get("unlock_floor")).intValue()));
+        List<GearLevel> levels = rows(root, "levels", row -> new GearLevel(num(row.get("level")).intValue(),
+                num(row.get("shards")).intValue(), num(row.get("cores")).intValue(), num(row.get("material")).intValue(),
+                num(row.get("melee")).intValue(), num(row.get("ranged")).intValue(), num(row.get("defence")).intValue(),
+                num(row.get("protection")).intValue(), num(row.get("deflection")).intValue()));
+        Map<String, Boon> boons = byId(root, "boons", (id, row) -> new Boon(id, str(row.get("name")), str(row.get("icon")),
+                str(row.get("description")), str(row.get("stat")), num(row.get("amount")).doubleValue(), num(row.get("max")).intValue(),
+                row.get("rarity") == null ? "common" : str(row.get("rarity"))));
+        List<CareLevel> care = rows(root, "care", row -> new CareLevel(num(row.get("level")).intValue(),
+                num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
+                rows(row, "loot", loot -> new Loot(str(loot.get("item")), num(loot.get("min")).intValue(),
+                        num(loot.get("max")).intValue(), num(loot.get("chance")).doubleValue()))));
+        List<Milestone> milestones = rows(root, "milestones", row -> new Milestone(num(row.get("floor")).intValue(),
+                num(row.get("essence")).intValue(), str(row.get("cosmetic"))));
+        Map<String, SetupItem> setup = byId(root, "setup", (id, row) -> new SetupItem(id, str(row.get("name")), str(row.get("item")),
+                num(row.get("amount")).intValue(), num(row.get("max")).intValue(), num(row.get("shards")).intValue(),
+                num(row.get("cores")).intValue(), str(row.get("description"))));
+        Map<String, Talent> talents = byId(root, "talents", (id, row) -> new Talent(id, str(row.get("name")), str(row.get("icon")),
+                str(row.get("description")), str(row.get("stat")), num(row.get("amount")).doubleValue(), num(row.get("max")).intValue(),
+                num(row.get("shards")).intValue(), num(row.get("growth")).doubleValue(), num(row.get("cores")).intValue()));
+        Map<String, Mutator> mutators = byId(root, "mutators", (id, row) -> new Mutator(id, str(row.get("name")),
+                str(row.get("description")), num(row.get("health")).doubleValue(), num(row.get("damage")).doubleValue(),
+                num(row.get("speed")).doubleValue(), num(row.get("count")).doubleValue(), num(row.get("elites")).doubleValue(),
+                num(row.get("shards")).intValue()));
+        Map<String, Challenge> challenges = byId(root, "challenges", (id, row) -> new Challenge(id, str(row.get("description")),
+                str(row.get("stat")), num(row.get("goal")).intValue(), num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
+                Boolean.TRUE.equals(row.get("scale"))));
+        Map<String, List<BossAbility>> bosses = new LinkedHashMap<>();
+        ((Map<String, Object>) root.getOrDefault("bosses", Map.of())).forEach((id, value) -> bosses.put(id, list(value).stream()
+                .map(ability -> new BossAbility(str(ability.get("type")), Math.max(1, num(ability.get("cooldown")).intValue()))).toList()));
+        List<Perk> perks = rows(root, "perks", row -> new Perk(str(row.get("gear")), num(row.get("level")).intValue(),
+                str(row.get("name")), str(row.get("description")), str(row.get("stat")), num(row.get("amount")).doubleValue()));
+        Map<String, Affix> affixes = byId(root, "affixes", (id, row) -> new Affix(id, str(row.get("name")), str(row.get("colour")),
+                str(row.get("description"))));
+        List<Achievement> achievements = rows(root, "achievements", row -> new Achievement(str(row.get("id")), str(row.get("name")),
+                str(row.get("description")), str(row.get("stat")), num(row.get("goal")).intValue(), num(row.get("essence")).intValue(),
+                num(row.get("shards")).intValue(), str(row.get("cosmetic"))));
+        List<ShopItem> shop = rows(root, "shop", row -> new ShopItem(str(row.get("cosmetic")), num(row.get("shards")).intValue()));
+        Map<String, Double> settings = new LinkedHashMap<>();
+        ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
+        return new GauntletData(floors, gear, levels, boons, care, milestones, setup, talents, mutators, challenges, bosses, perks,
+                affixes, achievements, shop, settings);
+    }
+
+    // A section that is a list, one record a row, in order
+    private static <T> List<T> rows(Map<String, Object> parent, String key, Function<Map<String, Object>, T> read) {
+        return list(parent.get(key)).stream().map(read).toList();
+    }
+
+    // A section keyed by id, one record a row, in the file's order
+    @SuppressWarnings("unchecked")
+    private static <T> Map<String, T> byId(Map<String, Object> root, String key, BiFunction<String, Map<String, Object>, T> read) {
+        Map<String, T> records = new LinkedHashMap<>();
+        ((Map<String, Map<String, Object>>) root.getOrDefault(key, Map.of())).forEach((id, row) -> records.put(id, read.apply(id, row)));
+        return records;
     }
 
     // A tuning number from settings.csv, or the fallback when it is missing

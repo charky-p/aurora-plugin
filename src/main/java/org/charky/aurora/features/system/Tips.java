@@ -35,6 +35,8 @@ public final class Tips {
             "Max out a zone to earn its suffix, shown in <white>/customise<gray>.",
             "<white>/ranks<gray> picks which of your ranks shows by your name.",
             "In the Royal Tomb, a Tomb Key summons Gormak the Eternal. His Ancient Hearts pay for the Tomb's last upgrades.",
+            "<white>/gauntlet<gray> is a tower of mob floors with its own gear. Climb as high as you can and spend the Shards you earn in the forge.",
+            "The Gauntlet has a PvP zone and 1v1 duels with <white>/gauntlet duel<gray>. Your main gear stays safe, everyone fights with Gauntlet gear.",
             "Have an idea? Send it with <white>/suggest<gray>, or join us on <white>/discord<gray>.");
 
     private int next;

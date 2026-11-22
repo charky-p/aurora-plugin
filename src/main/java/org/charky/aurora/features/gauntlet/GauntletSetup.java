@@ -298,10 +298,8 @@ public class GauntletSetup implements Listener {
         int level = profile.setup.getOrDefault(setupId, 0);
         if (level >= setup.max()) return "You already start with the most of it";
         int next = level + 1;
-        if (profile.shards < setup.shardsFor(next)) return "You need " + (setup.shardsFor(next) - profile.shards) + " more Shards";
-        if (profile.cores < setup.coresFor(next)) return "You need " + (setup.coresFor(next) - profile.cores) + " more Cores";
-        profile.shards -= setup.shardsFor(next);
-        profile.cores -= setup.coresFor(next);
+        String unpaid = profile.pay(setup.shardsFor(next), setup.coresFor(next));
+        if (unpaid != null) return unpaid;
         profile.setup.put(setupId, next);
         UUID uuid = player.getUniqueId();
         db.async(() -> store.saveSetup(uuid, setupId, next));

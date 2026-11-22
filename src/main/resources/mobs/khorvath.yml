@@ -33,7 +33,7 @@ items:
   scarab_zealot:
     display: "<dark_purple><b>Scarab Zealot"
     entity: ZOMBIE
-    health: 215.0
+    health: 200.0
     defence: 6.0
     attack: 19.0
     damage: 1.5
@@ -57,7 +57,7 @@ items:
   hollowed_legionnaire:
     display: "<gray><b>Hollowed Legionnaire"
     entity: HUSK
-    health: 240.0
+    health: 250.0
     defence: 8.0
     attack: 19.0
     damage: 1.5
@@ -114,7 +114,7 @@ items:
   pharaoh:
     display: "<gold><b>Pharaoh"
     entity: ZOMBIE_VILLAGER
-    health: 410.0
+    health: 400.0
     defence: 15.0
     attack: 25.0
     damage: 1.5
@@ -151,7 +151,7 @@ items:
   relic_warrior:
     display: "<#E07B39><b>Relic Warrior"
     entity: ZOMBIE
-    health: 410.0
+    health: 400.0
     defence: 37.0
     attack: 33.0
     damage: 1.5
@@ -163,7 +163,7 @@ items:
   anubite_executioner:
     display: "<dark_purple><b>Anubite Executioner"
     entity: WITHER_SKELETON
-    health: 1850.0
+    health: 2000.0
     defence: 126.0
     attack: 44.0
     damage: 1.5
@@ -177,7 +177,7 @@ items:
   sphinx:
     display: "<gold><b>Sphinx"
     entity: RAVAGER
-    health: 1850.0
+    health: 2000.0
     defence: 126.0
     attack: 44.0
     damage: 1.5
@@ -191,7 +191,7 @@ items:
   khorvath:
     display: "<gold><b>Khorvath, Avatar of the Sun"
     entity: HUSK
-    health: 15400.0
+    health: 15000.0
     defence: 140.0
     attack: 48.0
     damage: 1.5

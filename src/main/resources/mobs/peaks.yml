@@ -33,7 +33,7 @@ items:
   mountain_pig:
     display: "<#F2A3A3><b>Mountain Pig"
     entity: PIG
-    health: 1140.0
+    health: 1200.0
     density: 12
     independent:
       - id: pork
@@ -42,7 +42,7 @@ items:
   mountain_goat:
     display: "<white><b>Mountain Goat"
     entity: GOAT
-    health: 1140.0
+    health: 1200.0
     density: 13
     independent:
       - id: goat_hide
@@ -51,7 +51,7 @@ items:
   peak_stray:
     display: "<aqua><b>Peak Stray"
     entity: STRAY
-    health: 1480.0
+    health: 1500.0
     defence: 133.0
     attack: 33.0
     density: 14
@@ -62,7 +62,7 @@ items:
   frost_spider:
     display: "<aqua><b>Frost Spider"
     entity: SPIDER
-    health: 1480.0
+    health: 1500.0
     defence: 133.0
     attack: 36.0
     density: 15
@@ -73,7 +73,7 @@ items:
   cave_spider:
     display: "<dark_green><b>Cave Spider"
     entity: CAVE_SPIDER
-    health: 1480.0
+    health: 1500.0
     defence: 133.0
     attack: 39.0
     density: 16
@@ -86,7 +86,7 @@ items:
   cave_skeleton:
     display: "<white><b>Cave Skeleton"
     entity: SKELETON
-    health: 1480.0
+    health: 1500.0
     defence: 133.0
     attack: 42.0
     density: 17
@@ -99,7 +99,7 @@ items:
   arachne:
     display: "<dark_red><b>Arachne"
     entity: SPIDER
-    health: 20900.0
+    health: 20000.0
     defence: 190.0
     attack: 46.0
     density: 17

@@ -47,7 +47,7 @@ items:
   hollow_fox:
     display: "<#D9D3B0><b>Hollow Fox"
     entity: FOX
-    health: 105.0
+    health: 100.0
     defence: 5.0
     density: 4
     attributes:
@@ -61,7 +61,7 @@ items:
   ridge_wolf:
     display: "<#4F7A4A><b>Ridge Wolf"
     entity: WOLF
-    health: 190.0
+    health: 200.0
     defence: 7.0
     density: 5
     attributes:
@@ -75,7 +75,7 @@ items:
   thicket_sniffer:
     display: "<#6B4F35><b>Thicket Sniffer"
     entity: SNIFFER
-    health: 235.0
+    health: 250.0
     defence: 11.0
     density: 6
     attributes:

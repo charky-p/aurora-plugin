@@ -1423,7 +1423,7 @@ items:
         level: "7"
         cost:
           - id: wolf_pelt
-            amount: 32
+            amount: 40
       - tool: helmet
         stat: protection
         level: "3"
@@ -5693,67 +5693,67 @@ items:
         level: "1"
         cost:
           - id: sapling_twig
-            amount: 10
+            amount: 11
       - tool: helmet
         stat: protection
         level: "2"
         cost:
           - id: sapling_twig
-            amount: 10
+            amount: 11
       - tool: chestplate
         stat: protection
         level: "2"
         cost:
           - id: sapling_twig
-            amount: 10
+            amount: 11
       - tool: leggings
         stat: protection
         level: "2"
         cost:
           - id: sapling_twig
-            amount: 10
+            amount: 11
       - tool: boots
         stat: protection
         level: "2"
         cost:
           - id: sapling_twig
-            amount: 10
+            amount: 11
       - tool: sword
         stat: looting
         level: "1"
         cost:
           - id: sapling_twig
-            amount: 10
+            amount: 15
       - tool: sword
         stat: sharpness
         level: "2"
         cost:
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: helmet
         stat: sustenance
         level: "1"
         cost:
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: chestplate
         stat: sustenance
         level: "1"
         cost:
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: leggings
         stat: sustenance
         level: "1"
         cost:
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: boots
         stat: sustenance
         level: "1"
         cost:
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: sword
         stat: sharpness
         level: "3"
@@ -5761,43 +5761,43 @@ items:
           - id: heartwood_log
             amount: 1
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: sword
         stat: sharpness
         level: "4"
         cost:
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: pick
         stat: efficiency
         level: "1"
         cost:
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: pick
         stat: fortune
         level: "1"
         cost:
           - id: sapling_twig
-            amount: 14
+            amount: 16
       - tool: pick
         stat: efficiency
         level: "2"
         cost:
           - id: sapling_twig
-            amount: 25
+            amount: 16
       - tool: shield
         stat: deflection
         level: "2"
         cost:
           - id: sapling_twig
-            amount: 25
+            amount: 18
       - tool: shield
         stat: deflection
         level: "3"
         cost:
           - id: sapling_twig
-            amount: 26
+            amount: 27
 
   vine_halls:
     name: "Vine Halls"
@@ -5947,43 +5947,43 @@ items:
           - id: elder_vine
             amount: 1
           - id: canopy_silk
-            amount: 12
+            amount: 16
       - tool: sword
         stat: sharpness
         level: "8"
         cost:
           - id: canopy_silk
-            amount: 16
+            amount: 20
       - tool: pick
         stat: efficiency
         level: "3"
         cost:
           - id: canopy_silk
-            amount: 20
+            amount: 24
       - tool: pick
         stat: fortune
         level: "2"
         cost:
           - id: canopy_silk
-            amount: 24
+            amount: 32
       - tool: pick
         stat: efficiency
         level: "4"
         cost:
           - id: canopy_silk
-            amount: 32
+            amount: 40
       - tool: shield
         stat: deflection
         level: "5"
         cost:
           - id: canopy_silk
-            amount: 40
+            amount: 48
       - tool: shield
         stat: deflection
         level: "6"
         cost:
           - id: canopy_silk
-            amount: 48
+            amount: 64
 
   hive_chambers:
     name: "Hive Chambers"
@@ -6161,19 +6161,19 @@ items:
         level: "12"
         cost:
           - id: hive_stinger
-            amount: 28
+            amount: 22
       - tool: shield
         stat: deflection
         level: "8"
         cost:
           - id: hive_stinger
-            amount: 28
+            amount: 22
       - tool: shield
         stat: deflection
         level: "9"
         cost:
           - id: hive_stinger
-            amount: 28
+            amount: 22
 
   upper_canopy:
     name: "Upper Canopy"
@@ -6367,115 +6367,115 @@ items:
         level: "17"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: shield
         stat: deflection
         level: "13"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: helmet
         stat: protection
         level: "10"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: chestplate
         stat: protection
         level: "10"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: leggings
         stat: protection
         level: "10"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: boots
         stat: protection
         level: "10"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: sword
         stat: looting
         level: "5"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: sword
         stat: sharpness
         level: "18"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: helmet
         stat: thorns
         level: "1"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: chestplate
         stat: thorns
         level: "1"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: leggings
         stat: thorns
         level: "1"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: boots
         stat: thorns
         level: "1"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: sword
         stat: bloodlust
         level: "1"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: sword
         stat: sharpness
         level: "19"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: pick
         stat: efficiency
         level: "9"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: pick
         stat: fortune
         level: "7"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: pick
         stat: efficiency
         level: "10"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: shield
         stat: deflection
         level: "14"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
       - tool: shield
         stat: deflection
         level: "15"
         cost:
           - id: canopy_bark
-            amount: 4
+            amount: 5
 
   cloudbank:
     name: "Cloudbank"
@@ -6791,73 +6791,73 @@ items:
         level: "5"
         cost:
           - id: storm_essence
-            amount: 4
+            amount: 8
       - tool: helmet
         stat: protection
         level: "6"
         cost:
           - id: storm_essence
-            amount: 8
+            amount: 12
       - tool: helmet
         stat: protection
         level: "7"
-        cost:
-          - id: storm_essence
-            amount: 12
-      - tool: chestplate
-        stat: protection
-        level: "5"
         cost:
           - id: storm_essence
             amount: 16
       - tool: chestplate
         stat: protection
-        level: "6"
+        level: "5"
         cost:
           - id: storm_essence
             amount: 20
       - tool: chestplate
         stat: protection
-        level: "7"
+        level: "6"
         cost:
           - id: storm_essence
             amount: 24
-      - tool: leggings
+      - tool: chestplate
         stat: protection
-        level: "5"
+        level: "7"
         cost:
           - id: storm_essence
             amount: 32
       - tool: leggings
         stat: protection
-        level: "6"
+        level: "5"
         cost:
           - id: storm_essence
             amount: 40
       - tool: leggings
         stat: protection
-        level: "7"
+        level: "6"
         cost:
           - id: storm_essence
             amount: 48
-      - tool: boots
+      - tool: leggings
         stat: protection
-        level: "5"
+        level: "7"
         cost:
           - id: storm_essence
             amount: 64
       - tool: boots
         stat: protection
-        level: "6"
+        level: "5"
         cost:
           - id: storm_essence
             amount: 80
       - tool: boots
         stat: protection
-        level: "7"
+        level: "6"
         cost:
           - id: storm_essence
             amount: 100
+      - tool: boots
+        stat: protection
+        level: "7"
+        cost:
+          - id: storm_essence
+            amount: 120
       - tool: sword
         stat: looting
         level: "6"
@@ -6865,7 +6865,7 @@ items:
           - id: storm_copper
             amount: 20000
           - id: storm_essence
-            amount: 120
+            amount: 150
       - tool: pick
         stat: fortune
         level: "9"
@@ -6873,13 +6873,13 @@ items:
           - id: storm_copper
             amount: 25000
           - id: storm_essence
-            amount: 150
+            amount: 160
       - tool: mace
         stat: sharpness
         level: "3"
         cost:
           - id: storm_essence
-            amount: 160
+            amount: 200
       - tool: sword
         stat: looting
         level: "7"
@@ -6887,7 +6887,7 @@ items:
           - id: storm_copper
             amount: 30000
           - id: storm_essence
-            amount: 200
+            amount: 250
       - tool: sword
         stat: looting
         level: "8"
@@ -6895,7 +6895,7 @@ items:
           - id: storm_copper
             amount: 32000
           - id: storm_essence
-            amount: 250
+            amount: 300
       - tool: sword
         stat: sharpness
         level: "3"
@@ -6903,7 +6903,7 @@ items:
           - id: storm_copper
             amount: 40000
           - id: storm_essence
-            amount: 300
+            amount: 320
 
   sky_harbour:
     name: "Sky Harbour"
@@ -7371,7 +7371,7 @@ items:
           - id: sunpetal
             amount: 30000
           - id: golden_pollen
-            amount: 64
+            amount: 48
           - id: gardener_seed
             amount: 100
       - tool: axe
@@ -8423,73 +8423,73 @@ items:
         level: "10"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: helmet
         stat: protection
         level: "11"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: helmet
         stat: protection
         level: "12"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: chestplate
         stat: protection
         level: "10"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: chestplate
         stat: protection
         level: "11"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: chestplate
         stat: protection
         level: "12"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: leggings
         stat: protection
         level: "10"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: leggings
         stat: protection
         level: "11"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: leggings
         stat: protection
         level: "12"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: boots
         stat: protection
         level: "10"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: boots
         stat: protection
         level: "11"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: boots
         stat: protection
         level: "12"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: sword
         stat: looting
         level: "13"
@@ -8497,7 +8497,7 @@ items:
           - id: diamond
             amount: 1500
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: pick
         stat: fortune
         level: "12"
@@ -8505,7 +8505,7 @@ items:
           - id: diamond
             amount: 1600
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: pick
         stat: fortune
         level: "13"
@@ -8525,7 +8525,7 @@ items:
         level: "4"
         cost:
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: sword
         stat: looting
         level: "14"
@@ -8533,7 +8533,7 @@ items:
           - id: diamond
             amount: 3200
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: sword
         stat: sharpness
         level: "5"
@@ -8541,7 +8541,7 @@ items:
           - id: diamond
             amount: 4000
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: sword
         stat: looting
         level: "15"
@@ -8549,7 +8549,7 @@ items:
           - id: diamond
             amount: 4800
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: grapple
         stat: thrust
         level: "4"
@@ -8557,7 +8557,7 @@ items:
           - id: diamond
             amount: 5000
           - id: ravager_horn
-            amount: 4
+            amount: 5
       - tool: grapple
         stat: recharge
         level: "4"
@@ -8565,7 +8565,7 @@ items:
           - id: diamond
             amount: 6000
           - id: ravager_horn
-            amount: 6
+            amount: 5
 
   quarry_pit:
     name: "The Quarry Pit"

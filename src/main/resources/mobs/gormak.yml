@@ -134,7 +134,7 @@ items:
   tomb_guard:
     display: "<gold><b>Tomb Guard"
     entity: HUSK
-    health: 180.0
+    health: 200.0
     defence: 10.0
     attack: 23.0
     damage: 0.45
@@ -188,7 +188,7 @@ items:
   gormak_eternal:
     display: "<dark_red><b>Gormak the Eternal"
     entity: HUSK
-    health: 1290.0
+    health: 1200.0
     defence: 18.0
     attack: 29.0
     attack_cooldown: 3.0
@@ -259,7 +259,7 @@ items:
   gormak_guardian:
     display: "<gold><b>Gormak Guardian"
     entity: HUSK
-    health: 360.0
+    health: 400.0
     defence: 16.0
     attack: 25.0
     damage: 0.45
@@ -288,7 +288,7 @@ items:
   mirage:
     display: "<light_purple><b>Mirage"
     entity: HUSK
-    health: 290.0
+    health: 300.0
     defence: 5.0
     attack: 17.0
     damage: 0.45

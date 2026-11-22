@@ -997,7 +997,7 @@ items:
     region: "elderheart_cellar"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 300
+    collection: 320
 
   elder_vine:
     display: "<#3A7D2C>Elder Vine"
@@ -1015,7 +1015,7 @@ items:
     region: "elderheart_vines"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 200
+    collection: 250
 
   wax_comb:
     display: "<gold>Wax Comb"
@@ -1042,7 +1042,7 @@ items:
     region: "elderheart_hive"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 160
+    collection: 150
 
   sentry_arrowhead:
     display: "<gray>Sentry Arrowhead"
@@ -1357,7 +1357,7 @@ items:
     region: "quarry_diamond"
     lore:
       - "<dark_gray>Ironbound Quarry"
-    collection: 80
+    collection: 100
 
   captain_banner:
     display: "<gray><b>Captain's Banner"

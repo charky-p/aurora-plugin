@@ -33,7 +33,7 @@ items:
   anubis:
     display: "<gold><b>Anubis"
     entity: WITHER_SKELETON
-    health: 4775.0
+    health: 4800.0
     defence: 218.0
     attack: 57.0
     damage: 1.5
@@ -52,7 +52,7 @@ items:
   sobek:
     display: "<gold><b>Sobek"
     entity: RAVAGER
-    health: 4775.0
+    health: 4800.0
     defence: 218.0
     attack: 57.0
     damage: 1.5
@@ -71,7 +71,7 @@ items:
   osiris:
     display: "<gold><b>Osiris"
     entity: HUSK
-    health: 4775.0
+    health: 4800.0
     defence: 218.0
     attack: 57.0
     damage: 1.5
@@ -90,7 +90,7 @@ items:
   thoth:
     display: "<gold><b>Thoth"
     entity: VINDICATOR
-    health: 6885.0
+    health: 6400.0
     defence: 312.0
     attack: 62.0
     damage: 1.5
@@ -109,7 +109,7 @@ items:
   maat:
     display: "<gold><b>Ma'at"
     entity: PIGLIN_BRUTE
-    health: 6885.0
+    health: 6400.0
     defence: 312.0
     attack: 62.0
     damage: 1.5
@@ -128,7 +128,7 @@ items:
   horus:
     display: "<gold><b>Horus"
     entity: SKELETON
-    health: 6885.0
+    health: 6400.0
     defence: 312.0
     attack: 62.0
     damage: 1.5
@@ -147,7 +147,7 @@ items:
   sekhmet:
     display: "<gold><b>Sekhmet"
     entity: PIGLIN_BRUTE
-    health: 9790.0
+    health: 10000.0
     defence: 445.0
     attack: 67.0
     damage: 1.5
@@ -166,7 +166,7 @@ items:
   ptah:
     display: "<gold><b>Ptah"
     entity: IRON_GOLEM
-    health: 9790.0
+    health: 10000.0
     defence: 445.0
     attack: 67.0
     damage: 1.5
@@ -185,7 +185,7 @@ items:
   khnum:
     display: "<gold><b>Khnum"
     entity: RAVAGER
-    health: 9790.0
+    health: 10000.0
     defence: 445.0
     attack: 67.0
     damage: 1.5
@@ -204,7 +204,7 @@ items:
   set:
     display: "<gold><b>Set"
     entity: WITHER_SKELETON
-    health: 12695.0
+    health: 12000.0
     defence: 578.0
     attack: 72.0
     damage: 1.5
@@ -225,7 +225,7 @@ items:
   apep:
     display: "<gold><b>Apep"
     entity: ZOGLIN
-    health: 12695.0
+    health: 12000.0
     defence: 578.0
     attack: 72.0
     damage: 1.5
@@ -246,7 +246,7 @@ items:
   nephthys:
     display: "<gold><b>Nephthys"
     entity: STRAY
-    health: 12695.0
+    health: 12000.0
     defence: 578.0
     attack: 72.0
     damage: 1.5
@@ -267,7 +267,7 @@ items:
   sol:
     display: "<gold><b>Sol, the Undying Sun"
     entity: WITHER_SKELETON
-    health: 63470.0
+    health: 64000.0
     defence: 578.0
     attack: 74.0
     damage: 1.5

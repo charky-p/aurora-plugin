@@ -33,7 +33,7 @@ items:
   bog_frog:
     display: "<#7BA05B><b>Bog Frog"
     entity: FROG
-    health: 255.0
+    health: 250.0
     density: 7
     independent:
       - id: frog_leg
@@ -42,7 +42,7 @@ items:
   swamp_slime:
     display: "<#8FD16F><b>Swamp Slime"
     entity: SLIME
-    health: 330.0
+    health: 320.0
     defence: 18.0
     density: 8
     independent:
@@ -52,7 +52,7 @@ items:
   bog_walker:
     display: "<#4E6B3A><b>Bog Walker"
     entity: ZOMBIE
-    health: 410.0
+    health: 400.0
     defence: 37.0
     attack: 24.0
     density: 9
@@ -78,7 +78,7 @@ items:
   glow_wisp:
     display: "<aqua><b>Glow Wisp"
     entity: ALLAY
-    health: 1400.0
+    health: 1500.0
     defence: 126.0
     density: 11
     attributes:

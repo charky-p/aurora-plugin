@@ -33,7 +33,7 @@ items:
   sky_sheep:
     display: "<white><b>Sky Sheep"
     entity: SHEEP
-    health: 1305.0
+    health: 1200.0
     density: 24
     independent:
       - id: cloud_fleece
@@ -42,7 +42,7 @@ items:
   sky_phantom:
     display: "<gray><b>Sky Phantom"
     entity: PHANTOM
-    health: 2435.0
+    health: 2500.0
     defence: 219.0
     attack: 58.0
     density: 27
@@ -53,7 +53,7 @@ items:
   storm_wraith:
     display: "<aqua><b>Storm Wraith"
     entity: VEX
-    health: 3470.0
+    health: 3200.0
     defence: 312.0
     attack: 63.0
     density: 30
@@ -64,7 +64,7 @@ items:
   sky_pirate:
     display: "<gold><b>Sky Pirate"
     entity: PILLAGER
-    health: 4505.0
+    health: 4800.0
     defence: 404.0
     attack: 68.0
     density: 33
@@ -75,7 +75,7 @@ items:
   pirate_captain:
     display: "<gold><b>Pirate Captain"
     entity: VINDICATOR
-    health: 7620.0
+    health: 7500.0
     defence: 520.0
     attack: 70.0
     density: 33
@@ -90,7 +90,7 @@ items:
   royal_guard:
     display: "<white><b>Royal Guard"
     entity: VINDICATOR
-    health: 6335.0
+    health: 6400.0
     defence: 569.0
     attack: 76.0
     damage: 1.4
@@ -102,7 +102,7 @@ items:
   garden_bee:
     display: "<yellow><b>Garden Bee"
     entity: BEE
-    health: 7020.0
+    health: 7500.0
     defence: 630.0
     attack: 79.0
     damage: 1.4
@@ -114,7 +114,7 @@ items:
   gardener:
     display: "<green><b>Royal Gardener"
     entity: ZOMBIE
-    health: 7020.0
+    health: 7500.0
     defence: 630.0
     attack: 79.0
     damage: 1.4
@@ -126,7 +126,7 @@ items:
   treasury_knight:
     display: "<gold><b>Treasury Knight"
     entity: PIGLIN_BRUTE
-    health: 13070.0
+    health: 12000.0
     defence: 891.0
     attack: 85.0
     damage: 1.4
@@ -140,7 +140,7 @@ items:
   crossbowman:
     display: "<gray><b>Royal Crossbowman"
     entity: PILLAGER
-    health: 7720.0
+    health: 7500.0
     defence: 693.0
     attack: 83.0
     damage: 1.4
@@ -154,7 +154,7 @@ items:
   throne_guard:
     display: "<gold><b>Throne Guard"
     entity: VINDICATOR
-    health: 14785.0
+    health: 15000.0
     defence: 1008.0
     attack: 88.0
     damage: 1.4
@@ -166,7 +166,7 @@ items:
   sky_king:
     display: "<gold><b>The Sky King"
     entity: VINDICATOR
-    health: 123200.0
+    health: 120000.0
     defence: 1120.0
     attack: 92.0
     damage: 1.4

@@ -1,7 +1,7 @@
 id,display,entity,health,defence,attack,attack_cooldown,damage,density,respawn,equip,attributes,independent,choices_chance,choices,glowing
-quarry_pillager,<gray><b>Quarry Pillager,PILLAGER,6335,569,76,,1.3,37,,,,pillager_ration:100:1-2,,,
-quarry_vindicator,<gray><b>Quarry Vindicator,VINDICATOR,6335,569,77,,1.3,38,,,,iron_tag:100:1-2,,,
-quarry_ravager,<dark_gray><b>Quarry Ravager,RAVAGER,13070,891,85,,1.3,42,,,,ravager_horn:100:1-2,,,
-pillager_captain,<gray><b>Pillager Captain,PILLAGER,13500,920,86,,1.3,43,,,,captain_banner:100:1-2,,,
-quarry_warden,<white><b>Quarry Warden,IRON_GOLEM,13500,920,86,,1.3,43,,,,warden_plate:100:1-2,,,
-overworld_golem,<white><b>The Overworld Golem,IRON_GOLEM,138270,1258,96,,1.3,46,300,,SCALE:2.5|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:64,golem_shard:100:2-4,,,
+quarry_pillager,<gray><b>Quarry Pillager,PILLAGER,6400,569,76,,1.3,37,,,,pillager_ration:100:1-2,,,
+quarry_vindicator,<gray><b>Quarry Vindicator,VINDICATOR,6400,569,77,,1.3,38,,,,iron_tag:100:1-2,,,
+quarry_ravager,<dark_gray><b>Quarry Ravager,RAVAGER,12000,891,85,,1.3,42,,,,ravager_horn:100:1-2,,,
+pillager_captain,<gray><b>Pillager Captain,PILLAGER,15000,920,86,,1.3,43,,,,captain_banner:100:1-2,,,
+quarry_warden,<white><b>Quarry Warden,IRON_GOLEM,15000,920,86,,1.3,43,,,,warden_plate:100:1-2,,,
+overworld_golem,<white><b>The Overworld Golem,IRON_GOLEM,150000,1258,96,,1.3,46,300,,SCALE:2.5|KNOCKBACK_RESISTANCE:1|FOLLOW_RANGE:64,golem_shard:100:2-4,,,

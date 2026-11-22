@@ -27,7 +27,7 @@ sunken_ruins,Sunken Ruins,marsh,overworld,marsh,,25,,10,verdigris|mangrove_leave
 glowmire,Glowmire,marsh,overworld,marsh,,26,,12,ochre_froglight|verdant_froglight|pearlescent_froglight|red_mushroom|brown_mushroom,glow_wisp,1,0.5,sunken_ruins
 foothills,Foothills,peaks,overworld,peaks,,27,,8,dirt|pumpkin,mountain_pig,1.5,1.5,
 stony_crags,Stony Crags,peaks,overworld,peaks,,28,,10,melon|calcite,mountain_goat,1.5,1.5,foothills
-frozen_slopes,Frozen Slopes,peaks,overworld,peaks,,29,,10,snow|packed_ice,peak_stray,1.5,0.75,stony_crags
+frozen_slopes,Frozen Slopes,peaks,overworld,peaks,,29,,10,snow|packed_ice,peak_stray,3,0.25,stony_crags
 redstone_grotto,Redstone Grotto,peaks,overworld,peaks,,30,,10,redstone,frost_spider,1.5,1.5,frozen_slopes
 emerald_depths,Emerald Depths,peaks,overworld,peaks,,31,,10,emerald|lapis,cave_spider,1.5,1.5,redstone_grotto
 arachne_cave,Arachne Cave,peaks,overworld,peaks,,32,,12,,cave_skeleton,1.5,1.5,emerald_depths

@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.components.ToolComponent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
+import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.common.util.MiningTool;
 import org.charky.aurora.core.models.GearModel;
 import org.charky.aurora.core.models.IconModel;
@@ -73,7 +74,7 @@ public class ItemFactory {
             lore.add(world(model.world));
 
             removeArmorPoints(item, meta);
-            makeRightTool(item, meta);
+            makeRightTool(item, meta, model.enchants.getOrDefault("efficiency", 0));
 
             if (!model.enchants.isEmpty()) meta.setEnchantmentGlintOverride(true);
             hideFlags(meta);
@@ -134,14 +135,19 @@ public class ItemFactory {
     // blocks, axes wood, shovels dirt, mud, snow, gravel, clay and slime, hoes moss,
     // leaves and froglights (MiningTool). The rules are what MineListener checks
     // before Fortune counts, so a tool with both rules (a god tool) would do both
-    private static void makeRightTool(ItemStack item, ItemMeta meta) {
+    // Efficiency is part of the rule's speed, not the vanilla enchant: vanilla turns the
+    // enchant into a mining speed attribute on the player, which only catches up a
+    // moment after the tool in hand is swapped for an upgraded one, so a new level dug
+    // at the old speed for a while. The item's own speed is read the moment it arrives
+    private static void makeRightTool(ItemStack item, ItemMeta meta, int efficiency) {
         MiningTool kind = MiningTool.of(item.getType());
         if (kind == null) return;
 
+        float speed = tierSpeed(item.getType()) + efficiencyBonus(efficiency);
         ToolComponent tool = meta.getTool();
         tool.setRules(new ArrayList<>());
-        tool.addRule(kind.blocks(), tierSpeed(item.getType()), true);
-        if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), tierSpeed(item.getType()), true);
+        tool.addRule(kind.blocks(), speed, true);
+        if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), speed, true);
         meta.setTool(tool);
     }
 
@@ -149,13 +155,19 @@ public class ItemFactory {
     public static void setSpeed(ItemStack item, Material speedOf) {
         MiningTool kind = MiningTool.of(item.getType());
         if (kind == null) return;
+        float speed = tierSpeed(speedOf) + efficiencyBonus(Enchants.level(item, "efficiency"));
         item.editMeta(meta -> {
             ToolComponent tool = meta.getTool();
             tool.setRules(new ArrayList<>());
-            tool.addRule(kind.blocks(), tierSpeed(speedOf), true);
-            if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), tierSpeed(speedOf), true);
+            tool.addRule(kind.blocks(), speed, true);
+            if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), speed, true);
             meta.setTool(tool);
         });
+    }
+
+    // What vanilla Efficiency adds to a tool's speed: the level squared plus one
+    static float efficiencyBonus(int level) {
+        return level > 0 ? level * level + 1 : 0;
     }
 
     // Vanilla tier speeds, the same for every tool of a tier. Efficiency still adds

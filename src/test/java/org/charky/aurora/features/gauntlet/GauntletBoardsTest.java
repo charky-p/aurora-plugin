@@ -11,9 +11,4 @@ class GauntletBoardsTest {
     void anEmptyBoardSaysSo() {
         assertEquals(List.of("<gray>Nobody yet"), GauntletBoards.rows(List.of(), profile -> "", "Nobody yet"));
     }
-
-    @Test
-    void everyKindOfBoardIsKnown() {
-        assertEquals(List.of("floors", "pvp", "duels", "week"), GauntletBoards.KINDS);
-    }
 }

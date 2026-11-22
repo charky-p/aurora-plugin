@@ -1,32 +1,39 @@
 package org.charky.aurora.features.boss;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GormakPhasesTest {
-    // A wave for each threshold passed, so one hit from 0.80 to 0.40 still owes two
-    @ParameterizedTest
-    @CsvSource({"1.0, 0", "0.76, 0", "0.75, 1", "0.51, 1", "0.50, 2", "0.40, 2", "0.25, 3", "0.0, 3"})
-    void aWaveForEachThresholdPassed(double health, int waves) {
-        assertEquals(waves, GormakPhases.wavesDue(health));
+    @Test
+    void aWaveForEachThresholdPassed() {
+        double[] thresholds = GormakPhases.WAVE_THRESHOLDS;
+        assertEquals(0, GormakPhases.wavesDue(1.0));
+        for (int i = 0; i < thresholds.length; i++) {
+            assertEquals(i, GormakPhases.wavesDue(thresholds[i] + 0.01), "just above " + thresholds[i]);
+            assertEquals(i + 1, GormakPhases.wavesDue(thresholds[i]), "at " + thresholds[i]);
+        }
+        assertEquals(thresholds.length, GormakPhases.wavesDue(0.0));
+        // One hit past two thresholds still owes both waves
+        assertEquals(2, GormakPhases.wavesDue(thresholds[1] - 0.01) - GormakPhases.wavesDue(thresholds[0] + 0.01));
     }
 
     @Test
     void aWaveIsCutShortAtTheCap() {
+        int cap = GormakPhases.MAX_GHOULS;
         assertEquals(3, GormakPhases.ghoulsToSummon(3, 0));
-        assertEquals(2, GormakPhases.ghoulsToSummon(3, 4));
-        assertEquals(0, GormakPhases.ghoulsToSummon(3, 9));
+        assertEquals(2, GormakPhases.ghoulsToSummon(3, cap - 2));
+        assertEquals(0, GormakPhases.ghoulsToSummon(3, cap));
+        assertEquals(0, GormakPhases.ghoulsToSummon(3, cap + 3));
     }
 
-    // He has to come back with less than the last threshold, or the totem would
-    // put him above a wave he already called and the bar would read oddly
+    // The totem brings him back between the last two thresholds: below the one before
+    // the last, or he would sit above a wave he already called and the bar would read oddly
     @Test
-    void theTotemBringsHimBackBelowHalf() {
-        assertTrue(GormakPhases.REVIVE_SHARE > 0.25);
-        assertTrue(GormakPhases.REVIVE_SHARE < 0.5);
+    void theTotemBringsHimBackBetweenTheLastTwoThresholds() {
+        double[] thresholds = GormakPhases.WAVE_THRESHOLDS;
+        assertTrue(GormakPhases.REVIVE_SHARE > thresholds[thresholds.length - 1]);
+        assertTrue(GormakPhases.REVIVE_SHARE < thresholds[thresholds.length - 2]);
     }
 }

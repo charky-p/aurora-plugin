@@ -103,21 +103,25 @@ class ProgressionDataTest {
         assertNone(problems);
     }
 
-    // A block of density d needs Fortune d, so the upgrades must take a pick or an
-    // axe that far. Each realm counts its own levels from 1 and they add up, so
-    // the furthest a tool gets is the best of every realm together
+    // A block of density d needs Fortune d, so the upgrades must take some tool that
+    // far. Each realm counts its own levels from 1 and they add up, so the furthest a
+    // tool gets is its best in every realm together, and the best tool is the bound.
+    // Blocks do not say which tool or realm mines them, so this is an upper bound
     @Test
     void everyBlockCanBeMinedByAToolTheUpgradesReach() throws IOException {
-        Map<String, Integer> bestByRealm = new HashMap<>();
+        Map<String, Map<String, Integer>> bestByToolAndRealm = new HashMap<>();
         for (Map<String, Object> zone : items("upgrades.yml").values()) {
             if (!(zone.get("steps") instanceof List<?> steps)) continue;
             for (Object step : steps) {
                 if (step instanceof Map<?, ?> map && "fortune".equals(map.get("stat"))) {
-                    bestByRealm.merge(String.valueOf(zone.get("realm")), Integer.parseInt(map.get("level").toString()), Math::max);
+                    bestByToolAndRealm.computeIfAbsent(String.valueOf(map.get("tool")), tool -> new HashMap<>())
+                            .merge(String.valueOf(zone.get("realm")), Integer.parseInt(map.get("level").toString()), Math::max);
                 }
             }
         }
-        int bestFortune = bestByRealm.values().stream().mapToInt(Integer::intValue).sum();
+        int bestFortune = bestByToolAndRealm.values().stream()
+                .mapToInt(byRealm -> byRealm.values().stream().mapToInt(Integer::intValue).sum())
+                .max().orElse(0);
 
         List<String> problems = new ArrayList<>();
         for (Map.Entry<String, Map<String, Object>> block : blocks.entrySet()) {

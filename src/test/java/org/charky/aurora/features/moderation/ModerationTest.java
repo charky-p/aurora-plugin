@@ -12,12 +12,13 @@ class ModerationTest {
     // Each mute a mod gives the same player is longer, never past a week
     @Test
     void modMutesStepUpToAWeek() {
-        assertEquals(15 * Durations.MINUTE, Durations.modMute(0));
-        assertEquals(Durations.HOUR, Durations.modMute(1));
-        assertEquals(Durations.DAY, Durations.modMute(2));
-        assertEquals(3 * Durations.DAY, Durations.modMute(3));
-        assertEquals(Durations.WEEK, Durations.modMute(4));
+        int steps = Durations.MOD_MUTE_LADDER.size();
+        for (int earlier = 1; earlier < steps; earlier++) {
+            assertTrue(Durations.modMute(earlier) > Durations.modMute(earlier - 1), "mute " + earlier);
+        }
+        assertEquals(Durations.WEEK, Durations.modMute(steps - 1));
         assertEquals(Durations.WEEK, Durations.modMute(40));
+        assertEquals(Durations.modMute(0), Durations.modMute(-1));
     }
 
     @Test

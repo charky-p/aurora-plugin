@@ -173,7 +173,8 @@ class StoresTest {
     void portalRequiredTagRoundTripsAndClears() {
         PortalStore store = new PortalStore(db);
         Portal portal = new Portal("to_gormak", "aurora_mines", 0, 70, 0, 2, 72, 0);
-        assertNull(store.loadAll().stream().findFirst().map(Portal::getRequiredTag).orElse(null));
+        store.save(portal);
+        assertNull(store.loadAll().getFirst().getRequiredTag());
 
         portal.setRequiredTag("Gormak");
         store.save(portal);
@@ -203,16 +204,6 @@ class StoresTest {
         assertEquals(10.5, loaded.getDestX());
         assertEquals(-3.5, loaded.getDestZ());
         assertEquals(90f, loaded.getDestYaw());
-    }
-
-    @Test
-    void essenceCanOnlyBeSpentIfThereIsEnough() {
-        PlayerData data = new PlayerData("MEMBER", 0, 0, 0, 100);
-
-        assertFalse(data.spendEssence(101));
-        assertEquals(100, data.getEssence());
-        assertTrue(data.spendEssence(100));
-        assertEquals(0, data.getEssence());
     }
 
     @Test

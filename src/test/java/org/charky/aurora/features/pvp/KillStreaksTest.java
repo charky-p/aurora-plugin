@@ -14,10 +14,9 @@ class KillStreaksTest {
     private final UUID c = UUID.randomUUID();
 
     @Test
-    void theThirdKillInARowProtectsTheVictim() {
+    void enoughKillsInARowProtectTheVictim() {
         KillStreaks streaks = new KillStreaks();
-        assertFalse(streaks.kill(a, b, 0));
-        assertFalse(streaks.kill(a, b, 1));
+        for (int kill = 1; kill < KillStreaks.KILLS_IN_A_ROW; kill++) assertFalse(streaks.kill(a, b, 0));
         assertTrue(streaks.kill(a, b, 2));
         assertEquals(KillStreaks.COOLDOWN_MS, streaks.cooldownLeft(a, b, 2));
         // Only that killer, only that victim
@@ -31,8 +30,7 @@ class KillStreaksTest {
     void anotherKillStartsAgain() {
         for (UUID[] between : new UUID[][]{{a, c}, {b, a}}) {
             KillStreaks streaks = new KillStreaks();
-            streaks.kill(a, b, 0);
-            streaks.kill(a, b, 1);
+            for (int kill = 1; kill < KillStreaks.KILLS_IN_A_ROW; kill++) streaks.kill(a, b, 0);
             streaks.kill(between[0], between[1], 2);
             assertFalse(streaks.kill(a, b, 3));
         }

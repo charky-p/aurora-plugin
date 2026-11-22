@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ProgressionLoaderTest {
@@ -75,8 +76,11 @@ class ProgressionLoaderTest {
                 step("pick", "efficiency", "lots"),
                 step("pick", "efficiency", "3"))));
 
-        assertTrue(!loaded.tools().containsKey("broken"));
-        assertEquals(1, loaded.zones().get("coal").steps().size());
+        assertFalse(loaded.tools().containsKey("broken"));
+        List<UpgradeZone.Step> kept = loaded.zones().get("coal").steps();
+        assertEquals(1, kept.size());
+        assertEquals("efficiency", kept.getFirst().stat());
+        assertEquals(3, kept.getFirst().level());
     }
 
     @Test
@@ -88,6 +92,6 @@ class ProgressionLoaderTest {
         assertEquals("gormak", loaded.regions().of("city"));
         assertEquals(List.of("cobble"), loaded.zones().get("city").before());
         assertTrue(loaded.regions().isReleased("gormak"));
-        assertTrue(!loaded.regions().isReleased("khorvath"));
+        assertFalse(loaded.regions().isReleased("khorvath"));
     }
 }

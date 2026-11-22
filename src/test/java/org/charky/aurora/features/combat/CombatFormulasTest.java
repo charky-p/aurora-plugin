@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 // Expected values come from scripts/balance/balance_sim.py, so if the plugin and
 // the simulator drift apart, this fails
 class CombatFormulasTest {
-    private static final double LEVELS_PER_TIER = 4.0;
     private static final double EPSILON = 1e-6;
 
     // hearts(gap) in the sim, the gap in tiers
@@ -17,18 +16,18 @@ class CombatFormulasTest {
     @CsvSource({"-2, 0.263737", "-1, 0.351501", "-0.5, 0.52591", "0, 1.0", "0.5, 1.517456",
             "1, 2.0", "2, 2.877223", "3, 3.658546", "4, 4.362887", "5, 5.004064"})
     void heartsMatchTheSimulator(double gap, double hearts) {
-        assertEquals(hearts, CombatFormulas.heartsPerHit(gap * LEVELS_PER_TIER, 0), EPSILON);
+        assertEquals(hearts, CombatFormulas.heartsPerHit(gap * CombatFormulas.LEVELS_PER_TIER, 0), EPSILON);
     }
 
     @Test
-    void heartsRiseWithAttackAndNeverDropBelowAQuarter() {
+    void heartsRiseWithAttackAndNeverDropBelowTheFloor() {
         double previous = 0;
         for (int attack = 0; attack <= 80; attack++) {
             double hearts = CombatFormulas.heartsPerHit(attack, 40);
             assertTrue(hearts > previous, "attack " + attack);
             previous = hearts;
         }
-        assertTrue(CombatFormulas.heartsPerHit(0, 1000) >= 0.25);
+        assertTrue(CombatFormulas.heartsPerHit(0, 1000) >= CombatFormulas.ARMOUR_FLOOR);
     }
 
     @ParameterizedTest
@@ -37,15 +36,23 @@ class CombatFormulasTest {
         assertEquals(bonus, CombatFormulas.sharpnessBonus(level), EPSILON);
     }
 
-    // A share off every hit, steep at first, 90% at the cap of 100 levels and no more past it
+    // A share off every hit, steep at first (a quarter off by level 5), more every level
+    // up to the cap and no more past it
     @Test
     void protectionTakesAShareUpToTheCap() {
+        int cap = CombatFormulas.MAX_PROTECTION;
+        double atCap = 1 - CombatFormulas.REDUCTION_AT_MAX;
         assertEquals(1.0, CombatFormulas.protectionMultiplier(0), EPSILON);
         assertEquals(1.0, CombatFormulas.protectionMultiplier(-5), EPSILON);
         assertEquals(0.73, CombatFormulas.protectionMultiplier(5), 0.005);
-        assertEquals(1 - 0.9 * Math.pow(0.5, 0.4), CombatFormulas.protectionMultiplier(50), EPSILON);
-        assertEquals(0.1, CombatFormulas.protectionMultiplier(100), EPSILON);
-        assertEquals(0.1, CombatFormulas.protectionMultiplier(250), EPSILON);
+        assertEquals(atCap, CombatFormulas.protectionMultiplier(cap), EPSILON);
+        assertEquals(atCap, CombatFormulas.protectionMultiplier(cap * 2.5), EPSILON);
+        double previous = 1.0;
+        for (int level = 1; level <= cap; level++) {
+            double multiplier = CombatFormulas.protectionMultiplier(level);
+            assertTrue(multiplier < previous, "level " + level);
+            previous = multiplier;
+        }
     }
 
     @Test

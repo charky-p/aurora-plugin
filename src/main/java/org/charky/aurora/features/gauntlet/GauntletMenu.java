@@ -46,6 +46,7 @@ public class GauntletMenu extends PagedMenu {
                 new Button(milestones(profile), null),
                 new Button(topFloors(profile), null),
                 new Button(history(profile), viewer -> new HistoryMenu(manager).open(viewer)),
+                new Button(stats(profile), null),
                 new Button(week(player), null),
                 new Button(pvp(profile), null),
                 new Button(duels(profile), null),
@@ -191,6 +192,26 @@ public class GauntletMenu extends PagedMenu {
             lines.add("<yellow>Click to see them");
         }
         return button(Material.WRITABLE_BOOK, "<white><b>Your Runs", lines);
+    }
+
+    // Everything counted, in one place
+    private ItemStack stats(GauntletProfile profile) {
+        int sprint = profile.stat(GauntletRuns.SPRINT);
+        return button(Material.BOOK, "<white><b>Your Stats", List.of(
+                "<gray>Runs: <white>" + profile.runs + " <gray>(" + profile.stat("party_runs") + " in a party)",
+                "<gray>Best floor: <white>" + profile.best,
+                "<gray>Fastest to floor " + GauntletRuns.sprintFloor(manager.data()) + ": <white>" + (sprint > 0 ? GauntletRuns.clock(sprint) : "-"),
+                "",
+                "<gray>Kills: <white>" + profile.stat("kills") + " <gray>(" + profile.stat("elite_kills") + " elite)",
+                "<gray>Bosses: <white>" + profile.stat("boss_kills") + " <gray>Hoarders: <white>" + profile.stat("hoarders"),
+                "<gray>Fast clears: <white>" + profile.stat("fast_clears") + " <gray>Best combo: <gold>x" + profile.stat(GauntletRuns.BEST_COMBO),
+                "<gray>Teammates revived: <white>" + profile.stat("revives"),
+                "<gray>Mobs met: <white>" + BestiaryMenu.met(manager.data(), profile) + "/" + BestiaryMenu.firstFloors(manager.data()).size(),
+                "",
+                "<gray>PvP: <red>" + profile.stat(GauntletPvp.KILLS) + " kills <gray>/ <white>" + profile.stat(GauntletPvp.DEATHS)
+                        + " deaths <gray>best streak <gold>" + profile.stat(GauntletPvp.BEST_STREAK),
+                "<gray>Duels: <white>" + profile.stat(GauntletDuels.WINS) + " won, " + profile.stat(GauntletDuels.LOSSES)
+                        + " lost <gray>rating <gold>" + GauntletDuels.rating(profile)));
     }
 
     // The week's two boards, what their top three are paid, and the time left

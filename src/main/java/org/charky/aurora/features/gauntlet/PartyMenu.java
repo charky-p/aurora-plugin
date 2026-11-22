@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 
@@ -74,12 +73,6 @@ public class PartyMenu extends PagedMenu {
         }
         actions = clicks;
         return items;
-    }
-
-    private static ItemStack head(Player owner, String name, List<String> lore) {
-        ItemStack item = button(Material.PLAYER_HEAD, name, lore);
-        item.editMeta(SkullMeta.class, meta -> meta.setOwningPlayer(owner));
-        return item;
     }
 
     @Override

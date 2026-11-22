@@ -50,7 +50,7 @@ public class GauntletMenu extends PagedMenu {
                 new Button(stats(profile), null),
                 new Button(week(player), null),
                 new Button(pvp(profile), null),
-                new Button(duels(profile), null),
+                new Button(duels(profile), viewer -> new DuelMenu(manager).open(viewer)),
                 new Button(spectate(), viewer -> new SpectateMenu(manager).open(viewer)),
                 new Button(party(player), viewer -> new PartyMenu(manager).open(viewer)),
                 new Button(button(Material.OAK_DOOR, "<gray><b>Leave the Gauntlet", List.of(
@@ -270,7 +270,8 @@ public class GauntletMenu extends PagedMenu {
     private ItemStack duels(GauntletProfile profile) {
         List<String> lines = new ArrayList<>(List.of(
                 "<gray>Challenge a player to a 1v1 in your",
-                "<gray>own arena: <white>/gauntlet duel <player>",
+                "<gray>own arena, from here or with",
+                "<white>/gauntlet duel <player>",
                 "<gray>Wins raise your rating and pay Shards.",
                 "",
                 "<gray>Your rating: <gold>" + GauntletDuels.rating(profile) + " <gray>(" + profile.stat(GauntletDuels.WINS)
@@ -278,6 +279,8 @@ public class GauntletMenu extends PagedMenu {
                 ""));
         lines.addAll(GauntletBoards.rows(manager.topBy(GauntletDuels.RATING, 5), top -> String.valueOf(top.stat(GauntletDuels.RATING)),
                 "Nobody has fought a duel yet"));
+        lines.add("");
+        lines.add("<yellow>Click to challenge someone");
         return button(Material.CROSSBOW, "<gold><b>Duels", lines);
     }
 

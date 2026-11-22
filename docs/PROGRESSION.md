@@ -216,7 +216,7 @@ A tower mode apart from the zones, in a world of its own: fast, focused PvE runs
 
 ### Duels
 
-- **1v1.** `/gauntlet duel <player>` challenges someone in the lobby, open for 30 seconds; they click Accept or Decline. Both get their own copy of the duel arena and their setup, stand still for a 3 second countdown, and fight by the PvP zone's rules. A blow that would kill ends it (a totem in hand still saves), as does leaving, `/spawn` (giving up) or the clock: after 3 minutes the one with more health left wins, the same health is a draw. Pearls and chorus fruit can't leave the arena. Afterwards both get a [REMATCH] to click.
+- **1v1.** Duels in the menu (a head for everyone free to fight) or `/gauntlet duel <player>` challenges someone in the lobby, open for 30 seconds; they accept or decline from the Duels menu or the chat. Both get their own copy of the duel arena and their setup, stand still for a 3 second countdown, and fight by the PvP zone's rules. A blow that would kill ends it (a totem in hand still saves), as does leaving, `/spawn` (giving up) or the clock: after 3 minutes the one with more health left wins, the same health is a draw. Pearls and chorus fruit can't leave the arena. Afterwards both get a [REMATCH] to click.
 - **Rating.** Everyone starts at 1000; a win takes points from the loser the chess way (Elo, `duel_k` 32: 16 for an even duel, more for an upset). The winner also gets 10 Shards, never twice in a row for beating the same player, and the win counts as a PvP win for the daily challenge. Wins, losses and rating are shown on the Duels board in the menu, the opponent's health on the sidebar during a duel.
 
 ## 5. Tuning

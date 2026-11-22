@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.system.commands.MenuCommand;
@@ -168,6 +169,13 @@ public abstract class PagedMenu implements InventoryHolder {
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
             meta.lore(lore(lore));
         });
+        return item;
+    }
+
+    // A player's head, named, with lines of lore
+    protected static ItemStack head(Player owner, String name, List<String> lore) {
+        ItemStack item = button(Material.PLAYER_HEAD, name, lore);
+        item.editMeta(SkullMeta.class, meta -> meta.setOwningPlayer(owner));
         return item;
     }
 

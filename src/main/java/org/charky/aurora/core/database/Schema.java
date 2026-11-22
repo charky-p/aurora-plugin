@@ -201,7 +201,22 @@ public final class Schema {
             "CREATE TABLE IF NOT EXISTS teleport_pads (" +
                     "name TEXT PRIMARY KEY, " +
                     "world TEXT, " +
-                    "x INTEGER, y INTEGER, z INTEGER)"
+                    "x INTEGER, y INTEGER, z INTEGER)",
+
+            // Each player's fishing rod: its level in each stat
+            "CREATE TABLE IF NOT EXISTS fishing_rod (" +
+                    "uuid TEXT, " +
+                    "stat TEXT, " +
+                    "level INTEGER, " +
+                    "PRIMARY KEY (uuid, stat))",
+
+            // The water of a fishing spot, a box the hook has to land in
+            "CREATE TABLE IF NOT EXISTS fishing_areas (" +
+                    "name TEXT PRIMARY KEY, " +
+                    "spot TEXT, " +
+                    "world TEXT, " +
+                    "x1 INTEGER, y1 INTEGER, z1 INTEGER, " +
+                    "x2 INTEGER, y2 INTEGER, z2 INTEGER)"
     );
 
     // Columns added after a table first shipped, CREATE TABLE IF NOT EXISTS skips

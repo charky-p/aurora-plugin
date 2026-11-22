@@ -21,7 +21,7 @@ public class LoadoutStore {
     // build inventories are the player's own and stay with them in both
     static final List<String> TABLES = List.of("playerData", "player_ranks", "player_cosmetics",
             "player_equipped", "player_tools", "player_perks", "collections", "backpack_data",
-            "unlocked_gear", "portal_access", "tutorial");
+            "unlocked_gear", "portal_access", "tutorial", "fishing_rod");
     // Tables with a uuid that are not part of a loadout: a suggestion is the person's
     static final List<String> SHARED = List.of("builders", "build_inventories", "loadouts", "loadout_inventories", "loadout_homes",
             "suggestions");

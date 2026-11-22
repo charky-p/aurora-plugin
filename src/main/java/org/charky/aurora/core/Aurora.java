@@ -105,6 +105,10 @@ import org.charky.aurora.features.trader.TraderListener;
 import org.charky.aurora.features.warp.WarpMenu;
 import org.charky.aurora.features.trader.TraderManager;
 import org.charky.aurora.features.world.WorldManager;
+import org.charky.aurora.features.fishing.RodShopMenu;
+import org.charky.aurora.features.fishing.FishingManager;
+import org.charky.aurora.features.fishing.FishMerchantMenu;
+import org.charky.aurora.core.database.FishingStore;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -143,6 +147,7 @@ public class Aurora extends JavaPlugin {
     private TrashCommand trash;
     private SafeZoneManager safeZoneManager;
     private PadManager padManager;
+    private FishingManager fishingManager;
     private MountManager mountManager;
     private ToolManager toolManager;
     private UpgradeShop upgradeShop;
@@ -261,12 +266,13 @@ public class Aurora extends JavaPlugin {
         this.buildManager = new BuildManager(db, new BuildStore(db), this::getMainSpawn);
         this.safeZoneManager = new SafeZoneManager(db, new SafeZoneStore(db));
         this.padManager = new PadManager(db, new PadStore(db), accessManager);
+        this.fishingManager = new FishingManager(registry, db, new FishingStore(db), backpackManager, collectionManager);
     }
 
     // The main and experimental loadouts, after everything that keeps per-player data
     private void createLoadouts() {
         List<LoadoutData> holders = List.of(backpackManager, toolManager, rankManager, cosmeticManager,
-                perkManager, collectionManager, armoryManager, accessManager, tutorialManager);
+                perkManager, collectionManager, armoryManager, accessManager, tutorialManager, fishingManager);
         this.loadoutManager = new LoadoutManager(registry, db, new LoadoutStore(db), players, buildManager,
                 toolManager, holders, player -> {
                     scoreboard.setupBoard(player);
@@ -284,9 +290,15 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("armory", collectionManager::openGear);
         registry.registerAction("ranks", rankManager::openRanks);
         registry.registerAction("customise", cosmeticManager::openHub);
-        // TODO: later. Switched off until they are finished, the code is all still here:
+        // TODO: later. Switched off until it is finished, the code is all still here:
         //  - the gauntlet (features/gauntlet), /gauntlet and its listener
-        //  - fishing (features/fishing), its listener and the rods in gear_other.csv
+        // Fishing: the Fish Merchant, and each spot's trader opens fishing:<spot>
+        registry.registerAction("fish_merchant", player ->
+                new FishMerchantMenu(registry, fishingManager, backpackManager, players).open(player));
+        registry.registerAction("fishing", (player, spot) -> {
+            if (!registry.getFishingSpots().containsKey(spot)) TextUtils.error(player, "There is no fishing here yet.");
+            else new RodShopMenu(registry, fishingManager, backpackManager, spot).open(player);
+        });
         // The Essence shop is back with utility only; Vitality and Crit Rate are no longer
         // sold, levels already bought still work
         registry.registerAction("shop", player -> new RankShopMenu(this).open(player));
@@ -350,6 +362,7 @@ public class Aurora extends JavaPlugin {
                 buildManager,
                 safeZoneManager,
                 padManager,
+                fishingManager,
                 trash,
                 new PortalListener(this),
                 new KeyItemListener(this),
@@ -446,6 +459,10 @@ public class Aurora extends JavaPlugin {
 
     public PadManager getPadManager() {
         return padManager;
+    }
+
+    public FishingManager getFishingManager() {
+        return fishingManager;
     }
 
     public SafeZoneManager getSafeZoneManager() {

@@ -1,0 +1,408 @@
+# ===========================================================
+# AURORA FISHING - generated from data/fishing/*.csv
+# ===========================================================
+# The side quest: one fishing spot a realm, each with its own fish and its own rod
+# upgrades, apart from the zones. Prices come from scripts/balance/fishing_prices.py
+# [spot_id]:
+#   name: "<color><b>Spot Name"
+#   realm: overworld (The realm whose worlds the spot's areas are in)
+#   order: 1 (Spots in the order they are played, the rod carries over)
+#   fish: (A cast rolls 1-100 plus the rod's Luck, the fish with the highest score not above it bites)
+#     - id: perch (A resource)
+#       tier: common (junk, common, uncommon, rare)
+#       score: 20
+#       min: 1, max: 2 (How many, before Fortune)
+#       density: 0 (The rod needs this much Fortune, past it the Fortune curve multiplies)
+#       essence: 0.28 (What the Fish Merchant pays for one)
+#   rod: (The rod's upgrades sold at this spot, in order)
+#     - stat: fortune (fortune, luck or lure)
+#       level: 1 (The total the rod has after it)
+#       costs: [{id: perch, amount: 4}]
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ===========================================================
+
+items:
+  pond:
+    name: "<aqua><b>Aurora Pond"
+    realm: overworld
+    order: 1
+    fish:
+      - id: pond_weed
+        tier: junk
+        score: 0
+        min: 1
+        max: 2
+        density: 0
+        essence: 0.0693
+      - id: perch
+        tier: common
+        score: 20
+        min: 1
+        max: 2
+        density: 0
+        essence: 0.277
+      - id: rainbow_trout
+        tier: uncommon
+        score: 60
+        min: 1
+        max: 1
+        density: 1
+        essence: 0.745
+      - id: golden_carp
+        tier: rare
+        score: 95
+        min: 1
+        max: 1
+        density: 2
+        essence: 3.8
+    rod:
+      - stat: fortune
+        level: 1
+        costs:
+          - id: pond_weed
+            amount: 1
+          - id: perch
+            amount: 1
+      - stat: lure
+        level: 1
+        costs:
+          - id: pond_weed
+            amount: 1
+          - id: perch
+            amount: 3
+      - stat: luck
+        level: 1
+        costs:
+          - id: rainbow_trout
+            amount: 1
+      - stat: fortune
+        level: 2
+        costs:
+          - id: perch
+            amount: 4
+          - id: rainbow_trout
+            amount: 1
+      - stat: lure
+        level: 2
+        costs:
+          - id: pond_weed
+            amount: 2
+          - id: perch
+            amount: 8
+      - stat: luck
+        level: 2
+        costs:
+          - id: rainbow_trout
+            amount: 3
+          - id: golden_carp
+            amount: 1
+      - stat: fortune
+        level: 3
+        costs:
+          - id: perch
+            amount: 12
+          - id: rainbow_trout
+            amount: 2
+      - stat: lure
+        level: 3
+        costs:
+          - id: pond_weed
+            amount: 4
+          - id: perch
+            amount: 20
+      - stat: luck
+        level: 3
+        costs:
+          - id: rainbow_trout
+            amount: 8
+          - id: golden_carp
+            amount: 1
+
+  oasis:
+    name: "<gold><b>Gormak Oasis"
+    realm: duneworld
+    order: 2
+    fish:
+      - id: oasis_reed
+        tier: junk
+        score: 0
+        min: 1
+        max: 2
+        density: 0
+        essence: 0.0932
+      - id: sand_eel
+        tier: common
+        score: 20
+        min: 1
+        max: 2
+        density: 3
+        essence: 0.373
+      - id: desert_catfish
+        tier: uncommon
+        score: 60
+        min: 1
+        max: 1
+        density: 4
+        essence: 1.01
+      - id: sun_koi
+        tier: rare
+        score: 95
+        min: 1
+        max: 1
+        density: 5
+        essence: 3.42
+    rod:
+      - stat: fortune
+        level: 4
+        costs:
+          - id: oasis_reed
+            amount: 2
+          - id: sand_eel
+            amount: 1
+      - stat: lure
+        level: 4
+        costs:
+          - id: oasis_reed
+            amount: 3
+          - id: sand_eel
+            amount: 4
+      - stat: luck
+        level: 4
+        costs:
+          - id: desert_catfish
+            amount: 2
+      - stat: fortune
+        level: 5
+        costs:
+          - id: sand_eel
+            amount: 4
+          - id: desert_catfish
+            amount: 1
+      - stat: lure
+        level: 5
+        costs:
+          - id: oasis_reed
+            amount: 4
+          - id: sand_eel
+            amount: 12
+      - stat: luck
+        level: 5
+        costs:
+          - id: desert_catfish
+            amount: 4
+          - id: sun_koi
+            amount: 1
+      - stat: fortune
+        level: 6
+        costs:
+          - id: sand_eel
+            amount: 20
+          - id: desert_catfish
+            amount: 2
+      - stat: lure
+        level: 6
+        costs:
+          - id: oasis_reed
+            amount: 12
+          - id: sand_eel
+            amount: 24
+      - stat: luck
+        level: 6
+        costs:
+          - id: desert_catfish
+            amount: 12
+          - id: sun_koi
+            amount: 2
+
+  rootwater:
+    name: "<dark_green><b>Rootwater Lake"
+    realm: elderworld
+    order: 3
+    fish:
+      - id: root_tangle
+        tier: junk
+        score: 0
+        min: 1
+        max: 2
+        density: 0
+        essence: 0.0998
+      - id: mossback_bass
+        tier: common
+        score: 20
+        min: 1
+        max: 2
+        density: 6
+        essence: 0.399
+      - id: glowgill
+        tier: uncommon
+        score: 60
+        min: 1
+        max: 1
+        density: 7
+        essence: 1.07
+      - id: elder_sturgeon
+        tier: rare
+        score: 95
+        min: 1
+        max: 1
+        density: 8
+        essence: 2.74
+    rod:
+      - stat: fortune
+        level: 7
+        costs:
+          - id: root_tangle
+            amount: 4
+          - id: mossback_bass
+            amount: 2
+      - stat: lure
+        level: 7
+        costs:
+          - id: root_tangle
+            amount: 4
+          - id: mossback_bass
+            amount: 4
+      - stat: luck
+        level: 7
+        costs:
+          - id: glowgill
+            amount: 3
+      - stat: fortune
+        level: 8
+        costs:
+          - id: mossback_bass
+            amount: 8
+          - id: glowgill
+            amount: 1
+      - stat: lure
+        level: 8
+        costs:
+          - id: root_tangle
+            amount: 8
+          - id: mossback_bass
+            amount: 16
+      - stat: luck
+        level: 8
+        costs:
+          - id: glowgill
+            amount: 4
+          - id: elder_sturgeon
+            amount: 1
+      - stat: fortune
+        level: 9
+        costs:
+          - id: mossback_bass
+            amount: 24
+          - id: glowgill
+            amount: 4
+      - stat: lure
+        level: 9
+        costs:
+          - id: root_tangle
+            amount: 8
+          - id: mossback_bass
+            amount: 40
+      - stat: luck
+        level: 9
+        costs:
+          - id: glowgill
+            amount: 16
+          - id: elder_sturgeon
+            amount: 4
+
+  cloud_pool:
+    name: "<#BFE9FF><b>Cloud Pool"
+    realm: skyworld
+    order: 4
+    fish:
+      - id: cloud_fluff
+        tier: junk
+        score: 0
+        min: 1
+        max: 2
+        density: 0
+        essence: 0.113
+      - id: skyfin
+        tier: common
+        score: 20
+        min: 1
+        max: 2
+        density: 9
+        essence: 0.45
+      - id: storm_ray
+        tier: uncommon
+        score: 60
+        min: 1
+        max: 1
+        density: 10
+        essence: 1.06
+      - id: star_koi
+        tier: rare
+        score: 95
+        min: 1
+        max: 1
+        density: 11
+        essence: 2.17
+    rod:
+      - stat: fortune
+        level: 10
+        costs:
+          - id: cloud_fluff
+            amount: 1
+          - id: skyfin
+            amount: 3
+      - stat: lure
+        level: 10
+        costs:
+          - id: cloud_fluff
+            amount: 2
+          - id: skyfin
+            amount: 8
+      - stat: luck
+        level: 10
+        costs:
+          - id: storm_ray
+            amount: 4
+      - stat: fortune
+        level: 11
+        costs:
+          - id: skyfin
+            amount: 16
+          - id: storm_ray
+            amount: 2
+      - stat: lure
+        level: 11
+        costs:
+          - id: cloud_fluff
+            amount: 1
+          - id: skyfin
+            amount: 24
+      - stat: luck
+        level: 11
+        costs:
+          - id: storm_ray
+            amount: 12
+          - id: star_koi
+            amount: 3
+      - stat: fortune
+        level: 12
+        costs:
+          - id: skyfin
+            amount: 40
+          - id: storm_ray
+            amount: 4
+      - stat: lure
+        level: 12
+        costs:
+          - id: cloud_fluff
+            amount: 1
+          - id: skyfin
+            amount: 64
+      - stat: luck
+        level: 12
+        costs:
+          - id: storm_ray
+            amount: 32
+          - id: star_koi
+            amount: 8

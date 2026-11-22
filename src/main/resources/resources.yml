@@ -1413,74 +1413,146 @@ items:
       - "<dark_gray>Gormak"
     collection: 500
 
-  fishing_junk:
-    display: "<dark_gray>Junk"
-    material: ROTTEN_FLESH
+  pond_weed:
+    display: "<dark_gray>Pond Weed"
+    material: SEAGRASS
     world: "overworld"
-    region: "fishing"
+    region: "fishing_pond"
     lore:
-      - "<dark_gray>Fished up, worth little"
-    collection: 100
+      - "<dark_gray>Fished at Aurora Pond"
+    collection: 8
 
-  catfish:
-    display: "<gray>Catfish"
+  perch:
+    display: "<gray>Perch"
     material: COD
     world: "overworld"
-    region: "fishing"
+    region: "fishing_pond"
     lore:
-      - "<dark_gray>Caught with the Beginner Rod"
-    collection: 60
+      - "<dark_gray>Fished at Aurora Pond"
+    collection: 48
 
-  black_bass:
-    display: "<dark_gray><b>Black Bass"
+  rainbow_trout:
+    display: "<light_purple>Rainbow Trout"
+    material: SALMON
+    world: "overworld"
+    region: "fishing_pond"
+    lore:
+      - "<dark_gray>Fished at Aurora Pond"
+    collection: 12
+
+  golden_carp:
+    display: "<gold><b>Golden Carp"
+    material: TROPICAL_FISH
+    world: "overworld"
+    region: "fishing_pond"
+    lore:
+      - "<dark_gray>Fished at Aurora Pond"
+    collection: 2
+
+  oasis_reed:
+    display: "<dark_gray>Oasis Reed"
+    material: SUGAR_CANE
+    world: "overworld"
+    region: "fishing_oasis"
+    lore:
+      - "<dark_gray>Fished at Gormak Oasis"
+    collection: 20
+
+  sand_eel:
+    display: "<yellow>Sand Eel"
     material: COD
     world: "overworld"
-    region: "fishing"
+    region: "fishing_oasis"
     lore:
-      - "<dark_gray>Caught with the Beginner Rod"
-    collection: 40
+      - "<dark_gray>Fished at Gormak Oasis"
+    collection: 64
 
-  blackfin_tuna:
-    display: "<gold><b>Blackfin Tuna"
+  desert_catfish:
+    display: "<gold>Desert Catfish"
+    material: COD
+    world: "overworld"
+    region: "fishing_oasis"
+    lore:
+      - "<dark_gray>Fished at Gormak Oasis"
+    collection: 20
+
+  sun_koi:
+    display: "<gold><b>Sun Koi"
+    material: TROPICAL_FISH
+    world: "overworld"
+    region: "fishing_oasis"
+    lore:
+      - "<dark_gray>Fished at Gormak Oasis"
+    collection: 3
+
+  root_tangle:
+    display: "<dark_gray>Root Tangle"
+    material: HANGING_ROOTS
+    world: "overworld"
+    region: "fishing_rootwater"
+    lore:
+      - "<dark_gray>Fished at Rootwater Lake"
+    collection: 24
+
+  mossback_bass:
+    display: "<dark_green>Mossback Bass"
+    material: COD
+    world: "overworld"
+    region: "fishing_rootwater"
+    lore:
+      - "<dark_gray>Fished at Rootwater Lake"
+    collection: 80
+
+  glowgill:
+    display: "<aqua>Glowgill"
+    material: GLOW_INK_SAC
+    world: "overworld"
+    region: "fishing_rootwater"
+    lore:
+      - "<dark_gray>Fished at Rootwater Lake"
+    collection: 24
+
+  elder_sturgeon:
+    display: "<dark_green><b>Elder Sturgeon"
     material: SALMON
     world: "overworld"
-    region: "fishing"
+    region: "fishing_rootwater"
     lore:
-      - "<dark_gray>A rare catch of the Beginner Rod"
-    collection: 5
+      - "<dark_gray>Fished at Rootwater Lake"
+    collection: 4
 
-  pink_salmon:
-    display: "<light_purple>Pink Salmon"
-    material: SALMON
+  cloud_fluff:
+    display: "<dark_gray>Cloud Fluff"
+    material: STRING
     world: "overworld"
-    region: "fishing"
+    region: "fishing_cloud_pool"
     lore:
-      - "<dark_gray>Caught with the Novice Rod"
+      - "<dark_gray>Fished at Cloud Pool"
+    collection: 4
+
+  skyfin:
+    display: "<white>Skyfin"
+    material: COD
+    world: "overworld"
+    region: "fishing_cloud_pool"
+    lore:
+      - "<dark_gray>Fished at Cloud Pool"
     collection: 150
 
-  sea_trout:
-    display: "<dark_aqua><b>Sea Trout"
-    material: COD
+  storm_ray:
+    display: "<aqua>Storm Ray"
+    material: PRISMARINE_SHARD
     world: "overworld"
-    region: "fishing"
+    region: "fishing_cloud_pool"
     lore:
-      - "<dark_gray>Caught with the Novice Rod"
-    collection: 60
+      - "<dark_gray>Fished at Cloud Pool"
+    collection: 48
 
-  spotted_pufferfish:
-    display: "<gold><b>Black Spotted Pufferfish"
-    material: PUFFERFISH
+  star_koi:
+    display: "<#BFE9FF><b>Star Koi"
+    material: TROPICAL_FISH
     world: "overworld"
-    region: "fishing"
+    region: "fishing_cloud_pool"
     lore:
-      - "<dark_gray>A rare catch of the Novice Rod"
-    collection: 5
-
-  fishing_treasure:
-    display: "<yellow><b>Treasure"
-    material: GOLD_NUGGET
-    world: "overworld"
-    region: "fishing"
-    lore:
-      - "<dark_gray>One cast in two thousand"
-    collection: 1
+      - "<dark_gray>Fished at Cloud Pool"
+    collection: 8

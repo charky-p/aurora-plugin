@@ -735,7 +735,8 @@ _Dumper.add_representer(Quoted, _quoted_representer)
 
 GUI_SPECIAL = set("BIX ")
 UPGRADES_ACTION = "upgrades:"
-ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto", "core", "exchange", "leaderboard"}       # MenuActions.java
+FISHING_ACTION = "fishing:"
+ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto", "core", "exchange", "leaderboard", "fish_merchant"}       # MenuActions.java
 EQUIP_SLOTS = {"head", "chest", "legs", "feet", "hand", "off_hand"}
 
 def _drop_ids(entry):
@@ -802,6 +803,8 @@ def validate(built):
 
     # upgrades:<zone> opens that zone's upgrade menu
     upgrade_zones = {row["id"] for row in read_rows(data_path("zones.csv")) or []}
+    # fishing:<spot> opens that spot's rod shop
+    fishing_spots = {row["id"] for row in read_rows(os.path.join(DATA_DIR, "fishing", "spots.csv")) or []}
 
     sold, costs_used = set(), {}
     for gui_id, gui in guis.items():
@@ -873,6 +876,9 @@ def validate(built):
         if opens.startswith(UPGRADES_ACTION):
             if opens[len(UPGRADES_ACTION):] not in upgrade_zones:
                 errors.append(f"trader '{tid}': no zone '{opens[len(UPGRADES_ACTION):]}' in zones.csv")
+        elif opens.startswith(FISHING_ACTION):
+            if opens[len(FISHING_ACTION):] not in fishing_spots:
+                errors.append(f"trader '{tid}': no fishing spot '{opens[len(FISHING_ACTION):]}' in fishing/spots.csv")
         elif opens not in guis and opens not in ACTIONS:
             errors.append(f"trader '{tid}': unknown gui '{opens}'")
 
@@ -986,6 +992,79 @@ def upgrades_text():
     return "\n".join(lines), len(zones)
 
 
+def write_generated(name, text, count, check_only, changed):
+    """Writes one file built outside the schemas, reporting it like the rest."""
+    target = os.path.join(RESOURCE_DIR, name)
+    existing = None
+    if os.path.exists(target):
+        with open(target, encoding="utf-8") as f:
+            existing = f.read()
+    if existing == text:
+        print(f"  = {name:<24} {count} entries (unchanged)")
+        return
+    changed.append(name)
+    if check_only:
+        print(f"  ! {name:<24} {count} entries (would change)")
+        return
+    with open(target, "w", encoding="utf-8") as f:
+        f.write(text)
+    print(f"  > {name:<24} {count} entries")
+
+FISHING_HEADER = """# ===========================================================
+# AURORA FISHING - generated from data/fishing/*.csv
+# ===========================================================
+# The side quest: one fishing spot a realm, each with its own fish and its own rod
+# upgrades, apart from the zones. Prices come from scripts/balance/fishing_prices.py
+# [spot_id]:
+#   name: "<color><b>Spot Name"
+#   realm: overworld (The realm whose worlds the spot's areas are in)
+#   order: 1 (Spots in the order they are played, the rod carries over)
+#   fish: (A cast rolls 1-100 plus the rod's Luck, the fish with the highest score not above it bites)
+#     - id: perch (A resource)
+#       tier: common (junk, common, uncommon, rare)
+#       score: 20
+#       min: 1, max: 2 (How many, before Fortune)
+#       density: 0 (The rod needs this much Fortune, past it the Fortune curve multiplies)
+#       essence: 0.28 (What the Fish Merchant pays for one)
+#   rod: (The rod's upgrades sold at this spot, in order)
+#     - stat: fortune (fortune, luck or lure)
+#       level: 1 (The total the rod has after it)
+#       costs: [{id: perch, amount: 4}]
+# ===========================================================
+# DO NOT EDIT BY HAND -- run `python generate.py`
+# ==========================================================="""
+
+def fishing_text(resources):
+    """fishing.yml as text, its spot count and any errors; None without the fishing data."""
+    if not os.path.exists(os.path.join(DATA_DIR, "fishing", "spots.csv")):
+        return None, 0, []
+    sys.path.insert(0, os.path.join(CUR, "balance"))
+    import fishing_prices
+
+    errors = []
+    realms = {row["id"] for row in read_rows(data_path("realms.csv")) or []}
+    items = OrderedDict()
+    for spot, fish, priced, essence in fishing_prices.build():
+        if spot["realm"] not in realms:
+            errors.append(f"fishing spot '{spot['id']}': unknown realm '{spot['realm']}'")
+        entries = []
+        for f in fish:
+            if f["id"] not in resources:
+                errors.append(f"fishing spot '{spot['id']}': fish '{f['id']}' is not in resources.csv")
+            low, _, high = f["amount"].partition("-")
+            entries.append(OrderedDict(id=f["id"], tier=f["tier"], score=int(f["score"]), min=int(low),
+                                       max=int(high or low), density=int(f["density"]), essence=essence[f["id"]]))
+        steps = []
+        for step in priced:
+            for resource in step["cost"]:
+                if resource not in {f["id"] for f in fish}:
+                    errors.append(f"fishing rod at '{spot['id']}': costs '{resource}', not a fish of that spot")
+            steps.append(OrderedDict(stat=step["stat"], level=step["level"],
+                                     costs=[OrderedDict(id=r, amount=a) for r, a in step["cost"].items()]))
+        items[spot["id"]] = OrderedDict(name=Quoted(spot["name"]), realm=spot["realm"], order=int(spot["order"]),
+                                        fish=entries, rod=steps)
+    return dump({"header": FISHING_HEADER}, items), len(items), errors
+
 def main(check_only=False):
     print("Generating CSV to YAML Conversion")
     changed, skipped, errors = [], [], []
@@ -1030,21 +1109,17 @@ def main(check_only=False):
         text, count = None, 0
         errors.append(f"upgrades: {exc}")
     if text is not None:
-        target = os.path.join(RESOURCE_DIR, "upgrades.yml")
-        existing = None
-        if os.path.exists(target):
-            with open(target, encoding="utf-8") as f:
-                existing = f.read()
-        if existing == text:
-            print(f"  = {'upgrades.yml':<24} {count} entries (unchanged)")
-        else:
-            changed.append("upgrades.yml")
-            if check_only:
-                print(f"  ! {'upgrades.yml':<24} {count} entries (would change)")
-            else:
-                with open(target, "w", encoding="utf-8") as f:
-                    f.write(text)
-                print(f"  > {'upgrades.yml':<24} {count} entries")
+        write_generated("upgrades.yml", text, count, check_only, changed)
+
+    # Fishing's spots, fish and rod, priced by scripts/balance/fishing_prices.py
+    try:
+        text, count, fishing_errors = fishing_text(built.get("resources") or {})
+        errors += fishing_errors
+    except Exception as exc:
+        text, count = None, 0
+        errors.append(f"fishing: {exc}")
+    if text is not None:
+        write_generated("fishing.yml", text, count, check_only, changed)
 
     # Only when every file built, a missing one would report everything it holds
     if not errors and not skipped:

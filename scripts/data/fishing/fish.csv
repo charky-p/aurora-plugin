@@ -1,0 +1,17 @@
+id,spot,tier,score,amount,density
+pond_weed,pond,junk,0,1-2,0
+perch,pond,common,20,1-2,0
+rainbow_trout,pond,uncommon,60,1,1
+golden_carp,pond,rare,95,1,2
+oasis_reed,oasis,junk,0,1-2,0
+sand_eel,oasis,common,20,1-2,3
+desert_catfish,oasis,uncommon,60,1,4
+sun_koi,oasis,rare,95,1,5
+root_tangle,rootwater,junk,0,1-2,0
+mossback_bass,rootwater,common,20,1-2,6
+glowgill,rootwater,uncommon,60,1,7
+elder_sturgeon,rootwater,rare,95,1,8
+cloud_fluff,cloud_pool,junk,0,1-2,0
+skyfin,cloud_pool,common,20,1-2,9
+storm_ray,cloud_pool,uncommon,60,1,10
+star_koi,cloud_pool,rare,95,1,11

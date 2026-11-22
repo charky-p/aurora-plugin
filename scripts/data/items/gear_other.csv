@@ -7,8 +7,6 @@ baked_potato,<white>Baked Potato,BAKED_POTATO,0,,overworld,origin_isles,,<dark_g
 cooked_chicken,<white>Roast Chicken,COOKED_CHICKEN,0,,overworld,origin_isles,,<dark_gray>Food
 steak,<white>Steak,COOKED_BEEF,0,,overworld,origin_isles,,<dark_gray>Food
 golden_carrot,<white>Golden Carrot,GOLDEN_CARROT,0,,overworld,origin_isles,,<dark_gray>Food
-beginner_rod,<dark_aqua><b>Beginner Rod,FISHING_ROD,0,,overworld,fishing,,<gray>Cast into any water.|<dark_gray>Fishing
-novice_rod,<dark_aqua><b>Novice Rod,FISHING_ROD,1,,overworld,fishing,luck:5|fortune:1,<gray>Cast into any water.|<dark_gray>Fishing
 grapple,<#9C7A3C><b>Grapple,FISHING_ROD,1,,overworld,,,"<gray>Right click to throw yourself where you look|<dark_gray>Every 3 seconds, in the air too"
 elytra,<white><b>Elytra,ELYTRA,1,,overworld,,,"<gray>Glide from a ledge, rockets to climb"
 rocket,<red>Rocket,FIREWORK_ROCKET,1,,overworld,,,<gray>Right click while gliding

@@ -169,6 +169,16 @@ Saved as numbered spots. A trader that is killed or unloaded respawns at its spo
 
 Right clicking a trader with the wand also removes it and its spot.
 
+## Fishing
+
+Fishing is a side quest apart from the zones: one spot a realm (`scripts/data/fishing/`), each with its own fish and rod upgrades. Mark a spot's water with the wand (select two corners around it) and `/a fishspot create <name> <spot>`; a spot can have as many areas as it needs, the hook has to land in one. Place the **Fish Merchant** (`fish_merchant`, hands out the rod and buys fish for Essence) at spawn and each spot's angler beside its water: `pond_angler`, `oasis_angler`, `rootwater_angler`, `cloud_angler`.
+
+| Command | What it does |
+|---|---|
+| `/a fishspot create <name> <spot>` | The wand selection becomes water of that spot (`pond`, `oasis`, `rootwater`, `cloud_pool`) |
+| `/a fishspot delete <name>` | Delete that area |
+| `/a fishspot list` | Every area, its spot and where it is |
+
 ## Tutorial
 
 A new player's first join hands out the starter tools, the backpack and a stack of bread, and starts the tutorial at the spot set with `setstart`, instead of the main spawn. A boss bar at the top shows the step, and a chat line says what to do: mine 10 cobblestone, open the backpack, click a trader, buy an upgrade. Each step ends by itself. Finishing pays 50 Essence and the `NEWCOMER` suffix. A player who leaves mid-way comes back to the start of the step they were on. Players who joined before it existed never get it.

@@ -443,3 +443,38 @@ items:
     gui: exchange
     profession: cleric
     biome: savanna
+
+  fish_merchant:
+    display: "<aqua><b>Fish Merchant"
+    entity: VILLAGER
+    gui: fish_merchant
+    profession: fisherman
+    biome: plains
+
+  pond_angler:
+    display: "<aqua><b>Pond Angler"
+    entity: VILLAGER
+    gui: fishing:pond
+    profession: fisherman
+    biome: plains
+
+  oasis_angler:
+    display: "<gold><b>Oasis Angler"
+    entity: VILLAGER
+    gui: fishing:oasis
+    profession: fisherman
+    biome: desert
+
+  rootwater_angler:
+    display: "<dark_green><b>Rootwater Angler"
+    entity: VILLAGER
+    gui: fishing:rootwater
+    profession: fisherman
+    biome: swamp
+
+  cloud_angler:
+    display: "<#BFE9FF><b>Cloud Angler"
+    entity: VILLAGER
+    gui: fishing:cloud_pool
+    profession: fisherman
+    biome: snow

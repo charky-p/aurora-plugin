@@ -1,0 +1,5 @@
+id,name,realm,order,minutes,essence_per_minute
+pond,<aqua><b>Aurora Pond,overworld,1,15,15
+oasis,<gold><b>Gormak Oasis,duneworld,2,18,25
+rootwater,<dark_green><b>Rootwater Lake,elderworld,3,20,35
+cloud_pool,<#BFE9FF><b>Cloud Pool,skyworld,4,25,50

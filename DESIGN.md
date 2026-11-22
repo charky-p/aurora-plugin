@@ -196,7 +196,6 @@ XP per block: items dropped x the block's `xp` in `scripts/data/world/blocks.csv
 Built, but not registered in `core/Aurora.java`, so not reachable in game:
 
 - The gauntlet (`/gauntlet`)
-- Fishing: the rods and their catch tables
 
 ## TODO, from the legacy Skript
 

@@ -13,6 +13,7 @@ import org.charky.aurora.common.loot.LootPool;
 import org.charky.aurora.common.loot.MenuItem;
 import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.core.data.*;
+import org.charky.aurora.core.models.FishingSpotModel;
 import org.charky.aurora.core.models.*;
 import org.charky.aurora.features.armory.ArmoryManager;
 import org.charky.aurora.features.keys.Keys;
@@ -55,6 +56,8 @@ public class DataRegistry {
     private final Map<String, TraderMenu> guis = new HashMap<>();
     private final Map<String, Trader> traders = new HashMap<>();
     private final List<Warp> warps = new ArrayList<>();
+    // Fishing spots in the order they are played, see FishingManager
+    private final Map<String, FishingSpotModel> fishingSpots = new LinkedHashMap<>();
     private final Map<String, ToolType> toolTypes = new LinkedHashMap<>();
     private Realms realms = new Realms(List.of());
     private final Map<String, UpgradeZone> upgradeZones = new LinkedHashMap<>();
@@ -109,6 +112,7 @@ public class DataRegistry {
         guis.clear();
         traders.clear();
         warps.clear();
+        fishingSpots.clear();
         toolTypes.clear();
         upgradeZones.clear();
         itemRegions.clear();
@@ -137,6 +141,7 @@ public class DataRegistry {
                 .load(yaml.load("guis/shops.yml", GuiModel.class)));
         traders.putAll(new TraderLoader(plugin.getLogger()).load(yaml.load("traders.yml", TraderModel.class), guis, actions));
         loadWarps();
+        fishingSpots.putAll(yaml.load("fishing.yml", FishingSpotModel.class));
         loadProgression();
     }
 
@@ -269,6 +274,10 @@ public class DataRegistry {
     }
 
     // In warps.csv order, which is the order players reach the regions
+    public Map<String, FishingSpotModel> getFishingSpots() {
+        return fishingSpots;
+    }
+
     public List<Warp> getWarps() {
         return List.copyOf(warps);
     }

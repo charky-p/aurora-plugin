@@ -152,12 +152,13 @@ def backup(server, keep):
 # in its column. blocks follow their mine, worlds and build_worlds name the world
 GAME_TABLES = {"mines": "world", "spawners": "world", "traders": "world", "portals": "world",
                "spawns": "world", "locations": "world", "worlds": "name", "build_worlds": "world",
-               "safe_zones": "world", "teleport_pads": "world"}
+               "safe_zones": "world", "teleport_pads": "world", "fishing_areas": "world"}
 # Numbered by the database, the host numbers LocalServer's rows again
 AUTO_IDS = {"traders": "id"}
 # Every per-player table that belongs to a loadout, kept in step with LoadoutStore.TABLES
 LOADOUT_TABLES = ("playerData", "player_ranks", "player_cosmetics", "player_equipped", "player_tools",
-                  "player_perks", "collections", "backpack_data", "unlocked_gear", "portal_access", "tutorial")
+                  "player_perks", "collections", "backpack_data", "unlocked_gear", "portal_access", "tutorial",
+                  "fishing_rod")
 
 
 def progress_to_experimental(db):

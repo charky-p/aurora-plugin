@@ -351,6 +351,11 @@ public class GauntletRuns implements Listener {
         mate.playSound(mate.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
         if (member.headStart > 0) TextUtils.send(mate, "<aqua><b>HEAD START</b> <gray>The floors you skipped pay <aqua>"
                 + member.headStart + " Shards</aqua>, banked when the run ends");
+        int gearFloor = bonuses.gearFloor(profile);
+        if (run.hardFloor == 0 && run.towerDay == 0 && gearFloor > run.startFloor + 5) {
+            TextUtils.send(mate, "<gray>Your gear stands at floor <white>" + gearFloor + "</white>, these floors will be easy: <dark_red>Hard Mode</dark_red> "
+                    + "in the start menu makes them a fight, for more Shards");
+        }
         if (run.hardFloor > 0) TextUtils.send(mate, "<dark_red><b>HARD MODE</b> <gray>Floors below " + run.hardFloor
                 + " play and pay as floor " + run.hardFloor + ", and every floor pays <aqua>+"
                 + fmt(data().setting("hard_shards", 25)) + "%</aqua> Shards");

@@ -172,6 +172,21 @@ public final class Schema {
                     "level INTEGER, " +
                     "PRIMARY KEY (uuid, item))",
 
+            // Each gauntlet talent a player has bought and its level
+            "CREATE TABLE IF NOT EXISTS gauntlet_talents (" +
+                    "uuid TEXT, " +
+                    "talent TEXT, " +
+                    "level INTEGER, " +
+                    "PRIMARY KEY (uuid, talent))",
+
+            // Counted gauntlet stats by name: kills, elites, PvP kills and deaths, best
+            // streak, the last day a daily bonus was paid ...
+            "CREATE TABLE IF NOT EXISTS gauntlet_stats (" +
+                    "uuid TEXT, " +
+                    "stat TEXT, " +
+                    "value INTEGER, " +
+                    "PRIMARY KEY (uuid, stat))",
+
             // Where each player keeps their gauntlet setup in the inventory, slot=item;...
             "CREATE TABLE IF NOT EXISTS gauntlet_layouts (" +
                     "uuid TEXT PRIMARY KEY, " +

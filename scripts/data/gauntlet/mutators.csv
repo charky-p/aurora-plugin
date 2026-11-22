@@ -1,0 +1,7 @@
+id,name,description,health,damage,speed,count,elites,shards
+swift,Swift,Mobs are 25% faster,1,1,1.25,1,1,25
+armored,Armored,Mobs have 50% more health,1.5,1,1,1,1,30
+savage,Savage,Mobs hit 30% harder,1,1.3,1,1,1,30
+horde,Horde,Half as many mobs again,1,1,1,1.5,1,40
+glass,Glass Cannons,Mobs hit 50% harder but have half the health,0.5,1.5,1,1,1,20
+elite_rush,Elite Rush,Elites three times as often,1,1,1,1,3,40

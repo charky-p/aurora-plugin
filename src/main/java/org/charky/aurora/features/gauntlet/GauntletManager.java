@@ -135,7 +135,14 @@ public class GauntletManager implements Listener {
                 TextUtils.parse("<gray>• SHARDS: <aqua>" + profile.shards),
                 TextUtils.parse("<gray>• CORES: <light_purple>" + profile.cores),
                 TextUtils.parse("<gray>• BEST FLOOR: <white>" + profile.best)));
-        if (runs != null && runs.inRun(player)) {
+        if (pvp != null && pvp.inZone(player)) {
+            lines.add(Component.empty());
+            lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>PVP</b></gradient>"));
+            lines.add(TextUtils.parse("<gray>• KILLS: <red>" + profile.stat(GauntletPvp.KILLS)
+                    + " <gray>DEATHS: <white>" + profile.stat(GauntletPvp.DEATHS)));
+            lines.add(TextUtils.parse("<gray>• STREAK: <gold>" + pvp.streak(player)
+                    + " <gray>BEST: <white>" + profile.stat(GauntletPvp.BEST_STREAK)));
+        } else if (runs != null && runs.inRun(player)) {
             lines.add(Component.empty());
             lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>THIS RUN</b></gradient>"));
             lines.add(TextUtils.parse("<gray>• FLOOR: <white>" + runs.floorOf(player)));
@@ -215,6 +222,34 @@ public class GauntletManager implements Listener {
         profile(player);
         if (isHere(player)) giveKit(player);
         refreshBoard(player);
+    }
+
+    // ---- Stats and Shards ----
+
+    // Adds to a counted stat, returns its new value
+    public int addStat(UUID uuid, String stat, int amount) {
+        int value = profile(uuid).stats.merge(stat, amount, Integer::sum);
+        db.async(() -> store.saveStat(uuid, stat, value));
+        return value;
+    }
+
+    public void setStat(UUID uuid, String stat, int value) {
+        profile(uuid).stats.put(stat, value);
+        db.async(() -> store.saveStat(uuid, stat, value));
+    }
+
+    // Shards paid straight into the bank, not through a run
+    public void giveShards(Player player, int amount) {
+        profile(player).shards += amount;
+        save(player.getUniqueId());
+        refreshBoard(player);
+    }
+
+    // The highest of a counted stat, highest first
+    public List<Map.Entry<UUID, GauntletProfile>> topBy(String stat, int count) {
+        return profiles.entrySet().stream().filter(entry -> entry.getValue().stat(stat) > 0)
+                .sorted(Comparator.comparingInt((Map.Entry<UUID, GauntletProfile> entry) -> entry.getValue().stat(stat)).reversed())
+                .limit(count).toList();
     }
 
     void save(UUID uuid) {

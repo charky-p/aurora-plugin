@@ -18,6 +18,12 @@
 # care: care package levels [{level, shards, cores, loot: [{item, min, max, chance}]}]
 #   item is a material, or POTION@TYPE / SPLASH_POTION@TYPE
 # milestones: [{floor, essence, cosmetic}] (best floor reached, paid once)
+# boons also have a rarity: common, rare or epic, weighted by the rarity_ settings
+# talents: permanent, run-only upgrades {name, icon, description, stat, amount (a level), max,
+#          shards (the first level), growth (each level costs this many times the last), cores (a level)}
+# mutators: what can change a floor {name, description, health, damage, speed, count, elites (times),
+#           shards (percent more for the floor)}
+# settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
 # ===========================================================
@@ -939,13 +945,15 @@ boons:
     stat: damage
     amount: 15.0
     max: 5
-  keen_eye:
-    name: Keen Eye
-    icon: SPECTRAL_ARROW
-    description: "15% chance to hit for double"
-    stat: crit
-    amount: 15.0
-    max: 4
+    rarity: common
+  first_strike:
+    name: First Strike
+    icon: GOLDEN_SWORD
+    description: "+60% damage to mobs at full health"
+    stat: firststrike
+    amount: 60.0
+    max: 3
+    rarity: common
   bloodthirst:
     name: Bloodthirst
     icon: REDSTONE
@@ -953,6 +961,7 @@ boons:
     stat: killheal
     amount: 1.0
     max: 4
+    rarity: common
   vitality:
     name: Vitality
     icon: GOLDEN_APPLE
@@ -960,6 +969,7 @@ boons:
     stat: health
     amount: 4.0
     max: 5
+    rarity: common
   swiftness:
     name: Swiftness
     icon: SUGAR
@@ -967,13 +977,7 @@ boons:
     stat: speed
     amount: 10.0
     max: 3
-  mending:
-    name: Mending
-    icon: GHAST_TEAR
-    description: "Slowly regenerate health"
-    stat: regen
-    amount: 1.0
-    max: 2
+    rarity: common
   iron_skin:
     name: Iron Skin
     icon: IRON_CHESTPLATE
@@ -981,13 +985,7 @@ boons:
     stat: guard
     amount: 10.0
     max: 4
-  evasion:
-    name: Evasion
-    icon: FEATHER
-    description: "10% chance to dodge a hit"
-    stat: dodge
-    amount: 10.0
-    max: 3
+    rarity: common
   bulwark:
     name: Bulwark
     icon: SHIELD
@@ -995,6 +993,71 @@ boons:
     stat: absorb
     amount: 4.0
     max: 3
+    rarity: common
+  keen_eye:
+    name: Keen Eye
+    icon: SPECTRAL_ARROW
+    description: "15% chance to hit for double"
+    stat: crit
+    amount: 15.0
+    max: 4
+    rarity: rare
+  mending:
+    name: Mending
+    icon: GHAST_TEAR
+    description: "Slowly regenerate health"
+    stat: regen
+    amount: 1.0
+    max: 2
+    rarity: rare
+  evasion:
+    name: Evasion
+    icon: FEATHER
+    description: "10% chance to dodge a hit"
+    stat: dodge
+    amount: 10.0
+    max: 3
+    rarity: rare
+  greed:
+    name: Greed
+    icon: GOLD_NUGGET
+    description: "+15% Shards this run"
+    stat: shards
+    amount: 15.0
+    max: 3
+    rarity: rare
+  executioner:
+    name: Executioner
+    icon: NETHERITE_AXE
+    description: "+40% damage to mobs under 30% health"
+    stat: execute
+    amount: 40.0
+    max: 3
+    rarity: rare
+  giant_slayer:
+    name: Giant Slayer
+    icon: TARGET
+    description: "+25% damage to bosses and elites"
+    stat: slayer
+    amount: 25.0
+    max: 3
+    rarity: rare
+  cleave:
+    name: Cleave
+    icon: DIAMOND_AXE
+    description: "Melee hits deal 30% to mobs within 3 blocks"
+    stat: cleave
+    amount: 30.0
+    max: 2
+    rarity: epic
+  second_wind:
+    name: Second Wind
+    icon: TOTEM_OF_UNDYING
+    description: "Survive a killing blow once at half health"
+    stat: revive
+    amount: 1.0
+    max: 1
+    rarity: epic
 care:
   - level: 1
     shards: 0
@@ -1426,3 +1489,143 @@ setup:
     shards: 8000
     cores: 4
     description: "One enchanted golden apple a run"
+talents:
+  vitality:
+    name: Vitality
+    icon: APPLE
+    description: "+1 heart in runs a level"
+    stat: health
+    amount: 2.0
+    max: 10
+    shards: 150
+    growth: 1.35
+    cores: 0
+  greed:
+    name: Greed
+    icon: GOLD_INGOT
+    description: "+5% Shards from runs a level"
+    stat: shards
+    amount: 5.0
+    max: 10
+    shards: 200
+    growth: 1.35
+    cores: 0
+  scavenger:
+    name: Scavenger
+    icon: CHEST
+    description: "+10% chance for every care package item a level"
+    stat: care
+    amount: 10.0
+    max: 5
+    shards: 300
+    growth: 1.5
+    cores: 0
+  reroll:
+    name: Reroll
+    icon: ENDER_EYE
+    description: "One more boon reroll a run a level"
+    stat: reroll
+    amount: 1.0
+    max: 3
+    shards: 600
+    growth: 2.0
+    cores: 0
+  insight:
+    name: Insight
+    icon: SPYGLASS
+    description: "One more boon to pick from"
+    stat: insight
+    amount: 1.0
+    max: 1
+    shards: 2000
+    growth: 1.0
+    cores: 2
+  second_wind:
+    name: Second Wind
+    icon: TOTEM_OF_UNDYING
+    description: "Once a run survive a killing blow at half health"
+    stat: revive
+    amount: 1.0
+    max: 1
+    shards: 4000
+    growth: 1.0
+    cores: 3
+mutators:
+  swift:
+    name: Swift
+    description: "Mobs are 25% faster"
+    health: 1.0
+    damage: 1.0
+    speed: 1.25
+    count: 1.0
+    elites: 1.0
+    shards: 25
+  armored:
+    name: Armored
+    description: "Mobs have 50% more health"
+    health: 1.5
+    damage: 1.0
+    speed: 1.0
+    count: 1.0
+    elites: 1.0
+    shards: 30
+  savage:
+    name: Savage
+    description: "Mobs hit 30% harder"
+    health: 1.0
+    damage: 1.3
+    speed: 1.0
+    count: 1.0
+    elites: 1.0
+    shards: 30
+  horde:
+    name: Horde
+    description: "Half as many mobs again"
+    health: 1.0
+    damage: 1.0
+    speed: 1.0
+    count: 1.5
+    elites: 1.0
+    shards: 40
+  glass:
+    name: Glass Cannons
+    description: "Mobs hit 50% harder but have half the health"
+    health: 0.5
+    damage: 1.5
+    speed: 1.0
+    count: 1.0
+    elites: 1.0
+    shards: 20
+  elite_rush:
+    name: Elite Rush
+    description: "Elites three times as often"
+    health: 1.0
+    damage: 1.0
+    speed: 1.0
+    count: 1.0
+    elites: 3.0
+    shards: 40
+settings:
+  boon_every: 5.0
+  boon_choices: 3.0
+  rarity_common: 60.0
+  rarity_rare: 30.0
+  rarity_epic: 10.0
+  elite_from: 3.0
+  elite_chance: 4.0
+  elite_chance_per_floor: 0.2
+  elite_chance_max: 15.0
+  elite_health: 2.5
+  elite_damage: 1.3
+  elite_pay: 3.0
+  mutator_from: 6.0
+  mutator_chance: 25.0
+  par_seconds: 10.0
+  par_per_mob: 2.5
+  fast_bonus: 50.0
+  daily_bonus: 2.0
+  boss_adds: 2.0
+  boss_enrage_speed: 20.0
+  pvp_kill_shards: 5.0
+  pvp_streak_shards: 2.0
+  pvp_shutdown_shards: 3.0

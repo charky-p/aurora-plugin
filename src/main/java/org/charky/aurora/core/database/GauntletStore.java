@@ -47,6 +47,14 @@ public class GauntletStore {
             GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
             if (profile != null) profile.setup.put(rs.getString("item"), rs.getInt("level"));
         });
+        db.query("SELECT uuid, talent, level FROM gauntlet_talents", pst -> {}, rs -> {
+            GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
+            if (profile != null) profile.talents.put(rs.getString("talent"), rs.getInt("level"));
+        });
+        db.query("SELECT uuid, stat, value FROM gauntlet_stats", pst -> {}, rs -> {
+            GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
+            if (profile != null) profile.stats.put(rs.getString("stat"), rs.getInt("value"));
+        });
         db.query("SELECT uuid, layout FROM gauntlet_layouts", pst -> {}, rs -> {
             GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
             if (profile == null || rs.getString("layout") == null) return;
@@ -95,6 +103,24 @@ public class GauntletStore {
         });
     }
 
+    public void saveTalent(UUID uuid, String talent, int level) {
+        db.update("INSERT INTO gauntlet_talents (uuid, talent, level) VALUES (?, ?, ?) "
+                + "ON CONFLICT(uuid, talent) DO UPDATE SET level = excluded.level", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setString(2, talent);
+            pst.setInt(3, level);
+        });
+    }
+
+    public void saveStat(UUID uuid, String stat, int value) {
+        db.update("INSERT INTO gauntlet_stats (uuid, stat, value) VALUES (?, ?, ?) "
+                + "ON CONFLICT(uuid, stat) DO UPDATE SET value = excluded.value", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setString(2, stat);
+            pst.setInt(3, value);
+        });
+    }
+
     public void saveLayout(UUID uuid, Map<Integer, String> layout) {
         StringBuilder text = new StringBuilder();
         new TreeMap<>(layout).forEach((slot, key) -> text.append(slot).append('=').append(key).append(';'));
@@ -113,7 +139,8 @@ public class GauntletStore {
 
     // Every bit of a player's gauntlet progress, the inventory they brought in excepted
     public void reset(UUID uuid) {
-        for (String table : new String[]{"gauntlet_players", "gauntlet_gear", "gauntlet_milestones", "gauntlet_setup", "gauntlet_layouts"}) {
+        for (String table : new String[]{"gauntlet_players", "gauntlet_gear", "gauntlet_milestones", "gauntlet_setup",
+                "gauntlet_layouts", "gauntlet_talents", "gauntlet_stats"}) {
             db.update("DELETE FROM " + table + " WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()));
         }
     }

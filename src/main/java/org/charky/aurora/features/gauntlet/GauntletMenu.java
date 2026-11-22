@@ -16,7 +16,7 @@ import java.util.UUID;
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
 // starting kit, milestones, the top floors, and the way out
 public class GauntletMenu extends PagedMenu {
-    private static final int START = 0, FORGE = 1, KIT = 2, MILESTONES = 3, TOP = 4, LEAVE = 5;
+    private static final int START = 0, FORGE = 1, KIT = 2, MILESTONES = 3, TOP = 4, PVP = 5, LEAVE = 6;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -79,6 +79,21 @@ public class GauntletMenu extends PagedMenu {
         top.add("");
         top.add("<gray>Your best: <white>" + profile.best + " <dark_gray>(" + profile.runs + " runs)");
         items.add(button(Material.PLAYER_HEAD, "<aqua><b>Top Floors", top));
+
+        List<String> pvp = new ArrayList<>(List.of(
+                "<gray>Fight other players in the PvP zone",
+                "<gray>with your setup. Kills pay Shards,",
+                "<gray>more on a streak.",
+                "",
+                "<gray>Your kills: <red>" + profile.stat(GauntletPvp.KILLS) + " <gray>deaths: <white>" + profile.stat(GauntletPvp.DEATHS),
+                "<gray>Best streak: <gold>" + profile.stat(GauntletPvp.BEST_STREAK),
+                ""));
+        int rank = 1;
+        for (Map.Entry<UUID, GauntletProfile> entry : manager.topBy(GauntletPvp.KILLS, 5)) {
+            pvp.add("<gray>" + rank++ + ". <white>" + GauntletManager.nameOf(entry.getKey()) + " <gray>- " + entry.getValue().stat(GauntletPvp.KILLS) + " kills");
+        }
+        if (rank == 1) pvp.add("<gray>Nobody has a PvP kill yet");
+        items.add(button(Material.DIAMOND_SWORD, "<red><b>PvP", pvp));
 
         items.add(button(Material.OAK_DOOR, "<gray><b>Leave the Gauntlet", List.of(
                 "<gray>Back to the main spawn,", "<gray>with your own inventory.")));

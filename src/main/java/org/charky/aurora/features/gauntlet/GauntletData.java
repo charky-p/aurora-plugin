@@ -22,7 +22,8 @@ import java.util.logging.Level;
 // milestones. Floor and gear numbers come from scripts/balance/gauntlet_balance.py
 public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<GearLevel> levels,
                            Map<String, Boon> boons, List<CareLevel> care, List<Milestone> milestones,
-                           Map<String, SetupItem> setup) {
+                           Map<String, SetupItem> setup, Map<String, Talent> talents, Map<String, Mutator> mutators,
+                           Map<String, Double> settings) {
     private static final String FILE = "gauntlet.yml";
     // Past the last floor in the file it repeats, every mob this much tougher a floor
     // and ATTACK_PER_FLOOR attack levels stronger (gauntlet_balance.py)
@@ -67,7 +68,34 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                             int protection, int deflection) {
     }
 
-    public record Boon(String id, String name, String icon, String description, String stat, double amount, int max) {
+    public record Boon(String id, String name, String icon, String description, String stat, double amount, int max,
+                       String rarity) {
+        public String colour() {
+            return switch (rarity) {
+                case "epic" -> "<light_purple>";
+                case "rare" -> "<aqua>";
+                default -> "<white>";
+            };
+        }
+    }
+
+    // A permanent upgrade for runs, bought with Shards (and Cores) a level at a time.
+    // The first level costs shards, each one after growth times the last
+    public record Talent(String id, String name, String icon, String description, String stat, double amount, int max,
+                         int shards, double growth, int cores) {
+        public int shardsFor(int level) {
+            return (int) Math.round(shards * Math.pow(growth, level - 1));
+        }
+
+        public int coresFor(int level) {
+            return cores * level;
+        }
+    }
+
+    // What can change a floor: its mobs' health, hits, speed, how many there are, how
+    // often they are elite, and the percent more Shards the floor pays
+    public record Mutator(String id, String name, String description, double health, double damage, double speed,
+                          double count, double elites, int shards) {
     }
 
     public record Loot(String item, int min, int max, double chance) {
@@ -93,7 +121,7 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     }
 
     public static GauntletData empty() {
-        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of());
+        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of());
     }
 
     // Empty when the file is missing or broken, the gauntlet then refuses to start
@@ -141,7 +169,8 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
             Map<String, Boon> boons = new LinkedHashMap<>();
             ((Map<String, Map<String, Object>>) root.getOrDefault("boons", Map.of())).forEach((id, row) ->
                     boons.put(id, new Boon(id, str(row.get("name")), str(row.get("icon")), str(row.get("description")),
-                            str(row.get("stat")), num(row.get("amount")).doubleValue(), num(row.get("max")).intValue())));
+                            str(row.get("stat")), num(row.get("amount")).doubleValue(), num(row.get("max")).intValue(),
+                            row.get("rarity") == null ? "common" : str(row.get("rarity")))));
 
             List<CareLevel> care = new ArrayList<>();
             for (Map<String, Object> row : list(root.get("care"))) {
@@ -164,12 +193,29 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                     setup.put(id, new SetupItem(id, str(row.get("name")), str(row.get("item")), num(row.get("amount")).intValue(),
                             num(row.get("max")).intValue(), num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
                             str(row.get("description")))));
+            Map<String, Talent> talents = new LinkedHashMap<>();
+            ((Map<String, Map<String, Object>>) root.getOrDefault("talents", Map.of())).forEach((id, row) ->
+                    talents.put(id, new Talent(id, str(row.get("name")), str(row.get("icon")), str(row.get("description")),
+                            str(row.get("stat")), num(row.get("amount")).doubleValue(), num(row.get("max")).intValue(),
+                            num(row.get("shards")).intValue(), num(row.get("growth")).doubleValue(), num(row.get("cores")).intValue())));
+            Map<String, Mutator> mutators = new LinkedHashMap<>();
+            ((Map<String, Map<String, Object>>) root.getOrDefault("mutators", Map.of())).forEach((id, row) ->
+                    mutators.put(id, new Mutator(id, str(row.get("name")), str(row.get("description")),
+                            num(row.get("health")).doubleValue(), num(row.get("damage")).doubleValue(), num(row.get("speed")).doubleValue(),
+                            num(row.get("count")).doubleValue(), num(row.get("elites")).doubleValue(), num(row.get("shards")).intValue())));
+            Map<String, Double> settings = new LinkedHashMap<>();
+            ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
             return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care),
-                    List.copyOf(milestones), setup);
+                    List.copyOf(milestones), setup, talents, mutators, settings);
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load " + FILE, e);
             return empty();
         }
+    }
+
+    // A tuning number from settings.csv, or the fallback when it is missing
+    public double setting(String key, double fallback) {
+        return settings.getOrDefault(key, fallback);
     }
 
     public boolean ready() {

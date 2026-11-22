@@ -20,6 +20,10 @@ public class GauntletProfile {
     public final Set<Integer> milestones = new HashSet<>();
     // Starting kit items bought and their level
     public final Map<String, Integer> setup = new LinkedHashMap<>();
+    // Talents bought and their level
+    public final Map<String, Integer> talents = new LinkedHashMap<>();
+    // Counted stats by name (see GauntletStats)
+    public final Map<String, Integer> stats = new ConcurrentHashMap<>();
     // Where each setup item sits in the inventory, by slot: gear:sword, setup:totem, menu
     public final Map<Integer, String> layout = new ConcurrentHashMap<>();
 
@@ -29,5 +33,13 @@ public class GauntletProfile {
 
     public int level(String gearId) {
         return gear.getOrDefault(gearId, -1);
+    }
+
+    public int talent(String id) {
+        return talents.getOrDefault(id, 0);
+    }
+
+    public int stat(String name) {
+        return stats.getOrDefault(name, 0);
     }
 }

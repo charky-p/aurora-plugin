@@ -1086,6 +1086,12 @@ GAUNTLET_HEADER = """# =========================================================
 # care: care package levels [{level, shards, cores, loot: [{item, min, max, chance}]}]
 #   item is a material, or POTION@TYPE / SPLASH_POTION@TYPE
 # milestones: [{floor, essence, cosmetic}] (best floor reached, paid once)
+# boons also have a rarity: common, rare or epic, weighted by the rarity_ settings
+# talents: permanent, run-only upgrades {name, icon, description, stat, amount (a level), max,
+#          shards (the first level), growth (each level costs this many times the last), cores (a level)}
+# mutators: what can change a floor {name, description, health, damage, speed, count, elites (times),
+#           shards (percent more for the floor)}
+# settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
 # ===========================================================
@@ -1093,7 +1099,10 @@ GAUNTLET_HEADER = """# =========================================================
 # ==========================================================="""
 
 GAUNTLET_KINDS = {"melee", "ranged", "thrown", "armor", "shield"}
-GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "guard", "dodge", "absorb"}
+GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "guard", "dodge", "absorb",
+                  "firststrike", "shards", "execute", "slayer", "cleave", "revive"}
+GAUNTLET_RARITIES = {"common", "rare", "epic"}
+GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive"}
 
 
 def _gauntlet_rows(name):
@@ -1152,8 +1161,32 @@ def gauntlet_text(mobs, cosmetics):
     for row in _gauntlet_rows("boons.csv") or []:
         if row["stat"] not in GAUNTLET_STATS:
             errors.append(f"gauntlet boon '{row['id']}': unknown stat '{row['stat']}'")
+        rarity = (row.get("rarity") or "common").strip()
+        if rarity not in GAUNTLET_RARITIES:
+            errors.append(f"gauntlet boon '{row['id']}': unknown rarity '{rarity}'")
         boons[row["id"]] = OrderedDict(name=row["name"], icon=row["icon"], description=Quoted(row["description"]),
-                                       stat=row["stat"], amount=float(row["amount"]), max=int(row["max"]))
+                                       stat=row["stat"], amount=float(row["amount"]), max=int(row["max"]), rarity=rarity)
+
+    talents = OrderedDict()
+    for row in _gauntlet_rows("talents.csv") or []:
+        if row["stat"] not in GAUNTLET_TALENT_STATS:
+            errors.append(f"gauntlet talent '{row['id']}': unknown stat '{row['stat']}'")
+        talents[row["id"]] = OrderedDict(name=row["name"], icon=row["icon"], description=Quoted(row["description"]),
+                                         stat=row["stat"], amount=float(row["amount"]), max=int(row["max"]),
+                                         shards=int(row["shards"]), growth=float(row["growth"]), cores=int(row["cores"] or 0))
+
+    mutators = OrderedDict()
+    for row in _gauntlet_rows("mutators.csv") or []:
+        mutators[row["id"]] = OrderedDict(name=row["name"], description=Quoted(row["description"]),
+                                          health=float(row["health"]), damage=float(row["damage"]), speed=float(row["speed"]),
+                                          count=float(row["count"]), elites=float(row["elites"]), shards=int(row["shards"]))
+
+    settings = OrderedDict()
+    for row in _gauntlet_rows("settings.csv") or []:
+        try:
+            settings[row["key"]] = float(row["value"])
+        except ValueError:
+            errors.append(f"gauntlet setting '{row['key']}': '{row['value']}' is not a number")
 
     care = [OrderedDict(level=int(row["level"]), shards=int(row["shards"]), cores=int(row["cores"]),
                         loot=_gauntlet_loot(row["loot"], f"care package {row['level']}", errors))
@@ -1172,7 +1205,8 @@ def gauntlet_text(mobs, cosmetics):
                                        max=int(row["max"]), shards=int(row["shards"]), cores=int(row["cores"] or 0),
                                        description=Quoted(row["description"]))
 
-    data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones, setup=setup)
+    data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones, setup=setup,
+                       talents=talents, mutators=mutators, settings=settings)
     body = yaml.dump(data, Dumper=_Dumper, sort_keys=False, default_flow_style=False, allow_unicode=True,
                      width=10 ** 6, indent=2)
     return GAUNTLET_HEADER + "\n" + body, len(floors), errors

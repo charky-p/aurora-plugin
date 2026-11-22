@@ -195,14 +195,14 @@ public class GauntletWorld implements Listener {
 
     // Gear from the main game would carry its stats into the gauntlet (taken out of
     // the Armory here, say), so anything with Aurora stats that is not gauntlet gear
-    // is taken away, as are main-game tools
+    // is taken away, as are main-game tools, but for the starting kit's own (the grapple)
     private void sweepAll() {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
             if (!manager.isHere(player)) continue;
             PlayerInventory inventory = player.getInventory();
             for (int slot = 0; slot < inventory.getSize(); slot++) {
                 ItemStack item = inventory.getItem(slot);
-                if (item == null || !item.hasItemMeta() || GauntletGear.gearId(item) != null) continue;
+                if (item == null || !item.hasItemMeta() || GauntletGear.gearId(item) != null || GauntletGear.isKit(item)) continue;
                 var pdc = item.getItemMeta().getPersistentDataContainer();
                 if (pdc.has(DataKeys.ENCHANT_KEY, PersistentDataType.TAG_CONTAINER)
                         || pdc.has(DataKeys.TOOL_KEY, PersistentDataType.STRING)) {

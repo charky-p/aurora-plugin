@@ -234,6 +234,12 @@ public class DataRegistry {
     // Drawn in the look's material when the player has bought it for this tool, the
     // best one owned otherwise. It digs at the best one's speed whatever it shows
     public ItemStack createTool(ToolType tool, Map<String, Integer> stats, Realms.Realm realm, String look) {
+        return createTool(tool, stats, realm == null ? "overworld" : realm.id(), look);
+    }
+
+    // As above, the lore's last line naming the world these levels are for: a realm, or
+    // the Gauntlet for the tools its starting kit hands out
+    public ItemStack createTool(ToolType tool, Map<String, Integer> stats, String world, String look) {
         int owned = stats.getOrDefault(ToolLevels.MATERIAL, 0);
         String best = ToolLevels.material(tool.materials(), owned);
         int lookLevel = look == null ? -1 : ToolLevels.materialLevel(tool.materials(), look);
@@ -246,8 +252,8 @@ public class DataRegistry {
         model.material = plain ? tool.item() : material + "_" + tool.item();
         if (Material.matchMaterial(model.material) == null) model.material = tool.materials().getFirst() + "_" + tool.item();
         model.type = tool.kind();
-        // The last line of the lore, the realm these levels are for
-        model.world = realm == null ? "overworld" : realm.id();
+        // The last line of the lore, the world these levels are for
+        model.world = world;
         model.enchants = new LinkedHashMap<>();
         stats.forEach((stat, level) -> {
             if (level > 0 && enchants.containsKey(stat)) model.enchants.put(stat, level);

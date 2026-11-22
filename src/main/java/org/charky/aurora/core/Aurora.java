@@ -338,6 +338,8 @@ public class Aurora extends JavaPlugin {
         gauntletManager.setSpectate(gauntletSpectate);
         this.gauntletParty = new GauntletParty(gauntletManager);
         gauntletManager.setParty(gauntletParty);
+        // Dash and Double Jump bought in the Gauntlet work in its world
+        perkManager.setGiver(gauntletManager::givesPerk);
         gauntletSpectate.start();
         gauntletManager.start();
         gauntletRuns.start();

@@ -15,6 +15,8 @@ import org.charky.aurora.features.build.BuildManager;
 import org.charky.aurora.features.cosmetic.Cosmetic;
 import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.cosmetic.Cosmetics;
+import org.charky.aurora.features.movement.DashListener;
+import org.charky.aurora.features.perk.Perk;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 
@@ -240,6 +242,21 @@ public class GauntletManager {
     // The gauntlet's world, and not while it is a build world being worked on
     public boolean isHere(Player player) {
         return arena.isGauntletWorld(player.getWorld()) && !build.isBuildWorld(player.getWorld());
+    }
+
+    // Dash and Double Jump of the Gauntlet's own, in its world (PerkManager asks): Dash
+    // with the starting kit's Dash Feather, Double Jump as a talent. Whoever bought them
+    // in the Essence shop has them here as well
+    public boolean givesPerk(Player player, Perk perk) {
+        if (!isHere(player)) return false;
+        GauntletProfile profile = profile(player);
+        return switch (perk) {
+            case DASH -> data().setup().values().stream()
+                    .anyMatch(item -> DashListener.ITEM.equals(item.mainItem()) && profile.setup.getOrDefault(item.id(), 0) > 0);
+            case DOUBLE_JUMP -> data().talents().values().stream()
+                    .anyMatch(talent -> talent.stat().equals("double_jump") && profile.talent(talent.id()) > 0);
+            default -> false;
+        };
     }
 
     // Made on first use, with the starter gear at level 0

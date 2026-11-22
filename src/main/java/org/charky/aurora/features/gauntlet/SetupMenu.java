@@ -31,8 +31,9 @@ public class SetupMenu extends PagedMenu {
         List<ItemStack> shown = new ArrayList<>();
         for (GauntletData.SetupItem setup : items) {
             int level = profile.setup.getOrDefault(setup.id(), 0);
-            ItemStack item = GauntletCarePackage.lootItem(setup.item(), 1);
+            ItemStack item = manager.setup().kitItem(setup, Math.max(level, 1));
             if (item == null) item = new ItemStack(Material.BARRIER);
+            item.setAmount(1);
             item.editMeta(meta -> {
                 meta.displayName(TextUtils.parse("<!italic><gold><b>" + setup.name()
                         + (setup.max() > 1 ? " <gray>" + level + "/" + setup.max() : "")));
@@ -40,7 +41,7 @@ public class SetupMenu extends PagedMenu {
                 List<Component> lore = new ArrayList<>();
                 lore.add(TextUtils.parse("<!italic><gray>" + setup.description()));
                 lore.add(Component.empty());
-                lore.add(TextUtils.parse("<!italic><gray>You start with: <white>" + Math.min(setup.amount() * level, 64)));
+                lore.add(TextUtils.parse("<!italic><gray>You start with: <white>" + setup.startsWith(level)));
                 if (level >= setup.max()) {
                     lore.add(TextUtils.parse("<!italic><green>Fully bought"));
                 } else {

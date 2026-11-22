@@ -128,4 +128,27 @@ class GauntletDataTest {
         assertEquals(4, data.setting("party_max", 0), "settings read as numbers");
         assertTrue(data.gear().isEmpty() && data.levels().isEmpty(), "missing sections are empty");
     }
+
+    // The starting kit's own items and the main game's tools and items
+    @Test
+    void setupItems() {
+        GauntletData.SetupItem quiver = new GauntletData.SetupItem("quiver", "Quiver", "ARROW", 16, 4, 120, 0, "");
+        assertNull(quiver.tool());
+        assertNull(quiver.mainItem());
+        assertEquals("48", quiver.startsWith(3));
+        assertEquals(64, quiver.count(5), "at most a stack");
+
+        GauntletData.SetupItem grapple = new GauntletData.SetupItem("grapple", "Grapple", "TOOL@grapple", 1, 6, 400, 0, "");
+        assertEquals("grapple", grapple.tool());
+        assertNull(grapple.mainItem());
+        assertEquals(0, grapple.upgrades(1), "no upgrades at the first level");
+        assertEquals(5, grapple.upgrades(6));
+        assertEquals("level 3", grapple.startsWith(3));
+        assertEquals("nothing", grapple.startsWith(0));
+
+        GauntletData.SetupItem dash = new GauntletData.SetupItem("dash", "Dash Feather", "ITEM@dash_feather", 1, 1, 1500, 0, "");
+        assertEquals("dash_feather", dash.mainItem());
+        assertNull(dash.tool());
+        assertEquals("1", dash.startsWith(1));
+    }
 }

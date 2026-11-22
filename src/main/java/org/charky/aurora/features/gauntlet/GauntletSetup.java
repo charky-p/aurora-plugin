@@ -96,13 +96,13 @@ public class GauntletSetup implements Listener {
         for (GauntletData.SetupItem setup : data.setup().values()) {
             int level = profile.setup.getOrDefault(setup.id(), 0);
             if (level <= 0) continue;
-            ItemStack item = GauntletCarePackage.lootItem(setup.item(), Math.min(setup.amount() * level, 64));
+            ItemStack item = kitItem(setup, level);
             if (item == null) continue;
             // In a run the kit is marked like the care packages' loot, so arrows and apples
             // stack with theirs; in the lobby it is marked for the layout
             if (run) GauntletGear.markRunItem(item);
             else item.editMeta(meta -> meta.getPersistentDataContainer().set(SETUP_KEY, PersistentDataType.STRING, setup.id()));
-            // The elytra never wears out
+            // Nothing of it wears out (the elytra, the grapple)
             if (item.getType().getMaxDurability() > 0) item.editMeta(meta -> meta.setUnbreakable(true));
             items.put(SETUP + setup.id(), item);
         }
@@ -121,6 +121,14 @@ public class GauntletSetup implements Listener {
                     List.of("<gray>Back to the main spawn,", "<gray>with your own inventory")));
         }
         return items;
+    }
+
+    // A kit item at a level: vanilla's, by the amount a level, or the main game's tool
+    // (its upgrades rising with the level) or item. Null if there is no such thing
+    ItemStack kitItem(GauntletData.SetupItem setup, int level) {
+        if (setup.tool() != null) return GauntletGear.mainTool(manager.registry(), setup.tool(), setup.upgrades(level));
+        if (setup.mainItem() != null) return GauntletGear.mainItem(manager.registry(), setup.mainItem());
+        return GauntletCarePackage.lootItem(setup.item(), setup.count(level));
     }
 
     // An item of the setup that does something when right clicked
@@ -367,7 +375,9 @@ public class GauntletSetup implements Listener {
         db.async(() -> store.saveSetup(uuid, setupId, next));
         manager.save(uuid);
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.6f, 1.2f);
-        TextUtils.send(player, "<green>You now start every run with <white>" + Math.min(setup.amount() * next, 64) + " " + setup.name());
+        TextUtils.send(player, setup.tool() == null
+                ? "<green>You now start every run with <white>" + setup.count(next) + " " + setup.name()
+                : "<green>Your " + setup.name() + " is now <white>level " + next);
         if (editing(player)) restore(player);
         manager.refreshBoard(player);
         return null;

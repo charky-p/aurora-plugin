@@ -26,7 +26,8 @@ import java.util.Map;
 import java.util.UUID;
 
 // Dash, an Essence shop perk: right click the Dash Feather to dash the way you face,
-// up to four times a second. /dash, or clicking Dash in the shop, hands the feather over again
+// up to four times a second. /dash, or clicking Dash in the shop, hands the feather over again.
+// The Gauntlet sells a Dash Feather of its own (PerkManager.has)
 public class DashListener implements Listener, CommandExecutor {
     public static final String ITEM = "dash_feather";
     private static final long COOLDOWN_MS = 250;
@@ -60,7 +61,7 @@ public class DashListener implements Listener, CommandExecutor {
         event.setCancelled(true);
 
         Player player = event.getPlayer();
-        if (!perks.owns(player, Perk.DASH)) {
+        if (!perks.has(player, Perk.DASH)) {
             player.sendActionBar(Component.text("Buy Dash in the Essence shop, /shop", NamedTextColor.RED));
             return;
         }
@@ -90,7 +91,7 @@ public class DashListener implements Listener, CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) return false;
-        if (!perks.owns(player, Perk.DASH)) {
+        if (!perks.has(player, Perk.DASH)) {
             player.sendActionBar(Component.text("Buy Dash in the Essence shop, /shop", NamedTextColor.RED));
             return true;
         }

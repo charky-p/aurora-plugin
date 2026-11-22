@@ -37,6 +37,8 @@
 # settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
+#   the item can be the main game's: TOOL@grapple (amount levels of each upgrade for every level after
+#   the first) or ITEM@dash_feather
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
@@ -2142,6 +2144,22 @@ setup:
     shards: 600
     cores: 0
     description: "2 ender pearls a level"
+  grapple:
+    name: Grapple
+    item: TOOL@grapple
+    amount: 1
+    max: 6
+    shards: 400
+    cores: 0
+    description: "Right click to be thrown where you look; each level adds Thrust and Recharge"
+  dash:
+    name: Dash Feather
+    item: ITEM@dash_feather
+    amount: 1
+    max: 1
+    shards: 1500
+    cores: 0
+    description: "Right click to dash where you face; four times a second"
   strength:
     name: Strength
     item: POTION@STRENGTH
@@ -2261,6 +2279,16 @@ talents:
     shards: 4000
     growth: 1.0
     cores: 3
+  double_jump:
+    name: Double Jump
+    icon: RABBIT_FOOT
+    description: "Jump again in mid-air once until you land; anywhere in the Gauntlet"
+    stat: double_jump
+    amount: 1.0
+    max: 1
+    shards: 2000
+    growth: 1.0
+    cores: 0
 mutators:
   swift:
     name: Swift

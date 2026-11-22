@@ -20,9 +20,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-// Double Jump, an Essence shop perk: press jump again in mid-air for a second jump, as
-// high as a normal one, once until you land. The press is read from the player's keys,
-// so one press is enough. Creative and spectator players fly as normal
+// Double Jump, an Essence shop perk (and a Gauntlet talent, PerkManager.has): press jump
+// again in mid-air for a second jump, as high as a normal one, once until you land. The
+// press is read from the player's keys, so one press is enough. Creative and spectator
+// players fly as normal
 public class DoubleJumpListener implements Listener {
     // Vanilla's own jump
     private static final double JUMP = 0.42;
@@ -50,7 +51,7 @@ public class DoubleJumpListener implements Listener {
         // The press that leaves the ground is the first jump, not this one
         if (!pressed || player.isOnGround() || used.contains(uuid) || !playing(player)) return;
         if (player.isInsideVehicle() || player.isGliding() || player.isFlying() || player.isInWater() || player.isClimbing()) return;
-        if (!perks.owns(player, Perk.DOUBLE_JUMP)) return;
+        if (!perks.has(player, Perk.DOUBLE_JUMP)) return;
 
         used.add(uuid);
         Vector velocity = player.getVelocity();

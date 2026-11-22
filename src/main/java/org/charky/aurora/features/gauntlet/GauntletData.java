@@ -176,16 +176,46 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     public record Milestone(int floor, int essence, String cosmetic) {
     }
 
-    // A starting kit item, bought a level at a time for good: amount a level, handed
-    // out at the start of every run. Level n costs n times shards and cores
+    // A starting kit item, bought a level at a time for good, handed out at the start of
+    // every run. Level n costs n times shards and cores. The item is vanilla's (as care
+    // package loot), amount of it a level, or the main game's: TOOL@grapple, amount levels
+    // of each of its upgrades for every level after the first, or ITEM@dash_feather
     public record SetupItem(String id, String name, String item, int amount, int max, int shards, int cores,
                             String description) {
+        private static final String TOOL = "TOOL@";
+        private static final String ITEM = "ITEM@";
+
         public int shardsFor(int level) {
             return shards * level;
         }
 
         public int coresFor(int level) {
             return cores * level;
+        }
+
+        // The main game's tool it is, null for anything else
+        public String tool() {
+            return item.startsWith(TOOL) ? item.substring(TOOL.length()) : null;
+        }
+
+        // The main game's item it is, null for anything else
+        public String mainItem() {
+            return item.startsWith(ITEM) ? item.substring(ITEM.length()) : null;
+        }
+
+        // How many a level starts a run with, at most a stack
+        public int count(int level) {
+            return Math.min(amount * level, 64);
+        }
+
+        // The level of each of a main-game tool's upgrades, none at the first level
+        public int upgrades(int level) {
+            return amount * Math.max(0, level - 1);
+        }
+
+        // What a level starts a run with, as the menu and chat say it
+        public String startsWith(int level) {
+            return tool() == null ? String.valueOf(count(level)) : level == 0 ? "nothing" : "level " + level;
         }
     }
 

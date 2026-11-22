@@ -1105,6 +1105,8 @@ GAUNTLET_HEADER = """# =========================================================
 # settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
+#   the item can be the main game's: TOOL@grapple (amount levels of each upgrade for every level after
+#   the first) or ITEM@dash_feather
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ==========================================================="""
@@ -1113,7 +1115,7 @@ GAUNTLET_KINDS = {"melee", "ranged", "thrown", "armor", "shield"}
 GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "guard", "dodge", "absorb",
                   "firststrike", "shards", "execute", "slayer", "cleave", "revive"}
 GAUNTLET_RARITIES = {"common", "rare", "epic", "legendary"}
-GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive", "headstart"}
+GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive", "headstart", "double_jump"}
 GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
 GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon", "fireball", "blink", "sonic"}
 GAUNTLET_WEAPON_PERK_STATS = {"damage", "crit", "firststrike", "execute", "slayer", "cleave", "killheal"}
@@ -1130,6 +1132,20 @@ def _gauntlet_rows(name):
         return None
     with open(path, newline="", encoding="utf-8") as f:
         return [row for row in csv.DictReader(f) if any((v or "").strip() for v in row.values())]
+
+
+# A starting kit item: vanilla's (as care loot) in upper case, or the main game's,
+# TOOL@<a tools.csv id> or ITEM@<an item id>, its id in lower case
+def _setup_item(row, errors):
+    kind, _, ident = row["item"].strip().partition("@")
+    if kind.upper() not in ("TOOL", "ITEM"):
+        return row["item"].strip().upper()
+    files = ["tools.csv"] if kind.upper() == "TOOL" else \
+        ["gear_other.csv", "gear_weapons.csv", "gear_armor.csv", "resources.csv", "resources_special.csv"]
+    ids = {r.get("id") for name in files for r in read_rows(data_path(name)) or []}
+    if ident.lower() not in ids:
+        errors.append(f"gauntlet setup '{row['id']}': the main game has no {kind.lower()} '{ident}'")
+    return kind.upper() + "@" + ident.lower()
 
 
 def _gauntlet_loot(text, where, errors):
@@ -1295,7 +1311,7 @@ def gauntlet_text(mobs, cosmetics):
 
     setup = OrderedDict()
     for row in _gauntlet_rows("setup.csv") or []:
-        setup[row["id"]] = OrderedDict(name=row["name"], item=row["item"].upper(), amount=int(row["amount"]),
+        setup[row["id"]] = OrderedDict(name=row["name"], item=_setup_item(row, errors), amount=int(row["amount"]),
                                        max=int(row["max"]), shards=int(row["shards"]), cores=int(row["cores"] or 0),
                                        description=Quoted(row["description"]))
 

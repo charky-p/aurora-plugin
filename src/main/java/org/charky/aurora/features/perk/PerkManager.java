@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.BiPredicate;
 
 // The perk levels each player has bought, and what those levels do
 public class PerkManager implements Listener, LoadoutData {
@@ -35,6 +36,9 @@ public class PerkManager implements Listener, LoadoutData {
     private final PlayerManager players;
     private final ScoreboardManager scoreboard;
     private final Map<UUID, Map<String, Integer>> levels;
+    // Where else a perk is had: the Gauntlet gives Dash and Double Jump of its own in its
+    // world, from its starting kit and talents
+    private BiPredicate<Player, Perk> giver = (player, perk) -> false;
 
     public PerkManager(Aurora plugin, Database db, PerkStore store, PlayerManager players, ScoreboardManager scoreboard) {
         this.plugin = plugin;
@@ -71,6 +75,15 @@ public class PerkManager implements Listener, LoadoutData {
 
     public boolean owns(Player player, Perk perk) {
         return level(player, perk) > 0;
+    }
+
+    public void setGiver(BiPredicate<Player, Perk> giver) {
+        this.giver = giver;
+    }
+
+    // Whether the player has the perk where they stand: bought here, or given there
+    public boolean has(Player player, Perk perk) {
+        return owns(player, perk) || giver.test(player, perk);
     }
 
     // Null if the next level was bought, otherwise why not

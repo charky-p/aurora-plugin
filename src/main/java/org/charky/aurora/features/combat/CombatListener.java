@@ -3,14 +3,17 @@ package org.charky.aurora.features.combat;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EvokerFangs;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.entity.Trident;
+import org.bukkit.entity.Vex;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -174,6 +177,8 @@ public class CombatListener implements Listener {
             case Player ignored -> null;
             case LivingEntity living -> living;
             case Projectile projectile when projectile.getShooter() instanceof LivingEntity shooter -> shooter;
+            // An evoker's fangs bite as the evoker, priced as its melee hit
+            case EvokerFangs fangs -> fangs.getOwner();
             default -> null;
         };
     }
@@ -204,6 +209,16 @@ public class CombatListener implements Listener {
         for (LivingEntity hit : event.getAffectedEntities()) {
             event.setIntensity(hit, 0);
             if (hit instanceof Player player) player.damage(1.0, source);
+        }
+    }
+
+    // An evoker of ours attacks with its fangs alone. The vexes it would summon are
+    // vanilla mobs with no data: vanilla damage, no drops, flying through walls
+    @EventHandler(ignoreCancelled = true)
+    public void onSummon(CreatureSpawnEvent event) {
+        if (event.getEntity() instanceof Vex vex && vex.getSummoner() != null
+                && CustomHealth.isTracked(vex.getSummoner())) {
+            event.setCancelled(true);
         }
     }
 

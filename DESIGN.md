@@ -24,7 +24,7 @@ Ideas not built yet. What is built is described in [docs/PROGRESSION.md](docs/PR
 | Citadel Keep | tinted glass, obsidian | crossbowman |
 | The Eye | none | Storm Tyrant (boss) |
 
-For any new region: only use mobs that melee, shoot arrows or throw potions (witches; leave their `attack_cooldown` empty). Creepers, slimes and evokers aren't handled by the combat system.
+For any new region: only use mobs that melee, shoot arrows, throw potions (witches; leave their `attack_cooldown` empty) or cast fangs (evokers, which summon no vexes). Creepers and slimes aren't handled by the combat system.
 
 ## When building
 

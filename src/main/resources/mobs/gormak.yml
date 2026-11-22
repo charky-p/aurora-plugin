@@ -33,10 +33,10 @@ items:
   hollowed_serf:
     display: "<gray><b>Hollowed Serf"
     entity: ZOMBIE_VILLAGER
-    health: 50.0
+    health: 30.0
     defence: 2.0
     attack: 11.0
-    damage: 1.5
+    damage: 0.45
     density: 3
     equip:
       head: serf_helmet_1
@@ -48,19 +48,16 @@ items:
     independent:
       - id: tattered_cloth
         max: 3
-      - id: ancient_scrap
-        chance: 25
-        max: 2
       - id: serf_cleaver
         chance: 0.25
 
   scavenger_husk:
     display: "<gray><b>Scavenger Husk"
     entity: HUSK
-    health: 95.0
+    health: 55.0
     defence: 3.0
     attack: 11.0
-    damage: 1.5
+    damage: 0.45
     density: 3
     equip:
       head: scavenger_helmet_1
@@ -76,19 +73,16 @@ items:
       - id: ancient_scrap
         min: 2
         max: 4
-      - id: tattered_cloth
-        chance: 25
-        max: 2
       - id: scavenger_shiv
         chance: 0.25
 
   dune_scout:
     display: "<yellow><b>Dune Scout"
     entity: HUSK
-    health: 95.0
+    health: 55.0
     defence: 4.0
     attack: 15.0
-    damage: 1.5
+    damage: 0.45
     density: 4
     equip:
       head: scout_helmet_1
@@ -111,10 +105,10 @@ items:
   sand_stalker:
     display: "<gold><b>Sand Stalker"
     entity: PARCHED
-    health: 155.0
+    health: 95.0
     defence: 5.0
     attack: 11.0
-    damage: 1.5
+    damage: 0.45
     density: 4
     equip:
       head: stalker_helmet_1
@@ -138,10 +132,10 @@ items:
   tomb_guard:
     display: "<gold><b>Tomb Guard"
     entity: HUSK
-    health: 300.0
+    health: 180.0
     defence: 10.0
     attack: 23.0
-    damage: 1.5
+    damage: 0.45
     density: 5
     equip:
       head: guard_helmet_1
@@ -166,10 +160,10 @@ items:
   vizier_mage:
     display: "<yellow><b>Vizier Mage"
     entity: SKELETON
-    health: 265.0
+    health: 160.0
     defence: 12.0
     attack: 23.0
-    damage: 1.5
+    damage: 0.45
     density: 5
     equip:
       head: vizier_helmet_1
@@ -192,11 +186,11 @@ items:
   gormak_eternal:
     display: "<dark_red><b>Gormak the Eternal"
     entity: HUSK
-    health: 2150.0
+    health: 1290.0
     defence: 18.0
     attack: 29.0
     attack_cooldown: 3.0
-    damage: 1.5
+    damage: 0.45
     equip:
       head: eternal_helmet_1
       chest: eternal_chestplate_1
@@ -227,9 +221,9 @@ items:
   gormak_ghoul:
     display: "<gray><b>Gormak Ghoul"
     entity: HUSK
-    health: 70.0
+    health: 40.0
     attack: 21.0
-    damage: 1.5
+    damage: 0.45
     equip:
       hand: ghoul_scythe
     attributes:
@@ -241,10 +235,10 @@ items:
   gormak_minion:
     display: "<yellow><b>Gormak Minion"
     entity: ZOMBIE
-    health: 145.0
+    health: 85.0
     defence: 4.0
     attack: 21.0
-    damage: 1.5
+    damage: 0.45
     density: 6
     equip:
       head: serf_helmet_1
@@ -263,10 +257,10 @@ items:
   gormak_guardian:
     display: "<gold><b>Gormak Guardian"
     entity: HUSK
-    health: 600.0
+    health: 360.0
     defence: 16.0
     attack: 25.0
-    damage: 1.5
+    damage: 0.45
     density: 6
     equip:
       head: guard_helmet_1
@@ -292,10 +286,10 @@ items:
   mirage:
     display: "<light_purple><b>Mirage"
     entity: HUSK
-    health: 480.0
+    health: 290.0
     defence: 5.0
     attack: 17.0
-    damage: 1.5
+    damage: 0.45
     equip:
       head: mirage_helmet_1
       chest: mirage_chestplate_1

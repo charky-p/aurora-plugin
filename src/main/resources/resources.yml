@@ -102,7 +102,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Hollowed Serfs"
-    collection: 80
+    collection: 150
 
   ancient_scrap:
     display: "<gray><b>Ancient Scrap"
@@ -111,7 +111,7 @@ items:
     region: "gormak_city"
     lore:
       - "<dark_gray>Dropped by Scavenger Husks"
-    collection: 64
+    collection: 160
 
   sunbaked_sand:
     display: "<yellow>Sunbaked Sandstone"
@@ -129,7 +129,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Dune Scouts"
-    collection: 40
+    collection: 100
 
   ancient_bone:
     display: "<white><b>Ancient Bone"
@@ -138,7 +138,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Sand Stalkers"
-    collection: 24
+    collection: 80
 
   crimson_sand:
     display: "<#B4462A>Crimson Sandstone"
@@ -192,7 +192,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Tomb Guards"
-    collection: 20
+    collection: 64
 
   vizier_scroll:
     display: "<yellow><b>Vizier Scroll"
@@ -201,7 +201,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Vizier Mages"
-    collection: 32
+    collection: 100
 
   eternal_soul:
     display: "<dark_purple><b>Eternal Soul"
@@ -1393,7 +1393,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Gormak"
-    collection: 300
+    collection: 250
 
   guardian_sigil:
     display: "<gold><b>Guardian Sigil"
@@ -1402,7 +1402,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Gormak"
-    collection: 80
+    collection: 250
 
   fishing_junk:
     display: "<dark_gray>Junk"

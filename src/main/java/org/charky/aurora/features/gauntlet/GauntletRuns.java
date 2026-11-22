@@ -1,6 +1,7 @@
 package org.charky.aurora.features.gauntlet;
 
 import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -498,18 +499,27 @@ public class GauntletRuns implements Listener {
         GauntletData.Floor floor = data().floor(run.floor);
         boolean boss = floor != null && floor.boss();
         run.mutator = boss ? null : waves.rollMutator(run);
-        String subtitle = boss ? "<gold>A boss awaits"
-                : run.mutator != null ? "<light_purple>" + run.mutator.name() + " <gray>- " + run.mutator.description()
-                : "<gray>Get ready";
+        Component subtitle = boss ? bossIntro(floor)
+                : TextUtils.parse(run.mutator != null ? "<light_purple>" + run.mutator.name() + " <gray>- " + run.mutator.description()
+                : "<gray>Get ready");
         Title title = Title.title(TextUtils.parse((boss ? "<dark_red><b>" : "<red><b>") + "FLOOR " + run.floor
                         + (run.heat > 0 ? " <gold>H" + run.heat : "")),
-                TextUtils.parse(subtitle), Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(1800), Duration.ofMillis(400)));
+                subtitle, Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(1800), Duration.ofMillis(400)));
+        if (boss) run.sound(Sound.ENTITY_WITHER_SPAWN, 0.4f, 0.8f);
         for (Player player : run.online()) player.showTitle(title);
         if (run.mutator != null) run.tell("<light_purple><b>MUTATOR</b> <white>" + run.mutator.name()
                 + " <gray>" + run.mutator.description() + " <aqua>(+" + run.mutator.shards() + "% Shards this floor)");
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (!run.over && !run.members.isEmpty()) startFight(run);
         }, FLOOR_DELAY_TICKS);
+    }
+
+    // "The Rot King awaits", the boss by its own name
+    private Component bossIntro(GauntletData.Floor floor) {
+        String id = floor.mobs().keySet().stream().filter(floor::isBoss).findFirst().orElse(null);
+        MobData mob = id == null ? null : manager.registry().getMob(id);
+        if (mob == null) return TextUtils.parse("<gold>A boss awaits");
+        return Component.empty().append(mob.displayName()).append(TextUtils.parse(" <gold>awaits"));
     }
 
     // The floor's wave comes in, and Bulwark and the Netherite Set give their absorption

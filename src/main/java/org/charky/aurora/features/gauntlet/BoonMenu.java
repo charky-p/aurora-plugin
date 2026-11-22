@@ -39,6 +39,7 @@ public class BoonMenu extends PagedMenu {
                 lore.add(TextUtils.parse("<!italic>" + boon.colour() + Character.toUpperCase(boon.rarity().charAt(0)) + boon.rarity().substring(1)));
                 lore.add(TextUtils.parse("<!italic><gray>" + boon.description()));
                 if (boon.legendary()) lore.add(TextUtils.parse("<!italic><gold>Evolved from " + evolvedFrom(boon)));
+                for (String hint : evolvesInto(player, boon)) lore.add(TextUtils.parse("<!italic>" + hint));
                 lore.add(Component.empty());
                 lore.add(TextUtils.parse("<!italic><gray>Taken: <white>" + stacks + "/" + boon.max()));
                 lore.add(TextUtils.parse("<!italic><yellow>Click to take it"));
@@ -48,6 +49,22 @@ public class BoonMenu extends PagedMenu {
             items.add(item);
         }
         return items;
+    }
+
+    // The legendaries a boon is part of that the player has yet to take: "Evolves with Might into Whirlwind"
+    private List<String> evolvesInto(Player player, GauntletData.Boon boon) {
+        List<String> hints = new ArrayList<>();
+        if (boon.legendary()) return hints;
+        for (GauntletData.Boon legendary : registry.getGauntlet().boons().values()) {
+            if (!legendary.requires().contains(boon.id()) || runs.stacks(player, legendary.id()) > 0) continue;
+            List<String> others = new ArrayList<>();
+            for (String id : legendary.requires()) {
+                GauntletData.Boon other = registry.getGauntlet().boons().get(id);
+                if (!id.equals(boon.id())) others.add(other == null ? id : other.name());
+            }
+            hints.add("<dark_gray>Evolves with <gray>" + String.join(" + ", others) + " <dark_gray>into " + legendary.colour() + legendary.name());
+        }
+        return hints;
     }
 
     // The boons a legendary needs, by name: "Cleave + Might"

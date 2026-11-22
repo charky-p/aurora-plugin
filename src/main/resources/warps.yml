@@ -11,7 +11,7 @@
 items:
   origin:
     icon: icon_origin
-    world: aurora_test
+    world: aurora_overworld
     region: origin_isles
 
   gormak:

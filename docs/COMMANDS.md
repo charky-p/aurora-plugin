@@ -21,7 +21,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/shop` | The Essence shop: Dash, Double Jump (press jump again in mid-air for a normal second jump), mounts, the Keyring and ranks. Mounts have three levels, each faster: left click upgrades one you own, right click gives its saddle again. Click anything else you own to use it again |
 | `/dash` | The Dash Feather again, once Dash is bought: right click it to dash the way you face, once a second |
 | `/tutorial skip` | Leave the first-join tutorial without its reward. The Skip link in chat runs it |
-| `/gauntlet` | Go to the Gauntlet's lobby; there, open its menu (also the nether star in your setup): start a run, the forge, the starting kit, milestones, top floors, leave. `/gauntlet start` starts a run, `/gauntlet forge` opens the forge, `/gauntlet boon` reopens a boon waiting to be picked, `/gauntlet leave` goes back to the main spawn with your own inventory |
+| `/gauntlet` | Go to the Gauntlet's lobby; there, open its menu (also the nether star in your setup): start a run, the forge, the starting kit, talents, daily challenges, milestones, top floors, PvP, leave. `/gauntlet start [floor]` starts a run (on a checkpoint floor once past a boss), `/gauntlet forge` and `/gauntlet talents` open those, `/gauntlet boon` reopens a boon waiting to be picked, `/gauntlet leave` goes back to the main spawn with your own inventory |
 | `/discord` | A clickable link to the Aurora Discord, https://discord.gg/MefQWSgkBA |
 | `/suggest <your idea>` | Send an idea to the staff, up to 256 characters, one a minute. Staff online see it straight away, and it is saved for `/a suggestions` |
 

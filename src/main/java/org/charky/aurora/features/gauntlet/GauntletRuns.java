@@ -75,6 +75,7 @@ public class GauntletRuns implements Listener {
     private static final double CLEAVE_RANGE = 3;
     private static final double EXECUTE_BELOW = 0.3;
     private static final String DAILY_DAY = "daily_day";
+    private static final String HEAT_CHOICE = "heat_choice";
     private static final NamespacedKey HEALTH_BOON = new NamespacedKey("aurora", "gauntlet_health");
     private static final NamespacedKey SPEED_BOON = new NamespacedKey("aurora", "gauntlet_speed");
     private static final NamespacedKey ABSORB_BOON = new NamespacedKey("aurora", "gauntlet_absorb");
@@ -87,6 +88,7 @@ public class GauntletRuns implements Listener {
     private final GauntletManager manager;
     private final SpawnerManager spawners;
     private final Map<UUID, Run> runs = new HashMap<>();
+    private final GauntletBossAbilities abilities;
     private BukkitTask task;
 
     private enum State { STARTING, FIGHTING, CHOOSING }
@@ -96,6 +98,7 @@ public class GauntletRuns implements Listener {
         final int slot;
         final long started = System.currentTimeMillis();
         int startFloor = 1;
+        int heat;
         int floor;
         int shards;
         int cores;
@@ -140,6 +143,7 @@ public class GauntletRuns implements Listener {
         this.plugin = plugin;
         this.manager = manager;
         this.spawners = spawners;
+        this.abilities = new GauntletBossAbilities(plugin, manager.registry());
         CombatHooks.set(this::outgoing, this::incoming, this::afterHit);
     }
 
@@ -187,13 +191,34 @@ public class GauntletRuns implements Listener {
     }
 
     // From the menu, the start portal and /gauntlet start: straight into floor 1, or a
-    // pick of checkpoints for those past a boss. Null if it went on, otherwise why not
+    // pick of checkpoints and heat for those past a boss. Null if it went on, otherwise why not
     public String startFlow(Player player) {
         String problem = canBegin(player);
         if (problem != null) return problem;
-        if (checkpoints(player).size() > 1) new CheckpointMenu(manager, this).open(player);
+        if (checkpoints(player).size() > 1 || heatUnlocked(player) > 0) new CheckpointMenu(manager, this).open(player);
         else return begin(player, 1);
         return null;
+    }
+
+    // Heat makes a run harder and pay more; a level unlocks every few floors of the best
+    public int heatUnlocked(Player player) {
+        return data().heatUnlocked(manager.profile(player).best);
+    }
+
+    // The heat the next run starts at, never above what is unlocked
+    public int heat(Player player) {
+        return Math.min(manager.profile(player).stat(HEAT_CHOICE), heatUnlocked(player));
+    }
+
+    // Steps the chosen heat up, back to 0 past the highest unlocked
+    void nextHeat(Player player) {
+        int unlocked = heatUnlocked(player);
+        int next = heat(player) >= unlocked ? 0 : heat(player) + 1;
+        manager.setStat(player.getUniqueId(), HEAT_CHOICE, next);
+    }
+
+    private double heatPay(Run run) {
+        return 1 + run.heat * data().setting("heat_shards", 30) / 100;
     }
 
     private String canBegin(Player player) {
@@ -222,6 +247,7 @@ public class GauntletRuns implements Listener {
         Run run = new Run(player.getUniqueId(), slot);
         run.bestBefore = profile.best;
         run.startFloor = startFloor;
+        run.heat = heat(player);
         run.floor = startFloor - 1;
         run.rerolls = (int) talentTotal(profile, "reroll");
         run.revives = (int) talentTotal(profile, "revive");
@@ -242,6 +268,10 @@ public class GauntletRuns implements Listener {
         run.bar = BossBar.bossBar(TextUtils.parse("<red><b>Floor " + startFloor), 0f, BossBar.Color.RED, BossBar.Overlay.PROGRESS);
         player.showBossBar(run.bar);
 
+        if (run.heat > 0) TextUtils.send(player, "<gold><b>HEAT " + run.heat + "</b> <gray>Mobs have <white>+"
+                + fmt(run.heat * data().setting("heat_health", 25)) + "%</white> health and hit <white>+"
+                + fmt(run.heat * data().setting("heat_damage", 15)) + "%</white> harder, for <aqua>+"
+                + fmt(run.heat * data().setting("heat_shards", 30)) + "% Shards");
         if (run.daily) TextUtils.send(player, "<gold><b>DAILY BONUS</b> <gray>Your first run today pays <white>"
                 + fmt(data().setting("daily_bonus", 2)) + "x</white> Shards");
         if (first) {
@@ -314,7 +344,8 @@ public class GauntletRuns implements Listener {
         TextUtils.send(player, "");
         TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>RUN OVER</b></gradient> <gray>" + (why == End.DIED
                 ? "fell on floor <white>" + run.floor : "left on floor <white>" + run.floor)
-                + (run.startFloor > 1 ? " <dark_gray>(started on " + run.startFloor + ")" : ""));
+                + (run.startFloor > 1 ? " <dark_gray>(started on " + run.startFloor + ")" : "")
+                + (run.heat > 0 ? " <gold>Heat " + run.heat : ""));
         TextUtils.send(player, "<gray>Cleared <white>" + cleared + "</white> in <white>" + time + "</white>, <white>"
                 + run.kills + "</white> kills (" + run.eliteKills + " elite), <white>" + run.fastClears + "</white> fast clears");
         String bonus = (greed > 0 ? " <gray>+" + fmt(greed) + "% greed" : "") + (daily > 1 ? " <gray>x" + fmt(daily) + " daily" : "");
@@ -362,7 +393,8 @@ public class GauntletRuns implements Listener {
         String subtitle = boss ? "<gold>A boss awaits"
                 : run.mutator != null ? "<light_purple>" + run.mutator.name() + " <gray>- " + run.mutator.description()
                 : "<gray>Get ready";
-        player.showTitle(Title.title(TextUtils.parse((boss ? "<dark_red><b>" : "<red><b>") + "FLOOR " + run.floor),
+        player.showTitle(Title.title(TextUtils.parse((boss ? "<dark_red><b>" : "<red><b>") + "FLOOR " + run.floor
+                        + (run.heat > 0 ? " <gold>H" + run.heat : "")),
                 TextUtils.parse(subtitle), Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(1800), Duration.ofMillis(400))));
         if (run.mutator != null) TextUtils.send(player, "<light_purple><b>MUTATOR</b> <white>" + run.mutator.name()
                 + " <gray>" + run.mutator.description() + " <aqua>(+" + run.mutator.shards() + "% Shards this floor)");
@@ -402,7 +434,7 @@ public class GauntletRuns implements Listener {
             int count = boss ? entry.getValue() : (int) Math.ceil(entry.getValue() * (run.mutator == null ? 1 : run.mutator.count()));
             for (int i = 0; i < count; i++) {
                 boolean elite = !boss && ThreadLocalRandom.current().nextDouble(100) < eliteChance;
-                String id = new GauntletData.Variant(entry.getKey(), run.floor, elite, mutatorId).id();
+                String id = new GauntletData.Variant(entry.getKey(), run.floor, elite, run.heat, mutatorId).id();
                 Location at = spawns.get(next++ % spawns.size()).clone()
                         .add(ThreadLocalRandom.current().nextDouble(-1.5, 1.5), 0, ThreadLocalRandom.current().nextDouble(-1.5, 1.5));
                 LivingEntity mob = spawn(player, run, id, at);
@@ -461,6 +493,7 @@ public class GauntletRuns implements Listener {
                     return false;
                 });
                 bossPhases(player, run);
+                bossAbilities(player, run);
                 if (run.mobs.isEmpty()) cleared(player, run);
                 // The player fell out of their arena
                 else if (spawn != null && !manager.arena().isInSlot(run.slot, player.getLocation())
@@ -499,7 +532,8 @@ public class GauntletRuns implements Listener {
             case FIGHTING -> {
                 int total = Math.max(1, run.floorMobs);
                 run.bar.name(TextUtils.parse("<red><b>Floor " + run.floor + "</b> <gray>" + (total - Math.min(total, run.mobs.size()))
-                        + "/" + total + " killed" + (run.mutator != null ? " <light_purple>" + run.mutator.name() : "")));
+                        + "/" + total + " killed" + (run.mutator != null ? " <light_purple>" + run.mutator.name() : "")
+                        + (run.heat > 0 ? " <gold>Heat " + run.heat : "")));
                 run.bar.progress((float) Math.clamp(1 - (double) run.mobs.size() / total, 0, 1));
             }
             case CHOOSING -> {
@@ -535,16 +569,42 @@ public class GauntletRuns implements Listener {
         }
     }
 
+    // The boss's own abilities (bosses.csv), fought in this run
+    private void bossAbilities(Player player, Run run) {
+        if (run.boss == null || !(Bukkit.getEntity(run.boss) instanceof LivingEntity boss) || !boss.isValid()) return;
+        String mobId = boss.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
+        List<GauntletData.BossAbility> list = data().bosses().getOrDefault(GauntletData.baseMobId(mobId), List.of());
+        abilities.tick(player, boss, list, run.floor, new GauntletBossAbilities.Fight() {
+            @Override
+            public boolean on() {
+                return runs.get(run.player) == run && run.state == State.FIGHTING;
+            }
+
+            @Override
+            public void summon(int count) {
+                callAdds(player, run, boss, count);
+            }
+
+            @Override
+            public double incoming(Player victim, double damage) {
+                return GauntletRuns.this.incoming(victim, damage);
+            }
+        });
+    }
+
     private void callAdds(Player player, Run run, LivingEntity boss) {
+        callAdds(player, run, boss, (int) data().setting("boss_adds", 2) + run.floor / 10);
+    }
+
+    private void callAdds(Player player, Run run, LivingEntity boss, int adds) {
         GauntletData.Floor floor = data().floor(run.floor);
         List<String> kinds = floor.mobs().keySet().stream().filter(id -> !floor.isBoss(id)).toList();
-        if (kinds.isEmpty()) return;
-        int adds = (int) data().setting("boss_adds", 2) + run.floor / 10;
+        if (kinds.isEmpty() || adds <= 0) return;
         String mutatorId = run.mutator == null ? null : run.mutator.id();
         for (int i = 0; i < adds; i++) {
             String kind = kinds.get(ThreadLocalRandom.current().nextInt(kinds.size()));
             Location at = boss.getLocation().clone().add(ThreadLocalRandom.current().nextDouble(-2, 2), 0, ThreadLocalRandom.current().nextDouble(-2, 2));
-            spawn(player, run, new GauntletData.Variant(kind, run.floor, false, mutatorId).id(), at);
+            spawn(player, run, new GauntletData.Variant(kind, run.floor, false, run.heat, mutatorId).id(), at);
         }
         run.floorMobs += adds;
         player.playSound(boss.getLocation(), Sound.EVENT_RAID_HORN, 0.5f, 1.4f);
@@ -553,7 +613,7 @@ public class GauntletRuns implements Listener {
 
     private void cleared(Player player, Run run) {
         GauntletData.Floor floor = data().floor(run.floor);
-        double mutated = run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0;
+        double mutated = (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run);
         int bonus = (int) Math.round(floor.shards() * mutated);
         run.shards += bonus;
         run.cores += floor.cores();
@@ -624,7 +684,10 @@ public class GauntletRuns implements Listener {
             boolean elite = run.elites.remove(id);
             if (elite) run.eliteKills++;
             boolean boss = id.equals(run.boss);
-            if (boss) run.boss = null;
+            if (boss) {
+                run.boss = null;
+                abilities.forget(id);
+            }
             if (player != null) {
                 GauntletChallenges challenges = manager.challenges();
                 challenges.add(player, "kills", 1);
@@ -636,7 +699,7 @@ public class GauntletRuns implements Listener {
             if (mobId != null && floor != null) {
                 String base = GauntletData.baseMobId(mobId);
                 double pay = floor.killPay(base) * (elite ? data().setting("elite_pay", 3) : 1)
-                        * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0);
+                        * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run);
                 int paid = (int) Math.round(pay);
                 run.shards += paid;
                 if (player != null) {

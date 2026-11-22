@@ -24,3 +24,12 @@ pvp_streak_shards,2,More Shards a kill for each kill of a streak (up to 5)
 pvp_shutdown_shards,3,Shards for each kill of a streak of 3 or more that you end
 challenges_per_day,3,"Daily challenges a day, the same for everyone"
 challenge_reward_per_floor,10,A challenge pays this percent more Shards for every floor of your best
+heat_max,5,The highest heat level
+heat_first,15,The best floor that unlocks heat 1
+heat_every,10,Floors more for each heat level after
+heat_health,25,Percent more mob health a heat level
+heat_damage,15,Percent harder mob hits a heat level
+heat_shards,30,Percent more Shards a heat level
+duel_seconds,180,A duel ends after this many seconds; the one with more health left wins
+duel_win_shards,10,Shards for winning a duel (not twice in a row against the same player)
+duel_k,32,How far one duel moves a rating

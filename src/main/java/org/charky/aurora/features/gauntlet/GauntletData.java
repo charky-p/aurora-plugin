@@ -23,7 +23,8 @@ import java.util.logging.Level;
 public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<GearLevel> levels,
                            Map<String, Boon> boons, List<CareLevel> care, List<Milestone> milestones,
                            Map<String, SetupItem> setup, Map<String, Talent> talents, Map<String, Mutator> mutators,
-                           Map<String, Challenge> challenges, Map<String, Double> settings) {
+                           Map<String, Challenge> challenges, Map<String, List<BossAbility>> bosses,
+                           Map<String, Double> settings) {
     private static final String FILE = "gauntlet.yml";
     // Past the last floor in the file it repeats, every mob this much tougher a floor
     // and ATTACK_PER_FLOOR attack levels stronger (gauntlet_balance.py)
@@ -104,6 +105,10 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         }
     }
 
+    // One of a boss's abilities (see GauntletBossAbilities) and how often, in seconds
+    public record BossAbility(String type, int cooldown) {
+    }
+
     // What can change a floor: its mobs' health, hits, speed, how many there are, how
     // often they are elite, and the percent more Shards the floor pays
     public record Mutator(String id, String name, String description, double health, double damage, double speed,
@@ -133,7 +138,7 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     }
 
     public static GauntletData empty() {
-        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of());
+        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of());
     }
 
     // Empty when the file is missing or broken, the gauntlet then refuses to start
@@ -220,10 +225,18 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                     challenges.put(id, new Challenge(id, str(row.get("description")), str(row.get("stat")),
                             num(row.get("goal")).intValue(), num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
                             Boolean.TRUE.equals(row.get("scale")))));
+            Map<String, List<BossAbility>> bosses = new LinkedHashMap<>();
+            ((Map<String, Object>) root.getOrDefault("bosses", Map.of())).forEach((id, value) -> {
+                List<BossAbility> abilities = new ArrayList<>();
+                for (Map<String, Object> ability : list(value)) {
+                    abilities.add(new BossAbility(str(ability.get("type")), Math.max(1, num(ability.get("cooldown")).intValue())));
+                }
+                bosses.put(id, List.copyOf(abilities));
+            });
             Map<String, Double> settings = new LinkedHashMap<>();
             ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
             return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care),
-                    List.copyOf(milestones), setup, talents, mutators, challenges, settings);
+                    List.copyOf(milestones), setup, talents, mutators, challenges, bosses, settings);
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load " + FILE, e);
             return empty();
@@ -233,6 +246,13 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     // A tuning number from settings.csv, or the fallback when it is missing
     public double setting(String key, double fallback) {
         return settings.getOrDefault(key, fallback);
+    }
+
+    // The highest heat a best floor unlocks: heat_first for 1, heat_every more for each after
+    public int heatUnlocked(int best) {
+        double first = setting("heat_first", 15), every = Math.max(1, setting("heat_every", 10));
+        if (best < first) return 0;
+        return (int) Math.min(setting("heat_max", 5), 1 + Math.floor((best - first) / every));
     }
 
     public boolean ready() {
@@ -271,14 +291,17 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         return care.isEmpty() ? 0 : care.getLast().level();
     }
 
-    // A mob as it is on a floor: g_rotter#12, g_rotter#12* when elite, and
-    // g_rotter#12*~swift with the floor's mutator. Made from the base mob on the fly
-    public record Variant(String base, int floor, boolean elite, String mutator) {
+    // A mob as it is on a floor: g_rotter#12, g_rotter#12* when elite, g_rotter#12*^2
+    // at heat 2, and g_rotter#12*^2~swift with the floor's mutator. Made from the base
+    // mob on the fly
+    public record Variant(String base, int floor, boolean elite, int heat, String mutator) {
         static final String ELITE = "*";
+        static final String HEAT = "^";
         static final String MUTATOR = "~";
 
         public String id() {
-            return base + FLOOR_SEP + floor + (elite ? ELITE : "") + (mutator == null ? "" : MUTATOR + mutator);
+            return base + FLOOR_SEP + floor + (elite ? ELITE : "") + (heat > 0 ? HEAT + heat : "")
+                    + (mutator == null ? "" : MUTATOR + mutator);
         }
 
         // Null for an id that is no variant
@@ -290,12 +313,18 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                 mutator = id.substring(tilde + 1);
                 id = id.substring(0, tilde);
             }
-            boolean elite = id.endsWith(ELITE);
-            if (elite) id = id.substring(0, id.length() - 1);
-            int sep = id.lastIndexOf(FLOOR_SEP);
-            if (sep < 0) return null;
             try {
-                return new Variant(id.substring(0, sep), Integer.parseInt(id.substring(sep + 1)), elite, mutator);
+                int heat = 0;
+                int caret = id.indexOf(HEAT);
+                if (caret >= 0) {
+                    heat = Integer.parseInt(id.substring(caret + 1));
+                    id = id.substring(0, caret);
+                }
+                boolean elite = id.endsWith(ELITE);
+                if (elite) id = id.substring(0, id.length() - 1);
+                int sep = id.lastIndexOf(FLOOR_SEP);
+                if (sep < 0) return null;
+                return new Variant(id.substring(0, sep), Integer.parseInt(id.substring(sep + 1)), elite, heat, mutator);
             } catch (NumberFormatException e) {
                 return null;
             }
@@ -303,7 +332,7 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     }
 
     public static String floorMobId(String mobId, int floor) {
-        return new Variant(mobId, floor, false, null).id();
+        return new Variant(mobId, floor, false, 0, null).id();
     }
 
     // The base mob of a floor mob id, g_rotter from g_rotter#12*~swift
@@ -313,8 +342,9 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     }
 
     // A mob on its floor: the base mob's health times the floor's, its attack plus the
-    // floor's; an elite's health and hits times elite_health and elite_damage, and the
-    // floor's mutator on top. Null for an id that is not one
+    // floor's; an elite's health and hits times elite_health and elite_damage, the
+    // heat's on top (heat_health and heat_damage a level), then the floor's mutator.
+    // Null for an id that is not one
     public MobData variant(String id, Function<String, MobData> base) {
         Variant variant = Variant.parse(id);
         if (variant == null) return null;
@@ -323,9 +353,9 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         if (mob == null || floor == null) return null;
         Mutator mutator = variant.mutator() == null ? null : mutators.get(variant.mutator());
         double health = mob.health() * floor.health() * (variant.elite() ? setting("elite_health", 2.5) : 1)
-                * (mutator == null ? 1 : mutator.health());
+                * (1 + variant.heat() * setting("heat_health", 25) / 100) * (mutator == null ? 1 : mutator.health());
         double damage = mob.damage() * (variant.elite() ? setting("elite_damage", 1.3) : 1)
-                * (mutator == null ? 1 : mutator.damage());
+                * (1 + variant.heat() * setting("heat_damage", 15) / 100) * (mutator == null ? 1 : mutator.damage());
         Component name = (variant.elite() ? TextUtils.parse("<gold><b>Elite</b> ") : Component.empty())
                 .append(mob.displayName()).append(TextUtils.parse(" <dark_gray>F" + variant.floor()));
         return new MobData(id, mob.type(), name, Math.max(1, Math.round(health)), mob.defence(),

@@ -15,7 +15,7 @@ class GauntletDataTest {
         List<GauntletData.Floor> floors = List.of(
                 new GauntletData.Floor(Map.of("g_rotter", 3), 1.0, 1, 1, 4, 0),
                 new GauntletData.Floor(Map.of("g_rot_king", 1, "g_rotter", 4), 2.0, 10, 2, 10, 1));
-        return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of());
+        return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of());
     }
 
     @Test
@@ -52,8 +52,9 @@ class GauntletDataTest {
     @Test
     void variantIdsGoBothWays() {
         GauntletData.Variant plain = GauntletData.Variant.parse("g_rotter#12");
-        assertEquals(new GauntletData.Variant("g_rotter", 12, false, null), plain);
-        GauntletData.Variant full = new GauntletData.Variant("g_rot_king", 10, true, "swift");
+        assertEquals(new GauntletData.Variant("g_rotter", 12, false, 0, null), plain);
+        GauntletData.Variant full = new GauntletData.Variant("g_rot_king", 10, true, 3, "swift");
+        assertEquals("g_rot_king#10*^3~swift", full.id());
         assertEquals(full, GauntletData.Variant.parse(full.id()));
         assertEquals("g_rot_king", GauntletData.baseMobId(full.id()));
         assertNull(GauntletData.Variant.parse("g_rotter"));
@@ -68,6 +69,16 @@ class GauntletDataTest {
         assertEquals("Clear floor 20", climb.describe(23));
         GauntletData.Challenge kills = new GauntletData.Challenge("slayer", "Kill {goal} mobs", "kills", 60, 40, 0, false);
         assertEquals(60, kills.goalFor(40));
+    }
+
+    @Test
+    void heatUnlocksEveryTenFloorsFromFifteen() {
+        GauntletData data = twoFloors();
+        assertEquals(0, data.heatUnlocked(14));
+        assertEquals(1, data.heatUnlocked(15));
+        assertEquals(1, data.heatUnlocked(24));
+        assertEquals(2, data.heatUnlocked(25));
+        assertEquals(5, data.heatUnlocked(500));
     }
 
     @Test

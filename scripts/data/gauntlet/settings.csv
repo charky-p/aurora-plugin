@@ -67,4 +67,5 @@ tower_2,180,Shards for the second furthest
 tower_3,100,Shards for the third furthest
 hard_shards,25,Percent more Shards for a run in Hard Mode
 hard_floors_a_level,2,Hard Mode's floor for each level of gear (the best weapon's or the armour set's, whichever is higher)
+pvp_level_effect,3,Percent a PvP hit changes for each level the weapon is ahead of the armour (or behind)
 choice_seconds,45,Seconds a boon or altar choice waits before it is made for whoever has not chosen

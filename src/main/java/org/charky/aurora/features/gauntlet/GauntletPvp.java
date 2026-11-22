@@ -1,7 +1,6 @@
 package org.charky.aurora.features.gauntlet;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -17,18 +16,16 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.combat.BowListener;
-import org.charky.aurora.features.combat.CombatFormulas;
-import org.charky.aurora.features.combat.PlayerDamage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -36,7 +33,7 @@ import java.util.UUID;
 // The Gauntlet's PvP zone holds whoever walks in: there is no walking or pearling
 // out. /spawn, /gauntlet leave or the menu's Leave take them out after a countdown,
 // and logging out inside counts as dying, to whoever hit them last. Hits are priced
-// from the gear's Aurora stats (GauntletPvpFormula), not vanilla's. Kills pay Shards,
+// like vanilla's, the weapon's level against the armour's on top (GauntletPvpFormula). Kills pay Shards,
 // more on a streak and for ending someone else's, heal the killer up, and are counted
 // for the PvP board. A long enough streak is a bounty: its player glows in the zone
 public class GauntletPvp implements Listener {
@@ -45,8 +42,6 @@ public class GauntletPvp implements Listener {
     public static final String BEST_STREAK = "pvp_best_streak";
     // Streaks announced to the world
     private static final Set<Integer> ANNOUNCED = Set.of(3, 5, 10, 15, 20);
-    // Vanilla Strength adds this much a level to a PvP hit, as it does in runs
-    private static final double STRENGTH_PER_LEVEL = 0.3;
     static final int COUNTDOWN_SECONDS = 5;
     // A hit this recent makes its player the killer of someone who logs out
     private static final long LAST_HIT_MS = 15_000;
@@ -62,7 +57,6 @@ public class GauntletPvp implements Listener {
     private static final long DROP_IN_MS = 10_000;
     // Each player's kills since they last died, and when they last swung at a player
     private final Map<UUID, Integer> streaks = new HashMap<>();
-    private final Map<UUID, Long> lastSwing = new HashMap<>();
     // Glowing for a bounty right now
     private final Set<UUID> wanted = new HashSet<>();
 
@@ -174,10 +168,9 @@ public class GauntletPvp implements Listener {
         if (problem != null) TextUtils.error(player, problem);
     }
 
-    // Every hit between players in the zone, once GauntletManager has let it through,
-    // is priced from their gear's Aurora stats: Sharpness (or the arrow's Power)
-    // against Defence and Protection. A melee hit counts its swing charge, a crit, the
-    // weapon's share and a mace's smash; an arrow how far the bow was drawn
+    // Every hit between players in the zone or a duel, once GauntletWorld has let it
+    // through: vanilla's hit, vanilla's armour for the materials worn, then the levels of
+    // the weapon (Sharpness, or the arrow's Power) against the armour (Protection)
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPvpHit(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player victim) || !manager.isHere(victim)) return;
@@ -185,45 +178,27 @@ public class GauntletPvp implements Listener {
         if (!dueling && !inZone(victim)) return;
         BowListener.Shot shot = BowListener.shotOf(event.getDamager());
         Player attacker;
-        double multiplier;
-        int attack;
+        double weapon;
         if (shot != null && event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player shooter) {
             attacker = shooter;
-            double draw = Math.clamp(shot.force(), 0f, 1f);
-            attack = shot.power();
-            multiplier = 0.2 + 0.8 * draw * draw;
+            weapon = shot.power();
         } else if (event.getDamager() instanceof Player hitter) {
             attacker = hitter;
-            ItemStack weapon = hitter.getInventory().getItemInMainHand();
-            attack = Enchants.level(weapon, "sharpness");
-            long now = System.currentTimeMillis();
-            Long last = lastSwing.put(hitter.getUniqueId(), now);
-            multiplier = CombatFormulas.chargeMultiplier(last == null ? Long.MAX_VALUE / 2 : now - last);
-            if (event.isCritical()) multiplier *= GauntletPvpFormula.CRIT;
-            if (weapon.getType() == Material.MACE) multiplier *= PlayerDamage.smash(hitter.getFallDistance());
-            GauntletData.Gear gear = manager.data().gear().get(GauntletGear.gearId(weapon));
-            if (gear != null) multiplier *= gear.damage() / 100.0;
+            weapon = Enchants.level(hitter.getInventory().getItemInMainHand(), "sharpness");
         } else {
             return;
         }
         if (attacker.equals(victim)) return;
         if (dueling && (manager.duels() == null || !manager.duels().areDueling(victim, attacker))) return;
-        PotionEffect strength = attacker.getPotionEffect(PotionEffectType.STRENGTH);
-        if (strength != null) multiplier *= 1 + STRENGTH_PER_LEVEL * (strength.getAmplifier() + 1);
 
-        double hearts = GauntletPvpFormula.hearts(attack, defenceOf(victim), Enchants.average(victim.getInventory().getArmorContents(), "protection"));
-        event.setDamage(hearts * multiplier * 2);
-    }
-
-    // Every armour piece's Defence and the best shield's, carried anywhere
-    private static int defenceOf(Player player) {
-        int armour = 0;
-        for (ItemStack piece : player.getInventory().getArmorContents()) armour += Enchants.level(piece, "defence");
-        int shield = Enchants.level(player.getInventory().getItemInOffHand(), "defence");
-        for (ItemStack item : player.getInventory().getStorageContents()) {
-            if (item != null && item.getType() == Material.SHIELD) shield = Math.max(shield, Enchants.level(item, "defence"));
-        }
-        return GauntletPvpFormula.defence(armour, shield);
+        double damage = event.getDamage();
+        List<String> worn = new ArrayList<>();
+        for (ItemStack piece : victim.getInventory().getArmorContents()) if (piece != null) worn.add(piece.getType().name());
+        double[] armour = GauntletPvpFormula.armour(worn);
+        double armourLevel = Enchants.average(victim.getInventory().getArmorContents(), "protection") / GauntletPvpFormula.STAT_PER_LEVEL;
+        double effect = manager.data().setting("pvp_level_effect", 3) / 100;
+        event.setDamage(damage * GauntletPvpFormula.armourMultiplier(damage, armour[0], armour[1])
+                * GauntletPvpFormula.levelFactor(weapon / GauntletPvpFormula.STAT_PER_LEVEL, armourLevel, effect));
     }
 
     // A death in the zone: the killer is paid, more on a streak and for ending a streak
@@ -327,7 +302,6 @@ public class GauntletPvp implements Listener {
         UUID uuid = player.getUniqueId();
         stop(player);
         droppingIn.remove(uuid);
-        lastSwing.remove(uuid);
         UUID by = lastHitBy.remove(uuid);
         Long at = lastHitAt.remove(uuid);
         if (!inZone(player)) return;

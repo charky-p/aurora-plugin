@@ -40,10 +40,13 @@ public final class CombatFormulas {
     static final double DEFLECT_FREE_TIERS = 0.5;
     static final double DEFLECT_BREAK_TIERS = 2.0;
 
-    // Protection takes a share off every hit, more a level up to MAX_PROTECTION,
-    // where it takes off REDUCTION_AT_MAX. Levels past it add nothing
+    // Protection takes a share off every hit, up to REDUCTION_AT_MAX at
+    // MAX_PROTECTION levels; levels past it add nothing. The share rises steeply at
+    // first (level / max to the power PROTECTION_CURVE) so the low levels of the
+    // early zones count: 27% off at 5, 39% at 12, 52% at 25, 68% at 50, 90% at 100
     public static final int MAX_PROTECTION = 100;
     static final double REDUCTION_AT_MAX = 0.9;
+    static final double PROTECTION_CURVE = 0.4;
 
     private CombatFormulas() {
     }
@@ -51,7 +54,7 @@ public final class CombatFormulas {
     // What is left of a hit after Protection: 1 with none, 0.1 at the cap
     public static double protectionMultiplier(double protection) {
         double levels = Math.clamp(protection, 0, MAX_PROTECTION);
-        return 1 - REDUCTION_AT_MAX * levels / MAX_PROTECTION;
+        return 1 - REDUCTION_AT_MAX * Math.pow(levels / MAX_PROTECTION, PROTECTION_CURVE);
     }
 
     // A hit before Protection, from the mob's attack level less the player's Defence.

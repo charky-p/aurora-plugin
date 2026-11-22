@@ -36,7 +36,7 @@ items:
     health: 30.0
     defence: 2.0
     attack: 11.0
-    damage: 0.41
+    damage: 0.49
     density: 3
     equip:
       head: serf_helmet_1
@@ -59,7 +59,7 @@ items:
     health: 55.0
     defence: 3.0
     attack: 11.0
-    damage: 0.41
+    damage: 0.49
     density: 3
     equip:
       head: scavenger_helmet_1
@@ -84,7 +84,7 @@ items:
     health: 55.0
     defence: 4.0
     attack: 15.0
-    damage: 0.42
+    damage: 0.51
     density: 4
     equip:
       head: scout_helmet_1
@@ -110,7 +110,7 @@ items:
     health: 95.0
     defence: 5.0
     attack: 11.0
-    damage: 0.41
+    damage: 0.49
     density: 4
     equip:
       head: stalker_helmet_1
@@ -137,7 +137,7 @@ items:
     health: 200.0
     defence: 10.0
     attack: 23.0
-    damage: 0.43
+    damage: 0.52
     density: 5
     equip:
       head: guard_helmet_1
@@ -165,7 +165,7 @@ items:
     health: 160.0
     defence: 12.0
     attack: 23.0
-    damage: 0.22
+    damage: 0.26
     density: 5
     equip:
       head: vizier_helmet_1
@@ -192,7 +192,7 @@ items:
     defence: 18.0
     attack: 29.0
     attack_cooldown: 3.0
-    damage: 0.43
+    damage: 0.54
     equip:
       head: eternal_helmet_1
       chest: eternal_chestplate_1
@@ -225,7 +225,7 @@ items:
     entity: HUSK
     health: 40.0
     attack: 21.0
-    damage: 0.42
+    damage: 0.53
     equip:
       hand: ghoul_scythe
     attributes:
@@ -240,7 +240,7 @@ items:
     health: 85.0
     defence: 4.0
     attack: 21.0
-    damage: 0.42
+    damage: 0.53
     density: 6
     equip:
       head: serf_helmet_1
@@ -262,7 +262,7 @@ items:
     health: 400.0
     defence: 16.0
     attack: 25.0
-    damage: 0.43
+    damage: 0.53
     density: 6
     equip:
       head: guard_helmet_1
@@ -291,7 +291,7 @@ items:
     health: 300.0
     defence: 5.0
     attack: 17.0
-    damage: 0.42
+    damage: 0.51
     equip:
       head: mirage_helmet_1
       chest: mirage_chestplate_1

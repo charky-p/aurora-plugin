@@ -138,7 +138,7 @@ items:
     region: "gormak_dunes"
     lore:
       - "<dark_gray>Dropped by Sand Stalkers"
-    collection: 100
+    collection: 120
 
   crimson_sand:
     display: "<#B4462A>Crimson Sandstone"
@@ -165,7 +165,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 5000
+    collection: 6400
 
   legion_plate:
     display: "<gray><b>Legion Plate"
@@ -174,7 +174,7 @@ items:
     region: "khorvath_canyons"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 2000
+    collection: 2500
 
   raw_gold:
     display: "<gold>Raw Gold"
@@ -192,7 +192,7 @@ items:
     region: "gormak_temple"
     lore:
       - "<dark_gray>Dropped by Tomb Guards"
-    collection: 120
+    collection: 160
 
   vizier_scroll:
     display: "<yellow><b>Vizier Scroll"
@@ -412,7 +412,7 @@ items:
     region: "khorvath_sanctuary"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 120
+    collection: 160
 
   sphinx_claw:
     display: "<gold><b>Sphinx Claw"
@@ -583,7 +583,7 @@ items:
     region: "marsh_fens"
     lore:
       - "<dark_gray>Sunken Marsh"
-    collection: 2500
+    collection: 3200
 
   verdigris:
     display: "<#4FB39A><b>Verdigris"
@@ -1006,7 +1006,7 @@ items:
     region: "elderheart_cellar"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 200
+    collection: 250
 
   elder_vine:
     display: "<#3A7D2C>Elder Vine"
@@ -1051,7 +1051,7 @@ items:
     region: "elderheart_hive"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 120
+    collection: 100
 
   sentry_arrowhead:
     display: "<gray>Sentry Arrowhead"
@@ -1402,7 +1402,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Gormak"
-    collection: 400
+    collection: 500
 
   guardian_sigil:
     display: "<gold><b>Guardian Sigil"
@@ -1411,7 +1411,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Gormak"
-    collection: 400
+    collection: 500
 
   fishing_junk:
     display: "<dark_gray>Junk"

@@ -6,7 +6,7 @@ Nothing here prices anything, price_zones.py does that. This holds the plugin's 
 formulas and the vanilla tables they need, read against the CSVs in scripts/data/:
 
   player hit    = 10 + sharpnessBonus(S) - mob defence                     CombatListener
-  damage taken  = hearts(gap) x (1 - 0.9 x min(average protection, 100) / 100) x mob damage,
+  damage taken  = hearts(gap) x (1 - 0.9 x (min(average protection, 100) / 100) ^ 0.4) x mob damage,
                   gap = (attack level - defence) / LEVELS_PER_TIER, defence adds up over armour and shield
                   gap >= 0: 1 + LOG_A * ln(1 + LOG_B * gap)   (1, 2, 2.9, 3.7, 4.4, 5 ...)
                   gap <  0: 0.25 + 0.75 * e^(2 * gap)         (never below a quarter of a heart)
@@ -27,7 +27,7 @@ DATA = ROOT / "scripts" / "data"
 LEVELS_PER_TIER = 4.0          # protection levels per zone tier (CombatListener)
 LOG_A, LOG_B = 1 / math.log(1.15), 0.15   # shape of the hearts curve above your tier
 ARMOUR_FLOOR = 0.25            # the least a hit does when Defence is far past the attack, in hearts
-MAX_PROTECTION, REDUCTION_AT_MAX = 100, 0.9   # CombatFormulas: Protection's share off a hit, capped
+MAX_PROTECTION, REDUCTION_AT_MAX, PROTECTION_CURVE = 100, 0.9, 0.4   # CombatFormulas: Protection's share off a hit
 MOB_DAMAGE_SCALE, RANGED_SCALE = 0.6, 0.5  # CombatFormulas, every mob hit, and arrows on top
 HUMAN_BLOCKS_PER_SEC = 5.0     # cap when blocks insta-break
 MINING_EFFICIENCY = 0.8        # aiming and walking inside the mine
@@ -173,7 +173,7 @@ def hearts(gap):
 
 
 def protection_multiplier(protection):
-    return 1 - REDUCTION_AT_MAX * min(max(protection, 0), MAX_PROTECTION) / MAX_PROTECTION
+    return 1 - REDUCTION_AT_MAX * (min(max(protection, 0), MAX_PROTECTION) / MAX_PROTECTION) ** PROTECTION_CURVE
 
 
 def mob_rate(mob):

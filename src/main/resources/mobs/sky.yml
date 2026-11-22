@@ -45,7 +45,7 @@ items:
     health: 2500.0
     defence: 219.0
     attack: 58.0
-    damage: 0.8
+    damage: 1.36
     density: 27
     independent:
       - id: phantom_veil
@@ -57,7 +57,7 @@ items:
     health: 3200.0
     defence: 312.0
     attack: 63.0
-    damage: 0.89
+    damage: 1.5
     density: 30
     independent:
       - id: storm_essence
@@ -69,7 +69,7 @@ items:
     health: 4800.0
     defence: 404.0
     attack: 68.0
-    damage: 0.95
+    damage: 1.61
     density: 33
     independent:
       - id: pirate_doubloon
@@ -81,7 +81,7 @@ items:
     health: 7500.0
     defence: 520.0
     attack: 70.0
-    damage: 0.98
+    damage: 1.65
     density: 33
     equip:
       hand: storm_mace
@@ -97,7 +97,7 @@ items:
     health: 6400.0
     defence: 569.0
     attack: 76.0
-    damage: 1.41
+    damage: 2.43
     density: 37
     independent:
       - id: guard_insignia
@@ -109,7 +109,7 @@ items:
     health: 7500.0
     defence: 630.0
     attack: 79.0
-    damage: 1.47
+    damage: 2.53
     density: 39
     independent:
       - id: golden_pollen
@@ -121,7 +121,7 @@ items:
     health: 7500.0
     defence: 630.0
     attack: 79.0
-    damage: 1.47
+    damage: 2.53
     density: 39
     independent:
       - id: gardener_seed
@@ -133,7 +133,7 @@ items:
     health: 12000.0
     defence: 891.0
     attack: 85.0
-    damage: 1.57
+    damage: 2.7
     density: 42
     independent:
       - id: knight_crest
@@ -147,7 +147,7 @@ items:
     health: 7500.0
     defence: 693.0
     attack: 83.0
-    damage: 1.54
+    damage: 2.65
     density: 42
     independent:
       - id: crossbow_bolt
@@ -161,7 +161,7 @@ items:
     health: 15000.0
     defence: 1008.0
     attack: 88.0
-    damage: 1.61
+    damage: 2.78
     density: 44
     independent:
       - id: throne_seal
@@ -173,7 +173,7 @@ items:
     health: 120000.0
     defence: 1120.0
     attack: 92.0
-    damage: 1.66
+    damage: 2.87
     density: 44
     attributes:
       - attr: SCALE

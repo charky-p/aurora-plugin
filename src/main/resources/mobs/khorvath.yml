@@ -36,7 +36,7 @@ items:
     health: 200.0
     defence: 6.0
     attack: 19.0
-    damage: 0.57
+    damage: 0.85
     density: 7
     equip:
       head: zealot_helmet_1
@@ -60,7 +60,7 @@ items:
     health: 250.0
     defence: 8.0
     attack: 19.0
-    damage: 0.57
+    damage: 0.85
     density: 7
     equip:
       head: legionnaire_helmet_1
@@ -90,7 +90,7 @@ items:
     health: 300.0
     defence: 13.0
     attack: 25.0
-    damage: 0.9
+    damage: 1.36
     density: 13
     equip:
       head: myrmidon_helmet_1
@@ -117,7 +117,7 @@ items:
     health: 400.0
     defence: 15.0
     attack: 25.0
-    damage: 0.9
+    damage: 1.36
     density: 13
     equip:
       head: pharaoh_helmet_1
@@ -154,7 +154,7 @@ items:
     health: 400.0
     defence: 37.0
     attack: 33.0
-    damage: 1.15
+    damage: 1.74
     density: 10
     independent:
       - id: relic_shard
@@ -166,7 +166,7 @@ items:
     health: 2000.0
     defence: 126.0
     attack: 44.0
-    damage: 1.34
+    damage: 2.02
     density: 16
     independent:
       - id: anubite_mark
@@ -180,7 +180,7 @@ items:
     health: 2000.0
     defence: 126.0
     attack: 44.0
-    damage: 1.34
+    damage: 2.02
     density: 16
     independent:
       - id: sphinx_claw
@@ -194,7 +194,7 @@ items:
     health: 15000.0
     defence: 140.0
     attack: 48.0
-    damage: 1.38
+    damage: 2.08
     density: 16
     equip:
       hand: gormak_blade

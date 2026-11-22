@@ -97,14 +97,14 @@ items:
 
   carved_brick:
     material: STONE_BRICKS
-    density: 4
+    density: 5
     xp: 6
     independent:
       - id: carved_brick
 
   cracked_brick:
     material: CRACKED_STONE_BRICKS
-    density: 4
+    density: 5
     xp: 6
     independent:
       - id: carved_brick
@@ -113,14 +113,14 @@ items:
 
   sunbaked_sand:
     material: SANDSTONE
-    density: 4
+    density: 7
     xp: 7
     independent:
       - id: sunbaked_sand
 
   cut_sunbaked_sand:
     material: CUT_SANDSTONE
-    density: 4
+    density: 7
     xp: 7
     independent:
       - id: sunbaked_sand
@@ -159,14 +159,14 @@ items:
 
   raw_gold_block:
     material: RAW_GOLD_BLOCK
-    density: 6
+    density: 10
     xp: 9
     independent:
       - id: raw_gold
 
   gilded_stone:
     material: GOLD_BLOCK
-    density: 6
+    density: 10
     xp: 9
     independent:
       - id: raw_gold

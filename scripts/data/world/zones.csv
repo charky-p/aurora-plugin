@@ -4,9 +4,9 @@ coal,Coal Seam,overworld,overworld,origin_isles,,2,120,0.75,coal,,0.75,0.25,cobb
 copper,Copper Vein,overworld,overworld,origin_isles,,3,156,2,copper,chicken,0.75,0.25,coal
 iron,Iron Deposit,overworld,overworld,origin_isles,,4,252,3,iron,sheep,0.75,0.25,copper
 gold,Gold Reef,overworld,overworld,origin_isles,,5,402,5,gold,cow,0.75,0.25,iron
-city,Abandoned City,gormak,overworld,gormak,,6,360,5.3,carved_brick,hollowed_serf|scavenger_husk,1,1,
-dunes,The Dunes,gormak,overworld,gormak,,7,360,5.3,sunbaked_sand,dune_scout|sand_stalker,1,1,city
-temple,Sun Temple,gormak,overworld,gormak,,8,360,5.3,raw_gold,tomb_guard|vizier_mage,1,1,dunes
+city,Abandoned City,gormak,overworld,gormak,,6,360,5.3,carved_brick,hollowed_serf|scavenger_husk,2,1,
+dunes,The Dunes,gormak,overworld,gormak,,7,360,5.3,sunbaked_sand,dune_scout|sand_stalker,2,1,city
+temple,Sun Temple,gormak,overworld,gormak,,8,360,5.3,raw_gold,tomb_guard|vizier_mage,2,1,dunes
 tomb,Royal Tomb,gormak,overworld,gormak,,9,600,8.8,,gormak_guardian,1,1,temple
 oak,Oak Grove,verdant,overworld,verdant,,10,360,5.3,oak_log|tin,grove_horse,1,0.5,
 birch,Birch Hollow,verdant,overworld,verdant,,11,360,5.3,birch_log|bronze,hollow_fox,1,0.4,oak

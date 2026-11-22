@@ -517,31 +517,31 @@ items:
         level: "1"
         cost:
           - id: carved_brick
-            amount: 120
+            amount: 100
       - tool: pick
         stat: fortune
         level: "1"
         cost:
           - id: carved_brick
-            amount: 150
+            amount: 120
       - tool: pick
         stat: efficiency
-        level: "2"
-        cost:
-          - id: carved_brick
-            amount: 200
-      - tool: pick
-        stat: fortune
         level: "2"
         cost:
           - id: carved_brick
             amount: 250
       - tool: pick
+        stat: fortune
+        level: "2"
+        cost:
+          - id: carved_brick
+            amount: 300
+      - tool: pick
         stat: efficiency
         level: "3"
         cost:
           - id: carved_brick
-            amount: 400
+            amount: 500
       - tool: helmet
         stat: protection
         level: "2"
@@ -619,7 +619,7 @@ items:
         level: "1"
         cost:
           - id: carved_brick
-            amount: 480
+            amount: 600
           - id: ancient_scrap
             amount: 24
           - id: tattered_cloth
@@ -721,31 +721,31 @@ items:
         level: "3"
         cost:
           - id: sunbaked_sand
-            amount: 400
+            amount: 150
       - tool: pick
         stat: fortune
         level: "4"
+        cost:
+          - id: sunbaked_sand
+            amount: 320
+      - tool: pick
+        stat: efficiency
+        level: "4"
+        cost:
+          - id: sunbaked_sand
+            amount: 600
+      - tool: pick
+        stat: fortune
+        level: "5"
         cost:
           - id: sunbaked_sand
             amount: 640
       - tool: pick
         stat: efficiency
-        level: "4"
+        level: "5"
         cost:
           - id: sunbaked_sand
             amount: 1000
-      - tool: pick
-        stat: fortune
-        level: "5"
-        cost:
-          - id: sunbaked_sand
-            amount: 1200
-      - tool: pick
-        stat: efficiency
-        level: "5"
-        cost:
-          - id: sunbaked_sand
-            amount: 1500
       - tool: helmet
         stat: protection
         level: "6"
@@ -787,9 +787,9 @@ items:
         level: "2"
         cost:
           - id: sunbaked_sand
-            amount: 1600
+            amount: 1200
           - id: ancient_flesh
-            amount: 20
+            amount: 24
           - id: ancient_bone
             amount: 20
 
@@ -883,77 +883,77 @@ items:
         level: "6"
         cost:
           - id: raw_gold
-            amount: 1200
+            amount: 300
       - tool: pick
         stat: fortune
         level: "7"
         cost:
           - id: raw_gold
-            amount: 1600
+            amount: 640
       - tool: pick
         stat: efficiency
         level: "6"
         cost:
           - id: raw_gold
-            amount: 2000
+            amount: 1000
       - tool: pick
         stat: fortune
         level: "8"
         cost:
           - id: raw_gold
-            amount: 2500
+            amount: 1200
       - tool: pick
         stat: efficiency
         level: "7"
         cost:
           - id: raw_gold
-            amount: 3200
+            amount: 1600
       - tool: helmet
         stat: protection
         level: "9"
         cost:
           - id: vizier_scroll
-            amount: 12
+            amount: 16
       - tool: chestplate
         stat: protection
         level: "9"
         cost:
           - id: vizier_scroll
-            amount: 12
+            amount: 16
       - tool: leggings
         stat: protection
         level: "9"
         cost:
           - id: vizier_scroll
-            amount: 12
+            amount: 16
       - tool: boots
         stat: protection
         level: "9"
         cost:
           - id: vizier_scroll
-            amount: 12
+            amount: 16
       - tool: shield
         stat: defence
         level: "1"
         cost:
           - id: vizier_scroll
-            amount: 16
+            amount: 20
       - tool: sword
         stat: sharpness
         level: "6"
         cost:
           - id: vizier_scroll
-            amount: 20
+            amount: 24
       - tool: sword
         stat: looting
         level: "3"
         cost:
           - id: raw_gold
-            amount: 4000
+            amount: 2000
           - id: ancient_nugget
             amount: 16
           - id: vizier_scroll
-            amount: 24
+            amount: 32
 
   tomb:
     name: "Royal Tomb"

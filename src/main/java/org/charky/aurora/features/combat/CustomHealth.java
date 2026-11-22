@@ -92,6 +92,16 @@ public final class CustomHealth {
         return remaining;
     }
 
+    // Multiplies a mob's health and its most, for a fight that needs it tougher (a
+    // Gauntlet boss in a party run). Right after it spawns, while at full health
+    public static void scale(LivingEntity entity, double factor, DataRegistry registry) {
+        if (!isTracked(entity) || factor <= 0) return;
+        PersistentDataContainer pdc = entity.getPersistentDataContainer();
+        pdc.set(DataKeys.MAX_HEALTH_KEY, PersistentDataType.DOUBLE, Math.round(max(entity) * factor) * 1.0);
+        pdc.set(DataKeys.HEALTH_KEY, PersistentDataType.DOUBLE, Math.round(current(entity) * factor) * 1.0);
+        refreshName(entity, baseName(entity, registry));
+    }
+
     public static void heal(LivingEntity entity, double amount, DataRegistry registry) {
         double healed = Math.min(max(entity), current(entity) + amount);
 

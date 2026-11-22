@@ -15,10 +15,10 @@ import java.util.Map;
 import java.util.UUID;
 
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
-// starting kit, milestones, the top floors, and the way out
+// starting kit, milestones, the top floors, the party, and the way out
 public class GauntletMenu extends PagedMenu {
     private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, SHOP = 4, CHALLENGES = 5, ACHIEVEMENTS = 6,
-            MILESTONES = 7, TOP = 8, WEEKLY = 9, PVP = 10, DUELS = 11, SPECTATE = 12, LEAVE = 13;
+            MILESTONES = 7, TOP = 8, WEEKLY = 9, PVP = 10, DUELS = 11, SPECTATE = 12, PARTY = 13, LEAVE = 14;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -34,6 +34,8 @@ public class GauntletMenu extends PagedMenu {
         GauntletProfile profile = manager.profile(player);
         List<ItemStack> items = new ArrayList<>();
         List<Integer> checkpoints = runs.checkpoints(player);
+        GauntletParty party = manager.party();
+        boolean inParty = party != null && party.inParty(player);
         items.add(button(Material.IRON_SWORD, "<red><b>Start a Run", List.of(
                 "<gray>Climb the tower floor by floor.",
                 "<gray>Every 5 floors: a care package",
@@ -41,7 +43,10 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>Shards and Cores are kept when it ends.",
                 checkpoints.size() > 1 ? "<gray>Start on floor <white>" + checkpoints.getLast() + "</white> or earlier" : "",
                 "",
-                runs.inRun(player) ? "<red>You are in a run" : "<yellow>Click to start")));
+                runs.inRun(player) ? "<red>You are in a run"
+                        : inParty && !party.isLeader(player) ? "<gray>Your party leader starts the run"
+                        : inParty ? "<yellow>Click to start for your party of " + party.team(player).size()
+                        : "<yellow>Click to start")));
         items.add(button(Material.ANVIL, "<gold><b>The Forge", List.of(
                 "<gray>Unlock and upgrade your gear",
                 "<gray>and your care package.",
@@ -180,6 +185,26 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>Live right now: <white>" + live,
                 "<yellow>Click to pick one")));
 
+        List<String> partyLines = new ArrayList<>(List.of(
+                "<gray>Climb with friends: more mobs,",
+                "<gray>tougher bosses, one pot of Shards",
+                "<gray>for everyone.",
+                ""));
+        Player inviter = party == null ? null : party.inviter(player);
+        if (inParty) {
+            List<Player> team = party.team(player);
+            partyLines.add("<gray>Your party: <white>" + team.size() + "/" + party.max());
+            for (Player member : team) partyLines.add((member.equals(team.getFirst()) ? "<gold>★ " : "<gray>• <white>") + member.getName());
+            partyLines.add("");
+            partyLines.add("<yellow>Click to manage it");
+        } else if (inviter != null) {
+            partyLines.add("<green>" + inviter.getName() + " invited you!");
+            partyLines.add("<yellow>Click to join");
+        } else {
+            partyLines.add("<yellow>Click to invite players");
+        }
+        items.add(button(Material.CAKE, "<aqua><b>Party", partyLines));
+
         items.add(button(Material.OAK_DOOR, "<gray><b>Leave the Gauntlet", List.of(
                 "<gray>Back to the main spawn,", "<gray>with your own inventory.")));
         return items;
@@ -226,6 +251,7 @@ public class GauntletMenu extends PagedMenu {
             case SHOP -> new ShardShopMenu(manager).open(player);
             case ACHIEVEMENTS -> new AchievementsMenu(manager).open(player);
             case SPECTATE -> new SpectateMenu(manager).open(player);
+            case PARTY -> new PartyMenu(manager).open(player);
             case FORGE -> new ForgeMenu(manager, runs).open(player);
             case KIT -> new SetupMenu(manager, runs).open(player);
             case LEAVE -> {

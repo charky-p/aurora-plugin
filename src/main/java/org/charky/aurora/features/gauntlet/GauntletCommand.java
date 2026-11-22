@@ -12,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 // /gauntlet: to the gauntlet's lobby from anywhere, its menu once there. /gauntlet
-// start starts a run, /gauntlet forge opens the forge, /gauntlet boon reopens a boon
-// waiting to be picked, /gauntlet leave goes home
+// start starts a run (for the whole party, by its leader), /gauntlet forge opens the
+// forge, /gauntlet party handles the party, /gauntlet boon reopens a boon waiting to
+// be picked, /gauntlet leave goes home
 public class GauntletCommand implements TabExecutor {
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -43,6 +44,7 @@ public class GauntletCommand implements TabExecutor {
                 }
             }
             case "duel" -> duel(player, args);
+            case "party" -> party(player, args);
             case "spectate" -> {
                 if (args.length < 2) {
                     new SpectateMenu(manager).open(player);
@@ -96,6 +98,28 @@ public class GauntletCommand implements TabExecutor {
         };
     }
 
+    // /gauntlet party: its menu, or invite <player>, accept, decline, leave, kick <player>, list
+    private String party(Player player, String[] args) {
+        GauntletParty party = manager.party();
+        if (args.length < 2) {
+            if (!manager.isHere(player)) return manager.sendToLobby(player);
+            new PartyMenu(manager).open(player);
+            return null;
+        }
+        return switch (args[1].toLowerCase()) {
+            case "invite" -> args.length < 3 ? "/gauntlet party invite <player>" : party.invite(player, Bukkit.getPlayerExact(args[2]));
+            case "accept" -> party.accept(player);
+            case "decline" -> party.decline(player);
+            case "leave" -> party.leave(player);
+            case "kick" -> args.length < 3 ? "/gauntlet party kick <player>" : party.kick(player, Bukkit.getPlayerExact(args[2]));
+            case "list" -> {
+                party.list(player);
+                yield null;
+            }
+            default -> "/gauntlet party invite <player>, accept, decline, leave, kick <player> or list";
+        };
+    }
+
     // To the lobby from anywhere, the menu once there. Also the Gauntlet button in /a.
     // Null if it worked, otherwise why not
     public static String open(GauntletManager manager, GauntletRuns runs, Player player) {
@@ -107,7 +131,7 @@ public class GauntletCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                       @NotNull String label, @NotNull String @NotNull [] args) {
-        if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "duel", "spectate",
+        if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "party", "duel", "spectate",
                 "achievements", "shop", "boon", "leave"));
         if (args.length == 2 && args[0].equalsIgnoreCase("spectate")) {
             List<String> options = new ArrayList<>(List.of("stop"));
@@ -115,6 +139,15 @@ public class GauntletCommand implements TabExecutor {
                 if (!online.equals(sender) && (manager.inRun(online) || manager.inDuel(online))) options.add(online.getName());
             }
             return TextUtils.getCompletions(args[1], options);
+        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("party")) {
+            return TextUtils.getCompletions(args[1], List.of("invite", "accept", "decline", "leave", "kick", "list"));
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("party")
+                && (args[1].equalsIgnoreCase("invite") || args[1].equalsIgnoreCase("kick"))) {
+            List<String> names = new ArrayList<>();
+            for (Player online : Bukkit.getOnlinePlayers()) if (!online.equals(sender) && manager.isHere(online)) names.add(online.getName());
+            return TextUtils.getCompletions(args[2], names);
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("duel")) {
             List<String> options = new ArrayList<>(List.of("accept", "decline", "forfeit"));

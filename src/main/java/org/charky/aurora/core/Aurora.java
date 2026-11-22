@@ -95,6 +95,7 @@ import org.charky.aurora.features.gauntlet.ForgeMenu;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.gauntlet.GauntletDuels;
+import org.charky.aurora.features.gauntlet.GauntletParty;
 import org.charky.aurora.features.gauntlet.GauntletPvp;
 import org.charky.aurora.features.gauntlet.GauntletRuns;
 import org.charky.aurora.features.gauntlet.GauntletSpectate;
@@ -164,6 +165,7 @@ public class Aurora extends JavaPlugin {
     private GauntletPvp gauntletPvp;
     private GauntletDuels gauntletDuels;
     private GauntletSpectate gauntletSpectate;
+    private GauntletParty gauntletParty;
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
@@ -332,6 +334,8 @@ public class Aurora extends JavaPlugin {
         gauntletManager.setDuels(gauntletDuels);
         this.gauntletSpectate = new GauntletSpectate(this, gauntletManager);
         gauntletManager.setSpectate(gauntletSpectate);
+        this.gauntletParty = new GauntletParty(gauntletManager);
+        gauntletManager.setParty(gauntletParty);
         gauntletSpectate.start();
         gauntletManager.start();
         gauntletRuns.start();
@@ -449,6 +453,7 @@ public class Aurora extends JavaPlugin {
                 gauntletPvp,
                 gauntletDuels,
                 gauntletSpectate,
+                gauntletParty,
                 accessManager,
                 buildManager,
                 safeZoneManager,

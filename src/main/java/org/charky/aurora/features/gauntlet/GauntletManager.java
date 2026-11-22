@@ -75,6 +75,7 @@ public class GauntletManager implements Listener {
     private final GauntletWeekly weekly;
     private final GauntletAchievements achievements = new GauntletAchievements(this);
     private GauntletSpectate spectate;
+    private GauntletParty party;
     private BukkitTask sweep;
     private int ticks;
 
@@ -126,6 +127,14 @@ public class GauntletManager implements Listener {
 
     public GauntletSpectate spectate() {
         return spectate;
+    }
+
+    public void setParty(GauntletParty party) {
+        this.party = party;
+    }
+
+    public GauntletParty party() {
+        return party;
     }
 
     public boolean isWatching(Player player) {
@@ -243,8 +252,19 @@ public class GauntletManager implements Listener {
             lines.add(TextUtils.parse("<gray>• FLOOR: <white>" + runs.floorOf(player)));
             lines.add(TextUtils.parse("<gray>• EARNED: <aqua>" + runs.shardsOf(player) + " Shards"
                     + (runs.coresOf(player) > 0 ? " <light_purple>" + runs.coresOf(player) + " Cores" : "")));
+            List<String> team = runs.teamLines(player);
+            if (!team.isEmpty()) {
+                lines.add(Component.empty());
+                lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>PARTY</b></gradient>"));
+                for (String line : team) lines.add(TextUtils.parse(line));
+            }
         } else {
             lines.add(TextUtils.parse("<gray>• RUNS: <white>" + profile.runs));
+            if (party != null && party.inParty(player)) {
+                List<Player> team = party.team(player);
+                lines.add(TextUtils.parse("<gray>• PARTY: <aqua>" + team.size() + "/" + party.max()
+                        + " <gray>led by <white>" + team.getFirst().getName()));
+            }
         }
         return lines;
     }
@@ -396,6 +416,8 @@ public class GauntletManager implements Listener {
         if (!arena.isGauntletWorld(event.getFrom()) || build.isBuildWorld(event.getFrom())) return;
         if (isHere(player)) return;
         if (runs != null) runs.end(player, GauntletRuns.End.LEFT);
+        // A party is for the Gauntlet, leaving it leaves the party
+        if (party != null && party.inParty(player)) party.leave(player);
         giveBack(player);
         refreshBoard(player);
     }

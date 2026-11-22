@@ -52,3 +52,8 @@ altar_first,12,The first floor an altar comes after
 altar_every,20,Floors between altars after that
 altar_angel_hearts,1,Max hearts the angel's pact adds for the run (and a full heal)
 altar_devil_hearts,2,Max hearts the devil's pact takes for the run (for an epic boon)
+party_max,4,The most players in a Gauntlet party
+party_mobs,50,Percent more mobs a floor for each player past the first
+party_boss_health,60,Percent more boss health for each player past the first
+party_shards,0,Percent more Shards each player of a party banks for each of the others (0: what the same floors pay alone)
+choice_seconds,45,Seconds a boon or altar choice waits before it is made for whoever has not chosen

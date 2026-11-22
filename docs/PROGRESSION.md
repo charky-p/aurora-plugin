@@ -156,7 +156,7 @@ The zones add up to about 10.5 hours of real play.
 
 ## 4b. The Gauntlet
 
-A tower mode apart from the zones, in a world of its own: fast, focused PvE runs and a PvP zone, with its own progression (setup in [COMMANDS.md](COMMANDS.md)). Its data is in `scripts/data/gauntlet/`; `scripts/balance/gauntlet_balance.py --write` fills the numbers in `floors.csv` and writes `gear_levels.csv`, and `generate.py` writes `gauntlet.yml` and `mobs/gauntlet.yml`. Every tuning number below that is not in a table of its own is in `settings.csv`, with what it does.
+A tower mode apart from the zones, in a world of its own: fast, focused PvE runs, alone or in a party, and a PvP zone, with its own progression (setup in [COMMANDS.md](COMMANDS.md)). Its data is in `scripts/data/gauntlet/`; `scripts/balance/gauntlet_balance.py --write` fills the numbers in `floors.csv` and writes `gear_levels.csv`, and `generate.py` writes `gauntlet.yml` and `mobs/gauntlet.yml`. Every tuning number below that is not in a table of its own is in `settings.csv`, with what it does.
 
 **Getting started.** `/gauntlet` or the Gauntlet button in `/a` goes to the lobby. Arriving shows a title and clickable Start, Forge and Menu buttons; until their first run new players see "Walk into the portal" on the action bar. Walking into the start portal (or `/gauntlet start`) starts a run. The first run and the first time back explain the basics in a tip.
 
@@ -177,6 +177,14 @@ A tower mode apart from the zones, in a world of its own: fast, focused PvE runs
 - **Altars.** After floor 12 and every 20 floors on (32, 52, 72, 92) an altar offers a pact: the angel's (a full heal and a heart more for the run), the devil's (a random epic boon for 2 fewer max hearts for the run) or walking on. The next floor starts once the choice is made.
 - **Ending.** A hit that would kill ends the run, unless a totem in hand or a Second Wind (half health, from the boon or the talent) saves them. Leaving (`/spawn`) or logging out ends it too. A summary shows the floors, time, kills, fast clears, Shards with their bonuses and the boons taken, and NEW BEST when it beat the record (also said mid-run when passing it).
 - **Checkpoints.** Once a boss floor is cleared a run can start on the floor after it (11, 21, ...): the floors before are skipped with no Shards, and the run starts with their boons at random and a care package.
+
+### Co-op
+
+- **Parties.** `/gauntlet party invite <player>`, or Party in the menu (a head for everyone in the Gauntlet), invites someone for 60 seconds; they accept from the chat or the Party menu. Up to 4 players (`party_max`). Only the leader invites, removes players and starts runs: the start portal, Start in the menu and `/gauntlet start` start one for everyone, once they are all free (not in a run, the PvP zone, a duel or spectating). Leaving the Gauntlet or the server leaves the party; a leader who leaves hands it to the next player.
+- **The run.** One copy of the arena and one boss bar for everyone. Every player past the first brings 50% more mobs a floor (`party_mobs`) and 60% more boss health (`party_boss_health`). Mobs hunt the nearest player still standing. Checkpoints and heat go only as far as every player in the party has unlocked. The sidebar shows everyone's health.
+- **Shards.** One pot for the party, banked whole by each player at the end with their own Greed and day's first run. The extra mobs share their floor's kill Shards, so a floor pays a party what it pays one player (bosses in full); `party_shards` (0 for now) adds a percent for each other player. Kills, combos and kill heals count for whoever landed the blow; bosses, Shard Hoarders, fast clears and floors cleared count for everyone.
+- **Down, not out.** A hit that would kill (no totem or Second Wind) puts a player down: they watch in spectator mode, kept over the arena, and are back on their feet at half health once the floor is cleared. The run ends when nobody is left standing. Someone who leaves or logs out banks the pot so far, and the others carry on.
+- **Choices.** One care package for the party, at the best care level and Scavenger among them. Every player picks their own boon and their own altar pact; the next floor starts once everyone has chosen, and whoever hasn't after 45 seconds (`choice_seconds`) gets the first boon offered or walks past the altar.
 
 ### Progression
 

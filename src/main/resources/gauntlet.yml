@@ -2764,3 +2764,8 @@ settings:
   altar_every: 20.0
   altar_angel_hearts: 1.0
   altar_devil_hearts: 2.0
+  party_max: 4.0
+  party_mobs: 50.0
+  party_boss_health: 60.0
+  party_shards: 0.0
+  choice_seconds: 45.0

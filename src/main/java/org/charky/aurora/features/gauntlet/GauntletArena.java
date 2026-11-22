@@ -233,6 +233,17 @@ public class GauntletArena {
         return Box.between(origin, far).contains(location);
     }
 
+    // Over or under a slot's copy at any height, as seen from above
+    public boolean isOverSlot(int slot, Location location) {
+        Location min = places.get(ARENA_MIN), max = places.get(ARENA_MAX);
+        if (min == null || max == null) return false;
+        Location origin = origin(slot);
+        Location far = origin.clone().add(max.toVector().subtract(min.toVector()));
+        Location level = location.clone();
+        level.setY(origin.getY());
+        return Box.between(origin, far).contains(level);
+    }
+
     private Location origin(int slot) {
         Location min = places.get(ARENA_MIN);
         return min.clone().add(0, 0, (long) SLOT_SPACING * (slot + 1));

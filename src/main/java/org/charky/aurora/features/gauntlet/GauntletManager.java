@@ -1,6 +1,7 @@
 package org.charky.aurora.features.gauntlet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -47,6 +48,7 @@ public class GauntletManager {
     private final GauntletChallenges challenges = new GauntletChallenges(this);
     private final GauntletWeekly weekly;
     private final GauntletBoards boards;
+    private final GauntletTower tower;
     private final GauntletAchievements achievements = new GauntletAchievements(this);
     private GauntletSpectate spectate;
     private GauntletParty party;
@@ -66,6 +68,7 @@ public class GauntletManager {
         this.arena = new GauntletArena(db, store, plugin.getDataFolder(), plugin.getLogger());
         this.weekly = new GauntletWeekly(this, plugin.getDataFolder(), plugin.getLogger());
         this.boards = new GauntletBoards(plugin, this);
+        this.tower = new GauntletTower(this, plugin.getDataFolder(), plugin.getLogger());
         profiles.putAll(store.loadAll());
     }
 
@@ -91,6 +94,17 @@ public class GauntletManager {
 
     GauntletBoards boards() {
         return boards;
+    }
+
+    GauntletTower tower() {
+        return tower;
+    }
+
+    // To everyone in the Gauntlet's world, in a run or not
+    void announce(String message) {
+        Location lobby = arena.lobby();
+        if (lobby == null || lobby.getWorld() == null) return;
+        for (Player player : lobby.getWorld().getPlayers()) TextUtils.send(player, message);
     }
 
     public GauntletAchievements achievements() {
@@ -193,7 +207,10 @@ public class GauntletManager {
             if (world != null) world.everySecond();
             if (pvp != null) pvp.markBounties();
             // The weekly boards pay out once the week has turned, the lobby's boards catch up
-            if (ticks % 60 == 0) weekly.check();
+            if (ticks % 60 == 0) {
+                weekly.check();
+                tower.check();
+            }
             if (ticks % 30 == 0) boards.refresh();
             ticks++;
         }, 20L, 20L);

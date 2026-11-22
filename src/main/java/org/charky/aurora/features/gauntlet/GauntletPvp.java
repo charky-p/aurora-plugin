@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -259,15 +258,14 @@ public class GauntletPvp implements Listener {
         TextUtils.send(killer, "<red>You killed " + victim.getName() + " <aqua>+" + pay + " Shards"
                 + (streak > 1 ? " <gray>(streak <white>" + streak + "<gray>)" : ""));
 
-        World world = victim.getWorld();
-        if (shutdown > 0) broadcast(world, "<gold>" + killer.getName() + " <gray>ended <gold>" + victim.getName()
+        if (shutdown > 0) manager.announce("<gold>" + killer.getName() + " <gray>ended <gold>" + victim.getName()
                 + "<gray>'s <white>" + ended + "</white> kill streak" + (ended >= bountyStreak() ? " <gold>and claims the bounty" : "")
                 + " <aqua>+" + shutdown + " Shards");
         if (streak == bountyStreak()) {
-            broadcast(world, "<gold><b>BOUNTY</b> <red>" + killer.getName() + " <gray>is on a <white>" + streak
+            manager.announce("<gold><b>BOUNTY</b> <red>" + killer.getName() + " <gray>is on a <white>" + streak
                     + "</white> kill streak and glows in the PvP zone: ending it pays <aqua>" + shutdownPay(streak) + "+ Shards");
         } else if (ANNOUNCED.contains(streak)) {
-            broadcast(world, "<red><b>" + killer.getName() + "</b> <gray>is on a <white>" + streak + "</white> kill streak!");
+            manager.announce("<red><b>" + killer.getName() + "</b> <gray>is on a <white>" + streak + "</white> kill streak!");
         }
     }
 
@@ -289,10 +287,6 @@ public class GauntletPvp implements Listener {
             if (now && wanted.add(player.getUniqueId())) player.setGlowing(true);
             else if (!now && wanted.remove(player.getUniqueId())) player.setGlowing(false);
         }
-    }
-
-    private static void broadcast(World world, String message) {
-        for (Player player : world.getPlayers()) TextUtils.send(player, message);
     }
 
     // A streak ends with the player leaving the server, after their logout death is counted

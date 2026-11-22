@@ -2999,4 +2999,7 @@ settings:
   revive_health: 30.0
   bounty_streak: 5.0
   sprint_floor: 10.0
+  tower_1: 300.0
+  tower_2: 180.0
+  tower_3: 100.0
   choice_seconds: 45.0

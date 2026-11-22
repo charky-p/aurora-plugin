@@ -1,14 +1,11 @@
 package org.charky.aurora.features.gauntlet;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.TextUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -31,16 +28,13 @@ public class GauntletWeekly {
     public static final String FLOOR = "week_floor";
     public static final String PVP = "week_pvp";
     private static final String NOTICE = "week_notice";
-    private static final String FILE = "gauntlet_week.txt";
 
     private final GauntletManager manager;
-    private final File file;
-    private final Logger logger;
+    private final GauntletPaid paid;
 
     public GauntletWeekly(GauntletManager manager, File dataFolder, Logger logger) {
         this.manager = manager;
-        this.file = new File(dataFolder, FILE);
-        this.logger = logger;
+        this.paid = new GauntletPaid(dataFolder, "gauntlet_week.txt", logger);
     }
 
     // 202647 for the 47th week of 2026
@@ -96,13 +90,13 @@ public class GauntletWeekly {
     // Every minute: once the week has turned, pay last week's top three of each board
     public void check() {
         int now = thisWeek();
-        int paid = readPaid();
-        if (paid == now) return;
-        if (paid != 0) {
-            payout(paid, FLOOR, "weekly_floor_", "best floor");
-            payout(paid, PVP, "weekly_pvp_", "PvP wins");
+        int last = (int) paid.read();
+        if (last == now) return;
+        if (last != 0) {
+            payout(last, FLOOR, "weekly_floor_", "best floor");
+            payout(last, PVP, "weekly_pvp_", "PvP wins");
         }
-        writePaid(now);
+        paid.write(now);
     }
 
     private void payout(int week, String stat, String prefix, String board) {
@@ -120,7 +114,7 @@ public class GauntletWeekly {
             manager.addStat(uuid, NOTICE, shards);
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) notice(player);
-            announce("<gold><b>WEEKLY</b> <white>" + GauntletManager.nameOf(uuid) + " <gray>placed <white>#" + (place + 1)
+            manager.announce("<gold><b>WEEKLY</b> <white>" + GauntletManager.nameOf(uuid) + " <gray>placed <white>#" + (place + 1)
                     + "</white> for " + board + " (" + profile.stat(stat) + ") <aqua>+" + shards + " Shards");
         }
     }
@@ -133,28 +127,5 @@ public class GauntletWeekly {
         manager.refreshBoard(player);
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7f, 1f);
         TextUtils.send(player, "<gold><b>WEEKLY REWARD</b> <gray>Last week's Gauntlet boards paid you <aqua>" + shards + " Shards");
-    }
-
-    private void announce(String message) {
-        Location lobby = manager.arena().lobby();
-        if (lobby == null || lobby.getWorld() == null) return;
-        for (Player player : lobby.getWorld().getPlayers()) TextUtils.send(player, message);
-    }
-
-    private int readPaid() {
-        if (!file.exists()) return 0;
-        try {
-            return Integer.parseInt(Files.readString(file.toPath()).trim());
-        } catch (IOException | NumberFormatException e) {
-            return 0;
-        }
-    }
-
-    private void writePaid(int week) {
-        try {
-            Files.writeString(file.toPath(), String.valueOf(week));
-        } catch (IOException e) {
-            logger.warning("Could not save the gauntlet week: " + e.getMessage());
-        }
     }
 }

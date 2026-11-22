@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -79,16 +78,19 @@ public class GauntletMenu extends PagedMenu {
 
     // Today's Daily Tower: how it works, how far the best got, and the player's try
     private ItemStack tower(GauntletProfile profile) {
-        boolean tried = profile.stat(GauntletRuns.TOWER_DAY) == LocalDate.now().toEpochDay();
+        GauntletTower tower = manager.tower();
+        boolean tried = tower.climbedToday(profile);
         List<String> lines = new ArrayList<>(List.of(
                 "<gray>One try a day, alone, from floor 1.",
                 "<gray>Every floor from " + (int) manager.data().setting("mutator_from", 6) + " is mutated, the",
                 "<gray>same tower for everyone today.",
                 "",
                 "<yellow>Today's best"));
-        lines.addAll(GauntletBoards.rows(runs.towerToday(5), top -> "floor " + top.stat(GauntletRuns.TOWER_BEST), "Nobody has climbed it yet"));
+        lines.addAll(GauntletBoards.rows(tower.top(GauntletTower.today(), 5), top -> "floor " + top.stat(GauntletTower.BEST),
+                "Nobody has climbed it yet"));
+        lines.add("<dark_gray>The top three are paid when the day turns");
         lines.add("");
-        lines.add(tried ? "<gray>Your floor today: <white>" + profile.stat(GauntletRuns.TOWER_BEST) : "<yellow>Click to climb it");
+        lines.add(tried ? "<gray>Your floor today: <white>" + profile.stat(GauntletTower.BEST) : "<yellow>Click to climb it");
         return button(Material.LODESTONE, "<aqua><b>Daily Tower", lines);
     }
 

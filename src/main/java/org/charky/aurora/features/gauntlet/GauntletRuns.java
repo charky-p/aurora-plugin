@@ -68,9 +68,6 @@ public class GauntletRuns implements Listener {
     static final String DISCOVERED = "discovered";
     // A player's fastest solo run from floor 1 to sprint_floor, in seconds
     static final String SPRINT = "sprint";
-    // The day a player last climbed the Daily Tower, and how far
-    static final String TOWER_DAY = "tower_day";
-    static final String TOWER_BEST = "tower_best";
 
     private final Aurora plugin;
     private final GauntletManager manager;
@@ -238,23 +235,15 @@ public class GauntletRuns implements Listener {
     // The Daily Tower, once a day and alone, from floor 1 at no heat: every floor from
     // mutator_from mutated, the same tower for everyone. Null if it started, otherwise why not
     public String beginTower(Player player) {
-        long today = LocalDate.now().toEpochDay();
+        GauntletTower tower = manager.tower();
         if (team(player).size() > 1) return "The Daily Tower is climbed alone, leave your party first";
-        if (manager.profile(player).stat(TOWER_DAY) == today) return "You have climbed today's tower, a new one comes tomorrow";
-        String problem = start(player, 1, today);
+        if (tower.climbedToday(manager.profile(player))) return "You have climbed today's tower, a new one comes tomorrow";
+        String problem = start(player, 1, GauntletTower.today());
         if (problem != null) return problem;
-        manager.setStat(player.getUniqueId(), TOWER_DAY, (int) today);
-        manager.setStat(player.getUniqueId(), TOWER_BEST, 0);
+        tower.started(player.getUniqueId());
         TextUtils.send(player, "<aqua><b>DAILY TOWER</b> <gray>Every floor from " + (int) data().setting("mutator_from", 6)
                 + " is mutated, the same tower for everyone today. One try, make it count");
         return null;
-    }
-
-    // Today's Daily Tower, the furthest first
-    List<Map.Entry<UUID, GauntletProfile>> towerToday(int count) {
-        long today = LocalDate.now().toEpochDay();
-        return manager.topBy(TOWER_BEST, Integer.MAX_VALUE).stream()
-                .filter(entry -> entry.getValue().stat(TOWER_DAY) == today).limit(count).toList();
     }
 
     private String start(Player player, int startFloor, long towerDay) {
@@ -411,7 +400,7 @@ public class GauntletRuns implements Listener {
         manager.addStat(uuid, "hoarders", run.hoarders);
         manager.addStat(uuid, "fast_clears", run.fastClears);
         if (member.bestCombo > profile.stat(BEST_COMBO)) manager.setStat(uuid, BEST_COMBO, member.bestCombo);
-        if (run.towerDay != 0) towerResult(player, run, cleared);
+        if (run.towerDay != 0) manager.tower().result(player, run.towerDay, cleared);
         long now = System.currentTimeMillis();
         manager.recordRun(uuid, new RunRecord(now, run.floor, cleared, run.startFloor, run.heat, run.partySize,
                 (int) ((now - run.started) / 1000), member.kills, banked, run.cores, why == End.DIED,
@@ -434,17 +423,6 @@ public class GauntletRuns implements Listener {
             TextUtils.send(player, "<yellow><b>TIP</b> <gray>Spend your Shards on gear in the forge, every level hits harder: "
                     + "<click:run_command:'/gauntlet forge'><gold><b>[FORGE]</b></click>");
         }
-    }
-
-    // How far the Daily Tower went; the day's new leader is told to the whole Gauntlet
-    private void towerResult(Player player, GauntletRun run, int cleared) {
-        GauntletProfile profile = manager.profile(player);
-        if (profile.stat(TOWER_DAY) != run.towerDay || cleared <= profile.stat(TOWER_BEST)) return;
-        List<Map.Entry<UUID, GauntletProfile>> leader = towerToday(1);
-        boolean leads = leader.isEmpty() || cleared > leader.getFirst().getValue().stat(TOWER_BEST);
-        manager.setStat(player.getUniqueId(), TOWER_BEST, cleared);
-        if (leads && cleared > 0) announce("<aqua><b>DAILY TOWER</b> <white>" + player.getName() + " <gray>leads today's tower, floor <aqua>"
-                + cleared + "</aqua> cleared");
     }
 
     private void summary(Player player, GauntletRun run, Member member, End why, int cleared, boolean record, double greed, double daily,
@@ -743,7 +721,7 @@ public class GauntletRuns implements Listener {
             }
         }
         sprint(run);
-        if (!firsts.isEmpty()) announce("<gold>★ <white>" + names(firsts) + " <gray>cleared floor <gold>" + run.floor
+        if (!firsts.isEmpty()) manager.announce("<gold>★ <white>" + names(firsts) + " <gray>cleared floor <gold>" + run.floor
                 + "</gold> for the first time" + (run.heat > 0 ? " <gray>at <gold>heat " + run.heat : ""));
     }
 
@@ -768,13 +746,6 @@ public class GauntletRuns implements Listener {
     // 754 seconds as 12:34
     static String clock(long seconds) {
         return seconds / 60 + ":" + String.format("%02d", seconds % 60);
-    }
-
-    // To everyone in the Gauntlet's world, in a run or not
-    private void announce(String message) {
-        Location lobby = manager.arena().lobby();
-        if (lobby == null || lobby.getWorld() == null) return;
-        for (Player player : lobby.getWorld().getPlayers()) TextUtils.send(player, message);
     }
 
     // "A", "A and B", "A, B and C"

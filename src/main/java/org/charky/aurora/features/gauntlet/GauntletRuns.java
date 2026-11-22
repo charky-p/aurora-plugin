@@ -89,6 +89,9 @@ public class GauntletRuns implements Listener {
         final Set<UUID> mobs = new HashSet<>();
         final Map<String, Integer> boons = new LinkedHashMap<>();
         List<String> offered = List.of();
+        // The best floor before this run, and whether passing it was announced yet
+        int bestBefore;
+        boolean newBest;
 
         Run(UUID player, int slot) {
             this.player = player;
@@ -154,6 +157,7 @@ public class GauntletRuns implements Listener {
 
         int slot = arena.claimSlot();
         Run run = new Run(player.getUniqueId(), slot);
+        run.bestBefore = manager.profile(player).best;
         runs.put(player.getUniqueId(), run);
         arena.paste(slot);
 
@@ -180,6 +184,7 @@ public class GauntletRuns implements Listener {
         takeRunItems(player);
 
         int cleared = run.cleared();
+        boolean record = cleared > run.bestBefore;
         manager.bank(player, run.shards, run.cores, cleared);
         if (why == End.QUIT) return;
 
@@ -191,10 +196,12 @@ public class GauntletRuns implements Listener {
         }
         String how = why == End.DIED ? "<red>You fell on floor " + run.floor : "<gray>You left the run on floor " + run.floor;
         player.showTitle(Title.title(TextUtils.parse(why == End.DIED ? "<red><b>DEFEATED" : "<gray><b>RUN OVER"),
-                TextUtils.parse("<gray>Floors cleared: <white>" + cleared)));
+                TextUtils.parse(record ? "<gold><b>NEW BEST</b> <gray>Floors cleared: <white>" + cleared
+                        : "<gray>Floors cleared: <white>" + cleared)));
         TextUtils.send(player, how + "<gray>. Cleared <white>" + cleared + "</white>, earned <aqua>" + run.shards
                 + " Shards" + (run.cores > 0 ? " <gray>and <light_purple>" + run.cores + " Cores" : "")
-                + "<gray>. Best: <white>" + manager.profile(player).best);
+                + (record ? "<gray>. <gold><b>NEW BEST!</b> <gray>(was " + run.bestBefore + ")"
+                : "<gray>. Best: <white>" + manager.profile(player).best));
     }
 
     private void heal(Player player) {
@@ -288,6 +295,12 @@ public class GauntletRuns implements Listener {
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.7f, 1.3f);
         TextUtils.send(player, "<green>Floor " + run.floor + " cleared <aqua>+" + floor.shards() + " bonus Shards"
                 + (floor.cores() > 0 ? " <light_purple>+" + floor.cores() + " Core" + (floor.cores() > 1 ? "s" : "") : ""));
+        // Past the old record, once a run, unless it is the first one ever
+        if (!run.newBest && run.floor > run.bestBefore && run.bestBefore > 0) {
+            run.newBest = true;
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7f, 1.2f);
+            TextUtils.send(player, "<gold><b>NEW BEST!</b> <gray>Past your old record of floor " + run.bestBefore);
+        }
 
         if (run.floor % BOON_EVERY == 0) {
             carePackage(player, run);

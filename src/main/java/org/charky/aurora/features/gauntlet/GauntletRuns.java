@@ -76,6 +76,8 @@ public class GauntletRuns implements Listener {
     private static final double EXECUTE_BELOW = 0.3;
     private static final String DAILY_DAY = "daily_day";
     private static final String HEAT_CHOICE = "heat_choice";
+    private static final String HOARDER = "g_hoarder";
+    public static final String BEST_COMBO = "best_combo";
     private static final NamespacedKey HEALTH_BOON = new NamespacedKey("aurora", "gauntlet_health");
     private static final NamespacedKey SPEED_BOON = new NamespacedKey("aurora", "gauntlet_speed");
     private static final NamespacedKey ABSORB_BOON = new NamespacedKey("aurora", "gauntlet_absorb");
@@ -124,6 +126,13 @@ public class GauntletRuns implements Listener {
         int revives;
         boolean daily;
         BossBar bar;
+        // Kills chained close together, and the run's longest chain
+        long lastKill;
+        int combo;
+        int bestCombo;
+        // A Shard Hoarder running loose, and how many were caught
+        UUID hoarder;
+        int hoarders;
 
         Run(UUID player, int slot) {
             this.player = player;
@@ -306,6 +315,7 @@ public class GauntletRuns implements Listener {
             if (mob != null) mob.remove();
         }
         if (run.bar != null) player.hideBossBar(run.bar);
+        if (run.hoarder != null && Bukkit.getEntity(run.hoarder) != null) Bukkit.getEntity(run.hoarder).remove();
         manager.arena().freeSlot(run.slot);
         clearBoons(player);
         takeRunItems(player);
@@ -319,6 +329,7 @@ public class GauntletRuns implements Listener {
         manager.bank(player, banked, run.cores, cleared);
         manager.addStat(player.getUniqueId(), "kills", run.kills);
         manager.addStat(player.getUniqueId(), "elite_kills", run.eliteKills);
+        if (run.bestCombo > profile.stat(BEST_COMBO)) manager.setStat(player.getUniqueId(), BEST_COMBO, run.bestCombo);
         // A run counts for the challenge once it cleared a floor
         if (cleared >= run.startFloor) manager.challenges().add(player, "runs", 1);
         if (why == End.QUIT) return;
@@ -348,7 +359,8 @@ public class GauntletRuns implements Listener {
                 + (run.startFloor > 1 ? " <dark_gray>(started on " + run.startFloor + ")" : "")
                 + (run.heat > 0 ? " <gold>Heat " + run.heat : ""));
         TextUtils.send(player, "<gray>Cleared <white>" + cleared + "</white> in <white>" + time + "</white>, <white>"
-                + run.kills + "</white> kills (" + run.eliteKills + " elite), <white>" + run.fastClears + "</white> fast clears");
+                + run.kills + "</white> kills (" + run.eliteKills + " elite), <white>" + run.fastClears + "</white> fast clears, best combo <gold>x"
+                + run.bestCombo + (run.hoarders > 0 ? "<gray>, <gold>" + run.hoarders + "</gold> hoarder" + (run.hoarders > 1 ? "s" : "") + " caught" : ""));
         String bonus = (greed > 0 ? " <gray>+" + fmt(greed) + "% greed" : "") + (daily > 1 ? " <gray>x" + fmt(daily) + " daily" : "");
         TextUtils.send(player, "<gray>Shards: <aqua>" + run.shards + bonus + (bonus.isEmpty() ? "" : " <gray>= <aqua><b>" + banked + "</b>")
                 + (run.cores > 0 ? " <gray>Cores: <light_purple>" + run.cores : ""));
@@ -449,6 +461,10 @@ public class GauntletRuns implements Listener {
         }
         run.floorMobs = run.mobs.size();
         run.floorStarted = System.currentTimeMillis();
+        if (!floor.boss() && run.floor >= data().setting("hoarder_from", 3)
+                && ThreadLocalRandom.current().nextDouble(100) < data().setting("hoarder_chance", 8)) {
+            hoarder(player, run, spawns.get(ThreadLocalRandom.current().nextInt(spawns.size())));
+        }
         if (elites > 0) {
             player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.4f, 1.4f);
             player.sendActionBar(TextUtils.parse("<gold><b>" + elites + " elite" + (elites > 1 ? "s" : "") + "</b> <gray>on this floor"));
@@ -460,6 +476,27 @@ public class GauntletRuns implements Listener {
             player.setAbsorptionAmount(absorb);
         }
         run.state = State.FIGHTING;
+    }
+
+    // A Shard Hoarder: quick, glowing, harmless, not needed to clear the floor, and worth
+    // hoarder_pay kills if caught before it gets away
+    private void hoarder(Player player, Run run, Location at) {
+        if (manager.registry().getMob(HOARDER) == null) return;
+        LivingEntity hoarder = spawners.spawnGauntletMob(new GauntletData.Variant(HOARDER, run.floor, false, run.heat, null).id(), at);
+        if (hoarder == null) return;
+        run.hoarder = hoarder.getUniqueId();
+        int seconds = (int) data().setting("hoarder_seconds", 20);
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.6f, 2f);
+        TextUtils.send(player, "<gold><b>SHARD HOARDER</b> <gray>appeared! Catch it in <white>" + seconds + " seconds</white> for a pile of Shards");
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (!hoarder.isValid() || hoarder.isDead()) return;
+            hoarder.getWorld().spawnParticle(Particle.POOF, hoarder.getLocation(), 20, 0.3, 0.3, 0.3, 0.05);
+            hoarder.remove();
+            if (runs.get(run.player) == run && hoarder.getUniqueId().equals(run.hoarder)) {
+                run.hoarder = null;
+                if (player.isOnline()) TextUtils.send(player, "<gray>The Shard Hoarder got away");
+            }
+        }, seconds * 20L);
     }
 
     // One mob of the run, hunting the player, sped up by the floor's mutator
@@ -505,7 +542,9 @@ public class GauntletRuns implements Listener {
             if (!runs.containsKey(run.player)) continue;
             updateBar(run);
             String status = switch (run.state) {
-                case FIGHTING -> "<red>Floor " + run.floor + " <dark_gray>| <white>" + run.mobs.size() + " left";
+                case FIGHTING -> "<red>Floor " + run.floor + " <dark_gray>| <white>" + run.mobs.size() + " left"
+                        + (run.combo >= 2 && System.currentTimeMillis() - run.lastKill <= data().setting("combo_window", 3) * 1000
+                        ? " <dark_gray>| <gold><b>x" + run.combo + " COMBO</b>" : "");
                 case CHOOSING -> "<gold>Pick a boon <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>/gauntlet boon</click>";
                 case STARTING -> "<red>Floor " + run.floor;
             };
@@ -679,9 +718,17 @@ public class GauntletRuns implements Listener {
     public void onMobDeath(EntityDeathEvent event) {
         UUID id = event.getEntity().getUniqueId();
         for (Run run : runs.values()) {
+            if (id.equals(run.hoarder)) {
+                caughtHoarder(run);
+                return;
+            }
             if (!run.mobs.remove(id)) continue;
             Player player = Bukkit.getPlayer(run.player);
             run.kills++;
+            long now = System.currentTimeMillis();
+            run.combo = now - run.lastKill <= data().setting("combo_window", 3) * 1000 ? run.combo + 1 : 1;
+            run.lastKill = now;
+            run.bestCombo = Math.max(run.bestCombo, run.combo);
             boolean elite = run.elites.remove(id);
             if (elite) run.eliteKills++;
             boolean boss = id.equals(run.boss);
@@ -700,7 +747,7 @@ public class GauntletRuns implements Listener {
             if (mobId != null && floor != null) {
                 String base = GauntletData.baseMobId(mobId);
                 double pay = floor.killPay(base) * (elite ? data().setting("elite_pay", 3) : 1)
-                        * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run);
+                        * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run) * comboPay(run);
                 int paid = (int) Math.round(pay);
                 run.shards += paid;
                 if (player != null) {
@@ -717,6 +764,25 @@ public class GauntletRuns implements Listener {
             }
             return;
         }
+    }
+
+    // Every kill of a combo past the first pays combo_step percent more, up to combo_max
+    private double comboPay(Run run) {
+        int steps = Math.min(run.combo - 1, (int) data().setting("combo_max", 10));
+        return 1 + Math.max(0, steps) * data().setting("combo_step", 5) / 100;
+    }
+
+    private void caughtHoarder(Run run) {
+        run.hoarder = null;
+        run.hoarders++;
+        GauntletData.Floor floor = data().floor(run.floor);
+        int paid = floor == null ? 0 : (int) Math.round(floor.kill() * data().setting("hoarder_pay", 20) * heatPay(run));
+        run.shards += paid;
+        Player player = Bukkit.getPlayer(run.player);
+        if (player == null) return;
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8f, 1.6f);
+        player.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, player.getLocation().add(0, 1, 0), 30, 0.5, 0.8, 0.5, 0.2);
+        TextUtils.send(player, "<gold><b>CAUGHT!</b> <gray>The Shard Hoarder drops <aqua>" + paid + " Shards");
     }
 
     @EventHandler

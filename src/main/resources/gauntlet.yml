@@ -1722,3 +1722,16 @@ settings:
   duel_seconds: 180.0
   duel_win_shards: 10.0
   duel_k: 32.0
+  combo_window: 3.0
+  combo_step: 5.0
+  combo_max: 10.0
+  hoarder_from: 3.0
+  hoarder_chance: 8.0
+  hoarder_seconds: 20.0
+  hoarder_pay: 20.0
+  weekly_floor_1: 1500.0
+  weekly_floor_2: 900.0
+  weekly_floor_3: 500.0
+  weekly_pvp_1: 1000.0
+  weekly_pvp_2: 600.0
+  weekly_pvp_3: 300.0

@@ -33,3 +33,16 @@ heat_shards,30,Percent more Shards a heat level
 duel_seconds,180,A duel ends after this many seconds; the one with more health left wins
 duel_win_shards,10,Shards for winning a duel (not twice in a row against the same player)
 duel_k,32,How far one duel moves a rating
+combo_window,3,Seconds between kills that keep a combo going
+combo_step,5,Percent more Shards a kill for each kill of a combo
+combo_max,10,Combo kills that count for more Shards at most
+hoarder_from,3,The first floor a Shard Hoarder can come on
+hoarder_chance,8,Percent chance a floor has a Shard Hoarder (never a boss floor)
+hoarder_seconds,20,Seconds before a Shard Hoarder gets away
+hoarder_pay,20,A Shard Hoarder pays this many kills' Shards
+weekly_floor_1,1500,Shards for the best floor of the week
+weekly_floor_2,900,Shards for the second best floor of the week
+weekly_floor_3,500,Shards for the third best floor of the week
+weekly_pvp_1,1000,Shards for the most PvP wins of the week
+weekly_pvp_2,600,Shards for the second most PvP wins of the week
+weekly_pvp_3,300,Shards for the third most PvP wins of the week

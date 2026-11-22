@@ -281,3 +281,15 @@ items:
       - attr: FOLLOW_RANGE
         value: 64.0
     glowing: true
+
+  g_hoarder:
+    display: "<gold><b>Shard Hoarder"
+    entity: RABBIT
+    health: 25.0
+    damage: 0.0
+    attributes:
+      - attr: MOVEMENT_SPEED
+        value: 0.5
+      - attr: FOLLOW_RANGE
+        value: 16.0
+    glowing: true

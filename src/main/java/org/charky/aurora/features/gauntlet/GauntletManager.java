@@ -191,6 +191,7 @@ public class GauntletManager {
     public void start() {
         sweep = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             if (world != null) world.everySecond();
+            if (pvp != null) pvp.markBounties();
             // The weekly boards pay out once the week has turned, the lobby's boards catch up
             if (ticks % 60 == 0) weekly.check();
             if (ticks % 30 == 0) boards.refresh();

@@ -29,6 +29,7 @@ import org.charky.aurora.features.combat.CombatFormulas;
 import org.charky.aurora.features.combat.PlayerDamage;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -38,7 +39,7 @@ import java.util.UUID;
 // and logging out inside counts as dying, to whoever hit them last. Hits are priced
 // from the gear's Aurora stats (GauntletPvpFormula), not vanilla's. Kills pay Shards,
 // more on a streak and for ending someone else's, heal the killer up, and are counted
-// for the PvP board
+// for the PvP board. A long enough streak is a bounty: its player glows in the zone
 public class GauntletPvp implements Listener {
     public static final String KILLS = "pvp_kills";
     public static final String DEATHS = "pvp_deaths";
@@ -63,6 +64,8 @@ public class GauntletPvp implements Listener {
     // Each player's kills since they last died, and when they last swung at a player
     private final Map<UUID, Integer> streaks = new HashMap<>();
     private final Map<UUID, Long> lastSwing = new HashMap<>();
+    // Glowing for a bounty right now
+    private final Set<UUID> wanted = new HashSet<>();
 
     public GauntletPvp(Aurora plugin, GauntletManager manager) {
         this.plugin = plugin;
@@ -240,7 +243,7 @@ public class GauntletPvp implements Listener {
         int streak = streaks.merge(killer.getUniqueId(), 1, Integer::sum);
         manager.addStat(killer.getUniqueId(), KILLS, 1);
         if (streak > manager.profile(killer).stat(BEST_STREAK)) manager.setStat(killer.getUniqueId(), BEST_STREAK, streak);
-        int shutdown = ended != null && ended >= 3 ? (int) Math.round(ended * data.setting("pvp_shutdown_shards", 3)) : 0;
+        int shutdown = ended == null ? 0 : shutdownPay(ended);
         int pay = (int) Math.round(data.setting("pvp_kill_shards", 5)
                 + data.setting("pvp_streak_shards", 2) * Math.min(streak - 1, 5)) + shutdown;
         manager.giveShards(killer, pay);
@@ -258,9 +261,34 @@ public class GauntletPvp implements Listener {
 
         World world = victim.getWorld();
         if (shutdown > 0) broadcast(world, "<gold>" + killer.getName() + " <gray>ended <gold>" + victim.getName()
-                + "<gray>'s <white>" + ended + "</white> kill streak");
-        if (ANNOUNCED.contains(streak)) broadcast(world, "<red><b>" + killer.getName() + "</b> <gray>is on a <white>"
-                + streak + "</white> kill streak!");
+                + "<gray>'s <white>" + ended + "</white> kill streak" + (ended >= bountyStreak() ? " <gold>and claims the bounty" : "")
+                + " <aqua>+" + shutdown + " Shards");
+        if (streak == bountyStreak()) {
+            broadcast(world, "<gold><b>BOUNTY</b> <red>" + killer.getName() + " <gray>is on a <white>" + streak
+                    + "</white> kill streak and glows in the PvP zone: ending it pays <aqua>" + shutdownPay(streak) + "+ Shards");
+        } else if (ANNOUNCED.contains(streak)) {
+            broadcast(world, "<red><b>" + killer.getName() + "</b> <gray>is on a <white>" + streak + "</white> kill streak!");
+        }
+    }
+
+    // What ending a streak this long pays, nothing below 3 kills
+    private int shutdownPay(int streak) {
+        return streak >= 3 ? (int) Math.round(streak * manager.data().setting("pvp_shutdown_shards", 3)) : 0;
+    }
+
+    private int bountyStreak() {
+        return Math.max(2, (int) manager.data().setting("bounty_streak", 5));
+    }
+
+    // Every second: whoever is on a bounty streak glows while in the zone, and stops when
+    // they leave it or their streak ends
+    void markBounties() {
+        int bounty = bountyStreak();
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            boolean now = manager.isHere(player) && inZone(player) && streak(player) >= bounty;
+            if (now && wanted.add(player.getUniqueId())) player.setGlowing(true);
+            else if (!now && wanted.remove(player.getUniqueId())) player.setGlowing(false);
+        }
     }
 
     private static void broadcast(World world, String message) {
@@ -271,6 +299,7 @@ public class GauntletPvp implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onLeaveServer(PlayerQuitEvent event) {
         streaks.remove(event.getPlayer().getUniqueId());
+        if (wanted.remove(event.getPlayer().getUniqueId())) event.getPlayer().setGlowing(false);
     }
 
     // A player's streak, 0 outside a streak

@@ -101,8 +101,14 @@ public class SpawnerManager {
         if (data == null || !this.spawnerExists(spawner)) return null;
 
         Entity spawned = spawnLocation.getWorld().spawn(spawnLocation, data.type().getEntityClass(), entity -> {
-            // Remove jockeys
+            // Remove jockeys: riders vanilla put on it, and the chicken (or other mount)
+            // vanilla's spawn setup already put it on and added to the world
             entity.getPassengers().forEach(entity::removePassenger);
+            Entity mount = entity.getVehicle();
+            if (mount != null) {
+                entity.leaveVehicle();
+                mount.remove();
+            }
 
             // Spawner Id
             entity.getPersistentDataContainer().set(DataKeys.SPAWNER_KEY, PersistentDataType.STRING, spawner);

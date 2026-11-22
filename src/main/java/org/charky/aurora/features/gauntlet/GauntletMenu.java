@@ -16,7 +16,8 @@ import java.util.UUID;
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
 // starting kit, milestones, the top floors, and the way out
 public class GauntletMenu extends PagedMenu {
-    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, CHALLENGES = 4, MILESTONES = 5, TOP = 6, PVP = 7, DUELS = 8, LEAVE = 9;
+    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, CHALLENGES = 4, MILESTONES = 5, TOP = 6, WEEKLY = 7,
+            PVP = 8, DUELS = 9, LEAVE = 10;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -100,6 +101,32 @@ public class GauntletMenu extends PagedMenu {
         top.add("");
         top.add("<gray>Your best: <white>" + profile.best + " <dark_gray>(" + profile.runs + " runs)");
         items.add(button(Material.PLAYER_HEAD, "<aqua><b>Top Floors", top));
+
+        GauntletWeekly weekly = manager.weekly();
+        GauntletData data = manager.data();
+        List<String> week = new ArrayList<>(List.of(
+                "<gray>The week's best floor and most PvP",
+                "<gray>wins. The top three of each are paid",
+                "<gray>when the week ends, in <white>" + GauntletWeekly.timeLeft(),
+                "",
+                "<gray>Your floor: <white>" + weekly.mine(player.getUniqueId(), GauntletWeekly.FLOOR)
+                        + " <gray>PvP wins: <white>" + weekly.mine(player.getUniqueId(), GauntletWeekly.PVP),
+                "",
+                "<yellow>Best floor <gray>(" + (int) data.setting("weekly_floor_1", 0) + " / " + (int) data.setting("weekly_floor_2", 0)
+                        + " / " + (int) data.setting("weekly_floor_3", 0) + " Shards)"));
+        int row = 1;
+        for (Map.Entry<UUID, GauntletProfile> entry : weekly.top(GauntletWeekly.FLOOR, 3)) {
+            week.add("<gray>" + row++ + ". <white>" + GauntletManager.nameOf(entry.getKey()) + " <gray>- floor " + entry.getValue().stat(GauntletWeekly.FLOOR));
+        }
+        if (row == 1) week.add("<gray>Nobody yet this week");
+        week.add("<yellow>PvP wins <gray>(" + (int) data.setting("weekly_pvp_1", 0) + " / " + (int) data.setting("weekly_pvp_2", 0)
+                + " / " + (int) data.setting("weekly_pvp_3", 0) + " Shards)");
+        row = 1;
+        for (Map.Entry<UUID, GauntletProfile> entry : weekly.top(GauntletWeekly.PVP, 3)) {
+            week.add("<gray>" + row++ + ". <white>" + GauntletManager.nameOf(entry.getKey()) + " <gray>- " + entry.getValue().stat(GauntletWeekly.PVP) + " wins");
+        }
+        if (row == 1) week.add("<gray>Nobody yet this week");
+        items.add(button(Material.SUNFLOWER, "<gold><b>This Week", week));
 
         List<String> pvp = new ArrayList<>(List.of(
                 "<gray>Fight other players in the PvP zone",

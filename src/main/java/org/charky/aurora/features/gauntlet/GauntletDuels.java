@@ -254,6 +254,7 @@ public class GauntletDuels implements Listener {
                 }
             }
             if (winning != null) manager.challenges().add(winning, "pvp_kills", 1);
+            manager.weekly().pvpWin(winner);
             result = "<gold>" + GauntletManager.nameOf(winner) + " <gray>beat <white>" + GauntletManager.nameOf(loser)
                     + " <gray>in a duel, " + how + " <dark_gray>(" + after[0] + " +" + gain + " / " + after[1] + " -" + gain + ")";
         } else {

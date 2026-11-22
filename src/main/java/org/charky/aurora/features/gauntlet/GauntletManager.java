@@ -70,7 +70,9 @@ public class GauntletManager implements Listener {
     private GauntletPvp pvp;
     private GauntletDuels duels;
     private final GauntletChallenges challenges = new GauntletChallenges(this);
+    private final GauntletWeekly weekly;
     private BukkitTask sweep;
+    private int ticks;
 
     public GauntletManager(Aurora plugin, Database db, GauntletStore store, PlayerManager players,
                            ScoreboardManager scoreboard, CosmeticManager cosmetics, BuildManager build) {
@@ -82,6 +84,7 @@ public class GauntletManager implements Listener {
         this.cosmetics = cosmetics;
         this.build = build;
         this.arena = new GauntletArena(db, store, plugin.getDataFolder(), plugin.getLogger());
+        this.weekly = new GauntletWeekly(this, plugin.getDataFolder(), plugin.getLogger());
         profiles.putAll(store.loadAll());
     }
 
@@ -99,6 +102,10 @@ public class GauntletManager implements Listener {
 
     public GauntletChallenges challenges() {
         return challenges;
+    }
+
+    public GauntletWeekly weekly() {
+        return weekly;
     }
 
     public void setDuels(GauntletDuels duels) {
@@ -139,6 +146,8 @@ public class GauntletManager implements Listener {
         sweep = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             sweepAll();
             hintNewPlayers();
+            // The weekly boards pay out once the week has turned
+            if (ticks++ % 60 == 0) weekly.check();
         }, 20L, 20L);
         scoreboard.setOverride(this::sidebar);
     }
@@ -345,6 +354,7 @@ public class GauntletManager implements Listener {
         Player player = event.getPlayer();
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             if (!player.isOnline()) return;
+            weekly.notice(player);
             if (isHere(player)) {
                 Location lobby = arena.lobby();
                 if (lobby != null) player.teleport(lobby);
@@ -512,6 +522,7 @@ public class GauntletManager implements Listener {
         profile.runs++;
         boolean record = cleared > profile.best;
         if (record) profile.best = cleared;
+        if (cleared > 0) weekly.floorCleared(uuid, cleared);
         save(uuid);
         if (record) milestones(player, profile);
         refreshBoard(player);

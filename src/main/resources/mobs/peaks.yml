@@ -68,6 +68,7 @@ items:
     health: 1500.0
     defence: 133.0
     attack: 36.0
+    damage: 0.25
     density: 15
     independent:
       - id: spider_silk
@@ -79,6 +80,7 @@ items:
     health: 1500.0
     defence: 133.0
     attack: 39.0
+    damage: 0.25
     density: 16
     independent:
       - id: venom_sac
@@ -105,6 +107,7 @@ items:
     health: 20000.0
     defence: 190.0
     attack: 46.0
+    damage: 0.25
     density: 17
     attributes:
       - attr: SCALE
@@ -124,6 +127,7 @@ items:
     health: 4000.0
     defence: 190.0
     attack: 46.0
+    damage: 0.5
     density: 17
     attributes:
       - attr: FOLLOW_RANGE

@@ -9,6 +9,9 @@ import org.bukkit.event.entity.EntityCombustByBlockEvent;
 import org.bukkit.event.entity.EntityCombustByEntityEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDropItemEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.persistence.PersistentDataType;
@@ -46,6 +49,16 @@ public class LeftoverMobListener implements Listener {
     public void onSunburn(EntityCombustEvent event) {
         if (event instanceof EntityCombustByBlockEvent || event instanceof EntityCombustByEntityEvent) return;
         if (event.getEntity().getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+            event.setCancelled(true);
+        }
+    }
+
+    // A cave spider's bite poisons in vanilla, on top of the hit the data prices. Players
+    // have no other way to be poisoned by an attack, so none of it lands
+    @EventHandler(ignoreCancelled = true)
+    public void onBitePoison(EntityPotionEffectEvent event) {
+        if (event.getEntity() instanceof Player && event.getCause() == EntityPotionEffectEvent.Cause.ATTACK
+                && event.getModifiedType() == PotionEffectType.POISON) {
             event.setCancelled(true);
         }
     }

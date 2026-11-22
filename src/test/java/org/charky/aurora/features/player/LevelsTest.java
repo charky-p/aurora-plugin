@@ -82,35 +82,35 @@ class LevelsTest {
 
     @Test
     void higherLevelsPayMore() {
-        assertEquals(1, Levels.essenceFor(1));
-        assertEquals(1, Levels.essenceFor(9));
-        assertEquals(2, Levels.essenceFor(11));
-        assertEquals(6, Levels.essenceFor(55));
-        assertEquals(10, Levels.essenceFor(99));
+        assertEquals(3, Levels.essenceFor(1));
+        assertEquals(3, Levels.essenceFor(9));
+        assertEquals(6, Levels.essenceFor(11));
+        assertEquals(18, Levels.essenceFor(55));
+        assertEquals(30, Levels.essenceFor(99));
     }
 
     @Test
     void everyTenthLevelPaysFiveTimesOver() {
-        assertEquals(10, Levels.essenceFor(10));
-        assertEquals(30, Levels.essenceFor(50));
+        assertEquals(30, Levels.essenceFor(10));
+        assertEquals(90, Levels.essenceFor(50));
         assertTrue(Levels.isMilestone(50));
         assertFalse(Levels.isMilestone(51));
     }
 
     @Test
     void everyHundredthLevelIsMonumental() {
-        assertEquals(500, Levels.essenceFor(100));
-        assertEquals(500, Levels.essenceFor(200));
+        assertEquals(1_500, Levels.essenceFor(100));
+        assertEquals(1_500, Levels.essenceFor(200));
         assertTrue(Levels.essenceFor(100) > Levels.essenceFor(90) * 5);
     }
 
-    // Levels alone should buy the first rank or two by the end of Gormak, never the best
+    // Levels alone should buy a perk or a few cosmetics by the end of Gormak, never the best
     @Test
-    void levelsToFiftyPayABitOverTwoHundredEssence() {
+    void levelsToFiftyPayAboutSevenHundredEssence() {
         int essence = 0;
         for (int level = 1; level <= 50; level++) essence += Levels.essenceFor(level);
 
-        assertEquals(235, essence);
+        assertEquals(705, essence);
     }
 
     @Test

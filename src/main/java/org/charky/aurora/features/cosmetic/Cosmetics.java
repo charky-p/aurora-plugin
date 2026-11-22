@@ -51,9 +51,9 @@ public final class Cosmetics {
     // cost the same, all but the rarest
     private static final String[] TRIM_PATTERNS = {"sentry", "dune", "coast", "wild", "ward", "eye", "vex", "tide",
             "snout", "rib", "spire", "wayfinder", "shaper", "raiser", "host", "flow", "bolt", "silence"};
-    private static final int TRIM_PRICE = 500;
+    private static final int TRIM_PRICE = 1_500;
     private static final String RARE_TRIM = "silence";
-    private static final int RARE_TRIM_PRICE = 1_650;
+    private static final int RARE_TRIM_PRICE = 5_000;
     // What every trim is drawn on in the menus
     public static final Material TRIM_ICON = Material.IRON_CHESTPLATE;
     // name, colour in the menu, icon. Quartz is what a trim is made of until another is chosen
@@ -65,7 +65,7 @@ public final class Cosmetics {
             {"resin", "#FC7812", "RESIN_BRICK"},
     };
     private static final String DEFAULT_TRIM_MATERIAL = "quartz";
-    private static final int TRIM_MATERIAL_PRICE = 250;
+    private static final int TRIM_MATERIAL_PRICE = 750;
     // The looks players pick from, every material up to gold. Diamond and netherite are
     // only sold from the Ironbound Quarry on, and Best Owned shows them
     private static final String[] TOOL_LOOKS = {"WOODEN", "STONE", "COPPER", "IRON", "GOLDEN"};
@@ -151,25 +151,25 @@ public final class Cosmetics {
         world("elderwood_roots", "<gradient:#0B8043:#A8FF78>", "ELDERWOOD ROOTS", "elderwood" + REGION_SEP + "elderheart");
         world("skyworld", "<gradient:#BFE9FF:#FFE680>", "SKY WORLD", "skyisles" + REGION_SEP + "kingdom");
 
-        bought("advanced", "<green>", 30);
-        bought("elite", "<aqua>", 50);
-        bought("hero", "<yellow>", 70);
-        bought("miner", "<gray>", 80);
-        bought("warrior", "<red>", 100);
-        bought("slayer", "<dark_red>", 120);
-        bought("champion", "<gold>", 130);
-        bought("explorer", "<dark_green>", 150);
-        bought("legend", "<light_purple>", 170);
-        bought("grinder", "<dark_aqua>", 180);
-        bought("titan", "<dark_aqua>", 220);
-        bought("tryhard", "<red>", 230);
-        bought("colossal", "<dark_green>", 270);
-        bought("no life", "<dark_gray>", 300);
-        bought("invincible", "<blue>", 350);
-        bought("mythic", "<gradient:#C471ED:#F64F59>", 400);
-        bought("phantom", "<gradient:#BDC3C7:#2C3E50>", 500);
-        bought("void", "<gradient:#8E2DE2:#4A00E0>", 650);
-        bought("cosmic", "<gradient:#00C6FF:#7F00FF>", 850);
+        bought("advanced", "<green>", 100);
+        bought("elite", "<aqua>", 150);
+        bought("hero", "<yellow>", 200);
+        bought("miner", "<gray>", 250);
+        bought("warrior", "<red>", 300);
+        bought("slayer", "<dark_red>", 350);
+        bought("champion", "<gold>", 400);
+        bought("explorer", "<dark_green>", 450);
+        bought("legend", "<light_purple>", 500);
+        bought("grinder", "<dark_aqua>", 550);
+        bought("titan", "<dark_aqua>", 650);
+        bought("tryhard", "<red>", 700);
+        bought("colossal", "<dark_green>", 800);
+        bought("no life", "<dark_gray>", 900);
+        bought("invincible", "<blue>", 1_000);
+        bought("mythic", "<gradient:#C471ED:#F64F59>", 1_250);
+        bought("phantom", "<gradient:#BDC3C7:#2C3E50>", 1_500);
+        bought("void", "<gradient:#8E2DE2:#4A00E0>", 2_000);
+        bought("cosmic", "<gradient:#00C6FF:#7F00FF>", 2_500);
 
         paid("legendary", "<gold><b>");
         paid("immortal", "<dark_red><b>");
@@ -214,14 +214,14 @@ public final class Cosmetics {
         }
 
         join("default", "<yellow>Classic", Source.DEFAULT, 0, "<yellow><player> joined the game");
-        join("back", "<gray>Back Again", Source.ESSENCE, 130, "<gray><player> is back");
-        join("arrived", "<green>Arrival", Source.ESSENCE, 170, "<dark_gray>[<green>+<dark_gray>] <white><player> <gray>has arrived");
-        join("shift", "<yellow>Another Shift", Source.ESSENCE, 200, "<yellow><player> <gray>clocked in for another shift");
-        join("wild", "<green>Wild", Source.ESSENCE, 250, "<green>A wild <white><player> <green>appeared!");
-        join("pickaxe", "<aqua>Pickaxe Ready", Source.ESSENCE, 300, "<aqua><player> <gray>picked their pickaxe back up");
-        join("skies", "<aqua>From the Skies", Source.ESSENCE, 350, "<aqua><player> <gray>descended from the skies");
-        join("miner", "<gold>Ore Thief", Source.ESSENCE, 350, "<gold><player> <gray>is here to mine. Hide your ore.");
-        join("depths", "<dark_aqua>From the Depths", Source.ESSENCE, 500, "<dark_aqua><player> <gray>climbed out of the mines");
+        join("back", "<gray>Back Again", Source.ESSENCE, 400, "<gray><player> is back");
+        join("arrived", "<green>Arrival", Source.ESSENCE, 500, "<dark_gray>[<green>+<dark_gray>] <white><player> <gray>has arrived");
+        join("shift", "<yellow>Another Shift", Source.ESSENCE, 600, "<yellow><player> <gray>clocked in for another shift");
+        join("wild", "<green>Wild", Source.ESSENCE, 750, "<green>A wild <white><player> <green>appeared!");
+        join("pickaxe", "<aqua>Pickaxe Ready", Source.ESSENCE, 900, "<aqua><player> <gray>picked their pickaxe back up");
+        join("skies", "<aqua>From the Skies", Source.ESSENCE, 1_000, "<aqua><player> <gray>descended from the skies");
+        join("miner", "<gold>Ore Thief", Source.ESSENCE, 1_000, "<gold><player> <gray>is here to mine. Hide your ore.");
+        join("depths", "<dark_aqua>From the Depths", Source.ESSENCE, 1_500, "<dark_aqua><player> <gray>climbed out of the mines");
         join("legend", "<gold><b>Legend", Source.GRANT, 0,
                 "<gradient:#FFD700:#FFFFFF><b>The legend <player> has returned</b></gradient>");
         join("royal", "<gold><b>Royal", Source.GRANT, 0, "<gold><b>Make way for <player></b>");
@@ -233,16 +233,16 @@ public final class Cosmetics {
                 "<gradient:#7F7FD5:#86A8E7:#91EAE4>The aurora shimmers as <b><player></b> arrives</gradient>");
 
         // The value is the particle
-        trail("flame", "<gold>Flame", Material.BLAZE_POWDER, Source.ESSENCE, 350, "FLAME");
-        trail("hearts", "<red>Hearts", Material.POPPY, Source.ESSENCE, 350, "HEART");
-        trail("clouds", "<white>Clouds", Material.WHITE_WOOL, Source.ESSENCE, 350, "CLOUD");
-        trail("sparks", "<yellow>Sparks", Material.FLINT_AND_STEEL, Source.ESSENCE, 400, "CRIT");
-        trail("notes", "<green>Notes", Material.NOTE_BLOCK, Source.ESSENCE, 500, "NOTE");
-        trail("snow", "<white>Snow", Material.SNOWBALL, Source.ESSENCE, 500, "SNOWFLAKE");
-        trail("emerald", "<green>Emerald Dust", Material.EMERALD, Source.ESSENCE, 600, "HAPPY_VILLAGER");
-        trail("cherry", "<light_purple>Cherry Blossom", Material.PINK_PETALS, Source.ESSENCE, 650, "CHERRY_LEAVES");
-        trail("enchant", "<aqua>Runes", Material.ENCHANTING_TABLE, Source.ESSENCE, 650, "ENCHANT");
-        trail("wax", "<gold>Honey Glow", Material.HONEYCOMB, Source.ESSENCE, 850, "WAX_ON");
+        trail("flame", "<gold>Flame", Material.BLAZE_POWDER, Source.ESSENCE, 1_000, "FLAME");
+        trail("hearts", "<red>Hearts", Material.POPPY, Source.ESSENCE, 1_000, "HEART");
+        trail("clouds", "<white>Clouds", Material.WHITE_WOOL, Source.ESSENCE, 1_000, "CLOUD");
+        trail("sparks", "<yellow>Sparks", Material.FLINT_AND_STEEL, Source.ESSENCE, 1_250, "CRIT");
+        trail("notes", "<green>Notes", Material.NOTE_BLOCK, Source.ESSENCE, 1_500, "NOTE");
+        trail("snow", "<white>Snow", Material.SNOWBALL, Source.ESSENCE, 1_500, "SNOWFLAKE");
+        trail("emerald", "<green>Emerald Dust", Material.EMERALD, Source.ESSENCE, 1_750, "HAPPY_VILLAGER");
+        trail("cherry", "<light_purple>Cherry Blossom", Material.PINK_PETALS, Source.ESSENCE, 2_000, "CHERRY_LEAVES");
+        trail("enchant", "<aqua>Runes", Material.ENCHANTING_TABLE, Source.ESSENCE, 2_000, "ENCHANT");
+        trail("wax", "<gold>Honey Glow", Material.HONEYCOMB, Source.ESSENCE, 2_500, "WAX_ON");
         trail("soul", "<dark_aqua><b>Soul Fire", Material.SOUL_TORCH, Source.GRANT, 0, "SOUL_FIRE_FLAME");
         trail("electric", "<yellow><b>Lightning", Material.LIGHTNING_ROD, Source.GRANT, 0, "ELECTRIC_SPARK");
         trail("glow", "<aqua><b>Glow", Material.GLOW_INK_SAC, Source.GRANT, 0, "GLOW");
@@ -250,22 +250,22 @@ public final class Cosmetics {
         trail("end", "<white><b>Starlight", Material.END_ROD, Source.GRANT, 0, "END_ROD");
 
         // The value is the effect, see KillEffects
-        kill("flames", "<gold>Burn", Material.FIRE_CHARGE, 500);
-        kill("hearts", "<red>Heartbreak", Material.POPPY, 500);
-        kill("soul", "<dark_aqua>Soul Release", Material.SOUL_LANTERN, 650);
-        kill("firework", "<light_purple>Firework", Material.FIREWORK_ROCKET, 850);
-        kill("explosion", "<red><b>Explosion", Material.TNT, 1_000);
-        kill("lightning", "<yellow><b>Smite", Material.LIGHTNING_ROD, 1_350);
+        kill("flames", "<gold>Burn", Material.FIRE_CHARGE, 1_500);
+        kill("hearts", "<red>Heartbreak", Material.POPPY, 1_500);
+        kill("soul", "<dark_aqua>Soul Release", Material.SOUL_LANTERN, 2_000);
+        kill("firework", "<light_purple>Firework", Material.FIREWORK_ROCKET, 2_500);
+        kill("explosion", "<red><b>Explosion", Material.TNT, 3_000);
+        kill("lightning", "<yellow><b>Smite", Material.LIGHTNING_ROD, 4_000);
 
         death("default", "<gray>Plain", Source.DEFAULT, 0,
                 "<gray><b><player></b> was slain by <killer>", "<gray><b><player></b> has died");
-        death("fallen", "<red>Fallen", Source.ESSENCE, 170,
+        death("fallen", "<red>Fallen", Source.ESSENCE, 500,
                 "<red><b><player></b> fell to <killer>", "<red><b><player></b> has fallen");
-        death("bested", "<yellow>Bested", Source.ESSENCE, 250,
+        death("bested", "<yellow>Bested", Source.ESSENCE, 750,
                 "<yellow><b><player></b> was bested by <killer>", "<yellow><b><player></b> ran out of luck");
-        death("rest", "<aqua>Laid to Rest", Source.ESSENCE, 350,
+        death("rest", "<aqua>Laid to Rest", Source.ESSENCE, 1_000,
                 "<aqua><b><player></b> was laid to rest by <killer>", "<aqua><b><player></b> was laid to rest");
-        death("skull", "<white>Skull", Source.ESSENCE, 500,
+        death("skull", "<white>Skull", Source.ESSENCE, 1_500,
                 "<dark_gray>☠ <white><b><player></b> <dark_gray>« <killer>", "<dark_gray>☠ <white><b><player></b>");
         death("reign", "<gold><b>End of a Reign", Source.GRANT, 0,
                 "<gold>The reign of <b><player></b> was ended by <killer>", "<gold>The reign of <b><player></b> is over");

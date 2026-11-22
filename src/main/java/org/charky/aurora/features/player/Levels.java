@@ -17,14 +17,16 @@ public final class Levels {
     static final double EARLY_GROWTH = 1.35;
     static final int EARLY_LEVELS = 15;
     static final double LATE_GROWTH = 1.1;
-    // Every level pays 1 Essence, plus 1 more for each ten levels reached
+    // Every level pays 1 Essence, plus 1 more for each ten levels reached, all times
+    // ESSENCE_MULTIPLIER
     static final int LEVELS_PER_BONUS = 10;
+    static final int ESSENCE_MULTIPLIER = 3;
     // A level that ends in 0 pays this many times over
     static final int MILESTONE_EVERY = 10;
     static final int MILESTONE_MULTIPLIER = 5;
     // And every hundredth pays this flat, the monumental ones
     static final int MONUMENT_EVERY = 100;
-    static final int MONUMENT_ESSENCE = 500;
+    static final int MONUMENT_ESSENCE = 1_500;
 
     private Levels() {
     }
@@ -47,7 +49,7 @@ public final class Levels {
         if (level <= 0) return 0;
         if (level % MONUMENT_EVERY == 0) return MONUMENT_ESSENCE;
 
-        int base = 1 + level / LEVELS_PER_BONUS;
+        int base = (1 + level / LEVELS_PER_BONUS) * ESSENCE_MULTIPLIER;
         return level % MILESTONE_EVERY == 0 ? base * MILESTONE_MULTIPLIER : base;
     }
 

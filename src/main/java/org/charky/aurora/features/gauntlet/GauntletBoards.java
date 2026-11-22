@@ -19,11 +19,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-// Leaderboards standing in the lobby: the top floors, PvP kills, duel ratings, or the
-// week's two boards. Each is a text display saved with the world (so deploys carry it),
+// Leaderboards standing in the lobby: the top floors, PvP kills, duel ratings, the
+// fastest solo runs to sprint_floor, or the week's two boards. Each is a text display saved with the world (so deploys carry it),
 // placed with /a gauntlet board and brought up to date every half minute
 final class GauntletBoards {
-    static final List<String> KINDS = List.of("floors", "pvp", "duels", "week");
+    static final List<String> KINDS = List.of("floors", "pvp", "duels", "week", "sprint");
     private static final int ROWS = 10;
     // How far /a gauntlet board remove looks
     private static final double REACH = 8;
@@ -85,6 +85,11 @@ final class GauntletBoards {
                 lines.add(TITLE.formatted("PVP KILLS"));
                 lines.addAll(rows(manager.topBy(GauntletPvp.KILLS, ROWS), profile -> profile.stat(GauntletPvp.KILLS) + " kills",
                         "Nobody has a PvP kill yet"));
+            }
+            case "sprint" -> {
+                lines.add(TITLE.formatted("FASTEST TO FLOOR " + GauntletRuns.sprintFloor(manager.data())));
+                lines.addAll(rows(manager.lowestBy(GauntletRuns.SPRINT, ROWS), profile -> GauntletRuns.clock(profile.stat(GauntletRuns.SPRINT)),
+                        "Nobody has made it yet"));
             }
             case "duels" -> {
                 lines.add(TITLE.formatted("DUEL RATING"));

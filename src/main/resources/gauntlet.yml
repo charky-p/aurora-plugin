@@ -2998,4 +2998,5 @@ settings:
   revive_seconds: 3.0
   revive_health: 30.0
   bounty_streak: 5.0
+  sprint_floor: 10.0
   choice_seconds: 45.0

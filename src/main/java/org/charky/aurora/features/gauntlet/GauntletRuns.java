@@ -65,6 +65,8 @@ public class GauntletRuns implements Listener {
     // A player's kills of one mob, slain:g_rotter, and how many mobs they have met
     static final String SLAIN = "slain:";
     static final String DISCOVERED = "discovered";
+    // A player's fastest solo run from floor 1 to sprint_floor, in seconds
+    static final String SPRINT = "sprint";
 
     private final Aurora plugin;
     private final GauntletManager manager;
@@ -401,7 +403,7 @@ public class GauntletRuns implements Listener {
     private void summary(Player player, GauntletRun run, Member member, End why, int cleared, boolean record, double greed, double daily,
                          double partyPay, int banked) {
         long seconds = (System.currentTimeMillis() - run.started) / 1000;
-        String time = seconds / 60 + ":" + String.format("%02d", seconds % 60);
+        String time = clock(seconds);
         boolean party = run.partySize > 1;
         TextUtils.send(player, "");
         TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>RUN OVER</b></gradient> <gray>" + (why == End.DIED
@@ -683,8 +685,32 @@ public class GauntletRuns implements Listener {
                 TextUtils.send(player, "<gold><b>NEW BEST!</b> <gray>Past your old record of floor " + member.bestBefore);
             }
         }
+        sprint(run);
         if (!firsts.isEmpty()) announce("<gold>★ <white>" + names(firsts) + " <gray>cleared floor <gold>" + run.floor
                 + "</gold> for the first time" + (run.heat > 0 ? " <gray>at <gold>heat " + run.heat : ""));
+    }
+
+    // A solo run from floor 1 that clears sprint_floor sets the player's fastest time
+    private void sprint(GauntletRun run) {
+        if (run.partySize != 1 || run.startFloor != 1 || run.floor != sprintFloor(data())) return;
+        Player player = run.online().stream().findFirst().orElse(null);
+        if (player == null) return;
+        int seconds = (int) ((System.currentTimeMillis() - run.started) / 1000);
+        int fastest = manager.profile(player).stat(SPRINT);
+        if (fastest > 0 && seconds >= fastest) return;
+        manager.setStat(player.getUniqueId(), SPRINT, Math.max(1, seconds));
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 0.8f, 1.2f);
+        TextUtils.send(player, "<aqua><b>SPRINT</b> <gray>Floor " + run.floor + " in <white>" + clock(seconds) + "</white>, your fastest"
+                + (fastest > 0 ? " <dark_gray>(was " + clock(fastest) + ")" : ""));
+    }
+
+    static int sprintFloor(GauntletData data) {
+        return Math.max(1, (int) data.setting("sprint_floor", 10));
+    }
+
+    // 754 seconds as 12:34
+    static String clock(long seconds) {
+        return seconds / 60 + ":" + String.format("%02d", seconds % 60);
     }
 
     // To everyone in the Gauntlet's world, in a run or not

@@ -294,6 +294,13 @@ public class GauntletManager {
     }
 
     // The highest of a counted stat, highest first
+    // The lowest of a counted stat that is set, lowest first: the fastest times
+    public List<Map.Entry<UUID, GauntletProfile>> lowestBy(String stat, int count) {
+        return profiles.entrySet().stream().filter(entry -> entry.getValue().stat(stat) > 0)
+                .sorted(Comparator.comparingInt((Map.Entry<UUID, GauntletProfile> entry) -> entry.getValue().stat(stat)))
+                .limit(count).toList();
+    }
+
     public List<Map.Entry<UUID, GauntletProfile>> topBy(String stat, int count) {
         return profiles.entrySet().stream().filter(entry -> entry.getValue().stat(stat) > 0)
                 .sorted(Comparator.comparingInt((Map.Entry<UUID, GauntletProfile> entry) -> entry.getValue().stat(stat)).reversed())

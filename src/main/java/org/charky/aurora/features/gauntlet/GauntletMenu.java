@@ -168,6 +168,11 @@ public class GauntletMenu extends PagedMenu {
         List<String> lines = GauntletBoards.rows(manager.top(10), top -> "floor " + top.best, "Nobody has cleared a floor yet");
         lines.add("");
         lines.add("<gray>Your best: <white>" + profile.best + " <dark_gray>(" + profile.runs + " runs)");
+        lines.add("");
+        lines.add("<yellow>Fastest to floor " + GauntletRuns.sprintFloor(manager.data()) + " <gray>(solo, from floor 1)");
+        lines.addAll(GauntletBoards.rows(manager.lowestBy(GauntletRuns.SPRINT, 3), top -> GauntletRuns.clock(top.stat(GauntletRuns.SPRINT)),
+                "Nobody has made it yet"));
+        if (profile.stat(GauntletRuns.SPRINT) > 0) lines.add("<gray>Yours: <white>" + GauntletRuns.clock(profile.stat(GauntletRuns.SPRINT)));
         return button(Material.PLAYER_HEAD, "<aqua><b>Top Floors", lines);
     }
 

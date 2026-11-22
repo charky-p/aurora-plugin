@@ -776,12 +776,24 @@ public class GauntletRuns implements Listener {
         bonuses.applyBoons(player, member);
         player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.8f, 1.4f);
         TextUtils.send(player, boon.colour() + boon.name() + " <gray>" + boon.description() + " <dark_gray>(x" + member.stacks(boonId) + ")");
+        legendariesOpened(player, member, boon);
+    }
+
+    // The stack that opens a legendary up, said once: it is one of the next pick's boons
+    private void legendariesOpened(Player player, Member member, GauntletData.Boon taken) {
+        if (member.stacks(taken.id()) != Math.min((int) data().setting("legendary_stacks", 2), taken.max())) return;
+        for (GauntletData.Boon legendary : data().boons().values()) {
+            if (!legendary.requires().contains(taken.id()) || member.stacks(legendary.id()) > 0 || !bonuses.unlocked(member, legendary)) continue;
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1.6f);
+            TextUtils.send(player, "<gold><b>LEGENDARY</b> " + legendary.colour() + legendary.name()
+                    + " <gray>has opened up, it is in your next pick of boons");
+        }
     }
 
     // A boon into a player's run: one more stack, and Second Wind's revives at once
     private static void grant(Member member, GauntletData.Boon boon) {
         member.boons.merge(boon.id(), 1, Integer::sum);
-        if (boon.stat().equals("revive")) member.revives += (int) boon.amount();
+        member.revives += (int) boon.effect("revive");
     }
 
     // A care package emptied and closed is gone. Closing the boon or altar menu without

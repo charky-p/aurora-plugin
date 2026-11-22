@@ -14,11 +14,13 @@
 #           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed)}
 # levels: [{level, shards, cores, material (index into materials), melee, ranged,
 #           defence, protection, deflection}] (what each gear level costs and gives)
-# boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max}
+# boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max,
+#        effects: {stat: amount} (stat and amount in the csv can list several, joined by +), requires}
 # care: care package levels [{level, shards, cores, loot: [{item, min, max, chance}]}]
 #   item is a material, or POTION@TYPE / SPLASH_POTION@TYPE
 # milestones: [{floor, essence, cosmetic}] (best floor reached, paid once)
-# boons also have a rarity: common, rare or epic, weighted by the rarity_ settings
+# boons also have a rarity: common, rare or epic, weighted by the rarity_ settings, or legendary: a
+# legendary requires two or more boons (joined by +) and is offered once each has legendary_stacks stacks
 # talents: permanent, run-only upgrades {name, icon, description, stat, amount (a level), max,
 #          shards (the first level), growth (each level costs this many times the last), cores (a level)}
 # mutators: what can change a floor {name, description, health, damage, speed, count, elites (times),
@@ -1633,120 +1635,263 @@ boons:
     description: "+15% damage"
     stat: damage
     amount: 15.0
+    effects:
+      damage: 15.0
     max: 5
     rarity: common
+    requires: []
   first_strike:
     name: First Strike
     icon: GOLDEN_SWORD
     description: "+60% damage to mobs at full health"
     stat: firststrike
     amount: 60.0
+    effects:
+      firststrike: 60.0
     max: 3
     rarity: common
+    requires: []
   bloodthirst:
     name: Bloodthirst
     icon: REDSTONE
     description: "Heal half a heart for every kill"
     stat: killheal
     amount: 1.0
+    effects:
+      killheal: 1.0
     max: 4
     rarity: common
+    requires: []
   vitality:
     name: Vitality
     icon: GOLDEN_APPLE
     description: "+2 max hearts"
     stat: health
     amount: 4.0
+    effects:
+      health: 4.0
     max: 5
     rarity: common
+    requires: []
   swiftness:
     name: Swiftness
     icon: SUGAR
     description: "+10% speed"
     stat: speed
     amount: 10.0
+    effects:
+      speed: 10.0
     max: 3
     rarity: common
+    requires: []
   iron_skin:
     name: Iron Skin
     icon: IRON_CHESTPLATE
     description: "Take 10% less damage"
     stat: guard
     amount: 10.0
+    effects:
+      guard: 10.0
     max: 4
     rarity: common
+    requires: []
   bulwark:
     name: Bulwark
     icon: SHIELD
     description: "2 absorption hearts at the start of every floor"
     stat: absorb
     amount: 4.0
+    effects:
+      absorb: 4.0
     max: 3
     rarity: common
+    requires: []
   keen_eye:
     name: Keen Eye
     icon: SPECTRAL_ARROW
     description: "15% chance to hit for double"
     stat: crit
     amount: 15.0
+    effects:
+      crit: 15.0
     max: 4
     rarity: rare
+    requires: []
   mending:
     name: Mending
     icon: GHAST_TEAR
     description: "Slowly regenerate health"
     stat: regen
     amount: 1.0
+    effects:
+      regen: 1.0
     max: 2
     rarity: rare
+    requires: []
   evasion:
     name: Evasion
     icon: FEATHER
     description: "10% chance to dodge a hit"
     stat: dodge
     amount: 10.0
+    effects:
+      dodge: 10.0
     max: 3
     rarity: rare
+    requires: []
   greed:
     name: Greed
     icon: GOLD_NUGGET
     description: "+15% Shards this run"
     stat: shards
     amount: 15.0
+    effects:
+      shards: 15.0
     max: 3
     rarity: rare
+    requires: []
   executioner:
     name: Executioner
     icon: NETHERITE_AXE
     description: "+40% damage to mobs under 30% health"
     stat: execute
     amount: 40.0
+    effects:
+      execute: 40.0
     max: 3
     rarity: rare
+    requires: []
   giant_slayer:
     name: Giant Slayer
     icon: TARGET
     description: "+25% damage to bosses and elites"
     stat: slayer
     amount: 25.0
+    effects:
+      slayer: 25.0
     max: 3
     rarity: rare
+    requires: []
   cleave:
     name: Cleave
     icon: DIAMOND_AXE
     description: "Melee hits deal 30% to mobs within 3 blocks"
     stat: cleave
     amount: 30.0
+    effects:
+      cleave: 30.0
     max: 2
     rarity: epic
+    requires: []
   second_wind:
     name: Second Wind
     icon: TOTEM_OF_UNDYING
     description: "Survive a killing blow once at half health"
     stat: revive
     amount: 1.0
+    effects:
+      revive: 1.0
     max: 1
     rarity: epic
+    requires: []
+  whirlwind:
+    name: Whirlwind
+    icon: NETHERITE_SWORD
+    description: "Cleave splashes 40% more, and every hit is 20% harder"
+    stat: cleave
+    amount: 40.0
+    effects:
+      cleave: 40.0
+      damage: 20.0
+    max: 1
+    rarity: legendary
+    requires:
+      - cleave
+      - might
+  vampire_lord:
+    name: Vampire Lord
+    icon: WITHER_ROSE
+    description: "Every kill heals a heart and a half more, and you regenerate faster"
+    stat: killheal
+    amount: 3.0
+    effects:
+      killheal: 3.0
+      regen: 1.0
+    max: 1
+    rarity: legendary
+    requires:
+      - bloodthirst
+      - mending
+  juggernaut:
+    name: Juggernaut
+    icon: NETHERITE_CHESTPLATE
+    description: "Take 15% less damage, and +4 max hearts"
+    stat: guard
+    amount: 15.0
+    effects:
+      guard: 15.0
+      health: 8.0
+    max: 1
+    rarity: legendary
+    requires:
+      - iron_skin
+      - vitality
+  assassin:
+    name: Assassin
+    icon: ECHO_SHARD
+    description: "+20% chance to hit for double, and +60% damage to mobs at full health"
+    stat: crit
+    amount: 20.0
+    effects:
+      crit: 20.0
+      firststrike: 60.0
+    max: 1
+    rarity: legendary
+    requires:
+      - keen_eye
+      - first_strike
+  phantom:
+    name: Phantom
+    icon: PHANTOM_MEMBRANE
+    description: "+15% chance to dodge and +15% speed"
+    stat: dodge
+    amount: 15.0
+    effects:
+      dodge: 15.0
+      speed: 15.0
+    max: 1
+    rarity: legendary
+    requires:
+      - evasion
+      - swiftness
+  reaper:
+    name: Reaper
+    icon: NETHERITE_HOE
+    description: "+60% damage to mobs under 30% health, and +30% to bosses and elites"
+    stat: execute
+    amount: 60.0
+    effects:
+      execute: 60.0
+      slayer: 30.0
+    max: 1
+    rarity: legendary
+    requires:
+      - executioner
+      - giant_slayer
+  aegis:
+    name: Aegis
+    icon: ENCHANTED_GOLDEN_APPLE
+    description: "3 more absorption hearts every floor, and one more Second Wind"
+    stat: absorb
+    amount: 6.0
+    effects:
+      absorb: 6.0
+      revive: 1.0
+    max: 1
+    rarity: legendary
+    requires:
+      - bulwark
+      - second_wind
 care:
   - level: 1
     shards: 0
@@ -2716,6 +2861,8 @@ settings:
   rarity_common: 60.0
   rarity_rare: 30.0
   rarity_epic: 10.0
+  rarity_legendary: 30.0
+  legendary_stacks: 2.0
   elite_from: 3.0
   elite_chance: 4.0
   elite_chance_per_floor: 0.2

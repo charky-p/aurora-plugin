@@ -1082,11 +1082,13 @@ GAUNTLET_HEADER = """# =========================================================
 #           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed)}
 # levels: [{level, shards, cores, material (index into materials), melee, ranged,
 #           defence, protection, deflection}] (what each gear level costs and gives)
-# boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max}
+# boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max,
+#        effects: {stat: amount} (stat and amount in the csv can list several, joined by +), requires}
 # care: care package levels [{level, shards, cores, loot: [{item, min, max, chance}]}]
 #   item is a material, or POTION@TYPE / SPLASH_POTION@TYPE
 # milestones: [{floor, essence, cosmetic}] (best floor reached, paid once)
-# boons also have a rarity: common, rare or epic, weighted by the rarity_ settings
+# boons also have a rarity: common, rare or epic, weighted by the rarity_ settings, or legendary: a
+# legendary requires two or more boons (joined by +) and is offered once each has legendary_stacks stacks
 # talents: permanent, run-only upgrades {name, icon, description, stat, amount (a level), max,
 #          shards (the first level), growth (each level costs this many times the last), cores (a level)}
 # mutators: what can change a floor {name, description, health, damage, speed, count, elites (times),
@@ -1110,7 +1112,7 @@ GAUNTLET_HEADER = """# =========================================================
 GAUNTLET_KINDS = {"melee", "ranged", "thrown", "armor", "shield"}
 GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "guard", "dodge", "absorb",
                   "firststrike", "shards", "execute", "slayer", "cleave", "revive"}
-GAUNTLET_RARITIES = {"common", "rare", "epic"}
+GAUNTLET_RARITIES = {"common", "rare", "epic", "legendary"}
 GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive"}
 GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
 GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon", "fireball", "blink", "sonic"}
@@ -1175,13 +1177,27 @@ def gauntlet_text(mobs, cosmetics):
 
     boons = OrderedDict()
     for row in _gauntlet_rows("boons.csv") or []:
-        if row["stat"] not in GAUNTLET_STATS:
-            errors.append(f"gauntlet boon '{row['id']}': unknown stat '{row['stat']}'")
+        stats = [stat.strip() for stat in row["stat"].split("+")]
+        amounts = [float(amount) for amount in str(row["amount"]).split("+")]
+        if len(stats) != len(amounts):
+            errors.append(f"gauntlet boon '{row['id']}': {len(stats)} stats but {len(amounts)} amounts")
+        for stat in stats:
+            if stat not in GAUNTLET_STATS:
+                errors.append(f"gauntlet boon '{row['id']}': unknown stat '{stat}'")
         rarity = (row.get("rarity") or "common").strip()
         if rarity not in GAUNTLET_RARITIES:
             errors.append(f"gauntlet boon '{row['id']}': unknown rarity '{rarity}'")
+        requires = [boon.strip() for boon in (row.get("requires") or "").split("+") if boon.strip()]
+        if (rarity == "legendary") != (len(requires) > 0):
+            errors.append(f"gauntlet boon '{row['id']}': a legendary boon, and only a legendary, requires other boons")
+        # stat and amount are the first effect, for a plugin that reads only those
         boons[row["id"]] = OrderedDict(name=row["name"], icon=row["icon"], description=Quoted(row["description"]),
-                                       stat=row["stat"], amount=float(row["amount"]), max=int(row["max"]), rarity=rarity)
+                                       stat=stats[0], amount=amounts[0], effects=OrderedDict(zip(stats, amounts)),
+                                       max=int(row["max"]), rarity=rarity, requires=requires)
+    for boon_id, boon in boons.items():
+        for required in boon["requires"]:
+            if required not in boons or boons[required]["rarity"] == "legendary":
+                errors.append(f"gauntlet boon '{boon_id}': requires '{required}', which is not a boon below legendary")
 
     talents = OrderedDict()
     for row in _gauntlet_rows("talents.csv") or []:

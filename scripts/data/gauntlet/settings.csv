@@ -4,6 +4,8 @@ boon_choices,3,Boons offered to pick from (the Insight talent adds one)
 rarity_common,60,Weight of a common boon when boons are offered
 rarity_rare,30,Weight of a rare boon
 rarity_epic,10,Weight of an epic boon
+rarity_legendary,30,Weight of a legendary boon once it is open (one open legendary is always in a pick)
+legendary_stacks,2,Stacks of each boon a legendary needs before it is offered (or that boon's max if lower)
 elite_from,3,The first floor elites can come on
 elite_chance,4,Percent chance a mob is elite on the first floor they can come
 elite_chance_per_floor,0.2,Percent more a floor

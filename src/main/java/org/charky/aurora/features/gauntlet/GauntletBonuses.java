@@ -39,7 +39,7 @@ final class GauntletBonuses {
         double total = 0;
         for (Map.Entry<String, Integer> entry : member.boons.entrySet()) {
             GauntletData.Boon boon = data().boons().get(entry.getKey());
-            if (boon != null && boon.stat().equals(stat)) total += boon.amount() * entry.getValue();
+            if (boon != null) total += boon.effect(stat) * entry.getValue();
         }
         return total;
     }
@@ -89,13 +89,21 @@ final class GauntletBonuses {
     }
 
     // Boons not taken to their max, picked by the weight of their rarity, none twice, of
-    // one rarity only when one is given
+    // one rarity only when one is given. A legendary that has opened up is always one of
+    // a pick of several
     List<String> pickBoons(Member member, int count, String rarity) {
         List<GauntletData.Boon> open = new ArrayList<>();
         for (GauntletData.Boon boon : data().boons().values()) {
-            if (member.stacks(boon.id()) < boon.max() && (rarity == null || boon.rarity().equals(rarity))) open.add(boon);
+            if (member.stacks(boon.id()) < boon.max() && (rarity == null || boon.rarity().equals(rarity))
+                    && unlocked(member, boon)) open.add(boon);
         }
         List<String> picked = new ArrayList<>();
+        List<GauntletData.Boon> legendary = open.stream().filter(GauntletData.Boon::legendary).toList();
+        if (count > 1 && !legendary.isEmpty()) {
+            GauntletData.Boon chosen = legendary.get(ThreadLocalRandom.current().nextInt(legendary.size()));
+            picked.add(chosen.id());
+            open.remove(chosen);
+        }
         while (picked.size() < count && !open.isEmpty()) {
             double total = 0;
             for (GauntletData.Boon boon : open) total += rarityWeight(boon);
@@ -112,6 +120,20 @@ final class GauntletBonuses {
             open.remove(chosen);
         }
         return picked;
+    }
+
+    // Every boon but a legendary; a legendary once each boon it needs has legendary_stacks
+    // stacks, or that boon's max if lower
+    boolean unlocked(Member member, GauntletData.Boon boon) {
+        return unlocked(member, boon, data().boons(), (int) data().setting("legendary_stacks", 2));
+    }
+
+    static boolean unlocked(Member member, GauntletData.Boon boon, Map<String, GauntletData.Boon> boons, int needed) {
+        for (String id : boon.requires()) {
+            GauntletData.Boon required = boons.get(id);
+            if (required == null || member.stacks(id) < Math.min(needed, required.max())) return false;
+        }
+        return true;
     }
 
     private double rarityWeight(GauntletData.Boon boon) {

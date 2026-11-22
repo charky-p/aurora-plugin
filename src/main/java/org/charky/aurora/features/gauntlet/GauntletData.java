@@ -73,10 +73,21 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                             int protection, int deflection) {
     }
 
-    public record Boon(String id, String name, String icon, String description, String stat, double amount, int max,
-                       String rarity) {
+    // A boon: what a stack of it adds (one stat or several), its most stacks and rarity,
+    // and for a legendary the boons it needs before it can be offered
+    public record Boon(String id, String name, String icon, String description, Map<String, Double> effects, int max,
+                       String rarity, List<String> requires) {
+        public double effect(String stat) {
+            return effects.getOrDefault(stat, 0.0);
+        }
+
+        public boolean legendary() {
+            return !requires.isEmpty();
+        }
+
         public String colour() {
             return switch (rarity) {
+                case "legendary" -> "<gold>";
                 case "epic" -> "<light_purple>";
                 case "rare" -> "<aqua>";
                 default -> "<white>";
@@ -210,8 +221,9 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                 num(row.get("melee")).intValue(), num(row.get("ranged")).intValue(), num(row.get("defence")).intValue(),
                 num(row.get("protection")).intValue(), num(row.get("deflection")).intValue()));
         Map<String, Boon> boons = byId(root, "boons", (id, row) -> new Boon(id, str(row.get("name")), str(row.get("icon")),
-                str(row.get("description")), str(row.get("stat")), num(row.get("amount")).doubleValue(), num(row.get("max")).intValue(),
-                row.get("rarity") == null ? "common" : str(row.get("rarity"))));
+                str(row.get("description")), effects(row), num(row.get("max")).intValue(),
+                row.get("rarity") == null ? "common" : str(row.get("rarity")),
+                ((List<Object>) row.getOrDefault("requires", List.of())).stream().map(String::valueOf).toList()));
         List<CareLevel> care = rows(root, "care", row -> new CareLevel(num(row.get("level")).intValue(),
                 num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
                 rows(row, "loot", loot -> new Loot(str(loot.get("item")), num(loot.get("min")).intValue(),
@@ -246,6 +258,17 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
         return new GauntletData(floors, gear, levels, boons, care, milestones, setup, talents, mutators, challenges, bosses, perks,
                 affixes, achievements, shop, settings);
+    }
+
+    // A boon's stats and what a stack adds to each; a file from before effects has one
+    private static Map<String, Double> effects(Map<String, Object> row) {
+        Map<String, Double> effects = new LinkedHashMap<>();
+        if (row.get("effects") instanceof Map<?, ?> listed) {
+            listed.forEach((stat, amount) -> effects.put(String.valueOf(stat), num(amount).doubleValue()));
+        } else {
+            effects.put(str(row.get("stat")), num(row.get("amount")).doubleValue());
+        }
+        return effects;
     }
 
     // A section that is a list, one record a row, in order

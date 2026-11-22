@@ -38,6 +38,7 @@ public class BoonMenu extends PagedMenu {
                 List<Component> lore = new ArrayList<>();
                 lore.add(TextUtils.parse("<!italic>" + boon.colour() + Character.toUpperCase(boon.rarity().charAt(0)) + boon.rarity().substring(1)));
                 lore.add(TextUtils.parse("<!italic><gray>" + boon.description()));
+                if (boon.legendary()) lore.add(TextUtils.parse("<!italic><gold>Evolved from " + evolvedFrom(boon)));
                 lore.add(Component.empty());
                 lore.add(TextUtils.parse("<!italic><gray>Taken: <white>" + stacks + "/" + boon.max()));
                 lore.add(TextUtils.parse("<!italic><yellow>Click to take it"));
@@ -47,6 +48,16 @@ public class BoonMenu extends PagedMenu {
             items.add(item);
         }
         return items;
+    }
+
+    // The boons a legendary needs, by name: "Cleave + Might"
+    private String evolvedFrom(GauntletData.Boon legendary) {
+        List<String> names = new ArrayList<>();
+        for (String id : legendary.requires()) {
+            GauntletData.Boon boon = registry.getGauntlet().boons().get(id);
+            names.add(boon == null ? id : boon.name());
+        }
+        return String.join(" + ", names);
     }
 
     @Override

@@ -104,7 +104,9 @@ class GauntletDataTest {
         mobs.put("g_nobody", 2);
         Map<String, Object> root = Map.of(
                 "floors", List.of(Map.of("mobs", mobs, "health", 1.5, "attack", 2, "kill", 0, "shards", 4, "cores", 0)),
-                "boons", Map.of("might", Map.of("name", "Might", "stat", "damage", "amount", 10, "max", 5)),
+                "boons", Map.of("might", Map.of("name", "Might", "stat", "damage", "amount", 10, "max", 5),
+                        "whirlwind", Map.of("name", "Whirlwind", "effects", Map.of("cleave", 40, "damage", 20), "max", 1,
+                                "rarity", "legendary", "requires", List.of("cleave", "might"))),
                 "bosses", Map.of("g_rot_king", List.of(Map.of("type", "slam", "cooldown", 0))),
                 "settings", Map.of("party_max", "4"));
         List<String> logged = new ArrayList<>();
@@ -131,6 +133,11 @@ class GauntletDataTest {
         assertEquals(List.of("GAUNTLET ERROR: no mob 'g_nobody'"), logged);
         assertEquals(1, data.floors().getFirst().kill(), "a kill pays at least 1 Shard");
         assertEquals("common", data.boons().get("might").rarity(), "a boon without a rarity is common");
+        assertEquals(10, data.boons().get("might").effect("damage"), "a file from before effects has one stat and amount");
+        assertFalse(data.boons().get("might").legendary());
+        GauntletData.Boon whirlwind = data.boons().get("whirlwind");
+        assertEquals(Map.of("cleave", 40.0, "damage", 20.0), whirlwind.effects());
+        assertEquals(List.of("cleave", "might"), whirlwind.requires());
         assertEquals(1, data.bosses().get("g_rot_king").getFirst().cooldown(), "a cooldown is at least a second");
         assertEquals(4, data.setting("party_max", 0), "settings read as numbers");
         assertTrue(data.gear().isEmpty() && data.levels().isEmpty(), "missing sections are empty");

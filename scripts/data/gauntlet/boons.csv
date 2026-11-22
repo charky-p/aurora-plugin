@@ -1,16 +1,23 @@
-id,name,icon,description,stat,amount,max,rarity
-might,Might,IRON_SWORD,+15% damage,damage,15,5,common
-first_strike,First Strike,GOLDEN_SWORD,+60% damage to mobs at full health,firststrike,60,3,common
-bloodthirst,Bloodthirst,REDSTONE,Heal half a heart for every kill,killheal,1,4,common
-vitality,Vitality,GOLDEN_APPLE,+2 max hearts,health,4,5,common
-swiftness,Swiftness,SUGAR,+10% speed,speed,10,3,common
-iron_skin,Iron Skin,IRON_CHESTPLATE,Take 10% less damage,guard,10,4,common
-bulwark,Bulwark,SHIELD,2 absorption hearts at the start of every floor,absorb,4,3,common
-keen_eye,Keen Eye,SPECTRAL_ARROW,15% chance to hit for double,crit,15,4,rare
-mending,Mending,GHAST_TEAR,Slowly regenerate health,regen,1,2,rare
-evasion,Evasion,FEATHER,10% chance to dodge a hit,dodge,10,3,rare
-greed,Greed,GOLD_NUGGET,+15% Shards this run,shards,15,3,rare
-executioner,Executioner,NETHERITE_AXE,+40% damage to mobs under 30% health,execute,40,3,rare
-giant_slayer,Giant Slayer,TARGET,+25% damage to bosses and elites,slayer,25,3,rare
-cleave,Cleave,DIAMOND_AXE,Melee hits deal 30% to mobs within 3 blocks,cleave,30,2,epic
-second_wind,Second Wind,TOTEM_OF_UNDYING,Survive a killing blow once at half health,revive,1,1,epic
+id,name,icon,description,stat,amount,max,rarity,requires
+might,Might,IRON_SWORD,+15% damage,damage,15,5,common,
+first_strike,First Strike,GOLDEN_SWORD,+60% damage to mobs at full health,firststrike,60,3,common,
+bloodthirst,Bloodthirst,REDSTONE,Heal half a heart for every kill,killheal,1,4,common,
+vitality,Vitality,GOLDEN_APPLE,+2 max hearts,health,4,5,common,
+swiftness,Swiftness,SUGAR,+10% speed,speed,10,3,common,
+iron_skin,Iron Skin,IRON_CHESTPLATE,Take 10% less damage,guard,10,4,common,
+bulwark,Bulwark,SHIELD,2 absorption hearts at the start of every floor,absorb,4,3,common,
+keen_eye,Keen Eye,SPECTRAL_ARROW,15% chance to hit for double,crit,15,4,rare,
+mending,Mending,GHAST_TEAR,Slowly regenerate health,regen,1,2,rare,
+evasion,Evasion,FEATHER,10% chance to dodge a hit,dodge,10,3,rare,
+greed,Greed,GOLD_NUGGET,+15% Shards this run,shards,15,3,rare,
+executioner,Executioner,NETHERITE_AXE,+40% damage to mobs under 30% health,execute,40,3,rare,
+giant_slayer,Giant Slayer,TARGET,+25% damage to bosses and elites,slayer,25,3,rare,
+cleave,Cleave,DIAMOND_AXE,Melee hits deal 30% to mobs within 3 blocks,cleave,30,2,epic,
+second_wind,Second Wind,TOTEM_OF_UNDYING,Survive a killing blow once at half health,revive,1,1,epic,
+whirlwind,Whirlwind,NETHERITE_SWORD,"Cleave splashes 40% more, and every hit is 20% harder",cleave+damage,40+20,1,legendary,cleave+might
+vampire_lord,Vampire Lord,WITHER_ROSE,"Every kill heals a heart and a half more, and you regenerate faster",killheal+regen,3+1,1,legendary,bloodthirst+mending
+juggernaut,Juggernaut,NETHERITE_CHESTPLATE,"Take 15% less damage, and +4 max hearts",guard+health,15+8,1,legendary,iron_skin+vitality
+assassin,Assassin,ECHO_SHARD,"+20% chance to hit for double, and +60% damage to mobs at full health",crit+firststrike,20+60,1,legendary,keen_eye+first_strike
+phantom,Phantom,PHANTOM_MEMBRANE,+15% chance to dodge and +15% speed,dodge+speed,15+15,1,legendary,evasion+swiftness
+reaper,Reaper,NETHERITE_HOE,"+60% damage to mobs under 30% health, and +30% to bosses and elites",execute+slayer,60+30,1,legendary,executioner+giant_slayer
+aegis,Aegis,ENCHANTED_GOLDEN_APPLE,"3 more absorption hearts every floor, and one more Second Wind",absorb+revive,6+1,1,legendary,bulwark+second_wind

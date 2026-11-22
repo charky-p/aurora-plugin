@@ -26,14 +26,14 @@ public class PlayerStore {
                 playtime = excluded.playtime;
             """;
 
-    // Every main loadout, under its player's own id: the one in play, or the one put away
-    // while they play the experimental one. Experimental loadouts are never on a leaderboard
+    // Every main loadout (slot 1), under its player's own id: the one in play, or the one
+    // put away under shadow while another is. Experimental and slots 2 and 3 never count
     private static final String MAIN_LOADOUTS = """
-            (SELECT COALESCE(l.uuid, p.uuid) AS owner, p.* FROM playerData p
-             LEFT JOIN loadouts l ON p.uuid = l.uuid OR p.uuid = l.shadow
-             WHERE l.uuid IS NULL
-                OR (p.uuid = l.uuid AND l.active = 'main')
-                OR (p.uuid = l.shadow AND l.active = 'experimental'))""";
+            (SELECT COALESCE(h.uuid, p.uuid) AS owner, p.* FROM playerData p
+             LEFT JOIN loadout_homes h ON p.uuid = h.home
+             LEFT JOIN loadouts l ON l.uuid = COALESCE(h.uuid, p.uuid)
+             WHERE (h.home IS NULL AND (l.uuid IS NULL OR l.active = 'main'))
+                OR (h.loadout = 'main' AND l.active <> 'main'))""";
 
     private final Database db;
 

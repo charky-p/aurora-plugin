@@ -76,6 +76,7 @@ import org.charky.aurora.features.perk.PerkManager;
 import org.charky.aurora.features.cosmetic.Cosmetic;
 import org.charky.aurora.features.cosmetic.Cosmetics;
 import org.charky.aurora.features.system.HowToPlay;
+import org.charky.aurora.features.system.Tips;
 import org.charky.aurora.features.player.PlayerData;
 import org.charky.aurora.features.system.CommandFilter;
 import org.charky.aurora.features.rank.RankManager;
@@ -164,6 +165,7 @@ public class Aurora extends JavaPlugin {
         registerListeners();
 
         SustenanceTask.start(this);
+        Tips.start(this);
         LeftoverMobListener.sweepLoaded();
         traderManager.startRespawning();
 

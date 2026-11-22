@@ -291,12 +291,17 @@ class StoresTest {
         assertEquals(List.of(second), store.loadAll());
     }
 
+    // A switch from one loadout to another, the way LoadoutManager does it
+    private static void switchLoadout(LoadoutStore loadouts, UUID uuid, Loadout from, Loadout to) {
+        loadouts.switchTo(uuid, from.homeOf(uuid), to.homeOf(uuid), to);
+    }
+
     @Test
-    void loadoutSwapTradesRowsBothWays() {
+    void loadoutSwitchTradesRowsBothWays() {
         PlayerStore players = new PlayerStore(db);
         LoadoutStore loadouts = new LoadoutStore(db);
         UUID uuid = UUID.randomUUID();
-        UUID shadow = Loadout.shadowOf(uuid);
+        UUID mainHome = Loadout.MAIN.homeOf(uuid);
         players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
         db.update("INSERT INTO tutorial (uuid, step) VALUES (?, ?)", pst -> {
             pst.setString(1, uuid.toString());
@@ -304,20 +309,45 @@ class StoresTest {
         });
 
         // First time in a test world: the main loadout is put away, nothing comes back
-        loadouts.swap(uuid, shadow, Loadout.EXPERIMENTAL);
+        switchLoadout(loadouts, uuid, Loadout.MAIN, Loadout.EXPERIMENTAL);
         assertEquals(0, players.load(uuid).getLevel());
-        assertEquals(30, players.load(shadow).getLevel());
+        assertEquals(30, players.load(mainHome).getLevel());
         assertEquals(Map.of(uuid, Loadout.EXPERIMENTAL), loadouts.loadActive());
 
         players.save(uuid, new PlayerData("MEMBER", 2, 0, 0, 10, 0, 0));
-        loadouts.swap(uuid, shadow, Loadout.MAIN);
+        switchLoadout(loadouts, uuid, Loadout.EXPERIMENTAL, Loadout.MAIN);
         assertEquals(30, players.load(uuid).getLevel());
-        assertEquals(2, players.load(shadow).getLevel());
+        assertEquals(2, players.load(Loadout.EXPERIMENTAL.homeOf(uuid)).getLevel());
+        assertEquals(0, players.load(mainHome).getLevel());
         List<String> steps = new ArrayList<>();
         db.query("SELECT step FROM tutorial WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()),
                 rs -> steps.add(rs.getString("step")));
         assertEquals(List.of("MINE"), steps);
         assertEquals(Map.of(uuid, Loadout.MAIN), loadouts.loadActive());
+    }
+
+    // Four loadouts, each kept apart: main, experimental and slots 2 and 3
+    @Test
+    void slotsKeepTheirOwnProgress() {
+        PlayerStore players = new PlayerStore(db);
+        LoadoutStore loadouts = new LoadoutStore(db);
+        UUID uuid = UUID.randomUUID();
+        players.save(uuid, new PlayerData("MEMBER", 30, 0, 0, 0, 0, 0));
+        switchLoadout(loadouts, uuid, Loadout.MAIN, Loadout.EXPERIMENTAL);
+        players.save(uuid, new PlayerData("MEMBER", 5, 0, 0, 0, 0, 0));
+        switchLoadout(loadouts, uuid, Loadout.EXPERIMENTAL, Loadout.SLOT_2);
+        players.save(uuid, new PlayerData("MEMBER", 12, 0, 0, 0, 0, 0));
+        switchLoadout(loadouts, uuid, Loadout.SLOT_2, Loadout.SLOT_3);
+        assertEquals(0, players.load(uuid).getLevel());
+        players.save(uuid, new PlayerData("MEMBER", 7, 0, 0, 0, 0, 0));
+
+        switchLoadout(loadouts, uuid, Loadout.SLOT_3, Loadout.SLOT_2);
+        assertEquals(12, players.load(uuid).getLevel());
+        switchLoadout(loadouts, uuid, Loadout.SLOT_2, Loadout.EXPERIMENTAL);
+        assertEquals(5, players.load(uuid).getLevel());
+        switchLoadout(loadouts, uuid, Loadout.EXPERIMENTAL, Loadout.MAIN);
+        assertEquals(30, players.load(uuid).getLevel());
+        assertEquals(7, players.load(Loadout.SLOT_3.homeOf(uuid)).getLevel());
     }
 
     // Leaderboards show main loadouts only, under the player's own id, put away or not
@@ -327,7 +357,7 @@ class StoresTest {
         LoadoutStore loadouts = new LoadoutStore(db);
         UUID uuid = UUID.randomUUID();
         players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
-        loadouts.swap(uuid, Loadout.shadowOf(uuid), Loadout.EXPERIMENTAL);
+        switchLoadout(loadouts, uuid, Loadout.MAIN, Loadout.EXPERIMENTAL);
         players.save(uuid, new PlayerData("MEMBER", 1, 0, 0, 0, 0, 0));
 
         // Main put away while the experimental one is in play: its 30 counts, not the 1
@@ -337,6 +367,13 @@ class StoresTest {
         assertEquals(30, levels.getFirst()[1]);
         assertEquals(900, players.top("mined", "kills", 10).getFirst()[2]);
         assertEquals(1, players.ahead("level", 1));
+
+        // Slot 2 in play with a higher level: still only main's 30
+        switchLoadout(loadouts, uuid, Loadout.EXPERIMENTAL, Loadout.SLOT_2);
+        players.save(uuid, new PlayerData("MEMBER", 50, 0, 0, 0, 0, 0));
+        levels = players.topLevels(10);
+        assertEquals(1, levels.size());
+        assertEquals(30, levels.getFirst()[1]);
     }
 
     // What deploy.py does to the host the first time: everyone is marked experimental and
@@ -348,14 +385,52 @@ class StoresTest {
         players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
         db.update("INSERT INTO loadouts (uuid, active) VALUES (?, 'experimental')", pst -> pst.setString(1, uuid.toString()));
 
+        LoadoutStore loadouts = new LoadoutStore(db);
+        assertEquals(1, loadouts.migrate());
         assertEquals(List.of(), players.topLevels(10));
-        assertEquals(Map.of(uuid, Loadout.EXPERIMENTAL), new LoadoutStore(db).loadActive());
+        assertEquals(Map.of(uuid, Loadout.EXPERIMENTAL), loadouts.loadActive());
 
         // Their next join in a main world: put away, a fresh main one in play
-        new LoadoutStore(db).swap(uuid, Loadout.shadowOf(uuid), Loadout.MAIN);
+        switchLoadout(loadouts, uuid, Loadout.EXPERIMENTAL, Loadout.MAIN);
         players.save(uuid, new PlayerData("MEMBER", 2, 0, 0, 0, 0, 0));
         assertEquals(2, players.topLevels(10).getFirst()[1]);
-        assertEquals(30, players.load(Loadout.shadowOf(uuid)).getLevel());
+        assertEquals(30, players.load(Loadout.EXPERIMENTAL.homeOf(uuid)).getLevel());
+    }
+
+    // Before slots, main was put away under the shared id while experimental was in play.
+    // The move gives it its own id, once, and leaves players on main as they were
+    @Test
+    void migrateMovesMainToItsOwnId() {
+        PlayerStore players = new PlayerStore(db);
+        UUID onExperimental = UUID.randomUUID();
+        UUID onMain = UUID.randomUUID();
+        UUID oldShadow = Loadout.shadowOf(onExperimental);
+        players.save(oldShadow, new PlayerData("MEMBER", 30, 0, 0, 0, 0, 0));
+        players.save(onExperimental, new PlayerData("MEMBER", 4, 0, 0, 0, 0, 0));
+        players.save(onMain, new PlayerData("MEMBER", 20, 0, 0, 0, 0, 0));
+        players.save(Loadout.shadowOf(onMain), new PlayerData("MEMBER", 3, 0, 0, 0, 0, 0));
+        db.update("INSERT INTO loadouts (uuid, shadow, active) VALUES (?, ?, 'experimental')", pst -> {
+            pst.setString(1, onExperimental.toString());
+            pst.setString(2, oldShadow.toString());
+        });
+        db.update("INSERT INTO loadouts (uuid, shadow, active) VALUES (?, ?, 'main')", pst -> {
+            pst.setString(1, onMain.toString());
+            pst.setString(2, Loadout.shadowOf(onMain).toString());
+        });
+
+        LoadoutStore loadouts = new LoadoutStore(db);
+        assertEquals(2, loadouts.migrate());
+        assertEquals(0, loadouts.migrate());
+        assertEquals(30, players.load(Loadout.MAIN.homeOf(onExperimental)).getLevel());
+        assertEquals(0, players.load(oldShadow).getLevel());
+        assertEquals(3, players.load(Loadout.EXPERIMENTAL.homeOf(onMain)).getLevel());
+        List<Integer> levels = new ArrayList<>();
+        for (Object[] row : players.topLevels(10)) levels.add(((Number) row[1]).intValue());
+        assertEquals(List.of(30, 20), levels);
+
+        switchLoadout(loadouts, onExperimental, Loadout.EXPERIMENTAL, Loadout.MAIN);
+        assertEquals(30, players.load(onExperimental).getLevel());
+        assertEquals(4, players.load(oldShadow).getLevel());
     }
 
     // /aurora testworld the first time: the experimental loadout starts as a copy of the
@@ -365,20 +440,20 @@ class StoresTest {
         PlayerStore players = new PlayerStore(db);
         LoadoutStore loadouts = new LoadoutStore(db);
         UUID uuid = UUID.randomUUID();
-        UUID shadow = Loadout.shadowOf(uuid);
+        UUID experimental = Loadout.EXPERIMENTAL.homeOf(uuid);
         players.save(uuid, new PlayerData("MEMBER", 30, 100, 5, 900, 70, 0));
         db.update("INSERT INTO tutorial (uuid, step) VALUES (?, ?)", pst -> {
             pst.setString(1, uuid.toString());
             pst.setString(2, "MINE");
         });
 
-        loadouts.copy(uuid, shadow);
-        assertEquals(30, players.load(shadow).getLevel());
-        loadouts.swap(uuid, shadow, Loadout.EXPERIMENTAL);
+        loadouts.copy(uuid, experimental);
+        assertEquals(30, players.load(experimental).getLevel());
+        switchLoadout(loadouts, uuid, Loadout.MAIN, Loadout.EXPERIMENTAL);
         players.save(uuid, new PlayerData("MEMBER", 31, 0, 5, 950, 70, 0));
 
         assertEquals(31, players.load(uuid).getLevel());
-        assertEquals(30, players.load(shadow).getLevel());
+        assertEquals(30, players.load(Loadout.MAIN.homeOf(uuid)).getLevel());
         List<String> owners = new ArrayList<>();
         db.query("SELECT uuid FROM tutorial ORDER BY uuid", pst -> {}, rs -> owners.add(rs.getString("uuid")));
         assertEquals(2, owners.size());

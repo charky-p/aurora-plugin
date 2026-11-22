@@ -56,6 +56,8 @@ items:
     defence: 37.0
     attack: 24.0
     density: 9
+    equip:
+      head: LEATHER_HELMET
     independent:
       - id: bog_rag
         max: 2

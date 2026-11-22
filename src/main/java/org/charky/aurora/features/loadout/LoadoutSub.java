@@ -9,12 +9,13 @@ import org.charky.aurora.features.system.commands.AuroraSubCommand;
 import java.util.List;
 
 /**
- * Switches an admin's loadout where they stand. The one picked is played in every world
- * until auto or leaving, instead of the one each world plays with. On its own it shows
- * which loadout is in play and whether it was picked
+ * Switches an admin's loadout where they stand: slot 1 (main), 2 or 3, or experimental.
+ * The one picked is played in every world until auto or leaving, instead of the one each
+ * world plays with. On its own it shows which loadout is in play and whether it was picked
  */
 public class LoadoutSub implements AuroraSubCommand {
     private static final String AUTO = "auto";
+    private static final String USAGE = "[1|2|3|experimental|auto]";
 
     private final Aurora plugin;
 
@@ -31,7 +32,7 @@ public class LoadoutSub implements AuroraSubCommand {
         LoadoutManager loadouts = plugin.getLoadoutManager();
         if (args.length == 0) {
             Loadout pick = loadouts.pinnedOf(player.getUniqueId());
-            TextUtils.send(player, "<gray>Loadout in play: <white>" + loadouts.activeOf(player.getUniqueId()).id()
+            TextUtils.send(player, "<gray>Loadout in play: <white>" + loadouts.activeOf(player.getUniqueId()).label()
                     + (pick != null ? " <gray>(picked, every world until auto)" : " <gray>(the world's)"));
             return;
         }
@@ -42,25 +43,26 @@ public class LoadoutSub implements AuroraSubCommand {
             TextUtils.success(player, "Back to the loadout each world plays with");
             return;
         }
-        Loadout loadout = choice.equals(Loadout.MAIN.id()) ? Loadout.MAIN
-                : choice.equals(Loadout.EXPERIMENTAL.id()) ? Loadout.EXPERIMENTAL : null;
+        // main still works for slot 1
+        Loadout loadout = Loadout.byName(choice);
         if (loadout == null) {
-            TextUtils.usage(sender, "/aurora loadout [main|experimental|auto]");
+            TextUtils.usage(sender, "/aurora loadout " + USAGE);
             return;
         }
         loadouts.pin(player, loadout);
-        TextUtils.success(player, "Playing your " + loadout.id() + " loadout in every world until /a loadout auto or you leave");
+        TextUtils.success(player, "Playing loadout " + loadout.label() + " in every world until /a loadout auto or you leave");
     }
 
     @Override
     public List<String> tabComplete(Player player, String[] args) {
         if (args.length != 1) return List.of();
-        return TextUtils.getCompletions(args[0], List.of(Loadout.MAIN.id(), Loadout.EXPERIMENTAL.id(), AUTO));
+        return TextUtils.getCompletions(args[0], List.of(Loadout.MAIN.label(), Loadout.SLOT_2.label(),
+                Loadout.SLOT_3.label(), Loadout.EXPERIMENTAL.label(), AUTO));
     }
 
     @Override
     public String getUsage() {
-        return "[main|experimental|auto]";
+        return USAGE;
     }
 
     @Override
@@ -70,6 +72,6 @@ public class LoadoutSub implements AuroraSubCommand {
 
     @Override
     public String getDescription() {
-        return "Switch your loadout here, kept in every world until auto or you leave";
+        return "Switch to loadout slot 1, 2, 3 or experimental, kept in every world until auto or you leave";
     }
 }

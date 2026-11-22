@@ -228,7 +228,7 @@ items:
     region: "gormak_tomb"
     lore:
       - "<dark_gray>Dropped by Gormak the Eternal"
-    collection: 1
+    collection: 4
 
   mirage_shard:
     display: "<light_purple><b>Mirage Shard"

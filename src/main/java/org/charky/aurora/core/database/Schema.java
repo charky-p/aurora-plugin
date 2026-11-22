@@ -176,7 +176,7 @@ public final class Schema {
                     "text TEXT, " +
                     "time INTEGER)",
 
-            // Which loadout each player has in play, and the id the other one is put away under
+            // Which loadout each player has in play, and the id main is kept under while put away
             "CREATE TABLE IF NOT EXISTS loadouts (" +
                     "uuid TEXT PRIMARY KEY, " +
                     "shadow TEXT, " +
@@ -189,6 +189,13 @@ public final class Schema {
                     "items BLOB, " +
                     "ender BLOB, " +
                     "PRIMARY KEY (uuid, loadout))",
+
+            // Every id a loadout is put away under, whose it is and which one, so the
+            // leaderboards tell a put-away loadout from a player
+            "CREATE TABLE IF NOT EXISTS loadout_homes (" +
+                    "home TEXT PRIMARY KEY, " +
+                    "uuid TEXT, " +
+                    "loadout TEXT)",
 
             // Teleport pads, the block a player steps on to unlock it from spawn
             "CREATE TABLE IF NOT EXISTS teleport_pads (" +

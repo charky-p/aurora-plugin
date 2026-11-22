@@ -81,7 +81,9 @@ public class MobLoader {
         return equipment;
     }
 
-    // An Aurora item by id, or a plain vanilla one by material in capitals (hand: BOW)
+    // An Aurora item by id, or a plain vanilla one by material in capitals (hand: BOW).
+    // Vanilla ones are unbreakable: a helmet that keeps a zombie from burning loses
+    // durability every tick in the sun and would be gone in seconds
     private void equip(Map<EquipmentSlot, ItemStack> equipment, EquipmentSlot slot, String itemId) {
         if (itemId == null) return;
         if (items.containsKey(itemId)) {
@@ -89,7 +91,10 @@ public class MobLoader {
             return;
         }
         Material material = Material.matchMaterial(itemId);
-        if (material != null && material.isItem()) equipment.put(slot, new ItemStack(material));
+        if (material == null || !material.isItem()) return;
+        ItemStack item = new ItemStack(material);
+        item.editMeta(meta -> meta.setUnbreakable(true));
+        equipment.put(slot, item);
     }
 
     private Map<Attribute, Double> attributes(String id, MobModel model) {

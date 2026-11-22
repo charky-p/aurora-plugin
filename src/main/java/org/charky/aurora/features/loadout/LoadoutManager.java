@@ -29,11 +29,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 // Every player has two loadouts: the main one, played in every world the game is built
-// in, and an experimental one for the test worlds that starts from nothing. Going from
+// in, and an experimental one for the test worlds that starts from nothing. Admins have
+// two more main-world slots, 2 and 3, picked with /aurora loadout. Going from
 // one kind of world to the other swaps everything Aurora keeps for the player: the
 // inventory and ender chest, backpack, tools, level, Essence, collections, gear, portal
 // access, perks, cosmetics, ranks and the tutorial. Build worlds keep whichever is in
-// play. The loadout put away is kept under its own id (Loadout.shadowOf), so every
+// play. Each loadout put away is kept under its own id (Loadout.homeOf), so every
 // manager goes on using the player's real id for the one in play. A main loadout that
 // starts fresh starts like a first join, tutorial included; an experimental one does not.
 // /aurora testworld starts an experimental loadout as a copy of the main one instead
@@ -69,6 +70,8 @@ public class LoadoutManager implements Listener {
         this.holders = List.copyOf(holders);
         this.shown = shown;
         this.firstJoin = firstJoin;
+        int moved = store.migrate();
+        if (moved > 0) org.bukkit.Bukkit.getLogger().info("[Aurora] Loadouts: " + moved + " players moved to per-slot ids");
         // Read off the main thread too, by the leaderboards
         this.active = new ConcurrentHashMap<>(store.loadActive());
         this.stashes = store.loadStashes();
@@ -112,7 +115,7 @@ public class LoadoutManager implements Listener {
     // rows, queued after the profile's own save, then the inventory and ender chest
     private void copyMainToExperimental(Player player) {
         UUID uuid = player.getUniqueId();
-        UUID shadow = Loadout.shadowOf(uuid);
+        UUID shadow = Loadout.EXPERIMENTAL.homeOf(uuid);
         player.closeInventory();
         for (LoadoutData holder : holders) holder.copyLoadout(player, shadow);
         players.save(player);
@@ -158,33 +161,46 @@ public class LoadoutManager implements Listener {
 
     private void switchTo(Player player, Loadout target) {
         UUID uuid = player.getUniqueId();
-        UUID shadow = Loadout.shadowOf(uuid);
+        Loadout from = activeOf(uuid);
+        UUID away = from.homeOf(uuid);
+        UUID in = target.homeOf(uuid);
         // A menu open now shows the loadout being put away, and closing it may still change it
         player.closeInventory();
 
-        putAway(player, activeOf(uuid));
+        putAway(player, from);
         boolean fresh = !takeOut(player, target);
 
         // Memory first, then the rows behind it, queued after every save already made for
-        // the loadout being put away and before the profile loads again
-        for (LoadoutData holder : holders) holder.swapLoadout(player, shadow);
+        // the loadout being put away and before the profile loads again. The one in play
+        // goes to its own id, then the target comes from its id to the player's
+        for (LoadoutData holder : holders) {
+            holder.swapLoadout(player, away);
+            holder.swapLoadout(player, in);
+        }
         active.put(uuid, target);
-        players.reload(player, () -> store.swap(uuid, shadow, target), () -> shown.accept(player));
+        players.reload(player, () -> store.switchTo(uuid, away, in, target), () -> shown.accept(player));
 
         // Tools are drawn from levels, which just changed
         tools.refresh(player);
         if (fresh) {
             StarterKit.give(player, registry);
             tools.giveStarters(player);
-            if (target == Loadout.MAIN) firstJoin.accept(player);
+            if (target.isMainWorld()) firstJoin.accept(player);
         }
         // So a crash can never bring back the inventory of the loadout put away
         player.saveData();
 
-        TextUtils.send(player, target == Loadout.EXPERIMENTAL
-                ? "<aqua>Experimental loadout <gray>- the test worlds have their own progress"
-                + (fresh ? ", starting from nothing" : "") + ". Your main one is kept for when you leave"
-                : "<green>Main loadout <gray>- back to your own progress");
+        TextUtils.send(player, switchMessage(target, fresh));
+    }
+
+    static String switchMessage(Loadout target, boolean fresh) {
+        return switch (target) {
+            case EXPERIMENTAL -> "<aqua>Experimental loadout <gray>- the test worlds have their own progress"
+                    + (fresh ? ", starting from nothing" : "") + ". Your main one is kept for when you leave";
+            case MAIN -> "<green>Main loadout <gray>- back to your own progress";
+            default -> "<yellow>Loadout slot " + target.label() + " <gray>- its own progress"
+                    + (fresh ? ", starting from nothing" : "") + ", never on the leaderboards";
+        };
     }
 
     private void putAway(Player player, Loadout loadout) {

@@ -31,32 +31,47 @@ public class GauntletMenu extends PagedMenu {
         this.runs = runs;
     }
 
+    // A row of the menu: 7 slots, the gap after a short row left empty
+    private static final int ROW = 7;
+    private static final Button GAP = new Button(ItemStack.empty(), null);
+
+    // A row each: playing, getting stronger, goals, records
     @Override
     protected List<ItemStack> entries(Player player) {
         GauntletProfile profile = manager.profile(player);
-        List<Button> buttons = List.of(
+        List<Button> buttons = new ArrayList<>();
+        row(buttons,
                 new Button(start(player), this::startRun),
                 new Button(tower(profile), this::climbTower),
+                new Button(party(player), viewer -> new PartyMenu(manager).open(viewer)),
+                new Button(duels(profile), viewer -> new DuelMenu(manager).open(viewer)),
+                new Button(pvp(profile), null),
+                new Button(spectate(), viewer -> new SpectateMenu(manager).open(viewer)),
+                new Button(button(Material.OAK_DOOR, "<gray><b>Leave the Gauntlet", List.of(
+                        "<gray>Back to the main spawn,", "<gray>with your own inventory.")), this::leaveGauntlet));
+        row(buttons,
                 new Button(forge(profile), viewer -> new ForgeMenu(manager, runs).open(viewer)),
                 new Button(kit(), viewer -> new SetupMenu(manager, runs).open(viewer)),
                 new Button(talents(profile), viewer -> new TalentsMenu(manager).open(viewer)),
-                new Button(shop(profile), viewer -> new ShardShopMenu(manager).open(viewer)),
+                new Button(shop(profile), viewer -> new ShardShopMenu(manager).open(viewer)));
+        row(buttons,
                 new Button(challenges(player, profile), null),
                 new Button(achievements(profile), viewer -> new AchievementsMenu(manager).open(viewer)),
-                new Button(bestiary(profile), viewer -> new BestiaryMenu(manager).open(viewer)),
                 new Button(milestones(profile), null),
-                new Button(topFloors(profile), null),
-                new Button(history(profile), viewer -> new HistoryMenu(manager).open(viewer)),
+                new Button(bestiary(profile), viewer -> new BestiaryMenu(manager).open(viewer)));
+        row(buttons,
                 new Button(stats(profile), null),
-                new Button(week(player), null),
-                new Button(pvp(profile), null),
-                new Button(duels(profile), viewer -> new DuelMenu(manager).open(viewer)),
-                new Button(spectate(), viewer -> new SpectateMenu(manager).open(viewer)),
-                new Button(party(player), viewer -> new PartyMenu(manager).open(viewer)),
-                new Button(button(Material.OAK_DOOR, "<gray><b>Leave the Gauntlet", List.of(
-                        "<gray>Back to the main spawn,", "<gray>with your own inventory.")), this::leaveGauntlet));
+                new Button(history(profile), viewer -> new HistoryMenu(manager).open(viewer)),
+                new Button(topFloors(profile), null),
+                new Button(week(player), null));
         clicks = buttons.stream().map(Button::click).toList();
         return buttons.stream().map(Button::item).toList();
+    }
+
+    // The buttons of one row, then gaps to its end
+    private static void row(List<Button> buttons, Button... row) {
+        buttons.addAll(List.of(row));
+        for (int i = row.length; i < ROW; i++) buttons.add(GAP);
     }
 
     private ItemStack start(Player player) {

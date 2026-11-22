@@ -62,6 +62,7 @@ public class GauntletRuns implements Listener {
     private static final double REVIVE_REACH = 2;
     private static final String DAILY_DAY = "daily_day";
     private static final String HEAT_CHOICE = "heat_choice";
+    private static final String START_CHOICE = "start_choice";
     public static final String BEST_COMBO = "best_combo";
     // A player's kills of one mob, slain:g_rotter, and how many mobs they have met
     static final String SLAIN = "slain:";
@@ -227,9 +228,18 @@ public class GauntletRuns implements Listener {
         return begin(player, 1);
     }
 
-    // Null if it started, otherwise why not
+    // Null if it started, otherwise why not. The floor is remembered for the start item
     public String begin(Player player, int startFloor) {
-        return start(player, startFloor, 0);
+        String problem = start(player, startFloor, 0);
+        if (problem == null) manager.setStat(player.getUniqueId(), START_CHOICE, startFloor);
+        return problem;
+    }
+
+    // The start item: straight into a run on the floor chosen last (while it is still a
+    // checkpoint for the whole party), at the heat chosen last
+    public String quickStart(Player player) {
+        int floor = manager.profile(player).stat(START_CHOICE);
+        return begin(player, checkpoints(player).contains(floor) ? floor : 1);
     }
 
     // The Daily Tower, once a day and alone, from floor 1 at no heat: every floor from
@@ -271,10 +281,9 @@ public class GauntletRuns implements Listener {
                 + fmt(run.heat * data().setting("heat_health", 25)) + "%</white> health and hit <white>+"
                 + fmt(run.heat * data().setting("heat_damage", 15)) + "%</white> harder, for <aqua>+"
                 + fmt(run.heat * data().setting("heat_shards", 30)) + "% Shards");
-        if (startFloor > 1) {
-            checkpointBoons(run);
-            care.drop(run);
-        }
+        if (startFloor > 1) checkpointBoons(run);
+        // Every run starts with a care package
+        care.drop(run);
         nextFloor(run);
         return null;
     }

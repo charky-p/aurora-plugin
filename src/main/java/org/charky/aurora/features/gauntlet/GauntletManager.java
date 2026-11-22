@@ -1,31 +1,10 @@
 package org.charky.aurora.features.gauntlet;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
-import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
@@ -38,24 +17,20 @@ import org.charky.aurora.features.cosmetic.Cosmetics;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-// The gauntlet as a game of its own beside the main one, in its own world. Walking in
-// puts the player's inventory away and hands out their gauntlet setup (GauntletSetup);
-// walking out gives it back, so nothing crosses over either way. What carries over is the gauntlet's own
-// progress (Shards, Cores, gear levels, best floor) and what milestones pay into the
-// main game: Essence and cosmetics. Gear is bought and upgraded in the forge with
-// Shards and Cores from runs (GauntletRuns). PvP is off in the world except inside
-// its PvP zone, where players fight with their gauntlet gear
-public class GauntletManager implements Listener {
+// The gauntlet as a game of its own beside the main one, in a world of its own that
+// GauntletWorld keeps apart. This holds every player's progress, the same in every
+// loadout (Shards, Cores, gear levels, talents, best floor, counted stats), what runs
+// bank and milestones pay into the main game (Essence and cosmetics), and what the
+// forge, the talents and the Shard Shop sell. The systems around it are classes of
+// their own, reached from here: runs, the setup, the PvP zone, duels, spectating,
+// parties, daily challenges, the weekly boards, achievements and the sidebar
+public class GauntletManager {
     private final Aurora plugin;
     private final Database db;
     private final GauntletStore store;
@@ -65,8 +40,6 @@ public class GauntletManager implements Listener {
     private final BuildManager build;
     private final GauntletArena arena;
     private final Map<UUID, GauntletProfile> profiles = new ConcurrentHashMap<>();
-    // Died in the gauntlet's world, to come back in its lobby
-    private final Set<UUID> diedHere = new HashSet<>();
     private GauntletRuns runs;
     private GauntletSetup setup;
     private GauntletPvp pvp;
@@ -76,6 +49,7 @@ public class GauntletManager implements Listener {
     private final GauntletAchievements achievements = new GauntletAchievements(this);
     private GauntletSpectate spectate;
     private GauntletParty party;
+    private GauntletWorld world;
     private BukkitTask sweep;
     private int ticks;
 
@@ -135,6 +109,10 @@ public class GauntletManager implements Listener {
 
     public GauntletParty party() {
         return party;
+    }
+
+    public void setWorld(GauntletWorld world) {
+        this.world = world;
     }
 
     public boolean isWatching(Player player) {
@@ -207,66 +185,11 @@ public class GauntletManager implements Listener {
 
     public void start() {
         sweep = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
-            sweepAll();
-            hintNewPlayers();
+            if (world != null) world.everySecond();
             // The weekly boards pay out once the week has turned
             if (ticks++ % 60 == 0) weekly.check();
         }, 20L, 20L);
-        scoreboard.setOverride(this::sidebar);
-    }
-
-    // In the Gauntlet's world the sidebar shows its Shards, Cores and best floor, and
-    // the run in progress. Elsewhere the main game's
-    private List<Component> sidebar(Player player) {
-        if (!isHere(player)) return null;
-        GauntletProfile profile = profile(player);
-        List<Component> lines = new ArrayList<>(List.of(
-                TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>GAUNTLET</b></gradient>"),
-                TextUtils.parse("<gray>• SHARDS: <aqua>" + profile.shards),
-                TextUtils.parse("<gray>• CORES: <light_purple>" + profile.cores),
-                TextUtils.parse("<gray>• BEST FLOOR: <white>" + profile.best)));
-        Player watched = spectate == null ? null : spectate.target(player);
-        Player opponent = duels == null ? null : duels.opponent(player);
-        if (watched != null) {
-            lines.add(Component.empty());
-            lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>SPECTATING</b></gradient>"));
-            lines.add(TextUtils.parse("<gray>• PLAYER: <white>" + watched.getName()));
-            lines.add(TextUtils.parse(runs != null && runs.inRun(watched)
-                    ? "<gray>• FLOOR: <white>" + runs.floorOf(watched) + " <gray>SHARDS: <aqua>" + runs.shardsOf(watched)
-                    : "<gray>• IN A DUEL"));
-        } else if (opponent != null) {
-            lines.add(Component.empty());
-            lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>DUEL</b></gradient>"));
-            lines.add(TextUtils.parse("<gray>• VS: <white>" + opponent.getName()));
-            lines.add(TextUtils.parse("<gray>• THEIR HEALTH: <red>" + Math.round(opponent.getHealth()) / 2.0 + " ❤"));
-        } else if (pvp != null && pvp.inZone(player)) {
-            lines.add(Component.empty());
-            lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>PVP</b></gradient>"));
-            lines.add(TextUtils.parse("<gray>• KILLS: <red>" + profile.stat(GauntletPvp.KILLS)
-                    + " <gray>DEATHS: <white>" + profile.stat(GauntletPvp.DEATHS)));
-            lines.add(TextUtils.parse("<gray>• STREAK: <gold>" + pvp.streak(player)
-                    + " <gray>BEST: <white>" + profile.stat(GauntletPvp.BEST_STREAK)));
-        } else if (runs != null && runs.inRun(player)) {
-            lines.add(Component.empty());
-            lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>THIS RUN</b></gradient>"));
-            lines.add(TextUtils.parse("<gray>• FLOOR: <white>" + runs.floorOf(player)));
-            lines.add(TextUtils.parse("<gray>• EARNED: <aqua>" + runs.shardsOf(player) + " Shards"
-                    + (runs.coresOf(player) > 0 ? " <light_purple>" + runs.coresOf(player) + " Cores" : "")));
-            List<String> team = runs.teamLines(player);
-            if (!team.isEmpty()) {
-                lines.add(Component.empty());
-                lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>PARTY</b></gradient>"));
-                for (String line : team) lines.add(TextUtils.parse(line));
-            }
-        } else {
-            lines.add(TextUtils.parse("<gray>• RUNS: <white>" + profile.runs));
-            if (party != null && party.inParty(player)) {
-                List<Player> team = party.team(player);
-                lines.add(TextUtils.parse("<gray>• PARTY: <aqua>" + team.size() + "/" + party.max()
-                        + " <gray>led by <white>" + team.getFirst().getName()));
-            }
-        }
-        return lines;
+        scoreboard.setOverride(new GauntletSidebar(this)::lines);
     }
 
     public void refreshBoard(Player player) {
@@ -395,124 +318,12 @@ public class GauntletManager implements Listener {
 
     // From anywhere: to the lobby. Null if it worked, otherwise why not
     public String sendToLobby(Player player) {
-        Location lobby = arena.lobby();
-        if (lobby == null) return "The Gauntlet is not open yet";
-        if (!data().ready()) return "The Gauntlet's data did not load";
-        player.teleport(lobby);
-        return null;
+        return world.sendToLobby(player);
     }
 
+    // Back to the main spawn, ending a run
     public void leave(Player player) {
-        if (runs != null) runs.end(player, GauntletRuns.End.LEFT);
-        Location spawn = plugin.getMainSpawn();
-        player.teleport(spawn != null ? spawn : Bukkit.getWorlds().getFirst().getSpawnLocation());
-    }
-
-    // Before the loadouts swap (NORMAL), so a loadout put away on the way out holds
-    // the player's own inventory, not their gauntlet gear
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onLeaveWorld(PlayerChangedWorldEvent event) {
-        Player player = event.getPlayer();
-        if (!arena.isGauntletWorld(event.getFrom()) || build.isBuildWorld(event.getFrom())) return;
-        if (isHere(player)) return;
-        if (runs != null) runs.end(player, GauntletRuns.End.LEFT);
-        // A party is for the Gauntlet, leaving it leaves the party
-        if (party != null && party.inParty(player)) party.leave(player);
-        giveBack(player);
-        refreshBoard(player);
-    }
-
-    // After the loadouts swap, so what is put away is the loadout coming in
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEnterWorld(PlayerChangedWorldEvent event) {
-        Player player = event.getPlayer();
-        if (!isHere(player) || (arena.isGauntletWorld(event.getFrom()) && !build.isBuildWorld(event.getFrom()))) return;
-        putAway(player);
-        giveKit(player);
-        refreshBoard(player);
-        welcome(player);
-    }
-
-    // A player who logged out here comes back in the lobby, never inside an arena copy.
-    // One who is somewhere else with an inventory still put away gets it back
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            if (!player.isOnline()) return;
-            weekly.notice(player);
-            achievements.check(player.getUniqueId());
-            if (isHere(player)) {
-                Location lobby = arena.lobby();
-                if (lobby != null) player.teleport(lobby);
-                giveKit(player);
-                welcome(player);
-            } else if (!build.isBuildWorld(player.getWorld())) {
-                giveBack(player);
-            }
-        }, 5L);
-    }
-
-    // How to get going, the moment they arrive: a title, and buttons in chat
-    private void welcome(Player player) {
-        String how = arena.hasStart() ? "Walk into the portal to start a run" : "Type /gauntlet start to start a run";
-        player.showTitle(Title.title(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>THE GAUNTLET</b></gradient>"),
-                TextUtils.parse("<gray>" + how)));
-        TextUtils.send(player, "");
-        TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>THE GAUNTLET</b></gradient> <gray>Climb the tower floor by floor, "
-                + "spend Shards on your gear, climb higher.");
-        TextUtils.send(player, "<gray>" + how + ", or click: "
-                + "<click:run_command:'/gauntlet start'><hover:show_text:'<gray>Start a run now'><green><b>[START A RUN]</b></hover></click> "
-                + "<click:run_command:'/gauntlet forge'><hover:show_text:'<gray>Upgrade your gear'><gold><b>[FORGE]</b></hover></click> "
-                + "<click:run_command:'/gauntlet'><hover:show_text:'<gray>Everything else'><yellow><b>[MENU]</b></hover></click>");
-        int done = challenges.doneToday(player);
-        int total = challenges.today().size();
-        if (total > 0) TextUtils.send(player, "<gray>Daily challenges: <white>" + done + "/" + total + "</white> done "
-                + "<click:run_command:'/gauntlet'><hover:show_text:'<gray>See them in the menu'><yellow>[SEE]</hover></click>");
-        TextUtils.send(player, "<dark_gray>Your own inventory is kept for when you leave, /gauntlet leave.");
-        TextUtils.send(player, "");
-    }
-
-    // Until their first run, players standing in the lobby are told how to start
-    private void hintNewPlayers() {
-        for (Player player : plugin.getServer().getOnlinePlayers()) {
-            if (!isHere(player) || inRun(player) || isWatching(player) || profile(player).runs > 0) continue;
-            if (pvp != null && pvp.inZone(player)) continue;
-            player.sendActionBar(TextUtils.parse(arena.hasStart()
-                    ? "<green><b>Walk into the portal</b> <gray>to start your first run"
-                    : "<green><b>/gauntlet start</b> <gray>to start your first run"));
-        }
-    }
-
-    // Walking into the start portal starts a run
-    @EventHandler(ignoreCancelled = true)
-    public void onMove(PlayerMoveEvent event) {
-        Location from = event.getFrom(), to = event.getTo();
-        if (from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) return;
-        Player player = event.getPlayer();
-        if (!isHere(player) || inRun(player) || !arena.inStart(to) || arena.inStart(from) || runs == null) return;
-        String problem = runs.startFlow(player);
-        if (problem != null) TextUtils.error(player, problem);
-    }
-
-    private void putAway(Player player) {
-        UUID uuid = player.getUniqueId();
-        ItemStack[] contents = Arrays.stream(player.getInventory().getContents())
-                .map(item -> item == null ? ItemStack.empty() : item).toArray(ItemStack[]::new);
-        byte[] items = ItemStack.serializeItemsAsBytes(contents);
-        // Saved before the inventory is cleared, a crash in between loses nothing
-        store.saveInventory(uuid, items);
-        player.getInventory().clear();
-    }
-
-    private void giveBack(Player player) {
-        UUID uuid = player.getUniqueId();
-        byte[] items = store.loadInventory(uuid);
-        if (items == null) return;
-        player.getInventory().clear();
-        player.getInventory().setContents(ItemStack.deserializeItemsFromBytes(items));
-        player.updateInventory();
-        db.async(() -> store.removeInventory(uuid));
+        world.leave(player);
     }
 
     // ---- Gear ----
@@ -629,80 +440,5 @@ public class GauntletManager implements Listener {
             TextUtils.send(player, "<gold><b>GAUNTLET MILESTONE</b> <white>Floor " + milestone.floor()
                     + (milestone.essence() > 0 ? " <aqua>+" + milestone.essence() + " Essence" : ""));
         }
-    }
-
-    // ---- Keeping the world apart ----
-
-    // Gear from the main game would carry its stats into the gauntlet (taken out of
-    // the Armory here, say), so anything with Aurora stats that is not gauntlet gear
-    // is taken away, as are main-game tools
-    private void sweepAll() {
-        for (Player player : plugin.getServer().getOnlinePlayers()) {
-            if (!isHere(player)) continue;
-            PlayerInventory inventory = player.getInventory();
-            for (int slot = 0; slot < inventory.getSize(); slot++) {
-                ItemStack item = inventory.getItem(slot);
-                if (item == null || !item.hasItemMeta() || GauntletGear.gearId(item) != null) continue;
-                var pdc = item.getItemMeta().getPersistentDataContainer();
-                if (pdc.has(DataKeys.ENCHANT_KEY, PersistentDataType.TAG_CONTAINER)
-                        || pdc.has(DataKeys.TOOL_KEY, PersistentDataType.STRING)) {
-                    inventory.setItem(slot, null);
-                }
-            }
-        }
-    }
-
-    // The ender chest holds main-game things
-    @EventHandler(ignoreCancelled = true)
-    public void onOpen(InventoryOpenEvent event) {
-        if (event.getPlayer() instanceof Player player && isHere(player)
-                && event.getInventory().getType() == InventoryType.ENDER_CHEST) {
-            event.setCancelled(true);
-            TextUtils.error(player, "Your ender chest can't be opened in the Gauntlet");
-        }
-    }
-
-    // Players only hurt each other in the PvP zone, both in it and neither in a run
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPvp(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player victim) || !isHere(victim)) return;
-        Player attacker = event.getDamager() instanceof Player p ? p
-                : event.getDamager() instanceof Projectile projectile
-                && projectile.getShooter() instanceof Player shooter ? shooter : null;
-        if (attacker == null) return;
-        // Duelists fight each other and nobody else
-        if (duels != null && duels.areDueling(victim, attacker)) return;
-        String refused = null;
-        if (inDuel(victim) || inDuel(attacker)) refused = inDuel(attacker) ? "You can only hit your duel opponent" : victim.getName() + " is in a duel";
-        else if (inRun(victim) || inRun(attacker)) refused = "No PvP during a run";
-        else if (!arena.inPvp(attacker.getLocation())) refused = "You can only fight players in the PvP zone";
-        else if (!arena.inPvp(victim.getLocation())) refused = victim.getName() + " is outside the PvP zone";
-        if (refused == null) return;
-        event.setCancelled(true);
-        attacker.sendActionBar(TextUtils.parse("<red>" + refused));
-    }
-
-    // Dying here costs nothing, the gear is kept, and they come back in the lobby
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onDeath(PlayerDeathEvent event) {
-        Player player = event.getPlayer();
-        if (!isHere(player)) return;
-        event.setKeepInventory(true);
-        event.getDrops().clear();
-        event.setKeepLevel(true);
-        event.setDroppedExp(0);
-        diedHere.add(player.getUniqueId());
-    }
-
-    // Back in the lobby with their setup as they left it, whatever the fight used up
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onRespawn(PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
-        if (!diedHere.remove(player.getUniqueId())) return;
-        Location lobby = arena.lobby();
-        if (lobby != null) event.setRespawnLocation(lobby);
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
-            if (player.isOnline() && isHere(player)) giveKit(player);
-        });
     }
 }

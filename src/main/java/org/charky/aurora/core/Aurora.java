@@ -99,6 +99,7 @@ import org.charky.aurora.features.gauntlet.GauntletParty;
 import org.charky.aurora.features.gauntlet.GauntletPvp;
 import org.charky.aurora.features.gauntlet.GauntletRuns;
 import org.charky.aurora.features.gauntlet.GauntletSpectate;
+import org.charky.aurora.features.gauntlet.GauntletWorld;
 import org.charky.aurora.features.gauntlet.GauntletSetup;
 import org.charky.aurora.features.quest.QuestManager;
 import org.charky.aurora.features.tutorial.TutorialCommand;
@@ -166,6 +167,7 @@ public class Aurora extends JavaPlugin {
     private GauntletDuels gauntletDuels;
     private GauntletSpectate gauntletSpectate;
     private GauntletParty gauntletParty;
+    private GauntletWorld gauntletWorld;
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
@@ -324,6 +326,8 @@ public class Aurora extends JavaPlugin {
         GauntletStore gauntletStore = new GauntletStore(db);
         this.gauntletManager = new GauntletManager(this, db, gauntletStore, players, scoreboard,
                 cosmeticManager, buildManager);
+        this.gauntletWorld = new GauntletWorld(this, gauntletManager, db, gauntletStore, buildManager);
+        gauntletManager.setWorld(gauntletWorld);
         this.gauntletRuns = new GauntletRuns(this, gauntletManager, spawnerManager);
         gauntletManager.setRuns(gauntletRuns);
         this.gauntletSetup = new GauntletSetup(this, db, gauntletStore, gauntletManager);
@@ -447,7 +451,7 @@ public class Aurora extends JavaPlugin {
                 new SpawnListener(this),
                 tutorialManager,
                 questManager,
-                gauntletManager,
+                gauntletWorld,
                 gauntletRuns,
                 gauntletSetup,
                 gauntletPvp,

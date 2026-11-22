@@ -2804,6 +2804,22 @@ achievements:
     essence: 300
     shards: 200
     cosmetic: ''
+  - id: together
+    name: Together
+    description: "Finish {goal} runs in a party"
+    stat: party_runs
+    goal: 25
+    essence: 400
+    shards: 250
+    cosmetic: ''
+  - id: lifeline
+    name: Lifeline
+    description: "Revive {goal} teammates"
+    stat: revives
+    goal: 25
+    essence: 500
+    shards: 300
+    cosmetic: ''
   - id: climber
     name: Climber
     description: "Clear floor {goal}"
@@ -2915,4 +2931,6 @@ settings:
   party_mobs: 50.0
   party_boss_health: 60.0
   party_shards: 0.0
+  revive_seconds: 3.0
+  revive_health: 30.0
   choice_seconds: 45.0

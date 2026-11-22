@@ -3,6 +3,7 @@ package org.charky.aurora.features.gauntlet;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.TextUtils;
@@ -34,9 +35,14 @@ final class GauntletRun {
         boolean daily;
         int bestBefore;
         boolean newBest;
-        // Down until the floor is cleared, watching; the game mode to give back
+        // Down until the floor is cleared or a teammate brings them back, watching: the game
+        // mode to give back, where they fell and its marker, who is reviving them and how far
         boolean down;
         GameMode mode;
+        Location fell;
+        UUID marker;
+        UUID reviver;
+        int reviving;
         int kills;
         int eliteKills;
         long lastKill;

@@ -237,59 +237,65 @@ public class GauntletRuns implements Listener {
         run.bar = BossBar.bossBar(TextUtils.parse("<red><b>Floor " + startFloor), 0f, BossBar.Color.RED, BossBar.Overlay.PROGRESS);
         Location spawn = arena.inSlot(slot, arena.place(GauntletArena.SPAWN));
         long today = LocalDate.now().toEpochDay();
-
-        for (Player mate : team) {
-            GauntletProfile profile = manager.profile(mate);
-            Member member = new Member(mate.getUniqueId());
-            member.bestBefore = profile.best;
-            member.rerolls = (int) bonuses.talentTotal(profile, "reroll");
-            member.revives = (int) bonuses.talentTotal(profile, "revive");
-            member.daily = profile.stat(DAILY_DAY) != today;
-            if (member.daily) manager.setStat(mate.getUniqueId(), DAILY_DAY, (int) today);
-            boolean first = profile.runs == 0;
-            run.members.put(mate.getUniqueId(), member);
-            runs.put(mate.getUniqueId(), run);
-
-            mate.closeInventory();
-            // The run starts with the setup from the lobby
-            manager.giveKit(mate);
-            bonuses.runHealth(mate, profile);
-            heal(mate);
-            mate.teleport(spawn);
-            mate.showBossBar(run.bar);
-            mate.playSound(mate.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
-            if (member.daily) TextUtils.send(mate, "<gold><b>DAILY BONUS</b> <gray>Your first run today pays <white>"
-                    + fmt(data().setting("daily_bonus", 2)) + "x</white> Shards");
-            if (first) TextUtils.send(mate, "<yellow><b>TIP</b> <gray>Kill every mob to clear a floor. Every "
-                    + boonEvery() + " floors a care package lands and you pick a boon. If you fall, you keep the Shards you earned.");
-        }
+        for (Player mate : team) join(run, mate, spawn, today);
         if (team.size() > 1) run.tell("<aqua><b>PARTY RUN</b> <gray>" + team.size() + " climbing together: more mobs, tougher bosses, "
                 + "one pot of Shards for everyone. A fallen player is back once the floor is cleared");
         if (run.heat > 0) run.tell("<gold><b>HEAT " + run.heat + "</b> <gray>Mobs have <white>+"
                 + fmt(run.heat * data().setting("heat_health", 25)) + "%</white> health and hit <white>+"
                 + fmt(run.heat * data().setting("heat_damage", 15)) + "%</white> harder, for <aqua>+"
                 + fmt(run.heat * data().setting("heat_shards", 30)) + "% Shards");
-        // Starting past floor 1: the boons of the floors skipped, and a care package
         if (startFloor > 1) {
-            for (Member member : run.members.values()) {
-                Player mate = Bukkit.getPlayer(member.id);
-                List<String> given = new ArrayList<>();
-                for (int i = 0; i < (startFloor - 1) / boonEvery(); i++) {
-                    List<String> pick = bonuses.pickBoons(member, 1, null);
-                    if (pick.isEmpty()) break;
-                    GauntletData.Boon boon = data().boons().get(pick.getFirst());
-                    grant(member, boon);
-                    given.add(boon.name());
-                }
-                if (mate == null) continue;
-                bonuses.applyBoons(mate, member);
-                if (!given.isEmpty()) TextUtils.send(mate, "<gold><b>CHECKPOINT</b> <gray>Starting on floor " + startFloor
-                        + " with: <white>" + String.join(", ", given));
-            }
+            checkpointBoons(run);
             care.drop(run);
         }
         nextFloor(run);
         return null;
+    }
+
+    // A player into the run: their own rerolls, revives and day's first run, the setup
+    // from the lobby and their hearts, at the arena's spawn under the run's bar
+    private void join(GauntletRun run, Player mate, Location spawn, long today) {
+        GauntletProfile profile = manager.profile(mate);
+        Member member = new Member(mate.getUniqueId());
+        member.bestBefore = profile.best;
+        member.rerolls = (int) bonuses.talentTotal(profile, "reroll");
+        member.revives = (int) bonuses.talentTotal(profile, "revive");
+        member.daily = profile.stat(DAILY_DAY) != today;
+        if (member.daily) manager.setStat(mate.getUniqueId(), DAILY_DAY, (int) today);
+        boolean first = profile.runs == 0;
+        run.members.put(mate.getUniqueId(), member);
+        runs.put(mate.getUniqueId(), run);
+
+        mate.closeInventory();
+        manager.giveKit(mate);
+        bonuses.runHealth(mate, profile);
+        heal(mate);
+        mate.teleport(spawn);
+        mate.showBossBar(run.bar);
+        mate.playSound(mate.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
+        if (member.daily) TextUtils.send(mate, "<gold><b>DAILY BONUS</b> <gray>Your first run today pays <white>"
+                + fmt(data().setting("daily_bonus", 2)) + "x</white> Shards");
+        if (first) TextUtils.send(mate, "<yellow><b>TIP</b> <gray>Kill every mob to clear a floor. Every "
+                + boonEvery() + " floors a care package lands and you pick a boon. If you fall, you keep the Shards you earned.");
+    }
+
+    // Starting past floor 1: everyone gets the boons of the floors skipped, at random
+    private void checkpointBoons(GauntletRun run) {
+        for (Member member : run.members.values()) {
+            Player mate = Bukkit.getPlayer(member.id);
+            List<String> given = new ArrayList<>();
+            for (int i = 0; i < (run.startFloor - 1) / boonEvery(); i++) {
+                List<String> pick = bonuses.pickBoons(member, 1, null);
+                if (pick.isEmpty()) break;
+                GauntletData.Boon boon = data().boons().get(pick.getFirst());
+                grant(member, boon);
+                given.add(boon.name());
+            }
+            if (mate == null) continue;
+            bonuses.applyBoons(mate, member);
+            if (!given.isEmpty()) TextUtils.send(mate, "<gold><b>CHECKPOINT</b> <gray>Starting on floor " + run.startFloor
+                    + " with: <white>" + String.join(", ", given));
+        }
     }
 
     // A player out of the run: they bank the party's pot with their own bonuses and are
@@ -490,27 +496,35 @@ public class GauntletRuns implements Listener {
             updateBar(run);
             for (Player player : run.online()) {
                 Member member = run.members.get(player.getUniqueId());
-                // Fallen out of the arena, or down and watching from too far: back to its spawn
-                Location at = player.getLocation();
-                if (spawn != null && ((!manager.arena().isInSlot(run.slot, at) && at.getY() < spawn.getY() - 30)
-                        || (member.down && (!manager.arena().isOverSlot(run.slot, at) || Math.abs(at.getY() - spawn.getY()) > 30)))) {
-                    player.teleport(spawn);
-                }
-                String status = switch (run.state) {
-                    case FIGHTING -> member.down ? "<red>You are down <gray>- back once the floor is cleared"
-                            : "<red>Floor " + run.floor + " <dark_gray>| <white>" + run.mobs.size() + " left"
-                            + (member.combo >= 2 && System.currentTimeMillis() - member.lastKill <= data().setting("combo_window", 3) * 1000
-                            ? " <dark_gray>| <gold><b>x" + member.combo + " COMBO</b>" : "");
-                    case CHOOSING -> member.choosing() ? (member.altar ? "<light_purple>Choose at the altar" : "<gold>Pick a boon")
-                            + " <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>/gauntlet boon</click>"
-                            : "<gray>Waiting for the party to choose";
-                    case STARTING -> "<red>Floor " + run.floor;
-                };
+                keepInArena(run, player, member, spawn);
                 manager.refreshBoard(player);
-                player.sendActionBar(TextUtils.parse(status + " <dark_gray>| <aqua>" + run.shards + " Shards"
+                player.sendActionBar(TextUtils.parse(status(run, member) + " <dark_gray>| <aqua>" + run.shards + " Shards"
                         + (run.cores > 0 ? " <dark_gray>| <light_purple>" + run.cores + " Cores" : "")));
             }
         }
+    }
+
+    // Fallen out of the arena, or down and watching from too far: back to its spawn
+    private void keepInArena(GauntletRun run, Player player, Member member, Location spawn) {
+        if (spawn == null) return;
+        Location at = player.getLocation();
+        boolean fell = !manager.arena().isInSlot(run.slot, at) && at.getY() < spawn.getY() - 30;
+        boolean drifted = member.down && (!manager.arena().isOverSlot(run.slot, at) || Math.abs(at.getY() - spawn.getY()) > 30);
+        if (fell || drifted) player.teleport(spawn);
+    }
+
+    // The action bar: the floor and mobs left with a combo going, or the choice waiting
+    private String status(GauntletRun run, Member member) {
+        return switch (run.state) {
+            case FIGHTING -> member.down ? "<red>You are down <gray>- back once the floor is cleared"
+                    : "<red>Floor " + run.floor + " <dark_gray>| <white>" + run.mobs.size() + " left"
+                    + (member.combo >= 2 && System.currentTimeMillis() - member.lastKill <= data().setting("combo_window", 3) * 1000
+                    ? " <dark_gray>| <gold><b>x" + member.combo + " COMBO</b>" : "");
+            case CHOOSING -> member.choosing() ? (member.altar ? "<light_purple>Choose at the altar" : "<gold>Pick a boon")
+                    + " <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>/gauntlet boon</click>"
+                    : "<gray>Waiting for the party to choose";
+            case STARTING -> "<red>Floor " + run.floor;
+        };
     }
 
     // The boss's health on a boss floor, otherwise how much of the floor is cleared
@@ -547,8 +561,25 @@ public class GauntletRuns implements Listener {
         }
     }
 
+    // The floor is cleared: everyone down is back, the clear pays, then an altar, a care
+    // package and boons, or straight on to the next floor
     private void cleared(GauntletRun run) {
         revive(run);
+        boolean fast = payClear(run);
+        records(run, fast);
+        if (altarFloor(run.floor)) {
+            openAltar(run);
+        } else if (run.floor % boonEvery() == 0) {
+            care.drop(run);
+            offerBoons(run);
+        } else {
+            nextFloor(run);
+        }
+    }
+
+    // The clear bonus and the floor's Cores, and under its par time a share of the bonus
+    // again. Whether it was a fast clear
+    private boolean payClear(GauntletRun run) {
         GauntletData.Floor floor = data().floor(run.floor);
         double mutated = (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run);
         int bonus = (int) Math.round(floor.shards() * mutated);
@@ -558,16 +589,18 @@ public class GauntletRuns implements Listener {
         run.tell("<green>Floor " + run.floor + " cleared <aqua>+" + bonus + " bonus Shards"
                 + (floor.cores() > 0 ? " <light_purple>+" + floor.cores() + " Core" + (floor.cores() > 1 ? "s" : "") : ""));
 
-        // Under its par time: a share of the clear bonus again
         double seconds = (System.currentTimeMillis() - run.floorStarted) / 1000.0;
         double par = data().setting("par_seconds", 10) + data().setting("par_per_mob", 2.5) * run.floorMobs * (floor.boss() ? 2 : 1);
-        boolean fast = seconds <= par;
-        if (fast) {
-            int extra = Math.max(1, (int) Math.round(bonus * data().setting("fast_bonus", 50) / 100));
-            run.shards += extra;
-            run.fastClears++;
-            run.tell("<yellow><b>FAST CLEAR</b> <gray>" + Math.round(seconds) + "s (par " + Math.round(par) + "s) <aqua>+" + extra + " Shards");
-        }
+        if (seconds > par) return false;
+        int extra = Math.max(1, (int) Math.round(bonus * data().setting("fast_bonus", 50) / 100));
+        run.shards += extra;
+        run.fastClears++;
+        run.tell("<yellow><b>FAST CLEAR</b> <gray>" + Math.round(seconds) + "s (par " + Math.round(par) + "s) <aqua>+" + extra + " Shards");
+        return true;
+    }
+
+    // Each player's daily challenges, and NEW BEST once a run past their old record
+    private void records(GauntletRun run, boolean fast) {
         for (Player player : run.online()) {
             Member member = run.members.get(player.getUniqueId());
             if (fast) manager.challenges().add(player, "fast_clears", 1);
@@ -579,22 +612,18 @@ public class GauntletRuns implements Listener {
                 TextUtils.send(player, "<gold><b>NEW BEST!</b> <gray>Past your old record of floor " + member.bestBefore);
             }
         }
+    }
 
-        if (altarFloor(run.floor)) {
-            run.state = State.CHOOSING;
-            run.choosingSince = System.currentTimeMillis();
-            run.sound(Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 0.7f);
-            run.tell("<light_purple><b>AN ALTAR</b> <gray>A pact for the climb, or walk on: "
-                    + "<yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
-            for (Player player : run.online()) {
-                run.members.get(player.getUniqueId()).altar = true;
-                new AltarMenu(manager, this).open(player);
-            }
-        } else if (run.floor % boonEvery() == 0) {
-            care.drop(run);
-            offerBoons(run);
-        } else {
-            nextFloor(run);
+    // Everyone chooses a pact at the altar before the next floor
+    private void openAltar(GauntletRun run) {
+        run.state = State.CHOOSING;
+        run.choosingSince = System.currentTimeMillis();
+        run.sound(Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 0.7f);
+        run.tell("<light_purple><b>AN ALTAR</b> <gray>A pact for the climb, or walk on: "
+                + "<yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+        for (Player player : run.online()) {
+            run.members.get(player.getUniqueId()).altar = true;
+            new AltarMenu(manager, this).open(player);
         }
     }
 
@@ -828,7 +857,8 @@ public class GauntletRuns implements Listener {
     // mutated floor and a combo more
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
-        UUID id = event.getEntity().getUniqueId();
+        LivingEntity mob = event.getEntity();
+        UUID id = mob.getUniqueId();
         for (GauntletRun run : new HashSet<>(runs.values())) {
             if (id.equals(run.hoarder)) {
                 caughtHoarder(run);
@@ -836,57 +866,67 @@ public class GauntletRuns implements Listener {
             }
             if (!run.mobs.remove(id)) continue;
             run.kills++;
-            Player killer = event.getEntity().getKiller();
-            // A mob dying with no killer of the run's is the kill of a solo run's player
-            if ((killer == null || !run.members.containsKey(killer.getUniqueId())) && run.members.size() == 1) {
-                killer = Bukkit.getPlayer(run.members.keySet().iterator().next());
-            }
+            Player killer = killerOf(run, mob);
             Member member = killer == null ? null : run.members.get(killer.getUniqueId());
             boolean elite = run.elites.remove(id);
-            if (member != null) {
-                member.kills++;
-                if (elite) member.eliteKills++;
-                long now = System.currentTimeMillis();
-                member.combo = now - member.lastKill <= data().setting("combo_window", 3) * 1000 ? member.combo + 1 : 1;
-                member.lastKill = now;
-                member.bestCombo = Math.max(member.bestCombo, member.combo);
-            }
+            if (member != null) credit(member, killer, elite);
             String affix = run.affixes.remove(id);
-            if (affix != null) waves.affixDeath(run, event.getEntity(), affix);
+            if (affix != null) waves.affixDeath(run, mob, affix);
             if (id.equals(run.boss)) {
                 run.boss = null;
                 run.bossKills++;
                 waves.bossGone(id);
                 for (Player player : run.online()) manager.challenges().add(player, "boss_kills", 1);
             }
-            if (member != null) {
-                manager.challenges().add(killer, "kills", 1);
-                if (elite) manager.challenges().add(killer, "elite_kills", 1);
-            }
-            String mobId = event.getEntity().getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
-            GauntletData.Floor floor = data().floor(run.floor);
-            if (mobId != null && floor != null) {
-                String base = GauntletData.baseMobId(mobId);
-                // A party's floor pays what the same floor pays alone, its extra mobs share it
-                double pay = floor.killPay(base) * (elite ? data().setting("elite_pay", 3) : 1)
-                        * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run) * comboPay(member)
-                        / (floor.isBoss(base) ? 1 : run.floorScale);
-                int paid = (int) Math.round(pay);
-                run.shards += paid;
-                if (member != null) killer.playSound(killer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.4f, 1.6f);
-                if (floor.isBoss(base)) run.tell("<gold>Boss slain <aqua>+" + paid + " Shards");
-                else if (elite && member != null) TextUtils.send(killer, "<gold>Elite slain <aqua>+" + paid + " Shards");
-            }
-            // Bloodthirst: half a heart a kill a stack, and the trident's Riptide
-            if (member != null) {
-                double heal = bonuses.boonTotal(member, "killheal") + bonuses.perkTotal(killer, "killheal");
-                if (heal > 0) {
-                    AttributeInstance max = killer.getAttribute(Attribute.MAX_HEALTH);
-                    killer.setHealth(Math.min(max == null ? 20 : max.getValue(), killer.getHealth() + heal));
-                }
-            }
+            payKill(run, mob, killer, member, elite);
+            if (member != null) killHeal(member, killer);
             return;
         }
+    }
+
+    // The player of the run who landed the kill. A mob dying with no killer of the run's
+    // is the kill of a solo run's player, and of nobody's in a party
+    private static Player killerOf(GauntletRun run, LivingEntity mob) {
+        Player killer = mob.getKiller();
+        if (killer != null && run.members.containsKey(killer.getUniqueId())) return killer;
+        return run.members.size() == 1 ? Bukkit.getPlayer(run.members.keySet().iterator().next()) : null;
+    }
+
+    // The kill counts for whoever landed it: their kills, their combo, their challenges
+    private void credit(Member member, Player killer, boolean elite) {
+        member.kills++;
+        if (elite) member.eliteKills++;
+        long now = System.currentTimeMillis();
+        member.combo = now - member.lastKill <= data().setting("combo_window", 3) * 1000 ? member.combo + 1 : 1;
+        member.lastKill = now;
+        member.bestCombo = Math.max(member.bestCombo, member.combo);
+        manager.challenges().add(killer, "kills", 1);
+        if (elite) manager.challenges().add(killer, "elite_kills", 1);
+    }
+
+    // What the kill pays into the pot. A party's floor pays what the same floor pays
+    // alone, its extra mobs share it
+    private void payKill(GauntletRun run, LivingEntity mob, Player killer, Member member, boolean elite) {
+        String mobId = mob.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
+        GauntletData.Floor floor = data().floor(run.floor);
+        if (mobId == null || floor == null) return;
+        String base = GauntletData.baseMobId(mobId);
+        double pay = floor.killPay(base) * (elite ? data().setting("elite_pay", 3) : 1)
+                * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run) * comboPay(member)
+                / (floor.isBoss(base) ? 1 : run.floorScale);
+        int paid = (int) Math.round(pay);
+        run.shards += paid;
+        if (killer != null) killer.playSound(killer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.4f, 1.6f);
+        if (floor.isBoss(base)) run.tell("<gold>Boss slain <aqua>+" + paid + " Shards");
+        else if (elite && killer != null) TextUtils.send(killer, "<gold>Elite slain <aqua>+" + paid + " Shards");
+    }
+
+    // Bloodthirst: half a heart a kill a stack, and the trident's Riptide
+    private void killHeal(Member member, Player killer) {
+        double heal = bonuses.boonTotal(member, "killheal") + bonuses.perkTotal(killer, "killheal");
+        if (heal <= 0) return;
+        AttributeInstance max = killer.getAttribute(Attribute.MAX_HEALTH);
+        killer.setHealth(Math.min(max == null ? 20 : max.getValue(), killer.getHealth() + heal));
     }
 
     // Every kill of a combo past the first pays combo_step percent more, up to combo_max

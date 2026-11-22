@@ -158,7 +158,8 @@ public class GauntletSetup implements Listener {
 
     // In the lobby, out of the PvP zone and out of a run, the inventory is the setup
     private boolean editing(Player player) {
-        return manager.isHere(player) && !manager.inRun(player) && !manager.arena().inPvp(player.getLocation());
+        return manager.isHere(player) && !manager.inRun(player) && !manager.inDuel(player)
+                && !manager.arena().inPvp(player.getLocation());
     }
 
     // Where each setup item sits now, saved as the layout

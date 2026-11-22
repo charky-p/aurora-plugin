@@ -49,7 +49,7 @@ commands:
     usage: /tutorial skip
   gauntlet:
     description: Go to the Gauntlet, or open its menu there
-    usage: /gauntlet [start [floor]|forge|talents|boon|leave]
+    usage: /gauntlet [start [floor]|forge|talents|duel <player>|boon|leave]
   collections:
     description: Every resource you have gathered and what the next milestone pays
     usage: /collections

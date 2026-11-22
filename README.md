@@ -16,7 +16,7 @@ A sky-mining RPG plugin for Paper 26.3. Mine resources, spend them on upgrades f
 - **Levels and Essence**, playtime ranks, an Essence shop with mounts, Dash and Double Jump, and cosmetics in `/customise`
 - **Bosses** summoned with a key, some with phases or abilities
 - **Fishing**, a side quest with one spot a realm and its own rod upgrades
-- **The Gauntlet**, a mode of its own in its own world: fast solo tower runs with elites, mutators and bosses, boons and care packages during a run; gear from a forge, a starting kit, talents, checkpoints and daily challenges between runs; milestones that pay into the main game; and a PvP zone with its own damage rules, kill rewards and streaks
+- **The Gauntlet**, a mode of its own in its own world: fast solo tower runs with elites, mutators, bosses with abilities and heat levels, boons and care packages during a run; gear from a forge, a starting kit, talents, checkpoints and daily challenges between runs; milestones that pay into the main game; a PvP zone with its own damage rules, kill rewards and streaks; and rated 1v1 duels
 - **PvP** everywhere but safe zones, with nothing lost on death
 - **Staff tools**: ranks that carry their permissions, mutes, kicks, bans and a punishment history
 - **Player menu** with `/aurora` or `/a`

@@ -16,7 +16,7 @@ import java.util.UUID;
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
 // starting kit, milestones, the top floors, and the way out
 public class GauntletMenu extends PagedMenu {
-    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, CHALLENGES = 4, MILESTONES = 5, TOP = 6, PVP = 7, LEAVE = 8;
+    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, CHALLENGES = 4, MILESTONES = 5, TOP = 6, PVP = 7, DUELS = 8, LEAVE = 9;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -115,6 +115,21 @@ public class GauntletMenu extends PagedMenu {
         }
         if (rank == 1) pvp.add("<gray>Nobody has a PvP kill yet");
         items.add(button(Material.DIAMOND_SWORD, "<red><b>PvP", pvp));
+
+        List<String> duels = new ArrayList<>(List.of(
+                "<gray>Challenge a player to a 1v1 in your",
+                "<gray>own arena: <white>/gauntlet duel <player>",
+                "<gray>Wins raise your rating and pay Shards.",
+                "",
+                "<gray>Your rating: <gold>" + GauntletDuels.rating(profile) + " <gray>(" + profile.stat(GauntletDuels.WINS)
+                        + " won, " + profile.stat(GauntletDuels.LOSSES) + " lost)",
+                ""));
+        int seat = 1;
+        for (Map.Entry<UUID, GauntletProfile> entry : manager.topBy(GauntletDuels.RATING, 5)) {
+            duels.add("<gray>" + seat++ + ". <white>" + GauntletManager.nameOf(entry.getKey()) + " <gray>- " + entry.getValue().stat(GauntletDuels.RATING));
+        }
+        if (seat == 1) duels.add("<gray>Nobody has fought a duel yet");
+        items.add(button(Material.CROSSBOW, "<gold><b>Duels", duels));
 
         items.add(button(Material.OAK_DOOR, "<gray><b>Leave the Gauntlet", List.of(
                 "<gray>Back to the main spawn,", "<gray>with your own inventory.")));

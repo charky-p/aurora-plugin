@@ -1,5 +1,6 @@
 package org.charky.aurora.features.gauntlet;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -7,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.charky.aurora.common.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // /gauntlet: to the gauntlet's lobby from anywhere, its menu once there. /gauntlet
@@ -40,6 +42,7 @@ public class GauntletCommand implements TabExecutor {
                     yield "Not a floor: " + args[1];
                 }
             }
+            case "duel" -> duel(player, args);
             case "talents" -> {
                 if (!manager.isHere(player)) yield manager.sendToLobby(player);
                 new TalentsMenu(manager).open(player);
@@ -60,6 +63,18 @@ public class GauntletCommand implements TabExecutor {
         return true;
     }
 
+    // /gauntlet duel <player>, accept, decline or forfeit
+    private String duel(Player player, String[] args) {
+        GauntletDuels duels = manager.duels();
+        if (args.length < 2) return "/gauntlet duel <player>, or accept, decline or forfeit";
+        return switch (args[1].toLowerCase()) {
+            case "accept" -> duels.accept(player);
+            case "decline" -> duels.decline(player);
+            case "forfeit" -> duels.forfeit(player);
+            default -> duels.challenge(player, Bukkit.getPlayerExact(args[1]));
+        };
+    }
+
     // To the lobby from anywhere, the menu once there. Also the Gauntlet button in /a.
     // Null if it worked, otherwise why not
     public static String open(GauntletManager manager, GauntletRuns runs, Player player) {
@@ -71,6 +86,12 @@ public class GauntletCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                       @NotNull String label, @NotNull String @NotNull [] args) {
-        return args.length == 1 ? TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "boon", "leave")) : List.of();
+        if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "duel", "boon", "leave"));
+        if (args.length == 2 && args[0].equalsIgnoreCase("duel")) {
+            List<String> options = new ArrayList<>(List.of("accept", "decline", "forfeit"));
+            for (Player online : Bukkit.getOnlinePlayers()) if (!online.equals(sender)) options.add(online.getName());
+            return TextUtils.getCompletions(args[1], options);
+        }
+        return List.of();
     }
 }

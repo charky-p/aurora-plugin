@@ -41,6 +41,10 @@ public class GauntletArena {
     private static final String START_A = "start_a";
     private static final String START_B = "start_b";
     private static final String TEMPLATE = "gauntlet_arena.nbt";
+    private static final String DUEL_MIN = "duel_min";
+    private static final String DUEL_MAX = "duel_max";
+    private static final String DUEL_SPAWN = "duel_spawn_";
+    private static final String DUEL_TEMPLATE = "gauntlet_duel.nbt";
     static final int SLOT_SPACING = 1000;
 
     private final Database db;
@@ -49,23 +53,33 @@ public class GauntletArena {
     private final Logger logger;
     private final Map<String, Location> places = new ConcurrentHashMap<>();
     private final Set<Integer> usedSlots = new HashSet<>();
+    private final Set<Integer> usedDuelSlots = new HashSet<>();
+    private final File duelFile;
     private Structure template;
+    private Structure duelTemplate;
 
     public GauntletArena(Database db, GauntletStore store, File dataFolder, Logger logger) {
         this.db = db;
         this.store = store;
         this.templateFile = new File(dataFolder, TEMPLATE);
+        this.duelFile = new File(dataFolder, DUEL_TEMPLATE);
         this.logger = logger;
         places.putAll(store.loadPlaces());
         loadTemplate();
     }
 
     private void loadTemplate() {
-        if (!templateFile.exists()) return;
+        template = load(templateFile);
+        duelTemplate = load(duelFile);
+    }
+
+    private Structure load(File file) {
+        if (!file.exists()) return null;
         try {
-            template = manager().loadStructure(templateFile);
+            return manager().loadStructure(file);
         } catch (IOException e) {
-            logger.severe("Could not read the gauntlet arena " + templateFile.getName() + ": " + e.getMessage());
+            logger.severe("Could not read the gauntlet arena " + file.getName() + ": " + e.getMessage());
+            return null;
         }
     }
 
@@ -222,5 +236,85 @@ public class GauntletArena {
     private Location origin(int slot) {
         Location min = places.get(ARENA_MIN);
         return min.clone().add(0, 0, (long) SLOT_SPACING * (slot + 1));
+    }
+
+    // ---- The duel arena ----
+    // Built once and saved like the run arena; every duel gets its own copy, pasted
+    // SLOT_SPACING blocks further along x, so duels never meet the runs (along z)
+
+    // Null if it worked, otherwise why not
+    public String saveDuelArena(Location a, Location b) {
+        if (a.getWorld() == null || !a.getWorld().equals(b.getWorld())) return "Both corners have to be in the same world";
+        if (!isGauntletWorld(a.getWorld())) return "The duel arena has to be in the lobby's world, set the lobby first";
+        Location min = new Location(a.getWorld(), Math.min(a.getBlockX(), b.getBlockX()),
+                Math.min(a.getBlockY(), b.getBlockY()), Math.min(a.getBlockZ(), b.getBlockZ()));
+        Location max = new Location(a.getWorld(), Math.max(a.getBlockX(), b.getBlockX()),
+                Math.max(a.getBlockY(), b.getBlockY()), Math.max(a.getBlockZ(), b.getBlockZ()));
+        if (max.getBlockX() - min.getBlockX() >= SLOT_SPACING / 2) return "The duel arena is too wide, keep it under " + SLOT_SPACING / 2 + " blocks";
+        Structure structure = manager().createStructure();
+        structure.fill(min, max.clone().add(1, 1, 1), false);
+        try {
+            manager().saveStructure(duelFile, structure);
+        } catch (IOException e) {
+            return "Could not save the duel arena: " + e.getMessage();
+        }
+        duelTemplate = structure;
+        set(DUEL_MIN, min);
+        set(DUEL_MAX, max);
+        return null;
+    }
+
+    public Box duelBox() {
+        Location min = places.get(DUEL_MIN), max = places.get(DUEL_MAX);
+        return min == null || max == null ? null : Box.between(min, max);
+    }
+
+    public void setDuelSpawn(int which, Location location) {
+        set(DUEL_SPAWN + which, location);
+    }
+
+    // Null when duels can be fought, otherwise what is missing
+    public String duelMissing() {
+        if (places.get(LOBBY) == null) return "no lobby, /a gauntlet lobby";
+        if (duelTemplate == null || places.get(DUEL_MIN) == null) return "no duel arena, /a gauntlet duelarena";
+        if (places.get(DUEL_SPAWN + 1) == null || places.get(DUEL_SPAWN + 2) == null) return "no duel spawns, /a gauntlet duelspawn 1 and 2";
+        return null;
+    }
+
+    public int claimDuelSlot() {
+        int slot = 0;
+        while (usedDuelSlots.contains(slot)) slot++;
+        usedDuelSlots.add(slot);
+        return slot;
+    }
+
+    public void freeDuelSlot(int slot) {
+        usedDuelSlots.remove(slot);
+    }
+
+    public void pasteDuel(int slot) {
+        if (duelTemplate == null) return;
+        duelTemplate.place(duelOrigin(slot), false, StructureRotation.NONE, Mirror.NONE, 0, 1f, new Random());
+    }
+
+    // Where duelist 1 or 2 starts in a slot's copy
+    public Location duelSpawn(int slot, int which) {
+        Location min = places.get(DUEL_MIN), place = places.get(DUEL_SPAWN + which);
+        if (min == null || place == null) return null;
+        Location moved = duelOrigin(slot).add(place.toVector().subtract(min.toVector()));
+        moved.setYaw(place.getYaw());
+        moved.setPitch(place.getPitch());
+        return moved;
+    }
+
+    public boolean isInDuelSlot(int slot, Location location) {
+        Location min = places.get(DUEL_MIN), max = places.get(DUEL_MAX);
+        if (min == null || max == null) return false;
+        Location origin = duelOrigin(slot);
+        return Box.between(origin, origin.clone().add(max.toVector().subtract(min.toVector()))).contains(location);
+    }
+
+    private Location duelOrigin(int slot) {
+        return places.get(DUEL_MIN).clone().add((long) SLOT_SPACING * (slot + 1), 0, 0);
     }
 }

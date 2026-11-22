@@ -176,7 +176,9 @@ public class GauntletPvp implements Listener {
     // weapon's share and a mace's smash; an arrow how far the bow was drawn
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPvpHit(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player victim) || !inZone(victim)) return;
+        if (!(event.getEntity() instanceof Player victim) || !manager.isHere(victim)) return;
+        boolean dueling = manager.inDuel(victim);
+        if (!dueling && !inZone(victim)) return;
         BowListener.Shot shot = BowListener.shotOf(event.getDamager());
         Player attacker;
         double multiplier;
@@ -201,6 +203,7 @@ public class GauntletPvp implements Listener {
             return;
         }
         if (attacker.equals(victim)) return;
+        if (dueling && (manager.duels() == null || !manager.duels().areDueling(victim, attacker))) return;
         PotionEffect strength = attacker.getPotionEffect(PotionEffectType.STRENGTH);
         if (strength != null) multiplier *= 1 + STRENGTH_PER_LEVEL * (strength.getAmplifier() + 1);
 

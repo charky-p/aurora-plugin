@@ -225,6 +225,7 @@ public class GauntletRuns implements Listener {
         if (inRun(player)) return "You are already in a run";
         if (!manager.isHere(player)) return "Go to the Gauntlet first, /gauntlet";
         if (manager.pvp() != null && manager.pvp().inZone(player)) return "Leave the PvP zone first, /spawn";
+        if (manager.inDuel(player)) return "Not during a duel";
         if (!data().ready()) return "The Gauntlet's data did not load";
         String missing = manager.arena().missing();
         if (missing != null) return "The arena is not set up yet (" + missing + ")";

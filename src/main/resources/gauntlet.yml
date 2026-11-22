@@ -1646,7 +1646,7 @@ challenges:
     cores: 1
     scale: false
   gladiator:
-    description: "Win {goal} fights in the PvP zone"
+    description: "Win {goal} PvP fights (the zone or duels)"
     stat: pvp_kills
     goal: 3
     shards: 60

@@ -68,6 +68,7 @@ public class GauntletManager implements Listener {
     private GauntletRuns runs;
     private GauntletSetup setup;
     private GauntletPvp pvp;
+    private GauntletDuels duels;
     private final GauntletChallenges challenges = new GauntletChallenges(this);
     private BukkitTask sweep;
 
@@ -98,6 +99,18 @@ public class GauntletManager implements Listener {
 
     public GauntletChallenges challenges() {
         return challenges;
+    }
+
+    public void setDuels(GauntletDuels duels) {
+        this.duels = duels;
+    }
+
+    public GauntletDuels duels() {
+        return duels;
+    }
+
+    public boolean inDuel(Player player) {
+        return duels != null && duels.inDuel(player);
     }
 
     public void setPvp(GauntletPvp pvp) {
@@ -140,7 +153,13 @@ public class GauntletManager implements Listener {
                 TextUtils.parse("<gray>• SHARDS: <aqua>" + profile.shards),
                 TextUtils.parse("<gray>• CORES: <light_purple>" + profile.cores),
                 TextUtils.parse("<gray>• BEST FLOOR: <white>" + profile.best)));
-        if (pvp != null && pvp.inZone(player)) {
+        Player opponent = duels == null ? null : duels.opponent(player);
+        if (opponent != null) {
+            lines.add(Component.empty());
+            lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>DUEL</b></gradient>"));
+            lines.add(TextUtils.parse("<gray>• VS: <white>" + opponent.getName()));
+            lines.add(TextUtils.parse("<gray>• THEIR HEALTH: <red>" + Math.round(opponent.getHealth()) / 2.0 + " ❤"));
+        } else if (pvp != null && pvp.inZone(player)) {
             lines.add(Component.empty());
             lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>PVP</b></gradient>"));
             lines.add(TextUtils.parse("<gray>• KILLS: <red>" + profile.stat(GauntletPvp.KILLS)
@@ -552,8 +571,11 @@ public class GauntletManager implements Listener {
                 : event.getDamager() instanceof Projectile projectile
                 && projectile.getShooter() instanceof Player shooter ? shooter : null;
         if (attacker == null) return;
+        // Duelists fight each other and nobody else
+        if (duels != null && duels.areDueling(victim, attacker)) return;
         String refused = null;
-        if (inRun(victim) || inRun(attacker)) refused = "No PvP during a run";
+        if (inDuel(victim) || inDuel(attacker)) refused = inDuel(attacker) ? "You can only hit your duel opponent" : victim.getName() + " is in a duel";
+        else if (inRun(victim) || inRun(attacker)) refused = "No PvP during a run";
         else if (!arena.inPvp(attacker.getLocation())) refused = "You can only fight players in the PvP zone";
         else if (!arena.inPvp(victim.getLocation())) refused = victim.getName() + " is outside the PvP zone";
         if (refused == null) return;

@@ -93,6 +93,7 @@ import org.charky.aurora.features.system.SpawnListener;
 import org.charky.aurora.features.gauntlet.ForgeMenu;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletManager;
+import org.charky.aurora.features.gauntlet.GauntletDuels;
 import org.charky.aurora.features.gauntlet.GauntletPvp;
 import org.charky.aurora.features.gauntlet.GauntletRuns;
 import org.charky.aurora.features.gauntlet.GauntletSetup;
@@ -159,6 +160,7 @@ public class Aurora extends JavaPlugin {
     private GauntletRuns gauntletRuns;
     private GauntletSetup gauntletSetup;
     private GauntletPvp gauntletPvp;
+    private GauntletDuels gauntletDuels;
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
@@ -323,6 +325,8 @@ public class Aurora extends JavaPlugin {
         gauntletManager.setSetup(gauntletSetup);
         this.gauntletPvp = new GauntletPvp(this, gauntletManager);
         gauntletManager.setPvp(gauntletPvp);
+        this.gauntletDuels = new GauntletDuels(this, gauntletManager);
+        gauntletManager.setDuels(gauntletDuels);
         gauntletManager.start();
         gauntletRuns.start();
     }
@@ -436,6 +440,7 @@ public class Aurora extends JavaPlugin {
                 gauntletRuns,
                 gauntletSetup,
                 gauntletPvp,
+                gauntletDuels,
                 accessManager,
                 buildManager,
                 safeZoneManager,
@@ -647,6 +652,7 @@ public class Aurora extends JavaPlugin {
         if (cosmeticManager != null) cosmeticManager.shutdown();
         if (tutorialManager != null) tutorialManager.shutdown();
         if (questManager != null) questManager.shutdown();
+        if (gauntletDuels != null) gauntletDuels.shutdown();
         if (gauntletRuns != null) gauntletRuns.shutdown();
         if (gauntletManager != null) gauntletManager.shutdown();
         if (mountManager != null) mountManager.shutdown();

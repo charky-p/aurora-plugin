@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public class GauntletSub implements AuroraSubCommand {
     private static final List<String> ACTIONS = List.of("lobby", "arena", "spawn", "mobspawn", "clearmobspawns",
-            "package", "pvp", "startportal", "status", "reset");
+            "package", "pvp", "startportal", "duelarena", "duelspawn", "status", "reset");
 
     private final Aurora plugin;
 
@@ -41,6 +41,8 @@ public class GauntletSub implements AuroraSubCommand {
                     ? "<green>The Gauntlet is ready: " + arena.mobSpawns().size() + " mob spawns, "
                     + manager.data().floors().size() + " floors"
                     : "<red>Not ready: " + missing);
+            String duels = arena.duelMissing();
+            TextUtils.send(sender, duels == null ? "<green>Duels are ready" : "<yellow>Duels not ready: " + duels);
             return;
         }
         if (action.equals("reset")) {
@@ -103,6 +105,34 @@ public class GauntletSub implements AuroraSubCommand {
                 arena.set(GauntletArena.PACKAGE, here);
                 TextUtils.success(sender, "Care packages land here");
             }
+            case "duelarena" -> {
+                WandManager wand = plugin.getWandManager();
+                UUID uuid = player.getUniqueId();
+                if (!wand.hasBothPositions(uuid)) {
+                    TextUtils.error(sender, "Select the duel arena with the wand first, /aurora wand");
+                    return;
+                }
+                String problem = arena.saveDuelArena(wand.getPos1(uuid), wand.getPos2(uuid));
+                if (problem != null) TextUtils.error(sender, problem);
+                else TextUtils.success(sender, "Duel arena saved. Duels paste a copy of it every " + GauntletArena.SLOT_SPACING
+                        + " blocks along x. Now set its two spawns with /aurora gauntlet duelspawn 1 and 2, inside it");
+            }
+            case "duelspawn" -> {
+                if (args.length < 2 || !(args[1].equals("1") || args[1].equals("2"))) {
+                    TextUtils.usage(sender, "/aurora gauntlet duelspawn <1|2>");
+                    return;
+                }
+                if (arena.duelBox() == null) {
+                    TextUtils.error(sender, "Save the duel arena first, /aurora gauntlet duelarena");
+                    return;
+                }
+                if (!arena.duelBox().contains(here)) {
+                    TextUtils.error(sender, "Stand inside the duel arena you saved");
+                    return;
+                }
+                arena.setDuelSpawn(Integer.parseInt(args[1]), here);
+                TextUtils.success(sender, "Duelist " + args[1] + " starts here");
+            }
             case "startportal" -> {
                 WandManager wand = plugin.getWandManager();
                 UUID uuid = player.getUniqueId();
@@ -152,7 +182,7 @@ public class GauntletSub implements AuroraSubCommand {
 
     @Override
     public String getUsage() {
-        return "<lobby|arena|spawn|mobspawn|clearmobspawns|package|pvp|startportal|status|reset> [player]";
+        return "<lobby|arena|spawn|mobspawn|clearmobspawns|package|pvp|startportal|duelarena|duelspawn|status|reset> [player|1|2]";
     }
 
     @Override
@@ -176,6 +206,8 @@ public class GauntletSub implements AuroraSubCommand {
                 "package - where care packages land, inside the arena",
                 "pvp - the wand selection is the PvP zone, the only place players can fight",
                 "startportal - the wand selection, in the lobby, starts a run when walked into",
+                "duelarena - save the wand selection as the duel arena (in the lobby's world); duels paste copies of it",
+                "duelspawn <1|2> - where each duelist starts, inside the duel arena",
                 "status - what is still missing",
                 "reset <player> - wipe a player's Gauntlet progress: Shards, Cores, best floor, gear, kit, milestones");
     }

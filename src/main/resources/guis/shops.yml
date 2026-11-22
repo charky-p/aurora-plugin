@@ -174,7 +174,7 @@ items:
       - "B       B"
       - "B 1 4 6 B"
       - "B 7 s w B"
-      - "B  9 l  B"
+      - "B 9 g l B"
       - "BBBBBBBBX"
     components:
       '1':
@@ -209,6 +209,10 @@ items:
         type: ACTION
         id: leaderboard
         icon: icon_leaderboard
+      g:
+        type: ACTION
+        id: gauntlet
+        icon: icon_gauntlet
 
   food_shop:
     title: "<gold><b>Camp Cook"

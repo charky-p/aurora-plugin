@@ -210,3 +210,12 @@ items:
     glow: false
     lore:
       - "<gray>The top players by level, blocks, kills and more."
+
+  icon_gauntlet:
+    display: "<red><b>The Gauntlet"
+    material: NETHERITE_SWORD
+    glow: true
+    lore:
+      - "<gray>Climb the tower floor by floor."
+      - "<gray>A game of its own, with its own gear."
+      - "<gray>Milestones pay Essence and cosmetics."

@@ -35,14 +35,18 @@ public class GauntletCommand implements TabExecutor {
                 manager.leave(player);
                 yield null;
             }
-            default -> {
-                if (!manager.isHere(player)) yield manager.sendToLobby(player);
-                new GauntletMenu(manager, runs).open(player);
-                yield null;
-            }
+            default -> open(manager, runs, player);
         };
         if (problem != null) TextUtils.error(player, problem);
         return true;
+    }
+
+    // To the lobby from anywhere, the menu once there. Also the Gauntlet button in /a.
+    // Null if it worked, otherwise why not
+    public static String open(GauntletManager manager, GauntletRuns runs, Player player) {
+        if (!manager.isHere(player)) return manager.sendToLobby(player);
+        new GauntletMenu(manager, runs).open(player);
+        return null;
     }
 
     @Override

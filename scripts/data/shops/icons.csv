@@ -27,3 +27,4 @@ icon_elderwood,<dark_green><b>Elderwood Roots,JUNGLE_SAPLING,true,<gray>The worl
 icon_sky,<aqua><b>Sky World,FEATHER,true,<gray>Islands above the clouds.
 icon_core,<white><b>Overworld Core,HEAVY_CORE,true,"<gray>Every resource, and the Golem's shards."
 icon_leaderboard,<yellow><b>Leaderboard,GOLDEN_HELMET,false,"<gray>The top players by level, blocks, kills and more."
+icon_gauntlet,<red><b>The Gauntlet,NETHERITE_SWORD,true,"<gray>Climb the tower floor by floor.|<gray>A game of its own, with its own gear.|<gray>Milestones pay Essence and cosmetics."

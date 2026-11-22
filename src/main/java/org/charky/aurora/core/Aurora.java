@@ -364,6 +364,10 @@ public class Aurora extends JavaPlugin {
         });
         registry.registerAction("exchange", player -> EssenceExchange.open(this, player));
         registry.registerAction("leaderboard", player -> LeaderboardMenu.open(registry, players, player));
+        registry.registerAction("gauntlet", player -> {
+            String problem = GauntletCommand.open(gauntletManager, gauntletRuns, player);
+            if (problem != null) TextUtils.error(player, problem);
+        });
     }
 
     // Each one is declared in plugin.yml

@@ -105,6 +105,11 @@ public class GauntletManager implements Listener {
         return runs != null && runs.inRun(player);
     }
 
+    // Leaves the run for the lobby, keeping what it earned
+    public void endRun(Player player) {
+        if (runs != null) runs.end(player, GauntletRuns.End.LEFT);
+    }
+
     // The Gauntlet's menu, from /gauntlet and the menu item
     public void openMenu(Player player) {
         if (runs != null) new GauntletMenu(this, runs).open(player);

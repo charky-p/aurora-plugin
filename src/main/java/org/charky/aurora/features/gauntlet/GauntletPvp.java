@@ -111,13 +111,23 @@ public class GauntletPvp implements Listener {
         }
     }
 
-    // /spawn and /gauntlet leave count down inside the zone, /gauntlet's menu waits
+    // /spawn anywhere in the Gauntlet's world goes to its lobby: at once from the lobby,
+    // ending the run from a run, after the countdown from the PvP zone. In the zone
+    // /gauntlet leave counts down too, and /gauntlet's menu waits
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
-        if (!inZone(player)) return;
+        if (!manager.isHere(player)) return;
         String command = event.getMessage().toLowerCase().trim().replaceAll("\\s+", " ");
-        if (!WAY_OUT.contains(command) && !command.startsWith("/spawn ")) return;
+        boolean spawn = command.equals("/spawn") || command.startsWith("/spawn ");
+        if (spawn && !inZone(player)) {
+            event.setCancelled(true);
+            if (manager.inRun(player)) manager.endRun(player);
+            else go(player, false);
+            return;
+        }
+        if (!inZone(player)) return;
+        if (!WAY_OUT.contains(command) && !spawn) return;
         event.setCancelled(true);
         if (command.equals("/gauntlet")) {
             TextUtils.error(player, "Not in the PvP zone. /spawn leaves it in " + COUNTDOWN_SECONDS + " seconds");

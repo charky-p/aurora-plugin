@@ -6,15 +6,17 @@ Aurora deploy helpers, plain Python so they run on the live server's host too.
   python scripts/deploy.py swap
       The safe way to deploy, with the host's server down for seconds. stage builds the
       plugin and sends what changed to a staging folder on the host (scripts/deploy.ini,
-      SFTP) while its server keeps running: the jar, every generated YAML and, with
-      --worlds, the game world files that differ from the host's. Nothing live is
+      SFTP) while its server keeps running: the jar, every generated YAML, the structures
+      saved in-game (the Gauntlet's arenas) and, with --worlds, the game world files
+      that differ from the host's. Nothing live is
       touched, so a server started or restarted meanwhile breaks nothing, and a drop is
       resumed by running stage again. Then stop the host's server and run swap: it moves
       the staged files in, removes world files LocalServer does not have and every world
       not named in deploy.ini (except keep and vanilla's overworld, nether and end), and
       with --db merges LocalServer's game data (mines, spawners, traders, portals,
       spawns, worlds, safe zones) into the host's mines.db, keeping its player data and
-      the game data of the worlds under keep. Start the server again after.
+      the game data of the worlds under keep. Only the worlds named in deploy.ini bring
+      their game data, never LocalServer's test worlds. Start the server again after.
 
   python scripts/deploy.py upload [--db] [--worlds] [--all]
       stage and swap in one go, for a host whose server is already stopped.
@@ -90,10 +92,17 @@ def data_files():
             for yml in sorted(RESOURCES.rglob("*.yml")) if yml.name != "plugin.yml"]
 
 
+# Structures saved in-game into the plugin's folder (the Gauntlet's run and duel
+# arenas), game data made on LocalServer like the worlds
+def structure_files():
+    folder = LOCAL_SERVER / "plugins" / "Aurora"
+    return [(nbt, f"plugins/Aurora/{nbt.name}") for nbt in sorted(folder.glob("*.nbt"))]
+
+
 def bundle():
     jar = newest_jar()
     out = ROOT / "target" / "aurora-deploy.zip"
-    files = data_files()
+    files = data_files() + structure_files()
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(jar, f"plugins/{jar.name}")
         for yml, path in files:
@@ -180,12 +189,16 @@ def progress_to_experimental(db):
 
 
 # The host's database with LocalServer's game data in it. Player tables stay the host's,
-# and so does all game data of the kept worlds, like a build world only the host has
-def merge_database(host_db, local_db, out, keep):
+# and so does all game data of the kept worlds, like a build world only the host has.
+# LocalServer's rows come only for the worlds deployed, so its test worlds never get
+# back onto the host's world list
+def merge_database(host_db, local_db, out, keep, worlds):
     shutil.copy(host_db, out)
     db = sqlite3.connect(out)
     db.execute("ATTACH DATABASE ? AS l", (str(local_db),))
     kept = ",".join("?" * len(keep)) or "''"
+    sent = [world for world in worlds if world not in keep]
+    deployed = ",".join("?" * len(sent)) or "''"
     with db:
         for table, column in GAME_TABLES.items():
             sql = db.execute("SELECT sql FROM l.sqlite_master WHERE type = 'table' AND name = ?", (table,)).fetchone()
@@ -204,11 +217,11 @@ def merge_database(host_db, local_db, out, keep):
                            f"(SELECT name FROM main.mines WHERE world IN ({kept}))", keep)
             db.execute(f"DELETE FROM main.{table} WHERE {column} NOT IN ({kept})", keep)
             db.execute(f"INSERT OR REPLACE INTO main.{table} ({names}) "
-                       f"SELECT {names} FROM l.{table} WHERE {column} NOT IN ({kept})", keep)
+                       f"SELECT {names} FROM l.{table} WHERE {column} IN ({deployed})", sent)
             if table == "mines":
                 block_cols = ", ".join(r[1] for r in db.execute("PRAGMA l.table_info(blocks)"))
                 db.execute(f"INSERT INTO main.blocks ({block_cols}) SELECT {block_cols} FROM l.blocks "
-                           f"WHERE mine IN (SELECT name FROM l.mines WHERE world NOT IN ({kept}))", keep)
+                           f"WHERE mine IN (SELECT name FROM l.mines WHERE world IN ({deployed}))", sent)
 
         # One main spawn: LocalServer's, when it has one
         if db.execute("SELECT 1 FROM l.spawns WHERE main = 1").fetchone():
@@ -259,6 +272,11 @@ def build(config):
 
 def kept_worlds(config):
     return listed(config["worlds"].get("keep", ""))
+
+
+# The worlds a --db deploy brings LocalServer's game data for: the ones sent, and vanilla's
+def deployed_worlds(config):
+    return sorted(set(listed(config["worlds"]["names"])) | VANILLA_WORLDS)
 
 
 # Every file of the game worlds and where it goes on the host
@@ -511,7 +529,7 @@ def wanted_files(config, args):
     if not args.no_build:
         build(config)
     jar = newest_jar()
-    files = [(jar, f"plugins/{jar.name}")] + data_files()
+    files = [(jar, f"plugins/{jar.name}")] + data_files() + structure_files()
     if args.worlds or args.all:
         files += world_files(config)
     return jar, files
@@ -662,7 +680,7 @@ def swap(args, config=None, remote=None):
                         print(f"  removed {path}")
 
         if plan["db"]:
-            merge_upload(remote, keep)
+            merge_upload(remote, keep, deployed_worlds(config))
         remote.delete_tree(STAGING)
     finally:
         save_history(history)
@@ -671,7 +689,7 @@ def swap(args, config=None, remote=None):
     print("Swapped. Start the host's server to load it.")
 
 
-def merge_upload(remote, keep):
+def merge_upload(remote, keep, worlds):
     backups = LOCAL_SERVER / BACKUP_DIR
     backups.mkdir(exist_ok=True)
     kept = backups / f"host-mines-{time.strftime('%Y%m%d-%H%M%S')}.db"
@@ -681,7 +699,7 @@ def merge_upload(remote, keep):
         local_copy = copy_database(LOCAL_SERVER / DB_PATH, tmp)
         if kept.exists():
             merged = Path(tmp) / "merged.db"
-            merge_database(kept, local_copy, merged, keep)
+            merge_database(kept, local_copy, merged, keep, worlds)
             remote.upload(merged, DB_PATH.as_posix())
             print(f"  {DB_PATH.as_posix()}: LocalServer's game data, the host's players and "
                   f"{', '.join(keep) or 'no kept worlds'}")

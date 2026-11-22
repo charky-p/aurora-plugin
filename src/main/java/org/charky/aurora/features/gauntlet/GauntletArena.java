@@ -38,6 +38,8 @@ public class GauntletArena {
     public static final String MOB = "mob_";
     private static final String PVP_A = "pvp_a";
     private static final String PVP_B = "pvp_b";
+    private static final String START_A = "start_a";
+    private static final String START_B = "start_b";
     private static final String TEMPLATE = "gauntlet_arena.nbt";
     static final int SLOT_SPACING = 1000;
 
@@ -155,6 +157,24 @@ public class GauntletArena {
         set(PVP_A, a);
         set(PVP_B, b);
         return null;
+    }
+
+    // The start portal in the lobby: walking in starts a run
+    public String setStart(Location a, Location b) {
+        if (a.getWorld() == null || !a.getWorld().equals(b.getWorld())) return "Both corners have to be in the same world";
+        if (!isGauntletWorld(a.getWorld())) return "The start portal has to be in the lobby's world";
+        set(START_A, a);
+        set(START_B, b);
+        return null;
+    }
+
+    public boolean hasStart() {
+        return places.get(START_A) != null && places.get(START_B) != null;
+    }
+
+    public boolean inStart(Location location) {
+        Location a = places.get(START_A), b = places.get(START_B);
+        return a != null && b != null && Box.between(a, b).contains(location);
     }
 
     public boolean inPvp(Location location) {

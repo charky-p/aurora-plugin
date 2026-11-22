@@ -100,7 +100,7 @@ public class GauntletSetup implements Listener {
     private static ItemStack menuItem() {
         ItemStack item = new ItemStack(Material.NETHER_STAR);
         item.editMeta(meta -> {
-            meta.displayName(TextUtils.parse("<!italic><red><b>The Gauntlet <gray>(right click)"));
+            meta.displayName(TextUtils.parse("<!italic><red><b>Gauntlet Menu <gray>(right click)"));
             meta.lore(List.of(TextUtils.parse("<!italic><gray>Start a run, the forge, your starting kit,"),
                     TextUtils.parse("<!italic><gray>milestones and the top floors")));
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);

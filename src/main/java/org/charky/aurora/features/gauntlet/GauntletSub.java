@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public class GauntletSub implements AuroraSubCommand {
     private static final List<String> ACTIONS = List.of("lobby", "arena", "spawn", "mobspawn", "clearmobspawns",
-            "package", "pvp", "status", "reset");
+            "package", "pvp", "startportal", "status", "reset");
 
     private final Aurora plugin;
 
@@ -103,6 +103,17 @@ public class GauntletSub implements AuroraSubCommand {
                 arena.set(GauntletArena.PACKAGE, here);
                 TextUtils.success(sender, "Care packages land here");
             }
+            case "startportal" -> {
+                WandManager wand = plugin.getWandManager();
+                UUID uuid = player.getUniqueId();
+                if (!wand.hasBothPositions(uuid)) {
+                    TextUtils.error(sender, "Select the start portal with the wand first, /aurora wand");
+                    return;
+                }
+                String problem = arena.setStart(wand.getPos1(uuid), wand.getPos2(uuid));
+                if (problem != null) TextUtils.error(sender, problem);
+                else TextUtils.success(sender, "Start portal set, walking into it starts a run");
+            }
             case "pvp" -> {
                 WandManager wand = plugin.getWandManager();
                 UUID uuid = player.getUniqueId();
@@ -141,7 +152,7 @@ public class GauntletSub implements AuroraSubCommand {
 
     @Override
     public String getUsage() {
-        return "<lobby|arena|spawn|mobspawn|clearmobspawns|package|pvp|status|reset> [player]";
+        return "<lobby|arena|spawn|mobspawn|clearmobspawns|package|pvp|startportal|status|reset> [player]";
     }
 
     @Override
@@ -164,6 +175,7 @@ public class GauntletSub implements AuroraSubCommand {
                 "clearmobspawns - remove every mob spawn",
                 "package - where care packages land, inside the arena",
                 "pvp - the wand selection is the PvP zone, the only place players can fight",
+                "startportal - the wand selection, in the lobby, starts a run when walked into",
                 "status - what is still missing",
                 "reset <player> - wipe a player's Gauntlet progress: Shards, Cores, best floor, gear, kit, milestones");
     }

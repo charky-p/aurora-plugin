@@ -9,8 +9,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-// /gauntlet: to the gauntlet's lobby from anywhere, its menu once there.
-// /gauntlet boon reopens a boon waiting to be picked, /gauntlet leave goes home
+// /gauntlet: to the gauntlet's lobby from anywhere, its menu once there. /gauntlet
+// start starts a run, /gauntlet forge opens the forge, /gauntlet boon reopens a boon
+// waiting to be picked, /gauntlet leave goes home
 public class GauntletCommand implements TabExecutor {
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -30,6 +31,12 @@ public class GauntletCommand implements TabExecutor {
         String action = args.length > 0 ? args[0].toLowerCase() : "";
         String problem = switch (action) {
             case "boon" -> runs.openBoons(player);
+            case "start" -> manager.isHere(player) ? runs.begin(player) : manager.sendToLobby(player);
+            case "forge" -> {
+                if (!manager.isHere(player)) yield manager.sendToLobby(player);
+                new ForgeMenu(manager, runs).open(player);
+                yield null;
+            }
             case "leave" -> {
                 if (!manager.isHere(player)) yield "You are not in the Gauntlet";
                 yield manager.pvp().leave(player, true);
@@ -51,6 +58,6 @@ public class GauntletCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                       @NotNull String label, @NotNull String @NotNull [] args) {
-        return args.length == 1 ? TextUtils.getCompletions(args[0], List.of("boon", "leave")) : List.of();
+        return args.length == 1 ? TextUtils.getCompletions(args[0], List.of("start", "forge", "boon", "leave")) : List.of();
     }
 }

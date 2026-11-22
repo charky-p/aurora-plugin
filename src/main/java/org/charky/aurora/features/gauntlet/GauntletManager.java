@@ -1,6 +1,7 @@
 package org.charky.aurora.features.gauntlet;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,6 +18,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -116,7 +118,10 @@ public class GauntletManager implements Listener {
     }
 
     public void start() {
-        sweep = plugin.getServer().getScheduler().runTaskTimer(plugin, this::sweepAll, 20L, 20L);
+        sweep = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
+            sweepAll();
+            hintNewPlayers();
+        }, 20L, 20L);
         scoreboard.setOverride(this::sidebar);
     }
 
@@ -271,8 +276,7 @@ public class GauntletManager implements Listener {
         putAway(player);
         giveKit(player);
         refreshBoard(player);
-        TextUtils.send(player, "<red><b>THE GAUNTLET</b> <gray>Your own inventory is kept for when you leave. "
-                + "<white>/gauntlet</white> to start a run or open the forge.");
+        welcome(player);
     }
 
     // A player who logged out here comes back in the lobby, never inside an arena copy.
@@ -286,10 +290,49 @@ public class GauntletManager implements Listener {
                 Location lobby = arena.lobby();
                 if (lobby != null) player.teleport(lobby);
                 giveKit(player);
+                welcome(player);
             } else if (!build.isBuildWorld(player.getWorld())) {
                 giveBack(player);
             }
         }, 5L);
+    }
+
+    // How to get going, the moment they arrive: a title, and buttons in chat
+    private void welcome(Player player) {
+        String how = arena.hasStart() ? "Walk into the portal to start a run" : "Type /gauntlet start to start a run";
+        player.showTitle(Title.title(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>THE GAUNTLET</b></gradient>"),
+                TextUtils.parse("<gray>" + how)));
+        TextUtils.send(player, "");
+        TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>THE GAUNTLET</b></gradient> <gray>Climb the tower floor by floor, "
+                + "spend Shards on your gear, climb higher.");
+        TextUtils.send(player, "<gray>" + how + ", or click: "
+                + "<click:run_command:'/gauntlet start'><hover:show_text:'<gray>Start a run now'><green><b>[START A RUN]</b></hover></click> "
+                + "<click:run_command:'/gauntlet forge'><hover:show_text:'<gray>Upgrade your gear'><gold><b>[FORGE]</b></hover></click> "
+                + "<click:run_command:'/gauntlet'><hover:show_text:'<gray>Everything else'><yellow><b>[MENU]</b></hover></click>");
+        TextUtils.send(player, "<dark_gray>Your own inventory is kept for when you leave, /gauntlet leave.");
+        TextUtils.send(player, "");
+    }
+
+    // Until their first run, players standing in the lobby are told how to start
+    private void hintNewPlayers() {
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            if (!isHere(player) || inRun(player) || profile(player).runs > 0) continue;
+            if (pvp != null && pvp.inZone(player)) continue;
+            player.sendActionBar(TextUtils.parse(arena.hasStart()
+                    ? "<green><b>Walk into the portal</b> <gray>to start your first run"
+                    : "<green><b>/gauntlet start</b> <gray>to start your first run"));
+        }
+    }
+
+    // Walking into the start portal starts a run
+    @EventHandler(ignoreCancelled = true)
+    public void onMove(PlayerMoveEvent event) {
+        Location from = event.getFrom(), to = event.getTo();
+        if (from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) return;
+        Player player = event.getPlayer();
+        if (!isHere(player) || inRun(player) || !arena.inStart(to) || arena.inStart(from) || runs == null) return;
+        String problem = runs.begin(player);
+        if (problem != null) TextUtils.error(player, problem);
     }
 
     private void putAway(Player player) {

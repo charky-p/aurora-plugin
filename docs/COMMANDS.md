@@ -21,7 +21,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 | `/shop` | The Essence shop: Dash, Double Jump (press jump again in mid-air for a normal second jump), mounts, the Keyring and ranks. Mounts have three levels, each faster: left click upgrades one you own, right click gives its saddle again. Click anything else you own to use it again |
 | `/dash` | The Dash Feather again, once Dash is bought: right click it to dash the way you face, once a second |
 | `/tutorial skip` | Leave the first-join tutorial without its reward. The Skip link in chat runs it |
-| `/gauntlet` | Go to the Gauntlet's lobby; there, open its menu (also the nether star in your setup): start a run, the forge, the starting kit, milestones, top floors, leave. `/gauntlet boon` reopens a boon waiting to be picked, `/gauntlet leave` goes back to the main spawn with your own inventory |
+| `/gauntlet` | Go to the Gauntlet's lobby; there, open its menu (also the nether star in your setup): start a run, the forge, the starting kit, milestones, top floors, leave. `/gauntlet start` starts a run, `/gauntlet forge` opens the forge, `/gauntlet boon` reopens a boon waiting to be picked, `/gauntlet leave` goes back to the main spawn with your own inventory |
 | `/discord` | A clickable link to the Aurora Discord, https://discord.gg/MefQWSgkBA |
 | `/suggest <your idea>` | Send an idea to the staff, up to 256 characters, one a minute. Staff online see it straight away, and it is saved for `/a suggestions` |
 
@@ -203,8 +203,9 @@ A tower mode in a world of its own (`scripts/data/gauntlet/`, see [PROGRESSION.m
 2. `/a wand`, select the arena, `/a gauntlet arena`. It is saved as a template (`plugins/Aurora/gauntlet_arena.nbt`); every run pastes its own copy 1,000 blocks further along z, so keep that strip of the world empty. Saving it again replaces the template.
 3. Inside the arena you saved: `/a gauntlet spawn` (where players start), `/a gauntlet mobspawn` a few times (where mobs come in), `/a gauntlet package` (where care packages land).
 4. Select the PvP area with the wand, `/a gauntlet pvp`. Players can only hurt each other inside it, and never during a run. Players walk in; build it beside the lobby, or link them with a portal (`/a portal create` and `setdest`). Nobody walks or pearls out: `/spawn` leaves after 5 seconds, and logging out inside counts as dying.
-5. In the lobby, `/a trader create gauntlet_forge`: the Gauntlet Forge opens the forge, the same as Forge in the `/gauntlet` menu.
-6. `/a gauntlet status` says what is missing.
+5. Select the start portal in the lobby with the wand (a doorway players walk through, with `/a text add <red><b>START A RUN` above it), `/a gauntlet startportal`. Walking in starts a run. New players are told so on arrival, in a title and clickable buttons, and on the action bar until their first run.
+6. In the lobby, `/a trader create gauntlet_forge`: the Gauntlet Forge opens the forge, the same as Forge in the `/gauntlet` menu.
+7. `/a gauntlet status` says what is missing.
 
 | Command | Does |
 |---|---|
@@ -215,6 +216,7 @@ A tower mode in a world of its own (`scripts/data/gauntlet/`, see [PROGRESSION.m
 | `/a gauntlet clearmobspawns` | Remove every mob spawn |
 | `/a gauntlet package` | Where care packages land, inside the arena |
 | `/a gauntlet pvp` | The wand selection is the PvP zone |
+| `/a gauntlet startportal` | The wand selection, in the lobby, starts a run when walked into |
 | `/a gauntlet status` | What is still missing |
 | `/a gauntlet reset <player>` | Wipe a player's Gauntlet progress back to a new player's: Shards, Cores, best floor, runs, gear, care package, starting kit, layout and milestones (so they can be earned again; Essence and cosmetics they already paid are kept). Ends a run in progress. Online players only. `/a reset <player> all` does not touch the Gauntlet |
 

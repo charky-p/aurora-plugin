@@ -65,4 +65,6 @@ sprint_floor,10,The floor a solo run from floor 1 is timed to for the fastest ru
 tower_1,300,Shards for the furthest climber of a day's Daily Tower, paid when the day turns
 tower_2,180,Shards for the second furthest
 tower_3,100,Shards for the third furthest
+hard_shards,25,Percent more Shards for a run in Hard Mode
+hard_floors_a_level,2,Hard Mode's floor for each level of gear (the average of the best weapon and the armour set)
 choice_seconds,45,Seconds a boon or altar choice waits before it is made for whoever has not chosen

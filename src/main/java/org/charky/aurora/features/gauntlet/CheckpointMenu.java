@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Where a run starts, for players past a boss floor: floor 1, or the floor after any
-// boss floor they have cleared. Starting later skips the floors before (no Shards
-// for them) and hands out their boons at random and a care package. Once unlocked,
-// the heat button sets how hard the run is, and how much more it pays
+// boss floor they have cleared. Starting later skips the floors before (paid only with
+// the Head Start talent) and hands out their boons at random. Heat makes the run harder
+// and pay more; Hard Mode raises the floors below the party's gear to its level
 public class CheckpointMenu extends PagedMenu {
     private static final int HEAT_SLOT = 46;
+    private static final int HARD_SLOT = 47;
     private final GauntletManager manager;
     private final GauntletRuns runs;
 
@@ -41,9 +42,10 @@ public class CheckpointMenu extends PagedMenu {
                 if (floor == 1) {
                     lore.add(TextUtils.parse("<!italic><gray>From the bottom of the tower"));
                 } else {
-                    lore.add(TextUtils.parse("<!italic><gray>Skips floors 1-" + (floor - 1) + ", no Shards for them"));
+                    int pay = runs.headStart(player, floor);
+                    lore.add(TextUtils.parse("<!italic><gray>Skips floors 1-" + (floor - 1) + (pay > 0
+                            ? ", Head Start pays <aqua>" + pay + " Shards" : ", no Shards for them")));
                     lore.add(TextUtils.parse("<!italic><gray>Starts with <white>" + boons + "</white> random boons"));
-                    lore.add(TextUtils.parse("<!italic><gray>and a care package"));
                 }
                 lore.add(Component.empty());
                 lore.add(TextUtils.parse("<!italic><yellow>Click to start here"));
@@ -57,7 +59,8 @@ public class CheckpointMenu extends PagedMenu {
     @Override
     protected List<Component> info(Player player, List<ItemStack> entries) {
         return List.of(TextUtils.parse("<!italic><gray>Clear a boss floor to start"),
-                TextUtils.parse("<!italic><gray>after it next time."));
+                TextUtils.parse("<!italic><gray>after it next time. Heat and"),
+                TextUtils.parse("<!italic><gray>Hard Mode are below."));
     }
 
     @Override
@@ -82,10 +85,42 @@ public class CheckpointMenu extends PagedMenu {
             meta.lore(lore);
         });
         inventory.setItem(HEAT_SLOT, button);
+        inventory.setItem(HARD_SLOT, hardButton(player));
+    }
+
+    // Hard Mode: on or off, and what it does at the party's gear
+    private ItemStack hardButton(Player player) {
+        int hard = runs.hardFloor(player);
+        boolean on = runs.hardChosen(player);
+        ItemStack button = new ItemStack(on ? Material.NETHERITE_SWORD : Material.STONE_SWORD);
+        button.editMeta(meta -> {
+            meta.displayName(TextUtils.parse("<!italic><dark_red><b>Hard Mode " + (on ? "<green>ON" : "<gray>OFF")));
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            List<Component> lore = new ArrayList<>();
+            if (hard <= 1) {
+                lore.add(TextUtils.parse("<!italic><gray>Floors below your gear's level play"));
+                lore.add(TextUtils.parse("<!italic><gray>and pay at it. Upgrade gear first."));
+            } else {
+                lore.add(TextUtils.parse("<!italic><gray>Floors below <white>" + hard + "</white> play and pay"));
+                lore.add(TextUtils.parse("<!italic><gray>as floor " + hard + ", where your gear stands,"));
+                lore.add(TextUtils.parse("<!italic><gray>and every floor pays <aqua>+" + Math.round(manager.data().setting("hard_shards", 25))
+                        + "%</aqua> Shards."));
+                lore.add(TextUtils.parse("<!italic><gray>Bosses keep their Cores."));
+                lore.add(Component.empty());
+                lore.add(TextUtils.parse("<!italic><yellow>Click to turn it " + (on ? "off" : "on")));
+            }
+            meta.lore(lore);
+        });
+        return button;
     }
 
     @Override
     protected void onButtonClick(Player player, int slot) {
+        if (slot == HARD_SLOT && runs.hardFloor(player) > 1) {
+            runs.toggleHard(player);
+            render(player);
+            return;
+        }
         if (slot != HEAT_SLOT || runs.heatUnlocked(player) == 0) return;
         runs.nextHeat(player);
         render(player);

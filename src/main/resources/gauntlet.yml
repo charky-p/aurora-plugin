@@ -2391,6 +2391,16 @@ talents:
     shards: 2000
     growth: 1.0
     cores: 2
+  head_start:
+    name: Head Start
+    icon: LODESTONE
+    description: "Floors skipped at a checkpoint pay 20% of their Shards a level"
+    stat: headstart
+    amount: 20.0
+    max: 5
+    shards: 400
+    growth: 1.6
+    cores: 0
   second_wind:
     name: Second Wind
     icon: TOTEM_OF_UNDYING
@@ -3026,4 +3036,6 @@ settings:
   tower_1: 300.0
   tower_2: 180.0
   tower_3: 100.0
+  hard_shards: 25.0
+  hard_floors_a_level: 2.0
   choice_seconds: 45.0

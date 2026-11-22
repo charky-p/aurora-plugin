@@ -62,7 +62,7 @@ final class GauntletWaves {
     // A floor's mutator now and then from mutator_from, on every floor from there in the
     // Daily Tower; one that gives every mob an affix only from affix_from, like elites'
     GauntletData.Mutator rollMutator(GauntletRun run) {
-        int floor = run.floor;
+        int floor = run.statFloor();
         if (data().mutators().isEmpty() || floor < data().setting("mutator_from", 6)) return null;
         Random random = run.floorRandom(1);
         if (run.towerDay == 0 && random.nextDouble(100) >= data().setting("mutator_chance", 25)) return null;
@@ -76,9 +76,9 @@ final class GauntletWaves {
     private double eliteChance(GauntletRun run) {
         GauntletData data = data();
         double from = data.setting("elite_from", 3);
-        if (run.floor < from) return 0;
+        if (run.statFloor() < from) return 0;
         double chance = Math.min(data.setting("elite_chance_max", 15),
-                data.setting("elite_chance", 4) + data.setting("elite_chance_per_floor", 0.2) * (run.floor - from));
+                data.setting("elite_chance", 4) + data.setting("elite_chance_per_floor", 0.2) * (run.statFloor() - from));
         return chance * (run.mutator == null ? 1 : run.mutator.elites());
     }
 
@@ -126,7 +126,7 @@ final class GauntletWaves {
     private boolean spawnOne(GauntletRun run, String kind, boolean boss, boolean elite, String eliteAffix, Location at) {
         String affix = elite ? eliteAffix : boss || run.mutator == null || run.mutator.affix().isBlank() ? null : run.mutator.affix();
         String mutatorId = run.mutator == null ? null : run.mutator.id();
-        LivingEntity mob = mob(run, new GauntletData.Variant(kind, run.floor, elite, affix, run.heat, mutatorId).id(), at);
+        LivingEntity mob = mob(run, new GauntletData.Variant(kind, run.statFloor(), elite, affix, run.heat, mutatorId).id(), at);
         if (mob == null) return false;
         if (boss) {
             run.boss = mob.getUniqueId();
@@ -148,7 +148,7 @@ final class GauntletWaves {
     // hoarder_pay kills if caught before it gets away
     private void hoarder(GauntletRun run, Location at) {
         if (manager.registry().getMob(HOARDER) == null) return;
-        LivingEntity hoarder = spawners.spawnGauntletMob(new GauntletData.Variant(HOARDER, run.floor, false, run.heat, null).id(), at);
+        LivingEntity hoarder = spawners.spawnGauntletMob(new GauntletData.Variant(HOARDER, run.statFloor(), false, run.heat, null).id(), at);
         if (hoarder == null) return;
         run.hoarder = hoarder.getUniqueId();
         int seconds = (int) data().setting("hoarder_seconds", 20);
@@ -167,7 +167,7 @@ final class GauntletWaves {
 
     // An affix for an elite from affix_from on, null before or without any
     private String rollAffix(GauntletRun run, Random random) {
-        if (data().affixes().isEmpty() || run.floor < data().setting("affix_from", 10)) return null;
+        if (data().affixes().isEmpty() || run.statFloor() < data().setting("affix_from", 10)) return null;
         List<String> ids = List.copyOf(data().affixes().keySet());
         return ids.get(random.nextInt(ids.size()));
     }
@@ -226,7 +226,7 @@ final class GauntletWaves {
         double left = CustomHealth.current(boss) / CustomHealth.max(boss);
         while (run.bossPhase < 2 && left <= (2 - run.bossPhase) / 3.0) {
             run.bossPhase++;
-            callAdds(run, boss, (int) data().setting("boss_adds", 2) + run.floor / 10);
+            callAdds(run, boss, (int) data().setting("boss_adds", 2) + run.statFloor() / 10);
             if (run.bossPhase == 2) {
                 AttributeInstance speed = boss.getAttribute(Attribute.MOVEMENT_SPEED);
                 if (speed != null) {
@@ -248,7 +248,7 @@ final class GauntletWaves {
         if (target == null) return;
         String mobId = boss.getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
         List<GauntletData.BossAbility> list = data().bosses().getOrDefault(GauntletData.baseMobId(mobId), List.of());
-        abilities.tick(target, boss, list, run.floor, new GauntletBossAbilities.Fight() {
+        abilities.tick(target, boss, list, run.statFloor(), new GauntletBossAbilities.Fight() {
             @Override
             public boolean on() {
                 return !run.over && run.state == GauntletRun.State.FIGHTING;
@@ -286,7 +286,7 @@ final class GauntletWaves {
         for (int i = 0; i < adds; i++) {
             String kind = kinds.get(ThreadLocalRandom.current().nextInt(kinds.size()));
             Location at = around.clone().add(ThreadLocalRandom.current().nextDouble(-2, 2), 0, ThreadLocalRandom.current().nextDouble(-2, 2));
-            mob(run, new GauntletData.Variant(kind, run.floor, false, run.heat, mutatorId).id(), at);
+            mob(run, new GauntletData.Variant(kind, run.statFloor(), false, run.heat, mutatorId).id(), at);
         }
         run.floorMobs += adds;
         return adds;

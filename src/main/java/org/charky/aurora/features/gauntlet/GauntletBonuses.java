@@ -79,6 +79,18 @@ final class GauntletBonuses {
         return any ? lowest : 0;
     }
 
+    // How far up the tower a player's gear stands: the average of their best weapon's
+    // level and their armour set's, times hard_floors_a_level (gear is tuned to about
+    // half the floor). At least 1
+    int gearFloor(GauntletProfile profile) {
+        int weapon = 0;
+        for (GauntletData.Gear gear : data().gear().values()) {
+            if (!gear.armor() && !gear.kind().equals("shield")) weapon = Math.max(weapon, profile.level(gear.id()));
+        }
+        double level = (weapon + armorSetLevel(profile)) / 2.0;
+        return Math.max(1, (int) Math.round(level * data().setting("hard_floors_a_level", 2)));
+    }
+
     // A talent's stat added up over its levels
     double talentTotal(GauntletProfile profile, String stat) {
         double total = 0;

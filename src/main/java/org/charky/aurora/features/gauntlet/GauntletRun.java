@@ -52,6 +52,8 @@ final class GauntletRun {
         long lastKill;
         int combo;
         int bestCombo;
+        // Shards Head Start paid for the floors skipped, banked with the pot
+        int headStart;
 
         Member(UUID id) {
             this.id = id;
@@ -101,11 +103,18 @@ final class GauntletRun {
     boolean wiping;
     // The Daily Tower's day, 0 for any other run: its floors' rolls are seeded by the day
     long towerDay;
+    // Hard Mode's floor, 0 without it: every floor below it plays and pays as it
+    int hardFloor;
     // Where its care packages landed, to clear when it is over
     final Set<Location> packages = new HashSet<>();
 
     GauntletRun(int slot) {
         this.slot = slot;
+    }
+
+    // The floor whose numbers this floor's mobs and pay use: Hard Mode's floor below it
+    int statFloor() {
+        return Math.max(floor, hardFloor);
     }
 
     int cleared() {

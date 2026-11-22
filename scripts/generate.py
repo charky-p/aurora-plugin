@@ -1113,7 +1113,7 @@ GAUNTLET_KINDS = {"melee", "ranged", "thrown", "armor", "shield"}
 GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "guard", "dodge", "absorb",
                   "firststrike", "shards", "execute", "slayer", "cleave", "revive"}
 GAUNTLET_RARITIES = {"common", "rare", "epic", "legendary"}
-GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive"}
+GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive", "headstart"}
 GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
 GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon", "fireball", "blink", "sonic"}
 GAUNTLET_WEAPON_PERK_STATS = {"damage", "crit", "firststrike", "execute", "slayer", "cleave", "killheal"}

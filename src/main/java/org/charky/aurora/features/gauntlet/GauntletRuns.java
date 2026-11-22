@@ -63,6 +63,7 @@ public class GauntletRuns implements Listener {
     private static final String DAILY_DAY = "daily_day";
     private static final String HEAT_CHOICE = "heat_choice";
     private static final String START_CHOICE = "start_choice";
+    private static final String HARD_CHOICE = "hard_choice";
     public static final String BEST_COMBO = "best_combo";
     // A player's kills of one mob, slain:g_rotter, and how many mobs they have met
     static final String SLAIN = "slain:";
@@ -173,7 +174,7 @@ public class GauntletRuns implements Listener {
     public String startFlow(Player player) {
         String problem = canStart(player);
         if (problem != null) return problem;
-        if (checkpoints(player).size() > 1 || heatUnlocked(player) > 0) new CheckpointMenu(manager, this).open(player);
+        if (checkpoints(player).size() > 1 || heatUnlocked(player) > 0 || hardFloor(player) > 1) new CheckpointMenu(manager, this).open(player);
         else return begin(player, 1);
         return null;
     }
@@ -198,8 +199,44 @@ public class GauntletRuns implements Listener {
         manager.setStat(player.getUniqueId(), HEAT_CHOICE, next);
     }
 
-    private double heatPay(GauntletRun run) {
-        return 1 + run.heat * data().setting("heat_shards", 30) / 100;
+    // Hard Mode: floors below the party's gear play and pay as its floor. The floor, 1
+    // while their gear is too weak for it to change anything
+    public int hardFloor(Player player) {
+        int floor = Integer.MAX_VALUE;
+        for (Player mate : team(player)) floor = Math.min(floor, bonuses.gearFloor(manager.profile(mate)));
+        return floor == Integer.MAX_VALUE ? 1 : floor;
+    }
+
+    public boolean hardChosen(Player player) {
+        return manager.profile(player).stat(HARD_CHOICE) > 0;
+    }
+
+    void toggleHard(Player player) {
+        manager.setStat(player.getUniqueId(), HARD_CHOICE, hardChosen(player) ? 0 : 1);
+    }
+
+    // Heat and Hard Mode pay more for every kill, clear and Shard Hoarder
+    private double runPay(GauntletRun run) {
+        return (1 + run.heat * data().setting("heat_shards", 30) / 100)
+                * (run.hardFloor > 0 ? 1 + data().setting("hard_shards", 25) / 100 : 1);
+    }
+
+    // What Head Start pays a player for the floors before a start
+    int headStart(Player player, int startFloor) {
+        double share = Math.min(100, bonuses.talentTotal(manager.profile(player), "headstart")) / 100;
+        return (int) Math.round(skippedShards(startFloor) * share);
+    }
+
+    // What the floors before a start would have paid: each one's clear bonus and its
+    // mobs' kills. Head Start pays a share of it
+    private int skippedShards(int startFloor) {
+        int total = 0;
+        for (int number = 1; number < startFloor; number++) {
+            GauntletData.Floor floor = data().floor(number);
+            total += floor.shards();
+            for (Map.Entry<String, Integer> mob : floor.mobs().entrySet()) total += floor.killPay(mob.getKey()) * mob.getValue();
+        }
+        return total;
     }
 
     private String canBegin(Player player) {
@@ -269,6 +306,8 @@ public class GauntletRuns implements Listener {
         run.startFloor = startFloor;
         run.towerDay = towerDay;
         run.heat = towerDay == 0 ? heat(player) : 0;
+        int hard = towerDay == 0 && hardChosen(player) ? hardFloor(player) : 0;
+        run.hardFloor = hard > startFloor ? hard : 0;
         run.floor = startFloor - 1;
         arena.paste(slot);
         run.bar = BossBar.bossBar(TextUtils.parse("<red><b>Floor " + startFloor), 0f, BossBar.Color.RED, BossBar.Overlay.PROGRESS);
@@ -297,6 +336,7 @@ public class GauntletRuns implements Listener {
         member.rerolls = (int) bonuses.talentTotal(profile, "reroll");
         member.revives = (int) bonuses.talentTotal(profile, "revive");
         member.daily = profile.stat(DAILY_DAY) != today;
+        member.headStart = headStart(mate, run.startFloor);
         if (member.daily) manager.setStat(mate.getUniqueId(), DAILY_DAY, (int) today);
         boolean first = profile.runs == 0;
         run.members.put(mate.getUniqueId(), member);
@@ -309,6 +349,11 @@ public class GauntletRuns implements Listener {
         mate.teleport(spawn);
         mate.showBossBar(run.bar);
         mate.playSound(mate.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
+        if (member.headStart > 0) TextUtils.send(mate, "<aqua><b>HEAD START</b> <gray>The floors you skipped pay <aqua>"
+                + member.headStart + " Shards</aqua>, banked when the run ends");
+        if (run.hardFloor > 0) TextUtils.send(mate, "<dark_red><b>HARD MODE</b> <gray>Floors below " + run.hardFloor
+                + " play and pay as floor " + run.hardFloor + ", and every floor pays <aqua>+"
+                + fmt(data().setting("hard_shards", 25)) + "%</aqua> Shards");
         if (member.daily) TextUtils.send(mate, "<gold><b>DAILY BONUS</b> <gray>Your first run today pays <white>"
                 + fmt(data().setting("daily_bonus", 2)) + "x</white> Shards");
         if (first) TextUtils.send(mate, "<yellow><b>TIP</b> <gray>Kill every mob to clear a floor. Every "
@@ -402,7 +447,7 @@ public class GauntletRuns implements Listener {
         double daily = member.daily ? data().setting("daily_bonus", 2) : 1;
         // Everyone in a party banks the whole pot, and party_shards more for each of the others
         double party = GauntletRun.partyScale(run.partySize, data().setting("party_shards", 0));
-        int banked = (int) Math.round(run.shards * (1 + greed / 100) * daily * party);
+        int banked = (int) Math.round((run.shards + member.headStart) * (1 + greed / 100) * daily * party);
         manager.bank(player, banked, run.cores, cleared);
         UUID uuid = player.getUniqueId();
         manager.addStat(uuid, "kills", member.kills);
@@ -445,13 +490,14 @@ public class GauntletRuns implements Listener {
         TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>RUN OVER</b></gradient> <gray>" + (why == End.DIED
                 ? "fell on floor <white>" + run.floor : "left on floor <white>" + run.floor)
                 + (run.startFloor > 1 ? " <dark_gray>(started on " + run.startFloor + ")" : "")
-                + (run.towerDay != 0 ? " <aqua>Daily Tower" : "")
+                + (run.towerDay != 0 ? " <aqua>Daily Tower" : "") + (run.hardFloor > 0 ? " <dark_red>Hard " + run.hardFloor : "")
                 + (run.heat > 0 ? " <gold>Heat " + run.heat : ""));
         TextUtils.send(player, "<gray>Cleared <white>" + cleared + "</white> in <white>" + time + "</white>, <white>"
                 + member.kills + "</white> kills (" + member.eliteKills + " elite)" + (party ? " <dark_gray>(party " + run.kills + ")" : "")
                 + "<gray>, <white>" + run.fastClears + "</white> fast clears, best combo <gold>x" + member.bestCombo
                 + (run.hoarders > 0 ? "<gray>, <gold>" + run.hoarders + "</gold> hoarder" + (run.hoarders > 1 ? "s" : "") + " caught" : ""));
-        String bonus = (greed > 0 ? " <gray>+" + fmt(greed) + "% greed" : "") + (daily > 1 ? " <gray>x" + fmt(daily) + " daily" : "")
+        String bonus = (member.headStart > 0 ? " <gray>+ <aqua>" + member.headStart + " <gray>head start" : "")
+                + (greed > 0 ? " <gray>+" + fmt(greed) + "% greed" : "") + (daily > 1 ? " <gray>x" + fmt(daily) + " daily" : "")
                 + (partyPay > 1 ? " <gray>x" + fmt(partyPay) + " party" : "");
         TextUtils.send(player, "<gray>Shards: <aqua>" + run.shards + bonus + (bonus.isEmpty() ? "" : " <gray>= <aqua><b>" + banked + "</b>")
                 + (run.cores > 0 ? " <gray>Cores: <light_purple>" + run.cores : ""));
@@ -492,7 +538,7 @@ public class GauntletRuns implements Listener {
                 : TextUtils.parse(run.mutator != null ? "<light_purple>" + run.mutator.name() + " <gray>- " + run.mutator.description()
                 : "<gray>Get ready");
         Title title = Title.title(TextUtils.parse((boss ? "<dark_red><b>" : "<red><b>") + "FLOOR " + run.floor
-                        + (run.heat > 0 ? " <gold>H" + run.heat : "")),
+                        + (run.heat > 0 ? " <gold>H" + run.heat : "") + (run.statFloor() > run.floor ? " <dark_red>as " + run.statFloor() : "")),
                 subtitle, Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(1800), Duration.ofMillis(400)));
         if (boss) run.sound(Sound.ENTITY_WITHER_SPAWN, 0.4f, 0.8f);
         for (Player player : run.online()) player.showTitle(title);
@@ -660,7 +706,8 @@ public class GauntletRuns implements Listener {
         switch (run.state) {
             case FIGHTING -> {
                 int total = Math.max(1, run.floorMobs);
-                run.bar.name(TextUtils.parse("<red><b>Floor " + run.floor + "</b> <gray>" + (total - Math.min(total, run.mobs.size()))
+                run.bar.name(TextUtils.parse("<red><b>Floor " + run.floor + "</b>"
+                        + (run.statFloor() > run.floor ? " <dark_red>as " + run.statFloor() : "") + " <gray>" + (total - Math.min(total, run.mobs.size()))
                         + "/" + total + " killed" + (run.mutator != null ? " <light_purple>" + run.mutator.name() : "")
                         + (run.heat > 0 ? " <gold>Heat " + run.heat : "")));
                 run.bar.progress((float) Math.clamp(1 - (double) run.mobs.size() / total, 0, 1));
@@ -697,8 +744,8 @@ public class GauntletRuns implements Listener {
     // again. Whether it was a fast clear
     private boolean payClear(GauntletRun run) {
         GauntletData.Floor floor = data().floor(run.floor);
-        double mutated = (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run);
-        int bonus = (int) Math.round(floor.shards() * mutated);
+        double mutated = (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * runPay(run);
+        int bonus = (int) Math.round(data().floor(run.statFloor()).shards() * mutated);
         run.shards += bonus;
         run.cores += floor.cores();
         run.sound(Sound.ENTITY_PLAYER_LEVELUP, 0.7f, 1.3f);
@@ -1091,8 +1138,10 @@ public class GauntletRuns implements Listener {
     private void payKill(GauntletRun run, String base, Player killer, Member member, boolean elite) {
         GauntletData.Floor floor = data().floor(run.floor);
         if (base == null || floor == null) return;
-        double pay = floor.killPay(base) * (elite ? data().setting("elite_pay", 3) : 1)
-                * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * heatPay(run) * comboPay(member)
+        // Hard Mode pays the kill of its floor, a boss five of them
+        double kill = data().floor(run.statFloor()).kill() * (floor.isBoss(base) ? GauntletData.BOSS_KILLS : 1);
+        double pay = kill * (elite ? data().setting("elite_pay", 3) : 1)
+                * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * runPay(run) * comboPay(member)
                 / (floor.isBoss(base) ? 1 : run.floorScale);
         int paid = (int) Math.round(pay);
         run.shards += paid;
@@ -1117,8 +1166,8 @@ public class GauntletRuns implements Listener {
     private void caughtHoarder(GauntletRun run) {
         run.hoarder = null;
         run.hoarders++;
-        GauntletData.Floor floor = data().floor(run.floor);
-        int paid = floor == null ? 0 : (int) Math.round(floor.kill() * data().setting("hoarder_pay", 20) * heatPay(run));
+        GauntletData.Floor floor = data().floor(run.statFloor());
+        int paid = floor == null ? 0 : (int) Math.round(floor.kill() * data().setting("hoarder_pay", 20) * runPay(run));
         run.shards += paid;
         run.sound(Sound.ENTITY_PLAYER_LEVELUP, 0.8f, 1.6f);
         for (Player player : run.standing()) {

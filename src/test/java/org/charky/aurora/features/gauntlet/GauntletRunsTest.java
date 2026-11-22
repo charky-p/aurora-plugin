@@ -30,6 +30,17 @@ class GauntletRunsTest {
     }
 
     @Test
+    void hardModeRaisesOnlyTheFloorsBelowIt() {
+        GauntletRun run = new GauntletRun(0);
+        run.floor = 3;
+        assertEquals(3, run.statFloor(), "without Hard Mode a floor is itself");
+        run.hardFloor = 36;
+        assertEquals(36, run.statFloor());
+        run.floor = 40;
+        assertEquals(40, run.statFloor(), "past the Hard floor the tower is as it is");
+    }
+
+    @Test
     void timesReadAsAClock() {
         assertEquals("0:05", GauntletRuns.clock(5));
         assertEquals("12:34", GauntletRuns.clock(754));

@@ -460,9 +460,21 @@ public class GauntletRuns implements Listener {
         nextFloor(player, run);
     }
 
-    // Closing the menu without picking leaves the choice waiting, /gauntlet boon reopens it
+    // A care package emptied and closed is gone. Closing the boon menu without picking
+    // leaves the choice waiting, /gauntlet boon reopens it
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
+        if (event.getInventory().getHolder(false) instanceof Chest chest && event.getInventory().isEmpty()
+                && event.getPlayer() instanceof Player owner) {
+            Run run = runs.get(owner.getUniqueId());
+            Block block = chest.getBlock();
+            if (run != null && manager.arena().isInSlot(run.slot, block.getLocation())) {
+                block.setType(Material.AIR);
+                block.getWorld().spawnParticle(Particle.POOF, block.getLocation().add(0.5, 0.5, 0.5), 15, 0.3, 0.3, 0.3, 0.02);
+                owner.playSound(block.getLocation(), Sound.BLOCK_WOOL_BREAK, 0.8f, 1f);
+            }
+            return;
+        }
         if (!(event.getInventory().getHolder(false) instanceof BoonMenu)) return;
         if (event.getPlayer() instanceof Player player && !offered(player).isEmpty()) {
             TextUtils.send(player, "<gray>Your boon is waiting: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");

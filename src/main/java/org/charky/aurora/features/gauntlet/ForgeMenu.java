@@ -44,52 +44,61 @@ public class ForgeMenu extends PagedMenu {
         ItemStack item = now == null ? new ItemStack(Material.BARRIER)
                 : GauntletGear.build(manager.registry(), piece, owned ? now : data.level(0));
         if (!owned) item = item.withType(Material.GRAY_DYE);
-
-        List<Component> lore = new ArrayList<>();
-        if (!owned) {
-            lore.add(TextUtils.parse("<!italic><red>Locked"));
-            if (piece.unlockFloor() > 0) {
-                lore.add(TextUtils.parse("<!italic>" + (profile.best >= piece.unlockFloor() ? "<green>" : "<red>")
-                        + "Needs floor " + piece.unlockFloor() + " cleared"));
-            }
-            lore.add(TextUtils.parse("<!italic><gray>Unlock: <aqua>" + piece.unlockShards() + " Shards"));
-            lore.add(TextUtils.parse("<!italic><yellow>Click to unlock"));
-        } else {
-            GauntletData.GearLevel next = data.level(level + 1);
-            lore.add(TextUtils.parse("<!italic><gray>Level <white>" + level + "/" + data.maxLevel()));
-            for (String line : gains(piece, now, next)) lore.add(TextUtils.parse("<!italic>" + line));
-            if (next == null) {
-                lore.add(TextUtils.parse("<!italic><green>Fully upgraded"));
-            } else {
-                String material = GauntletGear.material(piece, next);
-                String nowMaterial = now == null ? null : GauntletGear.material(piece, now);
-                if (material != null && !material.equals(nowMaterial)) {
-                    lore.add(TextUtils.parse("<!italic><gold>Next level turns it " + material.toLowerCase()));
-                }
-                lore.add(TextUtils.parse("<!italic><gray>Next: <aqua>" + next.shards() + " Shards"
-                        + (next.cores() > 0 ? " <gray>+ <light_purple>" + next.cores() + " Cores" : "")));
-                lore.add(TextUtils.parse("<!italic><yellow>Click to upgrade"));
-            }
-        }
-        // What the piece unlocks at its milestones, in runs; armour shows the set's
-        List<GauntletData.Perk> perks = data.perksOf(piece.armor() ? GauntletData.ARMOR_SET : piece.id());
-        if (!perks.isEmpty()) {
-            int reached = piece.armor() ? runs.armorSetLevel(profile) : (owned ? level : -1);
-            lore.add(Component.empty());
-            lore.add(TextUtils.parse("<!italic><gray>" + (piece.armor() ? "Set bonuses, every piece at the level <dark_gray>(lowest " + reached + ")" : "Perks in runs")));
-            for (GauntletData.Perk perk : perks) {
-                boolean has = reached >= perk.level();
-                lore.add(TextUtils.parse("<!italic>" + (has ? "<green>✔ " : "<dark_gray>" + perk.level() + " ") + (has ? "<white>" : "<gray>")
-                        + perk.name() + " <dark_gray>- " + (has ? "<gray>" : "<dark_gray>") + perk.description()));
-            }
-        }
-        ItemStack shown = item;
-        shown.editMeta(meta -> {
+        List<String> lines = new ArrayList<>(owned ? upgradeLines(piece, level, now) : unlockLines(profile, piece));
+        lines.addAll(perkLines(profile, piece, owned ? level : -1));
+        item.editMeta(meta -> {
             meta.displayName(TextUtils.parse("<!italic><white><b>" + piece.name() + (owned ? " <gray>(" + level + ")" : "")));
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.lore(lore);
+            meta.lore(lore(lines));
         });
-        return shown;
+        return item;
+    }
+
+    // Locked: the floor it needs, and its price
+    private static List<String> unlockLines(GauntletProfile profile, GauntletData.Gear piece) {
+        List<String> lines = new ArrayList<>(List.of("<red>Locked"));
+        if (piece.unlockFloor() > 0) {
+            lines.add((profile.best >= piece.unlockFloor() ? "<green>" : "<red>") + "Needs floor " + piece.unlockFloor() + " cleared");
+        }
+        lines.add("<gray>Unlock: <aqua>" + piece.unlockShards() + " Shards");
+        lines.add("<yellow>Click to unlock");
+        return lines;
+    }
+
+    // Its level, what the next one adds and costs, and when it turns a new material
+    private List<String> upgradeLines(GauntletData.Gear piece, int level, GauntletData.GearLevel now) {
+        GauntletData data = manager.data();
+        GauntletData.GearLevel next = data.level(level + 1);
+        List<String> lines = new ArrayList<>();
+        lines.add("<gray>Level <white>" + level + "/" + data.maxLevel());
+        lines.addAll(gains(piece, now, next));
+        if (next == null) {
+            lines.add("<green>Fully upgraded");
+            return lines;
+        }
+        String material = GauntletGear.material(piece, next);
+        String nowMaterial = now == null ? null : GauntletGear.material(piece, now);
+        if (material != null && !material.equals(nowMaterial)) lines.add("<gold>Next level turns it " + material.toLowerCase());
+        lines.add("<gray>Next: <aqua>" + next.shards() + " Shards"
+                + (next.cores() > 0 ? " <gray>+ <light_purple>" + next.cores() + " Cores" : ""));
+        lines.add("<yellow>Click to upgrade");
+        return lines;
+    }
+
+    // What the piece unlocks at its milestones, in runs; armour shows the set's. Level -1
+    // for a piece not unlocked
+    private List<String> perkLines(GauntletProfile profile, GauntletData.Gear piece, int level) {
+        List<GauntletData.Perk> perks = manager.data().perksOf(piece.armor() ? GauntletData.ARMOR_SET : piece.id());
+        if (perks.isEmpty()) return List.of();
+        int reached = piece.armor() ? runs.armorSetLevel(profile) : level;
+        List<String> lines = new ArrayList<>(List.of("", "<gray>" + (piece.armor()
+                ? "Set bonuses, every piece at the level <dark_gray>(lowest " + reached + ")" : "Perks in runs")));
+        for (GauntletData.Perk perk : perks) {
+            boolean has = reached >= perk.level();
+            lines.add((has ? "<green>✔ " : "<dark_gray>" + perk.level() + " ") + (has ? "<white>" : "<gray>")
+                    + perk.name() + " <dark_gray>- " + (has ? "<gray>" : "<dark_gray>") + perk.description());
+        }
+        return lines;
     }
 
     // What the piece does now, and with the next level what it would do, so every
@@ -129,25 +138,19 @@ public class ForgeMenu extends PagedMenu {
 
     private ItemStack careItem(GauntletProfile profile) {
         GauntletData data = manager.data();
-        ItemStack item = new ItemStack(Material.CHEST);
-        item.editMeta(meta -> {
-            meta.displayName(TextUtils.parse("<!italic><gold><b>Care Package <gray>Level " + profile.care));
-            List<Component> lore = new ArrayList<>();
-            lore.add(TextUtils.parse("<!italic><gray>Lands every 5 floors with supplies:"));
-            lore.add(TextUtils.parse("<!italic><gray>food, golden apples, potions and more."));
-            lore.add(TextUtils.parse("<!italic><gray>Each level drops better loot."));
-            lore.add(Component.empty());
-            if (profile.care >= data.maxCareLevel()) {
-                lore.add(TextUtils.parse("<!italic><green>Fully upgraded"));
-            } else {
-                GauntletData.CareLevel next = data.careLevel(profile.care + 1);
-                lore.add(TextUtils.parse("<!italic><gray>Next: <aqua>" + next.shards() + " Shards"
-                        + (next.cores() > 0 ? " <gray>+ <light_purple>" + next.cores() + " Cores" : "")));
-                lore.add(TextUtils.parse("<!italic><yellow>Click to upgrade"));
-            }
-            meta.lore(lore);
-        });
-        return item;
+        List<String> lines = new ArrayList<>(List.of(
+                "<gray>Lands every " + (int) data.setting("boon_every", 5) + " floors with supplies:",
+                "<gray>food, golden apples, potions and more.",
+                "<gray>Each level drops better loot.",
+                ""));
+        if (profile.care >= data.maxCareLevel()) {
+            lines.add("<green>Fully upgraded");
+        } else {
+            GauntletData.CareLevel next = data.careLevel(profile.care + 1);
+            lines.add("<gray>Next: <aqua>" + next.shards() + " Shards" + (next.cores() > 0 ? " <gray>+ <light_purple>" + next.cores() + " Cores" : ""));
+            lines.add("<yellow>Click to upgrade");
+        }
+        return button(Material.CHEST, "<gold><b>Care Package <gray>Level " + profile.care, lines);
     }
 
     @Override

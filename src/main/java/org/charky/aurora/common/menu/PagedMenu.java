@@ -166,11 +166,16 @@ public abstract class PagedMenu implements InventoryHolder {
         ItemStack item = button(material, name);
         item.editMeta(meta -> {
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-            List<Component> lines = new ArrayList<>();
-            for (String line : lore) lines.add(line.isEmpty() ? Component.empty() : TextUtils.parse("<!italic>" + line));
-            meta.lore(lines);
+            meta.lore(lore(lore));
         });
         return item;
+    }
+
+    // Lines of lore, not in italics, an empty line a gap
+    protected static List<Component> lore(List<String> lines) {
+        List<Component> lore = new ArrayList<>();
+        for (String line : lines) lore.add(line.isEmpty() ? Component.empty() : TextUtils.parse("<!italic>" + line));
+        return lore;
     }
 
     private static int[] innerSlots() {

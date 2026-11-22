@@ -84,7 +84,6 @@ final class GauntletWaves {
         List<Location> spawns = new ArrayList<>(arena.mobSpawns().stream().map(spawn -> arena.inSlot(run.slot, spawn)).toList());
         Collections.shuffle(spawns);
         double eliteChance = eliteChance(run);
-        String mutatorId = run.mutator == null ? null : run.mutator.id();
         run.floorScale = GauntletRun.partyScale(run.members.size(), data().setting("party_mobs", 50));
         double more = (run.mutator == null ? 1 : run.mutator.count()) * run.floorScale;
         int next = 0;
@@ -93,29 +92,10 @@ final class GauntletWaves {
             boolean boss = floor.isBoss(entry.getKey());
             int count = boss ? entry.getValue() : (int) Math.ceil(entry.getValue() * more);
             for (int i = 0; i < count; i++) {
-                boolean elite = !boss && ThreadLocalRandom.current().nextDouble(100) < eliteChance;
-                String affix = elite ? rollAffix(run) : null;
-                String id = new GauntletData.Variant(entry.getKey(), run.floor, elite, affix, run.heat, mutatorId).id();
                 Location at = spawns.get(next++ % spawns.size()).clone()
                         .add(ThreadLocalRandom.current().nextDouble(-1.5, 1.5), 0, ThreadLocalRandom.current().nextDouble(-1.5, 1.5));
-                LivingEntity mob = mob(run, id, at);
-                if (mob == null) continue;
-                if (boss) {
-                    run.boss = mob.getUniqueId();
-                    double tougher = GauntletRun.partyScale(run.members.size(), data().setting("party_boss_health", 60));
-                    if (tougher > 1) CustomHealth.scale(mob, tougher, manager.registry());
-                }
-                if (elite) {
-                    run.elites.add(mob.getUniqueId());
-                    elites++;
-                }
-                if (affix != null) {
-                    run.affixes.put(mob.getUniqueId(), affix);
-                    if (affix.equals("swift")) {
-                        AttributeInstance speed = mob.getAttribute(Attribute.MOVEMENT_SPEED);
-                        if (speed != null) speed.setBaseValue(speed.getBaseValue() * 1.4);
-                    }
-                }
+                boolean elite = !boss && ThreadLocalRandom.current().nextDouble(100) < eliteChance;
+                if (spawnOne(run, entry.getKey(), boss, elite, at) && elite) elites++;
             }
         }
         run.floorMobs = run.mobs.size();
@@ -130,6 +110,29 @@ final class GauntletWaves {
                 player.sendActionBar(TextUtils.parse("<gold><b>" + elites + " elite" + (elites > 1 ? "s" : "") + "</b> <gray>on this floor"));
             }
         }
+    }
+
+    // One of the floor's mobs: an elite with its affix, or the boss, tougher for a party.
+    // Whether it came
+    private boolean spawnOne(GauntletRun run, String kind, boolean boss, boolean elite, Location at) {
+        String affix = elite ? rollAffix(run) : null;
+        String mutatorId = run.mutator == null ? null : run.mutator.id();
+        LivingEntity mob = mob(run, new GauntletData.Variant(kind, run.floor, elite, affix, run.heat, mutatorId).id(), at);
+        if (mob == null) return false;
+        if (boss) {
+            run.boss = mob.getUniqueId();
+            double tougher = GauntletRun.partyScale(run.members.size(), data().setting("party_boss_health", 60));
+            if (tougher > 1) CustomHealth.scale(mob, tougher, manager.registry());
+        }
+        if (elite) run.elites.add(mob.getUniqueId());
+        if (affix != null) {
+            run.affixes.put(mob.getUniqueId(), affix);
+            if (affix.equals("swift")) {
+                AttributeInstance speed = mob.getAttribute(Attribute.MOVEMENT_SPEED);
+                if (speed != null) speed.setBaseValue(speed.getBaseValue() * 1.4);
+            }
+        }
+        return true;
     }
 
     // A Shard Hoarder: quick, glowing, harmless, not needed to clear the floor, and worth

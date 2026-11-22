@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.charky.aurora.features.gauntlet.GauntletProfile;
+import org.charky.aurora.features.gauntlet.RunRecord;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 // The gauntlet tables: each player's Shards, Cores, best floor, runs and care package
 // level, their gear levels, the milestones paid, their starting kit and its layout,
-// and the inventory they brought into the gauntlet's world. Its places (lobby, arena, spawns, PvP zone) are in the
+// their last runs, and the inventory they brought into the gauntlet's world. Its places (lobby, arena, spawns, PvP zone) are in the
 // locations table, every name starting with "gauntlet_"
 public class GauntletStore {
     public static final String PREFIX = "gauntlet_";
@@ -54,6 +55,13 @@ public class GauntletStore {
         db.query("SELECT uuid, stat, value FROM gauntlet_stats", pst -> {}, rs -> {
             GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
             if (profile != null) profile.stats.put(rs.getString("stat"), rs.getInt("value"));
+        });
+        db.query("SELECT * FROM gauntlet_history ORDER BY ended DESC", pst -> {}, rs -> {
+            GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
+            if (profile == null || profile.history.size() >= GauntletProfile.HISTORY) return;
+            profile.history.add(new RunRecord(rs.getLong("ended"), rs.getInt("floor"), rs.getInt("cleared"), rs.getInt("start_floor"),
+                    rs.getInt("heat"), rs.getInt("party"), rs.getInt("seconds"), rs.getInt("kills"), rs.getInt("shards"),
+                    rs.getInt("cores"), rs.getInt("died") != 0, rs.getString("boons")));
         });
         db.query("SELECT uuid, layout FROM gauntlet_layouts", pst -> {}, rs -> {
             GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
@@ -130,6 +138,32 @@ public class GauntletStore {
         });
     }
 
+    // A finished run into a player's history, the oldest past GauntletProfile.HISTORY dropped
+    public void saveRun(UUID uuid, RunRecord run) {
+        db.update("INSERT OR REPLACE INTO gauntlet_history (uuid, ended, floor, cleared, start_floor, heat, party, seconds, kills, "
+                + "shards, cores, died, boons) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setLong(2, run.ended());
+            pst.setInt(3, run.floor());
+            pst.setInt(4, run.cleared());
+            pst.setInt(5, run.startFloor());
+            pst.setInt(6, run.heat());
+            pst.setInt(7, run.party());
+            pst.setInt(8, run.seconds());
+            pst.setInt(9, run.kills());
+            pst.setInt(10, run.shards());
+            pst.setInt(11, run.cores());
+            pst.setInt(12, run.died() ? 1 : 0);
+            pst.setString(13, run.boons());
+        });
+        db.update("DELETE FROM gauntlet_history WHERE uuid = ? AND ended NOT IN "
+                + "(SELECT ended FROM gauntlet_history WHERE uuid = ? ORDER BY ended DESC LIMIT ?)", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setString(2, uuid.toString());
+            pst.setInt(3, GauntletProfile.HISTORY);
+        });
+    }
+
     public void saveMilestone(UUID uuid, int floor) {
         db.update("INSERT OR IGNORE INTO gauntlet_milestones (uuid, floor) VALUES (?, ?)", pst -> {
             pst.setString(1, uuid.toString());
@@ -140,7 +174,7 @@ public class GauntletStore {
     // Every bit of a player's gauntlet progress, the inventory they brought in excepted
     public void reset(UUID uuid) {
         for (String table : new String[]{"gauntlet_players", "gauntlet_gear", "gauntlet_milestones", "gauntlet_setup",
-                "gauntlet_layouts", "gauntlet_talents", "gauntlet_stats"}) {
+                "gauntlet_layouts", "gauntlet_talents", "gauntlet_stats", "gauntlet_history"}) {
             db.update("DELETE FROM " + table + " WHERE uuid = ?", pst -> pst.setString(1, uuid.toString()));
         }
     }

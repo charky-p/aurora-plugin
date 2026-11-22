@@ -286,6 +286,12 @@ public class GauntletManager {
         if (!stat.startsWith(GauntletAchievements.DONE)) achievements.check(uuid);
     }
 
+    // A finished run into the player's history
+    void recordRun(UUID uuid, RunRecord run) {
+        profile(uuid).record(run);
+        db.async(() -> store.saveRun(uuid, run));
+    }
+
     // Shards paid straight into the bank, not through a run
     public void giveShards(Player player, int amount) {
         profile(player).shards += amount;

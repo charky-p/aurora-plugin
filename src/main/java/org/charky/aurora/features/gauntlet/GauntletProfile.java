@@ -1,7 +1,9 @@
 package org.charky.aurora.features.gauntlet;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 // What a player keeps from the gauntlet between runs: Shards and Cores to spend in
 // the forge, the level of each piece of gear unlocked (missing means locked), the
 // best floor cleared, runs played, the care package level, milestones paid, the
-// starting kit and where it all sits in the inventory
+// starting kit and where it all sits in the inventory, and the last runs
 public class GauntletProfile {
     public int shards;
     public int cores;
@@ -26,6 +28,9 @@ public class GauntletProfile {
     public final Map<String, Integer> stats = new ConcurrentHashMap<>();
     // Where each setup item sits in the inventory, by slot: gear:sword, setup:totem, menu
     public final Map<Integer, String> layout = new ConcurrentHashMap<>();
+    // The last runs, newest first, at most HISTORY
+    public static final int HISTORY = 10;
+    public final List<RunRecord> history = new ArrayList<>();
 
     public boolean owns(String gearId) {
         return gear.containsKey(gearId);
@@ -41,6 +46,12 @@ public class GauntletProfile {
 
     public int stat(String name) {
         return stats.getOrDefault(name, 0);
+    }
+
+    // A finished run at the front of the history, the oldest past HISTORY gone
+    public void record(RunRecord run) {
+        history.addFirst(run);
+        while (history.size() > HISTORY) history.removeLast();
     }
 
     // Takes a price if it can be paid. Null if it was, otherwise what is missing

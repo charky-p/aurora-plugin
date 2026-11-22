@@ -380,6 +380,10 @@ public class GauntletRuns implements Listener {
         manager.addStat(uuid, "hoarders", run.hoarders);
         manager.addStat(uuid, "fast_clears", run.fastClears);
         if (member.bestCombo > profile.stat(BEST_COMBO)) manager.setStat(uuid, BEST_COMBO, member.bestCombo);
+        long now = System.currentTimeMillis();
+        manager.recordRun(uuid, new RunRecord(now, run.floor, cleared, run.startFloor, run.heat, run.partySize,
+                (int) ((now - run.started) / 1000), member.kills, banked, run.cores, why == End.DIED,
+                String.join(",", member.boons.entrySet().stream().map(boon -> boon.getKey() + ":" + boon.getValue()).toList())));
         if (!member.slain.isEmpty()) {
             member.slain.forEach((mob, count) -> manager.addStat(uuid, SLAIN + mob, count));
             manager.setStat(uuid, DISCOVERED, BestiaryMenu.met(data(), profile));

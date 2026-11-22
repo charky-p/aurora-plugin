@@ -192,6 +192,24 @@ public final class Schema {
                     "uuid TEXT PRIMARY KEY, " +
                     "layout TEXT)",
 
+            // A player's last runs in the gauntlet, the newest kept: when each ended, how far
+            // it went and how, its heat, party and time, the kills, what it paid, the boons
+            "CREATE TABLE IF NOT EXISTS gauntlet_history (" +
+                    "uuid TEXT, " +
+                    "ended INTEGER, " +
+                    "floor INTEGER, " +
+                    "cleared INTEGER, " +
+                    "start_floor INTEGER, " +
+                    "heat INTEGER, " +
+                    "party INTEGER, " +
+                    "seconds INTEGER, " +
+                    "kills INTEGER, " +
+                    "shards INTEGER, " +
+                    "cores INTEGER, " +
+                    "died INTEGER, " +
+                    "boons TEXT, " +
+                    "PRIMARY KEY (uuid, ended))",
+
             // The inventory a player brought into the gauntlet's world, handed back on the way out
             "CREATE TABLE IF NOT EXISTS gauntlet_inventories (" +
                     "uuid TEXT PRIMARY KEY, " +

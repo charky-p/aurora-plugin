@@ -45,6 +45,7 @@ public class GauntletMenu extends PagedMenu {
                 new Button(bestiary(profile), viewer -> new BestiaryMenu(manager).open(viewer)),
                 new Button(milestones(profile), null),
                 new Button(topFloors(profile), null),
+                new Button(history(profile), viewer -> new HistoryMenu(manager).open(viewer)),
                 new Button(week(player), null),
                 new Button(pvp(profile), null),
                 new Button(duels(profile), null),
@@ -174,6 +175,22 @@ public class GauntletMenu extends PagedMenu {
                 "Nobody has made it yet"));
         if (profile.stat(GauntletRuns.SPRINT) > 0) lines.add("<gray>Yours: <white>" + GauntletRuns.clock(profile.stat(GauntletRuns.SPRINT)));
         return button(Material.PLAYER_HEAD, "<aqua><b>Top Floors", lines);
+    }
+
+    private static ItemStack history(GauntletProfile profile) {
+        List<String> lines = new ArrayList<>(List.of(
+                "<gray>Your last " + GauntletProfile.HISTORY + " runs: how far they went,",
+                "<gray>how they ended and what they paid.",
+                ""));
+        if (profile.history.isEmpty()) {
+            lines.add("<gray>No runs yet");
+        } else {
+            RunRecord last = profile.history.getFirst();
+            lines.add("<gray>Last: <white>floor " + last.floor() + " <gray>" + (last.died() ? "fell" : "left")
+                    + ", <aqua>" + last.shards() + " Shards");
+            lines.add("<yellow>Click to see them");
+        }
+        return button(Material.WRITABLE_BOOK, "<white><b>Your Runs", lines);
     }
 
     // The week's two boards, what their top three are paid, and the time left

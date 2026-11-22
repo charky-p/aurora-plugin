@@ -416,9 +416,13 @@ public class GauntletManager implements Listener {
                 : event.getDamager() instanceof Projectile projectile
                 && projectile.getShooter() instanceof Player shooter ? shooter : null;
         if (attacker == null) return;
-        boolean allowed = arena.inPvp(victim.getLocation()) && arena.inPvp(attacker.getLocation())
-                && (runs == null || (!runs.inRun(victim) && !runs.inRun(attacker)));
-        if (!allowed) event.setCancelled(true);
+        String refused = null;
+        if (inRun(victim) || inRun(attacker)) refused = "No PvP during a run";
+        else if (!arena.inPvp(attacker.getLocation())) refused = "You can only fight players in the PvP zone";
+        else if (!arena.inPvp(victim.getLocation())) refused = victim.getName() + " is outside the PvP zone";
+        if (refused == null) return;
+        event.setCancelled(true);
+        attacker.sendActionBar(TextUtils.parse("<red>" + refused));
     }
 
     // Dying here costs nothing, the gear is kept, and they come back in the lobby

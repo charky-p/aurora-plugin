@@ -24,7 +24,7 @@
 # talents: permanent, run-only upgrades {name, icon, description, stat, amount (a level), max,
 #          shards (the first level), growth (each level costs this many times the last), cores (a level)}
 # mutators: what can change a floor {name, description, health, damage, speed, count, elites (times),
-#           shards (percent more for the floor)}
+#           shards (percent more for the floor), affix (every mob but an elite carries it, from affix_from)}
 # challenges: the daily challenge pool {description ({goal} is filled in), stat, goal, shards, cores,
 #             scale (the goal rises to the player's best floor, rounded down to 5)}
 # bosses: a boss's abilities and their cooldown in seconds {g_rot_king: [{type: summon, cooldown: 14}, ...]}
@@ -2403,6 +2403,7 @@ mutators:
     count: 1.0
     elites: 1.0
     shards: 25
+    affix: ''
   armored:
     name: Armored
     description: "Mobs have 50% more health"
@@ -2412,6 +2413,7 @@ mutators:
     count: 1.0
     elites: 1.0
     shards: 30
+    affix: ''
   savage:
     name: Savage
     description: "Mobs hit 30% harder"
@@ -2421,6 +2423,7 @@ mutators:
     count: 1.0
     elites: 1.0
     shards: 30
+    affix: ''
   horde:
     name: Horde
     description: "Half as many mobs again"
@@ -2430,6 +2433,7 @@ mutators:
     count: 1.5
     elites: 1.0
     shards: 40
+    affix: ''
   glass:
     name: Glass Cannons
     description: "Mobs hit 50% harder but have half the health"
@@ -2439,6 +2443,7 @@ mutators:
     count: 1.0
     elites: 1.0
     shards: 20
+    affix: ''
   elite_rush:
     name: Elite Rush
     description: "Elites three times as often"
@@ -2448,6 +2453,57 @@ mutators:
     count: 1.0
     elites: 3.0
     shards: 40
+    affix: ''
+  volatile:
+    name: Volatile
+    description: "Every mob explodes a second after it dies"
+    health: 1.0
+    damage: 1.0
+    speed: 1.0
+    count: 1.0
+    elites: 1.0
+    shards: 35
+    affix: explosive
+  bloodthirsty:
+    name: Bloodthirsty
+    description: "Every mob heals when it hits you"
+    health: 1.0
+    damage: 1.0
+    speed: 1.0
+    count: 1.0
+    elites: 1.0
+    shards: 30
+    affix: vampiric
+  warded:
+    name: Warded
+    description: "Every mob takes half damage until below half health"
+    health: 1.0
+    damage: 1.0
+    speed: 1.0
+    count: 1.0
+    elites: 1.0
+    shards: 35
+    affix: shielded
+  frenzy:
+    name: Frenzy
+    description: "Every mob hits 30% harder below half health"
+    health: 1.0
+    damage: 1.0
+    speed: 1.0
+    count: 1.0
+    elites: 1.0
+    shards: 25
+    affix: frenzied
+  brood:
+    name: Brood
+    description: "Fewer mobs but every one calls two more when it dies"
+    health: 1.0
+    damage: 1.0
+    speed: 1.0
+    count: 0.6
+    elites: 1.0
+    shards: 20
+    affix: summoner
 challenges:
   climb:
     description: "Clear floor {goal} in one run"

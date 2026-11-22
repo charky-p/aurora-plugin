@@ -151,8 +151,10 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
 
     // What can change a floor: its mobs' health, hits, speed, how many there are, how
     // often they are elite, and the percent more Shards the floor pays
+    // A floor's twist: its mobs' health, damage, speed and count, how often they are elite,
+    // the percent more Shards it pays, and an affix every mob but an elite carries ("" for none)
     public record Mutator(String id, String name, String description, double health, double damage, double speed,
-                          double count, double elites, int shards) {
+                          double count, double elites, int shards, String affix) {
     }
 
     public record Loot(String item, int min, int max, double chance) {
@@ -239,7 +241,7 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         Map<String, Mutator> mutators = byId(root, "mutators", (id, row) -> new Mutator(id, str(row.get("name")),
                 str(row.get("description")), num(row.get("health")).doubleValue(), num(row.get("damage")).doubleValue(),
                 num(row.get("speed")).doubleValue(), num(row.get("count")).doubleValue(), num(row.get("elites")).doubleValue(),
-                num(row.get("shards")).intValue()));
+                num(row.get("shards")).intValue(), str(row.get("affix"))));
         Map<String, Challenge> challenges = byId(root, "challenges", (id, row) -> new Challenge(id, str(row.get("description")),
                 str(row.get("stat")), num(row.get("goal")).intValue(), num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
                 Boolean.TRUE.equals(row.get("scale"))));

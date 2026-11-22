@@ -58,11 +58,15 @@ final class GauntletWaves {
         return manager.data();
     }
 
+    // A floor's mutator now and then from mutator_from; one that gives every mob an affix
+    // only from affix_from, like elites' affixes
     GauntletData.Mutator rollMutator(int floor) {
         if (data().mutators().isEmpty() || floor < data().setting("mutator_from", 6)) return null;
         if (ThreadLocalRandom.current().nextDouble(100) >= data().setting("mutator_chance", 25)) return null;
-        List<GauntletData.Mutator> all = List.copyOf(data().mutators().values());
-        return all.get(ThreadLocalRandom.current().nextInt(all.size()));
+        boolean affixes = floor >= data().setting("affix_from", 10);
+        List<GauntletData.Mutator> all = data().mutators().values().stream()
+                .filter(mutator -> affixes || mutator.affix().isBlank()).toList();
+        return all.isEmpty() ? null : all.get(ThreadLocalRandom.current().nextInt(all.size()));
     }
 
     // Percent chance a mob of this floor is elite
@@ -112,10 +116,10 @@ final class GauntletWaves {
         }
     }
 
-    // One of the floor's mobs: an elite with its affix, or the boss, tougher for a party.
-    // Whether it came
+    // One of the floor's mobs: an elite with its affix, any other with the mutator's, or
+    // the boss, tougher for a party. Whether it came
     private boolean spawnOne(GauntletRun run, String kind, boolean boss, boolean elite, Location at) {
-        String affix = elite ? rollAffix(run) : null;
+        String affix = elite ? rollAffix(run) : boss || run.mutator == null || run.mutator.affix().isBlank() ? null : run.mutator.affix();
         String mutatorId = run.mutator == null ? null : run.mutator.id();
         LivingEntity mob = mob(run, new GauntletData.Variant(kind, run.floor, elite, affix, run.heat, mutatorId).id(), at);
         if (mob == null) return false;

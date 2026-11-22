@@ -1092,7 +1092,7 @@ GAUNTLET_HEADER = """# =========================================================
 # talents: permanent, run-only upgrades {name, icon, description, stat, amount (a level), max,
 #          shards (the first level), growth (each level costs this many times the last), cores (a level)}
 # mutators: what can change a floor {name, description, health, damage, speed, count, elites (times),
-#           shards (percent more for the floor)}
+#           shards (percent more for the floor), affix (every mob but an elite carries it, from affix_from)}
 # challenges: the daily challenge pool {description ({goal} is filled in), stat, goal, shards, cores,
 #             scale (the goal rises to the player's best floor, rounded down to 5)}
 # bosses: a boss's abilities and their cooldown in seconds {g_rot_king: [{type: summon, cooldown: 14}, ...]}
@@ -1209,9 +1209,13 @@ def gauntlet_text(mobs, cosmetics):
 
     mutators = OrderedDict()
     for row in _gauntlet_rows("mutators.csv") or []:
+        affix = (row.get("affix") or "").strip()
+        if affix and affix not in GAUNTLET_AFFIXES:
+            errors.append(f"gauntlet mutator '{row['id']}': unknown affix '{affix}'")
         mutators[row["id"]] = OrderedDict(name=row["name"], description=Quoted(row["description"]),
                                           health=float(row["health"]), damage=float(row["damage"]), speed=float(row["speed"]),
-                                          count=float(row["count"]), elites=float(row["elites"]), shards=int(row["shards"]))
+                                          count=float(row["count"]), elites=float(row["elites"]), shards=int(row["shards"]),
+                                          affix=affix)
 
     challenges = OrderedDict()
     for row in _gauntlet_rows("challenges.csv") or []:

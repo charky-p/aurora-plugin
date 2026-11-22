@@ -18,6 +18,8 @@
 # care: care package levels [{level, shards, cores, loot: [{item, min, max, chance}]}]
 #   item is a material, or POTION@TYPE / SPLASH_POTION@TYPE
 # milestones: [{floor, essence, cosmetic}] (best floor reached, paid once)
+# setup: the starting kit, bought for good, handed out at the start of every run
+#   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ===========================================================
@@ -521,7 +523,7 @@ gear:
       - NONE
     kind: ranged
     damage: 100
-    unlock_shards: 0
+    unlock_shards: 60
     unlock_floor: 0
   helmet:
     name: Helmet
@@ -1335,3 +1337,92 @@ milestones:
   - floor: 50
     essence: 5000
     cosmetic: suffix_unbroken
+setup:
+  quiver:
+    name: Quiver
+    item: ARROW
+    amount: 16
+    max: 4
+    shards: 120
+    cores: 0
+    description: "16 arrows a level"
+  golden_apples:
+    name: Golden Apples
+    item: GOLDEN_APPLE
+    amount: 1
+    max: 3
+    shards: 400
+    cores: 0
+    description: "A golden apple a level"
+  healing:
+    name: Splash Healing
+    item: SPLASH_POTION@HEALING
+    amount: 1
+    max: 3
+    shards: 300
+    cores: 0
+    description: "A splash potion of healing a level"
+  swiftness:
+    name: Swiftness
+    item: POTION@SWIFTNESS
+    amount: 1
+    max: 2
+    shards: 500
+    cores: 0
+    description: "A potion of swiftness a level"
+  pearls:
+    name: Ender Pearls
+    item: ENDER_PEARL
+    amount: 2
+    max: 2
+    shards: 600
+    cores: 0
+    description: "2 ender pearls a level"
+  strength:
+    name: Strength
+    item: POTION@STRENGTH
+    amount: 1
+    max: 2
+    shards: 900
+    cores: 1
+    description: "A potion of strength a level"
+  regeneration:
+    name: Regeneration
+    item: POTION@REGENERATION
+    amount: 1
+    max: 2
+    shards: 900
+    cores: 1
+    description: "A potion of regeneration a level"
+  elytra:
+    name: Elytra
+    item: ELYTRA
+    amount: 1
+    max: 1
+    shards: 3000
+    cores: 2
+    description: "Glide over the arena; swap it with your chestplate"
+  rockets:
+    name: Firework Rockets
+    item: FIREWORK_ROCKET
+    amount: 4
+    max: 3
+    shards: 700
+    cores: 0
+    description: "4 rockets a level to fly with the elytra"
+  totem:
+    name: Totem of Undying
+    item: TOTEM_OF_UNDYING
+    amount: 1
+    max: 1
+    shards: 5000
+    cores: 3
+    description: "Cheat death once a run"
+  enchanted_apple:
+    name: Enchanted Golden Apple
+    item: ENCHANTED_GOLDEN_APPLE
+    amount: 1
+    max: 1
+    shards: 8000
+    cores: 4
+    description: "One enchanted golden apple a run"

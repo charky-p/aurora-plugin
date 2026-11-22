@@ -45,7 +45,7 @@ public class GauntletCommand implements TabExecutor {
     // Null if it worked, otherwise why not
     public static String open(GauntletManager manager, GauntletRuns runs, Player player) {
         if (!manager.isHere(player)) return manager.sendToLobby(player);
-        new GauntletMenu(manager, runs).open(player);
+        manager.openMenu(player);
         return null;
     }
 

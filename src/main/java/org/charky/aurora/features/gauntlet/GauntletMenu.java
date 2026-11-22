@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-// /gauntlet in the gauntlet's world: start a run, the forge, milestones, the top
-// floors, and the way out
+// /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
+// starting kit, milestones, the top floors, and the way out
 public class GauntletMenu extends PagedMenu {
-    private static final int START = 0, FORGE = 1, MILESTONES = 2, TOP = 3, LEAVE = 4;
+    private static final int START = 0, FORGE = 1, KIT = 2, MILESTONES = 3, TOP = 4, LEAVE = 5;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -44,6 +44,13 @@ public class GauntletMenu extends PagedMenu {
                 "",
                 "<gray>Shards: <aqua>" + profile.shards,
                 "<gray>Cores: <light_purple>" + profile.cores)));
+        items.add(button(Material.TOTEM_OF_UNDYING, "<yellow><b>Starting Kit", List.of(
+                "<gray>Totems, potions, arrows, an elytra:",
+                "<gray>bought for good, every run",
+                "<gray>starts with them.",
+                "",
+                "<gray>Your lobby inventory is your setup:",
+                "<gray>lay it out how you like it.")));
 
         List<String> milestones = new ArrayList<>();
         for (GauntletData.Milestone milestone : manager.data().milestones()) {
@@ -107,6 +114,7 @@ public class GauntletMenu extends PagedMenu {
                 if (problem != null) TextUtils.error(player, problem);
             }
             case FORGE -> new ForgeMenu(manager, runs).open(player);
+            case KIT -> new SetupMenu(manager, runs).open(player);
             case LEAVE -> {
                 player.closeInventory();
                 manager.leave(player);

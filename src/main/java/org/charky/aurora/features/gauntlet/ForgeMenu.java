@@ -167,6 +167,6 @@ public class ForgeMenu extends PagedMenu {
 
     @Override
     protected void back(Player player) {
-        new GauntletMenu(manager, runs).open(player);
+        manager.openMenu(player);
     }
 }

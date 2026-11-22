@@ -7,11 +7,12 @@ import org.charky.aurora.features.gauntlet.GauntletProfile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 // The gauntlet tables: each player's Shards, Cores, best floor, runs and care package
-// level, their gear levels, the milestones paid, and the inventory they brought into
-// the gauntlet's world. Its places (lobby, arena, spawns, PvP zone) are in the
+// level, their gear levels, the milestones paid, their starting kit and its layout,
+// and the inventory they brought into the gauntlet's world. Its places (lobby, arena, spawns, PvP zone) are in the
 // locations table, every name starting with "gauntlet_"
 public class GauntletStore {
     public static final String PREFIX = "gauntlet_";
@@ -42,6 +43,23 @@ public class GauntletStore {
             GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
             if (profile != null) profile.milestones.add(rs.getInt("floor"));
         });
+        db.query("SELECT uuid, item, level FROM gauntlet_setup", pst -> {}, rs -> {
+            GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
+            if (profile != null) profile.setup.put(rs.getString("item"), rs.getInt("level"));
+        });
+        db.query("SELECT uuid, layout FROM gauntlet_layouts", pst -> {}, rs -> {
+            GauntletProfile profile = profiles.get(UUID.fromString(rs.getString("uuid")));
+            if (profile == null || rs.getString("layout") == null) return;
+            for (String entry : rs.getString("layout").split(";")) {
+                String[] parts = entry.split("=", 2);
+                if (parts.length != 2) continue;
+                try {
+                    profile.layout.put(Integer.parseInt(parts[0]), parts[1]);
+                } catch (NumberFormatException ignored) {
+                    // A broken entry is left out, the item goes to a free slot
+                }
+            }
+        });
         return profiles;
     }
 
@@ -65,6 +83,24 @@ public class GauntletStore {
             pst.setString(1, uuid.toString());
             pst.setString(2, gear);
             pst.setInt(3, level);
+        });
+    }
+
+    public void saveSetup(UUID uuid, String item, int level) {
+        db.update("INSERT INTO gauntlet_setup (uuid, item, level) VALUES (?, ?, ?) "
+                + "ON CONFLICT(uuid, item) DO UPDATE SET level = excluded.level", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setString(2, item);
+            pst.setInt(3, level);
+        });
+    }
+
+    public void saveLayout(UUID uuid, Map<Integer, String> layout) {
+        StringBuilder text = new StringBuilder();
+        new TreeMap<>(layout).forEach((slot, key) -> text.append(slot).append('=').append(key).append(';'));
+        db.update("INSERT OR REPLACE INTO gauntlet_layouts (uuid, layout) VALUES (?, ?)", pst -> {
+            pst.setString(1, uuid.toString());
+            pst.setString(2, text.toString());
         });
     }
 

@@ -1086,6 +1086,8 @@ GAUNTLET_HEADER = """# =========================================================
 # care: care package levels [{level, shards, cores, loot: [{item, min, max, chance}]}]
 #   item is a material, or POTION@TYPE / SPLASH_POTION@TYPE
 # milestones: [{floor, essence, cosmetic}] (best floor reached, paid once)
+# setup: the starting kit, bought for good, handed out at the start of every run
+#   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
 # ===========================================================
 # DO NOT EDIT BY HAND -- run `python generate.py`
 # ==========================================================="""
@@ -1164,7 +1166,13 @@ def gauntlet_text(mobs, cosmetics):
             errors.append(f"gauntlet milestone {row['floor']}: no cosmetic '{cosmetic}' in Cosmetics.java")
         milestones.append(OrderedDict(floor=int(row["floor"]), essence=int(row["essence"] or 0), cosmetic=cosmetic))
 
-    data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones)
+    setup = OrderedDict()
+    for row in _gauntlet_rows("setup.csv") or []:
+        setup[row["id"]] = OrderedDict(name=row["name"], item=row["item"].upper(), amount=int(row["amount"]),
+                                       max=int(row["max"]), shards=int(row["shards"]), cores=int(row["cores"] or 0),
+                                       description=Quoted(row["description"]))
+
+    data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones, setup=setup)
     body = yaml.dump(data, Dumper=_Dumper, sort_keys=False, default_flow_style=False, allow_unicode=True,
                      width=10 ** 6, indent=2)
     return GAUNTLET_HEADER + "\n" + body, len(floors), errors

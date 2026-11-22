@@ -165,6 +165,18 @@ public final class Schema {
                     "floor INTEGER, " +
                     "PRIMARY KEY (uuid, floor))",
 
+            // Each starting kit item a player has bought and its level
+            "CREATE TABLE IF NOT EXISTS gauntlet_setup (" +
+                    "uuid TEXT, " +
+                    "item TEXT, " +
+                    "level INTEGER, " +
+                    "PRIMARY KEY (uuid, item))",
+
+            // Where each player keeps their gauntlet setup in the inventory, slot=item;...
+            "CREATE TABLE IF NOT EXISTS gauntlet_layouts (" +
+                    "uuid TEXT PRIMARY KEY, " +
+                    "layout TEXT)",
+
             // The inventory a player brought into the gauntlet's world, handed back on the way out
             "CREATE TABLE IF NOT EXISTS gauntlet_inventories (" +
                     "uuid TEXT PRIMARY KEY, " +

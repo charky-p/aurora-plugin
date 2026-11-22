@@ -45,8 +45,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 // The gauntlet as a game of its own beside the main one, in its own world. Walking in
-// puts the player's inventory away and hands out their gauntlet gear; walking out gives
-// it back, so nothing crosses over either way. What carries over is the gauntlet's own
+// puts the player's inventory away and hands out their gauntlet setup (GauntletSetup);
+// walking out gives it back, so nothing crosses over either way. What carries over is the gauntlet's own
 // progress (Shards, Cores, gear levels, best floor) and what milestones pay into the
 // main game: Essence and cosmetics. Gear is bought and upgraded in the forge with
 // Shards and Cores from runs (GauntletRuns). PvP is off in the world except inside
@@ -64,6 +64,7 @@ public class GauntletManager implements Listener {
     // Died in the gauntlet's world, to come back in its lobby
     private final Set<UUID> diedHere = new HashSet<>();
     private GauntletRuns runs;
+    private GauntletSetup setup;
     private BukkitTask sweep;
 
     public GauntletManager(Aurora plugin, Database db, GauntletStore store, PlayerManager players,
@@ -81,6 +82,23 @@ public class GauntletManager implements Listener {
 
     public void setRuns(GauntletRuns runs) {
         this.runs = runs;
+    }
+
+    public void setSetup(GauntletSetup setup) {
+        this.setup = setup;
+    }
+
+    public GauntletSetup setup() {
+        return setup;
+    }
+
+    public boolean inRun(Player player) {
+        return runs != null && runs.inRun(player);
+    }
+
+    // The Gauntlet's menu, from /gauntlet and the menu item
+    public void openMenu(Player player) {
+        if (runs != null) new GauntletMenu(this, runs).open(player);
     }
 
     public void start() {
@@ -261,25 +279,10 @@ public class GauntletManager implements Listener {
 
     // ---- Gear ----
 
-    // Every piece of gear the player owns, armour worn, the shield in the off hand,
-    // weapons in the hotbar in the forge's order. Anything a run handed out stays
+    // The player's setup, as they laid it out in the lobby: gear, starting kit and
+    // the menu item. Everything else in the inventory goes
     public void giveKit(Player player) {
-        PlayerInventory inventory = player.getInventory();
-        for (int slot = 0; slot < inventory.getSize(); slot++) {
-            ItemStack item = inventory.getItem(slot);
-            if (item != null && !GauntletGear.isRunItem(item)) inventory.setItem(slot, null);
-        }
-        GauntletProfile profile = profile(player);
-        for (GauntletData.Gear gear : data().gear().values()) {
-            GauntletData.GearLevel level = data().level(profile.level(gear.id()));
-            if (!profile.owns(gear.id()) || level == null) continue;
-            ItemStack item = GauntletGear.build(registry(), gear, level);
-            EquipmentSlot slot = item.getType().getEquipmentSlot();
-            if (slot.isArmor()) inventory.setItem(slot, item);
-            else if (item.getType() == Material.SHIELD) inventory.setItemInOffHand(item);
-            else inventory.addItem(item);
-        }
-        player.updateInventory();
+        if (setup != null) setup.restore(player);
     }
 
     // Null if it worked, otherwise why not
@@ -421,10 +424,15 @@ public class GauntletManager implements Listener {
         diedHere.add(player.getUniqueId());
     }
 
+    // Back in the lobby with their setup as they left it, whatever the fight used up
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onRespawn(PlayerRespawnEvent event) {
-        if (!diedHere.remove(event.getPlayer().getUniqueId())) return;
+        Player player = event.getPlayer();
+        if (!diedHere.remove(player.getUniqueId())) return;
         Location lobby = arena.lobby();
         if (lobby != null) event.setRespawnLocation(lobby);
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            if (player.isOnline() && isHere(player)) giveKit(player);
+        });
     }
 }

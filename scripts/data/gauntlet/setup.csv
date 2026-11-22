@@ -1,0 +1,12 @@
+id,name,item,amount,max,shards,cores,description
+quiver,Quiver,ARROW,16,4,120,0,16 arrows a level
+golden_apples,Golden Apples,GOLDEN_APPLE,1,3,400,0,A golden apple a level
+healing,Splash Healing,SPLASH_POTION@HEALING,1,3,300,0,A splash potion of healing a level
+swiftness,Swiftness,POTION@SWIFTNESS,1,2,500,0,A potion of swiftness a level
+pearls,Ender Pearls,ENDER_PEARL,2,2,600,0,2 ender pearls a level
+strength,Strength,POTION@STRENGTH,1,2,900,1,A potion of strength a level
+regeneration,Regeneration,POTION@REGENERATION,1,2,900,1,A potion of regeneration a level
+elytra,Elytra,ELYTRA,1,1,3000,2,Glide over the arena; swap it with your chestplate
+rockets,Firework Rockets,FIREWORK_ROCKET,4,3,700,0,4 rockets a level to fly with the elytra
+totem,Totem of Undying,TOTEM_OF_UNDYING,1,1,5000,3,Cheat death once a run
+enchanted_apple,Enchanted Golden Apple,ENCHANTED_GOLDEN_APPLE,1,1,8000,4,One enchanted golden apple a run

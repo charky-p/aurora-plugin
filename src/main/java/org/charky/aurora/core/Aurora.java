@@ -94,6 +94,7 @@ import org.charky.aurora.features.gauntlet.ForgeMenu;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.gauntlet.GauntletRuns;
+import org.charky.aurora.features.gauntlet.GauntletSetup;
 import org.charky.aurora.features.quest.QuestManager;
 import org.charky.aurora.features.tutorial.TutorialCommand;
 import org.charky.aurora.features.tutorial.TutorialManager;
@@ -155,6 +156,7 @@ public class Aurora extends JavaPlugin {
     private QuestManager questManager;
     private GauntletManager gauntletManager;
     private GauntletRuns gauntletRuns;
+    private GauntletSetup gauntletSetup;
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
@@ -310,10 +312,13 @@ public class Aurora extends JavaPlugin {
     // variants of the ones in mobs/gauntlet.yml, made when first asked for
     private void createGauntlet() {
         registry.setMobVariants(id -> registry.getGauntlet().variant(id, registry::getMob));
-        this.gauntletManager = new GauntletManager(this, db, new GauntletStore(db), players, scoreboard,
+        GauntletStore gauntletStore = new GauntletStore(db);
+        this.gauntletManager = new GauntletManager(this, db, gauntletStore, players, scoreboard,
                 cosmeticManager, buildManager);
         this.gauntletRuns = new GauntletRuns(this, gauntletManager, spawnerManager);
         gauntletManager.setRuns(gauntletRuns);
+        this.gauntletSetup = new GauntletSetup(this, db, gauntletStore, gauntletManager);
+        gauntletManager.setSetup(gauntletSetup);
         gauntletManager.start();
         gauntletRuns.start();
     }
@@ -425,6 +430,7 @@ public class Aurora extends JavaPlugin {
                 questManager,
                 gauntletManager,
                 gauntletRuns,
+                gauntletSetup,
                 accessManager,
                 buildManager,
                 safeZoneManager,

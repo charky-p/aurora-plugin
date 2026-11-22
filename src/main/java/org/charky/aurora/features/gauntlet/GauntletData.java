@@ -21,7 +21,8 @@ import java.util.logging.Level;
 // and what each level of it costs, the boons, the care package levels and the
 // milestones. Floor and gear numbers come from scripts/balance/gauntlet_balance.py
 public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<GearLevel> levels,
-                           Map<String, Boon> boons, List<CareLevel> care, List<Milestone> milestones) {
+                           Map<String, Boon> boons, List<CareLevel> care, List<Milestone> milestones,
+                           Map<String, SetupItem> setup) {
     private static final String FILE = "gauntlet.yml";
     // Past the last floor in the file it repeats, every mob this much tougher a floor
     // and ATTACK_PER_FLOOR attack levels stronger (gauntlet_balance.py)
@@ -78,8 +79,21 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     public record Milestone(int floor, int essence, String cosmetic) {
     }
 
+    // A starting kit item, bought a level at a time for good: amount a level, handed
+    // out at the start of every run. Level n costs n times shards and cores
+    public record SetupItem(String id, String name, String item, int amount, int max, int shards, int cores,
+                            String description) {
+        public int shardsFor(int level) {
+            return shards * level;
+        }
+
+        public int coresFor(int level) {
+            return cores * level;
+        }
+    }
+
     public static GauntletData empty() {
-        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of());
+        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of());
     }
 
     // Empty when the file is missing or broken, the gauntlet then refuses to start
@@ -145,7 +159,13 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                 milestones.add(new Milestone(num(row.get("floor")).intValue(), num(row.get("essence")).intValue(),
                         str(row.get("cosmetic"))));
             }
-            return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care), List.copyOf(milestones));
+            Map<String, SetupItem> setup = new LinkedHashMap<>();
+            ((Map<String, Map<String, Object>>) root.getOrDefault("setup", Map.of())).forEach((id, row) ->
+                    setup.put(id, new SetupItem(id, str(row.get("name")), str(row.get("item")), num(row.get("amount")).intValue(),
+                            num(row.get("max")).intValue(), num(row.get("shards")).intValue(), num(row.get("cores")).intValue(),
+                            str(row.get("description")))));
+            return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care),
+                    List.copyOf(milestones), setup);
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load " + FILE, e);
             return empty();

@@ -158,6 +158,7 @@ public class GauntletRuns implements Listener {
         arena.paste(slot);
 
         player.closeInventory();
+        // The run starts with the setup from the lobby
         manager.giveKit(player);
         heal(player);
         player.teleport(arena.inSlot(slot, arena.place(GauntletArena.SPAWN)));

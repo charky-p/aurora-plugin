@@ -65,7 +65,8 @@ public class ResetSub implements AuroraSubCommand {
         plugin.getToolManager().reset(target);
         if (all) {
             StarterKit.give(target, plugin.getRegistry());
-            // As on a first join, so the tutorial plays again
+            // As on a first join, so the tutorial plays again, and the questline after it
+            plugin.getQuestManager().reset(target);
             plugin.getTutorialManager().begin(target);
         }
         TextUtils.success(sender, "Reset " + target.getName() + (all ? " to a fresh start" : "'s tools"));

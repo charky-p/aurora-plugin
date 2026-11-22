@@ -15,6 +15,7 @@ import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.database.AccessStore;
 import org.charky.aurora.core.database.BuildStore;
 import org.charky.aurora.core.database.PadStore;
+import org.charky.aurora.core.database.QuestStore;
 import org.charky.aurora.core.database.SafeZoneStore;
 import org.charky.aurora.core.database.BackpackStore;
 import org.charky.aurora.core.database.CollectionStore;
@@ -88,6 +89,7 @@ import org.charky.aurora.features.spawner.SpawnerManager;
 import org.charky.aurora.features.suggestion.SuggestCommand;
 import org.charky.aurora.features.suggestion.SuggestionManager;
 import org.charky.aurora.features.system.SpawnListener;
+import org.charky.aurora.features.quest.QuestManager;
 import org.charky.aurora.features.tutorial.TutorialCommand;
 import org.charky.aurora.features.tutorial.TutorialManager;
 import org.charky.aurora.features.system.WandListener;
@@ -145,6 +147,7 @@ public class Aurora extends JavaPlugin {
     private PerkManager perkManager;
     private CosmeticManager cosmeticManager;
     private TutorialManager tutorialManager;
+    private QuestManager questManager;
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
@@ -172,6 +175,7 @@ public class Aurora extends JavaPlugin {
         createPlayerSystems();
         createProgression();
         createWorldSystems();
+        createQuests();
         createLoadouts();
         registerMenuActions();
         registerCommands();
@@ -262,8 +266,6 @@ public class Aurora extends JavaPlugin {
         this.accessManager = new AccessManager(db, new AccessStore(db), registry);
         this.tutorialManager = new TutorialManager(this, db, new TutorialStore(db), players, scoreboard, cosmeticManager);
         backpackManager.setOnOpen(tutorialManager::openedBackpack);
-        upgradeShop.setOnOpened(tutorialManager::openedUpgrades);
-        upgradeShop.setOnBought(tutorialManager::bought);
     }
 
     // What is placed in the worlds: mines, spawners, bosses, traders, portals, build and safe zones
@@ -280,10 +282,26 @@ public class Aurora extends JavaPlugin {
         this.fishingManager = new FishingManager(registry, db, new FishingStore(db), backpackManager, collectionManager);
     }
 
+    // The Origin Isles questline after the tutorial, it walks players to the traders
+    private void createQuests() {
+        this.questManager = new QuestManager(this, db, new QuestStore(db), players, scoreboard, cosmeticManager,
+                upgradeShop, traderManager, tutorialManager);
+        tutorialManager.setOnEnd(questManager::begin);
+        upgradeShop.setOnOpened((player, zoneId) -> {
+            tutorialManager.openedUpgrades(player, zoneId);
+            questManager.openedUpgrades(player, zoneId);
+        });
+        upgradeShop.setOnBought((player, zoneId) -> {
+            tutorialManager.bought(player, zoneId);
+            questManager.bought(player, zoneId);
+        });
+        questManager.start();
+    }
+
     // The main and experimental loadouts, after everything that keeps per-player data
     private void createLoadouts() {
         List<LoadoutData> holders = List.of(backpackManager, toolManager, rankManager, cosmeticManager,
-                perkManager, collectionManager, armoryManager, accessManager, tutorialManager, fishingManager);
+                perkManager, collectionManager, armoryManager, accessManager, tutorialManager, questManager, fishingManager);
         this.loadoutManager = new LoadoutManager(registry, db, new LoadoutStore(db), players, buildManager,
                 toolManager, holders, player -> {
                     scoreboard.setupBoard(player);
@@ -376,6 +394,7 @@ public class Aurora extends JavaPlugin {
                 new WandListener(this),
                 new SpawnListener(this),
                 tutorialManager,
+                questManager,
                 accessManager,
                 buildManager,
                 safeZoneManager,
@@ -502,6 +521,10 @@ public class Aurora extends JavaPlugin {
         return accessManager;
     }
 
+    public QuestManager getQuestManager() {
+        return questManager;
+    }
+
     public TutorialManager getTutorialManager() {
         return tutorialManager;
     }
@@ -578,6 +601,7 @@ public class Aurora extends JavaPlugin {
         if (rankManager != null) rankManager.shutdown();
         if (cosmeticManager != null) cosmeticManager.shutdown();
         if (tutorialManager != null) tutorialManager.shutdown();
+        if (questManager != null) questManager.shutdown();
         if (mountManager != null) mountManager.shutdown();
         if (collectionManager != null) collectionManager.shutdown();
 

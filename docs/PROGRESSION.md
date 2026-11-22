@@ -151,6 +151,7 @@ The zones add up to about 10.5 hours of real play.
 - **Essence Trader.** There is one, placed by hand in the last released zone and moved there with each release: the endless source of Essence, and the only place Essence is farmed. It opens for a player who has maxed every released zone and buys the last released zone's resources alone, one at a time or everything at once (a second click to confirm), priced so farming that zone pays about 100 Essence a minute at endgame strength (`scripts/balance/essence_values.py`, the `essence` column of `resources.csv`). Every other resource is worth nothing to it.
 - **Mounts.** Right click a mount's saddle to ride it, shift to get off and it vanishes. The horse and happy ghast steer the vanilla way, the pig and chicken follow where you look.
 - **Tutorial.** A new player starts by the Cobblestone Quarry and is walked through mining 10 cobblestone, the backpack, the trader and a first upgrade. It pays 50 Essence and the Newcomer suffix, and can be skipped.
+- **Origin Isles questline.** After the tutorial a boss bar leads the player zone by zone: max out the zone, then follow a particle trail to the next zone's trader, and after the Gold Reef to the Dunesworld Gate. 25 Essence a maxed zone, 100 and the Islander suffix at the gate. Players past the tutorial before it existed join at their first zone not maxed.
 
 ## 5. Switched off for now
 

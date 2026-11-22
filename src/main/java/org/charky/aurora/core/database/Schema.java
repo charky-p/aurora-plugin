@@ -137,6 +137,11 @@ public final class Schema {
                     "uuid TEXT PRIMARY KEY, " +
                     "step TEXT)",
 
+            // Where each player is in the Origin Isles questline, "done" once finished
+            "CREATE TABLE IF NOT EXISTS quest (" +
+                    "uuid TEXT PRIMARY KEY, " +
+                    "step TEXT)",
+
             // Named spots that belong to no world's spawn, like where the tutorial starts
             "CREATE TABLE IF NOT EXISTS locations (" +
                     "name TEXT PRIMARY KEY, " +

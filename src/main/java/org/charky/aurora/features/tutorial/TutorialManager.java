@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 // The first-join tutorial: a new player starts by the Cobblestone Quarry and is walked
 // through mining, the backpack, the trader and a first upgrade. The step shows in a
@@ -47,6 +48,8 @@ public class TutorialManager implements Listener, LoadoutData {
     private final Map<UUID, Integer> progress = new HashMap<>();
     private final Map<UUID, BossBar> bars = new HashMap<>();
     private Location start;
+    // Told when a player leaves the tutorial, finished or skipped. The questline starts then
+    private Consumer<Player> onEnd = player -> {};
 
     public TutorialManager(Aurora plugin, Database db, TutorialStore store, PlayerManager players,
                            ScoreboardManager scoreboard, CosmeticManager cosmetics) {
@@ -64,6 +67,10 @@ public class TutorialManager implements Listener, LoadoutData {
     private static TutorialStep stepOr(String name) {
         TutorialStep step = TutorialStep.of(name);
         return step != null ? step : TutorialStep.values()[0];
+    }
+
+    public void setOnEnd(Consumer<Player> onEnd) {
+        this.onEnd = onEnd;
     }
 
     public boolean isIn(Player player) {
@@ -131,6 +138,7 @@ public class TutorialManager implements Listener, LoadoutData {
         if (!isIn(player)) return false;
         end(player);
         player.sendMessage(TextUtils.parse("<gray>Tutorial skipped. <white>/a</white> opens the menu, How to Play explains the rest."));
+        onEnd.accept(player);
         return true;
     }
 
@@ -195,11 +203,11 @@ public class TutorialManager implements Listener, LoadoutData {
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7f, 1f);
         player.sendMessage(TextUtils.parse(""));
         player.sendMessage(TextUtils.parse("<gradient:#7F7FD5:#91EAE4><b>TUTORIAL COMPLETE</b></gradient>"));
-        player.sendMessage(TextUtils.parse("<yellow>» <gray>Keep mining and upgrading here, the Coal Mine comes next."));
         player.sendMessage(TextUtils.parse("<yellow>» <white>/a <gray>opens the menu, with gear, collections and more."));
         player.sendMessage(TextUtils.parse("<yellow>» <white>/spawn <gray>takes you to the main spawn."));
         player.sendMessage(TextUtils.parse("<yellow>» <gray>Wear your new suffix in <white>/customise<gray>."));
         player.sendMessage(TextUtils.parse(""));
+        onEnd.accept(player);
     }
 
     // Out of the tutorial, rewarded or not

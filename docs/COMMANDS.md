@@ -185,6 +185,8 @@ Fishing is a side quest apart from the zones: one spot a realm (`scripts/data/fi
 
 A new player's first join hands out the starter tools, the backpack and a stack of bread, and starts the tutorial at the spot set with `setstart`, instead of the main spawn. A boss bar at the top shows the step, and a chat line says what to do: mine 10 cobblestone, open the backpack, click a trader, buy an upgrade. Each step ends by itself. Finishing pays 50 Essence and the `NEWCOMER` suffix. A player who leaves mid-way comes back to the start of the step they were on. Players who joined before it existed never get it.
 
+**Origin Isles questline.** When the tutorial ends, finished or skipped, a second boss bar takes over and walks the player through Origin Isles: buy every upgrade at a zone (the bar counts them), then follow a trail of aqua dots to the next zone's trader, which ends when they come within 6 blocks of it or open its upgrades. After the Gold Reef the trail leads to the Dunesworld Gate. Each maxed zone pays 25 Essence; reaching the gate pays 100 and the `ISLANDER` suffix. Players already past the tutorial pick it up on their next join at the first Origin Isles zone they have not maxed; those who maxed them all never get it. The trail needs the trader placed in the player's world. `/a reset <player> all` starts it over after the tutorial; `/a tutorial start` does not, and a finished questline is never paid twice.
+
 | Command | Does |
 |---|---|
 | `/a tutorial setstart` | New players start the tutorial where you stand |

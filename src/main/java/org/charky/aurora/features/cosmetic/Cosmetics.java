@@ -78,6 +78,7 @@ public final class Cosmetics {
         suffix("new", "<gray>[<dark_gray>NEW<gray>]", Source.DEFAULT, 0, "Yours from your first join");
         suffix("afk", "<gray>[<dark_gray>AFK<gray>]", Source.DEFAULT, 0, "For when you step away");
         suffix("newcomer", "<gray>[<green>NEWCOMER<gray>]", Source.GRANT, 0, "Finish the tutorial");
+        suffix("islander", "<gray>[<aqua>ISLANDER<gray>]", Source.GRANT, 0, "Finish the Origin Isles quest");
         suffix("regular", "<gray>[<dark_gray>REGULAR<gray>]", Source.PLAYTIME, 10 * HOUR, null);
         suffix("devoted", "<gray>[<white>DEVOTED<gray>]", Source.PLAYTIME, 50 * HOUR, null);
         suffix("veteran", "<gray>[<dark_gray>VETERAN<gray>]", Source.PLAYTIME, 100 * HOUR, null);

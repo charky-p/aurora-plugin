@@ -73,7 +73,7 @@ public class ForgeMenu extends PagedMenu {
         }
         ItemStack shown = item;
         shown.editMeta(meta -> {
-            meta.displayName(TextUtils.parse("<!italic><white><b>" + piece.name() + (owned ? " <gray>+" + level : "")));
+            meta.displayName(TextUtils.parse("<!italic><white><b>" + piece.name() + (owned ? " <gray>(" + level + ")" : "")));
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.lore(lore);
         });

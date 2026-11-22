@@ -32,8 +32,7 @@ public class GauntletCommand implements TabExecutor {
             case "boon" -> runs.openBoons(player);
             case "leave" -> {
                 if (!manager.isHere(player)) yield "You are not in the Gauntlet";
-                manager.leave(player);
-                yield null;
+                yield manager.pvp().leave(player, true);
             }
             default -> open(manager, runs, player);
         };

@@ -117,7 +117,10 @@ public class GauntletMenu extends PagedMenu {
             case KIT -> new SetupMenu(manager, runs).open(player);
             case LEAVE -> {
                 player.closeInventory();
-                manager.leave(player);
+                // From the PvP zone only after its countdown
+                String problem = manager.pvp() == null ? null : manager.pvp().leave(player, true);
+                if (manager.pvp() == null) manager.leave(player);
+                if (problem != null) TextUtils.error(player, problem);
             }
             default -> {
             }

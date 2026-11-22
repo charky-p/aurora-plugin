@@ -93,6 +93,7 @@ import org.charky.aurora.features.system.SpawnListener;
 import org.charky.aurora.features.gauntlet.ForgeMenu;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletManager;
+import org.charky.aurora.features.gauntlet.GauntletPvp;
 import org.charky.aurora.features.gauntlet.GauntletRuns;
 import org.charky.aurora.features.gauntlet.GauntletSetup;
 import org.charky.aurora.features.quest.QuestManager;
@@ -157,6 +158,7 @@ public class Aurora extends JavaPlugin {
     private GauntletManager gauntletManager;
     private GauntletRuns gauntletRuns;
     private GauntletSetup gauntletSetup;
+    private GauntletPvp gauntletPvp;
     private AccessManager accessManager;
     private BuildManager buildManager;
     private DashListener dashListener;
@@ -319,6 +321,8 @@ public class Aurora extends JavaPlugin {
         gauntletManager.setRuns(gauntletRuns);
         this.gauntletSetup = new GauntletSetup(this, db, gauntletStore, gauntletManager);
         gauntletManager.setSetup(gauntletSetup);
+        this.gauntletPvp = new GauntletPvp(this, gauntletManager);
+        gauntletManager.setPvp(gauntletPvp);
         gauntletManager.start();
         gauntletRuns.start();
     }
@@ -431,6 +435,7 @@ public class Aurora extends JavaPlugin {
                 gauntletManager,
                 gauntletRuns,
                 gauntletSetup,
+                gauntletPvp,
                 accessManager,
                 buildManager,
                 safeZoneManager,

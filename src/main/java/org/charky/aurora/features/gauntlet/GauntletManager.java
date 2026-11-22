@@ -65,6 +65,7 @@ public class GauntletManager implements Listener {
     private final Set<UUID> diedHere = new HashSet<>();
     private GauntletRuns runs;
     private GauntletSetup setup;
+    private GauntletPvp pvp;
     private BukkitTask sweep;
 
     public GauntletManager(Aurora plugin, Database db, GauntletStore store, PlayerManager players,
@@ -90,6 +91,14 @@ public class GauntletManager implements Listener {
 
     public GauntletSetup setup() {
         return setup;
+    }
+
+    public void setPvp(GauntletPvp pvp) {
+        this.pvp = pvp;
+    }
+
+    public GauntletPvp pvp() {
+        return pvp;
     }
 
     public boolean inRun(Player player) {
@@ -312,7 +321,7 @@ public class GauntletManager implements Listener {
         profile.cores -= next.cores();
         setLevel(player.getUniqueId(), profile, gearId, next.level());
         save(player.getUniqueId());
-        afterPurchase(player, "<green>" + gear.name() + " upgraded to <white>+" + next.level());
+        afterPurchase(player, "<green>" + gear.name() + " upgraded to <white>(" + next.level() + ")");
         return null;
     }
 

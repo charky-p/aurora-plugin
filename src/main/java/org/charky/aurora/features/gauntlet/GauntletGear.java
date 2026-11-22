@@ -30,7 +30,7 @@ public final class GauntletGear {
         GearModel model = new GearModel();
         String look = material == null ? "" : Character.toUpperCase(material.charAt(0)) + material.substring(1).toLowerCase() + " ";
         if ("Golden ".equals(look) && !gear.armor()) look = "Gold ";
-        model.display = "<white><b>" + look + gear.name() + " <gray>+" + level.level();
+        model.display = "<white><b>" + look + gear.name() + " <gray>(" + level.level() + ")";
         model.material = material == null ? gear.item() : material + "_" + gear.item();
         if (Material.matchMaterial(model.material) == null) model.material = gear.item();
         model.type = gear.armor() || gear.kind().equals("shield") ? "armor" : "combat";

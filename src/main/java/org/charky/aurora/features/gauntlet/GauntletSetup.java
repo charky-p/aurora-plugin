@@ -247,7 +247,8 @@ public class GauntletSetup implements Listener {
 
     // ---- The PvP zone ----
 
-    @EventHandler(ignoreCancelled = true)
+    // Last, after GauntletPvp has held anyone walking out of the zone back in it
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent event) {
         if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockY() == event.getTo().getBlockY()
                 && event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
@@ -259,7 +260,7 @@ public class GauntletSetup implements Listener {
         checkPvp(event.getPlayer(), event.getTo());
     }
 
-    // Walking out of the PvP zone puts the setup back as it was in the lobby
+    // Leaving the PvP zone (by /spawn's countdown, or dying) puts the setup back as it was in the lobby
     private void checkPvp(Player player, Location to) {
         if (!manager.isHere(player) || manager.inRun(player)) {
             inPvp.remove(player.getUniqueId());

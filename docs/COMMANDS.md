@@ -202,7 +202,7 @@ A tower mode in a world of its own (`scripts/data/gauntlet/`, see [PROGRESSION.m
 1. `/a gauntlet lobby` where players arrive. Its world becomes the Gauntlet's world, never the main world.
 2. `/a wand`, select the arena, `/a gauntlet arena`. It is saved as a template (`plugins/Aurora/gauntlet_arena.nbt`); every run pastes its own copy 1,000 blocks further along z, so keep that strip of the world empty. Saving it again replaces the template.
 3. Inside the arena you saved: `/a gauntlet spawn` (where players start), `/a gauntlet mobspawn` a few times (where mobs come in), `/a gauntlet package` (where care packages land).
-4. Select the PvP area with the wand, `/a gauntlet pvp`. Players can only hurt each other inside it, and never during a run. Players walk in; build it beside the lobby, or link them with a portal (`/a portal create` and `setdest`).
+4. Select the PvP area with the wand, `/a gauntlet pvp`. Players can only hurt each other inside it, and never during a run. Players walk in; build it beside the lobby, or link them with a portal (`/a portal create` and `setdest`). Nobody walks or pearls out: `/spawn` leaves after 5 seconds, and logging out inside counts as dying.
 5. In the lobby, `/a trader create gauntlet_forge`: the Gauntlet Forge opens the forge, the same as Forge in the `/gauntlet` menu.
 6. `/a gauntlet status` says what is missing.
 

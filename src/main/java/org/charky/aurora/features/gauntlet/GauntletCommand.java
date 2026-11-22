@@ -98,7 +98,8 @@ public class GauntletCommand implements TabExecutor {
         };
     }
 
-    // /gauntlet party: its menu, or invite <player>, accept, decline, leave, kick <player>, list
+    // /gauntlet party: its menu, or invite <player>, accept, decline, leave, kick <player>, open (to
+    // anyone, or closed again), join <leader> (an open party), list
     private String party(Player player, String[] args) {
         GauntletParty party = manager.party();
         if (args.length < 2) {
@@ -112,11 +113,13 @@ public class GauntletCommand implements TabExecutor {
             case "decline" -> party.decline(player);
             case "leave" -> party.leave(player);
             case "kick" -> args.length < 3 ? "/gauntlet party kick <player>" : party.kick(player, Bukkit.getPlayerExact(args[2]));
+            case "open" -> party.toggleOpen(player);
+            case "join" -> args.length < 3 ? "/gauntlet party join <leader>" : party.join(player, Bukkit.getPlayerExact(args[2]));
             case "list" -> {
                 party.list(player);
                 yield null;
             }
-            default -> "/gauntlet party invite <player>, accept, decline, leave, kick <player> or list";
+            default -> "/gauntlet party invite <player>, accept, decline, leave, kick <player>, open, join <leader> or list";
         };
     }
 
@@ -141,7 +144,10 @@ public class GauntletCommand implements TabExecutor {
             return TextUtils.getCompletions(args[1], options);
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("party")) {
-            return TextUtils.getCompletions(args[1], List.of("invite", "accept", "decline", "leave", "kick", "list"));
+            return TextUtils.getCompletions(args[1], List.of("invite", "accept", "decline", "leave", "kick", "open", "join", "list"));
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("party") && args[1].equalsIgnoreCase("join")) {
+            return TextUtils.getCompletions(args[2], manager.party().openLeaders().stream().map(Player::getName).toList());
         }
         if (args.length == 3 && args[0].equalsIgnoreCase("party")
                 && (args[1].equalsIgnoreCase("invite") || args[1].equalsIgnoreCase("kick"))) {

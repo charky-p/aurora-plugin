@@ -10,6 +10,7 @@ import org.charky.aurora.common.util.TextUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,6 +28,8 @@ public class GauntletParty implements Listener {
     private static final class Party {
         UUID leader;
         final List<UUID> members = new ArrayList<>();
+        // Anyone in the Gauntlet can join, no invite needed
+        boolean open;
 
         Party(UUID leader) {
             this.leader = leader;
@@ -104,11 +107,76 @@ public class GauntletParty implements Listener {
         Party party = byMember.computeIfAbsent(leader.getUniqueId(), Party::new);
         if (!party.leader.equals(leader.getUniqueId())) return "They are not leading a party any more";
         if (party.members.size() >= max()) return "The party is full";
-        party.members.add(target.getUniqueId());
-        byMember.put(target.getUniqueId(), party);
-        tell(party, "<aqua><b>PARTY</b> <white>" + target.getName() + " <gray>joined (" + party.members.size() + "/" + max() + ")");
+        add(party, target);
+        return null;
+    }
+
+    // Straight into an open party, no invite needed. Null if it worked, otherwise why not
+    public String join(Player player, Player leader) {
+        if (leader == null) return "That player is not online";
+        if (inParty(player)) return "You are already in a party";
+        if (!manager.isHere(player)) return "You are not in the Gauntlet";
+        Party party = byMember.get(leader.getUniqueId());
+        if (party == null || !party.open || !party.leader.equals(leader.getUniqueId())) return leader.getName() + " has no open party";
+        if (party.members.size() >= max()) return "The party is full";
+        invites.remove(player.getUniqueId());
+        add(party, player);
+        return null;
+    }
+
+    private void add(Party party, Player player) {
+        party.members.add(player.getUniqueId());
+        byMember.put(player.getUniqueId(), party);
+        tell(party, "<aqua><b>PARTY</b> <white>" + player.getName() + " <gray>joined (" + party.members.size() + "/" + max() + ")");
+        refresh(party);
+    }
+
+    // Opens the player's party to anyone in the Gauntlet, telling everyone there, or closes
+    // it to invites only. Someone in no party opens one of their own. Null if it worked,
+    // otherwise why not
+    public String toggleOpen(Player player) {
+        if (!manager.isHere(player)) return "You are not in the Gauntlet";
+        Party party = byMember.get(player.getUniqueId());
+        if (party != null && !party.leader.equals(player.getUniqueId())) return "Only the party leader can open or close it";
+        if (party == null) {
+            party = new Party(player.getUniqueId());
+            byMember.put(player.getUniqueId(), party);
+        }
+        party.open = !party.open;
+        if (party.open) {
+            String call = "<aqua><b>PARTY</b> <white>" + player.getName() + " <gray>is looking for players (" + party.members.size() + "/"
+                    + max() + "): <click:run_command:'/gauntlet party join " + player.getName() + "'><hover:show_text:'<gray>Join "
+                    + player.getName() + "'s party'><green><b>[JOIN]</b></hover></click>";
+            for (Player other : player.getWorld().getPlayers()) if (!party.members.contains(other.getUniqueId())) TextUtils.send(other, call);
+            tell(party, "<gray>Your party is open, anyone in the Gauntlet can join");
+        } else {
+            tell(party, "<gray>Your party is closed, invites only");
+            // A party of one closed again is no party
+            if (party.members.size() == 1) byMember.remove(player.getUniqueId());
+        }
         refresh(party);
         return null;
+    }
+
+    public boolean isOpen(Player player) {
+        Party party = byMember.get(player.getUniqueId());
+        return party != null && party.open;
+    }
+
+    // The leaders of open parties with room, online
+    public List<Player> openLeaders() {
+        List<Player> leaders = new ArrayList<>();
+        for (Party party : new HashSet<>(byMember.values())) {
+            Player leader = Bukkit.getPlayer(party.leader);
+            if (party.open && party.members.size() < max() && leader != null) leaders.add(leader);
+        }
+        return leaders;
+    }
+
+    // How many a player's party has, 1 outside one
+    public int size(Player player) {
+        Party party = byMember.get(player.getUniqueId());
+        return party == null ? 1 : party.members.size();
     }
 
     public String decline(Player target) {
@@ -159,7 +227,8 @@ public class GauntletParty implements Listener {
         }
         List<String> names = new ArrayList<>();
         for (UUID id : party.members) names.add((id.equals(party.leader) ? "<gold>★ " : "<white>") + GauntletManager.nameOf(id));
-        TextUtils.send(player, "<aqua><b>PARTY</b> <gray>(" + party.members.size() + "/" + max() + ") " + String.join("<gray>, ", names));
+        TextUtils.send(player, "<aqua><b>PARTY</b> <gray>(" + party.members.size() + "/" + max() + ")" + (party.open ? " <green>open" : "")
+                + " " + String.join("<gray>, ", names));
     }
 
     private void refresh(Party party) {

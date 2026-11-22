@@ -38,8 +38,23 @@ public class PartyMenu extends PagedMenu {
             items.add(button(Material.GRAY_DYE, "<red><b>Decline the invite", List.of("<gray>Click to decline")));
             clicks.add(() -> party.decline(player));
         }
+        if (!party.inParty(player)) {
+            for (Player leader : party.openLeaders()) {
+                if (leader.equals(player)) continue;
+                items.add(head(leader, "<white>" + leader.getName() + "'s party <gray>(" + party.size(leader) + "/" + party.max() + ")",
+                        List.of("<green>Open to anyone", "<yellow>Click to join")));
+                clicks.add(() -> party.join(player, leader));
+            }
+        }
         boolean leader = party.isLeader(player);
         List<Player> team = party.team(player);
+        if (leader) {
+            boolean open = party.isOpen(player);
+            items.add(button(open ? Material.OAK_FENCE_GATE : Material.LIME_DYE, open ? "<red><b>Close the party" : "<green><b>Open the party",
+                    List.of("<gray>Anyone in the Gauntlet can join", "<gray>an open party, no invite needed.", "",
+                            open ? "<yellow>Click to close it" : "<yellow>Click to open it and tell everyone")));
+            clicks.add(() -> party.toggleOpen(player));
+        }
         if (party.inParty(player)) {
             for (Player member : team) {
                 boolean leads = member.equals(team.getFirst());

@@ -74,6 +74,8 @@ Only builders and admins can go to a build world, by any teleport or portal, and
 
 PvP is on everywhere except in safe zones. A hit is stopped when either player stands in one, so nobody can hit from inside one. Dying to another player costs nothing: the inventory, levels and XP are all kept.
 
+**No farming.** Kill the same player 3 times in a row and you can't hurt them for 5 minutes. Killing anyone else, or being killed by them, starts the count again.
+
 | Command | Does |
 |---|---|
 | `/a safezone create <name>` | A safe zone from the wand selection |

@@ -113,6 +113,7 @@ import org.charky.aurora.features.moderation.StaffPermissions;
 import org.charky.aurora.features.moderation.ModerationManager;
 import org.charky.aurora.features.moderation.ModerationCommand;
 import org.charky.aurora.core.database.PunishmentStore;
+import org.charky.aurora.features.pvp.KillStreakListener;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -378,6 +379,7 @@ public class Aurora extends JavaPlugin {
                 accessManager,
                 buildManager,
                 safeZoneManager,
+                new KillStreakListener(),
                 padManager,
                 fishingManager,
                 staffPermissions,

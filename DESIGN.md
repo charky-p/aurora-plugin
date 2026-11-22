@@ -187,22 +187,16 @@ so the multiplier is 1, 2, 3.5, 5.5, 8, 11 ... for L = 0, 1, 2, 3, 4, 5. A block
 
 Rare drops (a drop under 100% chance in `blocks.csv`, or a `choices` pool under 100%) grow with the cube root of that multiplier instead, and the part after the point is a chance of one more. At L = 20 a common 5-9 becomes 580-1,044 while a rare 1-2 becomes 5-10 and a rare 1 becomes 4-5.
 
-Looting is the same for mobs: drops are multiplied by the curve with L = the Looting level (mobs have no density), rare drops by its cube root, gear and keys never (`common/loot/Looting.java`, `mob_income` in `scripts/balance/price_zones.py`). At Looting 8 a common 1-3 becomes 23-69 and a rare 1-2 becomes 3-6. Fortune adds up across realms: Origin, Gormak and Verdant Groves each give their own levels and the tool has the sum. The branches specialise so the sum stays sane: Gormak sells the sword, armour and shield with a little pick, Verdant Groves the pick and axe with a little combat, and prices assume both are kept level (`docs/PROGRESSION.md`). The formula lives in `common/loot/Fortune.java` (Java) and `fortune()` in `scripts/price_calculator.py` (prices), keep the two the same.
+Looting is the same for mobs: drops are multiplied by the curve with L = the Looting level (mobs have no density), rare drops by its cube root, gear and keys never (`common/loot/Looting.java`, `mob_income` in `scripts/balance/price_zones.py`). At Looting 8 a common 1-3 becomes 23-69 and a rare 1-2 becomes 3-6. Fortune adds up across realms: Origin, Gormak and Verdant Groves each give their own levels and the tool has the sum. What each zone's shop sells and how side-by-side regions are priced is in `docs/PROGRESSION.md`. The formula lives in `common/loot/Fortune.java` (Java) and `fortune()` in `scripts/price_calculator.py` (prices), keep the two the same.
 
 XP per block: items dropped x the block's `xp` in `scripts/data/world/blocks.csv`, so Fortune raises XP too. Every block of a zone has the same `xp`.
-
-## TODO, switched off until finished
-
-Built, but not registered in `core/Aurora.java`, so not reachable in game:
-
-- The gauntlet (`/gauntlet`)
 
 ## TODO, from the legacy Skript
 
 Not built yet, see `legacy/skript/` for how each one used to work.
 
 - `/vault` (`command.sk`): personal 6 row chests that keep items between sessions
-- Arachne's abilities (`mobarachne.sk`): a skeleton rider, cobweb traps, invisibility. Arachne herself is in Emerald Peaks
+- Arachne's other abilities (`mobarachne.sk`): cobweb traps, invisibility. She already wakes with her skeleton rider, in Emerald Peaks
 - The Pillager Captain's abilities (`mobpillager.sk`): arrow volleys, berserk. The Captain and the Quarry Ravager are in the Ironbound Quarry
 - Talking NPCs (`npc.sk`): timed dialogue lines
 - From `test.sk`: wheat farming with regrowth, Restock bows, a Haste enchant

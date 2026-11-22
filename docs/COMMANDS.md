@@ -10,7 +10,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 
 | Command | Does |
 |---|---|
-| `/a`, `/aurora` | Open the Aurora menu: How to Play, backpack, collections, customise, the Essence shop, warps (supporters only: a donor or staff rank), spawn and the leaderboard |
+| `/a`, `/aurora` | Open the Aurora menu: How to Play, backpack, collections, customise, the Essence shop, warps (supporters only: a donor or staff rank), spawn, the Gauntlet and the leaderboard |
 | `/backpack`, `/bp` | Open your backpack |
 | `/customise`, `/customize`, `/cosmetics` | Choose how you look: rank, suffixes, chat and name colour, join and death message, trail, kill effect, the trim on your armour, and the look of your tools and armour (any material you have bought, wood to gold; Best Owned shows the newest). A look changes only how it shows: a tool digs at its best material's speed. Cosmetics are bought here with Essence |
 | `/ranks`, `/rank` | Choose the rank shown by your name, from the ones you have unlocked |
@@ -27,7 +27,7 @@ Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own positio
 
 **In chat.** `[item]` or `\item` in a message shows the item in your hand, hover it to read it. `[inv]` or `\inv` adds a link anyone can click to look at your inventory as it was when you sent it; the link works for 10 minutes.
 
-Fishing is switched off until it is finished, see [PROGRESSION.md](PROGRESSION.md). Selling donor ranks and cosmetics through a store is in [STORE.md](STORE.md).
+How the game progresses is in [PROGRESSION.md](PROGRESSION.md). Selling donor ranks and cosmetics through a store is in [STORE.md](STORE.md).
 
 ## Building a region, in order
 
@@ -47,7 +47,7 @@ Fishing is switched off until it is finished, see [PROGRESSION.md](PROGRESSION.m
 
 Without `--send` it prints the commands instead. `--regions gormak,verdant` builds only those, and `--teardown --send` deletes everything it built so it can be built again.
 
-**Loadouts.** Every world whose name starts with `aurora_test` plays with an **experimental** loadout, every other world with the **main** one, and the swap happens by itself as you go between them. A build world keeps whichever one is in play. Everything Aurora keeps for a player is separate: inventory and ender chest, backpack, tool levels, level, XP, kills, blocks mined, Essence, playtime and rank, collections, gear unlocked from mobs, portal access, perks, cosmetics, bought, donor and staff ranks, and the tutorial. Builder status, the build inventory and suggestions are shared. The first time in a test world starts from nothing with the starter kit; a main loadout that starts from nothing gets the tutorial too, like a first join. `/a loadout 1|2|3|experimental` switches an admin's loadout where they stand and keeps it in every world until `/a loadout auto` or they leave. Slot 1 is the main loadout (`main` works too); slots 2 and 3 are extra main-world loadouts for admins, each with its own progress, starting fresh with the tutorial, never on the leaderboards. `/a testworld [world]` goes to a test world (`aurora_test` without one) on the experimental loadout; the first time, with no experimental loadout yet, it starts as a copy of your main one instead of from nothing, after that the two go their own ways. Admin commands like `/a grant` and `/a reset` act on the loadout in play, so a reset in a test world only wipes the experimental one. Leaderboards only count main loadouts (slot 1), also while their player is in a test world. The first `deploy.py upload --db` with loadouts makes everything players did on the host so far their experimental loadout, and their main one starts fresh on their next join.
+**Loadouts.** Every world whose name starts with `aurora_test` plays with an **experimental** loadout, every other world with the **main** one, and the swap happens by itself as you go between them. A build world keeps whichever one is in play. Everything Aurora keeps for a player is separate: inventory and ender chest, backpack, tool levels, level, XP, kills, blocks mined, Essence, playtime and rank, collections, gear unlocked from mobs, portal access, perks, cosmetics, bought, donor and staff ranks, the tutorial, the questline and the fishing rod. Builder status, the build inventory, suggestions, punishments and everything in the Gauntlet are shared. The first time in a test world starts from nothing with the starter kit; a main loadout that starts from nothing gets the tutorial too, like a first join. `/a loadout 1|2|3|experimental` switches an admin's loadout where they stand and keeps it in every world until `/a loadout auto` or they leave. Slot 1 is the main loadout (`main` works too); slots 2 and 3 are extra main-world loadouts for admins, each with its own progress, starting fresh with the tutorial, never on the leaderboards. `/a testworld [world]` goes to a test world (`aurora_test` without one) on the experimental loadout; the first time, with no experimental loadout yet, it starts as a copy of your main one instead of from nothing, after that the two go their own ways. Admin commands like `/a grant` and `/a reset` act on the loadout in play, so a reset in a test world only wipes the experimental one. Leaderboards only count main loadouts (slot 1), also while their player is in a test world. The first `deploy.py upload --db` with loadouts makes everything players did on the host so far their experimental loadout, and their main one starts fresh on their next join.
 
 ## Worlds
 
@@ -73,7 +73,7 @@ Only builders and admins can go to a build world, by any teleport or portal, and
 
 ## PvP and safe zones
 
-PvP is on everywhere except in safe zones. A hit is stopped when either player stands in one, so nobody can hit from inside one. Dying to another player costs nothing: the inventory, levels and XP are all kept.
+PvP is on everywhere except in safe zones, and in the Gauntlet's world only inside its PvP zone. A hit is stopped when either player stands in one, so nobody can hit from inside one. Dying to another player costs nothing: the inventory, levels and XP are all kept.
 
 **No farming.** Kill the same player 3 times in a row and you can't hurt them for 5 minutes. Killing anyone else, or being killed by them, starts the count again.
 
@@ -245,7 +245,7 @@ A muted player cannot chat, `/msg`, `/tell`, `/w`, `/r`, `/me`, `/say` or `/sugg
 | `/a heal [player]` | Restore health and hunger, put out fire |
 | `/a give <player> <item> [amount]` | Give an item by registry id from the CSVs, e.g. `gold_pick_5`, or a vanilla one like `cooked_beef`. What doesn't fit drops at their feet |
 | `/a access <player> [give\|take <access>]` | Where a player may go: on its own it lists what their passes opened, `give`/`take` open or close one by hand, e.g. `/a access Charky32 give sky` |
-| `/a reset <player> <tools\|all>` | `tools` resets every tool level and hands back plain starter tools. `all` erases everything the player has and plays the first join again, starter kit, backpack and tutorial included: tools, backpack and inventory, level, XP, kills, blocks mined, Essence, playtime, perks, collections, gear unlocked from mobs, portals, cosmetics and every rank, staff and donor ranks and the second suffix included. It cannot be undone |
+| `/a reset <player> <tools\|all>` | `tools` resets every tool level and hands back plain starter tools. `all` erases everything the player has and plays the first join again, starter kit, backpack and tutorial included: tools, backpack and inventory, level, XP, kills, blocks mined, Essence, playtime, perks, collections, gear unlocked from mobs, portals, cosmetics and every rank, staff and donor ranks and the second suffix included, and the questline starts over. Gauntlet progress is kept. It cannot be undone |
 | `/a tool <player> give <tool>` | Hand over a tool that lives on the player (pick, axe, shovel, hoe, sword, helmet, chestplate, leggings, boots). Its item is drawn from the player's levels in the realm they stand in |
 | `/a tool <player> set <tool> <stat> <level> [realm]` | Set what a player's tool has, in their current realm or a named one. The level is the total there, the realms it builds on included: `set pick fortune 10` in the overworld gives Fortune 10, whatever the regions add. The stat is an enchant, or `material` with a name such as `iron` |
 | `/a tool <player> info <tool>` | What the tool has where the player stands, and which realms that builds on |

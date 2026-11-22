@@ -9,11 +9,16 @@ A sky-mining RPG plugin for Paper 26.3. Mine resources, spend them on upgrades f
 - **Mines** that reset on a timer, gated by Fortune against each block's density
 - **Custom mobs and spawners** with their own health, attack levels and drops
 - **Upgrades, not items**: each zone's trader sells levels for the pick, axe, sword, shield and armour, priced by a formula from a time target per zone
-- **Three regions**: the Origin Isles, then two branches that add up, Gormak for fighting and Verdant Groves for gathering
+- **Twelve regions built**, three released at launch: the Origin Isles, then two branches that add up, Gormak for fighting and Verdant Groves for gathering
+- **Tutorial and questline**: new players are walked through their first upgrade, then led zone by zone through the Origin Isles with a particle trail
 - **Backpack** that holds mined resources outside the inventory
 - **Collections** of every resource, with a Gear tab where weapons dropped by mobs are unlocked for good
-- **Levels and Essence**, playtime ranks and cosmetics in `/customise`
-- **Bosses** summoned with a key, with phases and adds
+- **Levels and Essence**, playtime ranks, an Essence shop with mounts, Dash and Double Jump, and cosmetics in `/customise`
+- **Bosses** summoned with a key, some with phases or abilities
+- **Fishing**, a side quest with one spot a realm and its own rod upgrades
+- **The Gauntlet**, a solo tower mode in a world of its own: permanent gear from a forge, boons and care packages during a run, milestones that pay into the main game, and a PvP zone
+- **PvP** everywhere but safe zones, with nothing lost on death
+- **Staff tools**: ranks that carry their permissions, mutes, kicks, bans and a punishment history
 - **Player menu** with `/aurora` or `/a`
 
 ## Requirements
@@ -28,7 +33,7 @@ Every command, and the order to build a region in, is in [docs/COMMANDS.md](docs
 
 ## Game data
 
-All game data lives in CSVs under `scripts/data/`, sorted into four folders. The scripts find a file by its name, so a file can move between folders freely.
+All game data lives in CSVs under `scripts/data/`, sorted into folders. The scripts find a file by its name, so a file can move between folders freely.
 
 | Folder | Holds |
 |---|---|
@@ -36,8 +41,10 @@ All game data lives in CSVs under `scripts/data/`, sorted into four folders. The
 | `items/` | Everything a player can hold: `resources.csv` and `resources_special.csv` (keys), `tools.csv` (the tools that level up), `enchants.csv`, and the `gear_*.csv` files for what mobs wear and drop, food, rods and the backpack |
 | `mobs/` | One file per region: health, defence, attack, equipment and drops |
 | `shops/` | What traders offer: `upgrades.csv` (every upgrade step and what it costs in), `traders.csv`, the menu layouts in `guis_shops*.csv` and their `icons.csv` |
+| `fishing/` | The fishing spots, their fish and the rod's upgrades |
+| `gauntlet/` | The Gauntlet: its mobs, floors, gear and gear levels, boons, care packages and milestones |
 
-Edit the CSVs, then generate the YAML:
+Some numbers are filled in by the balance scripts in `scripts/balance/` (zone prices, collection tiers, Essence values, fishing and Gauntlet numbers); [docs/PROGRESSION.md](docs/PROGRESSION.md) says which. Edit the CSVs, then generate the YAML:
 
 ```bash
 python scripts/generate.py
@@ -62,6 +69,7 @@ flowchart TD
         M1["Mine, Spawner,<br/>Trader, Portal, World"]
         M2["Tool, Backpack,<br/>Armory, Collection"]
         M3["Player, Level, Rank,<br/>Perk, Cosmetic"]
+        M4["Tutorial, Quest,<br/>Fishing, Gauntlet"]
     end
 
     subgraph Objects["Objects"]

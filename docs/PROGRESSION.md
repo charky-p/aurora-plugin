@@ -146,9 +146,10 @@ The zones add up to about 10.5 hours of real play.
 - **Gear drops.** A weapon or armour piece dropped by a mob is unlocked for good and can be taken out again from the Gear tab of Collections. The first unlock pays 100 Essence. Dropped weapons are as strong as upgrades five zones on, and rare.
 - **Ranks.** Playtime ranks up to 1,000 hours, donor ranks and staff ranks. `/ranks` picks the one shown.
 - **Cosmetics.** `/customise`: suffixes, chat and name colour, join and death messages, trails, kill effects, armour trims, and tool and armour looks (any material bought, wood to gold). Some are free, some earned (playtime, a maxed zone or region), some bought with Essence, some come only with a donor package. See [STORE.md](STORE.md).
-- **Food.** The Camp Cook sells food by the stack; a new player starts with 64 bread.
+- **Food.** The Food Trader at spawn sells food by the stack; a new player starts with 64 bread.
 - **Essence shop.** `/shop` sells utility only: Dash (2,500, right click the Dash Feather), Double Jump (4,000), the Keyring (5,000), mounts and the Essence ranks, each bought once except mounts. A mount has three levels, level n costing its price times n, each one faster: pig 1,000, chicken 1,500, horse 3,000 (level 3 swims), camel 4,000 (dashes on jump), skeleton horse 6,000 (rides underwater), happy ghast 8,000, phantom 12,000 (the fastest flyer). Vitality and Crit Rate are no longer sold.
 - **Essence Trader.** There is one, placed by hand in the last released zone and moved there with each release: the endless source of Essence, and the only place Essence is farmed. It opens for a player who has maxed every released zone and buys the last released zone's resources alone, one at a time or everything at once (a second click to confirm), priced so farming that zone pays about 100 Essence a minute at endgame strength (`scripts/balance/essence_values.py`, the `essence` column of `resources.csv`). Every other resource is worth nothing to it.
+- **PvP.** On everywhere but safe zones; dying to a player costs nothing. Killing the same player 3 times in a row stops you hurting them for 5 minutes.
 - **Mounts.** Right click a mount's saddle to ride it, shift to get off and it vanishes. The horse and happy ghast steer the vanilla way, the pig and chicken follow where you look.
 - **Tutorial.** A new player starts by the Cobblestone Quarry and is walked through mining 10 cobblestone, the backpack, the trader and a first upgrade. It pays 50 Essence and the Newcomer suffix, and can be skipped.
 - **Origin Isles questline.** After the tutorial a boss bar leads the player zone by zone: max out the zone, then follow a particle trail to the next zone's trader, and after the Gold Reef to the Dunesworld Gate. 25 Essence a maxed zone, 100 and the Islander suffix at the gate. Players past the tutorial before it existed join at their first zone not maxed.
@@ -166,13 +167,7 @@ A tower mode apart from the zones, in a world of its own, solo (setup in [COMMAN
 - **Milestones** (`milestones.csv`), for the best floor, each paid once: Essence at every one (100 at floor 5 up to 5,000 at 50), and the Challenger (10), Gladiator (20), Conqueror (30) and Unbroken (50) suffixes, and the Bloodsteel trail (25).
 - **PvP zone.** Players fight each other only inside it, with their gauntlet gear and no boons.
 
-## 5. Switched off for now
-
-Built but not finished, so not reachable in game. The code is kept; `core/Aurora.java` lists what to register again.
-
-- **Fishing**: the rods and their catch tables.
-
-## 6. Tuning
+## 5. Tuning
 
 Prices are not written by hand. `upgrades.csv` lists each step and the share of its time spent on each resource; `scripts/balance/price_zones.py` turns that into amounts when `generate.py` runs:
 
@@ -196,12 +191,14 @@ The knobs, in the order to reach for them:
 
 After any data change: `python scripts/balance/collection_tiers.py --write`, `python scripts/balance/essence_values.py --write`, `python scripts/generate.py`, `mvn test`, then a play through the zone.
 
-## 7. Known gaps
+## 6. Known gaps
 
-- **Only Gormak the Eternal has phases.** Every other boss is a strong mob summoned by its key.
+- **Only Gormak the Eternal has phases.** The Marsh Hydra charges and lobs sludge, Arachne carries a rider; every other boss is a strong mob summoned by its key.
 - **The regions after the first three have only been priced**, not played. Their mob stats and densities come from the model.
 - **The mace's smash is not in the model**, so the Cloud Isles' mob prices assume sword hits.
 - **The Caverns do not exist yet**: the Overworld Core gives the `caverns` tag and nothing opens with it.
 - **Verdant Groves has no danger.** Its four mobs do not attack; the treants are in Elderwood Roots now.
-- **The world is the test world** from `scripts/build_test_world.py`: plain platforms, no map yet.
+- **The real map is in progress** in `aurora_overworld` (the Origin Isles' traders stand there); the other regions are still only the test world's plain platforms from `scripts/build_test_world.py`.
 - **Essence** has utility to buy now, but nothing drains it after that.
+- **The Gauntlet has not been played yet.** Its floor and gear numbers come from `gauntlet_balance.py` alone, and its world, lobby and arena are not built.
+- **PvP is vanilla damage.** Aurora's damage rules are for mobs: between players, armour gives no protection (its vanilla armour points are removed) and Sharpness is vanilla's. This matters most in the Gauntlet's PvP zone, where gear goes up to Sharpness 30.

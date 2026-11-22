@@ -52,9 +52,10 @@ None of Aurora's setup is part of the build. Mines, spawners, traders, portals a
 3. **Spawners.** Stand where each mob should spawn, `/a spawner create <name> ~ ~ ~ <mob> [limit] [radius] [delay]`. Hostile zones are better fenced so mobs stay in them.
 4. **Traders.** Stand where each should be, facing the way players come from, `/a trader create <trader>`.
 5. **Portals and gates.** Select the portal box, `/a portal create <name>`, stand at the arrival point, `/a portal setdest <name>`. Make one for the way back. Lock the Gormak gate with `/a portal settag <name> gormak` and put the Gate Warden beside it.
-6. **Tutorial.** By the Cobblestone Quarry, facing the mine, `/a tutorial setstart`. New players begin there. Test it with `/a tutorial start`.
-7. **Warps.** The world column of `scripts/data/world/warps.csv` still names the test worlds. Change it to the new world, then `python scripts/generate.py --live` and `/refresh`.
-8. **Back up:** `scripts/server.sh backup` (local) or `python scripts/deploy.py backup <server>` (live).
+6. **Tutorial and questline.** By the Cobblestone Quarry, facing the mine, `/a tutorial setstart`. New players begin there. Test it with `/a tutorial start`. The questline after it needs nothing of its own: its trail leads to each Origin Isles zone's trader and then `gate_trader`, so those have to stand in the same world.
+7. **Fishing.** One spot a realm: select its water with the wand, `/a fishspot create <name> <spot>`, and place its angler beside it (`pond_angler`, `oasis_angler`, `rootwater_angler`, `cloud_angler`). See [COMMANDS.md](COMMANDS.md).
+8. **Warps.** The world column of `scripts/data/world/warps.csv` still names the test worlds. Change it to the new world, then `python scripts/generate.py --live` and `/refresh`.
+9. **Back up:** `scripts/server.sh backup` (local) or `python scripts/deploy.py backup <server>` (live).
 
 The test world names everything `t_...`. Use plain names on the real map, so `--teardown` of the test world never touches it.
 
@@ -66,7 +67,7 @@ Generated from the data: mine block mixes from `scripts/data/world/mines.csv`, m
 
 | Zone | Mines (`setblocks`) | Spawner mobs | Trader |
 |---|---|---|---|
-| Spawn | - | - | `starter_trader`, `food_trader` |
+| Spawn | - | - | `starter_trader`, `food_trader`, `fish_merchant` |
 | Cobblestone Quarry | `cobblestone`: `cobblestone 60 stone 40` | - | `cobble_trader` |
 | Coal Seam | `coal`: `coal_ore 60 coal_block 40` | - | `coal_trader` |
 | Copper Vein | `copper`: `copper_ore 60 copper_block 40` | `chicken` | `copper_trader` |
@@ -183,6 +184,10 @@ At the end, the portal to Cloud Isles locked to `sky`, with `sky_gate_trader` be
 | Diamond Depths | `diamond`: `diamond_ore 70 deepslate_diamond_ore 30` | `quarry_ravager` | `diamond_trader` |
 | The Quarry Pit | - | `pillager_captain`, `quarry_warden` | `pit_trader` |
 | Golem Rest | - | `overworld_golem` | `golem_trader`, `core_trader`, `essence_trader` |
+
+### The Gauntlet
+
+A world of its own, not part of any region: a lobby, a PvP area beside it, and one arena with room for a few mob spawns and a care package spot. Keep 1,000 blocks along z from the arena empty, every run pastes its copy there. The steps are under Gauntlet in [COMMANDS.md](COMMANDS.md).
 
 ## 4. Check it
 

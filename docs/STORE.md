@@ -24,6 +24,8 @@ a cosmetic <player> take <id>
 | Trails | `trail_soul`, `trail_electric`, `trail_glow`, `trail_totem`, `trail_end` |
 | Death messages | `death_reign`, `death_aurora` |
 
+Not for sale, because they are earned: the Newcomer and Islander suffixes (tutorial and questline), the Gauntlet's milestone suffixes (`suffix_challenger`, `suffix_gladiator`, `suffix_conqueror`, `suffix_unbroken`) and the Bloodsteel trail (`trail_bloodsteel`).
+
 In game, `/a cosmetic <player> give ` then Tab lists every id exactly as the plugin spells it. Check an id there before putting it in a package.
 
 ## Setting up Tebex

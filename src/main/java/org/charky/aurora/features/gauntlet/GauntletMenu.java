@@ -52,14 +52,23 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>Your lobby inventory is your setup:",
                 "<gray>lay it out how you like it.")));
 
+        // Only the next milestone to reach, and how many are done
         List<String> milestones = new ArrayList<>();
-        for (GauntletData.Milestone milestone : manager.data().milestones()) {
-            boolean done = profile.milestones.contains(milestone.floor());
-            String reward = (milestone.essence() > 0 ? milestone.essence() + " Essence" : "")
-                    + (!milestone.cosmetic().isBlank() ? (milestone.essence() > 0 ? " + " : "") + cosmeticName(milestone.cosmetic()) : "");
-            milestones.add((done ? "<green>✔ " : "<gray>• ") + "Floor " + milestone.floor() + ": <white>" + reward);
+        List<GauntletData.Milestone> all = manager.data().milestones();
+        GauntletData.Milestone next = all.stream().filter(m -> !profile.milestones.contains(m.floor())).findFirst().orElse(null);
+        long done = all.stream().filter(m -> profile.milestones.contains(m.floor())).count();
+        if (next == null) {
+            milestones.add("<green>Every milestone reached");
+        } else {
+            String reward = (next.essence() > 0 ? next.essence() + " Essence" : "")
+                    + (!next.cosmetic().isBlank() ? (next.essence() > 0 ? " + " : "") + cosmeticName(next.cosmetic()) : "");
+            milestones.add("<gray>Next: <white>clear floor " + next.floor());
+            milestones.add("<gray>Reward: <white>" + reward);
+            milestones.add("<gray>Your best: <white>" + profile.best + " <dark_gray>(" + Math.max(0, next.floor() - profile.best) + " to go)");
         }
-        items.add(button(Material.GOLD_INGOT, "<yellow><b>Milestones", milestones));
+        milestones.add("");
+        milestones.add("<dark_gray>" + done + "/" + all.size() + " milestones reached");
+        items.add(button(Material.GOLD_INGOT, "<yellow><b>Next Milestone", milestones));
 
         List<String> top = new ArrayList<>();
         int place = 1;

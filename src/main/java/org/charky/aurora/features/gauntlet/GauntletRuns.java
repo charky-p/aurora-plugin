@@ -127,7 +127,8 @@ public class GauntletRuns implements Listener {
 
     int coresOf(Player player) {
         GauntletRun run = runOf(player);
-        return run == null ? 0 : run.cores;
+        Member member = memberOf(player);
+        return member == null ? 0 : member.cores;
     }
 
     // The party's health for the sidebar, empty for a solo run
@@ -453,7 +454,7 @@ public class GauntletRuns implements Listener {
         // Everyone in a party banks the whole pot, and party_shards more for each of the others
         double party = GauntletRun.partyScale(run.partySize, data().setting("party_shards", 0));
         int banked = (int) Math.round((run.shards + member.headStart) * (1 + greed / 100) * daily * party);
-        manager.bank(player, banked, run.cores, cleared);
+        manager.bank(player, banked, member.cores, cleared);
         UUID uuid = player.getUniqueId();
         manager.addStat(uuid, "kills", member.kills);
         manager.addStat(uuid, "elite_kills", member.eliteKills);
@@ -464,7 +465,7 @@ public class GauntletRuns implements Listener {
         if (run.towerDay != 0) manager.tower().result(player, run.towerDay, cleared);
         long now = System.currentTimeMillis();
         manager.recordRun(uuid, new RunRecord(now, run.floor, cleared, run.startFloor, run.heat, run.partySize,
-                (int) ((now - run.started) / 1000), member.kills, banked, run.cores, why == End.DIED,
+                (int) ((now - run.started) / 1000), member.kills, banked, member.cores, why == End.DIED,
                 String.join(",", member.boons.entrySet().stream().map(boon -> boon.getKey() + ":" + boon.getValue()).toList())));
         if (!member.slain.isEmpty()) {
             member.slain.forEach((mob, count) -> manager.addStat(uuid, SLAIN + mob, count));
@@ -505,7 +506,7 @@ public class GauntletRuns implements Listener {
                 + (greed > 0 ? " <gray>+" + fmt(greed) + "% greed" : "") + (daily > 1 ? " <gray>x" + fmt(daily) + " daily" : "")
                 + (partyPay > 1 ? " <gray>x" + fmt(partyPay) + " party" : "");
         TextUtils.send(player, "<gray>Shards: <aqua>" + run.shards + bonus + (bonus.isEmpty() ? "" : " <gray>= <aqua><b>" + banked + "</b>")
-                + (run.cores > 0 ? " <gray>Cores: <light_purple>" + run.cores : ""));
+                + (member.cores > 0 ? " <gray>Cores: <light_purple>" + member.cores : ""));
         if (!member.boons.isEmpty()) {
             List<String> boons = new ArrayList<>();
             member.boons.forEach((id, stacks) -> {
@@ -658,7 +659,7 @@ public class GauntletRuns implements Listener {
                 keepInArena(run, player, member, spawn);
                 manager.refreshBoard(player);
                 player.sendActionBar(TextUtils.parse(status(run, member) + " <dark_gray>| <aqua>" + run.shards + " Shards"
-                        + (run.cores > 0 ? " <dark_gray>| <light_purple>" + run.cores + " Cores" : "")));
+                        + (member.cores > 0 ? " <dark_gray>| <light_purple>" + member.cores + " Cores" : "")));
             }
         }
     }
@@ -758,10 +759,9 @@ public class GauntletRuns implements Listener {
         double mutated = (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0) * runPay(run);
         int bonus = (int) Math.round(data().floor(run.statFloor()).shards() * mutated);
         run.shards += bonus;
-        run.cores += floor.cores();
         run.sound(Sound.ENTITY_PLAYER_LEVELUP, 0.7f, 1.3f);
-        run.tell("<green>Floor " + run.floor + " cleared <aqua>+" + bonus + " bonus Shards"
-                + (floor.cores() > 0 ? " <light_purple>+" + floor.cores() + " Core" + (floor.cores() > 1 ? "s" : "") : ""));
+        run.tell("<green>Floor " + run.floor + " cleared <aqua>+" + bonus + " bonus Shards");
+        if (floor.cores() > 0) payCores(run, floor.cores());
 
         double seconds = (System.currentTimeMillis() - run.floorStarted) / 1000.0;
         double par = data().setting("par_seconds", 10) + data().setting("par_per_mob", 2.5) * run.floorMobs * (floor.boss() ? 2 : 1);
@@ -771,6 +771,21 @@ public class GauntletRuns implements Listener {
         run.fastClears++;
         run.tell("<yellow><b>FAST CLEAR</b> <gray>" + Math.round(seconds) + "s (par " + Math.round(par) + "s) <aqua>+" + extra + " Shards");
         return true;
+    }
+
+    // A boss floor's Cores, once a player: only to those clearing it for the first time,
+    // past their best floor before the run, so a boss can't be farmed for them
+    private void payCores(GauntletRun run, int cores) {
+        String plural = cores > 1 ? "s" : "";
+        for (Player player : run.online()) {
+            Member member = run.members.get(player.getUniqueId());
+            if (run.floor > member.bestBefore) {
+                member.cores += cores;
+                TextUtils.send(player, "<light_purple>+" + cores + " Core" + plural + " <gray>for beating this boss the first time");
+            } else {
+                TextUtils.send(player, "<dark_gray>No Cores, you have beaten this boss before");
+            }
+        }
     }
 
     // Each player's daily challenges and NEW BEST once a run past their old record; a

@@ -54,6 +54,8 @@ final class GauntletRun {
         int bestCombo;
         // Shards Head Start paid for the floors skipped, banked with the pot
         int headStart;
+        // Cores from boss floors cleared for the first time, theirs alone
+        int cores;
 
         Member(UUID id) {
             this.id = id;
@@ -75,7 +77,6 @@ final class GauntletRun {
     int heat;
     int floor;
     int shards;
-    int cores;
     State state = State.STARTING;
     long choosingSince;
     boolean over;

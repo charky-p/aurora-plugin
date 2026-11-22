@@ -208,7 +208,7 @@ A tower mode in a world of its own (`scripts/data/gauntlet/`, see [PROGRESSION.m
 6. Select the start portal in the lobby with the wand (a doorway players walk through, with `/a text add <red><b>START A RUN` above it), `/a gauntlet startportal`. Walking in starts a run. New players are told so on arrival, in a title and clickable buttons, and on the action bar until their first run.
 7. In the lobby, `/a trader create gauntlet_forge`: the Gauntlet Forge opens the forge, the same as Forge in the `/gauntlet` menu.
 8. `/a gauntlet status` says what is missing, for runs and for duels.
-9. Leaderboards in the lobby, if you like: stand where one goes and `/a gauntlet board floors` (or `pvp`, `duels`, `week`, `sprint`). They are saved with the world and update every 30 seconds; `/a gauntlet board remove` takes the nearest one down.
+9. Leaderboards in the lobby, if you like: stand where one goes and `/a gauntlet board floors` (or `pvp`, `duels`, `week`, `sprint`, `tower`). They are saved with the world and update every 30 seconds; `/a gauntlet board remove` takes the nearest one down.
 
 | Command | Does |
 |---|---|
@@ -222,7 +222,7 @@ A tower mode in a world of its own (`scripts/data/gauntlet/`, see [PROGRESSION.m
 | `/a gauntlet startportal` | The wand selection, in the lobby, starts a run when walked into |
 | `/a gauntlet duelarena` | Save the wand selection as the duel arena template |
 | `/a gauntlet duelspawn <1\|2>` | Where each duelist starts, inside the duel arena |
-| `/a gauntlet board <floors\|pvp\|duels\|week\|sprint\|remove>` | A leaderboard where you stand (top floors, PvP kills, duel ratings, the week's boards, the fastest solo runs to floor 10), kept up to date; `remove` takes the nearest one down |
+| `/a gauntlet board <floors\|pvp\|duels\|week\|sprint\|tower\|remove>` | A leaderboard where you stand (top floors, PvP kills, duel ratings, the week's boards, the fastest solo runs to floor 10, today's Daily Tower), kept up to date; `remove` takes the nearest one down |
 | `/a gauntlet status` | What is still missing |
 | `/a gauntlet reset <player>` | Wipe a player's Gauntlet progress back to a new player's: Shards, Cores, best floor, runs, gear, care package, starting kit, layout and milestones (so they can be earned again; Essence and cosmetics they already paid are kept). Ends a run in progress. Online players only. `/a reset <player> all` does not touch the Gauntlet |
 

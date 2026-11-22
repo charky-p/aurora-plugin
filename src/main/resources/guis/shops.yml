@@ -102,6 +102,111 @@ items:
           - id: verdant_froglight
             amount: 400
 
+  sanctuary_shop:
+    title: "<#B4462A><b>Sanctuary of the Sun"
+    icon: icon_sanctuary
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B  u k  B"
+      - "BBBBBBBBX"
+    components:
+      u:
+        type: ACTION
+        id: upgrades:sanctuary
+        icon: icon_upgrades
+      k:
+        type: TRADE
+        id: sun_key
+        cost:
+          - id: anubite_mark
+            amount: 20
+          - id: sphinx_claw
+            amount: 10
+
+  arachne_cave_shop:
+    title: "<#2ECC71><b>Arachne Cave"
+    icon: icon_arachne_cave
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B  u k  B"
+      - "BBBBBBBBX"
+    components:
+      u:
+        type: ACTION
+        id: upgrades:arachne_cave
+        icon: icon_upgrades
+      k:
+        type: TRADE
+        id: silk_key
+        cost:
+          - id: venom_sac
+            amount: 1350
+          - id: rider_bone
+            amount: 1000
+
+  the_crown_shop:
+    title: "<#1E5631><b>The Crown"
+    icon: icon_the_crown
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B  u k  B"
+      - "BBBBBBBBX"
+    components:
+      u:
+        type: ACTION
+        id: upgrades:the_crown
+        icon: icon_upgrades
+      k:
+        type: TRADE
+        id: elder_seed
+        cost:
+          - id: canopy_bark
+            amount: 10
+
+  throne_shop:
+    title: "<#C9A227><b>Throne of Night"
+    icon: icon_throne
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B  u k  B"
+      - "BBBBBBBBX"
+    components:
+      u:
+        type: ACTION
+        id: upgrades:throne
+        icon: icon_upgrades
+      k:
+        type: TRADE
+        id: solar_ankh
+        cost:
+          - id: set_sigil
+          - id: apep_sigil
+          - id: nephthys_sigil
+
+  throne_room_shop:
+    title: "<#FFE680><b>Throne Room"
+    icon: icon_throne_room
+    rows: 3
+    layout:
+      - "BBBBIBBBB"
+      - "B  u k  B"
+      - "BBBBBBBBX"
+    components:
+      u:
+        type: ACTION
+        id: upgrades:throne_room
+        icon: icon_upgrades
+      k:
+        type: TRADE
+        id: crown_key
+        cost:
+          - id: throne_seal
+            amount: 70
+
   aurora_hub:
     title: "<aqua><b>Aurora"
     icon: icon_menu

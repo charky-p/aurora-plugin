@@ -2302,30 +2302,40 @@ items:
         cost:
           - id: anubite_mark
             amount: 20
+          - id: solar_core
+            amount: 1
       - tool: pick
         stat: fortune
         level: "9"
         cost:
           - id: anubite_mark
             amount: 24
+          - id: solar_core
+            amount: 1
       - tool: pick
         stat: efficiency
         level: "9"
         cost:
           - id: anubite_mark
             amount: 32
+          - id: solar_core
+            amount: 1
       - tool: shield
         stat: deflection
         level: "11"
         cost:
           - id: anubite_mark
             amount: 40
+          - id: solar_core
+            amount: 1
       - tool: shield
         stat: deflection
         level: "12"
         cost:
           - id: anubite_mark
             amount: 48
+          - id: solar_core
+            amount: 1
 
   jungle:
     name: "Jungle Floor"
@@ -4872,30 +4882,40 @@ items:
         cost:
           - id: venom_sac
             amount: 1500
+          - id: arachne_eye
+            amount: 1
       - tool: shield
         stat: deflection
         level: "2"
         cost:
           - id: venom_sac
             amount: 1600
+          - id: arachne_eye
+            amount: 1
       - tool: shield
         stat: deflection
         level: "3"
         cost:
           - id: venom_sac
             amount: 2000
+          - id: arachne_eye
+            amount: 1
       - tool: grapple
         stat: thrust
         level: "6"
         cost:
           - id: venom_sac
             amount: 2500
+          - id: arachne_eye
+            amount: 1
       - tool: grapple
         stat: recharge
         level: "6"
         cost:
           - id: venom_sac
             amount: 3000
+          - id: arachne_eye
+            amount: 1
 
   ashen:
     name: "Ashen River"
@@ -5600,6 +5620,8 @@ items:
         cost:
           - id: nightstone
             amount: 1
+          - id: sol_heart
+            amount: 1
       - tool: sword
         stat: bloodlust
         level: "1"
@@ -5612,11 +5634,15 @@ items:
             amount: 1
           - id: nephthys_sigil
             amount: 1
+          - id: sol_heart
+            amount: 1
       - tool: sword
         stat: sharpness
         level: "15"
         cost:
           - id: set_sigil
+            amount: 1
+          - id: sol_heart
             amount: 1
       - tool: shield
         stat: deflection
@@ -5624,11 +5650,15 @@ items:
         cost:
           - id: apep_sigil
             amount: 1
+          - id: sol_heart
+            amount: 1
       - tool: shield
         stat: deflection
         level: "12"
         cost:
           - id: apep_sigil
+            amount: 1
+          - id: sol_heart
             amount: 1
 
   root_cellar:
@@ -6462,30 +6492,40 @@ items:
         cost:
           - id: canopy_bark
             amount: 5
+          - id: elder_heart
+            amount: 1
       - tool: pick
         stat: fortune
         level: "7"
         cost:
           - id: canopy_bark
             amount: 5
+          - id: elder_heart
+            amount: 1
       - tool: pick
         stat: efficiency
         level: "10"
         cost:
           - id: canopy_bark
             amount: 5
+          - id: elder_heart
+            amount: 1
       - tool: shield
         stat: deflection
         level: "14"
         cost:
           - id: canopy_bark
             amount: 5
+          - id: elder_heart
+            amount: 1
       - tool: shield
         stat: deflection
         level: "15"
         cost:
           - id: canopy_bark
             amount: 5
+          - id: elder_heart
+            amount: 1
 
   cloudbank:
     name: "Cloudbank"
@@ -7724,30 +7764,40 @@ items:
         cost:
           - id: throne_seal
             amount: 64
+          - id: kings_crown
+            amount: 1
       - tool: pick
         stat: fortune
         level: "10"
         cost:
           - id: throne_seal
             amount: 80
+          - id: kings_crown
+            amount: 1
       - tool: pick
         stat: efficiency
         level: "8"
         cost:
           - id: throne_seal
             amount: 100
+          - id: kings_crown
+            amount: 1
       - tool: shield
         stat: deflection
         level: "11"
         cost:
           - id: throne_seal
             amount: 120
+          - id: kings_crown
+            amount: 1
       - tool: shield
         stat: deflection
         level: "12"
         cost:
           - id: throne_seal
             amount: 150
+          - id: kings_crown
+            amount: 1
 
   gravel_pits:
     name: "Gravel Pits"

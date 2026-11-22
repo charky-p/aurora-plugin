@@ -5,6 +5,11 @@ icon_gormak,<gold><b>Gormak,SAND,true,<gray>The buried kingdom.
 icon_starter,<gray><b>Starter Gear,WOODEN_PICKAXE,false,<gray>Free. Barely works.
 icon_tomb,<dark_purple><b>Royal Tomb,GILDED_BLACKSTONE,true,"<gray>Myrmidons, pharaohs, and him."
 icon_glowmire,<#F5D76E><b>Glowmire,OCHRE_FROGLIGHT,true,"<gray>Froglights, wisps, and the Hydra."
+icon_sanctuary,<#B4462A><b>Sanctuary of the Sun,SUNFLOWER,true,"<gray>Executioners, sphinxes, and Khorvath."
+icon_arachne_cave,<#2ECC71><b>Arachne Cave,SPIDER_EYE,true,"<gray>Skeletons, webs, and Arachne."
+icon_the_crown,<#1E5631><b>The Crown,HEART_OF_THE_SEA,true,"<gray>Treants, and the Elder Treant."
+icon_throne,<#C9A227><b>Throne of Night,NETHER_STAR,true,"<gray>Set, Apep, Nephthys, and Sol."
+icon_throne_room,<#FFE680><b>Throne Room,GOLDEN_HELMET,true,"<gray>Throne guards, and the Sky King."
 icon_menu,<aqua><b>Aurora,NETHER_STAR,true,<gray>Everything in one place.
 icon_howto,<yellow><b>How to Play,BOOK,false,<gray>New here? Start here.
 icon_backpack,<gold><b>Backpack,CHEST,false,<gray>Everything you have mined.

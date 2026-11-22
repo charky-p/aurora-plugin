@@ -54,6 +54,41 @@ items:
     lore:
       - "<gray>Froglights, wisps, and the Hydra."
 
+  icon_sanctuary:
+    display: "<#B4462A><b>Sanctuary of the Sun"
+    material: SUNFLOWER
+    glow: true
+    lore:
+      - "<gray>Executioners, sphinxes, and Khorvath."
+
+  icon_arachne_cave:
+    display: "<#2ECC71><b>Arachne Cave"
+    material: SPIDER_EYE
+    glow: true
+    lore:
+      - "<gray>Skeletons, webs, and Arachne."
+
+  icon_the_crown:
+    display: "<#1E5631><b>The Crown"
+    material: HEART_OF_THE_SEA
+    glow: true
+    lore:
+      - "<gray>Treants, and the Elder Treant."
+
+  icon_throne:
+    display: "<#C9A227><b>Throne of Night"
+    material: NETHER_STAR
+    glow: true
+    lore:
+      - "<gray>Set, Apep, Nephthys, and Sol."
+
+  icon_throne_room:
+    display: "<#FFE680><b>Throne Room"
+    material: GOLDEN_HELMET
+    glow: true
+    lore:
+      - "<gray>Throne guards, and the Sky King."
+
   icon_menu:
     display: "<aqua><b>Aurora"
     material: NETHER_STAR

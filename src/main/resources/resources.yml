@@ -430,7 +430,7 @@ items:
     region: "khorvath_sanctuary"
     lore:
       - "<dark_gray>Khorvath"
-    collection: 1
+    collection: 4
 
   jungle_log:
     display: "<#9C7A3C>Jungle Log"
@@ -826,7 +826,7 @@ items:
     region: "peaks_arachne"
     lore:
       - "<dark_gray>Emerald Peaks"
-    collection: 1
+    collection: 4
 
   basalt:
     display: "<dark_gray>Ashen Basalt"
@@ -880,7 +880,7 @@ items:
     region: "duat_throne"
     lore:
       - "<dark_gray>The Duat"
-    collection: 1
+    collection: 4
 
   anubis_sigil:
     display: "<gold>Sigil of Anubis"
@@ -1078,7 +1078,7 @@ items:
     region: "elderheart_crown"
     lore:
       - "<dark_gray>Elderwood Heart"
-    collection: 1
+    collection: 4
 
   cloudstone:
     display: "<white><b>Cloudstone"
@@ -1267,7 +1267,7 @@ items:
     region: "kingdom_throne"
     lore:
       - "<dark_gray>Sky Kingdom"
-    collection: 1
+    collection: 4
 
   gravel:
     display: "<gray>Gravel"

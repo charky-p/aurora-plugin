@@ -23,7 +23,7 @@ class PerkTest {
     @Test
     void theKeyringIsBoughtOnce() {
         assertEquals(1, Perk.KEYRING.maxLevel());
-        assertEquals(5_000, Perk.KEYRING.cost(1));
+        assertEquals(1_650, Perk.KEYRING.cost(1));
     }
 
     @Test

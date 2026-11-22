@@ -15,26 +15,26 @@ public enum Perk {
             "+1% chance per level for a mined block to drop double", false),
     // Utility, bought once each. None of them makes a zone faster to finish
     // Keys found before can then be taken from Collections again
-    KEYRING("keyring", "<gold><b>Keyring", Material.TRIAL_KEY, 1, 5_000,
+    KEYRING("keyring", "<gold><b>Keyring", Material.TRIAL_KEY, 1, 1_650,
             "take any key you have found before from Collections", true),
-    DASH("dash", "<aqua><b>Dash", Material.FEATHER, 1, 2_500,
+    DASH("dash", "<aqua><b>Dash", Material.FEATHER, 1, 850,
             "right click the Dash Feather to dash forward, click again for the feather", true),
-    DOUBLE_JUMP("double_jump", "<green><b>Double Jump", Material.RABBIT_FOOT, 1, 4_000,
+    DOUBLE_JUMP("double_jump", "<green><b>Double Jump", Material.RABBIT_FOOT, 1, 1_350,
             "jump again in mid-air for a second jump, once until you land", true),
     // Mounts have three levels, each one faster: level n costs costStep * n
-    MOUNT_PIG("mount_pig", "<light_purple><b>Pig Mount", Material.CARROT_ON_A_STICK, 3, 1_000,
+    MOUNT_PIG("mount_pig", "<light_purple><b>Pig Mount", Material.CARROT_ON_A_STICK, 3, 350,
             "a pig to ride, called with its saddle. Each level is faster", true),
-    MOUNT_CHICKEN("mount_chicken", "<white><b>Chicken Mount", Material.FEATHER, 3, 1_500,
+    MOUNT_CHICKEN("mount_chicken", "<white><b>Chicken Mount", Material.FEATHER, 3, 500,
             "a chicken to ride that floats down from heights. Each level is faster", true),
-    MOUNT_HORSE("mount_horse", "<gold><b>Horse Mount", Material.SADDLE, 3, 3_000,
+    MOUNT_HORSE("mount_horse", "<gold><b>Horse Mount", Material.SADDLE, 3, 1_000,
             "a fast horse to ride. Each level runs and jumps further, level 3 swims", true),
-    MOUNT_CAMEL("mount_camel", "<yellow><b>Camel Mount", Material.CACTUS, 3, 4_000,
+    MOUNT_CAMEL("mount_camel", "<yellow><b>Camel Mount", Material.CACTUS, 3, 1_350,
             "a camel that dashes when you jump. Each level is faster", true),
-    MOUNT_SKELETON("mount_skeleton", "<gray><b>Skeleton Horse Mount", Material.BONE, 3, 6_000,
+    MOUNT_SKELETON("mount_skeleton", "<gray><b>Skeleton Horse Mount", Material.BONE, 3, 2_000,
             "a skeleton horse faster than any horse, that rides underwater. Each level is faster", true),
-    MOUNT_GHAST("mount_ghast", "<white><b>Happy Ghast Mount", Material.WHITE_HARNESS, 3, 8_000,
+    MOUNT_GHAST("mount_ghast", "<white><b>Happy Ghast Mount", Material.WHITE_HARNESS, 3, 2_650,
             "a happy ghast that flies where you look. Each level flies faster", true),
-    MOUNT_PHANTOM("mount_phantom", "<dark_aqua><b>Phantom Mount", Material.PHANTOM_MEMBRANE, 3, 12_000,
+    MOUNT_PHANTOM("mount_phantom", "<dark_aqua><b>Phantom Mount", Material.PHANTOM_MEMBRANE, 3, 4_000,
             "the fastest flyer: goes where you look while you hold forward. Each level is faster", true);
 
     private final String id;

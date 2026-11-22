@@ -6,13 +6,15 @@ The gauntlet has its own data (scripts/data/gauntlet/) and its own ladder, apart
 the zones. One idea holds it together: a player who has kept up has their gear at
 about half the floor they are on (EXPECTED_LEVEL), and the floor is tuned for that.
 
-  weapon        = Sharpness (or Power) equal to its level, so it hits for
-                  10 + the Sharpness brackets (CombatFormulas.sharpnessBonus)
+  weapon        = STAT_PER_LEVEL Sharpness (or Power) a level, so every upgrade is a
+                  hit you feel: 10 + the Sharpness brackets (CombatFormulas.sharpnessBonus)
+  armour        = its level in Defence a piece and STAT_PER_LEVEL Protection a level;
+                  the shield's Deflection keeps up with the floors' attack
   floor health  = every mob's health times the hit of the expected weapon over 10,
                   so a mob takes as many hits on floor 40 as on floor 1
-  floor attack  = ATTACK_PER_FLOOR levels a floor, a little ahead of the armour's
-                  Defence (half its level a piece, so the expected set adds up to
-                  the floor), so hits creep up unless armour is ahead
+  floor attack  = ATTACK_PER_FLOOR levels a floor, a little ahead of the expected
+                  armour's Defence (the set adds up to twice the floor), so hits creep
+                  up unless armour is ahead
   kill          = Shards every mob killed pays, KILL_BASE + KILL_PER_FLOOR x floor, at
                   least 1; a boss (the one mob of a boss floor) pays BOSS_KILLS times it
   shards        = the bonus for clearing a floor, SHARDS_BASE + SHARDS_PER_FLOOR x floor
@@ -38,9 +40,10 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "scripts" / "data" / "gauntlet"
 
 EXPECTED_LEVEL = 0.5            # gear level per floor reached
-ATTACK_PER_FLOOR = 1.2          # mob attack levels added a floor
-SHARDS_BASE, SHARDS_PER_FLOOR = 0.5, 0.3
-KILL_BASE, KILL_PER_FLOOR = 0.5, 0.04
+STAT_PER_LEVEL = 2              # Sharpness, Power and Protection a gear level
+ATTACK_PER_FLOOR = 2.2          # mob attack levels added a floor (GauntletData)
+SHARDS_BASE, SHARDS_PER_FLOOR = 1.0, 0.6
+KILL_BASE, KILL_PER_FLOOR = 1.0, 0.08   # KILL_PER_FLOOR is also in GauntletData
 BOSS_KILLS = 5                  # GauntletData.BOSS_KILLS
 SHARD_BASE, SHARD_GROWTH = 10, 1.17
 MAX_LEVEL = 30
@@ -71,7 +74,7 @@ def hit(level):
 
 
 def floor_numbers(floor):
-    health = round(max(1.0, hit(floor * EXPECTED_LEVEL) / 10), 2)
+    health = round(max(1.0, hit(floor * EXPECTED_LEVEL * STAT_PER_LEVEL) / 10), 2)
     attack = round(floor * ATTACK_PER_FLOOR)
     shards = round(SHARDS_BASE + SHARDS_PER_FLOOR * floor)
     kill = max(1, round(KILL_BASE + KILL_PER_FLOOR * floor))
@@ -104,13 +107,14 @@ def level_rows():
             "shards": shards,
             "cores": CORES.get(level, 0),
             "material": level // LEVELS_PER_MATERIAL,
-            "melee": level,
-            "ranged": level,
-            # Per piece, the set of four adds up to twice this
-            "defence": level // 2,
-            "protection": level,
-            # A raised shield covers 11 + 4/3 attack a level (CombatFormulas)
-            "deflection": max(0, round(1.8 * level - 6)),
+            "melee": level * STAT_PER_LEVEL,
+            "ranged": level * STAT_PER_LEVEL,
+            # Per piece, the set of four adds up to four times this
+            "defence": level,
+            "protection": level * STAT_PER_LEVEL,
+            # A raised shield covers 11 + 4/3 attack a level (CombatFormulas), kept up
+            # with the attack of the floor where the shield is expected at this level
+            "deflection": max(0, round((ATTACK_PER_FLOOR * level / EXPECTED_LEVEL - 11) * 0.75 + 2)),
         })
     return rows
 

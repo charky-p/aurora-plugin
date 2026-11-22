@@ -32,7 +32,7 @@ class GauntletDataTest {
         GauntletData.Floor third = data.floor(3);
         assertEquals(data.floor(2).mobs(), third.mobs());
         assertEquals(2.0 * GauntletData.ENDLESS_HEALTH, third.health(), 1e-9);
-        assertEquals(11, third.attack());
+        assertEquals(Math.round(10 + GauntletData.ATTACK_PER_FLOOR), third.attack());
         assertEquals(11, third.shards());
         // Every 10th floor still pays a Core
         assertEquals(0, third.cores());

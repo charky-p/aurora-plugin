@@ -54,10 +54,10 @@ import java.util.concurrent.ThreadLocalRandom;
 // A run up the tower, solo, in the player's own copy of the arena. Every floor is a
 // wave of mobs from floors.csv, made tougher by the floor; every kill pays Shards and
 // clearing the floor a bonus (and Cores on a boss floor), banked when the run ends
-// however it ends. Every 5th
-// floor a care package lands and the player picks one of three boons, upgrades for
-// this run only. A hit that would kill ends the run instead (a totem still saves),
-// and the player is back in the lobby with their gear, keeping what they earned
+// however it ends. As it starts and every 5th floor a care package lands (arrows,
+// food, potions), and every 5th floor the player picks one of three boons, upgrades
+// for this run only. A hit that would kill ends the run instead (a totem still
+// saves), and the player is back in the lobby with their gear, keeping what they earned
 public class GauntletRuns implements Listener {
     public enum End { DIED, LEFT, QUIT }
 
@@ -162,6 +162,8 @@ public class GauntletRuns implements Listener {
         heal(player);
         player.teleport(arena.inSlot(slot, arena.place(GauntletArena.SPAWN)));
         player.playSound(player.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
+        // Every run starts with a care package, the bow's first arrows are in it
+        carePackage(player, run);
         nextFloor(player, run);
         return null;
     }

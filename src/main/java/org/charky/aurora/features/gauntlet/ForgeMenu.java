@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.charky.aurora.common.menu.PagedMenu;
 import org.charky.aurora.common.util.TextUtils;
+import org.charky.aurora.features.combat.CombatFormulas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,7 @@ public class ForgeMenu extends PagedMenu {
         } else {
             GauntletData.GearLevel next = data.level(level + 1);
             lore.add(TextUtils.parse("<!italic><gray>Level <white>" + level + "/" + data.maxLevel()));
+            for (String line : gains(piece, now, next)) lore.add(TextUtils.parse("<!italic>" + line));
             if (next == null) {
                 lore.add(TextUtils.parse("<!italic><green>Fully upgraded"));
             } else {
@@ -76,6 +78,41 @@ public class ForgeMenu extends PagedMenu {
             meta.lore(lore);
         });
         return shown;
+    }
+
+    // What the piece does now, and with the next level what it would do, so every
+    // upgrade shows what it is worth: "Hit: 18 -> 22"
+    private static List<String> gains(GauntletData.Gear piece, GauntletData.GearLevel now, GauntletData.GearLevel next) {
+        if (now == null) return List.of();
+        List<String> lines = new ArrayList<>();
+        switch (piece.kind()) {
+            case "melee" -> lines.add(change("Hit", hit(now.melee(), piece.damage()), next == null ? null : hit(next.melee(), piece.damage())));
+            case "ranged" -> lines.add(change("Full shot", hit(now.ranged(), 100), next == null ? null : hit(next.ranged(), 100)));
+            case "thrown" -> {
+                lines.add(change("Hit", hit(now.melee(), piece.damage()), next == null ? null : hit(next.melee(), piece.damage())));
+                lines.add(change("Throw", hit(now.ranged(), 100), next == null ? null : hit(next.ranged(), 100)));
+            }
+            case "armor" -> {
+                lines.add(change("Defence", now.defence(), next == null ? null : next.defence()));
+                lines.add(change("Protection", now.protection(), next == null ? null : next.protection()));
+            }
+            case "shield" -> {
+                lines.add(change("Deflection", now.deflection(), next == null ? null : next.deflection()));
+                lines.add(change("Defence", now.defence(), next == null ? null : next.defence()));
+            }
+            default -> {
+            }
+        }
+        return lines;
+    }
+
+    // A hit at this much Sharpness or Power, with the weapon's own share
+    private static int hit(int stat, int damagePercent) {
+        return (int) Math.round((CombatFormulas.BASE_DAMAGE + CombatFormulas.sharpnessBonus(stat)) * damagePercent / 100.0);
+    }
+
+    private static String change(String name, int now, Integer next) {
+        return "<gray>" + name + ": <white>" + now + (next == null || next == now ? "" : " <gray>-> <green>" + next);
     }
 
     private ItemStack careItem(GauntletProfile profile) {

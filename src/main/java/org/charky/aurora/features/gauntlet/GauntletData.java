@@ -26,13 +26,13 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     // Past the last floor in the file it repeats, every mob this much tougher a floor
     // and ATTACK_PER_FLOOR attack levels stronger (gauntlet_balance.py)
     static final double ENDLESS_HEALTH = 1.08;
-    static final double ATTACK_PER_FLOOR = 1.2;
+    static final double ATTACK_PER_FLOOR = 2.2;
     // A mob on a floor is "<mob id>#<floor>", made from its base on the fly
     static final String FLOOR_SEP = "#";
     // A boss kill pays this many kills (gauntlet_balance.py)
     static final int BOSS_KILLS = 5;
     // Past the last floor a kill pays this much more a floor
-    static final double KILL_PER_FLOOR = 0.04;
+    static final double KILL_PER_FLOOR = 0.08;
 
     // kill is what every mob killed pays, shards the bonus for clearing the floor
     public record Floor(Map<String, Integer> mobs, double health, int attack, int kill, int shards, int cores) {

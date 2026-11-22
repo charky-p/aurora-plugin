@@ -27,10 +27,12 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitTask;
+import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.combat.CombatHooks;
@@ -50,8 +52,9 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 // A run up the tower, solo, in the player's own copy of the arena. Every floor is a
-// wave of mobs from floors.csv, made tougher by the floor; clearing it pays Shards
-// (and Cores on a boss floor), banked when the run ends however it ends. Every 5th
+// wave of mobs from floors.csv, made tougher by the floor; every kill pays Shards and
+// clearing the floor a bonus (and Cores on a boss floor), banked when the run ends
+// however it ends. Every 5th
 // floor a care package lands and the player picks one of three boons, upgrades for
 // this run only. A hit that would kill ends the run instead (a totem still saves),
 // and the player is back in the lobby with their gear, keeping what they earned
@@ -120,6 +123,22 @@ public class GauntletRuns implements Listener {
 
     public boolean inRun(Player player) {
         return runs.containsKey(player.getUniqueId());
+    }
+
+    // For the sidebar, 0 outside a run
+    int floorOf(Player player) {
+        Run run = runs.get(player.getUniqueId());
+        return run == null ? 0 : run.floor;
+    }
+
+    int shardsOf(Player player) {
+        Run run = runs.get(player.getUniqueId());
+        return run == null ? 0 : run.shards;
+    }
+
+    int coresOf(Player player) {
+        Run run = runs.get(player.getUniqueId());
+        return run == null ? 0 : run.cores;
     }
 
     // ---- Starting and ending ----
@@ -255,6 +274,7 @@ public class GauntletRuns implements Listener {
                 case CHOOSING -> "<gold>Pick a boon <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>/gauntlet boon</click>";
                 case STARTING -> "<red>Floor " + run.floor;
             };
+            manager.refreshBoard(player);
             player.sendActionBar(TextUtils.parse(status + " <dark_gray>| <aqua>" + run.shards + " Shards"
                     + (run.cores > 0 ? " <dark_gray>| <light_purple>" + run.cores + " Cores" : "")));
         }
@@ -265,7 +285,7 @@ public class GauntletRuns implements Listener {
         run.shards += floor.shards();
         run.cores += floor.cores();
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.7f, 1.3f);
-        TextUtils.send(player, "<green>Floor " + run.floor + " cleared <aqua>+" + floor.shards() + " Shards"
+        TextUtils.send(player, "<green>Floor " + run.floor + " cleared <aqua>+" + floor.shards() + " bonus Shards"
                 + (floor.cores() > 0 ? " <light_purple>+" + floor.cores() + " Core" + (floor.cores() > 1 ? "s" : "") : ""));
 
         if (run.floor % BOON_EVERY == 0) {
@@ -289,12 +309,23 @@ public class GauntletRuns implements Listener {
         end(player, End.DIED);
     }
 
+    // Every kill pays Shards at once, kept even if the run ends before the floor is cleared
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
         UUID id = event.getEntity().getUniqueId();
         for (Run run : runs.values()) {
             if (!run.mobs.remove(id)) continue;
             Player player = Bukkit.getPlayer(run.player);
+            String mobId = event.getEntity().getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
+            GauntletData.Floor floor = manager.data().floor(run.floor);
+            if (mobId != null && floor != null) {
+                int pay = floor.killPay(GauntletData.baseMobId(mobId));
+                run.shards += pay;
+                if (player != null) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.4f, 1.6f);
+                    if (pay > floor.kill()) TextUtils.send(player, "<gold>Boss slain <aqua>+" + pay + " Shards");
+                }
+            }
             // Bloodthirst: half a heart a kill a stack
             double heal = boonTotal(run, "killheal");
             if (player != null && heal > 0) {

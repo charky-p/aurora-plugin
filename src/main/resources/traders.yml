@@ -451,6 +451,13 @@ items:
     profession: fisherman
     biome: plains
 
+  gauntlet_forge:
+    display: "<gold><b>Gauntlet Forge"
+    entity: VILLAGER
+    gui: gauntlet_forge
+    profession: weaponsmith
+    biome: plains
+
   pond_angler:
     display: "<aqua><b>Pond Angler"
     entity: VILLAGER

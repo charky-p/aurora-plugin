@@ -7,7 +7,8 @@
 #   - mobs: {g_rotter: 3} (mob id: how many)
 #     health: 1.05 (every mob's health times this)
 #     attack: 1 (attack levels added to every mob)
-#     shards: 4, cores: 0 (paid for clearing it)
+#     kill: 1 (Shards each mob killed pays, a boss five times it; a boss is a boss floor's one mob)
+#     shards: 4, cores: 0 (the bonus for clearing it)
 # gear: what can be upgraded, in the forge's order
 #   sword: {name, item, materials: [WOODEN, ...] or [NONE], kind: melee|ranged|thrown|armor|shield,
 #           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed)}
@@ -25,21 +26,24 @@ floors:
       g_rotter: 3
     health: 1.05
     attack: 1
-    shards: 4
+    kill: 1
+    shards: 1
     cores: 0
   - mobs:
       g_rotter: 6
       g_crawler: 2
     health: 1.1
     attack: 2
-    shards: 5
+    kill: 1
+    shards: 1
     cores: 0
   - mobs:
       g_rotter: 6
       g_crawler: 3
     health: 1.15
     attack: 4
-    shards: 6
+    kill: 1
+    shards: 1
     cores: 0
   - mobs:
       g_rotter: 5
@@ -47,7 +51,8 @@ floors:
       g_bonearcher: 2
     health: 1.2
     attack: 5
-    shards: 7
+    kill: 1
+    shards: 2
     cores: 0
   - mobs:
       g_rotter: 6
@@ -55,7 +60,8 @@ floors:
       g_bonearcher: 3
     health: 1.25
     attack: 6
-    shards: 8
+    kill: 1
+    shards: 2
     cores: 0
   - mobs:
       g_rotter: 4
@@ -64,7 +70,8 @@ floors:
       g_sandshade: 2
     health: 1.3
     attack: 7
-    shards: 9
+    kill: 1
+    shards: 2
     cores: 0
   - mobs:
       g_rotter: 4
@@ -73,7 +80,8 @@ floors:
       g_sandshade: 3
     health: 1.35
     attack: 8
-    shards: 10
+    kill: 1
+    shards: 3
     cores: 0
   - mobs:
       g_crawler: 4
@@ -81,7 +89,8 @@ floors:
       g_sandshade: 4
     health: 1.4
     attack: 10
-    shards: 11
+    kill: 1
+    shards: 3
     cores: 0
   - mobs:
       g_rotter: 5
@@ -90,14 +99,16 @@ floors:
       g_sandshade: 4
     health: 1.45
     attack: 11
-    shards: 12
+    kill: 1
+    shards: 3
     cores: 0
   - mobs:
       g_rot_king: 1
       g_rotter: 4
     health: 1.5
     attack: 12
-    shards: 13
+    kill: 1
+    shards: 4
     cores: 1
   - mobs:
       g_rotter: 4
@@ -106,7 +117,8 @@ floors:
       g_drowner: 2
     health: 1.65
     attack: 13
-    shards: 14
+    kill: 1
+    shards: 4
     cores: 0
   - mobs:
       g_crawler: 4
@@ -115,7 +127,8 @@ floors:
       g_drowner: 3
     health: 1.8
     attack: 14
-    shards: 15
+    kill: 1
+    shards: 4
     cores: 0
   - mobs:
       g_sandshade: 3
@@ -123,7 +136,8 @@ floors:
       g_venomling: 3
     health: 1.95
     attack: 16
-    shards: 16
+    kill: 1
+    shards: 4
     cores: 0
   - mobs:
       g_bonearcher: 3
@@ -132,7 +146,8 @@ floors:
       g_venomling: 4
     health: 2.1
     attack: 17
-    shards: 17
+    kill: 1
+    shards: 5
     cores: 0
   - mobs:
       g_crawler: 3
@@ -142,7 +157,8 @@ floors:
       g_venomling: 4
     health: 2.25
     attack: 18
-    shards: 18
+    kill: 1
+    shards: 5
     cores: 0
   - mobs:
       g_sandshade: 3
@@ -151,7 +167,8 @@ floors:
       g_frostbow: 2
     health: 2.4
     attack: 19
-    shards: 19
+    kill: 1
+    shards: 5
     cores: 0
   - mobs:
       g_drowner: 4
@@ -159,7 +176,8 @@ floors:
       g_frostbow: 3
     health: 2.55
     attack: 20
-    shards: 20
+    kill: 1
+    shards: 6
     cores: 0
   - mobs:
       g_sandshade: 3
@@ -168,7 +186,8 @@ floors:
       g_brute: 2
     health: 2.7
     attack: 22
-    shards: 21
+    kill: 1
+    shards: 6
     cores: 0
   - mobs:
       g_drowner: 4
@@ -177,7 +196,8 @@ floors:
       g_brute: 3
     health: 2.85
     attack: 23
-    shards: 22
+    kill: 1
+    shards: 6
     cores: 0
   - mobs:
       g_bone_tyrant: 1
@@ -185,7 +205,8 @@ floors:
       g_frostbow: 2
     health: 3.0
     attack: 24
-    shards: 23
+    kill: 1
+    shards: 6
     cores: 2
   - mobs:
       g_drowner: 3
@@ -194,7 +215,8 @@ floors:
       g_raider: 2
     health: 3.25
     attack: 25
-    shards: 24
+    kill: 1
+    shards: 7
     cores: 0
   - mobs:
       g_venomling: 4
@@ -203,7 +225,8 @@ floors:
       g_raider: 3
     health: 3.5
     attack: 26
-    shards: 25
+    kill: 1
+    shards: 7
     cores: 0
   - mobs:
       g_frostbow: 3
@@ -212,7 +235,8 @@ floors:
       g_ashen_knight: 2
     health: 3.75
     attack: 28
-    shards: 26
+    kill: 1
+    shards: 7
     cores: 0
   - mobs:
       g_venomling: 4
@@ -221,7 +245,8 @@ floors:
       g_ashen_knight: 3
     health: 4.0
     attack: 29
-    shards: 27
+    kill: 1
+    shards: 8
     cores: 0
   - mobs:
       g_frostbow: 3
@@ -231,7 +256,8 @@ floors:
       g_venomling: 3
     health: 4.25
     attack: 30
-    shards: 28
+    kill: 2
+    shards: 8
     cores: 0
   - mobs:
       g_brute: 3
@@ -240,7 +266,8 @@ floors:
       g_gale: 2
     health: 4.5
     attack: 31
-    shards: 29
+    kill: 2
+    shards: 8
     cores: 0
   - mobs:
       g_raider: 3
@@ -249,7 +276,8 @@ floors:
       g_venomling: 3
     health: 4.75
     attack: 32
-    shards: 30
+    kill: 2
+    shards: 9
     cores: 0
   - mobs:
       g_brute: 4
@@ -257,7 +285,8 @@ floors:
       g_gale: 3
     health: 5.0
     attack: 34
-    shards: 31
+    kill: 2
+    shards: 9
     cores: 0
   - mobs:
       g_raider: 4
@@ -266,7 +295,8 @@ floors:
       g_frostbow: 2
     health: 5.25
     attack: 35
-    shards: 32
+    kill: 2
+    shards: 9
     cores: 0
   - mobs:
       g_ironhorn: 1
@@ -274,7 +304,8 @@ floors:
       g_raider: 2
     health: 5.5
     attack: 36
-    shards: 33
+    kill: 2
+    shards: 10
     cores: 2
   - mobs:
       g_ashen_knight: 3
@@ -283,7 +314,8 @@ floors:
       g_raider: 2
     health: 6.0
     attack: 37
-    shards: 34
+    kill: 2
+    shards: 10
     cores: 0
   - mobs:
       g_ashen_knight: 3
@@ -291,7 +323,8 @@ floors:
       g_blight_boar: 3
     health: 6.5
     attack: 38
-    shards: 35
+    kill: 2
+    shards: 10
     cores: 0
   - mobs:
       g_brute: 3
@@ -300,7 +333,8 @@ floors:
       g_raider: 3
     health: 7.0
     attack: 40
-    shards: 36
+    kill: 2
+    shards: 10
     cores: 0
   - mobs:
       g_ashen_knight: 4
@@ -309,7 +343,8 @@ floors:
       g_venomling: 3
     health: 7.5
     attack: 41
-    shards: 37
+    kill: 2
+    shards: 11
     cores: 0
   - mobs:
       g_ashen_knight: 3
@@ -318,7 +353,8 @@ floors:
       g_gale: 2
     health: 8.0
     attack: 42
-    shards: 38
+    kill: 2
+    shards: 11
     cores: 0
   - mobs:
       g_blight_boar: 3
@@ -327,7 +363,8 @@ floors:
       g_brute: 3
     health: 8.5
     attack: 43
-    shards: 39
+    kill: 2
+    shards: 11
     cores: 0
   - mobs:
       g_ashen_knight: 4
@@ -335,7 +372,8 @@ floors:
       g_mire_archer: 4
     health: 9.0
     attack: 44
-    shards: 40
+    kill: 2
+    shards: 12
     cores: 0
   - mobs:
       g_blight_boar: 4
@@ -344,7 +382,8 @@ floors:
       g_raider: 2
     health: 9.5
     attack: 46
-    shards: 41
+    kill: 2
+    shards: 12
     cores: 0
   - mobs:
       g_ashen_knight: 4
@@ -353,7 +392,8 @@ floors:
       g_gale: 2
     health: 10.0
     attack: 47
-    shards: 42
+    kill: 2
+    shards: 12
     cores: 0
   - mobs:
       g_blight_matriarch: 1
@@ -361,7 +401,8 @@ floors:
       g_mire_archer: 2
     health: 10.5
     attack: 48
-    shards: 43
+    kill: 2
+    shards: 12
     cores: 3
   - mobs:
       g_ashen_knight: 3
@@ -370,7 +411,8 @@ floors:
       g_rustling: 2
     health: 11.25
     attack: 49
-    shards: 44
+    kill: 2
+    shards: 13
     cores: 0
   - mobs:
       g_blight_boar: 3
@@ -378,7 +420,8 @@ floors:
       g_rustling: 3
     health: 12.0
     attack: 50
-    shards: 45
+    kill: 2
+    shards: 13
     cores: 0
   - mobs:
       g_ashen_knight: 4
@@ -386,7 +429,8 @@ floors:
       g_rustling: 3
     health: 12.75
     attack: 52
-    shards: 46
+    kill: 2
+    shards: 13
     cores: 0
   - mobs:
       g_blight_boar: 4
@@ -394,7 +438,8 @@ floors:
       g_rustling: 3
     health: 13.5
     attack: 53
-    shards: 47
+    kill: 2
+    shards: 14
     cores: 0
   - mobs:
       g_ashen_knight: 3
@@ -403,7 +448,8 @@ floors:
       g_rustling: 3
     health: 14.25
     attack: 54
-    shards: 48
+    kill: 2
+    shards: 14
     cores: 0
   - mobs:
       g_brute: 4
@@ -411,7 +457,8 @@ floors:
       g_rustling: 4
     health: 15.0
     attack: 55
-    shards: 49
+    kill: 2
+    shards: 14
     cores: 0
   - mobs:
       g_blight_boar: 4
@@ -420,7 +467,8 @@ floors:
       g_rustling: 3
     health: 15.75
     attack: 56
-    shards: 50
+    kill: 2
+    shards: 15
     cores: 0
   - mobs:
       g_ashen_knight: 4
@@ -428,7 +476,8 @@ floors:
       g_rustling: 4
     health: 16.5
     attack: 58
-    shards: 51
+    kill: 2
+    shards: 15
     cores: 0
   - mobs:
       g_ashen_knight: 4
@@ -437,7 +486,8 @@ floors:
       g_rustling: 4
     health: 17.25
     attack: 59
-    shards: 52
+    kill: 2
+    shards: 15
     cores: 0
   - mobs:
       g_tower_warden: 1
@@ -445,7 +495,8 @@ floors:
       g_mire_archer: 2
     health: 18.0
     attack: 60
-    shards: 53
+    kill: 2
+    shards: 16
     cores: 3
 gear:
   sword:

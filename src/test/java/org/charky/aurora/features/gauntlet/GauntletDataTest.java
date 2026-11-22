@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GauntletDataTest {
     private static GauntletData twoFloors() {
         List<GauntletData.Floor> floors = List.of(
-                new GauntletData.Floor(Map.of("g_rotter", 3), 1.0, 1, 4, 0),
-                new GauntletData.Floor(Map.of("g_rot_king", 1), 2.0, 10, 10, 1));
+                new GauntletData.Floor(Map.of("g_rotter", 3), 1.0, 1, 1, 4, 0),
+                new GauntletData.Floor(Map.of("g_rot_king", 1, "g_rotter", 4), 2.0, 10, 2, 10, 1));
         return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of());
     }
 
@@ -37,6 +37,16 @@ class GauntletDataTest {
         // Every 10th floor still pays a Core
         assertEquals(0, third.cores());
         assertTrue(data.floor(10).cores() > 0);
+    }
+
+    @Test
+    void aBossKillPaysFiveKills() {
+        GauntletData.Floor boss = twoFloors().floor(2);
+        assertEquals(2, boss.killPay("g_rotter"));
+        assertEquals(2 * GauntletData.BOSS_KILLS, boss.killPay("g_rot_king"));
+        // On a floor with no boss a lone mob is just a mob
+        assertEquals(1, twoFloors().floor(1).killPay("g_rotter"));
+        assertEquals("g_rotter", GauntletData.baseMobId("g_rotter#12"));
     }
 
     @Test

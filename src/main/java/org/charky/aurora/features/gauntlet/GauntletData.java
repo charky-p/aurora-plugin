@@ -29,10 +29,25 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     static final double ATTACK_PER_FLOOR = 1.2;
     // A mob on a floor is "<mob id>#<floor>", made from its base on the fly
     static final String FLOOR_SEP = "#";
+    // A boss kill pays this many kills (gauntlet_balance.py)
+    static final int BOSS_KILLS = 5;
+    // Past the last floor a kill pays this much more a floor
+    static final double KILL_PER_FLOOR = 0.04;
 
-    public record Floor(Map<String, Integer> mobs, double health, int attack, int shards, int cores) {
+    // kill is what every mob killed pays, shards the bonus for clearing the floor
+    public record Floor(Map<String, Integer> mobs, double health, int attack, int kill, int shards, int cores) {
         public boolean boss() {
             return cores > 0;
+        }
+
+        // A boss floor's boss is its one mob of a kind, the Rot King among four Rotters
+        public boolean isBoss(String mobId) {
+            return boss() && mobs.getOrDefault(mobId, 0) == 1;
+        }
+
+        // What killing one of these pays
+        public int killPay(String mobId) {
+            return isBoss(mobId) ? kill * BOSS_KILLS : kill;
         }
     }
 
@@ -90,7 +105,8 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                     else plugin.getLogger().severe("GAUNTLET ERROR: no mob '" + mob + "'");
                 });
                 floors.add(new Floor(mobs, num(row.get("health")).doubleValue(), num(row.get("attack")).intValue(),
-                        num(row.get("shards")).intValue(), num(row.get("cores")).intValue()));
+                        Math.max(1, num(row.get("kill")).intValue()), num(row.get("shards")).intValue(),
+                        num(row.get("cores")).intValue()));
             }
 
             Map<String, Gear> gear = new LinkedHashMap<>();
@@ -147,7 +163,8 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         Floor last = floors.getLast();
         int past = number - floors.size();
         return new Floor(last.mobs(), last.health() * Math.pow(ENDLESS_HEALTH, past),
-                (int) Math.round(last.attack() + ATTACK_PER_FLOOR * past), last.shards() + past,
+                (int) Math.round(last.attack() + ATTACK_PER_FLOOR * past),
+                (int) Math.round(last.kill() + KILL_PER_FLOOR * past), last.shards() + past,
                 number % 10 == 0 ? Math.max(1, last.cores()) : 0);
     }
 
@@ -173,6 +190,12 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
 
     public static String floorMobId(String mobId, int floor) {
         return mobId + FLOOR_SEP + floor;
+    }
+
+    // The base mob of a floor mob id, g_rotter from g_rotter#12
+    public static String baseMobId(String floorMobId) {
+        int sep = floorMobId.lastIndexOf(FLOOR_SEP);
+        return sep < 0 ? floorMobId : floorMobId.substring(0, sep);
     }
 
     // A mob on its floor: the base mob's health times the floor's, its attack plus

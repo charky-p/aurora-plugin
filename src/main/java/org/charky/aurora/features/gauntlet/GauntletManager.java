@@ -1,5 +1,6 @@
 package org.charky.aurora.features.gauntlet;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -33,6 +34,7 @@ import org.charky.aurora.features.cosmetic.CosmeticManager;
 import org.charky.aurora.features.player.PlayerManager;
 import org.charky.aurora.features.player.ScoreboardManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -83,6 +85,33 @@ public class GauntletManager implements Listener {
 
     public void start() {
         sweep = plugin.getServer().getScheduler().runTaskTimer(plugin, this::sweepAll, 20L, 20L);
+        scoreboard.setOverride(this::sidebar);
+    }
+
+    // In the Gauntlet's world the sidebar shows its Shards, Cores and best floor, and
+    // the run in progress. Elsewhere the main game's
+    private List<Component> sidebar(Player player) {
+        if (!isHere(player)) return null;
+        GauntletProfile profile = profile(player);
+        List<Component> lines = new ArrayList<>(List.of(
+                TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>GAUNTLET</b></gradient>"),
+                TextUtils.parse("<gray>• SHARDS: <aqua>" + profile.shards),
+                TextUtils.parse("<gray>• CORES: <light_purple>" + profile.cores),
+                TextUtils.parse("<gray>• BEST FLOOR: <white>" + profile.best)));
+        if (runs != null && runs.inRun(player)) {
+            lines.add(Component.empty());
+            lines.add(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>THIS RUN</b></gradient>"));
+            lines.add(TextUtils.parse("<gray>• FLOOR: <white>" + runs.floorOf(player)));
+            lines.add(TextUtils.parse("<gray>• EARNED: <aqua>" + runs.shardsOf(player) + " Shards"
+                    + (runs.coresOf(player) > 0 ? " <light_purple>" + runs.coresOf(player) + " Cores" : "")));
+        } else {
+            lines.add(TextUtils.parse("<gray>• RUNS: <white>" + profile.runs));
+        }
+        return lines;
+    }
+
+    public void refreshBoard(Player player) {
+        scoreboard.updateBoard(player);
     }
 
     public void shutdown() {
@@ -178,6 +207,7 @@ public class GauntletManager implements Listener {
         if (isHere(player)) return;
         if (runs != null) runs.end(player, GauntletRuns.End.LEFT);
         giveBack(player);
+        refreshBoard(player);
     }
 
     // After the loadouts swap, so what is put away is the loadout coming in
@@ -187,6 +217,7 @@ public class GauntletManager implements Listener {
         if (!isHere(player) || (arena.isGauntletWorld(event.getFrom()) && !build.isBuildWorld(event.getFrom()))) return;
         putAway(player);
         giveKit(player);
+        refreshBoard(player);
         TextUtils.send(player, "<red><b>THE GAUNTLET</b> <gray>Your own inventory is kept for when you leave. "
                 + "<white>/gauntlet</white> to start a run or open the forge.");
     }
@@ -300,6 +331,7 @@ public class GauntletManager implements Listener {
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.6f, 1.2f);
         TextUtils.send(player, message);
         if (isHere(player) && (runs == null || !runs.inRun(player))) giveKit(player);
+        refreshBoard(player);
     }
 
     // ---- After a run ----
@@ -315,6 +347,7 @@ public class GauntletManager implements Listener {
         if (record) profile.best = cleared;
         save(uuid);
         if (record) milestones(player, profile);
+        refreshBoard(player);
     }
 
     private void milestones(Player player, GauntletProfile profile) {

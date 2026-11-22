@@ -13,7 +13,9 @@ about half the floor they are on (EXPECTED_LEVEL), and the floor is tuned for th
   floor attack  = ATTACK_PER_FLOOR levels a floor, a little ahead of the armour's
                   Defence (half its level a piece, so the expected set adds up to
                   the floor), so hits creep up unless armour is ahead
-  shards        = paid for each floor cleared, SHARDS_BASE + SHARDS_PER_FLOOR x floor
+  kill          = Shards every mob killed pays, KILL_BASE + KILL_PER_FLOOR x floor, at
+                  least 1; a boss (the one mob of a boss floor) pays BOSS_KILLS times it
+  shards        = the bonus for clearing a floor, SHARDS_BASE + SHARDS_PER_FLOOR x floor
   cores         = paid on each boss floor (every 10th), 1 + floor / 20
   gear level L  = costs SHARD_BASE x SHARD_GROWTH^L shards, rounded; every 5th level
                   is a new material; from the 10th on it also costs cores (CORES)
@@ -37,7 +39,9 @@ DATA = ROOT / "scripts" / "data" / "gauntlet"
 
 EXPECTED_LEVEL = 0.5            # gear level per floor reached
 ATTACK_PER_FLOOR = 1.2          # mob attack levels added a floor
-SHARDS_BASE, SHARDS_PER_FLOOR = 3, 1.0
+SHARDS_BASE, SHARDS_PER_FLOOR = 0.5, 0.3
+KILL_BASE, KILL_PER_FLOOR = 0.5, 0.04
+BOSS_KILLS = 5                  # GauntletData.BOSS_KILLS
 SHARD_BASE, SHARD_GROWTH = 10, 1.17
 MAX_LEVEL = 30
 LEVELS_PER_MATERIAL = 5
@@ -70,8 +74,17 @@ def floor_numbers(floor):
     health = round(max(1.0, hit(floor * EXPECTED_LEVEL) / 10), 2)
     attack = round(floor * ATTACK_PER_FLOOR)
     shards = round(SHARDS_BASE + SHARDS_PER_FLOOR * floor)
+    kill = max(1, round(KILL_BASE + KILL_PER_FLOOR * floor))
     cores = 1 + floor // 20 if floor % 10 == 0 else 0
-    return health, attack, shards, cores
+    return health, attack, shards, kill, cores
+
+
+def floor_pay(row):
+    """Everything a floor pays when cleared: its kills, a boss's at BOSS_KILLS, and the bonus."""
+    counts = [int(part.split(":")[1]) for part in row["mobs"].split("|")]
+    boss = int(row["cores"]) > 0 and 1 in counts
+    kills = sum(counts) - (1 if boss else 0) + (BOSS_KILLS if boss else 0)
+    return kills * int(row["kill"]) + int(row["shards"])
 
 
 def nice(value):
@@ -117,13 +130,16 @@ def write(name, fields, rows):
 def main():
     floors = read("floors.csv")
     for row in floors:
-        health, attack, shards, cores = floor_numbers(int(row["floor"]))
-        row.update(health=health, attack=attack, shards=shards, cores=cores)
+        health, attack, shards, kill, cores = floor_numbers(int(row["floor"]))
+        row.update(health=health, attack=attack, shards=shards, kill=kill, cores=cores)
     levels = level_rows()
 
-    print(f"{'floor':>5} {'health x':>8} {'attack':>6} {'shards':>6} {'cores':>5}  mobs")
+    print(f"{'floor':>5} {'health x':>8} {'attack':>6} {'kill':>4} {'bonus':>5} {'pays':>5} {'run':>6} {'cores':>5}  mobs")
+    run = 0
     for row in floors:
-        print(f"{row['floor']:>5} {row['health']:>8} {row['attack']:>6} {row['shards']:>6} {row['cores']:>5}  {row['mobs']}")
+        pay = floor_pay(row)
+        run += pay
+        print(f"{row['floor']:>5} {row['health']:>8} {row['attack']:>6} {row['kill']:>4} {row['shards']:>5} {pay:>5} {run:>6} {row['cores']:>5}  {row['mobs']}")
     print()
     total = 0
     print(f"{'level':>5} {'shards':>6} {'cores':>5} {'total':>7}")
@@ -132,7 +148,7 @@ def main():
         print(f"{row['level']:>5} {row['shards']:>6} {row['cores']:>5} {total:>7}")
 
     if "--write" in sys.argv:
-        write("floors.csv", ["floor", "mobs", "health", "attack", "shards", "cores"], floors)
+        write("floors.csv", ["floor", "mobs", "health", "attack", "kill", "shards", "cores"], floors)
         write("gear_levels.csv", list(levels[0].keys()), levels)
         print("\nWrote floors.csv and gear_levels.csv")
 

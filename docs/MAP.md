@@ -187,7 +187,7 @@ At the end, the portal to Cloud Isles locked to `sky`, with `sky_gate_trader` be
 
 ### The Gauntlet
 
-A world of its own, not part of any region: a lobby, a PvP area beside it, and one arena with room for a few mob spawns and a care package spot. Keep 1,000 blocks along z from the arena empty, every run pastes its copy there. The steps are under Gauntlet in [COMMANDS.md](COMMANDS.md).
+A world of its own, not part of any region: a lobby with the `gauntlet_forge` trader, a PvP area beside it, and one arena with room for a few mob spawns and a care package spot. Keep 1,000 blocks along z from the arena empty, every run pastes its copy there. The steps are under Gauntlet in [COMMANDS.md](COMMANDS.md).
 
 ## 4. Check it
 

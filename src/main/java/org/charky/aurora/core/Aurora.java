@@ -90,6 +90,7 @@ import org.charky.aurora.features.spawner.SpawnerManager;
 import org.charky.aurora.features.suggestion.SuggestCommand;
 import org.charky.aurora.features.suggestion.SuggestionManager;
 import org.charky.aurora.features.system.SpawnListener;
+import org.charky.aurora.features.gauntlet.ForgeMenu;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.gauntlet.GauntletRuns;
@@ -367,6 +368,11 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("gauntlet", player -> {
             String problem = GauntletCommand.open(gauntletManager, gauntletRuns, player);
             if (problem != null) TextUtils.error(player, problem);
+        });
+        // The Gauntlet Forge trader in its lobby
+        registry.registerAction("gauntlet_forge", player -> {
+            if (gauntletManager.isHere(player)) new ForgeMenu(gauntletManager, gauntletRuns).open(player);
+            else TextUtils.error(player, "The forge only works in the Gauntlet");
         });
     }
 

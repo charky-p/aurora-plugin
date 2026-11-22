@@ -737,7 +737,7 @@ _Dumper.add_representer(Quoted, _quoted_representer)
 GUI_SPECIAL = set("BIX ")
 UPGRADES_ACTION = "upgrades:"
 FISHING_ACTION = "fishing:"
-ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto", "core", "exchange", "leaderboard", "fish_merchant", "gauntlet"}       # MenuActions.java
+ACTIONS = {"backpack", "armory", "spawn", "collections", "ranks", "shop", "warps", "customise", "tools", "howto", "core", "exchange", "leaderboard", "fish_merchant", "gauntlet", "gauntlet_forge"}       # MenuActions.java
 EQUIP_SLOTS = {"head", "chest", "legs", "feet", "hand", "off_hand"}
 
 def _drop_ids(entry):
@@ -1075,7 +1075,8 @@ GAUNTLET_HEADER = """# =========================================================
 #   - mobs: {g_rotter: 3} (mob id: how many)
 #     health: 1.05 (every mob's health times this)
 #     attack: 1 (attack levels added to every mob)
-#     shards: 4, cores: 0 (paid for clearing it)
+#     kill: 1 (Shards each mob killed pays, a boss five times it; a boss is a boss floor's one mob)
+#     shards: 4, cores: 0 (the bonus for clearing it)
 # gear: what can be upgraded, in the forge's order
 #   sword: {name, item, materials: [WOODEN, ...] or [NONE], kind: melee|ranged|thrown|armor|shield,
 #           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed)}
@@ -1131,7 +1132,7 @@ def gauntlet_text(mobs, cosmetics):
             errors.append(f"gauntlet floor {row['floor']}: no numbers, run scripts/balance/gauntlet_balance.py --write")
             continue
         floors.append(OrderedDict(mobs=spawns, health=float(row["health"]), attack=int(row["attack"]),
-                                  shards=int(row["shards"]), cores=int(row["cores"])))
+                                  kill=int(row["kill"]), shards=int(row["shards"]), cores=int(row["cores"])))
 
     gear = OrderedDict()
     for row in _gauntlet_rows("gear.csv") or []:

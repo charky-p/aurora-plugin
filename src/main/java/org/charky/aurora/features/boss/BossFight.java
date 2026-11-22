@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.charky.aurora.common.util.DataKeys;
@@ -17,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 // One living boss: its bar, who can see it, and its abilities
 public class BossFight {
@@ -96,6 +98,18 @@ public class BossFight {
     public double healthRatio() {
         double max = CustomHealth.max(boss);
         return max <= 0 ? 0 : Math.clamp(CustomHealth.current(boss) / max, 0.0, 1.0);
+    }
+
+    // Someone in the fight at random, null when nobody is
+    public Player randomPlayer(double range) {
+        List<Player> players = playersWithin(range);
+        return players.isEmpty() ? null : players.get(ThreadLocalRandom.current().nextInt(players.size()));
+    }
+
+    // A mob the boss brought in goes for someone in the fight straight away
+    public void aim(LivingEntity minion, double range) {
+        Player target = randomPlayer(range);
+        if (minion instanceof Mob mob && target != null) mob.setTarget(target);
     }
 
     // Players in the fight, those in creative or spectator are left alone

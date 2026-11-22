@@ -109,10 +109,7 @@ public class MarshHydra implements BossAbilities {
             return;
         }
         rider = archer.getUniqueId();
-        List<Player> targets = fight.playersWithin(TARGET_RANGE);
-        if (archer instanceof Mob mob && !targets.isEmpty()) {
-            mob.setTarget(targets.get(ThreadLocalRandom.current().nextInt(targets.size())));
-        }
+        fight.aim(archer, TARGET_RANGE);
         boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_ZOGLIN_ANGRY, 1.5f, 0.5f);
     }
 
@@ -199,10 +196,9 @@ public class MarshHydra implements BossAbilities {
         LivingEntity boss = fight.boss();
 
         if (age >= nextSludge) {
-            List<Player> targets = fight.playersWithin(TARGET_RANGE);
             nextSludge = age + SLUDGE_EVERY_TICKS + ThreadLocalRandom.current().nextInt(-SLUDGE_JITTER_TICKS, SLUDGE_JITTER_TICKS + 1);
-            if (!targets.isEmpty()) {
-                Player target = targets.get(ThreadLocalRandom.current().nextInt(targets.size()));
+            Player target = fight.randomPlayer(TARGET_RANGE);
+            if (target != null) {
                 Location centre = target.getLocation().clone();
                 puddles.add(new Puddle(centre, age + SLUDGE_WARN_TICKS, age + SLUDGE_WARN_TICKS + SLUDGE_LASTS_TICKS));
                 boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_SLIME_JUMP, 1.5f, 0.5f);

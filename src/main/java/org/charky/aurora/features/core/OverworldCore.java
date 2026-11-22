@@ -13,6 +13,7 @@ import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.tool.UpgradeZone;
+import org.charky.aurora.common.menu.CostLine;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -109,9 +110,7 @@ public final class OverworldCore {
                         lore.add(Component.empty());
                         for (MenuItem c : cost(registry, step, zoneId)) {
                             long have = backpack == null ? 0 : backpack.getAmount(player, c.getId());
-                            lore.add(TextUtils.parse("<!italic><gray>» ").append(c.getItem().effectiveName())
-                                    .append(TextUtils.parse(" " + (have >= c.getAmount() ? "<green>" : "<red>")
-                                            + "(" + String.format("%,d", have) + "/" + String.format("%,d", c.getAmount()) + ")")));
+                            lore.add(CostLine.of(c, have));
                         }
                         if (next) {
                             lore.add(Component.empty());

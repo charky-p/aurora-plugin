@@ -47,10 +47,7 @@ public class Arachne implements BossAbilities {
 
         boss.addPassenger(skeleton);
         rider = skeleton.getUniqueId();
-        List<Player> targets = fight.playersWithin(TARGET_RANGE);
-        if (skeleton instanceof Mob mob && !targets.isEmpty()) {
-            mob.setTarget(targets.get(ThreadLocalRandom.current().nextInt(targets.size())));
-        }
+        fight.aim(skeleton, TARGET_RANGE);
         boss.getWorld().playSound(boss.getLocation(), Sound.ENTITY_SPIDER_AMBIENT, 1.5f, 0.5f);
     }
 

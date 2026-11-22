@@ -13,6 +13,7 @@ import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.features.keys.KeyItems;
 import org.charky.aurora.features.player.BackpackData;
 import org.charky.aurora.features.player.BackpackManager;
+import org.charky.aurora.common.menu.CostLine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +46,7 @@ public class TraderItem implements TraderNode {
             lore.add(TextUtils.parse("<!italic><gold>Purchase Requirements"));
             for (MenuItem cost : costs) {
                 long have = backpack == null ? 0 : backpack.getAmount(player, cost.getId());
-                lore.add(TextUtils.parse("<!italic><gray>» ").append(cost.getItem().effectiveName())
-                        .append(TextUtils.parse((have >= cost.getAmount() ? " <green>" : " <red>")
-                                + "(" + have + "/" + cost.getAmount() + ")")));
+                lore.add(CostLine.of(cost, have));
             }
             meta.lore(lore);
         });

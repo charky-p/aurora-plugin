@@ -521,7 +521,7 @@ public class Aurora extends JavaPlugin {
         int count = 0;
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
-                if (entity.getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+                if (LeftoverMobListener.isSpawned(entity)) {
                     entity.remove();
                     count++;
                 }

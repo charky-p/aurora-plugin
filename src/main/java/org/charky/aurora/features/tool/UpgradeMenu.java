@@ -15,6 +15,7 @@ import org.charky.aurora.features.tool.UpgradeZone.Step;
 import org.charky.aurora.features.trader.TraderItem;
 import org.charky.aurora.features.trader.TraderMenu;
 import org.charky.aurora.features.trader.TraderNode;
+import org.charky.aurora.common.menu.CostLine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,9 +87,7 @@ public class UpgradeMenu extends PagedMenu {
                     for (MenuItem cost : next.costs()) {
                         long have = backpack == null ? 0 : backpack.getAmount(player, cost.getId());
                         if (have < cost.getAmount()) affordable = false;
-                        lore.add(TextUtils.parse("<!italic><gray>» ").append(cost.getItem().effectiveName())
-                                .append(TextUtils.parse((have >= cost.getAmount() ? " <green>" : " <red>")
-                                        + "(" + have + "/" + cost.getAmount() + ")")));
+                        lore.add(CostLine.of(cost, have));
                     }
                     String click = next.stat().equals(ToolLevels.UNLOCK) ? "Click to buy it" : "Click to upgrade";
                     lore.add(TextUtils.parse(affordable ? "<!italic><yellow>" + click : "<!italic><red>Not enough yet"));

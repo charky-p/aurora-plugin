@@ -38,7 +38,7 @@ public class LeftoverMobListener implements Listener {
     // included, and a lead would walk a frog or a slime off its island
     @EventHandler(ignoreCancelled = true)
     public void onInteract(PlayerInteractEntityEvent event) {
-        if (event.getRightClicked().getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+        if (isSpawned(event.getRightClicked())) {
             event.setCancelled(true);
         }
     }
@@ -48,7 +48,7 @@ public class LeftoverMobListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onSunburn(EntityCombustEvent event) {
         if (event instanceof EntityCombustByBlockEvent || event instanceof EntityCombustByEntityEvent) return;
-        if (event.getEntity().getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+        if (isSpawned(event.getEntity())) {
             event.setCancelled(true);
         }
     }
@@ -66,15 +66,19 @@ public class LeftoverMobListener implements Listener {
     // Vanilla drops while alive: a sniffer's dug up seeds and pitcher pods, a chicken's eggs
     @EventHandler(ignoreCancelled = true)
     public void onDrop(EntityDropItemEvent event) {
-        if (event.getEntity().getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+        if (isSpawned(event.getEntity())) {
             event.setCancelled(true);
         }
     }
 
+    // Spawned by one of our spawners, a boss and its minions included
+    public static boolean isSpawned(Entity entity) {
+        return entity.getPersistentDataContainer().has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING);
+    }
+
     private static void removeLeftovers(List<Entity> entities) {
         for (Entity entity : entities) {
-            if (entity.isPersistent() && entity.getPersistentDataContainer()
-                    .has(DataKeys.SPAWNER_KEY, PersistentDataType.STRING)) {
+            if (entity.isPersistent() && isSpawned(entity)) {
                 entity.remove();
             }
         }

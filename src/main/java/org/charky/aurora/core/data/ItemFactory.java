@@ -143,12 +143,7 @@ public class ItemFactory {
         MiningTool kind = MiningTool.of(item.getType());
         if (kind == null) return;
 
-        float speed = tierSpeed(item.getType()) + efficiencyBonus(efficiency);
-        ToolComponent tool = meta.getTool();
-        tool.setRules(new ArrayList<>());
-        tool.addRule(kind.blocks(), speed, true);
-        if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), speed, true);
-        meta.setTool(tool);
+        setRules(meta, kind, tierSpeed(item.getType()) + efficiencyBonus(efficiency));
     }
 
     // Digs at another material's speed, for a tool drawn in an older look
@@ -156,13 +151,16 @@ public class ItemFactory {
         MiningTool kind = MiningTool.of(item.getType());
         if (kind == null) return;
         float speed = tierSpeed(speedOf) + efficiencyBonus(Enchants.level(item, "efficiency"));
-        item.editMeta(meta -> {
-            ToolComponent tool = meta.getTool();
-            tool.setRules(new ArrayList<>());
-            tool.addRule(kind.blocks(), speed, true);
-            if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), speed, true);
-            meta.setTool(tool);
-        });
+        item.editMeta(meta -> setRules(meta, kind, speed));
+    }
+
+    // The blocks the tool is right for, all at one speed
+    private static void setRules(ItemMeta meta, MiningTool kind, float speed) {
+        ToolComponent tool = meta.getTool();
+        tool.setRules(new ArrayList<>());
+        tool.addRule(kind.blocks(), speed, true);
+        if (!kind.extras().isEmpty()) tool.addRule(kind.extras(), speed, true);
+        meta.setTool(tool);
     }
 
     // What vanilla Efficiency adds to a tool's speed: the level squared plus one

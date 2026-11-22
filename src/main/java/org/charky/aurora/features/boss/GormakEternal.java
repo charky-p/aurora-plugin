@@ -199,10 +199,7 @@ public class GormakEternal implements BossAbilities {
             return null;
         }
 
-        List<Player> targets = fight.playersWithin(ANNOUNCE_RANGE);
-        if (minion instanceof Mob mob && !targets.isEmpty()) {
-            mob.setTarget(targets.get(random.nextInt(targets.size())));
-        }
+        fight.aim(minion, ANNOUNCE_RANGE);
 
         at.getWorld().spawnParticle(particle, at.clone().add(0, 1, 0), 20, 0.3, 0.6, 0.3, 0.02);
         return minion;

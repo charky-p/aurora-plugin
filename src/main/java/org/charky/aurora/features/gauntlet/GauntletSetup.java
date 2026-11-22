@@ -264,8 +264,8 @@ public class GauntletSetup implements Listener {
         if (event.getEntity() instanceof Player player) restoreLater(player);
     }
 
-    // The menu item opens the Gauntlet's menu, the start item starts a run at once, the
-    // leave item leaves
+    // The menu item opens the Gauntlet's menu (or the boon or altar waiting in a run), the
+    // start item starts a run at once, the leave item leaves
     @EventHandler
     public void onUse(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
@@ -277,7 +277,9 @@ public class GauntletSetup implements Listener {
             case START -> manager.runs() == null ? null : manager.runs().quickStart(player);
             case LEAVE -> leave(player);
             default -> {
-                manager.openMenu(player);
+                // In a run with a boon or an altar waiting, the star opens that
+                GauntletRuns runs = manager.runs();
+                if (runs == null || !runs.inRun(player) || runs.openBoons(player) != null) manager.openMenu(player);
                 yield null;
             }
         };

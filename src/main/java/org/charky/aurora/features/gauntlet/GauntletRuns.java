@@ -619,7 +619,7 @@ public class GauntletRuns implements Listener {
         return switch (run.state) {
             case FIGHTING -> fightStatus(run, member);
             case CHOOSING -> member.choosing() ? (member.altar ? "<light_purple>Choose at the altar" : "<gold>Pick a boon")
-                    + " <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>/gauntlet boon</click>"
+                    + " <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>right click the star</click>"
                     : "<gray>Waiting for the party to choose";
             case STARTING -> "<red>Floor " + run.floor;
         };
@@ -967,9 +967,9 @@ public class GauntletRuns implements Listener {
         if (event.getInventory().getHolder(false) instanceof Chest chest) {
             if (event.getInventory().isEmpty()) care.closedEmpty(run, chest);
         } else if (event.getInventory().getHolder(false) instanceof AltarMenu && member.altar) {
-            TextUtils.send(player, "<gray>The altar waits: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+            TextUtils.send(player, "<gray>The altar waits, right click the star or <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
         } else if (event.getInventory().getHolder(false) instanceof BoonMenu && !member.offered.isEmpty()) {
-            TextUtils.send(player, "<gray>Your boon is waiting: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+            TextUtils.send(player, "<gray>Your boon is waiting, right click the star or <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
         }
     }
 

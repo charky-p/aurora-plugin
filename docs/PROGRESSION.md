@@ -158,7 +158,7 @@ The zones add up to about 10.5 hours of real play.
 
 A tower mode apart from the zones, in a world of its own: fast, focused PvE runs, alone or in a party, and a PvP zone, with its own progression (setup in [COMMANDS.md](COMMANDS.md)). Its data is in `scripts/data/gauntlet/`; `scripts/balance/gauntlet_balance.py --write` fills the numbers in `floors.csv` and writes `gear_levels.csv`, and `generate.py` writes `gauntlet.yml` and `mobs/gauntlet.yml`. Every tuning number below that is not in a table of its own is in `settings.csv`, with what it does.
 
-**Getting started.** `/gauntlet` or the Gauntlet button in `/a` goes to the lobby. Arriving shows a title and clickable Start, Forge and Menu buttons; until their first run new players see "Walk into the portal" on the action bar. Walking into the start portal (or `/gauntlet start`) starts a run. The first run and the first time back explain the basics in a tip.
+**Getting started.** `/gauntlet` or the Gauntlet button in `/a` goes to the lobby. Arriving shows a title and clickable Start, Forge and Menu buttons; until their first run new players see "Walk into the portal or right click Start a Run" on the action bar. Walking into the start portal, the Start a Run item in the hotbar or `/gauntlet start` starts a run. The first run and the first time back explain the basics in a tip.
 
 **Apart from the main game.** Entering its world puts the inventory away and hands out the gauntlet setup; nothing crosses over. Its progress is the person's, the same in every loadout. What crosses into the main game is what milestones pay: Essence and cosmetics.
 

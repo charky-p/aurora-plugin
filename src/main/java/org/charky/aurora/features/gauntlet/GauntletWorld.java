@@ -128,7 +128,8 @@ public class GauntletWorld implements Listener {
 
     // How to get going, the moment they arrive: a title, and buttons in chat
     private void welcome(Player player) {
-        String how = arena.hasStart() ? "Walk into the portal to start a run" : "Type /gauntlet start to start a run";
+        String how = arena.hasStart() ? "Walk into the portal, or use Start a Run in your hotbar, to start a run"
+                : "Use Start a Run in your hotbar to start a run";
         player.showTitle(Title.title(TextUtils.parse("<gradient:#FF416C:#FF4B2B><b>THE GAUNTLET</b></gradient>"),
                 TextUtils.parse("<gray>" + how)));
         TextUtils.send(player, "");
@@ -153,8 +154,8 @@ public class GauntletWorld implements Listener {
             if (!manager.isHere(player) || manager.inRun(player) || manager.isWatching(player) || manager.profile(player).runs > 0) continue;
             if (manager.pvp() != null && manager.pvp().inZone(player)) continue;
             player.sendActionBar(TextUtils.parse(arena.hasStart()
-                    ? "<green><b>Walk into the portal</b> <gray>to start your first run"
-                    : "<green><b>/gauntlet start</b> <gray>to start your first run"));
+                    ? "<green><b>Walk into the portal</b> <gray>or right click <green>Start a Run</green> to start your first run"
+                    : "<green><b>Right click Start a Run</b> <gray>in your hotbar to start your first run"));
         }
     }
 

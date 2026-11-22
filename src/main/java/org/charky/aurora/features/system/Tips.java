@@ -28,6 +28,7 @@ public final class Tips {
             "Hold up your shield to block hits. Deflection upgrades let it stop stronger mobs.",
             "<white>/leaderboard<gray> shows the top ten by level, blocks mined, kills, Essence and playtime.",
             "Mob gear drops are unlocked for good. Take a copy out any time from the Gear tab in <white>/collections<gray>.",
+            "You can't lose your tools or gear for good. Lost or trashed something? Take it out again from the Armory, in the Gear tab of <white>/collections<gray>.",
             "<white>/customise<gray> changes your suffix, colours, trail, kill effect, armour trim and tool looks.",
             "Collections and levels pay Essence. Spend it on perks like Dash and mounts in <white>/shop<gray>.",
             "Too much junk? <white>/trash<gray> opens a bin. Tools, the backpack and keys are always kept.",

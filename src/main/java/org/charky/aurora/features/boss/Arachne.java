@@ -4,13 +4,9 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
 import org.charky.aurora.core.Aurora;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 // Arachne wakes with her rider on her back, a skeleton that shoots from it, the way a
 // vanilla spider jockey does. The rider steers her, as in vanilla. Killed, it stays

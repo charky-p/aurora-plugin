@@ -254,34 +254,66 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         return care.isEmpty() ? 0 : care.getLast().level();
     }
 
-    public static String floorMobId(String mobId, int floor) {
-        return mobId + FLOOR_SEP + floor;
-    }
+    // A mob as it is on a floor: g_rotter#12, g_rotter#12* when elite, and
+    // g_rotter#12*~swift with the floor's mutator. Made from the base mob on the fly
+    public record Variant(String base, int floor, boolean elite, String mutator) {
+        static final String ELITE = "*";
+        static final String MUTATOR = "~";
 
-    // The base mob of a floor mob id, g_rotter from g_rotter#12
-    public static String baseMobId(String floorMobId) {
-        int sep = floorMobId.lastIndexOf(FLOOR_SEP);
-        return sep < 0 ? floorMobId : floorMobId.substring(0, sep);
-    }
-
-    // A mob on its floor: the base mob's health times the floor's, its attack plus
-    // the floor's. Null for an id that is not one
-    public MobData variant(String id, Function<String, MobData> base) {
-        int sep = id.lastIndexOf(FLOOR_SEP);
-        if (sep < 0) return null;
-        MobData mob = base.apply(id.substring(0, sep));
-        int number;
-        try {
-            number = Integer.parseInt(id.substring(sep + 1));
-        } catch (NumberFormatException e) {
-            return null;
+        public String id() {
+            return base + FLOOR_SEP + floor + (elite ? ELITE : "") + (mutator == null ? "" : MUTATOR + mutator);
         }
-        Floor floor = floor(number);
+
+        // Null for an id that is no variant
+        public static Variant parse(String id) {
+            if (id == null) return null;
+            String mutator = null;
+            int tilde = id.indexOf(MUTATOR);
+            if (tilde >= 0) {
+                mutator = id.substring(tilde + 1);
+                id = id.substring(0, tilde);
+            }
+            boolean elite = id.endsWith(ELITE);
+            if (elite) id = id.substring(0, id.length() - 1);
+            int sep = id.lastIndexOf(FLOOR_SEP);
+            if (sep < 0) return null;
+            try {
+                return new Variant(id.substring(0, sep), Integer.parseInt(id.substring(sep + 1)), elite, mutator);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+    }
+
+    public static String floorMobId(String mobId, int floor) {
+        return new Variant(mobId, floor, false, null).id();
+    }
+
+    // The base mob of a floor mob id, g_rotter from g_rotter#12*~swift
+    public static String baseMobId(String floorMobId) {
+        Variant variant = Variant.parse(floorMobId);
+        return variant == null ? floorMobId : variant.base();
+    }
+
+    // A mob on its floor: the base mob's health times the floor's, its attack plus the
+    // floor's; an elite's health and hits times elite_health and elite_damage, and the
+    // floor's mutator on top. Null for an id that is not one
+    public MobData variant(String id, Function<String, MobData> base) {
+        Variant variant = Variant.parse(id);
+        if (variant == null) return null;
+        MobData mob = base.apply(variant.base());
+        Floor floor = floor(variant.floor());
         if (mob == null || floor == null) return null;
-        Component name = mob.displayName().append(TextUtils.parse(" <dark_gray>F" + number));
-        return new MobData(id, mob.type(), name, Math.round(mob.health() * floor.health()), mob.defence(),
-                mob.attack() + floor.attack(), mob.attackCooldown(), mob.damage(), 0, mob.equipment(),
-                mob.attributes(), mob.glowing(), mob.drops());
+        Mutator mutator = variant.mutator() == null ? null : mutators.get(variant.mutator());
+        double health = mob.health() * floor.health() * (variant.elite() ? setting("elite_health", 2.5) : 1)
+                * (mutator == null ? 1 : mutator.health());
+        double damage = mob.damage() * (variant.elite() ? setting("elite_damage", 1.3) : 1)
+                * (mutator == null ? 1 : mutator.damage());
+        Component name = (variant.elite() ? TextUtils.parse("<gold><b>Elite</b> ") : Component.empty())
+                .append(mob.displayName()).append(TextUtils.parse(" <dark_gray>F" + variant.floor()));
+        return new MobData(id, mob.type(), name, Math.max(1, Math.round(health)), mob.defence(),
+                mob.attack() + floor.attack(), mob.attackCooldown(), damage, 0, mob.equipment(),
+                mob.attributes(), mob.glowing() || variant.elite(), mob.drops());
     }
 
     @SuppressWarnings("unchecked")

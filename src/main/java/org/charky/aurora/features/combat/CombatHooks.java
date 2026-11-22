@@ -1,13 +1,14 @@
 package org.charky.aurora.features.combat;
 
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 // Lets a game mode change hits without the damage rules knowing about it: the
-// gauntlet's run upgrades and weapons. Both default to leaving the hit as it is
+// gauntlet's run upgrades and weapons. Every hook leaves the hit as it is by default
 public final class CombatHooks {
     public interface Outgoing {
         // What a player's hit on a mob is multiplied by. Ranged for an arrow or a thrown trident
-        double multiplier(Player attacker, boolean ranged);
+        double multiplier(Player attacker, LivingEntity victim, boolean ranged);
     }
 
     public interface Incoming {
@@ -15,22 +16,33 @@ public final class CombatHooks {
         double damage(Player victim, double damage);
     }
 
-    private static Outgoing outgoing = (attacker, ranged) -> 1.0;
+    public interface AfterHit {
+        // Told once a player's hit has been dealt to a mob, with what it took off
+        void dealt(Player attacker, LivingEntity victim, double dealt, boolean ranged);
+    }
+
+    private static Outgoing outgoing = (attacker, victim, ranged) -> 1.0;
     private static Incoming incoming = (victim, damage) -> damage;
+    private static AfterHit afterHit = (attacker, victim, dealt, ranged) -> {};
 
     private CombatHooks() {
     }
 
-    public static void set(Outgoing out, Incoming in) {
+    public static void set(Outgoing out, Incoming in, AfterHit after) {
         outgoing = out;
         incoming = in;
+        afterHit = after;
     }
 
-    static double outgoing(Player attacker, boolean ranged) {
-        return outgoing.multiplier(attacker, ranged);
+    static double outgoing(Player attacker, LivingEntity victim, boolean ranged) {
+        return outgoing.multiplier(attacker, victim, ranged);
     }
 
     static double incoming(Player victim, double damage) {
         return incoming.damage(victim, damage);
+    }
+
+    static void afterHit(Player attacker, LivingEntity victim, double dealt, boolean ranged) {
+        afterHit.dealt(attacker, victim, dealt, ranged);
     }
 }

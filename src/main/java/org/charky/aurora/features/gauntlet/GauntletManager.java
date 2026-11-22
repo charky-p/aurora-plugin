@@ -366,7 +366,7 @@ public class GauntletManager implements Listener {
         if (from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) return;
         Player player = event.getPlayer();
         if (!isHere(player) || inRun(player) || !arena.inStart(to) || arena.inStart(from) || runs == null) return;
-        String problem = runs.begin(player);
+        String problem = runs.startFlow(player);
         if (problem != null) TextUtils.error(player, problem);
     }
 
@@ -426,6 +426,29 @@ public class GauntletManager implements Listener {
         setLevel(player.getUniqueId(), profile, gearId, next.level());
         save(player.getUniqueId());
         afterPurchase(player, "<green>" + gear.name() + " upgraded to <white>(" + next.level() + ")");
+        return null;
+    }
+
+    // A talent's next level. Null if it worked, otherwise why not
+    public String buyTalent(Player player, String talentId) {
+        GauntletData.Talent talent = data().talents().get(talentId);
+        if (talent == null) return "There is no such talent";
+        if (inRun(player)) return "Talents can't be learned during a run";
+        GauntletProfile profile = profile(player);
+        int level = profile.talent(talentId);
+        if (level >= talent.max()) return "You have learned all of it";
+        int next = level + 1;
+        if (profile.shards < talent.shardsFor(next)) return "You need " + (talent.shardsFor(next) - profile.shards) + " more Shards";
+        if (profile.cores < talent.coresFor(next)) return "You need " + (talent.coresFor(next) - profile.cores) + " more Cores";
+        profile.shards -= talent.shardsFor(next);
+        profile.cores -= talent.coresFor(next);
+        profile.talents.put(talentId, next);
+        UUID uuid = player.getUniqueId();
+        db.async(() -> store.saveTalent(uuid, talentId, next));
+        save(uuid);
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.6f, 1.4f);
+        TextUtils.send(player, "<green>" + talent.name() + (talent.max() > 1 ? " level " + next : "") + " learned");
+        refreshBoard(player);
         return null;
     }
 

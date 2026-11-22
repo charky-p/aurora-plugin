@@ -31,7 +31,20 @@ public class GauntletCommand implements TabExecutor {
         String action = args.length > 0 ? args[0].toLowerCase() : "";
         String problem = switch (action) {
             case "boon" -> runs.openBoons(player);
-            case "start" -> manager.isHere(player) ? runs.begin(player) : manager.sendToLobby(player);
+            case "start" -> {
+                if (!manager.isHere(player)) yield manager.sendToLobby(player);
+                if (args.length < 2) yield runs.startFlow(player);
+                try {
+                    yield runs.begin(player, Integer.parseInt(args[1]));
+                } catch (NumberFormatException e) {
+                    yield "Not a floor: " + args[1];
+                }
+            }
+            case "talents" -> {
+                if (!manager.isHere(player)) yield manager.sendToLobby(player);
+                new TalentsMenu(manager).open(player);
+                yield null;
+            }
             case "forge" -> {
                 if (!manager.isHere(player)) yield manager.sendToLobby(player);
                 new ForgeMenu(manager, runs).open(player);
@@ -58,6 +71,6 @@ public class GauntletCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                       @NotNull String label, @NotNull String @NotNull [] args) {
-        return args.length == 1 ? TextUtils.getCompletions(args[0], List.of("start", "forge", "boon", "leave")) : List.of();
+        return args.length == 1 ? TextUtils.getCompletions(args[0], List.of("start", "forge", "talents", "boon", "leave")) : List.of();
     }
 }

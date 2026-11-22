@@ -57,10 +57,11 @@ public class CombatListener implements Listener {
         double dealt = shot != null
                 ? Math.max(0.0, Math.round(shot.raw() - (mob == null ? 0.0 : mob.defence())))
                 : playerDamage.dealt(attacker, mob, event.isCritical());
-        dealt = Math.round(dealt * CombatHooks.outgoing(attacker, shot != null));
+        dealt = Math.round(dealt * CombatHooks.outgoing(attacker, victim, shot != null));
         event.setDamage(CustomHealth.NOMINAL_DAMAGE);
         CustomHealth.apply(victim, dealt, attacker, registry);
         indicator.show(victim, dealt);
+        CombatHooks.afterHit(attacker, victim, dealt, shot != null);
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

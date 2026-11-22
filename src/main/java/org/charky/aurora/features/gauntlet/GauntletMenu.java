@@ -16,7 +16,7 @@ import java.util.UUID;
 // /gauntlet in the gauntlet's world, or its menu item: start a run, the forge, the
 // starting kit, milestones, the top floors, and the way out
 public class GauntletMenu extends PagedMenu {
-    private static final int START = 0, FORGE = 1, KIT = 2, MILESTONES = 3, TOP = 4, PVP = 5, LEAVE = 6;
+    private static final int START = 0, FORGE = 1, KIT = 2, TALENTS = 3, MILESTONES = 4, TOP = 5, PVP = 6, LEAVE = 7;
 
     private final GauntletManager manager;
     private final GauntletRuns runs;
@@ -31,11 +31,13 @@ public class GauntletMenu extends PagedMenu {
     protected List<ItemStack> entries(Player player) {
         GauntletProfile profile = manager.profile(player);
         List<ItemStack> items = new ArrayList<>();
+        List<Integer> checkpoints = runs.checkpoints(player);
         items.add(button(Material.IRON_SWORD, "<red><b>Start a Run", List.of(
                 "<gray>Climb the tower floor by floor.",
                 "<gray>Every 5 floors: a care package",
                 "<gray>and a boon for this run.",
                 "<gray>Shards and Cores are kept when it ends.",
+                checkpoints.size() > 1 ? "<gray>Start on floor <white>" + checkpoints.getLast() + "</white> or earlier" : "",
                 "",
                 runs.inRun(player) ? "<red>You are in a run" : "<yellow>Click to start")));
         items.add(button(Material.ANVIL, "<gold><b>The Forge", List.of(
@@ -53,6 +55,14 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>lay it out how you like it.")));
 
         // Only the next milestone to reach, and how many are done
+        int learned = profile.talents.values().stream().mapToInt(Integer::intValue).sum();
+        int total = manager.data().talents().values().stream().mapToInt(GauntletData.Talent::max).sum();
+        items.add(button(Material.ENCHANTED_BOOK, "<green><b>Talents", List.of(
+                "<gray>Permanent upgrades for every run:",
+                "<gray>hearts, Shards, rerolls, a Second Wind.",
+                "",
+                "<gray>Learned: <white>" + learned + "/" + total)));
+
         List<String> milestones = new ArrayList<>();
         List<GauntletData.Milestone> all = manager.data().milestones();
         GauntletData.Milestone next = all.stream().filter(m -> !profile.milestones.contains(m.floor())).findFirst().orElse(null);
@@ -134,9 +144,10 @@ public class GauntletMenu extends PagedMenu {
     protected void onEntryClick(Player player, int index) {
         switch (index) {
             case START -> {
-                String problem = runs.begin(player);
+                String problem = runs.startFlow(player);
                 if (problem != null) TextUtils.error(player, problem);
             }
+            case TALENTS -> new TalentsMenu(manager).open(player);
             case FORGE -> new ForgeMenu(manager, runs).open(player);
             case KIT -> new SetupMenu(manager, runs).open(player);
             case LEAVE -> {

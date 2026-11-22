@@ -50,6 +50,17 @@ class GauntletDataTest {
     }
 
     @Test
+    void variantIdsGoBothWays() {
+        GauntletData.Variant plain = GauntletData.Variant.parse("g_rotter#12");
+        assertEquals(new GauntletData.Variant("g_rotter", 12, false, null), plain);
+        GauntletData.Variant full = new GauntletData.Variant("g_rot_king", 10, true, "swift");
+        assertEquals(full, GauntletData.Variant.parse(full.id()));
+        assertEquals("g_rot_king", GauntletData.baseMobId(full.id()));
+        assertNull(GauntletData.Variant.parse("g_rotter"));
+        assertNull(GauntletData.Variant.parse("g_rotter#x"));
+    }
+
+    @Test
     void noFloorsNoFloor() {
         assertNull(GauntletData.empty().floor(1));
         assertFalse(GauntletData.empty().ready());

@@ -1,5 +1,6 @@
 package org.charky.aurora.features.gauntlet;
 
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -36,9 +37,12 @@ import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.combat.CombatHooks;
+import org.charky.aurora.features.combat.CustomHealth;
+import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.spawner.SpawnerManager;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,22 +56,30 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 // A run up the tower, solo, in the player's own copy of the arena. Every floor is a
-// wave of mobs from floors.csv, made tougher by the floor; every kill pays Shards and
-// clearing the floor a bonus (and Cores on a boss floor), banked when the run ends
-// however it ends. Every 5th floor a care package lands (arrows, food, potions) and
-// the player picks one of three boons, upgrades for this run only. A hit that would kill ends the run instead (a totem still
-// saves), and the player is back in the lobby with their gear, keeping what they earned
+// wave of mobs from floors.csv, made tougher by the floor; some are elites (tougher,
+// they pay more) and from floor 6 a floor can carry a mutator (faster mobs, more of
+// them ...) that pays more. Bosses call for help at two thirds and one third of their
+// health and rage at the last third. Every kill pays Shards, clearing the floor a
+// bonus (and more under its par time), boss floors Cores. Every boon_every floors a
+// care package lands and the player picks a boon, upgrades for this run only, rarer
+// ones less often. Talents bought in the lobby make every run stronger. A hit that
+// would kill ends the run (unless a totem or a Second Wind saves them), and they are
+// back in the lobby with what they earned, more with Greed and the day's first run.
+// Veterans can start past the boss floors they have cleared (checkpoints)
 public class GauntletRuns implements Listener {
     public enum End { DIED, LEFT, QUIT }
 
-    private static final int BOON_EVERY = 5;
-    private static final int BOON_CHOICES = 3;
     private static final long FLOOR_DELAY_TICKS = 60L;
     // A mob this far from the arena's spawn has fallen off or wandered, it is brought back
     private static final double STRAY_DISTANCE = 80;
+    private static final double CLEAVE_RANGE = 3;
+    private static final double EXECUTE_BELOW = 0.3;
+    private static final String DAILY_DAY = "daily_day";
     private static final NamespacedKey HEALTH_BOON = new NamespacedKey("aurora", "gauntlet_health");
     private static final NamespacedKey SPEED_BOON = new NamespacedKey("aurora", "gauntlet_speed");
     private static final NamespacedKey ABSORB_BOON = new NamespacedKey("aurora", "gauntlet_absorb");
+    private static final NamespacedKey TALENT_HEALTH = new NamespacedKey("aurora", "gauntlet_talent_health");
+    private static final NamespacedKey ENRAGE = new NamespacedKey("aurora", "gauntlet_enrage");
     // Vanilla Strength does nothing to Aurora hits, in a run each level adds this much
     private static final double STRENGTH_PER_LEVEL = 0.3;
 
@@ -82,16 +94,33 @@ public class GauntletRuns implements Listener {
     private static final class Run {
         final UUID player;
         final int slot;
+        final long started = System.currentTimeMillis();
+        int startFloor = 1;
         int floor;
         int shards;
         int cores;
         State state = State.STARTING;
         final Set<UUID> mobs = new HashSet<>();
+        final Set<UUID> elites = new HashSet<>();
         final Map<String, Integer> boons = new LinkedHashMap<>();
         List<String> offered = List.of();
         // The best floor before this run, and whether passing it was announced yet
         int bestBefore;
         boolean newBest;
+        // This floor: its mutator, how many mobs it started with and when, its boss
+        GauntletData.Mutator mutator;
+        int floorMobs;
+        long floorStarted;
+        UUID boss;
+        int bossPhase;
+        // The run so far
+        int kills;
+        int eliteKills;
+        int fastClears;
+        int rerolls;
+        int revives;
+        boolean daily;
+        BossBar bar;
 
         Run(UUID player, int slot) {
             this.player = player;
@@ -111,7 +140,7 @@ public class GauntletRuns implements Listener {
         this.plugin = plugin;
         this.manager = manager;
         this.spawners = spawners;
-        CombatHooks.set(this::outgoing, this::incoming);
+        CombatHooks.set(this::outgoing, this::incoming, this::afterHit);
     }
 
     public void start() {
@@ -143,35 +172,101 @@ public class GauntletRuns implements Listener {
         return run == null ? 0 : run.cores;
     }
 
+    private GauntletData data() {
+        return manager.data();
+    }
+
     // ---- Starting and ending ----
 
-    // Null if it started, otherwise why not
-    public String begin(Player player) {
+    // The floors a run can start on: 1, and the floor after every boss floor cleared
+    public List<Integer> checkpoints(Player player) {
+        List<Integer> floors = new ArrayList<>(List.of(1));
+        int best = manager.profile(player).best;
+        for (int floor = 10; floor <= best; floor += 10) floors.add(floor + 1);
+        return floors;
+    }
+
+    // From the menu, the start portal and /gauntlet start: straight into floor 1, or a
+    // pick of checkpoints for those past a boss. Null if it went on, otherwise why not
+    public String startFlow(Player player) {
+        String problem = canBegin(player);
+        if (problem != null) return problem;
+        if (checkpoints(player).size() > 1) new CheckpointMenu(manager, this).open(player);
+        else return begin(player, 1);
+        return null;
+    }
+
+    private String canBegin(Player player) {
         if (inRun(player)) return "You are already in a run";
         if (!manager.isHere(player)) return "Go to the Gauntlet first, /gauntlet";
         if (manager.pvp() != null && manager.pvp().inZone(player)) return "Leave the PvP zone first, /spawn";
-        if (!manager.data().ready()) return "The Gauntlet's data did not load";
-        GauntletArena arena = manager.arena();
-        String missing = arena.missing();
+        if (!data().ready()) return "The Gauntlet's data did not load";
+        String missing = manager.arena().missing();
         if (missing != null) return "The arena is not set up yet (" + missing + ")";
+        return null;
+    }
 
+    public String begin(Player player) {
+        return begin(player, 1);
+    }
+
+    // Null if it started, otherwise why not
+    public String begin(Player player, int startFloor) {
+        String problem = canBegin(player);
+        if (problem != null) return problem;
+        if (!checkpoints(player).contains(startFloor)) return "You can't start on floor " + startFloor + " yet";
+
+        GauntletProfile profile = manager.profile(player);
+        GauntletArena arena = manager.arena();
         int slot = arena.claimSlot();
         Run run = new Run(player.getUniqueId(), slot);
-        run.bestBefore = manager.profile(player).best;
+        run.bestBefore = profile.best;
+        run.startFloor = startFloor;
+        run.floor = startFloor - 1;
+        run.rerolls = (int) talentTotal(profile, "reroll");
+        run.revives = (int) talentTotal(profile, "revive");
+        long today = LocalDate.now().toEpochDay();
+        run.daily = profile.stat(DAILY_DAY) != today;
+        if (run.daily) manager.setStat(player.getUniqueId(), DAILY_DAY, (int) today);
+        boolean first = profile.runs == 0;
         runs.put(player.getUniqueId(), run);
         arena.paste(slot);
 
         player.closeInventory();
         // The run starts with the setup from the lobby
         manager.giveKit(player);
+        setModifier(player, Attribute.MAX_HEALTH, TALENT_HEALTH, talentTotal(profile, "health"), AttributeModifier.Operation.ADD_NUMBER);
         heal(player);
         player.teleport(arena.inSlot(slot, arena.place(GauntletArena.SPAWN)));
         player.playSound(player.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
+        run.bar = BossBar.bossBar(TextUtils.parse("<red><b>Floor " + startFloor), 0f, BossBar.Color.RED, BossBar.Overlay.PROGRESS);
+        player.showBossBar(run.bar);
+
+        if (run.daily) TextUtils.send(player, "<gold><b>DAILY BONUS</b> <gray>Your first run today pays <white>"
+                + fmt(data().setting("daily_bonus", 2)) + "x</white> Shards");
+        if (first) {
+            TextUtils.send(player, "<yellow><b>TIP</b> <gray>Kill every mob to clear a floor. Every "
+                    + boonEvery() + " floors a care package lands and you pick a boon. If you fall, you keep the Shards you earned.");
+        }
+        // Starting past floor 1: the boons of the floors skipped, and a care package
+        if (startFloor > 1) {
+            List<String> given = new ArrayList<>();
+            for (int i = 0; i < (startFloor - 1) / boonEvery(); i++) {
+                List<String> pick = pickBoons(run, 1);
+                if (pick.isEmpty()) break;
+                run.boons.merge(pick.getFirst(), 1, Integer::sum);
+                given.add(data().boons().get(pick.getFirst()).name());
+            }
+            applyBoons(player, run);
+            if (!given.isEmpty()) TextUtils.send(player, "<gold><b>CHECKPOINT</b> <gray>Starting on floor " + startFloor
+                    + " with: <white>" + String.join(", ", given));
+            carePackage(player, run);
+        }
         nextFloor(player, run);
         return null;
     }
 
-    // Banks what the run earned and puts the player back in the lobby with their gear
+    // Banks what the run earned and puts the player back in the lobby with their setup
     public void end(Player player, End why) {
         Run run = runs.remove(player.getUniqueId());
         if (run == null) return;
@@ -179,13 +274,20 @@ public class GauntletRuns implements Listener {
             Entity mob = Bukkit.getEntity(id);
             if (mob != null) mob.remove();
         }
+        if (run.bar != null) player.hideBossBar(run.bar);
         manager.arena().freeSlot(run.slot);
         clearBoons(player);
         takeRunItems(player);
 
+        GauntletProfile profile = manager.profile(player);
         int cleared = run.cleared();
         boolean record = cleared > run.bestBefore;
-        manager.bank(player, run.shards, run.cores, cleared);
+        double greed = boonTotal(run, "shards") + talentTotal(profile, "shards");
+        double daily = run.daily ? data().setting("daily_bonus", 2) : 1;
+        int banked = (int) Math.round(run.shards * (1 + greed / 100) * daily);
+        manager.bank(player, banked, run.cores, cleared);
+        manager.addStat(player.getUniqueId(), "kills", run.kills);
+        manager.addStat(player.getUniqueId(), "elite_kills", run.eliteKills);
         if (why == End.QUIT) return;
 
         heal(player);
@@ -194,14 +296,43 @@ public class GauntletRuns implements Listener {
             if (lobby != null) player.teleport(lobby);
             manager.giveKit(player);
         }
-        String how = why == End.DIED ? "<red>You fell on floor " + run.floor : "<gray>You left the run on floor " + run.floor;
         player.showTitle(Title.title(TextUtils.parse(why == End.DIED ? "<red><b>DEFEATED" : "<gray><b>RUN OVER"),
                 TextUtils.parse(record ? "<gold><b>NEW BEST</b> <gray>Floors cleared: <white>" + cleared
                         : "<gray>Floors cleared: <white>" + cleared)));
-        TextUtils.send(player, how + "<gray>. Cleared <white>" + cleared + "</white>, earned <aqua>" + run.shards
-                + " Shards" + (run.cores > 0 ? " <gray>and <light_purple>" + run.cores + " Cores" : "")
-                + (record ? "<gray>. <gold><b>NEW BEST!</b> <gray>(was " + run.bestBefore + ")"
-                : "<gray>. Best: <white>" + manager.profile(player).best));
+        summary(player, run, why, cleared, record, greed, daily, banked);
+        if (profile.runs == 1) {
+            TextUtils.send(player, "<yellow><b>TIP</b> <gray>Spend your Shards on gear in the forge, every level hits harder: "
+                    + "<click:run_command:'/gauntlet forge'><gold><b>[FORGE]</b></click>");
+        }
+    }
+
+    private void summary(Player player, Run run, End why, int cleared, boolean record, double greed, double daily, int banked) {
+        long seconds = (System.currentTimeMillis() - run.started) / 1000;
+        String time = seconds / 60 + ":" + String.format("%02d", seconds % 60);
+        TextUtils.send(player, "");
+        TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>RUN OVER</b></gradient> <gray>" + (why == End.DIED
+                ? "fell on floor <white>" + run.floor : "left on floor <white>" + run.floor)
+                + (run.startFloor > 1 ? " <dark_gray>(started on " + run.startFloor + ")" : ""));
+        TextUtils.send(player, "<gray>Cleared <white>" + cleared + "</white> in <white>" + time + "</white>, <white>"
+                + run.kills + "</white> kills (" + run.eliteKills + " elite), <white>" + run.fastClears + "</white> fast clears");
+        String bonus = (greed > 0 ? " <gray>+" + fmt(greed) + "% greed" : "") + (daily > 1 ? " <gray>x" + fmt(daily) + " daily" : "");
+        TextUtils.send(player, "<gray>Shards: <aqua>" + run.shards + bonus + (bonus.isEmpty() ? "" : " <gray>= <aqua><b>" + banked + "</b>")
+                + (run.cores > 0 ? " <gray>Cores: <light_purple>" + run.cores : ""));
+        if (!run.boons.isEmpty()) {
+            List<String> boons = new ArrayList<>();
+            run.boons.forEach((id, stacks) -> {
+                GauntletData.Boon boon = data().boons().get(id);
+                if (boon != null) boons.add(boon.colour() + boon.name() + (stacks > 1 ? " x" + stacks : ""));
+            });
+            TextUtils.send(player, "<gray>Boons: " + String.join("<gray>, ", boons));
+        }
+        TextUtils.send(player, record ? "<gold><b>NEW BEST!</b> <gray>(was " + run.bestBefore + ")"
+                : "<gray>Best: <white>" + manager.profile(player).best);
+        TextUtils.send(player, "");
+    }
+
+    private static String fmt(double value) {
+        return value == Math.floor(value) ? String.valueOf((long) value) : String.valueOf(value);
     }
 
     private void heal(Player player) {
@@ -212,37 +343,80 @@ public class GauntletRuns implements Listener {
         player.setFireTicks(0);
     }
 
+    private int boonEvery() {
+        return Math.max(1, (int) data().setting("boon_every", 5));
+    }
+
     // ---- Floors ----
 
     private void nextFloor(Player player, Run run) {
         run.floor++;
         run.state = State.STARTING;
-        GauntletData.Floor floor = manager.data().floor(run.floor);
+        run.boss = null;
+        run.bossPhase = 0;
+        GauntletData.Floor floor = data().floor(run.floor);
         boolean boss = floor != null && floor.boss();
+        run.mutator = boss ? null : rollMutator(run.floor);
+        String subtitle = boss ? "<gold>A boss awaits"
+                : run.mutator != null ? "<light_purple>" + run.mutator.name() + " <gray>- " + run.mutator.description()
+                : "<gray>Get ready";
         player.showTitle(Title.title(TextUtils.parse((boss ? "<dark_red><b>" : "<red><b>") + "FLOOR " + run.floor),
-                TextUtils.parse(boss ? "<gold>A boss awaits" : "<gray>Get ready"),
-                Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(1600), Duration.ofMillis(400))));
+                TextUtils.parse(subtitle), Title.Times.times(Duration.ofMillis(200), Duration.ofMillis(1800), Duration.ofMillis(400))));
+        if (run.mutator != null) TextUtils.send(player, "<light_purple><b>MUTATOR</b> <white>" + run.mutator.name()
+                + " <gray>" + run.mutator.description() + " <aqua>(+" + run.mutator.shards() + "% Shards this floor)");
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (runs.get(player.getUniqueId()) == run && player.isOnline()) spawnFloor(player, run);
         }, FLOOR_DELAY_TICKS);
     }
 
+    private GauntletData.Mutator rollMutator(int floor) {
+        if (data().mutators().isEmpty() || floor < data().setting("mutator_from", 6)) return null;
+        if (ThreadLocalRandom.current().nextDouble(100) >= data().setting("mutator_chance", 25)) return null;
+        List<GauntletData.Mutator> all = List.copyOf(data().mutators().values());
+        return all.get(ThreadLocalRandom.current().nextInt(all.size()));
+    }
+
+    // Percent chance a mob of this floor is elite
+    private double eliteChance(Run run) {
+        GauntletData data = data();
+        double from = data.setting("elite_from", 3);
+        if (run.floor < from) return 0;
+        double chance = Math.min(data.setting("elite_chance_max", 15),
+                data.setting("elite_chance", 4) + data.setting("elite_chance_per_floor", 0.2) * (run.floor - from));
+        return chance * (run.mutator == null ? 1 : run.mutator.elites());
+    }
+
     private void spawnFloor(Player player, Run run) {
-        GauntletData.Floor floor = manager.data().floor(run.floor);
+        GauntletData.Floor floor = data().floor(run.floor);
         GauntletArena arena = manager.arena();
         List<Location> spawns = new ArrayList<>(arena.mobSpawns().stream().map(spawn -> arena.inSlot(run.slot, spawn)).toList());
         Collections.shuffle(spawns);
+        double eliteChance = eliteChance(run);
+        String mutatorId = run.mutator == null ? null : run.mutator.id();
         int next = 0;
+        int elites = 0;
         for (Map.Entry<String, Integer> entry : floor.mobs().entrySet()) {
-            String id = GauntletData.floorMobId(entry.getKey(), run.floor);
-            for (int i = 0; i < entry.getValue(); i++) {
+            boolean boss = floor.isBoss(entry.getKey());
+            int count = boss ? entry.getValue() : (int) Math.ceil(entry.getValue() * (run.mutator == null ? 1 : run.mutator.count()));
+            for (int i = 0; i < count; i++) {
+                boolean elite = !boss && ThreadLocalRandom.current().nextDouble(100) < eliteChance;
+                String id = new GauntletData.Variant(entry.getKey(), run.floor, elite, mutatorId).id();
                 Location at = spawns.get(next++ % spawns.size()).clone()
                         .add(ThreadLocalRandom.current().nextDouble(-1.5, 1.5), 0, ThreadLocalRandom.current().nextDouble(-1.5, 1.5));
-                LivingEntity mob = spawners.spawnGauntletMob(id, at);
+                LivingEntity mob = spawn(player, run, id, at);
                 if (mob == null) continue;
-                run.mobs.add(mob.getUniqueId());
-                if (mob instanceof Mob hunter) hunter.setTarget(player);
+                if (boss) run.boss = mob.getUniqueId();
+                if (elite) {
+                    run.elites.add(mob.getUniqueId());
+                    elites++;
+                }
             }
+        }
+        run.floorMobs = run.mobs.size();
+        run.floorStarted = System.currentTimeMillis();
+        if (elites > 0) {
+            player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 0.4f, 1.4f);
+            player.sendActionBar(TextUtils.parse("<gold><b>" + elites + " elite" + (elites > 1 ? "s" : "") + "</b> <gray>on this floor"));
         }
         // Bulwark: absorption hearts at the start of every floor
         int absorb = (int) Math.round(boonTotal(run, "absorb"));
@@ -253,8 +427,22 @@ public class GauntletRuns implements Listener {
         run.state = State.FIGHTING;
     }
 
-    // Every second: mobs that are gone count as dead, strays are brought back, the
-    // floor ends when none are left, and the action bar shows how it is going
+    // One mob of the run, hunting the player, sped up by the floor's mutator
+    private LivingEntity spawn(Player player, Run run, String id, Location at) {
+        LivingEntity mob = spawners.spawnGauntletMob(id, at);
+        if (mob == null) return null;
+        run.mobs.add(mob.getUniqueId());
+        if (run.mutator != null && run.mutator.speed() != 1) {
+            AttributeInstance speed = mob.getAttribute(Attribute.MOVEMENT_SPEED);
+            if (speed != null) speed.setBaseValue(speed.getBaseValue() * run.mutator.speed());
+        }
+        if (mob instanceof Mob hunter) hunter.setTarget(player);
+        return mob;
+    }
+
+    // Every second: mobs that are gone count as dead, strays are brought back, a boss
+    // calls for help as it weakens, the floor ends when none are left, and the boss
+    // bar and action bar show how it is going
     private void tick() {
         for (Run run : new ArrayList<>(runs.values())) {
             Player player = Bukkit.getPlayer(run.player);
@@ -270,6 +458,7 @@ public class GauntletRuns implements Listener {
                     if (mob instanceof Mob hunter && hunter.getTarget() == null) hunter.setTarget(player);
                     return false;
                 });
+                bossPhases(player, run);
                 if (run.mobs.isEmpty()) cleared(player, run);
                 // The player fell out of their arena
                 else if (spawn != null && !manager.arena().isInSlot(run.slot, player.getLocation())
@@ -277,6 +466,8 @@ public class GauntletRuns implements Listener {
                     player.teleport(spawn);
                 }
             }
+            if (!runs.containsKey(run.player)) continue;
+            updateBar(run);
             String status = switch (run.state) {
                 case FIGHTING -> "<red>Floor " + run.floor + " <dark_gray>| <white>" + run.mobs.size() + " left";
                 case CHOOSING -> "<gold>Pick a boon <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>/gauntlet boon</click>";
@@ -288,13 +479,96 @@ public class GauntletRuns implements Listener {
         }
     }
 
+    // The boss's health on a boss floor, otherwise how much of the floor is cleared
+    private void updateBar(Run run) {
+        if (run.bar == null) return;
+        LivingEntity boss = run.boss == null ? null : Bukkit.getEntity(run.boss) instanceof LivingEntity living ? living : null;
+        if (run.state == State.FIGHTING && boss != null && boss.isValid()) {
+            double max = CustomHealth.max(boss), now = CustomHealth.current(boss);
+            MobData data = manager.registry().mobOf(boss);
+            run.bar.name(TextUtils.parse("<dark_red><b>Floor " + run.floor + "</b> <dark_gray>» ").append(data == null
+                    ? TextUtils.parse("<red>Boss") : data.displayName()).append(TextUtils.parse(" <red>" + Math.round(now) + "/" + Math.round(max))));
+            run.bar.progress((float) Math.clamp(now / max, 0, 1));
+            run.bar.color(BossBar.Color.PURPLE);
+            return;
+        }
+        run.bar.color(BossBar.Color.RED);
+        switch (run.state) {
+            case FIGHTING -> {
+                int total = Math.max(1, run.floorMobs);
+                run.bar.name(TextUtils.parse("<red><b>Floor " + run.floor + "</b> <gray>" + (total - Math.min(total, run.mobs.size()))
+                        + "/" + total + " killed" + (run.mutator != null ? " <light_purple>" + run.mutator.name() : "")));
+                run.bar.progress((float) Math.clamp(1 - (double) run.mobs.size() / total, 0, 1));
+            }
+            case CHOOSING -> {
+                run.bar.name(TextUtils.parse("<gold><b>Pick a boon</b> <gray>to go on"));
+                run.bar.progress(1f);
+            }
+            case STARTING -> {
+                run.bar.name(TextUtils.parse("<red><b>Floor " + run.floor + "</b> <gray>get ready"));
+                run.bar.progress(0f);
+            }
+        }
+    }
+
+    // At two thirds and one third of its health a boss calls the floor's other mobs to
+    // its side; at the last third it rages, moving faster
+    private void bossPhases(Player player, Run run) {
+        if (run.boss == null || run.bossPhase >= 2 || !(Bukkit.getEntity(run.boss) instanceof LivingEntity boss) || !boss.isValid()) return;
+        double left = CustomHealth.current(boss) / CustomHealth.max(boss);
+        while (run.bossPhase < 2 && left <= (2 - run.bossPhase) / 3.0) {
+            run.bossPhase++;
+            callAdds(player, run, boss);
+            if (run.bossPhase == 2) {
+                AttributeInstance speed = boss.getAttribute(Attribute.MOVEMENT_SPEED);
+                if (speed != null) {
+                    speed.removeModifier(ENRAGE);
+                    speed.addModifier(new AttributeModifier(ENRAGE, data().setting("boss_enrage_speed", 20) / 100,
+                            AttributeModifier.Operation.ADD_SCALAR, EquipmentSlotGroup.ANY));
+                }
+                boss.getWorld().spawnParticle(Particle.ANGRY_VILLAGER, boss.getLocation().add(0, boss.getHeight(), 0), 10, 0.5, 0.3, 0.5, 0);
+                player.playSound(boss.getLocation(), Sound.ENTITY_RAVAGER_ROAR, 0.8f, 0.8f);
+                TextUtils.send(player, "<dark_red><b>ENRAGED</b> <gray>The boss moves faster now");
+            }
+        }
+    }
+
+    private void callAdds(Player player, Run run, LivingEntity boss) {
+        GauntletData.Floor floor = data().floor(run.floor);
+        List<String> kinds = floor.mobs().keySet().stream().filter(id -> !floor.isBoss(id)).toList();
+        if (kinds.isEmpty()) return;
+        int adds = (int) data().setting("boss_adds", 2) + run.floor / 10;
+        String mutatorId = run.mutator == null ? null : run.mutator.id();
+        for (int i = 0; i < adds; i++) {
+            String kind = kinds.get(ThreadLocalRandom.current().nextInt(kinds.size()));
+            Location at = boss.getLocation().clone().add(ThreadLocalRandom.current().nextDouble(-2, 2), 0, ThreadLocalRandom.current().nextDouble(-2, 2));
+            spawn(player, run, new GauntletData.Variant(kind, run.floor, false, mutatorId).id(), at);
+        }
+        run.floorMobs += adds;
+        player.playSound(boss.getLocation(), Sound.EVENT_RAID_HORN, 0.5f, 1.4f);
+        TextUtils.send(player, "<dark_red><b>REINFORCEMENTS</b> <gray>The boss calls <white>" + adds + "</white> to its side");
+    }
+
     private void cleared(Player player, Run run) {
-        GauntletData.Floor floor = manager.data().floor(run.floor);
-        run.shards += floor.shards();
+        GauntletData.Floor floor = data().floor(run.floor);
+        double mutated = run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0;
+        int bonus = (int) Math.round(floor.shards() * mutated);
+        run.shards += bonus;
         run.cores += floor.cores();
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.7f, 1.3f);
-        TextUtils.send(player, "<green>Floor " + run.floor + " cleared <aqua>+" + floor.shards() + " bonus Shards"
+        TextUtils.send(player, "<green>Floor " + run.floor + " cleared <aqua>+" + bonus + " bonus Shards"
                 + (floor.cores() > 0 ? " <light_purple>+" + floor.cores() + " Core" + (floor.cores() > 1 ? "s" : "") : ""));
+
+        // Under its par time: a share of the clear bonus again
+        double seconds = (System.currentTimeMillis() - run.floorStarted) / 1000.0;
+        double par = data().setting("par_seconds", 10) + data().setting("par_per_mob", 2.5) * run.floorMobs * (floor.boss() ? 2 : 1);
+        if (seconds <= par) {
+            int fast = Math.max(1, (int) Math.round(bonus * data().setting("fast_bonus", 50) / 100));
+            run.shards += fast;
+            run.fastClears++;
+            TextUtils.send(player, "<yellow><b>FAST CLEAR</b> <gray>" + Math.round(seconds) + "s (par " + Math.round(par) + "s) <aqua>+" + fast + " Shards");
+        }
+
         // Past the old record, once a run, unless it is the first one ever
         if (!run.newBest && run.floor > run.bestBefore && run.bestBefore > 0) {
             run.newBest = true;
@@ -302,7 +576,7 @@ public class GauntletRuns implements Listener {
             TextUtils.send(player, "<gold><b>NEW BEST!</b> <gray>Past your old record of floor " + run.bestBefore);
         }
 
-        if (run.floor % BOON_EVERY == 0) {
+        if (run.floor % boonEvery() == 0) {
             carePackage(player, run);
             offerBoons(player, run);
         } else {
@@ -310,7 +584,7 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    // A hit that would kill ends the run, unless a totem in hand saves them
+    // A hit that would kill ends the run, unless a totem in hand or a Second Wind saves them
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onLethal(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player player) || !inRun(player)) return;
@@ -319,25 +593,44 @@ public class GauntletRuns implements Listener {
         if (inventory.getItemInMainHand().getType() == Material.TOTEM_OF_UNDYING
                 || inventory.getItemInOffHand().getType() == Material.TOTEM_OF_UNDYING) return;
         event.setCancelled(true);
+        Run run = runs.get(player.getUniqueId());
+        if (run.revives > 0) {
+            run.revives--;
+            AttributeInstance max = player.getAttribute(Attribute.MAX_HEALTH);
+            player.setHealth((max == null ? 20 : max.getValue()) / 2);
+            player.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, player.getLocation().add(0, 1, 0), 40, 0.5, 0.8, 0.5, 0.2);
+            player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.7f, 1.2f);
+            TextUtils.send(player, "<gold><b>SECOND WIND</b> <gray>You cheat death" + (run.revives > 0 ? " (" + run.revives + " left)" : ""));
+            return;
+        }
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_DEATH, 0.5f, 1.2f);
         end(player, End.DIED);
     }
 
-    // Every kill pays Shards at once, kept even if the run ends before the floor is cleared
+    // Every kill pays Shards at once, kept even if the run ends before the floor is
+    // cleared: an elite elite_pay kills' worth, a boss five, a mutated floor more
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
         UUID id = event.getEntity().getUniqueId();
         for (Run run : runs.values()) {
             if (!run.mobs.remove(id)) continue;
             Player player = Bukkit.getPlayer(run.player);
+            run.kills++;
+            boolean elite = run.elites.remove(id);
+            if (elite) run.eliteKills++;
+            if (id.equals(run.boss)) run.boss = null;
             String mobId = event.getEntity().getPersistentDataContainer().get(DataKeys.MOB_KEY, PersistentDataType.STRING);
-            GauntletData.Floor floor = manager.data().floor(run.floor);
+            GauntletData.Floor floor = data().floor(run.floor);
             if (mobId != null && floor != null) {
-                int pay = floor.killPay(GauntletData.baseMobId(mobId));
-                run.shards += pay;
+                String base = GauntletData.baseMobId(mobId);
+                double pay = floor.killPay(base) * (elite ? data().setting("elite_pay", 3) : 1)
+                        * (run.mutator == null ? 1 : 1 + run.mutator.shards() / 100.0);
+                int paid = (int) Math.round(pay);
+                run.shards += paid;
                 if (player != null) {
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.4f, 1.6f);
-                    if (pay > floor.kill()) TextUtils.send(player, "<gold>Boss slain <aqua>+" + pay + " Shards");
+                    if (floor.isBoss(base)) TextUtils.send(player, "<gold>Boss slain <aqua>+" + paid + " Shards");
+                    else if (elite) TextUtils.send(player, "<gold>Elite slain <aqua>+" + paid + " Shards");
                 }
             }
             // Bloodthirst: half a heart a kill a stack
@@ -357,8 +650,8 @@ public class GauntletRuns implements Listener {
 
     // ---- Care packages ----
 
-    // A chest by the arena's package spot (or the player) with the care package's loot.
-    // All of it is taken back when the run ends
+    // A chest by the arena's package spot (or the player) with the care package's loot,
+    // every item a little likelier with Scavenger. All of it is taken back when the run ends
     private void carePackage(Player player, Run run) {
         GauntletArena arena = manager.arena();
         Location at = arena.place(GauntletArena.PACKAGE);
@@ -367,10 +660,12 @@ public class GauntletRuns implements Listener {
         block.setType(Material.CHEST);
         if (!(block.getState() instanceof Chest chest)) return;
 
-        GauntletData.CareLevel care = manager.data().careLevel(manager.profile(player).care);
+        GauntletProfile profile = manager.profile(player);
+        GauntletData.CareLevel care = data().careLevel(profile.care);
+        double scavenger = talentTotal(profile, "care");
         if (care != null) {
             for (GauntletData.Loot loot : care.loot()) {
-                if (ThreadLocalRandom.current().nextDouble(100) >= loot.chance()) continue;
+                if (ThreadLocalRandom.current().nextDouble(100) >= loot.chance() + scavenger) continue;
                 ItemStack item = lootItem(loot.item(), ThreadLocalRandom.current().nextInt(loot.min(), loot.max() + 1));
                 if (item == null) continue;
                 GauntletGear.markRunItem(item);
@@ -379,7 +674,7 @@ public class GauntletRuns implements Listener {
         }
         block.getWorld().spawnParticle(Particle.FIREWORK, block.getLocation().add(0.5, 1, 0.5), 40, 0.4, 0.6, 0.4, 0.05);
         player.playSound(block.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1f);
-        TextUtils.send(player, "<gold><b>CARE PACKAGE</b> <gray>A chest has landed in the arena (level " + manager.profile(player).care + ")");
+        TextUtils.send(player, "<gold><b>CARE PACKAGE</b> <gray>A chest has landed in the arena (level " + profile.care + ")");
     }
 
     // A material, or POTION@TYPE / SPLASH_POTION@TYPE. Null for anything unknown
@@ -411,13 +706,38 @@ public class GauntletRuns implements Listener {
 
     // ---- Boons ----
 
-    private void offerBoons(Player player, Run run) {
-        List<String> open = new ArrayList<>();
-        for (GauntletData.Boon boon : manager.data().boons().values()) {
-            if (run.stacks(boon.id()) < boon.max()) open.add(boon.id());
+    // Boons not taken to their max, picked by the weight of their rarity, none twice
+    private List<String> pickBoons(Run run, int count) {
+        List<GauntletData.Boon> open = new ArrayList<>();
+        for (GauntletData.Boon boon : data().boons().values()) {
+            if (run.stacks(boon.id()) < boon.max()) open.add(boon);
         }
-        Collections.shuffle(open);
-        run.offered = List.copyOf(open.subList(0, Math.min(BOON_CHOICES, open.size())));
+        List<String> picked = new ArrayList<>();
+        while (picked.size() < count && !open.isEmpty()) {
+            double total = 0;
+            for (GauntletData.Boon boon : open) total += rarityWeight(boon);
+            double roll = ThreadLocalRandom.current().nextDouble(total);
+            GauntletData.Boon chosen = open.getLast();
+            for (GauntletData.Boon boon : open) {
+                roll -= rarityWeight(boon);
+                if (roll < 0) {
+                    chosen = boon;
+                    break;
+                }
+            }
+            picked.add(chosen.id());
+            open.remove(chosen);
+        }
+        return picked;
+    }
+
+    private double rarityWeight(GauntletData.Boon boon) {
+        return Math.max(0.01, data().setting("rarity_" + boon.rarity(), boon.rarity().equals("common") ? 60 : 30));
+    }
+
+    private void offerBoons(Player player, Run run) {
+        int choices = (int) data().setting("boon_choices", 3) + (int) talentTotal(manager.profile(player), "insight");
+        run.offered = List.copyOf(pickBoons(run, choices));
         if (run.offered.isEmpty()) {
             nextFloor(player, run);
             return;
@@ -439,7 +759,7 @@ public class GauntletRuns implements Listener {
     List<GauntletData.Boon> offered(Player player) {
         Run run = runs.get(player.getUniqueId());
         if (run == null || run.state != State.CHOOSING) return List.of();
-        return run.offered.stream().map(id -> manager.data().boons().get(id)).filter(Objects::nonNull).toList();
+        return run.offered.stream().map(id -> data().boons().get(id)).filter(Objects::nonNull).toList();
     }
 
     int stacks(Player player, String boon) {
@@ -447,16 +767,33 @@ public class GauntletRuns implements Listener {
         return run == null ? 0 : run.stacks(boon);
     }
 
+    int rerolls(Player player) {
+        Run run = runs.get(player.getUniqueId());
+        return run == null ? 0 : run.rerolls;
+    }
+
+    // A fresh pick of boons, for a reroll. Null if it worked, otherwise why not
+    String reroll(Player player) {
+        Run run = runs.get(player.getUniqueId());
+        if (run == null || run.state != State.CHOOSING) return "There is no boon to pick right now";
+        if (run.rerolls <= 0) return "No rerolls left this run";
+        run.rerolls--;
+        run.offered = List.copyOf(pickBoons(run, run.offered.size()));
+        player.playSound(player.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 0.8f, 1f);
+        return null;
+    }
+
     void choose(Player player, String boonId) {
         Run run = runs.get(player.getUniqueId());
         if (run == null || run.state != State.CHOOSING || !run.offered.contains(boonId)) return;
-        GauntletData.Boon boon = manager.data().boons().get(boonId);
+        GauntletData.Boon boon = data().boons().get(boonId);
         run.boons.merge(boonId, 1, Integer::sum);
         run.offered = List.of();
+        if (boon.stat().equals("revive")) run.revives += (int) boon.amount();
         applyBoons(player, run);
         player.closeInventory();
         player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.8f, 1.4f);
-        TextUtils.send(player, "<gold>" + boon.name() + " <gray>" + boon.description() + " <dark_gray>(x" + run.stacks(boonId) + ")");
+        TextUtils.send(player, boon.colour() + boon.name() + " <gray>" + boon.description() + " <dark_gray>(x" + run.stacks(boonId) + ")");
         nextFloor(player, run);
     }
 
@@ -485,8 +822,17 @@ public class GauntletRuns implements Listener {
     private double boonTotal(Run run, String stat) {
         double total = 0;
         for (Map.Entry<String, Integer> entry : run.boons.entrySet()) {
-            GauntletData.Boon boon = manager.data().boons().get(entry.getKey());
+            GauntletData.Boon boon = data().boons().get(entry.getKey());
             if (boon != null && boon.stat().equals(stat)) total += boon.amount() * entry.getValue();
+        }
+        return total;
+    }
+
+    // A talent's stat added up over its levels
+    private double talentTotal(GauntletProfile profile, String stat) {
+        double total = 0;
+        for (GauntletData.Talent talent : data().talents().values()) {
+            if (talent.stat().equals(stat)) total += talent.amount() * profile.talent(talent.id());
         }
         return total;
     }
@@ -501,6 +847,7 @@ public class GauntletRuns implements Listener {
 
     private void clearBoons(Player player) {
         setModifier(player, Attribute.MAX_HEALTH, HEALTH_BOON, 0, AttributeModifier.Operation.ADD_NUMBER);
+        setModifier(player, Attribute.MAX_HEALTH, TALENT_HEALTH, 0, AttributeModifier.Operation.ADD_NUMBER);
         setModifier(player, Attribute.MOVEMENT_SPEED, SPEED_BOON, 0, AttributeModifier.Operation.ADD_SCALAR);
         setModifier(player, Attribute.MAX_ABSORPTION, ABSORB_BOON, 0, AttributeModifier.Operation.ADD_NUMBER);
         player.setAbsorptionAmount(0);
@@ -517,19 +864,41 @@ public class GauntletRuns implements Listener {
 
     // ---- Combat ----
 
-    // Might and Keen Eye, the weapon's own damage, and Strength potions, in a run only
-    private double outgoing(Player attacker, boolean ranged) {
+    // Might, First Strike, Executioner and Giant Slayer add up; Keen Eye doubles; then
+    // Strength potions and the weapon's own share, in a run only
+    private double outgoing(Player attacker, LivingEntity victim, boolean ranged) {
         Run run = runs.get(attacker.getUniqueId());
         if (run == null) return 1.0;
-        double multiplier = 1 + boonTotal(run, "damage") / 100;
+        double percent = boonTotal(run, "damage");
+        double health = CustomHealth.current(victim) / Math.max(1, CustomHealth.max(victim));
+        if (health >= 0.999) percent += boonTotal(run, "firststrike");
+        if (health < EXECUTE_BELOW) percent += boonTotal(run, "execute");
+        if (victim.getUniqueId().equals(run.boss) || run.elites.contains(victim.getUniqueId())) percent += boonTotal(run, "slayer");
+        double multiplier = 1 + percent / 100;
         if (ThreadLocalRandom.current().nextDouble(100) < boonTotal(run, "crit")) multiplier *= 2;
         PotionEffect strength = attacker.getPotionEffect(PotionEffectType.STRENGTH);
         if (strength != null) multiplier *= 1 + STRENGTH_PER_LEVEL * (strength.getAmplifier() + 1);
         if (!ranged) {
-            GauntletData.Gear gear = manager.data().gear().get(GauntletGear.gearId(attacker.getInventory().getItemInMainHand()));
+            GauntletData.Gear gear = data().gear().get(GauntletGear.gearId(attacker.getInventory().getItemInMainHand()));
             if (gear != null) multiplier *= gear.damage() / 100.0;
         }
         return multiplier;
+    }
+
+    // Cleave: a share of every melee hit to the run's other mobs close to the one struck
+    private void afterHit(Player attacker, LivingEntity victim, double dealt, boolean ranged) {
+        Run run = runs.get(attacker.getUniqueId());
+        if (run == null || ranged || dealt <= 0 || !run.mobs.contains(victim.getUniqueId())) return;
+        double cleave = boonTotal(run, "cleave");
+        if (cleave <= 0) return;
+        double splash = Math.round(dealt * cleave / 100);
+        if (splash <= 0) return;
+        for (Entity near : victim.getNearbyEntities(CLEAVE_RANGE, CLEAVE_RANGE, CLEAVE_RANGE)) {
+            if (near instanceof LivingEntity other && run.mobs.contains(other.getUniqueId()) && !other.isDead()) {
+                CustomHealth.apply(other, splash, attacker, manager.registry());
+                other.getWorld().spawnParticle(Particle.SWEEP_ATTACK, other.getLocation().add(0, 1, 0), 1);
+            }
+        }
     }
 
     // Evasion and Iron Skin

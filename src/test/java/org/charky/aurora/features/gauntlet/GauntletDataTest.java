@@ -15,7 +15,8 @@ class GauntletDataTest {
         List<GauntletData.Floor> floors = List.of(
                 new GauntletData.Floor(Map.of("g_rotter", 3), 1.0, 1, 1, 4, 0),
                 new GauntletData.Floor(Map.of("g_rot_king", 1, "g_rotter", 4), 2.0, 10, 2, 10, 1));
-        return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), List.of(), Map.of());
+        return new GauntletData(floors, Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(),
+                Map.of(), List.of(), Map.of(), List.of(), Map.of());
     }
 
     @Test
@@ -55,6 +56,9 @@ class GauntletDataTest {
         assertEquals(new GauntletData.Variant("g_rotter", 12, false, 0, null), plain);
         GauntletData.Variant full = new GauntletData.Variant("g_rot_king", 10, true, 3, "swift");
         assertEquals("g_rot_king#10*^3~swift", full.id());
+        GauntletData.Variant affixed = new GauntletData.Variant("g_brute", 14, true, "vampiric", 2, "horde");
+        assertEquals("g_brute#14*!vampiric^2~horde", affixed.id());
+        assertEquals(affixed, GauntletData.Variant.parse(affixed.id()));
         assertEquals(full, GauntletData.Variant.parse(full.id()));
         assertEquals("g_rot_king", GauntletData.baseMobId(full.id()));
         assertNull(GauntletData.Variant.parse("g_rotter"));

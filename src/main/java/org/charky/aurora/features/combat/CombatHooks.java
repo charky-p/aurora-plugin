@@ -13,7 +13,7 @@ public final class CombatHooks {
 
     public interface Incoming {
         // A mob's hit on a player, in health points, after armour. 0 or less and it misses
-        double damage(Player victim, double damage);
+        double damage(Player victim, LivingEntity source, double damage);
     }
 
     public interface AfterHit {
@@ -22,7 +22,7 @@ public final class CombatHooks {
     }
 
     private static Outgoing outgoing = (attacker, victim, ranged) -> 1.0;
-    private static Incoming incoming = (victim, damage) -> damage;
+    private static Incoming incoming = (victim, source, damage) -> damage;
     private static AfterHit afterHit = (attacker, victim, dealt, ranged) -> {};
 
     private CombatHooks() {
@@ -38,8 +38,8 @@ public final class CombatHooks {
         return outgoing.multiplier(attacker, victim, ranged);
     }
 
-    static double incoming(Player victim, double damage) {
-        return incoming.damage(victim, damage);
+    static double incoming(Player victim, LivingEntity source, double damage) {
+        return incoming.damage(victim, source, damage);
     }
 
     static void afterHit(Player attacker, LivingEntity victim, double dealt, boolean ranged) {

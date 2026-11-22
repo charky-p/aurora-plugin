@@ -84,7 +84,7 @@ public class CombatListener implements Listener {
             return;
         }
 
-        double damage = CombatHooks.incoming(player, MobDamage.dealt(mob, player, event.getDamager() instanceof Projectile));
+        double damage = CombatHooks.incoming(player, source, MobDamage.dealt(mob, player, event.getDamager() instanceof Projectile));
         if (damage <= 0) {
             event.setCancelled(true);
             return;

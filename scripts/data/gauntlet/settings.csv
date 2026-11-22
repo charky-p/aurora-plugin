@@ -46,3 +46,5 @@ weekly_floor_3,500,Shards for the third best floor of the week
 weekly_pvp_1,1000,Shards for the most PvP wins of the week
 weekly_pvp_2,600,Shards for the second most PvP wins of the week
 weekly_pvp_3,300,Shards for the third most PvP wins of the week
+affix_from,10,The first floor elites roll an affix
+pvp_kill_heal,100,Percent of their health a kill in the PvP zone gives back (and a full hunger bar)

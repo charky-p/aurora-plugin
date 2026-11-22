@@ -1,0 +1,14 @@
+id,name,description,stat,goal,essence,shards,cosmetic
+first_blood,First Blood,Kill {goal} mobs,kills,100,100,50,
+slayer,Slayer,Kill {goal} mobs,kills,1000,500,300,suffix_relentless
+exterminator,Exterminator,Kill {goal} mobs,kills,10000,2500,2000,
+elite_hunter,Elite Hunter,Kill {goal} elites,elite_kills,100,400,250,
+boss_breaker,Boss Breaker,Defeat {goal} bosses,boss_kills,10,500,400,
+treasure_hunter,Treasure Hunter,Catch {goal} Shard Hoarders,hoarders,10,400,300,
+speed_demon,Speed Demon,Get {goal} fast clears,fast_clears,100,400,300,
+combo_master,Combo Master,Reach a {goal} kill combo,best_combo,25,500,300,trail_shardstorm
+veteran,Veteran,Finish {goal} runs,runs,50,300,200,
+climber,Climber,Clear floor {goal},best,40,1000,500,
+brawler,Brawler,Win {goal} fights in the PvP zone,pvp_kills,50,500,300,
+duelist,Duelist,Win {goal} duels,duel_wins,25,600,400,suffix_duelist
+champion,Champion,Win {goal} duels,duel_wins,100,2000,1500,

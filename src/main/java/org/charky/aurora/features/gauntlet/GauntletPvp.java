@@ -2,8 +2,11 @@ package org.charky.aurora.features.gauntlet;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -36,7 +39,8 @@ import java.util.UUID;
 // out. /spawn, /gauntlet leave or the menu's Leave take them out after a countdown,
 // and logging out inside counts as dying, to whoever hit them last. Hits are priced
 // from the gear's Aurora stats (GauntletPvpFormula), not vanilla's. Kills pay Shards,
-// more on a streak and for ending someone else's, and are counted for the PvP board
+// more on a streak and for ending someone else's, heal the killer up, and are counted
+// for the PvP board
 public class GauntletPvp implements Listener {
     public static final String KILLS = "pvp_kills";
     public static final String DEATHS = "pvp_deaths";
@@ -242,6 +246,14 @@ public class GauntletPvp implements Listener {
         int pay = (int) Math.round(data.setting("pvp_kill_shards", 5)
                 + data.setting("pvp_streak_shards", 2) * Math.min(streak - 1, 5)) + shutdown;
         manager.giveShards(killer, pay);
+        // A kill heals the killer up, ready for the next fight
+        double share = data.setting("pvp_kill_heal", 100) / 100;
+        AttributeInstance max = killer.getAttribute(Attribute.MAX_HEALTH);
+        double full = max == null ? 20 : max.getValue();
+        killer.setHealth(Math.min(full, killer.getHealth() + full * share));
+        killer.setFoodLevel(20);
+        killer.setSaturation(10);
+        killer.getWorld().spawnParticle(Particle.HEART, killer.getLocation().add(0, 2, 0), 5, 0.4, 0.2, 0.4, 0);
         manager.challenges().add(killer, "pvp_kills", 1);
         manager.weekly().pvpWin(killer.getUniqueId());
         killer.playSound(killer.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.6f, 1.6f);

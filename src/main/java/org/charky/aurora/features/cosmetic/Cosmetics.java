@@ -84,6 +84,9 @@ public final class Cosmetics {
         suffix("gladiator", "<gray>[<gold>GLADIATOR<gray>]", Source.GRANT, 0, "Reach floor 20 of the Gauntlet");
         suffix("conqueror", "<gray>[<dark_red>CONQUEROR<gray>]", Source.GRANT, 0, "Reach floor 30 of the Gauntlet");
         suffix("unbroken", "<gray>[<gradient:#FF416C:#FF4B2B>UNBROKEN</gradient><gray>]", Source.GRANT, 0, "Reach floor 50 of the Gauntlet");
+        // Gauntlet achievements (scripts/data/gauntlet/achievements.csv)
+        suffix("relentless", "<gray>[<dark_red>RELENTLESS<gray>]", Source.GRANT, 0, "Kill 1,000 mobs in the Gauntlet");
+        suffix("duelist", "<gray>[<gold>DUELIST<gray>]", Source.GRANT, 0, "Win 25 Gauntlet duels");
         suffix("regular", "<gray>[<dark_gray>REGULAR<gray>]", Source.PLAYTIME, 10 * HOUR, null);
         suffix("devoted", "<gray>[<white>DEVOTED<gray>]", Source.PLAYTIME, 50 * HOUR, null);
         suffix("veteran", "<gray>[<dark_gray>VETERAN<gray>]", Source.PLAYTIME, 100 * HOUR, null);
@@ -255,6 +258,7 @@ public final class Cosmetics {
         trail("totem", "<green><b>Totem", Material.TOTEM_OF_UNDYING, Source.GRANT, 0, "TOTEM_OF_UNDYING");
         trail("end", "<white><b>Starlight", Material.END_ROD, Source.GRANT, 0, "END_ROD");
         trail("bloodsteel", "<red><b>Bloodsteel", Material.NETHERITE_SWORD, Source.GRANT, 0, "DAMAGE_INDICATOR");
+        trail("shardstorm", "<aqua><b>Shardstorm", Material.AMETHYST_SHARD, Source.GRANT, 0, "WAX_OFF");
 
         // The value is the effect, see KillEffects
         kill("flames", "<gold>Burn", Material.FIRE_CHARGE, 1_500);

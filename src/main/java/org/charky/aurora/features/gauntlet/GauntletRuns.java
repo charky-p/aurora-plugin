@@ -38,6 +38,7 @@ import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.combat.CombatHooks;
 import org.charky.aurora.features.combat.CustomHealth;
+import org.charky.aurora.features.combat.MobDamage;
 import org.charky.aurora.features.spawner.MobData;
 import org.charky.aurora.features.spawner.SpawnerManager;
 
@@ -107,6 +108,8 @@ public class GauntletRuns implements Listener {
         State state = State.STARTING;
         final Set<UUID> mobs = new HashSet<>();
         final Set<UUID> elites = new HashSet<>();
+        // Elites' affixes, by mob
+        final Map<UUID, String> affixes = new HashMap<>();
         final Map<String, Integer> boons = new LinkedHashMap<>();
         List<String> offered = List.of();
         // The best floor before this run, and whether passing it was announced yet
@@ -448,7 +451,8 @@ public class GauntletRuns implements Listener {
             int count = boss ? entry.getValue() : (int) Math.ceil(entry.getValue() * (run.mutator == null ? 1 : run.mutator.count()));
             for (int i = 0; i < count; i++) {
                 boolean elite = !boss && ThreadLocalRandom.current().nextDouble(100) < eliteChance;
-                String id = new GauntletData.Variant(entry.getKey(), run.floor, elite, run.heat, mutatorId).id();
+                String affix = elite ? rollAffix(run) : null;
+                String id = new GauntletData.Variant(entry.getKey(), run.floor, elite, affix, run.heat, mutatorId).id();
                 Location at = spawns.get(next++ % spawns.size()).clone()
                         .add(ThreadLocalRandom.current().nextDouble(-1.5, 1.5), 0, ThreadLocalRandom.current().nextDouble(-1.5, 1.5));
                 LivingEntity mob = spawn(player, run, id, at);
@@ -457,6 +461,13 @@ public class GauntletRuns implements Listener {
                 if (elite) {
                     run.elites.add(mob.getUniqueId());
                     elites++;
+                }
+                if (affix != null) {
+                    run.affixes.put(mob.getUniqueId(), affix);
+                    if (affix.equals("swift")) {
+                        AttributeInstance speed = mob.getAttribute(Attribute.MOVEMENT_SPEED);
+                        if (speed != null) speed.setBaseValue(speed.getBaseValue() * 1.4);
+                    }
                 }
             }
         }
@@ -498,6 +509,13 @@ public class GauntletRuns implements Listener {
                 if (player.isOnline()) TextUtils.send(player, "<gray>The Shard Hoarder got away");
             }
         }, seconds * 20L);
+    }
+
+    // An affix for an elite from affix_from on, null before or without any
+    private String rollAffix(Run run) {
+        if (data().affixes().isEmpty() || run.floor < data().setting("affix_from", 10)) return null;
+        List<String> ids = List.copyOf(data().affixes().keySet());
+        return ids.get(ThreadLocalRandom.current().nextInt(ids.size()));
     }
 
     // One mob of the run, hunting the player, sped up by the floor's mutator
@@ -628,7 +646,7 @@ public class GauntletRuns implements Listener {
 
             @Override
             public double incoming(Player victim, double damage) {
-                return GauntletRuns.this.incoming(victim, damage);
+                return GauntletRuns.this.incoming(victim, boss, damage);
             }
         });
     }
@@ -638,18 +656,24 @@ public class GauntletRuns implements Listener {
     }
 
     private void callAdds(Player player, Run run, LivingEntity boss, int adds) {
+        if (spawnAdds(player, run, boss.getLocation(), adds) == 0) return;
+        player.playSound(boss.getLocation(), Sound.EVENT_RAID_HORN, 0.5f, 1.4f);
+        TextUtils.send(player, "<dark_red><b>REINFORCEMENTS</b> <gray>The boss calls <white>" + adds + "</white> to its side");
+    }
+
+    // The floor's other mobs, plain ones, around a spot. How many came
+    private int spawnAdds(Player player, Run run, Location around, int adds) {
         GauntletData.Floor floor = data().floor(run.floor);
         List<String> kinds = floor.mobs().keySet().stream().filter(id -> !floor.isBoss(id)).toList();
-        if (kinds.isEmpty() || adds <= 0) return;
+        if (kinds.isEmpty() || adds <= 0) return 0;
         String mutatorId = run.mutator == null ? null : run.mutator.id();
         for (int i = 0; i < adds; i++) {
             String kind = kinds.get(ThreadLocalRandom.current().nextInt(kinds.size()));
-            Location at = boss.getLocation().clone().add(ThreadLocalRandom.current().nextDouble(-2, 2), 0, ThreadLocalRandom.current().nextDouble(-2, 2));
+            Location at = around.clone().add(ThreadLocalRandom.current().nextDouble(-2, 2), 0, ThreadLocalRandom.current().nextDouble(-2, 2));
             spawn(player, run, new GauntletData.Variant(kind, run.floor, false, run.heat, mutatorId).id(), at);
         }
         run.floorMobs += adds;
-        player.playSound(boss.getLocation(), Sound.EVENT_RAID_HORN, 0.5f, 1.4f);
-        TextUtils.send(player, "<dark_red><b>REINFORCEMENTS</b> <gray>The boss calls <white>" + adds + "</white> to its side");
+        return adds;
     }
 
     private void cleared(Player player, Run run) {
@@ -732,6 +756,8 @@ public class GauntletRuns implements Listener {
             run.bestCombo = Math.max(run.bestCombo, run.combo);
             boolean elite = run.elites.remove(id);
             if (elite) run.eliteKills++;
+            String affix = run.affixes.remove(id);
+            if (affix != null && player != null) afterAffixDeath(player, run, event.getEntity(), affix);
             boolean boss = id.equals(run.boss);
             if (boss) {
                 run.boss = null;
@@ -765,6 +791,31 @@ public class GauntletRuns implements Listener {
             }
             return;
         }
+    }
+
+    // Explosive goes off a second after it dies; Summoner calls two of the floor's mobs
+    private void afterAffixDeath(Player player, Run run, LivingEntity dead, String affix) {
+        Location at = dead.getLocation();
+        if (affix.equals("summoner")) {
+            if (spawnAdds(player, run, at, 2) > 0) {
+                at.getWorld().spawnParticle(Particle.SOUL, at.clone().add(0, 1, 0), 25, 0.6, 0.6, 0.6, 0.02);
+                player.playSound(at, Sound.ENTITY_EVOKER_PREPARE_SUMMON, 0.8f, 1.2f);
+            }
+            return;
+        }
+        if (!affix.equals("explosive")) return;
+        MobData mob = manager.registry().mobOf(dead);
+        at.getWorld().spawnParticle(Particle.SMOKE, at.clone().add(0, 0.5, 0), 30, 0.4, 0.3, 0.4, 0.02);
+        at.getWorld().playSound(at, Sound.ENTITY_CREEPER_PRIMED, 1f, 1f);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (runs.get(run.player) != run || !player.isOnline()) return;
+            at.getWorld().spawnParticle(Particle.EXPLOSION, at, 3, 0.5, 0.3, 0.5, 0);
+            at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 1.1f);
+            if (!player.getWorld().equals(at.getWorld()) || player.getLocation().distance(at) > 3.5) return;
+            double damage = mob == null ? 4 : MobDamage.dealt(mob, player, false) * 1.5;
+            damage = incoming(player, null, damage);
+            if (damage > 0) player.damage(damage);
+        }, 20L);
     }
 
     // Every kill of a combo past the first pays combo_step percent more, up to combo_max
@@ -1055,6 +1106,7 @@ public class GauntletRuns implements Listener {
             percent += boonTotal(run, "slayer") + perkTotal(attacker, "slayer");
         }
         double multiplier = 1 + percent / 100;
+        if ("shielded".equals(run.affixes.get(victim.getUniqueId())) && health >= 0.5) multiplier *= 0.5;
         if (ThreadLocalRandom.current().nextDouble(100) < boonTotal(run, "crit") + perkTotal(attacker, "crit")) multiplier *= 2;
         PotionEffect strength = attacker.getPotionEffect(PotionEffectType.STRENGTH);
         if (strength != null) multiplier *= 1 + STRENGTH_PER_LEVEL * (strength.getAmplifier() + 1);
@@ -1081,10 +1133,17 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    // Evasion and Iron Skin
-    private double incoming(Player victim, double damage) {
+    // Evasion and Iron Skin, and the attacking elite's affix: Vampiric heals, Frenzied
+    // hits harder below half health
+    private double incoming(Player victim, LivingEntity source, double damage) {
         Run run = runs.get(victim.getUniqueId());
         if (run == null) return damage;
+        String affix = source == null ? null : run.affixes.get(source.getUniqueId());
+        if ("frenzied".equals(affix) && CustomHealth.current(source) < CustomHealth.max(source) / 2) damage *= 1.3;
+        if ("vampiric".equals(affix)) {
+            CustomHealth.heal(source, CustomHealth.max(source) * 0.1, manager.registry());
+            source.getWorld().spawnParticle(Particle.HEART, source.getLocation().add(0, source.getHeight(), 0), 2, 0.3, 0.2, 0.3, 0);
+        }
         if (ThreadLocalRandom.current().nextDouble(100) < boonTotal(run, "dodge")) {
             victim.playSound(victim.getLocation(), Sound.ENTITY_BREEZE_JUMP, 0.6f, 1.6f);
             return 0;

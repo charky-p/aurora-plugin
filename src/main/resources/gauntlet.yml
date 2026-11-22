@@ -29,6 +29,8 @@
 #         (slam, volley, charge, leap or summon, see GauntletBossAbilities)
 # perks: what gear unlocks at a level, in runs only [{gear, level, name, description, stat, amount}]
 #        (gear armor_set: every armour piece at the level)
+# affixes: what an elite can roll from affix_from on {name, colour, description} (see GauntletRuns)
+# achievements: long goals [{id, name, description ({goal} filled in), stat, goal, essence, shards, cosmetic}]
 # settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
@@ -1834,6 +1836,136 @@ perks:
     description: "2 absorption hearts every floor with every armour piece at 30"
     stat: absorb
     amount: 4.0
+affixes:
+  vampiric:
+    name: Vampiric
+    colour: dark_red
+    description: "Heals a tenth of its health every time it hits you"
+  explosive:
+    name: Explosive
+    colour: red
+    description: "Explodes a second after it dies"
+  shielded:
+    name: Shielded
+    colour: aqua
+    description: "Takes half damage until below half health"
+  swift:
+    name: Swift
+    colour: yellow
+    description: "Moves 40% faster"
+  frenzied:
+    name: Frenzied
+    colour: gold
+    description: "Hits 30% harder below half health"
+  summoner:
+    name: Summoner
+    colour: light_purple
+    description: "Calls two of the floor's mobs when it dies"
+achievements:
+  - id: first_blood
+    name: First Blood
+    description: "Kill {goal} mobs"
+    stat: kills
+    goal: 100
+    essence: 100
+    shards: 50
+    cosmetic: ''
+  - id: slayer
+    name: Slayer
+    description: "Kill {goal} mobs"
+    stat: kills
+    goal: 1000
+    essence: 500
+    shards: 300
+    cosmetic: suffix_relentless
+  - id: exterminator
+    name: Exterminator
+    description: "Kill {goal} mobs"
+    stat: kills
+    goal: 10000
+    essence: 2500
+    shards: 2000
+    cosmetic: ''
+  - id: elite_hunter
+    name: Elite Hunter
+    description: "Kill {goal} elites"
+    stat: elite_kills
+    goal: 100
+    essence: 400
+    shards: 250
+    cosmetic: ''
+  - id: boss_breaker
+    name: Boss Breaker
+    description: "Defeat {goal} bosses"
+    stat: boss_kills
+    goal: 10
+    essence: 500
+    shards: 400
+    cosmetic: ''
+  - id: treasure_hunter
+    name: Treasure Hunter
+    description: "Catch {goal} Shard Hoarders"
+    stat: hoarders
+    goal: 10
+    essence: 400
+    shards: 300
+    cosmetic: ''
+  - id: speed_demon
+    name: Speed Demon
+    description: "Get {goal} fast clears"
+    stat: fast_clears
+    goal: 100
+    essence: 400
+    shards: 300
+    cosmetic: ''
+  - id: combo_master
+    name: Combo Master
+    description: "Reach a {goal} kill combo"
+    stat: best_combo
+    goal: 25
+    essence: 500
+    shards: 300
+    cosmetic: trail_shardstorm
+  - id: veteran
+    name: Veteran
+    description: "Finish {goal} runs"
+    stat: runs
+    goal: 50
+    essence: 300
+    shards: 200
+    cosmetic: ''
+  - id: climber
+    name: Climber
+    description: "Clear floor {goal}"
+    stat: best
+    goal: 40
+    essence: 1000
+    shards: 500
+    cosmetic: ''
+  - id: brawler
+    name: Brawler
+    description: "Win {goal} fights in the PvP zone"
+    stat: pvp_kills
+    goal: 50
+    essence: 500
+    shards: 300
+    cosmetic: ''
+  - id: duelist
+    name: Duelist
+    description: "Win {goal} duels"
+    stat: duel_wins
+    goal: 25
+    essence: 600
+    shards: 400
+    cosmetic: suffix_duelist
+  - id: champion
+    name: Champion
+    description: "Win {goal} duels"
+    stat: duel_wins
+    goal: 100
+    essence: 2000
+    shards: 1500
+    cosmetic: ''
 settings:
   boon_every: 5.0
   boon_choices: 3.0
@@ -1882,3 +2014,5 @@ settings:
   weekly_pvp_1: 1000.0
   weekly_pvp_2: 600.0
   weekly_pvp_3: 300.0
+  affix_from: 10.0
+  pvp_kill_heal: 100.0

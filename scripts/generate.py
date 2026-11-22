@@ -1097,6 +1097,8 @@ GAUNTLET_HEADER = """# =========================================================
 #         (slam, volley, charge, leap or summon, see GauntletBossAbilities)
 # perks: what gear unlocks at a level, in runs only [{gear, level, name, description, stat, amount}]
 #        (gear armor_set: every armour piece at the level)
+# affixes: what an elite can roll from affix_from on {name, colour, description} (see GauntletRuns)
+# achievements: long goals [{id, name, description ({goal} filled in), stat, goal, essence, shards, cosmetic}]
 # settings: the gauntlet's tuning numbers, by key (settings.csv says what each one does)
 # setup: the starting kit, bought for good, handed out at the start of every run
 #   quiver: {name, item (as care loot), amount (a level), max, shards, cores (level n costs n times), description}
@@ -1113,6 +1115,9 @@ GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "bos
 GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon"}
 GAUNTLET_WEAPON_PERK_STATS = {"damage", "crit", "firststrike", "execute", "slayer", "cleave", "killheal"}
 GAUNTLET_SET_PERK_STATS = {"health", "guard", "absorb"}
+GAUNTLET_AFFIXES = {"vampiric", "explosive", "shielded", "swift", "frenzied", "summoner"}
+GAUNTLET_ACHIEVEMENT_STATS = {"kills", "elite_kills", "boss_kills", "hoarders", "fast_clears", "best_combo", "runs",
+                              "best", "pvp_kills", "duel_wins"}
 
 
 def _gauntlet_rows(name):
@@ -1222,6 +1227,23 @@ def gauntlet_text(mobs, cosmetics):
         perks.append(OrderedDict(gear=row["gear"], level=int(row["level"]), name=row["name"],
                                  description=Quoted(row["description"]), stat=row["stat"], amount=float(row["amount"])))
 
+    affixes = OrderedDict()
+    for row in _gauntlet_rows("affixes.csv") or []:
+        if row["id"] not in GAUNTLET_AFFIXES:
+            errors.append(f"gauntlet affix '{row['id']}': no such affix in the plugin")
+        affixes[row["id"]] = OrderedDict(name=row["name"], colour=row["colour"], description=Quoted(row["description"]))
+
+    achievements = []
+    for row in _gauntlet_rows("achievements.csv") or []:
+        if row["stat"] not in GAUNTLET_ACHIEVEMENT_STATS:
+            errors.append(f"gauntlet achievement '{row['id']}': unknown stat '{row['stat']}'")
+        cosmetic = (row.get("cosmetic") or "").strip()
+        if cosmetic and cosmetics is not None and cosmetic not in cosmetics:
+            errors.append(f"gauntlet achievement '{row['id']}': no cosmetic '{cosmetic}' in Cosmetics.java")
+        achievements.append(OrderedDict(id=row["id"], name=row["name"], description=Quoted(row["description"]), stat=row["stat"],
+                                        goal=int(row["goal"]), essence=int(row["essence"] or 0), shards=int(row["shards"] or 0),
+                                        cosmetic=cosmetic))
+
     settings = OrderedDict()
     for row in _gauntlet_rows("settings.csv") or []:
         try:
@@ -1247,7 +1269,8 @@ def gauntlet_text(mobs, cosmetics):
                                        description=Quoted(row["description"]))
 
     data = OrderedDict(floors=floors, gear=gear, levels=levels, boons=boons, care=care, milestones=milestones, setup=setup,
-                       talents=talents, mutators=mutators, challenges=challenges, bosses=bosses, perks=perks, settings=settings)
+                       talents=talents, mutators=mutators, challenges=challenges, bosses=bosses, perks=perks,
+                       affixes=affixes, achievements=achievements, settings=settings)
     body = yaml.dump(data, Dumper=_Dumper, sort_keys=False, default_flow_style=False, allow_unicode=True,
                      width=10 ** 6, indent=2)
     return GAUNTLET_HEADER + "\n" + body, len(floors), errors

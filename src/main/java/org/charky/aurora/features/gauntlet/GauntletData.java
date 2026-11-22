@@ -24,7 +24,8 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                            Map<String, Boon> boons, List<CareLevel> care, List<Milestone> milestones,
                            Map<String, SetupItem> setup, Map<String, Talent> talents, Map<String, Mutator> mutators,
                            Map<String, Challenge> challenges, Map<String, List<BossAbility>> bosses,
-                           List<Perk> perks, Map<String, Double> settings) {
+                           List<Perk> perks, Map<String, Affix> affixes, List<Achievement> achievements,
+                           Map<String, Double> settings) {
     // The gear a perk belongs to when it is for the whole armour set
     public static final String ARMOR_SET = "armor_set";
     private static final String FILE = "gauntlet.yml";
@@ -116,6 +117,18 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         return perks.stream().filter(perk -> perk.gear().equals(gearId)).toList();
     }
 
+    // What an elite can roll from affix_from on (affixes.csv), shown in its name
+    public record Affix(String id, String name, String colour, String description) {
+    }
+
+    // A long goal (achievements.csv): reach goal of a stat for Essence, Shards and a cosmetic
+    public record Achievement(String id, String name, String description, String stat, int goal, int essence,
+                              int shards, String cosmetic) {
+        public String describe() {
+            return description.replace("{goal}", String.format("%,d", goal));
+        }
+    }
+
     // One of a boss's abilities (see GauntletBossAbilities) and how often, in seconds
     public record BossAbility(String type, int cooldown) {
     }
@@ -149,7 +162,8 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     }
 
     public static GauntletData empty() {
-        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), List.of(), Map.of());
+        return new GauntletData(List.of(), Map.of(), List.of(), Map.of(), List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(),
+                Map.of(), List.of(), Map.of(), List.of(), Map.of());
     }
 
     // Empty when the file is missing or broken, the gauntlet then refuses to start
@@ -249,10 +263,20 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                 perks.add(new Perk(str(row.get("gear")), num(row.get("level")).intValue(), str(row.get("name")),
                         str(row.get("description")), str(row.get("stat")), num(row.get("amount")).doubleValue()));
             }
+            Map<String, Affix> affixes = new LinkedHashMap<>();
+            ((Map<String, Map<String, Object>>) root.getOrDefault("affixes", Map.of())).forEach((id, row) ->
+                    affixes.put(id, new Affix(id, str(row.get("name")), str(row.get("colour")), str(row.get("description")))));
+            List<Achievement> achievements = new ArrayList<>();
+            for (Map<String, Object> row : list(root.get("achievements"))) {
+                achievements.add(new Achievement(str(row.get("id")), str(row.get("name")), str(row.get("description")),
+                        str(row.get("stat")), num(row.get("goal")).intValue(), num(row.get("essence")).intValue(),
+                        num(row.get("shards")).intValue(), str(row.get("cosmetic"))));
+            }
             Map<String, Double> settings = new LinkedHashMap<>();
             ((Map<String, Object>) root.getOrDefault("settings", Map.of())).forEach((key, value) -> settings.put(key, num(value).doubleValue()));
             return new GauntletData(List.copyOf(floors), gear, List.copyOf(levels), boons, List.copyOf(care),
-                    List.copyOf(milestones), setup, talents, mutators, challenges, bosses, List.copyOf(perks), settings);
+                    List.copyOf(milestones), setup, talents, mutators, challenges, bosses, List.copyOf(perks), affixes,
+                    List.copyOf(achievements), settings);
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load " + FILE, e);
             return empty();
@@ -310,14 +334,19 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
     // A mob as it is on a floor: g_rotter#12, g_rotter#12* when elite, g_rotter#12*^2
     // at heat 2, and g_rotter#12*^2~swift with the floor's mutator. Made from the base
     // mob on the fly
-    public record Variant(String base, int floor, boolean elite, int heat, String mutator) {
+    public record Variant(String base, int floor, boolean elite, String affix, int heat, String mutator) {
         static final String ELITE = "*";
+        static final String AFFIX = "!";
         static final String HEAT = "^";
         static final String MUTATOR = "~";
 
+        public Variant(String base, int floor, boolean elite, int heat, String mutator) {
+            this(base, floor, elite, null, heat, mutator);
+        }
+
         public String id() {
-            return base + FLOOR_SEP + floor + (elite ? ELITE : "") + (heat > 0 ? HEAT + heat : "")
-                    + (mutator == null ? "" : MUTATOR + mutator);
+            return base + FLOOR_SEP + floor + (elite ? ELITE : "") + (affix == null ? "" : AFFIX + affix)
+                    + (heat > 0 ? HEAT + heat : "") + (mutator == null ? "" : MUTATOR + mutator);
         }
 
         // Null for an id that is no variant
@@ -336,11 +365,17 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                     heat = Integer.parseInt(id.substring(caret + 1));
                     id = id.substring(0, caret);
                 }
+                String affix = null;
+                int bang = id.indexOf(AFFIX);
+                if (bang >= 0) {
+                    affix = id.substring(bang + 1);
+                    id = id.substring(0, bang);
+                }
                 boolean elite = id.endsWith(ELITE);
                 if (elite) id = id.substring(0, id.length() - 1);
                 int sep = id.lastIndexOf(FLOOR_SEP);
                 if (sep < 0) return null;
-                return new Variant(id.substring(0, sep), Integer.parseInt(id.substring(sep + 1)), elite, heat, mutator);
+                return new Variant(id.substring(0, sep), Integer.parseInt(id.substring(sep + 1)), elite, affix, heat, mutator);
             } catch (NumberFormatException e) {
                 return null;
             }
@@ -372,7 +407,9 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
                 * (1 + variant.heat() * setting("heat_health", 25) / 100) * (mutator == null ? 1 : mutator.health());
         double damage = mob.damage() * (variant.elite() ? setting("elite_damage", 1.3) : 1)
                 * (1 + variant.heat() * setting("heat_damage", 15) / 100) * (mutator == null ? 1 : mutator.damage());
+        Affix affix = variant.affix() == null ? null : affixes.get(variant.affix());
         Component name = (variant.elite() ? TextUtils.parse("<gold><b>Elite</b> ") : Component.empty())
+                .append(affix == null ? Component.empty() : TextUtils.parse("<" + affix.colour() + "><b>" + affix.name() + "</b> "))
                 .append(mob.displayName()).append(TextUtils.parse(" <dark_gray>F" + variant.floor()));
         return new MobData(id, mob.type(), name, Math.max(1, Math.round(health)), mob.defence(),
                 mob.attack() + floor.attack(), mob.attackCooldown(), damage, 0, mob.equipment(),

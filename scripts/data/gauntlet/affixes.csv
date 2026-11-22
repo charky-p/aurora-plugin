@@ -1,0 +1,7 @@
+id,name,colour,description
+vampiric,Vampiric,dark_red,Heals a tenth of its health every time it hits you
+explosive,Explosive,red,Explodes a second after it dies
+shielded,Shielded,aqua,Takes half damage until below half health
+swift,Swift,yellow,Moves 40% faster
+frenzied,Frenzied,gold,Hits 30% harder below half health
+summoner,Summoner,light_purple,Calls two of the floor's mobs when it dies

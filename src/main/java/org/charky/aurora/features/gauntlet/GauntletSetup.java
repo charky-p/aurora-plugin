@@ -88,6 +88,7 @@ public class GauntletSetup implements Listener {
         GauntletProfile profile = manager.profile(player);
         GauntletData data = manager.data();
         Map<String, ItemStack> items = new LinkedHashMap<>();
+        boolean run = manager.inRun(player);
         for (GauntletData.Gear gear : data.gear().values()) {
             GauntletData.GearLevel level = data.level(profile.level(gear.id()));
             if (profile.owns(gear.id()) && level != null) items.put(GEAR + gear.id(), GauntletGear.build(manager.registry(), gear, level));
@@ -97,17 +98,17 @@ public class GauntletSetup implements Listener {
             if (level <= 0) continue;
             ItemStack item = GauntletCarePackage.lootItem(setup.item(), Math.min(setup.amount() * level, 64));
             if (item == null) continue;
-            item.editMeta(meta -> {
-                // The elytra never wears out
-                meta.setUnbreakable(true);
-                meta.getPersistentDataContainer().set(SETUP_KEY, PersistentDataType.STRING, setup.id());
-            });
+            // In a run the kit is marked like the care packages' loot, so arrows and apples
+            // stack with theirs; in the lobby it is marked for the layout
+            if (run) GauntletGear.markRunItem(item);
+            else item.editMeta(meta -> meta.getPersistentDataContainer().set(SETUP_KEY, PersistentDataType.STRING, setup.id()));
+            // The elytra never wears out
+            if (item.getType().getMaxDurability() > 0) item.editMeta(meta -> meta.setUnbreakable(true));
             items.put(SETUP + setup.id(), item);
         }
         items.put(MENU, tool(Material.NETHER_STAR, MENU_KEY, "<red><b>Gauntlet Menu <gray>(right click)",
                 List.of("<gray>Start a run, the forge, your starting kit,", "<gray>milestones and the top floors")));
         // Starting is for the lobby; a duel is left by forfeiting
-        boolean run = manager.inRun(player);
         if (!run && !manager.inDuel(player)) {
             items.put(START, tool(Material.LIME_DYE, START_KEY, "<green><b>Start a Run <gray>(right click)",
                     List.of("<gray>Straight into a run, on the floor", "<gray>and heat you chose last")));

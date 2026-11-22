@@ -2,11 +2,20 @@ package org.charky.aurora.features.gauntlet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Container;
+import org.bukkit.entity.AreaEffectCloud;
+import org.bukkit.entity.Display;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Projectile;
 import org.bukkit.block.structure.Mirror;
 import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.structure.Structure;
 import org.bukkit.structure.StructureManager;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.charky.aurora.common.util.Box;
 import org.charky.aurora.core.database.Database;
@@ -15,6 +24,7 @@ import org.charky.aurora.core.database.GauntletStore;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -211,7 +221,37 @@ public class GauntletArena {
     // Pastes a fresh copy of the arena for a slot, so nothing is left from the run before
     public void paste(int slot) {
         if (template == null) return;
+        clearSlot(slot, List.of());
         template.place(origin(slot), false, StructureRotation.NONE, Mirror.NONE, 0, 1f, new Random());
+    }
+
+    // A run's copy, done with: its care package chests emptied and gone (pasting over a
+    // full chest would spill it onto the floor of the next run) and everything left lying
+    // in it removed: dropped items, arrows, orbs, potion clouds, markers. The chests at
+    // the places given and at the package spot
+    public void clearSlot(int slot, Collection<Location> chests) {
+        Location min = places.get(ARENA_MIN), max = places.get(ARENA_MAX);
+        if (min == null || max == null) return;
+        Location origin = origin(slot);
+        List<Location> all = new ArrayList<>(chests);
+        Location spot = inSlot(slot, places.get(PACKAGE));
+        if (spot != null) all.add(spot);
+        clear(origin, origin.clone().add(max.toVector().subtract(min.toVector())), all);
+    }
+
+    private static void clear(Location from, Location to, Collection<Location> chests) {
+        World world = from.getWorld();
+        if (world == null) return;
+        for (Location at : chests) {
+            if (!(at.getBlock().getState() instanceof Container container)) continue;
+            container.getInventory().clear();
+            at.getBlock().setType(Material.AIR, false);
+        }
+        BoundingBox box = BoundingBox.of(from.getBlock(), to.getBlock()).expand(0, 0, 0, 0, 8, 0);
+        for (Entity entity : world.getNearbyEntities(box)) {
+            if (entity instanceof Item || entity instanceof Projectile || entity instanceof ExperienceOrb
+                    || entity instanceof AreaEffectCloud || entity instanceof Display) entity.remove();
+        }
     }
 
     // A place saved in the template, moved to a slot's copy
@@ -299,12 +339,21 @@ public class GauntletArena {
         return slot;
     }
 
+    // A duel's copy, done with: whatever was dropped or shot in it removed
+    public void clearDuelSlot(int slot) {
+        Location min = places.get(DUEL_MIN), max = places.get(DUEL_MAX);
+        if (min == null || max == null) return;
+        Location origin = duelOrigin(slot);
+        clear(origin, origin.clone().add(max.toVector().subtract(min.toVector())), List.of());
+    }
+
     public void freeDuelSlot(int slot) {
         usedDuelSlots.remove(slot);
     }
 
     public void pasteDuel(int slot) {
         if (duelTemplate == null) return;
+        clearDuelSlot(slot);
         duelTemplate.place(duelOrigin(slot), false, StructureRotation.NONE, Mirror.NONE, 0, 1f, new Random());
     }
 

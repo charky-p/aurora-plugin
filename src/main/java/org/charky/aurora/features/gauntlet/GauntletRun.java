@@ -101,6 +101,8 @@ final class GauntletRun {
     boolean wiping;
     // The Daily Tower's day, 0 for any other run: its floors' rolls are seeded by the day
     long towerDay;
+    // Where its care packages landed, to clear when it is over
+    final Set<Location> packages = new HashSet<>();
 
     GauntletRun(int slot) {
         this.slot = slot;

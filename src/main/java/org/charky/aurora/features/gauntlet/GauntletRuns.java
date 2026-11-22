@@ -379,7 +379,8 @@ public class GauntletRuns implements Listener {
         if (!run.over) close(run);
     }
 
-    // The last player is out: the run's mobs go and its arena copy is free again
+    // The last player is out: the run's mobs go, its copy of the arena is cleared (care
+    // packages, anything lying on the floor) and free again
     private void close(GauntletRun run) {
         run.over = true;
         for (UUID id : run.mobs) {
@@ -389,6 +390,7 @@ public class GauntletRuns implements Listener {
         if (run.boss != null) waves.bossGone(run.boss);
         Entity hoarder = run.hoarder == null ? null : Bukkit.getEntity(run.hoarder);
         if (hoarder != null) hoarder.remove();
+        manager.arena().clearSlot(run.slot, run.packages);
         manager.arena().freeSlot(run.slot);
     }
 

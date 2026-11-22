@@ -235,6 +235,7 @@ public class GauntletDuels implements Listener {
         duels.remove(duel.a);
         duels.remove(duel.b);
         if (duel.task != null) duel.task.cancel();
+        manager.arena().clearDuelSlot(duel.slot);
         manager.arena().freeDuelSlot(duel.slot);
         String result = winner == null
                 ? "<gray>The duel between <white>" + GauntletManager.nameOf(duel.a) + " <gray>and <white>"

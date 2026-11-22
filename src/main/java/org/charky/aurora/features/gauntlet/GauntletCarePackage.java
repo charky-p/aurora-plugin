@@ -36,6 +36,7 @@ final class GauntletCarePackage {
         Block block = at.getBlock();
         block.setType(Material.CHEST);
         if (!(block.getState() instanceof Chest chest)) return;
+        run.packages.add(block.getLocation());
 
         int level = 1;
         double scavenger = 0;

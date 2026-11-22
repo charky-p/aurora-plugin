@@ -10,6 +10,7 @@ import org.charky.aurora.features.system.commands.AuroraSubCommand;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.BiFunction;
 
 /**
  * Aurora admin command for setting up the gauntlet: its lobby, the arena saved from
@@ -34,58 +35,23 @@ public class GauntletSub implements AuroraSubCommand {
         GauntletManager manager = plugin.getGauntletManager();
         GauntletArena arena = manager.arena();
         String action = args[0].toLowerCase();
-
         if (action.equals("status")) {
-            String missing = arena.missing();
-            TextUtils.send(sender, missing == null
-                    ? "<green>The Gauntlet is ready: " + arena.mobSpawns().size() + " mob spawns, "
-                    + manager.data().floors().size() + " floors"
-                    : "<red>Not ready: " + missing);
-            String duels = arena.duelMissing();
-            TextUtils.send(sender, duels == null ? "<green>Duels are ready" : "<yellow>Duels not ready: " + duels);
+            status(sender, manager, arena);
             return;
         }
         if (action.equals("reset")) {
-            if (args.length < 2) {
-                TextUtils.usage(sender, "/aurora gauntlet reset <player>");
-                return;
-            }
-            Player target = AuroraSubCommand.targetPlayer(sender, args, 1);
-            if (target == null) return;
-            manager.reset(target);
-            TextUtils.success(sender, target.getName() + "'s Gauntlet progress is reset");
-            if (!target.equals(sender)) TextUtils.send(target, "<red>Your Gauntlet progress was reset by staff");
+            reset(sender, manager, args);
             return;
         }
-
         if (!(sender instanceof Player player)) {
             TextUtils.error(sender, "Stand where it goes, from in game");
             return;
         }
         Location here = player.getLocation();
         switch (action) {
-            case "lobby" -> {
-                // Its whole world becomes the Gauntlet's, inventories swapped on the way in
-                Location main = plugin.getMainSpawn();
-                if (main != null && here.getWorld().equals(main.getWorld())) {
-                    TextUtils.error(sender, "The Gauntlet needs a world of its own, not the main world. /aurora world create <name>");
-                    return;
-                }
-                arena.set(GauntletArena.LOBBY, here);
-                TextUtils.success(sender, "The Gauntlet's lobby is here, " + here.getWorld().getName() + " is now its world");
-            }
-            case "arena" -> {
-                WandManager wand = plugin.getWandManager();
-                UUID uuid = player.getUniqueId();
-                if (!wand.hasBothPositions(uuid)) {
-                    TextUtils.error(sender, "Select the arena with the wand first, /aurora wand");
-                    return;
-                }
-                String problem = arena.saveArena(wand.getPos1(uuid), wand.getPos2(uuid));
-                if (problem != null) TextUtils.error(sender, problem);
-                else TextUtils.success(sender, "Arena saved. Runs paste a copy of it every " + GauntletArena.SLOT_SPACING
-                        + " blocks along z. Now set its spawn, mob spawns and package spot inside it");
-            }
+            case "lobby" -> lobby(player, arena, here);
+            case "arena" -> fromWand(player, "arena", arena::saveArena, "Arena saved. Runs paste a copy of it every "
+                    + GauntletArena.SLOT_SPACING + " blocks along z. Now set its spawn, mob spawns and package spot inside it");
             case "spawn" -> {
                 if (!insideArena(sender, arena, here)) return;
                 arena.set(GauntletArena.SPAWN, here);
@@ -105,59 +71,77 @@ public class GauntletSub implements AuroraSubCommand {
                 arena.set(GauntletArena.PACKAGE, here);
                 TextUtils.success(sender, "Care packages land here");
             }
-            case "duelarena" -> {
-                WandManager wand = plugin.getWandManager();
-                UUID uuid = player.getUniqueId();
-                if (!wand.hasBothPositions(uuid)) {
-                    TextUtils.error(sender, "Select the duel arena with the wand first, /aurora wand");
-                    return;
-                }
-                String problem = arena.saveDuelArena(wand.getPos1(uuid), wand.getPos2(uuid));
-                if (problem != null) TextUtils.error(sender, problem);
-                else TextUtils.success(sender, "Duel arena saved. Duels paste a copy of it every " + GauntletArena.SLOT_SPACING
-                        + " blocks along x. Now set its two spawns with /aurora gauntlet duelspawn 1 and 2, inside it");
-            }
-            case "duelspawn" -> {
-                if (args.length < 2 || !(args[1].equals("1") || args[1].equals("2"))) {
-                    TextUtils.usage(sender, "/aurora gauntlet duelspawn <1|2>");
-                    return;
-                }
-                if (arena.duelBox() == null) {
-                    TextUtils.error(sender, "Save the duel arena first, /aurora gauntlet duelarena");
-                    return;
-                }
-                if (!arena.duelBox().contains(here)) {
-                    TextUtils.error(sender, "Stand inside the duel arena you saved");
-                    return;
-                }
-                arena.setDuelSpawn(Integer.parseInt(args[1]), here);
-                TextUtils.success(sender, "Duelist " + args[1] + " starts here");
-            }
-            case "startportal" -> {
-                WandManager wand = plugin.getWandManager();
-                UUID uuid = player.getUniqueId();
-                if (!wand.hasBothPositions(uuid)) {
-                    TextUtils.error(sender, "Select the start portal with the wand first, /aurora wand");
-                    return;
-                }
-                String problem = arena.setStart(wand.getPos1(uuid), wand.getPos2(uuid));
-                if (problem != null) TextUtils.error(sender, problem);
-                else TextUtils.success(sender, "Start portal set, walking into it starts a run");
-            }
-            case "pvp" -> {
-                WandManager wand = plugin.getWandManager();
-                UUID uuid = player.getUniqueId();
-                if (!wand.hasBothPositions(uuid)) {
-                    TextUtils.error(sender, "Select the PvP zone with the wand first, /aurora wand");
-                    return;
-                }
-                String problem = arena.setPvp(wand.getPos1(uuid), wand.getPos2(uuid));
-                if (problem != null) TextUtils.error(sender, problem);
-                else TextUtils.success(sender, "PvP zone set, players can fight inside it");
-            }
+            case "duelarena" -> fromWand(player, "duel arena", arena::saveDuelArena, "Duel arena saved. Duels paste a copy of it every "
+                    + GauntletArena.SLOT_SPACING + " blocks along x. Now set its two spawns with /aurora gauntlet duelspawn 1 and 2, inside it");
+            case "duelspawn" -> duelSpawn(player, arena, here, args);
+            case "startportal" -> fromWand(player, "start portal", arena::setStart, "Start portal set, walking into it starts a run");
+            case "pvp" -> fromWand(player, "PvP zone", arena::setPvp, "PvP zone set, players can fight inside it");
             default -> {
             }
         }
+    }
+
+    private static void status(CommandSender sender, GauntletManager manager, GauntletArena arena) {
+        String missing = arena.missing();
+        TextUtils.send(sender, missing == null
+                ? "<green>The Gauntlet is ready: " + arena.mobSpawns().size() + " mob spawns, "
+                + manager.data().floors().size() + " floors"
+                : "<red>Not ready: " + missing);
+        String duels = arena.duelMissing();
+        TextUtils.send(sender, duels == null ? "<green>Duels are ready" : "<yellow>Duels not ready: " + duels);
+    }
+
+    private static void reset(CommandSender sender, GauntletManager manager, String[] args) {
+        if (args.length < 2) {
+            TextUtils.usage(sender, "/aurora gauntlet reset <player>");
+            return;
+        }
+        Player target = AuroraSubCommand.targetPlayer(sender, args, 1);
+        if (target == null) return;
+        manager.reset(target);
+        TextUtils.success(sender, target.getName() + "'s Gauntlet progress is reset");
+        if (!target.equals(sender)) TextUtils.send(target, "<red>Your Gauntlet progress was reset by staff");
+    }
+
+    // Its whole world becomes the Gauntlet's, inventories swapped on the way in
+    private void lobby(Player player, GauntletArena arena, Location here) {
+        Location main = plugin.getMainSpawn();
+        if (main != null && here.getWorld().equals(main.getWorld())) {
+            TextUtils.error(player, "The Gauntlet needs a world of its own, not the main world. /aurora world create <name>");
+            return;
+        }
+        arena.set(GauntletArena.LOBBY, here);
+        TextUtils.success(player, "The Gauntlet's lobby is here, " + here.getWorld().getName() + " is now its world");
+    }
+
+    private static void duelSpawn(Player player, GauntletArena arena, Location here, String[] args) {
+        if (args.length < 2 || !(args[1].equals("1") || args[1].equals("2"))) {
+            TextUtils.usage(player, "/aurora gauntlet duelspawn <1|2>");
+            return;
+        }
+        if (arena.duelBox() == null) {
+            TextUtils.error(player, "Save the duel arena first, /aurora gauntlet duelarena");
+            return;
+        }
+        if (!arena.duelBox().contains(here)) {
+            TextUtils.error(player, "Stand inside the duel arena you saved");
+            return;
+        }
+        arena.setDuelSpawn(Integer.parseInt(args[1]), here);
+        TextUtils.success(player, "Duelist " + args[1] + " starts here");
+    }
+
+    // The wand's selection handed to the arena, which says what is wrong with it or null
+    private void fromWand(Player player, String what, BiFunction<Location, Location, String> save, String done) {
+        WandManager wand = plugin.getWandManager();
+        UUID uuid = player.getUniqueId();
+        if (!wand.hasBothPositions(uuid)) {
+            TextUtils.error(player, "Select the " + what + " with the wand first, /aurora wand");
+            return;
+        }
+        String problem = save.apply(wand.getPos1(uuid), wand.getPos2(uuid));
+        if (problem != null) TextUtils.error(player, problem);
+        else TextUtils.success(player, done);
     }
 
     // Spawns are saved in the template arena, and moved into each run's copy

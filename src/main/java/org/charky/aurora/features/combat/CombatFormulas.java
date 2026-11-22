@@ -30,6 +30,8 @@ public final class CombatFormulas {
     private static final int BRACKET_STEP = 5;
 
     private static final double FULL_CHARGE_MS = 625.0;
+    // What a swing with no charge at all still does, enough to finish off what is nearly dead
+    private static final double SPAM_FLOOR = 0.02;
 
     // A raised shield fully covers attacks up to this level at Deflection 0, the
     // Abandoned City's, and each zone's 3 Deflection levels cover its 4 attack levels
@@ -87,11 +89,12 @@ public final class CombatFormulas {
         return total;
     }
 
-    // 20% damage on a spammed swing rising to 100% on a timed one. Squared so
-    // half charge pays 40%, not 60%.
+    // 2% damage on a spammed swing rising to 100% on a timed one, cubed so clicking fast
+    // never pays: at ten clicks a second the hits add up to about a sixth of what timed
+    // swings deal, half charge pays 14%. Only something nearly dead dies to spam
     public static double chargeMultiplier(long sinceLastSwingMs) {
         double charge = Math.min(1.0, sinceLastSwingMs / FULL_CHARGE_MS);
-        return 0.2 + 0.8 * charge * charge;
+        return SPAM_FLOOR + (1 - SPAM_FLOOR) * charge * charge * charge;
     }
 
     // How many tiers a hit sits above what the shield covers, negative when below

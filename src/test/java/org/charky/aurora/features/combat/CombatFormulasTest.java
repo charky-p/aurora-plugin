@@ -56,11 +56,19 @@ class CombatFormulasTest {
     }
 
     @Test
-    void chargeRunsFromTwentyPercentToFull() {
-        assertEquals(0.2, CombatFormulas.chargeMultiplier(0), EPSILON);
-        assertEquals(0.4, CombatFormulas.chargeMultiplier(625 / 2), 0.01);
+    void chargeRunsFromTwoPercentToFull() {
+        assertEquals(0.02, CombatFormulas.chargeMultiplier(0), EPSILON);
+        assertEquals(0.14, CombatFormulas.chargeMultiplier(625 / 2), 0.01);
         assertEquals(1.0, CombatFormulas.chargeMultiplier(625), EPSILON);
         assertEquals(1.0, CombatFormulas.chargeMultiplier(5000), EPSILON);
+    }
+
+    // Ten clicks a second deal under a fifth of what timed swings do over the same second
+    @Test
+    void spamClickingNeverOutdamagesTimedSwings() {
+        double spammed = 10 * CombatFormulas.chargeMultiplier(100);
+        double timed = 1000.0 / 625 * CombatFormulas.chargeMultiplier(625);
+        assertTrue(spammed < timed / 5, spammed + " against " + timed);
     }
 
     // Shields: Abandoned City 11 (deflection 0), Dunes 15 (3), Canyons 19 (6), Sun Temple 23 (9).

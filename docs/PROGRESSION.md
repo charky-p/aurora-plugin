@@ -25,7 +25,7 @@ A zone is one mine (or two), one or two mobs, one trader and a list of steps in 
 
 **Luck and Essence.** Every block mined and mob killed has a 0.1% chance to pay Essence: 1 to 3, times `1 + Luck`. Luck never changes the chance and never touches resources. On the sword it also raises the chance of a mob's gear drop.
 
-**Player damage.** A hit is `10 + Sharpness bonus - mob defence`. Sharpness gives 1 a level for levels 1 to 5, 3 for 6 to 10, 5 for 11 to 15, 10 for 16 to 20 and so on. A spammed swing does 20%, a fully charged one (625 ms) 100%, a jump crit 1.5x. A mace hit while falling smashes: `1 + 0.2` a block fallen, at most 3x, on top of a crit. Bloodlust adds 5% a level for each of up to 3 stacks, a stack per kill, lasting 6 seconds.
+**Player damage.** A hit is `10 + Sharpness bonus - mob defence`. Sharpness gives 1 a level for levels 1 to 5, 3 for 6 to 10, 5 for 11 to 15, 10 for 16 to 20 and so on. A spammed swing does 2%, a fully charged one (625 ms) 100%, cubed in between (half charge 14%), so clicking fast deals about a sixth of what timed swings do and only finishes off what is nearly dead; a jump crit 1.5x. A mace hit while falling smashes: `1 + 0.2` a block fallen, at most 3x, on top of a crit. Bloodlust adds 5% a level for each of up to 3 stacks, a stack per kill, lasting 6 seconds.
 
 **Bow.** Bought at the Dunes and upgraded with Power, 5 steps in each of the Dunes, the Sun Temple and the Royal Tomb. An arrow hits for `10 + Power bonus` (Sharpness's brackets) from 20% for a flick to 100% fully drawn, less the mob's defence. Arrows are free: the bow keeps one in the inventory to draw with, and the arrows it fires vanish where they land.
 

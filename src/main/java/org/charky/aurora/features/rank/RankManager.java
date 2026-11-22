@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 // Which ranks a player owns and which one they wear. Everyone has MEMBER, playtime
 // ranks come with hours online, shop ranks are bought with Essence. The worn rank
@@ -142,11 +143,19 @@ public class RankManager implements Listener, LoadoutData {
         return null;
     }
 
+    // Told whenever a player's ranks change, StaffPermissions follows staff ranks
+    private Consumer<Player> onChange = player -> {};
+
+    public void setOnChange(Consumer<Player> onChange) {
+        this.onChange = onChange;
+    }
+
     // For admins, the only way to a donor or staff rank. True if it changed anything
     public boolean grant(Player player, Rank rank) {
         UUID uuid = player.getUniqueId();
         if (!bought.computeIfAbsent(uuid, k -> new HashSet<>()).add(rank.id())) return false;
         db.async(() -> store.add(uuid, rank.id()));
+        onChange.accept(player);
 
         player.sendMessage(TextUtils.parse("<gold><b>UNLOCKED</b> ").append(rank.component())
                 .append(Component.text(" - put it on with /ranks", NamedTextColor.GRAY)));
@@ -157,6 +166,7 @@ public class RankManager implements Listener, LoadoutData {
         UUID uuid = player.getUniqueId();
         if (!bought.getOrDefault(uuid, Set.of()).remove(rank.id())) return false;
         db.async(() -> store.remove(uuid, rank.id()));
+        onChange.accept(player);
 
         // Back to the best rank their playtime has earned
         PlayerData data = players.get(player);

@@ -16,4 +16,10 @@ public class TraderCommand extends SubCommandRouter {
         register(new TraderListSub(plugin));
         register(new TraderTpSub(plugin));
     }
+
+    // A builder's setup command
+    @Override
+    public String permission() {
+        return "aurora.builder";
+    }
 }

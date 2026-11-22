@@ -109,6 +109,10 @@ import org.charky.aurora.features.fishing.RodShopMenu;
 import org.charky.aurora.features.fishing.FishingManager;
 import org.charky.aurora.features.fishing.FishMerchantMenu;
 import org.charky.aurora.core.database.FishingStore;
+import org.charky.aurora.features.moderation.StaffPermissions;
+import org.charky.aurora.features.moderation.ModerationManager;
+import org.charky.aurora.features.moderation.ModerationCommand;
+import org.charky.aurora.core.database.PunishmentStore;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -148,6 +152,8 @@ public class Aurora extends JavaPlugin {
     private SafeZoneManager safeZoneManager;
     private PadManager padManager;
     private FishingManager fishingManager;
+    private StaffPermissions staffPermissions;
+    private ModerationManager moderationManager;
     private MountManager mountManager;
     private ToolManager toolManager;
     private UpgradeShop upgradeShop;
@@ -220,6 +226,10 @@ public class Aurora extends JavaPlugin {
         this.tabManager = new TabManager(players);
         this.levelManager = new LevelManager(this, players, scoreboard);
         this.rankManager = new RankManager(this, db, new RankStore(db), players, scoreboard, tabManager);
+        // A staff rank is its permissions, redrawn whenever ranks change
+        this.staffPermissions = new StaffPermissions(this, rankManager);
+        rankManager.setOnChange(staffPermissions::update);
+        this.moderationManager = new ModerationManager(db, new PunishmentStore(db));
         this.collectionManager = new CollectionManager(this, registry, db, new CollectionStore(db), players, scoreboard);
         this.cosmeticManager = new CosmeticManager(this, db, new CosmeticStore(db), players, rankManager, scoreboard, tabManager);
         this.perkManager = new PerkManager(this, db, new PerkStore(db), players, scoreboard);
@@ -278,6 +288,7 @@ public class Aurora extends JavaPlugin {
                     scoreboard.setupBoard(player);
                     levelManager.show(player);
                     tabManager.updateAll();
+                    staffPermissions.update(player);
                 }, tutorialManager::begin);
         // Leaderboards only count main loadouts, an experimental one in play is left out
         players.setRanked(uuid -> loadoutManager.activeOf(uuid) == Loadout.MAIN);
@@ -328,6 +339,12 @@ public class Aurora extends JavaPlugin {
         command("spawn", new SpawnCommand(this));
         command("backpack", new BackpackCommand(backpackManager));
         command("dump", new DumpCommand(this));
+        ModerationCommand moderation = new ModerationCommand(moderationManager);
+        for (String name : List.of("mute", "unmute", "kick", "ban", "unban", "history")) {
+            command(name, moderation);
+            PluginCommand registered = getCommand(name);
+            if (registered != null) registered.setTabCompleter(moderation);
+        }
         command("refresh", new RefreshCommand(this));
         command("ranks", new OpenMenuCommand(rankManager::openRanks));
         command("customise", new OpenMenuCommand(cosmeticManager::openHub));
@@ -363,6 +380,8 @@ public class Aurora extends JavaPlugin {
                 safeZoneManager,
                 padManager,
                 fishingManager,
+                staffPermissions,
+                moderationManager,
                 trash,
                 new PortalListener(this),
                 new KeyItemListener(this),

@@ -190,6 +190,24 @@ A new player's first join hands out the starter tools, the backpack and a stack 
 | `/a tutorial start [player]` | Put a player through it from the first step. `/a reset <player> all` does this too |
 | `/a tutorial skip [player]` | Take a player out of it, no reward |
 
+## Staff and moderation
+
+A staff rank is its permissions: grant it with the usual rank command and they apply at once (and follow loadouts). Junior Mod to Head Mod get `aurora.mod`; the Builder and Dev ranks get `aurora.builder` with Axiom (`axiom.*`) and WorldEdit (`worldedit.*`); Junior Admin and Admin get `aurora.admin`, which holds both. Helpers and Trainees get nothing extra. Ops have everything.
+
+Builders may use the setup commands under `/a`: `mine`, `spawner`, `trader`, `portal`, `pad`, `fishspot`, `wand`, and `world list` / `world tp`. Everything else under `/a` stays with admins.
+
+A muted player cannot chat, `/msg`, `/tell`, `/w`, `/r`, `/me`, `/say` or `/suggest`. A banned one is turned away at the login screen. Every mute, ban and kick is kept, ended or not, and staff online are told about each one.
+
+| Command | Who | What it does |
+|---|---|---|
+| `/mute <player> [reason]` | mods | Each mute of the same player is longer: 15 minutes, 1 hour, 1 day, 3 days, then 1 week every time after, never longer |
+| `/mute <player> <length\|perm> [reason]` | admins | Any length (`30m`, `2h`, `1d`, `1w`) or for good |
+| `/unmute <player>` | mods | Lift the mute in force |
+| `/kick <player> [reason]` | mods | Kick them off |
+| `/history <player>` | mods | Every mute, ban and kick, in force, run out or lifted |
+| `/ban <player> [length\|perm] [reason]` | admins | For good without a length |
+| `/unban <player>` | admins | Lift the ban |
+
 ## Other admin commands
 
 | Command | Does |

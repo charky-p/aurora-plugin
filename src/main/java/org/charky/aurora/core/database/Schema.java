@@ -210,6 +210,19 @@ public final class Schema {
                     "level INTEGER, " +
                     "PRIMARY KEY (uuid, stat))",
 
+            // Every mute, ban and kick, kept after it ends as the player's history.
+            // until is 0 for one with no end
+            "CREATE TABLE IF NOT EXISTS punishments (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "uuid TEXT, " +
+                    "name TEXT, " +
+                    "type TEXT, " +
+                    "reason TEXT, " +
+                    "by_name TEXT, " +
+                    "created INTEGER, " +
+                    "until INTEGER, " +
+                    "lifted INTEGER DEFAULT 0)",
+
             // The water of a fishing spot, a box the hook has to land in
             "CREATE TABLE IF NOT EXISTS fishing_areas (" +
                     "name TEXT PRIMARY KEY, " +

@@ -76,4 +76,10 @@ public class WandCommand implements AuroraSubCommand {
     public String getDescription() {
         return "Get the wand to select mine corners and remove traders";
     }
+
+    // A builder's setup command
+    @Override
+    public String permission() {
+        return "aurora.builder";
+    }
 }

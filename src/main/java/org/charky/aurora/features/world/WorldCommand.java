@@ -45,7 +45,13 @@ public class WorldCommand implements AuroraSubCommand {
         }
 
         String[] rest = Arrays.copyOfRange(args, 1, args.length);
-        switch (args[0].toLowerCase()) {
+        // Builders may look and go, making and removing worlds stays with admins
+        String action = args[0].toLowerCase();
+        if (!action.equals("list") && !action.equals("tp") && !sender.hasPermission("aurora.admin")) {
+            TextUtils.error(sender, "Builders can only list worlds and teleport to them");
+            return;
+        }
+        switch (action) {
             case "create" -> create(sender, rest);
             case "list" -> list(sender);
             case "tp" -> tp(sender, rest);
@@ -178,5 +184,11 @@ public class WorldCommand implements AuroraSubCommand {
     @Override
     public String getDescription() {
         return "Create and visit the void worlds regions live in";
+    }
+
+    // A builder's setup command
+    @Override
+    public String permission() {
+        return "aurora.builder";
     }
 }

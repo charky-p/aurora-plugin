@@ -142,4 +142,10 @@ public class PadSub implements AuroraSubCommand {
     public String getDescription() {
         return "Teleport pads players unlock by stepping on, and portals at spawn that lead to them";
     }
+
+    // A builder's setup command
+    @Override
+    public String permission() {
+        return "aurora.builder";
+    }
 }

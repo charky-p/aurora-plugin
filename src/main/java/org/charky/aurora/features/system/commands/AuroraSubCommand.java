@@ -21,6 +21,11 @@ public interface AuroraSubCommand {
 
     String getDescription();
 
+    // Who may run it: admins, unless a builder's setup command says aurora.builder
+    default String permission() {
+        return "aurora.admin";
+    }
+
     default String getFullUsage() {
         return "/aurora " + getName() + " " + getUsage();
     }

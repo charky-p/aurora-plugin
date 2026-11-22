@@ -20,4 +20,10 @@ public class PortalCommand extends SubCommandRouter {
         register(new PortalInfoSub(plugin));
         register(new PortalTpSub(plugin));
     }
+
+    // A builder's setup command
+    @Override
+    public String permission() {
+        return "aurora.builder";
+    }
 }

@@ -84,4 +84,10 @@ public class FishSpotSub implements AuroraSubCommand {
     public String getDescription() {
         return "Mark a fishing spot's water from the wand selection";
     }
+
+    // A builder's setup command
+    @Override
+    public String permission() {
+        return "aurora.builder";
+    }
 }

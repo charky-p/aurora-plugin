@@ -86,8 +86,8 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (!sender.hasPermission("aurora.admin")) {
-            TextUtils.error(sender, "This is an administrator-only command");
+        if (!sender.hasPermission("aurora.admin") && !sender.hasPermission("aurora.builder")) {
+            TextUtils.error(sender, "This is a staff-only command");
             return true;
         }
 
@@ -120,6 +120,11 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        if (!sender.hasPermission(subCommand.permission())) {
+            TextUtils.error(sender, "Builders can only use the setup commands");
+            return true;
+        }
+
         String[] subArgs = rest.subList(1, rest.size()).toArray(new String[0]);
         if (world == null) subCommand.execute(sender, subArgs);
         else LocationUtils.runIn(world, () -> subCommand.execute(sender, subArgs));
@@ -131,7 +136,7 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
                                                 @NotNull String alias, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) return Collections.emptyList();
         // Players only use the bare command, so they get no subcommand hints
-        if (!player.hasPermission("aurora.admin")) return Collections.emptyList();
+        if (!player.hasPermission("aurora.admin") && !player.hasPermission("aurora.builder")) return Collections.emptyList();
 
         // The world after -w, then the rest completes as if -w were not there
         if (args.length >= 2 && args[args.length - 2].equals(WORLD_FLAG)) {
@@ -147,11 +152,12 @@ public class AuroraCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 1) {
-            return TextUtils.getCompletions(args[0], subCommands.keySet());
+            return TextUtils.getCompletions(args[0], subCommands.values().stream()
+                    .filter(sub -> player.hasPermission(sub.permission())).map(AuroraSubCommand::getName).toList());
         }
 
         AuroraSubCommand subCommand = subCommands.get(args[0].toLowerCase());
-        if (subCommand != null) {
+        if (subCommand != null && player.hasPermission(subCommand.permission())) {
             String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
             return subCommand.tabComplete(player, subArgs);
         }

@@ -24,4 +24,10 @@ public class SpawnerCommand extends SubCommandRouter {
         register(new SpawnerRedefineSub(plugin));
         register(new SpawnerToggleSub(plugin));
     }
+
+    // A builder's setup command
+    @Override
+    public String permission() {
+        return "aurora.builder";
+    }
 }

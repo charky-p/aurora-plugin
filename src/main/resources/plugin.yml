@@ -57,7 +57,40 @@ commands:
   suggest:
     description: Send an idea for the server to the staff
     usage: /suggest <your idea>
+  mute:
+    description: Mute a player (mods step up 15m, 1h, 1d, 3d, then a week; admins pick the length)
+    usage: /mute <player> [length|perm] [reason]
+    permission: aurora.mod
+  unmute:
+    description: Lift a player's mute
+    usage: /unmute <player>
+    permission: aurora.mod
+  kick:
+    description: Kick a player off the server
+    usage: /kick <player> [reason]
+    permission: aurora.mod
+  ban:
+    description: Ban a player, forever without a length
+    usage: /ban <player> [length|perm] [reason]
+    permission: aurora.admin
+  unban:
+    description: Lift a player's ban
+    usage: /unban <player>
+    permission: aurora.admin
+  history:
+    description: Every mute, ban and kick a player has had
+    usage: /history <player>
+    permission: aurora.mod
 permissions:
-  aurora.admin:
-    description: Admin and testing commands
+  aurora.mod:
+    description: Moderation, mute with the escalating ladder, kick, history
     default: op
+  aurora.builder:
+    description: The game setup commands under /aurora, Axiom and WorldEdit
+    default: op
+  aurora.admin:
+    description: Admin and testing commands, ban, and everything mods and builders have
+    default: op
+    children:
+      aurora.mod: true
+      aurora.builder: true

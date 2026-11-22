@@ -25,4 +25,10 @@ public class MineCommand extends SubCommandRouter {
         register(new MineRenameSub(plugin));
         register(new MineWandCreateSub(plugin));
     }
+
+    // A builder's setup command
+    @Override
+    public String permission() {
+        return "aurora.builder";
+    }
 }

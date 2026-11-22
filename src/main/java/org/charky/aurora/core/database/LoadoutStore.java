@@ -23,7 +23,7 @@ public class LoadoutStore {
             "player_equipped", "player_tools", "player_perks", "collections", "backpack_data",
             "unlocked_gear", "portal_access", "tutorial", "fishing_rod");
     // Tables with a uuid that are not part of a loadout: a suggestion is the person's
-    static final List<String> SHARED = List.of("builders", "build_inventories", "loadouts", "loadout_inventories", "loadout_homes",
+    static final List<String> SHARED = List.of("builders", "build_inventories", "loadouts", "loadout_inventories", "loadout_homes", "punishments",
             "suggestions");
 
     // What a loadout was holding when it was put away

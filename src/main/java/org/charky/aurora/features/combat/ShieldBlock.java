@@ -13,16 +13,20 @@ import org.bukkit.util.Vector;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.features.spawner.MobData;
 
+import java.util.function.ToDoubleFunction;
+
 // A raised shield is extra armour against mob hits, set by its Deflection against
-// the mob's attack level. Up to two tiers (zones) above what it covers gets nothing
+// the mob's attack level. Up to a tier and a half (zones) above what it covers gets nothing
 // through, higher some of the hit, and far above breaks through in full and knocks the
 // shield down for a while, like an axe. Blocked hits never knock the player back, and
 // one the shield held deflects a share of the holder's own hit back, like thorns
 public final class ShieldBlock {
     // As long as vanilla disables a shield hit by an axe
     private static final int BREAK_COOLDOWN_TICKS = 100;
-    // Share of the holder's own hit a blocked hit sends back at its attacker
-    public static final double DEFLECT_SHARE = 0.3;
+    // Share of the holder's own hit a blocked hit sends back at its attacker in the main
+    // game, a little; the Gauntlet sets its own (setShare)
+    public static final double DEFLECT_SHARE = 0.1;
+    private static ToDoubleFunction<Player> share = player -> DEFLECT_SHARE;
 
     private ShieldBlock() {
     }
@@ -62,10 +66,15 @@ public final class ShieldBlock {
         return true;
     }
 
+    public static void setShare(ToDoubleFunction<Player> where) {
+        share = where;
+    }
+
     // What a blocked hit sends back at a mob: a share of the holder's own hit, from the
     // Sharpness or Power of what is in their hand
-    public static double deflected(ItemStack weapon) {
+    public static double deflected(Player player) {
+        ItemStack weapon = player.getInventory().getItemInMainHand();
         int stat = Math.max(Enchants.level(weapon, "sharpness"), Enchants.level(weapon, "power"));
-        return Math.round(DEFLECT_SHARE * (CombatFormulas.BASE_DAMAGE + CombatFormulas.sharpnessBonus(stat)));
+        return Math.round(share.applyAsDouble(player) * (CombatFormulas.BASE_DAMAGE + CombatFormulas.sharpnessBonus(stat)));
     }
 }

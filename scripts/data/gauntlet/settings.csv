@@ -67,6 +67,9 @@ hard_shards,25,Percent more Shards for a run in Hard Mode
 hard_floors_a_level,2,Hard Mode's floor for each level of gear (the best weapon's or the armour set's, whichever is higher)
 pvp_level_effect,3,Percent a PvP hit changes for each level the weapon is ahead of the armour (or behind)
 level_cap_per_boss,10,Gear levels allowed for each boss beaten and as many before the first: 30 until floor 30's boss falls
+shield_deflect,3,Percent of the holder's own hit a blocked mob hit sends back in the Gauntlet (10 in the main game)
+pvp_shield_through,50,Percent of a hit that gets through a raised shield in PvP
+pvp_shield_deflect,10,Percent of a blocked swing that goes back to whoever swung in PvP
 pvp_base_damage,2,Health a full sword hit takes from a player of the same level (20 is a whole player)
 pvp_smash_max,2,At most this many times a hit a mace's smash does to a player
 pvp_loot_seconds,60,Seconds what a death in the PvP zone drops lies for others to pick up

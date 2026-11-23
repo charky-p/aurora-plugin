@@ -72,17 +72,15 @@ class CombatFormulasTest {
     }
 
     // Shields: Abandoned City 11 (deflection 0), Dunes 15 (3), Canyons 19 (6), Sun Temple 23 (9),
-    // Pyramid 27 (12). A zone's shield stops its own mobs and those two zones up, three
-    // zones up lets half through, four zones up breaks it
+    // Pyramid 27 (12). A zone's shield stops its own mobs and those a zone up, two zones
+    // up lets a quarter through, three more, four breaks it
     @Test
-    void shieldOfTheZoneHoldsTwoZonesAhead() {
+    void shieldOfTheZoneHoldsAZoneAhead() {
         assertEquals(0.0, CombatFormulas.deflectionGap(15, 3), EPSILON);
         assertEquals(-1.0, CombatFormulas.deflectionGap(11, 3), EPSILON);
         assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(11, 0)), EPSILON);
-        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(19, 0)), EPSILON);
-
-        double threeUp = CombatFormulas.throughShield(CombatFormulas.deflectionGap(23, 0));
-        assertEquals(0.5, threeUp, EPSILON);
+        assertEquals(0.0, CombatFormulas.throughShield(CombatFormulas.deflectionGap(15, 0)), EPSILON);
+        assertEquals(0.25, CombatFormulas.throughShield(CombatFormulas.deflectionGap(19, 0)), EPSILON);
         assertFalse(CombatFormulas.breaksShield(CombatFormulas.deflectionGap(23, 0)));
 
         assertTrue(CombatFormulas.breaksShield(CombatFormulas.deflectionGap(27, 0)));

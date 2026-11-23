@@ -2974,6 +2974,9 @@ settings:
   hard_floors_a_level: 2.0
   pvp_level_effect: 3.0
   level_cap_per_boss: 10.0
+  shield_deflect: 3.0
+  pvp_shield_through: 50.0
+  pvp_shield_deflect: 10.0
   pvp_base_damage: 2.0
   pvp_smash_max: 2.0
   pvp_loot_seconds: 60.0

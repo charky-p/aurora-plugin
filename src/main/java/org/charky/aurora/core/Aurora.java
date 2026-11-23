@@ -54,6 +54,7 @@ import org.charky.aurora.features.loadout.LoadoutData;
 import org.charky.aurora.features.loadout.LoadoutManager;
 import org.charky.aurora.features.mine.BlockUseListener;
 import org.charky.aurora.features.mine.MineListener;
+import org.charky.aurora.features.combat.ShieldBlock;
 import org.charky.aurora.features.movement.DashListener;
 import org.charky.aurora.features.movement.DoubleJumpListener;
 import org.charky.aurora.features.movement.GrappleListener;
@@ -340,6 +341,9 @@ public class Aurora extends JavaPlugin {
         gauntletManager.setParty(gauntletParty);
         // Dash and Double Jump bought in the Gauntlet work in its world
         perkManager.setGiver(gauntletManager::givesPerk);
+        // A shield deflects less in the Gauntlet, holding it up is no way to clear a floor
+        ShieldBlock.setShare(player -> gauntletManager.isHere(player)
+                ? gauntletManager.data().setting("shield_deflect", 3) / 100 : ShieldBlock.DEFLECT_SHARE);
         gauntletSpectate.start();
         gauntletManager.start();
         gauntletRuns.start();

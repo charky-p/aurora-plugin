@@ -221,9 +221,14 @@ public class GauntletPvp implements Listener {
         double damage = GauntletPvpFormula.damage(data.setting("pvp_base_damage", 2), share, quality, level, armour,
                 data.setting("pvp_level_effect", 3) / 100);
         event.setDamage(damage);
-        // A raised shield deflects a share of a swing back at the one who swung, like
-        // thorns, with no source so it is not a hit of its own
-        if (shot == null && ShieldBlock.blocks(victim, attacker)) attacker.damage(damage * ShieldBlock.DEFLECT_SHARE);
+        // A raised shield takes only part of a hit off: vanilla blocks all of it, so what
+        // gets through is dealt with no source, not a hit of its own. It deflects a little
+        // of a swing back at the one who swung
+        if (ShieldBlock.blocks(victim, event.getDamager())) {
+            double through = damage * data.setting("pvp_shield_through", 50) / 100;
+            if (through > 0) victim.damage(through);
+            if (shot == null) attacker.damage(damage * data.setting("pvp_shield_deflect", 10) / 100);
+        }
     }
 
     // What someone dying in the zone had on them drops for anyone in it to pick up:

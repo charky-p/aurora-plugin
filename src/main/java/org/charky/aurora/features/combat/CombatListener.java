@@ -111,7 +111,7 @@ public class CombatListener implements Listener {
     }
 
     private void deflect(Player player, LivingEntity source) {
-        double back = ShieldBlock.deflected(player.getInventory().getItemInMainHand());
+        double back = ShieldBlock.deflected(player);
         if (back <= 0 || source.isDead()) return;
         CustomHealth.apply(source, back, player, registry);
         indicator.show(source, back);

@@ -38,10 +38,10 @@ public final class CombatFormulas {
     static final double DEFLECTION_BASE_ATTACK = 11.0;
     static final double ATTACK_PER_DEFLECTION = 4.0 / 3.0;
     // Tiers (about a zone each) above what the shield covers: up to FREE nothing gets
-    // through, so a shield holds against mobs two zones ahead of it; from BREAK the hit
-    // breaks through in full and the shield goes on cooldown
-    static final double DEFLECT_FREE_TIERS = 2.0;
-    static final double DEFLECT_BREAK_TIERS = 4.0;
+    // through, so a shield holds against mobs a zone and a half ahead of it; from BREAK
+    // the hit breaks through in full and the shield goes on cooldown
+    static final double DEFLECT_FREE_TIERS = 1.5;
+    static final double DEFLECT_BREAK_TIERS = 3.5;
 
     // Protection takes a share off every hit, up to REDUCTION_AT_MAX at
     // MAX_PROTECTION levels; levels past it add nothing. The share rises steeply at

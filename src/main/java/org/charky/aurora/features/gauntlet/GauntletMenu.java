@@ -239,7 +239,6 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>Kills: <white>" + profile.stat("kills") + " <gray>(" + profile.stat("elite_kills") + " elite)",
                 "<gray>Bosses: <white>" + profile.stat("boss_kills") + " <gray>Hoarders: <white>" + profile.stat("hoarders"),
                 "<gray>Fast clears: <white>" + profile.stat("fast_clears") + " <gray>Best combo: <gold>x" + profile.stat(GauntletRuns.BEST_COMBO),
-                "<gray>Teammates revived: <white>" + profile.stat("revives"),
                 "<gray>Mobs met: <white>" + BestiaryMenu.met(manager.data(), profile) + "/" + BestiaryMenu.firstFloors(manager.data()).size(),
                 "",
                 "<gray>PvP: <red>" + profile.stat(GauntletPvp.KILLS) + " kills <gray>/ <white>" + profile.stat(GauntletPvp.DEATHS)

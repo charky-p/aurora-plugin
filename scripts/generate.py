@@ -1115,14 +1115,14 @@ GAUNTLET_KINDS = {"melee", "ranged", "thrown", "armor", "shield"}
 GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "guard", "dodge", "absorb",
                   "firststrike", "shards", "execute", "slayer", "cleave", "revive"}
 GAUNTLET_RARITIES = {"common", "rare", "epic", "legendary"}
-GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive", "headstart", "double_jump"}
+GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive", "double_jump"}
 GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
 GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon", "fireball", "blink", "sonic"}
 GAUNTLET_WEAPON_PERK_STATS = {"damage", "crit", "firststrike", "execute", "slayer", "cleave", "killheal"}
 GAUNTLET_SET_PERK_STATS = {"health", "guard", "absorb"}
 GAUNTLET_AFFIXES = {"vampiric", "explosive", "shielded", "swift", "frenzied", "summoner"}
 GAUNTLET_ACHIEVEMENT_STATS = {"kills", "elite_kills", "boss_kills", "hoarders", "fast_clears", "best_combo", "runs",
-                              "best", "pvp_kills", "duel_wins", "revives", "party_runs", "discovered",
+                              "best", "pvp_kills", "duel_wins", "party_runs", "discovered",
                               "tower_climbs", "tower_wins"}
 
 

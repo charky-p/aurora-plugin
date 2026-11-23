@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Where a run starts, for players past a boss floor: floor 1, or the floor after any
-// boss floor they have cleared. Starting later skips the floors before (paid only with
-// the Head Start talent) and hands out their boons at random. Heat makes the run harder
+// boss floor they have cleared. Starting later skips the floors before (they pay
+// nothing) and hands out their boons at random. Heat makes the run harder
 // and pay more; Hard Mode raises the floors below the party's gear to its level
 public class CheckpointMenu extends PagedMenu {
     private static final int HEAT_SLOT = 46;
@@ -42,9 +42,7 @@ public class CheckpointMenu extends PagedMenu {
                 if (floor == 1) {
                     lore.add(TextUtils.parse("<!italic><gray>From the bottom of the tower"));
                 } else {
-                    int pay = runs.headStart(player, floor);
-                    lore.add(TextUtils.parse("<!italic><gray>Skips floors 1-" + (floor - 1) + (pay > 0
-                            ? ", Head Start pays <aqua>" + pay + " Shards" : ", no Shards for them")));
+                    lore.add(TextUtils.parse("<!italic><gray>Skips floors 1-" + (floor - 1) + ", no Shards for them"));
                     lore.add(TextUtils.parse("<!italic><gray>Starts with <white>" + boons + "</white> random boons"));
                 }
                 lore.add(Component.empty());

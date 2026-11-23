@@ -18,7 +18,8 @@ about half the floor they are on (EXPECTED_LEVEL), and the floor is tuned for th
   kill          = Shards every mob killed pays, KILL_BASE + KILL_PER_FLOOR x floor, at
                   least 1; a boss (the one mob of a boss floor) pays BOSS_KILLS times it
   shards        = the bonus for clearing a floor, SHARDS_BASE + SHARDS_PER_FLOOR x floor
-  cores         = paid on each boss floor (every 10th), 1 + floor / 20
+  cores         = paid on each boss floor (every 10th), every clear: its boss's
+                  number, floor / 10
   gear level L  = costs SHARD_BASE x SHARD_GROWTH^L shards, rounded; every 5th level
                   is a new material; from the 10th on it also costs cores (CORES)
 
@@ -78,7 +79,7 @@ def floor_numbers(floor):
     attack = round(floor * ATTACK_PER_FLOOR)
     shards = round(SHARDS_BASE + SHARDS_PER_FLOOR * floor)
     kill = max(1, round(KILL_BASE + KILL_PER_FLOOR * floor))
-    cores = 1 + floor // 20 if floor % 10 == 0 else 0
+    cores = floor // 10 if floor % 10 == 0 else 0
     return health, attack, shards, kill, cores
 
 

@@ -4,6 +4,5 @@ greed,Greed,GOLD_INGOT,+5% Shards from runs a level,shards,5,10,200,1.35,0
 scavenger,Scavenger,CHEST,+10% chance for every care package item a level,care,10,5,300,1.5,0
 reroll,Reroll,ENDER_EYE,One more boon reroll a run a level,reroll,1,3,600,2,0
 insight,Insight,SPYGLASS,One more boon to pick from,insight,1,1,2000,1,2
-head_start,Head Start,LODESTONE,Floors skipped at a checkpoint pay 20% of their Shards a level,headstart,20,5,400,1.6,0
 second_wind,Second Wind,TOTEM_OF_UNDYING,Once a run survive a killing blow at half health,revive,1,1,4000,1,3
 double_jump,Double Jump,RABBIT_FOOT,Jump again in mid-air once until you land; anywhere in the Gauntlet,double_jump,1,1,2000,1,0

@@ -10,11 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -58,8 +56,6 @@ public class GauntletRuns implements Listener {
     public enum End { DIED, LEFT, QUIT }
 
     private static final long FLOOR_DELAY_TICKS = 60L;
-    // How close to where a teammate went down a player sneaks to bring them back
-    private static final double REVIVE_REACH = 2;
     private static final String DAILY_DAY = "daily_day";
     private static final String HEAT_CHOICE = "heat_choice";
     private static final String START_CHOICE = "start_choice";
@@ -222,24 +218,6 @@ public class GauntletRuns implements Listener {
                 * (run.hardFloor > 0 ? 1 + data().setting("hard_shards", 25) / 100 : 1);
     }
 
-    // What Head Start pays a player for the floors before a start
-    int headStart(Player player, int startFloor) {
-        double share = Math.min(100, bonuses.talentTotal(manager.profile(player), "headstart")) / 100;
-        return (int) Math.round(skippedShards(startFloor) * share);
-    }
-
-    // What the floors before a start would have paid: each one's clear bonus and its
-    // mobs' kills. Head Start pays a share of it
-    private int skippedShards(int startFloor) {
-        int total = 0;
-        for (int number = 1; number < startFloor; number++) {
-            GauntletData.Floor floor = data().floor(number);
-            total += floor.shards();
-            for (Map.Entry<String, Integer> mob : floor.mobs().entrySet()) total += floor.killPay(mob.getKey()) * mob.getValue();
-        }
-        return total;
-    }
-
     private String canBegin(Player player) {
         if (inRun(player)) return "already in a run";
         if (!manager.isHere(player)) return "not in the Gauntlet";
@@ -337,7 +315,6 @@ public class GauntletRuns implements Listener {
         member.rerolls = (int) bonuses.talentTotal(profile, "reroll");
         member.revives = (int) bonuses.talentTotal(profile, "revive");
         member.daily = profile.stat(DAILY_DAY) != today;
-        member.headStart = headStart(mate, run.startFloor);
         if (member.daily) manager.setStat(mate.getUniqueId(), DAILY_DAY, (int) today);
         boolean first = profile.runs == 0;
         run.members.put(mate.getUniqueId(), member);
@@ -350,8 +327,6 @@ public class GauntletRuns implements Listener {
         mate.teleport(spawn);
         mate.showBossBar(run.bar);
         mate.playSound(mate.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
-        if (member.headStart > 0) TextUtils.send(mate, "<aqua><b>HEAD START</b> <gray>The floors you skipped pay <aqua>"
-                + member.headStart + " Shards</aqua>, banked when the run ends");
         int gearFloor = bonuses.gearFloor(profile);
         if (run.hardFloor == 0 && run.towerDay == 0 && gearFloor > run.startFloor + 5) {
             TextUtils.send(mate, "<gray>Your gear stands at floor <white>" + gearFloor + "</white>, these floors will be easy: <dark_red>Hard Mode</dark_red> "
@@ -393,10 +368,7 @@ public class GauntletRuns implements Listener {
         if (run == null) return;
         Member member = run.members.remove(player.getUniqueId());
         if (run.bar != null) player.hideBossBar(run.bar);
-        if (member.down) {
-            player.setGameMode(member.mode);
-            clearMarker(member);
-        }
+        if (member.down) player.setGameMode(member.mode);
         bonuses.clearBoons(player);
         GauntletCarePackage.takeRunItems(player);
         bank(player, run, member, why);
@@ -422,10 +394,7 @@ public class GauntletRuns implements Listener {
     private void wipe(GauntletRun run) {
         run.wiping = true;
         for (Player player : run.online()) end(player, End.DIED);
-        for (Member member : run.members.values()) {
-            runs.remove(member.id);
-            clearMarker(member);
-        }
+        for (Member member : run.members.values()) runs.remove(member.id);
         run.members.clear();
         if (!run.over) close(run);
     }
@@ -453,7 +422,7 @@ public class GauntletRuns implements Listener {
         double daily = member.daily ? data().setting("daily_bonus", 2) : 1;
         // Everyone in a party banks the whole pot, and party_shards more for each of the others
         double party = GauntletRun.partyScale(run.partySize, data().setting("party_shards", 0));
-        int banked = (int) Math.round((run.shards + member.headStart) * (1 + greed / 100) * daily * party);
+        int banked = (int) Math.round(run.shards * (1 + greed / 100) * daily * party);
         manager.bank(player, banked, member.cores, cleared);
         UUID uuid = player.getUniqueId();
         manager.addStat(uuid, "kills", member.kills);
@@ -502,8 +471,7 @@ public class GauntletRuns implements Listener {
                 + member.kills + "</white> kills (" + member.eliteKills + " elite)" + (party ? " <dark_gray>(party " + run.kills + ")" : "")
                 + "<gray>, <white>" + run.fastClears + "</white> fast clears, best combo <gold>x" + member.bestCombo
                 + (run.hoarders > 0 ? "<gray>, <gold>" + run.hoarders + "</gold> hoarder" + (run.hoarders > 1 ? "s" : "") + " caught" : ""));
-        String bonus = (member.headStart > 0 ? " <gray>+ <aqua>" + member.headStart + " <gray>head start" : "")
-                + (greed > 0 ? " <gray>+" + fmt(greed) + "% greed" : "") + (daily > 1 ? " <gray>x" + fmt(daily) + " daily" : "")
+        String bonus = (greed > 0 ? " <gray>+" + fmt(greed) + "% greed" : "") + (daily > 1 ? " <gray>x" + fmt(daily) + " daily" : "")
                 + (partyPay > 1 ? " <gray>x" + fmt(partyPay) + " party" : "");
         TextUtils.send(player, "<gray>Shards: <aqua>" + run.shards + bonus + (bonus.isEmpty() ? "" : " <gray>= <aqua><b>" + banked + "</b>")
                 + (member.cores > 0 ? " <gray>Cores: <light_purple>" + member.cores : ""));
@@ -586,54 +554,15 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    // A teammate sneaking where a player went down brings them back after revive_seconds,
-    // where they fell, with revive_health percent of their health
-    private void teammateRevives(GauntletRun run) {
-        int needed = reviveSeconds();
-        List<Player> standing = run.standing();
-        for (Member member : run.members.values()) {
-            Player downed = Bukkit.getPlayer(member.id);
-            if (!member.down || member.fell == null || downed == null) continue;
-            Player reviver = standing.stream().filter(mate -> mate.isSneaking() && mate.getWorld().equals(member.fell.getWorld())
-                    && mate.getLocation().distanceSquared(member.fell) <= REVIVE_REACH * REVIVE_REACH).findFirst().orElse(null);
-            if (reviver == null) {
-                member.reviving = 0;
-                member.reviver = null;
-                continue;
-            }
-            member.reviver = reviver.getUniqueId();
-            if (++member.reviving < needed) {
-                reviver.playSound(reviver.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 0.6f, 0.8f + 0.3f * member.reviving);
-                continue;
-            }
-            standUp(member, downed, member.fell, data().setting("revive_health", 30) / 100);
-            manager.addStat(reviver.getUniqueId(), "revives", 1);
-            run.tell("<green><b>REVIVED</b> <white>" + reviver.getName() + " <gray>brought <white>" + downed.getName() + " <gray>back");
-        }
-    }
-
-    private int reviveSeconds() {
-        return Math.max(1, (int) data().setting("revive_seconds", 3));
-    }
-
     // A player who was down is on their feet again where they come back, with a share of
     // their most health
     private static void standUp(Member member, Player player, Location at, double share) {
         member.down = false;
-        member.reviving = 0;
-        member.reviver = null;
-        clearMarker(member);
         player.setGameMode(member.mode);
         if (at != null) player.teleport(at);
         player.setHealth(Math.max(1, GauntletPlayers.maxHealth(player) * share));
         player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5f, 1.4f);
         TextUtils.send(player, "<green>You are back on your feet");
-    }
-
-    private static void clearMarker(Member member) {
-        Entity marker = member.marker == null ? null : Bukkit.getEntity(member.marker);
-        if (marker != null) marker.remove();
-        member.marker = null;
     }
 
     // Every second: the wave hunts and the boss fights, the floor ends when no mob is
@@ -646,7 +575,6 @@ public class GauntletRuns implements Listener {
                 waves.hunt(run, spawn);
                 waves.bossPhases(run);
                 waves.bossAbilities(run);
-                teammateRevives(run);
                 if (run.mobs.isEmpty()) cleared(run);
             } else if (run.state == State.CHOOSING
                     && System.currentTimeMillis() - run.choosingSince > data().setting("choice_seconds", 45) * 1000) {
@@ -673,8 +601,8 @@ public class GauntletRuns implements Listener {
         if (fell || drifted) player.teleport(spawn);
     }
 
-    // The action bar: the floor and mobs left with a combo going, a revive going on, or
-    // the choice waiting
+    // The action bar: the floor and mobs left with a combo going, being down, or the
+    // choice waiting
     private String status(GauntletRun run, Member member) {
         return switch (run.state) {
             case FIGHTING -> fightStatus(run, member);
@@ -686,16 +614,7 @@ public class GauntletRuns implements Listener {
     }
 
     private String fightStatus(GauntletRun run, Member member) {
-        int needed = reviveSeconds();
-        if (member.down) {
-            return member.reviving > 0 ? "<green>Being revived <white>" + member.reviving + "/" + needed
-                    : "<red>You are down <gray>- a teammate can sneak where you fell, or clear the floor";
-        }
-        for (Member other : run.members.values()) {
-            if (member.id.equals(other.reviver) && other.reviving > 0) {
-                return "<yellow>Reviving <white>" + GauntletManager.nameOf(other.id) + " <gray>" + other.reviving + "/" + needed;
-            }
-        }
+        if (member.down) return "<red>You are down <gray>- back on your feet when the floor is cleared";
         return "<red>Floor " + run.floor + " <dark_gray>| <white>" + run.mobs.size() + " left"
                 + (member.combo >= 2 && System.currentTimeMillis() - member.lastKill <= data().setting("combo_window", 3) * 1000
                 ? " <dark_gray>| <gold><b>x" + member.combo + " COMBO</b>" : "");
@@ -773,19 +692,10 @@ public class GauntletRuns implements Listener {
         return true;
     }
 
-    // A boss floor's Cores, once a player: only to those clearing it for the first time,
-    // past their best floor before the run, so a boss can't be farmed for them
+    // A boss floor's Cores, to everyone in the run, every time it is cleared
     private void payCores(GauntletRun run, int cores) {
-        String plural = cores > 1 ? "s" : "";
-        for (Player player : run.online()) {
-            Member member = run.members.get(player.getUniqueId());
-            if (run.floor > member.bestBefore) {
-                member.cores += cores;
-                TextUtils.send(player, "<light_purple>+" + cores + " Core" + plural + " <gray>for beating this boss the first time");
-            } else {
-                TextUtils.send(player, "<dark_gray>No Cores, you have beaten this boss before");
-            }
-        }
+        for (Player player : run.online()) run.members.get(player.getUniqueId()).cores += cores;
+        run.tell("<light_purple>+" + cores + " Core" + (cores > 1 ? "s" : "") + " <gray>for the boss");
     }
 
     // Each player's daily challenges and NEW BEST once a run past their old record; a
@@ -1082,26 +992,13 @@ public class GauntletRuns implements Listener {
         down(run, member, player);
     }
 
-    // Down until the floor is cleared or a teammate brings them back: watching, with a
-    // marker where they fell (the arena's spawn if they fell off it)
+    // Down until the floor is cleared, watching. Nobody brings them back before that
     private void down(GauntletRun run, Member member, Player player) {
-        Location spawn = manager.arena().inSlot(run.slot, manager.arena().place(GauntletArena.SPAWN));
-        Location at = player.getLocation();
-        boolean onArena = spawn == null
-                || (manager.arena().isOverSlot(run.slot, at) && Math.abs(at.getY() - spawn.getY()) <= 3);
         member.down = true;
         member.mode = player.getGameMode();
-        member.fell = onArena ? at : spawn;
-        member.marker = member.fell.getWorld().spawn(member.fell.clone().add(0, 1.2, 0), TextDisplay.class, display -> {
-            display.setBillboard(Display.Billboard.CENTER);
-            display.setShadowed(true);
-            display.setPersistent(false);
-            display.text(TextUtils.parse("<red><b>✚</b> <white>" + player.getName() + "<newline><yellow>Sneak here to revive"));
-        }).getUniqueId();
         GauntletPlayers.heal(player);
         player.setGameMode(GameMode.SPECTATOR);
-        run.tell("<red><b>DOWN</b> <white>" + player.getName() + " <gray>is down: sneak where they fell to bring them back, "
-                + "or clear the floor");
+        run.tell("<red><b>DOWN</b> <white>" + player.getName() + " <gray>is down until the floor is cleared");
     }
 
     // Every kill pays Shards into the party's pot at once, kept even if the run ends

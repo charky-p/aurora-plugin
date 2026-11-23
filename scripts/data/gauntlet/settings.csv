@@ -58,8 +58,6 @@ party_max,4,The most players in a Gauntlet party
 party_mobs,50,Percent more mobs a floor for each player past the first
 party_boss_health,60,Percent more boss health for each player past the first
 party_shards,0,Percent more Shards each player of a party banks for each of the others (0: what the same floors pay alone)
-revive_seconds,3,Seconds a teammate sneaks where a player went down to bring them back
-revive_health,30,Percent of their most health a player a teammate brings back has
 bounty_streak,5,A PvP kill streak this long is a bounty: its player glows in the zone
 sprint_floor,10,The floor a solo run from floor 1 is timed to for the fastest runs board
 tower_1,300,Shards for the furthest climber of a day's Daily Tower, paid when the day turns

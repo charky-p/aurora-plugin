@@ -37,14 +37,9 @@ final class GauntletRun {
         boolean daily;
         int bestBefore;
         boolean newBest;
-        // Down until the floor is cleared or a teammate brings them back, watching: the game
-        // mode to give back, where they fell and its marker, who is reviving them and how far
+        // Down until the floor is cleared, watching: the game mode to give back
         boolean down;
         GameMode mode;
-        Location fell;
-        UUID marker;
-        UUID reviver;
-        int reviving;
         int kills;
         int eliteKills;
         // Their kills this run by mob, for the bestiary
@@ -52,8 +47,6 @@ final class GauntletRun {
         long lastKill;
         int combo;
         int bestCombo;
-        // Shards Head Start paid for the floors skipped, banked with the pot
-        int headStart;
         // Cores from boss floors cleared for the first time, theirs alone
         int cores;
 

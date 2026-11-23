@@ -1,0 +1,17 @@
+gear,level,enchant,amount
+sword,10,knockback,1
+bow,10,punch,1
+bow,30,punch,2
+crossbow,0,quick_charge,1
+crossbow,15,quick_charge,2
+crossbow,30,quick_charge,3
+crossbow,20,piercing,1
+crossbow,40,piercing,2
+mace,0,wind_burst,1
+mace,20,wind_burst,2
+mace,35,wind_burst,3
+spear,0,lunge,1
+spear,20,lunge,2
+spear,35,lunge,3
+boots,10,feather_falling,2
+boots,30,feather_falling,4

@@ -12,7 +12,8 @@
 # gear: what can be upgraded, in the forge's order
 #   sword: {name, item, materials: [WOODEN, ...] or [NONE], kind: melee|ranged|thrown|armor|shield,
 #           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed),
-#           start_level (the level it is unlocked at, and the least a piece owned plays at)}
+#           start_level (the level it is unlocked at, and the least a piece owned plays at),
+#           enchants: [{level, enchant, amount}] (vanilla enchants from that gear level on, gear_enchants.csv)}
 # levels: [{level, shards, cores, material (index into materials), melee, ranged,
 #           defence, protection, deflection}] (what each gear level costs and gives)
 # boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max,
@@ -887,6 +888,10 @@ gear:
     unlock_shards: 0
     unlock_floor: 0
     start_level: 0
+    enchants:
+      - level: 10
+        enchant: knockback
+        amount: 1
   bow:
     name: Bow
     item: BOW
@@ -897,6 +902,13 @@ gear:
     unlock_shards: 60
     unlock_floor: 0
     start_level: 0
+    enchants:
+      - level: 10
+        enchant: punch
+        amount: 1
+      - level: 30
+        enchant: punch
+        amount: 2
   helmet:
     name: Helmet
     item: HELMET
@@ -961,6 +973,13 @@ gear:
     unlock_shards: 0
     unlock_floor: 0
     start_level: 0
+    enchants:
+      - level: 10
+        enchant: feather_falling
+        amount: 2
+      - level: 30
+        enchant: feather_falling
+        amount: 4
   axe:
     name: Axe
     item: AXE
@@ -1003,6 +1022,16 @@ gear:
     unlock_shards: 300
     unlock_floor: 10
     start_level: 5
+    enchants:
+      - level: 0
+        enchant: lunge
+        amount: 1
+      - level: 20
+        enchant: lunge
+        amount: 2
+      - level: 35
+        enchant: lunge
+        amount: 3
   crossbow:
     name: Crossbow
     item: CROSSBOW
@@ -1013,6 +1042,22 @@ gear:
     unlock_shards: 400
     unlock_floor: 10
     start_level: 5
+    enchants:
+      - level: 0
+        enchant: quick_charge
+        amount: 1
+      - level: 15
+        enchant: quick_charge
+        amount: 2
+      - level: 30
+        enchant: quick_charge
+        amount: 3
+      - level: 20
+        enchant: piercing
+        amount: 1
+      - level: 40
+        enchant: piercing
+        amount: 2
   mace:
     name: Mace
     item: MACE
@@ -1023,6 +1068,16 @@ gear:
     unlock_shards: 600
     unlock_floor: 15
     start_level: 8
+    enchants:
+      - level: 0
+        enchant: wind_burst
+        amount: 1
+      - level: 20
+        enchant: wind_burst
+        amount: 2
+      - level: 35
+        enchant: wind_burst
+        amount: 3
   trident:
     name: Trident
     item: TRIDENT

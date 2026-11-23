@@ -46,6 +46,7 @@ public class ForgeMenu extends PagedMenu {
         if (!owned) item = item.withType(Material.GRAY_DYE);
         List<String> lines = new ArrayList<>(owned ? upgradeLines(profile, piece, level, now) : unlockLines(profile, piece));
         lines.addAll(perkLines(profile, piece, owned ? level : -1));
+        lines.addAll(enchantLines(piece, owned ? level : -1));
         item.editMeta(meta -> {
             meta.displayName(TextUtils.parse("<!italic><white><b>" + piece.name() + (owned ? " <gray>(" + level + ")" : "")));
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -89,6 +90,18 @@ public class ForgeMenu extends PagedMenu {
             return lines;
         }
         lines.add("<yellow>Click to upgrade");
+        return lines;
+    }
+
+    // The vanilla enchants the piece has and gets at its levels. Level -1 for a piece not unlocked
+    private static List<String> enchantLines(GauntletData.Gear piece, int level) {
+        if (piece.enchants().isEmpty()) return List.of();
+        List<String> lines = new ArrayList<>(List.of("", "<gray>Enchants"));
+        for (GauntletData.GearEnchant enchant : piece.enchants()) {
+            boolean has = level >= enchant.level();
+            lines.add((has ? "<green>✔ <white>" : "<dark_gray>" + enchant.level() + " <gray>")
+                    + GauntletGear.enchantName(enchant.enchant(), enchant.amount()));
+        }
         return lines;
     }
 

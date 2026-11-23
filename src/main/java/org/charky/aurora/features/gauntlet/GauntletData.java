@@ -68,9 +68,19 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         }
     }
 
-    // startLevel: the level it is unlocked at, so a piece bought later is not left weak
+    // startLevel: the level it is unlocked at, so a piece bought later is not left weak.
+    // enchants: vanilla ones it has from a level on (gear_enchants.csv)
     public record Gear(String id, String name, String item, List<String> materials, String kind, int damage,
-                       int unlockShards, int unlockFloor, int startLevel) {
+                       int unlockShards, int unlockFloor, int startLevel, List<GearEnchant> enchants) {
+        // The vanilla enchants a level has, each at the most it has reached
+        public Map<String, Integer> enchantsAt(int level) {
+            Map<String, Integer> at = new LinkedHashMap<>();
+            for (GearEnchant enchant : enchants) {
+                if (level >= enchant.level()) at.merge(enchant.enchant(), enchant.amount(), Math::max);
+            }
+            return at;
+        }
+
         public boolean starter() {
             return unlockShards <= 0 && unlockFloor <= 0;
         }
@@ -78,6 +88,10 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         public boolean armor() {
             return kind.equals("armor");
         }
+    }
+
+    // A vanilla enchant (wind_burst) at an amount, from a gear level on
+    public record GearEnchant(int level, String enchant, int amount) {
     }
 
     public record GearLevel(int level, int shards, int cores, int material, int melee, int ranged, int defence,
@@ -279,7 +293,10 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         Map<String, Gear> gear = byId(root, "gear", (id, row) -> new Gear(id, str(row.get("name")), str(row.get("item")),
                 ((List<Object>) row.getOrDefault("materials", List.of())).stream().map(String::valueOf).toList(), str(row.get("kind")),
                 num(row.get("damage")).intValue(), num(row.get("unlock_shards")).intValue(), num(row.get("unlock_floor")).intValue(),
-                num(row.get("start_level")).intValue()));
+                num(row.get("start_level")).intValue(),
+                ((List<Map<String, Object>>) row.getOrDefault("enchants", List.of())).stream()
+                        .map(e -> new GearEnchant(num(e.get("level")).intValue(), str(e.get("enchant")), num(e.get("amount")).intValue()))
+                        .toList()));
         List<GearLevel> levels = rows(root, "levels", row -> new GearLevel(num(row.get("level")).intValue(),
                 num(row.get("shards")).intValue(), num(row.get("cores")).intValue(), num(row.get("material")).intValue(),
                 num(row.get("melee")).intValue(), num(row.get("ranged")).intValue(), num(row.get("defence")).intValue(),

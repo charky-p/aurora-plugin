@@ -2,6 +2,7 @@ package org.charky.aurora.features.gauntlet;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -12,6 +13,7 @@ import org.charky.aurora.features.tool.ToolLevels;
 import org.charky.aurora.features.tool.ToolType;
 import org.charky.aurora.features.tool.UpgradeZone;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +45,20 @@ public final class GauntletGear {
         model.type = gear.armor() || gear.kind().equals("shield") ? "armor" : "combat";
         model.world = WORLD;
         model.enchants = stats(gear, level);
-        model.lore = List.of("<gray>Gauntlet gear, upgraded in the forge", "<dark_gray>Only works in the Gauntlet");
+        Map<String, Integer> vanilla = gear.enchantsAt(level.level());
+        List<String> lore = new ArrayList<>();
+        vanilla.forEach((enchant, amount) -> lore.add("<gray>»<aqua> " + enchantName(enchant, amount)));
+        if (!lore.isEmpty()) lore.add("");
+        lore.add("<gray>Gauntlet gear, upgraded in the forge");
+        lore.add("<dark_gray>Only works in the Gauntlet");
+        model.lore = lore;
 
         ItemStack item = registry.createGear(model);
         item.editMeta(meta -> {
+            vanilla.forEach((enchant, amount) -> {
+                Enchantment found = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchant));
+                if (found != null) meta.addEnchant(found, amount, true);
+            });
             meta.setUnbreakable(true);
             meta.getPersistentDataContainer().set(BowListener.GAUNTLET_KEY, PersistentDataType.STRING, gear.id());
             // A bow's, crossbow's or trident's share goes onto what it fires
@@ -56,6 +68,18 @@ public final class GauntletGear {
         });
         return item;
     }
+
+    // "Wind Burst II" for wind_burst at 2
+    static String enchantName(String enchant, int amount) {
+        StringBuilder name = new StringBuilder();
+        for (String word : enchant.split("_")) {
+            if (!name.isEmpty()) name.append(' ');
+            name.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+        }
+        return name + " " + (amount >= 1 && amount <= ROMAN.length ? ROMAN[amount - 1] : String.valueOf(amount));
+    }
+
+    private static final String[] ROMAN = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
 
     // The material a level shows, null for gear that comes one way (a bow)
     static String material(GauntletData.Gear gear, GauntletData.GearLevel level) {

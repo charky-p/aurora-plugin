@@ -142,6 +142,18 @@ class GauntletDataTest {
         assertEquals(40, GauntletData.nextBoss(30));
     }
 
+    // A gear level has every vanilla enchant from its level on, each at the most reached
+    @Test
+    void gearEnchantsComeWithLevels() {
+        GauntletData.Gear mace = new GauntletData.Gear("mace", "Mace", "MACE", List.of("NONE"), "melee", 90, 600, 15, 8,
+                List.of(new GauntletData.GearEnchant(0, "wind_burst", 1), new GauntletData.GearEnchant(20, "wind_burst", 2),
+                        new GauntletData.GearEnchant(30, "density", 1)));
+        assertEquals(Map.of("wind_burst", 1), mace.enchantsAt(8));
+        assertEquals(Map.of("wind_burst", 2), mace.enchantsAt(20));
+        assertEquals(Map.of("wind_burst", 2, "density", 1), mace.enchantsAt(30));
+        assertEquals("Wind Burst II", GauntletGear.enchantName("wind_burst", 2));
+    }
+
     // The starting kit's own items and the main game's tools and items
     @Test
     void setupItems() {

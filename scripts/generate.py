@@ -1080,7 +1080,8 @@ GAUNTLET_HEADER = """# =========================================================
 # gear: what can be upgraded, in the forge's order
 #   sword: {name, item, materials: [WOODEN, ...] or [NONE], kind: melee|ranged|thrown|armor|shield,
 #           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed),
-#           start_level (the level it is unlocked at, and the least a piece owned plays at)}
+#           start_level (the level it is unlocked at, and the least a piece owned plays at),
+#           enchants: [{level, enchant, amount}] (vanilla enchants from that gear level on, gear_enchants.csv)}
 # levels: [{level, shards, cores, material (index into materials), melee, ranged,
 #           defence, protection, deflection}] (what each gear level costs and gives)
 # boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max,
@@ -1116,6 +1117,13 @@ GAUNTLET_KINDS = {"melee", "ranged", "thrown", "armor", "shield"}
 GAUNTLET_STATS = {"damage", "crit", "killheal", "health", "speed", "regen", "guard", "dodge", "absorb",
                   "firststrike", "shards", "execute", "slayer", "cleave", "revive"}
 GAUNTLET_RARITIES = {"common", "rare", "epic", "legendary"}
+# Vanilla's enchantments by their key, for gear_enchants.csv
+VANILLA_ENCHANTS = {"protection", "fire_protection", "feather_falling", "blast_protection", "projectile_protection",
+                    "respiration", "aqua_affinity", "thorns", "depth_strider", "frost_walker", "soul_speed", "swift_sneak",
+                    "sharpness", "smite", "bane_of_arthropods", "knockback", "fire_aspect", "looting", "sweeping_edge",
+                    "efficiency", "silk_touch", "unbreaking", "fortune", "power", "punch", "flame", "infinity",
+                    "luck_of_the_sea", "lure", "loyalty", "impaling", "riptide", "channeling", "multishot", "quick_charge",
+                    "piercing", "density", "breach", "wind_burst", "lunge", "mending"}
 GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive", "double_jump"}
 GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
 GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon", "fireball", "blink", "sonic"}
@@ -1192,6 +1200,15 @@ def gauntlet_text(mobs, cosmetics):
                                       kind=row["kind"], damage=int(row["damage"] or 100),
                                       unlock_shards=int(row["unlock_shards"] or 0), unlock_floor=int(row["unlock_floor"] or 0),
                                       start_level=int(row.get("start_level") or 0))
+
+    for row in _gauntlet_rows("gear_enchants.csv") or []:
+        if row["gear"] not in gear:
+            errors.append(f"gauntlet enchant: no gear '{row['gear']}'")
+            continue
+        if row["enchant"] not in VANILLA_ENCHANTS:
+            errors.append(f"gauntlet enchant on {row['gear']}: '{row['enchant']}' is not a vanilla enchantment")
+        gear[row["gear"]].setdefault("enchants", []).append(
+            OrderedDict(level=int(row["level"] or 0), enchant=row["enchant"], amount=int(row["amount"] or 1)))
 
     levels = [OrderedDict((k, int(v)) for k, v in row.items()) for row in _gauntlet_rows("gear_levels.csv") or []]
     if not levels:

@@ -80,8 +80,14 @@ public class GauntletCommand implements TabExecutor {
                 new ForgeMenu(manager, runs).open(player);
                 yield null;
             }
+            case "loadout" -> manager.setup().openLoadout(player);
             case "leave" -> {
                 if (!manager.isHere(player)) yield "You are not in the Gauntlet";
+                // In a run, back to the lobby with what it earned
+                if (manager.inRun(player)) {
+                    manager.endRun(player);
+                    yield null;
+                }
                 yield manager.pvp().leave(player, true);
             }
             default -> open(manager, runs, player);
@@ -139,7 +145,7 @@ public class GauntletCommand implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                       @NotNull String label, @NotNull String @NotNull [] args) {
         if (args.length == 1) return TextUtils.getCompletions(args[0], List.of("start", "daily", "forge", "talents", "party", "duel", "spectate",
-                "achievements", "shop", "boon", "leave"));
+                "achievements", "shop", "boon", "loadout", "leave"));
         if (args.length == 2 && args[0].equalsIgnoreCase("spectate")) {
             List<String> options = new ArrayList<>(List.of("stop"));
             for (Player online : Bukkit.getOnlinePlayers()) {

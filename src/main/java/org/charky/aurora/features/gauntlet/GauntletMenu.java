@@ -52,6 +52,7 @@ public class GauntletMenu extends PagedMenu {
         row(buttons,
                 new Button(forge(profile), viewer -> new ForgeMenu(manager, runs).open(viewer)),
                 new Button(kit(), viewer -> new SetupMenu(manager, runs).open(viewer)),
+                new Button(loadout(), this::openLoadout),
                 new Button(talents(profile), viewer -> new TalentsMenu(manager).open(viewer)),
                 new Button(shop(profile), viewer -> new ShardShopMenu(manager).open(viewer)));
         row(buttons,
@@ -124,8 +125,20 @@ public class GauntletMenu extends PagedMenu {
                 "<gray>bought for good, every run",
                 "<gray>starts with them.",
                 "",
-                "<gray>Your lobby inventory is your setup:",
-                "<gray>lay it out how you like it."));
+                "<gray>Lay it out in your Loadout."));
+    }
+
+    private static ItemStack loadout() {
+        return button(Material.CHEST, "<gold><b>Loadout", List.of(
+                "<gray>Where your gear and kit go",
+                "<gray>in a run, a duel and the PvP",
+                "<gray>zone: move them about and",
+                "<gray>close it. /gauntlet loadout"));
+    }
+
+    private void openLoadout(Player player) {
+        String problem = manager.setup().openLoadout(player);
+        if (problem != null) TextUtils.error(player, problem);
     }
 
     private ItemStack talents(GauntletProfile profile) {

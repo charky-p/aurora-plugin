@@ -383,10 +383,11 @@ public class GauntletManager {
 
     // ---- Gear ----
 
-    // The player's setup, as they laid it out in the lobby: gear, starting kit and
-    // the menu item. Everything else in the inventory goes
+    // What the inventory holds where they are (GauntletSetup): the setup in a run, a duel
+    // or the PvP zone, the menu, start and leave items in the lobby. Everything else goes.
+    // Never outside the Gauntlet's world, where the inventory is the player's own
     public void giveKit(Player player) {
-        if (setup != null) setup.restore(player);
+        if (setup != null && isHere(player)) setup.restore(player);
     }
 
     // Null if it worked, otherwise why not
@@ -454,7 +455,6 @@ public class GauntletManager {
     private void afterPurchase(Player player, String message) {
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.6f, 1.2f);
         TextUtils.send(player, message);
-        if (isHere(player) && (runs == null || !runs.inRun(player))) giveKit(player);
         refreshBoard(player);
     }
 

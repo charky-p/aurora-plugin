@@ -61,6 +61,7 @@ public class GauntletWorld implements Listener {
     // Every second, from the manager
     void everySecond() {
         sweepAll();
+        sweepOutside();
         hintNewPlayers();
         clearLag();
     }
@@ -141,6 +142,7 @@ public class GauntletWorld implements Listener {
         TextUtils.send(player, "<gray>" + how + ", or click: "
                 + "<click:run_command:'/gauntlet start'><hover:show_text:'<gray>Start a run now'><green><b>[START A RUN]</b></hover></click> "
                 + "<click:run_command:'/gauntlet forge'><hover:show_text:'<gray>Upgrade your gear'><gold><b>[FORGE]</b></hover></click> "
+                + "<click:run_command:'/gauntlet loadout'><hover:show_text:'<gray>Lay out your gear for a run'><gold><b>[LOADOUT]</b></hover></click> "
                 + "<click:run_command:'/gauntlet'><hover:show_text:'<gray>Everything else'><yellow><b>[MENU]</b></hover></click>");
         GauntletChallenges challenges = manager.challenges();
         int done = challenges.doneToday(player);
@@ -174,24 +176,56 @@ public class GauntletWorld implements Listener {
         if (problem != null) TextUtils.error(player, problem);
     }
 
+    // The inventory brought in, kept for when they leave. Anything of the Gauntlet in it
+    // (left over from a way out that missed giving it back) is not kept
     private void putAway(Player player) {
         UUID uuid = player.getUniqueId();
         ItemStack[] contents = Arrays.stream(player.getInventory().getContents())
-                .map(item -> item == null ? ItemStack.empty() : item).toArray(ItemStack[]::new);
+                .map(item -> item == null || GauntletSetup.isGauntletItem(item) ? ItemStack.empty() : item).toArray(ItemStack[]::new);
         byte[] items = ItemStack.serializeItemsAsBytes(contents);
         // Saved before the inventory is cleared, a crash in between loses nothing
         store.saveInventory(uuid, items);
         player.getInventory().clear();
     }
 
+    // The inventory brought in, back, and nothing of the Gauntlet's kept, even when no
+    // inventory was put away
     private void giveBack(Player player) {
         UUID uuid = player.getUniqueId();
         byte[] items = store.loadInventory(uuid);
-        if (items == null) return;
+        if (items == null) {
+            stripGauntlet(player);
+            return;
+        }
         player.getInventory().clear();
         player.getInventory().setContents(ItemStack.deserializeItemsFromBytes(items));
-        player.updateInventory();
+        stripGauntlet(player);
         db.async(() -> store.removeInventory(uuid));
+    }
+
+    // Anything of the Gauntlet out of the inventory, true if there was some
+    private static boolean stripGauntlet(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        boolean found = false;
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            if (!GauntletSetup.isGauntletItem(inventory.getItem(slot))) continue;
+            inventory.setItem(slot, null);
+            found = true;
+        }
+        if (GauntletSetup.isGauntletItem(player.getItemOnCursor())) {
+            player.setItemOnCursor(null);
+            found = true;
+        }
+        if (found) player.updateInventory();
+        return found;
+    }
+
+    // Outside the Gauntlet's world (build worlds aside) its gear and kit are taken away
+    private void sweepOutside() {
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            if (manager.isHere(player) || build.isBuildWorld(player.getWorld())) continue;
+            if (stripGauntlet(player)) TextUtils.send(player, "<gray>Your Gauntlet gear stays in the Gauntlet");
+        }
     }
 
     // ---- Keeping the world apart ----

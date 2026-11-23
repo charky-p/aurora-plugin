@@ -223,11 +223,15 @@ public class GauntletPvp implements Listener {
         }
     }
 
+    static boolean isLoot(ItemStack item) {
+        return item != null && item.hasItemMeta() && item.getItemMeta().getPersistentDataContainer().has(LOOT_KEY, PersistentDataType.BYTE);
+    }
+
     // Loot is for the zone: nobody outside it picks it up, nor any mob
     @EventHandler(ignoreCancelled = true)
     public void onPickup(EntityPickupItemEvent event) {
         ItemStack item = event.getItem().getItemStack();
-        if (!item.hasItemMeta() || !item.getItemMeta().getPersistentDataContainer().has(LOOT_KEY, PersistentDataType.BYTE)) return;
+        if (!isLoot(item)) return;
         if (!(event.getEntity() instanceof Player player) || !inZone(player)) event.setCancelled(true);
     }
 

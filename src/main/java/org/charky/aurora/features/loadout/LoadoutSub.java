@@ -37,6 +37,11 @@ public class LoadoutSub implements AuroraSubCommand {
             return;
         }
 
+        // In the Gauntlet the inventory is its gear, the player's own is put away
+        if (plugin.getGauntletManager() != null && plugin.getGauntletManager().isHere(player)) {
+            TextUtils.error(player, "Leave the Gauntlet first, its gear is not your inventory");
+            return;
+        }
         String choice = args[0].toLowerCase();
         if (choice.equals(AUTO)) {
             loadouts.pin(player, null);

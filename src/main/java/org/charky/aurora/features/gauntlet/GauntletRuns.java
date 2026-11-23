@@ -338,7 +338,8 @@ public class GauntletRuns implements Listener {
         if (member.daily) TextUtils.send(mate, "<gold><b>DAILY BONUS</b> <gray>Your first run today pays <white>"
                 + fmt(data().setting("daily_bonus", 2)) + "x</white> Shards");
         if (first) TextUtils.send(mate, "<yellow><b>TIP</b> <gray>Kill every mob to clear a floor. Every "
-                + boonEvery() + " floors a care package lands and you pick a boon. If you fall, you keep the Shards you earned.");
+                + boonEvery() + " floors a care package lands and you pick a boon. If you fall, you keep the Shards you earned. "
+                + "/gauntlet leave takes you back to the lobby.");
     }
 
     // Starting past floor 1: everyone gets the boons of the floors skipped, at random
@@ -607,7 +608,7 @@ public class GauntletRuns implements Listener {
         return switch (run.state) {
             case FIGHTING -> fightStatus(run, member);
             case CHOOSING -> member.choosing() ? (member.altar ? "<light_purple>Choose at the altar" : "<gold>Pick a boon")
-                    + " <dark_gray>| <yellow><click:run_command:'/gauntlet boon'>right click the star</click>"
+                    + " <dark_gray>| <yellow>/gauntlet boon"
                     : "<gray>Waiting for the party to choose";
             case STARTING -> "<red>Floor " + run.floor;
         };
@@ -952,9 +953,9 @@ public class GauntletRuns implements Listener {
         if (event.getInventory().getHolder(false) instanceof Chest chest) {
             if (event.getInventory().isEmpty()) care.closedEmpty(run, chest);
         } else if (event.getInventory().getHolder(false) instanceof AltarMenu && member.altar) {
-            TextUtils.send(player, "<gray>The altar waits, right click the star or <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+            TextUtils.send(player, "<gray>The altar waits: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click> <gray>or /gauntlet boon");
         } else if (event.getInventory().getHolder(false) instanceof BoonMenu && !member.offered.isEmpty()) {
-            TextUtils.send(player, "<gray>Your boon is waiting, right click the star or <yellow><click:run_command:'/gauntlet boon'>[Choose]</click>");
+            TextUtils.send(player, "<gray>Your boon is waiting: <yellow><click:run_command:'/gauntlet boon'>[Choose]</click> <gray>or /gauntlet boon");
         }
     }
 

@@ -2159,7 +2159,15 @@ setup:
     max: 1
     shards: 1500
     cores: 0
-    description: "Right click to dash where you face; four times a second"
+    description: "Right click to dash where you face; twice a second"
+  wind_charges:
+    name: Wind Charges
+    item: WIND_CHARGE
+    amount: 4
+    max: 3
+    shards: 500
+    cores: 0
+    description: "4 wind charges a level"
   strength:
     name: Strength
     item: POTION@STRENGTH

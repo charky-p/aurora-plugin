@@ -30,6 +30,11 @@ public class TestWorldSub implements AuroraSubCommand {
             TextUtils.error(sender, "Only players have a loadout to take along");
             return;
         }
+        // In the Gauntlet the inventory is its gear, the player's own is put away
+        if (plugin.getGauntletManager() != null && plugin.getGauntletManager().isHere(player)) {
+            TextUtils.error(player, "Leave the Gauntlet first, its gear is not your inventory");
+            return;
+        }
         String name = args.length > 0 ? args[0] : Loadout.TEST_WORLD_PREFIX;
         World world = Bukkit.getWorld(name);
         if (world == null || Loadout.of(world.getName()) != Loadout.EXPERIMENTAL) {

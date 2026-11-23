@@ -135,7 +135,7 @@ items:
     region: ''
     lore:
       - "<gray>Right click to dash the way you face"
-      - "<dark_gray>Up to four times a second"
+      - "<dark_gray>Up to twice a second"
 
   mount_pig:
     display: "<light_purple><b>Pig Saddle"

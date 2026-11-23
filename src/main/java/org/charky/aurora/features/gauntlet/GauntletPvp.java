@@ -29,6 +29,7 @@ import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.combat.BowListener;
 import org.charky.aurora.features.combat.CombatFormulas;
 import org.charky.aurora.features.combat.PlayerDamage;
+import org.charky.aurora.features.combat.ShieldBlock;
 import org.charky.aurora.features.combat.SwingTimer;
 
 import java.util.HashMap;
@@ -217,8 +218,12 @@ public class GauntletPvp implements Listener {
         PotionEffect strength = attacker.getPotionEffect(PotionEffectType.STRENGTH);
         if (strength != null) quality *= 1 + STRENGTH_PER_LEVEL * (strength.getAmplifier() + 1);
         double armour = Enchants.average(victim.getInventory().getArmorContents(), "protection") / GauntletPvpFormula.STAT_PER_LEVEL;
-        event.setDamage(GauntletPvpFormula.damage(data.setting("pvp_base_damage", 2), share, quality, level, armour,
-                data.setting("pvp_level_effect", 3) / 100));
+        double damage = GauntletPvpFormula.damage(data.setting("pvp_base_damage", 2), share, quality, level, armour,
+                data.setting("pvp_level_effect", 3) / 100);
+        event.setDamage(damage);
+        // A raised shield deflects a share of a swing back at the one who swung, like
+        // thorns, with no source so it is not a hit of its own
+        if (shot == null && ShieldBlock.blocks(victim, attacker)) attacker.damage(damage * ShieldBlock.DEFLECT_SHARE);
     }
 
     // What someone dying in the zone had on them drops for anyone in it to pick up:

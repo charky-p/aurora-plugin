@@ -99,14 +99,22 @@ public class CombatListener implements Listener {
         thorns.reflect(player, source);
 
         // Vanilla would stop a blocked hit fully and knock the player back, so the
-        // hit is cancelled and ShieldBlock deals what gets through itself
+        // hit is cancelled and ShieldBlock deals what gets through itself. A shield that
+        // held deflects a share of the player's own hit back at the mob, like thorns
         if (ShieldBlock.blocks(player, event.getDamager())) {
             event.setCancelled(true);
-            ShieldBlock.take(player, mob, damage);
+            if (ShieldBlock.take(player, mob, damage)) deflect(player, source);
             return;
         }
 
         event.setDamage(damage);
+    }
+
+    private void deflect(Player player, LivingEntity source) {
+        double back = ShieldBlock.deflected(player.getInventory().getItemInMainHand());
+        if (back <= 0 || source.isDead()) return;
+        CustomHealth.apply(source, back, player, registry);
+        indicator.show(source, back);
     }
 
     // Our mobs only ever go for players. Iron golems hunt hostile mobs, zoglins anything,

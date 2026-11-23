@@ -6,9 +6,8 @@ Aurora deploy helpers, plain Python so they run on the live server's host too.
   python scripts/deploy.py swap
       The safe way to deploy, with the host's server down for seconds. stage builds the
       plugin and sends what changed to a staging folder on the host (scripts/deploy.ini,
-      SFTP) while its server keeps running: the jar, every generated YAML, the structures
-      saved in-game (the Gauntlet's arenas) and, with --worlds, the game world files
-      that differ from the host's. Nothing live is
+      SFTP) while its server keeps running: the jar, every generated YAML and, with
+      --worlds, the game world files that differ from the host's. Nothing live is
       touched, so a server started or restarted meanwhile breaks nothing, and a drop is
       resumed by running stage again. Then stop the host's server and run swap: it moves
       the staged files in, removes world files LocalServer does not have and every world
@@ -92,17 +91,11 @@ def data_files():
             for yml in sorted(RESOURCES.rglob("*.yml")) if yml.name != "plugin.yml"]
 
 
-# Structures saved in-game into the plugin's folder (the Gauntlet's run and duel
-# arenas), game data made on LocalServer like the worlds
-def structure_files():
-    folder = LOCAL_SERVER / "plugins" / "Aurora"
-    return [(nbt, f"plugins/Aurora/{nbt.name}") for nbt in sorted(folder.glob("*.nbt"))]
-
 
 def bundle():
     jar = newest_jar()
     out = ROOT / "target" / "aurora-deploy.zip"
-    files = data_files() + structure_files()
+    files = data_files()
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(jar, f"plugins/{jar.name}")
         for yml, path in files:
@@ -529,7 +522,7 @@ def wanted_files(config, args):
     if not args.no_build:
         build(config)
     jar = newest_jar()
-    files = [(jar, f"plugins/{jar.name}")] + data_files() + structure_files()
+    files = [(jar, f"plugins/{jar.name}")] + data_files()
     if args.worlds or args.all:
         files += world_files(config)
     return jar, files

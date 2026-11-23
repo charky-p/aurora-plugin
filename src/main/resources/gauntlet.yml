@@ -11,7 +11,8 @@
 #     shards: 4, cores: 0 (the bonus for clearing it)
 # gear: what can be upgraded, in the forge's order
 #   sword: {name, item, materials: [WOODEN, ...] or [NONE], kind: melee|ranged|thrown|armor|shield,
-#           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed)}
+#           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed),
+#           start_level (the level it is unlocked at, and the least a piece owned plays at)}
 # levels: [{level, shards, cores, material (index into materials), melee, ranged,
 #           defence, protection, deflection}] (what each gear level costs and gives)
 # boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max,
@@ -885,6 +886,7 @@ gear:
     damage: 100
     unlock_shards: 0
     unlock_floor: 0
+    start_level: 0
   bow:
     name: Bow
     item: BOW
@@ -894,6 +896,7 @@ gear:
     damage: 100
     unlock_shards: 60
     unlock_floor: 0
+    start_level: 0
   helmet:
     name: Helmet
     item: HELMET
@@ -909,6 +912,7 @@ gear:
     damage: 100
     unlock_shards: 0
     unlock_floor: 0
+    start_level: 0
   chestplate:
     name: Chestplate
     item: CHESTPLATE
@@ -924,6 +928,7 @@ gear:
     damage: 100
     unlock_shards: 0
     unlock_floor: 0
+    start_level: 0
   leggings:
     name: Leggings
     item: LEGGINGS
@@ -939,6 +944,7 @@ gear:
     damage: 100
     unlock_shards: 0
     unlock_floor: 0
+    start_level: 0
   boots:
     name: Boots
     item: BOOTS
@@ -954,6 +960,7 @@ gear:
     damage: 100
     unlock_shards: 0
     unlock_floor: 0
+    start_level: 0
   axe:
     name: Axe
     item: AXE
@@ -969,6 +976,7 @@ gear:
     damage: 120
     unlock_shards: 150
     unlock_floor: 5
+    start_level: 3
   shield:
     name: Shield
     item: SHIELD
@@ -978,6 +986,7 @@ gear:
     damage: 100
     unlock_shards: 200
     unlock_floor: 5
+    start_level: 3
   spear:
     name: Spear
     item: SPEAR
@@ -993,6 +1002,7 @@ gear:
     damage: 110
     unlock_shards: 300
     unlock_floor: 10
+    start_level: 5
   crossbow:
     name: Crossbow
     item: CROSSBOW
@@ -1002,6 +1012,7 @@ gear:
     damage: 140
     unlock_shards: 400
     unlock_floor: 10
+    start_level: 5
   mace:
     name: Mace
     item: MACE
@@ -1011,6 +1022,7 @@ gear:
     damage: 90
     unlock_shards: 600
     unlock_floor: 15
+    start_level: 8
   trident:
     name: Trident
     item: TRIDENT
@@ -1020,6 +1032,7 @@ gear:
     damage: 100
     unlock_shards: 800
     unlock_floor: 20
+    start_level: 10
 levels:
   - level: 0
     shards: 0
@@ -2905,6 +2918,7 @@ settings:
   hard_shards: 25.0
   hard_floors_a_level: 2.0
   pvp_level_effect: 3.0
+  level_cap_per_boss: 10.0
   pvp_base_damage: 2.0
   pvp_smash_max: 2.0
   pvp_loot_seconds: 60.0

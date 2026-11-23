@@ -44,7 +44,7 @@ public class ForgeMenu extends PagedMenu {
         ItemStack item = now == null ? new ItemStack(Material.BARRIER)
                 : GauntletGear.build(manager.registry(), piece, owned ? now : data.level(0));
         if (!owned) item = item.withType(Material.GRAY_DYE);
-        List<String> lines = new ArrayList<>(owned ? upgradeLines(piece, level, now) : unlockLines(profile, piece));
+        List<String> lines = new ArrayList<>(owned ? upgradeLines(profile, piece, level, now) : unlockLines(profile, piece));
         lines.addAll(perkLines(profile, piece, owned ? level : -1));
         item.editMeta(meta -> {
             meta.displayName(TextUtils.parse("<!italic><white><b>" + piece.name() + (owned ? " <gray>(" + level + ")" : "")));
@@ -60,17 +60,20 @@ public class ForgeMenu extends PagedMenu {
         if (piece.unlockFloor() > 0) {
             lines.add((profile.best >= piece.unlockFloor() ? "<green>" : "<red>") + "Needs floor " + piece.unlockFloor() + " cleared");
         }
+        if (piece.startLevel() > 0) lines.add("<gray>Starts at level <white>" + piece.startLevel());
         lines.add("<gray>Unlock: <aqua>" + piece.unlockShards() + " Shards");
         lines.add("<yellow>Click to unlock");
         return lines;
     }
 
-    // Its level, what the next one adds and costs, and when it turns a new material
-    private List<String> upgradeLines(GauntletData.Gear piece, int level, GauntletData.GearLevel now) {
+    // Its level, what the next one adds and costs, and when it turns a new material; at
+    // the level cap, which boss raises it
+    private List<String> upgradeLines(GauntletProfile profile, GauntletData.Gear piece, int level, GauntletData.GearLevel now) {
         GauntletData data = manager.data();
         GauntletData.GearLevel next = data.level(level + 1);
+        int cap = Math.min(data.levelCap(profile.best), data.maxLevel());
         List<String> lines = new ArrayList<>();
-        lines.add("<gray>Level <white>" + level + "/" + data.maxLevel());
+        lines.add("<gray>Level <white>" + level + "/" + data.maxLevel() + (cap < data.maxLevel() ? " <dark_gray>(cap " + cap + ")" : ""));
         lines.addAll(gains(piece, now, next));
         if (next == null) {
             lines.add("<green>Fully upgraded");
@@ -81,6 +84,10 @@ public class ForgeMenu extends PagedMenu {
         if (material != null && !material.equals(nowMaterial)) lines.add("<gold>Next level turns it " + material.toLowerCase());
         lines.add("<gray>Next: <aqua>" + next.shards() + " Shards"
                 + (next.cores() > 0 ? " <gray>+ <light_purple>" + next.cores() + " Cores" : ""));
+        if (next.level() > cap) {
+            lines.add("<red>Capped at " + cap + " until floor " + GauntletData.nextBoss(profile.best) + "'s boss falls");
+            return lines;
+        }
         lines.add("<yellow>Click to upgrade");
         return lines;
     }

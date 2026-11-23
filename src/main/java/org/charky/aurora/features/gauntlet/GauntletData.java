@@ -68,8 +68,9 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         }
     }
 
+    // startLevel: the level it is unlocked at, so a piece bought later is not left weak
     public record Gear(String id, String name, String item, List<String> materials, String kind, int damage,
-                       int unlockShards, int unlockFloor) {
+                       int unlockShards, int unlockFloor, int startLevel) {
         public boolean starter() {
             return unlockShards <= 0 && unlockFloor <= 0;
         }
@@ -277,7 +278,8 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
         });
         Map<String, Gear> gear = byId(root, "gear", (id, row) -> new Gear(id, str(row.get("name")), str(row.get("item")),
                 ((List<Object>) row.getOrDefault("materials", List.of())).stream().map(String::valueOf).toList(), str(row.get("kind")),
-                num(row.get("damage")).intValue(), num(row.get("unlock_shards")).intValue(), num(row.get("unlock_floor")).intValue()));
+                num(row.get("damage")).intValue(), num(row.get("unlock_shards")).intValue(), num(row.get("unlock_floor")).intValue(),
+                num(row.get("start_level")).intValue()));
         List<GearLevel> levels = rows(root, "levels", row -> new GearLevel(num(row.get("level")).intValue(),
                 num(row.get("shards")).intValue(), num(row.get("cores")).intValue(), num(row.get("material")).intValue(),
                 num(row.get("melee")).intValue(), num(row.get("ranged")).intValue(), num(row.get("defence")).intValue(),
@@ -378,6 +380,17 @@ public record GauntletData(List<Floor> floors, Map<String, Gear> gear, List<Gear
 
     public int maxLevel() {
         return levels.isEmpty() ? 0 : levels.getLast().level();
+    }
+
+    // The highest level gear is upgraded to before the next boss falls: level_cap_per_boss
+    // for each boss beaten and as many again, so a sword waits at 30 for floor 30's boss
+    public int levelCap(int best) {
+        return (int) Math.round((best / 10 + 1) * setting("level_cap_per_boss", 10));
+    }
+
+    // The boss floor that raises the level cap next, past the best floor cleared
+    public static int nextBoss(int best) {
+        return (best / 10 + 1) * 10;
     }
 
     // Null past the top

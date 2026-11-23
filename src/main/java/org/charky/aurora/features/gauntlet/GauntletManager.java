@@ -276,9 +276,13 @@ public class GauntletManager {
 
     public GauntletProfile profile(Player player) {
         GauntletProfile profile = profile(player.getUniqueId());
-        // Starter gear added to the data after a player started is theirs too
+        // Starter gear added to the data after a player started is theirs too, and gear
+        // bought before it had a start level plays at it
         for (GauntletData.Gear gear : data().gear().values()) {
-            if (gear.starter() && !profile.owns(gear.id())) setLevel(player.getUniqueId(), profile, gear.id(), 0);
+            if (gear.starter() && !profile.owns(gear.id())) setLevel(player.getUniqueId(), profile, gear.id(), gear.startLevel());
+            else if (profile.owns(gear.id()) && profile.level(gear.id()) < gear.startLevel()) {
+                setLevel(player.getUniqueId(), profile, gear.id(), gear.startLevel());
+            }
         }
         return profile;
     }
@@ -399,9 +403,9 @@ public class GauntletManager {
         if (profile.best < gear.unlockFloor()) return "Reach floor " + gear.unlockFloor() + " first";
         String unpaid = profile.pay(gear.unlockShards(), 0);
         if (unpaid != null) return unpaid;
-        setLevel(player.getUniqueId(), profile, gearId, 0);
+        setLevel(player.getUniqueId(), profile, gearId, gear.startLevel());
         save(player.getUniqueId());
-        afterPurchase(player, "<green>Unlocked the " + gear.name());
+        afterPurchase(player, "<green>Unlocked the " + gear.name() + (gear.startLevel() > 0 ? " <gray>at level <white>" + gear.startLevel() : ""));
         return null;
     }
 
@@ -411,6 +415,8 @@ public class GauntletManager {
         if (gear == null || !profile.owns(gearId)) return "Unlock it first";
         GauntletData.GearLevel next = data().level(profile.level(gearId) + 1);
         if (next == null) return "It is fully upgraded";
+        int cap = data().levelCap(profile.best);
+        if (next.level() > cap) return "Level " + cap + " is the most until you beat floor " + GauntletData.nextBoss(profile.best) + "'s boss";
         String unpaid = profile.pay(next.shards(), next.cores());
         if (unpaid != null) return unpaid;
         setLevel(player.getUniqueId(), profile, gearId, next.level());

@@ -129,6 +129,19 @@ class GauntletDataTest {
         assertTrue(data.gear().isEmpty() && data.levels().isEmpty(), "missing sections are empty");
     }
 
+    // Gear levels wait for the bosses: 10 a boss beaten and 10 before the first
+    @Test
+    void levelCapRisesWithEachBoss() {
+        GauntletData data = GauntletData.parse(Map.of(), Set.of(), Logger.getAnonymousLogger());
+        assertEquals(10, data.levelCap(0));
+        assertEquals(10, data.levelCap(9));
+        assertEquals(20, data.levelCap(10));
+        assertEquals(30, data.levelCap(29), "until floor 30's boss falls");
+        assertEquals(40, data.levelCap(30));
+        assertEquals(30, GauntletData.nextBoss(29));
+        assertEquals(40, GauntletData.nextBoss(30));
+    }
+
     // The starting kit's own items and the main game's tools and items
     @Test
     void setupItems() {

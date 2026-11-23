@@ -1079,7 +1079,8 @@ GAUNTLET_HEADER = """# =========================================================
 #     shards: 4, cores: 0 (the bonus for clearing it)
 # gear: what can be upgraded, in the forge's order
 #   sword: {name, item, materials: [WOODEN, ...] or [NONE], kind: melee|ranged|thrown|armor|shield,
-#           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed)}
+#           damage: 100 (% of a melee hit), unlock_shards, unlock_floor (best floor needed),
+#           start_level (the level it is unlocked at, and the least a piece owned plays at)}
 # levels: [{level, shards, cores, material (index into materials), melee, ranged,
 #           defence, protection, deflection}] (what each gear level costs and gives)
 # boons: the run's upgrades, offered every 5 floors {name, icon, description, stat, amount, max,
@@ -1189,7 +1190,8 @@ def gauntlet_text(mobs, cosmetics):
             errors.append(f"gauntlet gear '{row['id']}': unknown kind '{row['kind']}'")
         gear[row["id"]] = OrderedDict(name=row["name"], item=row["item"], materials=row["materials"].split(LIST_SEP),
                                       kind=row["kind"], damage=int(row["damage"] or 100),
-                                      unlock_shards=int(row["unlock_shards"] or 0), unlock_floor=int(row["unlock_floor"] or 0))
+                                      unlock_shards=int(row["unlock_shards"] or 0), unlock_floor=int(row["unlock_floor"] or 0),
+                                      start_level=int(row.get("start_level") or 0))
 
     levels = [OrderedDict((k, int(v)) for k, v in row.items()) for row in _gauntlet_rows("gear_levels.csv") or []]
     if not levels:

@@ -13,6 +13,8 @@ Ideas not built yet. What is built is described in [docs/PROGRESSION.md](docs/PR
 
 ## Later regions
 
+The full plan for later regions, worlds and mini worlds is in [docs/PLANNING.md](docs/PLANNING.md).
+
 **Caverns** (after the Overworld Core, which already gives the `caverns` tag): calcite and amethyst live here, cobalt too.
 
 **Storm Citadel** (a later sky region): a darker castle in the storm clouds.

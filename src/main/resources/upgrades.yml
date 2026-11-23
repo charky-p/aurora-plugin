@@ -4259,13 +4259,13 @@ items:
         level: "3"
         cost:
           - id: melon
-            amount: 3000
+            amount: 2500
       - tool: axe
         stat: fortune
         level: "4"
         cost:
           - id: melon
-            amount: 3200
+            amount: 3000
       - tool: pick
         stat: efficiency
         level: "4"
@@ -4277,25 +4277,25 @@ items:
         level: "2"
         cost:
           - id: goat_hide
-            amount: 640
+            amount: 600
       - tool: chestplate
         stat: protection
         level: "2"
         cost:
           - id: goat_hide
-            amount: 640
+            amount: 600
       - tool: leggings
         stat: protection
         level: "2"
         cost:
           - id: goat_hide
-            amount: 640
+            amount: 600
       - tool: boots
         stat: protection
         level: "2"
         cost:
           - id: goat_hide
-            amount: 640
+            amount: 600
       - tool: sword
         stat: looting
         level: "5"
@@ -4303,7 +4303,7 @@ items:
           - id: calcite
             amount: 300000
           - id: goat_hide
-            amount: 750
+            amount: 640
       - tool: pick
         stat: fortune
         level: "3"
@@ -4311,7 +4311,7 @@ items:
           - id: calcite
             amount: 320000
           - id: goat_hide
-            amount: 800
+            amount: 750
       - tool: axe
         stat: efficiency
         level: "4"
@@ -4325,13 +4325,13 @@ items:
           - id: melon
             amount: 6400
           - id: goat_hide
-            amount: 1000
+            amount: 800
       - tool: pick
         stat: fortune
         level: "4"
         cost:
           - id: calcite
-            amount: 480000
+            amount: 400000
       - tool: axe
         stat: fortune
         level: "5"
@@ -4339,7 +4339,7 @@ items:
           - id: melon
             amount: 7500
           - id: goat_hide
-            amount: 1200
+            amount: 1000
       - tool: axe
         stat: fortune
         level: "6"
@@ -4347,25 +4347,33 @@ items:
           - id: melon
             amount: 8000
           - id: goat_hide
-            amount: 1500
+            amount: 1200
       - tool: sword
         stat: looting
         level: "7"
+        cost:
+          - id: calcite
+            amount: 480000
+          - id: goat_hide
+            amount: 1500
+      - tool: sword
+        stat: looting
+        level: "8"
         cost:
           - id: calcite
             amount: 500000
           - id: goat_hide
             amount: 1600
       - tool: sword
-        stat: looting
-        level: "8"
+        stat: sharpness
+        level: "2"
         cost:
           - id: calcite
             amount: 600000
           - id: goat_hide
             amount: 2000
-      - tool: sword
-        stat: sharpness
+      - tool: grapple
+        stat: thrust
         level: "2"
         cost:
           - id: calcite
@@ -4373,27 +4381,19 @@ items:
           - id: goat_hide
             amount: 2500
       - tool: grapple
-        stat: thrust
-        level: "2"
-        cost:
-          - id: calcite
-            amount: 750000
-          - id: goat_hide
-            amount: 3000
-      - tool: grapple
         stat: recharge
         level: "2"
         cost:
           - id: melon
             amount: 10000
           - id: goat_hide
-            amount: 3200
+            amount: 3000
       - tool: leggings
         stat: defence
         level: "1"
         cost:
           - id: goat_hide
-            amount: 4000
+            amount: 3200
 
   frozen_slopes:
     name: "Frozen Slopes"
@@ -4413,13 +4413,13 @@ items:
         level: "5"
         cost:
           - id: packed_ice
-            amount: 200000
+            amount: 160000
       - tool: pick
         stat: fortune
         level: "5"
         cost:
           - id: packed_ice
-            amount: 250000
+            amount: 200000
       - tool: shovel
         stat: efficiency
         level: "2"
@@ -4437,169 +4437,169 @@ items:
         level: "3"
         cost:
           - id: frost_arrow
-            amount: 120
+            amount: 160
       - tool: helmet
         stat: protection
         level: "4"
-        cost:
-          - id: frost_arrow
-            amount: 150
-      - tool: helmet
-        stat: protection
-        level: "5"
-        cost:
-          - id: frost_arrow
-            amount: 160
-      - tool: chestplate
-        stat: protection
-        level: "3"
         cost:
           - id: frost_arrow
             amount: 200
-      - tool: chestplate
+      - tool: helmet
         stat: protection
-        level: "4"
+        level: "5"
         cost:
           - id: frost_arrow
             amount: 250
       - tool: chestplate
         stat: protection
-        level: "5"
-        cost:
-          - id: frost_arrow
-            amount: 300
-      - tool: leggings
-        stat: protection
         level: "3"
         cost:
           - id: frost_arrow
-            amount: 320
-      - tool: leggings
+            amount: 300
+      - tool: chestplate
         stat: protection
         level: "4"
+        cost:
+          - id: frost_arrow
+            amount: 320
+      - tool: chestplate
+        stat: protection
+        level: "5"
         cost:
           - id: frost_arrow
             amount: 400
       - tool: leggings
         stat: protection
-        level: "5"
-        cost:
-          - id: frost_arrow
-            amount: 480
-      - tool: boots
-        stat: protection
         level: "3"
         cost:
           - id: frost_arrow
-            amount: 500
-      - tool: boots
+            amount: 480
+      - tool: leggings
         stat: protection
         level: "4"
+        cost:
+          - id: frost_arrow
+            amount: 500
+      - tool: leggings
+        stat: protection
+        level: "5"
         cost:
           - id: frost_arrow
             amount: 600
       - tool: boots
         stat: protection
-        level: "5"
+        level: "3"
         cost:
           - id: frost_arrow
             amount: 640
+      - tool: boots
+        stat: protection
+        level: "4"
+        cost:
+          - id: frost_arrow
+            amount: 750
+      - tool: boots
+        stat: protection
+        level: "5"
+        cost:
+          - id: frost_arrow
+            amount: 800
       - tool: sword
         stat: looting
         level: "9"
         cost:
           - id: packed_ice
-            amount: 300000
+            amount: 250000
           - id: frost_arrow
-            amount: 750
+            amount: 1000
       - tool: pick
         stat: fortune
         level: "6"
         cost:
           - id: packed_ice
-            amount: 320000
+            amount: 300000
           - id: frost_arrow
-            amount: 800
+            amount: 1200
       - tool: shovel
         stat: efficiency
         level: "3"
         cost:
           - id: snow
-            amount: 6000
+            amount: 5000
       - tool: sword
         stat: looting
         level: "10"
         cost:
           - id: snow
-            amount: 6400
+            amount: 6000
           - id: frost_arrow
-            amount: 1000
+            amount: 1500
       - tool: pick
         stat: efficiency
         level: "6"
         cost:
           - id: packed_ice
-            amount: 600000
+            amount: 500000
       - tool: shovel
         stat: fortune
         level: "5"
         cost:
           - id: snow
-            amount: 7500
+            amount: 6400
           - id: frost_arrow
-            amount: 1200
+            amount: 1600
       - tool: pick
         stat: fortune
         level: "7"
         cost:
           - id: packed_ice
-            amount: 640000
+            amount: 600000
       - tool: sword
         stat: looting
         level: "11"
         cost:
           - id: packed_ice
-            amount: 750000
+            amount: 640000
           - id: frost_arrow
-            amount: 1500
+            amount: 2000
       - tool: sword
         stat: sharpness
         level: "3"
         cost:
           - id: packed_ice
-            amount: 800000
+            amount: 750000
           - id: frost_arrow
-            amount: 1600
+            amount: 2500
       - tool: sword
         stat: looting
         level: "12"
         cost:
           - id: packed_ice
-            amount: 1000000
+            amount: 800000
           - id: frost_arrow
-            amount: 2000
+            amount: 3000
       - tool: grapple
         stat: thrust
         level: "3"
         cost:
           - id: packed_ice
-            amount: 1200000
+            amount: 1000000
           - id: frost_arrow
-            amount: 2500
+            amount: 3200
       - tool: grapple
         stat: recharge
         level: "3"
         cost:
           - id: snow
-            amount: 8000
+            amount: 7500
           - id: frost_arrow
-            amount: 3000
+            amount: 4000
       - tool: boots
         stat: defence
         level: "1"
         cost:
           - id: frost_arrow
-            amount: 3200
+            amount: 4800
 
   redstone_grotto:
     name: "Redstone Grotto"
@@ -5083,24 +5083,16 @@ items:
         level: "11"
         cost:
           - id: venom_sac
-            amount: 4800
+            amount: 5000
       - tool: pick
         stat: fortune
         level: "14"
         cost:
           - id: venom_sac
-            amount: 5000
+            amount: 6000
       - tool: pick
         stat: efficiency
         level: "12"
-        cost:
-          - id: venom_sac
-            amount: 6000
-          - id: arachne_eye
-            amount: 1
-      - tool: shield
-        stat: deflection
-        level: "2"
         cost:
           - id: venom_sac
             amount: 6400
@@ -5108,10 +5100,18 @@ items:
             amount: 1
       - tool: shield
         stat: deflection
-        level: "3"
+        level: "2"
         cost:
           - id: venom_sac
             amount: 7500
+          - id: arachne_eye
+            amount: 1
+      - tool: shield
+        stat: deflection
+        level: "3"
+        cost:
+          - id: venom_sac
+            amount: 8000
           - id: arachne_eye
             amount: 1
       - tool: grapple
@@ -5119,7 +5119,7 @@ items:
         level: "6"
         cost:
           - id: venom_sac
-            amount: 8000
+            amount: 10000
           - id: arachne_eye
             amount: 1
       - tool: grapple
@@ -5127,7 +5127,7 @@ items:
         level: "6"
         cost:
           - id: venom_sac
-            amount: 10000
+            amount: 12000
           - id: arachne_eye
             amount: 1
       - tool: leggings

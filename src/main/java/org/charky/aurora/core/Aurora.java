@@ -91,6 +91,8 @@ import org.charky.aurora.features.suggestion.SuggestCommand;
 import org.charky.aurora.features.suggestion.SuggestionManager;
 import org.charky.aurora.features.system.SpawnListener;
 import org.charky.aurora.features.gauntlet.ForgeMenu;
+import org.charky.aurora.features.gauntlet.SetupMenu;
+import org.charky.aurora.features.gauntlet.TalentsMenu;
 import org.charky.aurora.features.gauntlet.GauntletCommand;
 import org.charky.aurora.features.gauntlet.GauntletManager;
 import org.charky.aurora.features.gauntlet.GauntletDuels;
@@ -404,6 +406,15 @@ public class Aurora extends JavaPlugin {
         registry.registerAction("gauntlet_forge", player -> {
             if (gauntletManager.isHere(player)) new ForgeMenu(gauntletManager, gauntletRuns).open(player);
             else TextUtils.error(player, "The forge only works in the Gauntlet");
+        });
+        // The starting kit and talent traders beside it
+        registry.registerAction("gauntlet_kit", player -> {
+            if (gauntletManager.isHere(player)) new SetupMenu(gauntletManager, gauntletRuns).open(player);
+            else TextUtils.error(player, "The starting kit is sold in the Gauntlet");
+        });
+        registry.registerAction("gauntlet_talents", player -> {
+            if (gauntletManager.isHere(player)) new TalentsMenu(gauntletManager).open(player);
+            else TextUtils.error(player, "Talents are learned in the Gauntlet");
         });
     }
 

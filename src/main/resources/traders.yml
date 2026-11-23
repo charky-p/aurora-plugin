@@ -458,6 +458,20 @@ items:
     profession: weaponsmith
     biome: plains
 
+  gauntlet_kit:
+    display: "<yellow><b>Starting Kit"
+    entity: VILLAGER
+    gui: gauntlet_kit
+    profession: armorer
+    biome: plains
+
+  gauntlet_talents:
+    display: "<light_purple><b>Talents"
+    entity: VILLAGER
+    gui: gauntlet_talents
+    profession: librarian
+    biome: plains
+
   pond_angler:
     display: "<aqua><b>Pond Angler"
     entity: VILLAGER

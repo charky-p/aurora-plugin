@@ -63,6 +63,8 @@ golem_trader,<white><b>Golem Trader,VILLAGER,upgrades:golems_rest,weaponsmith,sa
 essence_trader,<gold><b>Essence Trader,VILLAGER,exchange,cleric,savanna
 fish_merchant,<aqua><b>Fish Merchant,VILLAGER,fish_merchant,fisherman,plains
 gauntlet_forge,<gold><b>Gauntlet Forge,VILLAGER,gauntlet_forge,weaponsmith,plains
+gauntlet_kit,<yellow><b>Starting Kit,VILLAGER,gauntlet_kit,armorer,plains
+gauntlet_talents,<light_purple><b>Talents,VILLAGER,gauntlet_talents,librarian,plains
 pond_angler,<aqua><b>Pond Angler,VILLAGER,fishing:pond,fisherman,plains
 oasis_angler,<gold><b>Oasis Angler,VILLAGER,fishing:oasis,fisherman,desert
 rootwater_angler,<dark_green><b>Rootwater Angler,VILLAGER,fishing:rootwater,fisherman,swamp

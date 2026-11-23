@@ -206,7 +206,7 @@ A tower mode in a world of its own (`scripts/data/gauntlet/`, see [PROGRESSION.m
 4. Select the PvP area with the wand, `/a gauntlet pvp`. Players can only hurt each other inside it, and never during a run. Players walk in; build it beside the lobby, or link them with a portal (`/a portal create` and `setdest`). Nobody walks or pearls out: `/spawn` leaves after 5 seconds, and logging out inside counts as dying.
 5. For duels: select the duel arena with the wand, `/a gauntlet duelarena` (copies are pasted 1,000 blocks along x, so keep that strip empty too), then stand where each duelist starts, inside it, and `/a gauntlet duelspawn 1` and `2`.
 6. Select the start portal in the lobby with the wand (a doorway players walk through, with `/a text add <red><b>START A RUN` above it), `/a gauntlet startportal`. Walking in starts a run. New players are told so on arrival, in a title and clickable buttons, and on the action bar until their first run.
-7. In the lobby, `/a trader create gauntlet_forge`: the Gauntlet Forge opens the forge, the same as Forge in the `/gauntlet` menu.
+7. In the lobby, `/a trader create gauntlet_forge`: the Gauntlet Forge opens the forge, the same as Forge in the `/gauntlet` menu. `/a trader create gauntlet_kit` and `/a trader create gauntlet_talents` place the Starting Kit and Talents traders, which open those menus.
 8. `/a gauntlet status` says what is missing, for runs and for duels.
 9. Leaderboards in the lobby, if you like: stand where one goes and `/a gauntlet board floors` (or `pvp`, `duels`, `week`, `sprint`, `tower`). They are saved with the world and update every 30 seconds; `/a gauntlet board remove` takes the nearest one down.
 

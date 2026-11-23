@@ -1,60 +1,39 @@
 package org.charky.aurora.features.gauntlet;
 
-import java.util.List;
-import java.util.Map;
-
-// What a hit does in the Gauntlet's PvP zone and duels: vanilla's own hit first (the
-// weapon's damage and swing speed, crits, sweeps, Strength, a mace's smash, a raised
-// shield, an arrow's draw), then vanilla's armour for the material each Gauntlet piece
-// is shown as (Gauntlet armour carries no vanilla armour points, Aurora prices mob hits
-// itself), then the Gauntlet's levels:
+// What a hit between players does in the Gauntlet's PvP zone and duels, on vanilla's
+// scale (20 health is a whole player) whatever the gear. pvp_base_damage is a full sword
+// hit between equal levels, times the weapon's share (gear.csv damage: an axe or a
+// crossbow hits harder, a mace softer), how good the hit was (the swing's charge, a jump
+// crit, a bow's draw, a mace's smash up to pvp_smash_max, Strength) and the levels:
 //
-//   hit x (1 + effect x the weapon's level) / (1 + effect x the armour's level)
+//   (1 + effect x the weapon's level) / (1 + effect x the armour's level)
 //
-// At equal levels a fight is vanilla's; every level ahead hits harder, behind softer
+// At effect 3% and a base of 2: equal levels take 10 full hits, level 25 against level
+// 30 is near even (11 hits against 10), level 1 against level 50 loses but lasts (25 hits
+// against 5). Mobs are not hit this way
 public final class GauntletPvpFormula {
     // gear_levels.csv: 2 Sharpness, Power and Protection a gear level
     static final double STAT_PER_LEVEL = 2;
-
-    // Vanilla's armour points a piece (helmet, chestplate, leggings, boots) and toughness
-    private static final Map<String, int[]> POINTS = Map.of(
-            "LEATHER", new int[]{1, 3, 2, 1},
-            "CHAINMAIL", new int[]{2, 5, 4, 1},
-            "COPPER", new int[]{2, 4, 3, 1},
-            "IRON", new int[]{2, 6, 5, 2},
-            "GOLDEN", new int[]{2, 5, 3, 1},
-            "DIAMOND", new int[]{3, 8, 6, 3},
-            "NETHERITE", new int[]{3, 8, 6, 3});
-    private static final Map<String, Integer> TOUGHNESS = Map.of("DIAMOND", 2, "NETHERITE", 3);
-    private static final List<String> PIECES = List.of("HELMET", "CHESTPLATE", "LEGGINGS", "BOOTS");
+    // A weapon that is not gauntlet gear (a fist, the grapple) hits like a quarter of a sword
+    static final double BARE_SHARE = 0.25;
+    // A sweep's splash onto the players beside the one struck, a share of a hit
+    static final double SWEEP_SHARE = 0.25;
 
     private GauntletPvpFormula() {
     }
 
-    // The Gauntlet's part: the weapon's level against the armour's, each level effect more
+    // The weapon's level against the armour's, each level effect more
     public static double levelFactor(double weaponLevel, double armourLevel, double effect) {
         return (1 + effect * Math.max(0, weaponLevel)) / (1 + effect * Math.max(0, armourLevel));
     }
 
-    // Vanilla's armour: points take off 4% each, less against big hits unless there is
-    // toughness, at most 80%
-    public static double armourMultiplier(double damage, double points, double toughness) {
-        double reduced = Math.min(20, Math.max(points / 5, points - 4 * damage / (toughness + 8)));
-        return 1 - reduced / 25;
+    // The hit, in health
+    public static double damage(double base, double share, double quality, double weaponLevel, double armourLevel, double effect) {
+        return base * share * quality * levelFactor(weaponLevel, armourLevel, effect);
     }
 
-    // The armour points and toughness of pieces worn, by their materials (DIAMOND_HELMET)
-    public static double[] armour(List<String> materials) {
-        double points = 0, toughness = 0;
-        for (String material : materials) {
-            int split = material.lastIndexOf('_');
-            if (split < 0) continue;
-            int[] tier = POINTS.get(material.substring(0, split));
-            int piece = PIECES.indexOf(material.substring(split + 1));
-            if (tier == null || piece < 0) continue;
-            points += tier[piece];
-            toughness += TOUGHNESS.getOrDefault(material.substring(0, split), 0);
-        }
-        return new double[]{points, toughness};
+    // How many full sword hits a player of 20 health takes, to check the balance
+    static int hitsToKill(double base, double weaponLevel, double armourLevel, double effect) {
+        return (int) Math.ceil(20 / damage(base, 1, 1, weaponLevel, armourLevel, effect));
     }
 }

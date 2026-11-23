@@ -1,6 +1,7 @@
 package org.charky.aurora.features.gauntlet;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -19,16 +20,19 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.common.util.TextUtils;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.features.combat.BowListener;
+import org.charky.aurora.features.combat.CombatFormulas;
+import org.charky.aurora.features.combat.PlayerDamage;
+import org.charky.aurora.features.combat.SwingTimer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -62,6 +66,10 @@ public class GauntletPvp implements Listener {
     private static final NamespacedKey LOOT_KEY = new NamespacedKey("aurora", "gauntlet_loot");
     // An item on the ground goes once it has lain this long (vanilla's five minutes)
     private static final int ITEM_LIFETIME_TICKS = 6000;
+    // Strength adds this much a level to a hit, as it does in runs
+    private static final double STRENGTH_PER_LEVEL = 0.3;
+    // Swings are timed for their charge, as against mobs
+    private final SwingTimer swings = new SwingTimer();
     // Each player's kills since they last died
     private final Map<UUID, Integer> streaks = new HashMap<>();
     // Glowing for a bounty right now
@@ -176,36 +184,41 @@ public class GauntletPvp implements Listener {
     }
 
     // Every hit between players in the zone or a duel, once GauntletWorld has let it
-    // through: vanilla's hit, vanilla's armour for the materials worn, then the levels of
-    // the weapon (Sharpness, or the arrow's Power) against the armour (Protection)
+    // through, on vanilla's scale whatever the gear (GauntletPvpFormula): the weapon's
+    // share and level, how good the hit was, against the armour's level. A raised shield
+    // still blocks it, as in vanilla
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPvpHit(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player victim) || !manager.isHere(victim)) return;
         boolean dueling = manager.inDuel(victim);
         if (!dueling && !inZone(victim)) return;
         BowListener.Shot shot = BowListener.shotOf(event.getDamager());
-        Player attacker;
-        double weapon;
-        if (shot != null && event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player shooter) {
-            attacker = shooter;
-            weapon = shot.power();
-        } else if (event.getDamager() instanceof Player hitter) {
-            attacker = hitter;
-            weapon = Enchants.level(hitter.getInventory().getItemInMainHand(), "sharpness");
-        } else {
-            return;
-        }
-        if (attacker.equals(victim)) return;
+        Player attacker = shot != null && event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player shooter
+                ? shooter : event.getDamager() instanceof Player hitter ? hitter : null;
+        if (attacker == null || attacker.equals(victim)) return;
         if (dueling && (manager.duels() == null || !manager.duels().areDueling(victim, attacker))) return;
 
-        double damage = event.getDamage();
-        List<String> worn = new ArrayList<>();
-        for (ItemStack piece : victim.getInventory().getArmorContents()) if (piece != null) worn.add(piece.getType().name());
-        double[] armour = GauntletPvpFormula.armour(worn);
-        double armourLevel = Enchants.average(victim.getInventory().getArmorContents(), "protection") / GauntletPvpFormula.STAT_PER_LEVEL;
-        double effect = manager.data().setting("pvp_level_effect", 3) / 100;
-        event.setDamage(damage * GauntletPvpFormula.armourMultiplier(damage, armour[0], armour[1])
-                * GauntletPvpFormula.levelFactor(weapon / GauntletPvpFormula.STAT_PER_LEVEL, armourLevel, effect));
+        GauntletData data = manager.data();
+        double share, level, quality;
+        if (shot != null) {
+            share = shot.share();
+            level = shot.power() / GauntletPvpFormula.STAT_PER_LEVEL;
+            quality = shot.draw();
+        } else {
+            ItemStack weapon = attacker.getInventory().getItemInMainHand();
+            GauntletData.Gear gear = data.gear().get(GauntletGear.gearId(weapon));
+            share = gear == null ? GauntletPvpFormula.BARE_SHARE : gear.damage() / 100.0;
+            level = Enchants.level(weapon, "sharpness") / GauntletPvpFormula.STAT_PER_LEVEL;
+            // A sweep is a splash of the swing that already landed, not a swing of its own
+            quality = event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK ? GauntletPvpFormula.SWEEP_SHARE
+                    : swings.swing(attacker) * (event.isCritical() ? CombatFormulas.CRIT_MULTIPLIER : 1)
+                    * (weapon.getType() == Material.MACE ? Math.min(data.setting("pvp_smash_max", 2), PlayerDamage.smash(attacker.getFallDistance())) : 1);
+        }
+        PotionEffect strength = attacker.getPotionEffect(PotionEffectType.STRENGTH);
+        if (strength != null) quality *= 1 + STRENGTH_PER_LEVEL * (strength.getAmplifier() + 1);
+        double armour = Enchants.average(victim.getInventory().getArmorContents(), "protection") / GauntletPvpFormula.STAT_PER_LEVEL;
+        event.setDamage(GauntletPvpFormula.damage(data.setting("pvp_base_damage", 2), share, quality, level, armour,
+                data.setting("pvp_level_effect", 3) / 100));
     }
 
     // What someone dying in the zone had on them drops for anyone in it to pick up:
@@ -336,6 +349,7 @@ public class GauntletPvp implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         stop(player);
+        swings.forget(player);
         droppingIn.remove(uuid);
         UUID by = lastHitBy.remove(uuid);
         Long at = lastHitAt.remove(uuid);

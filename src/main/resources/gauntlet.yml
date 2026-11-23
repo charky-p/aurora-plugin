@@ -999,7 +999,7 @@ gear:
     materials:
       - NONE
     kind: ranged
-    damage: 120
+    damage: 140
     unlock_shards: 400
     unlock_floor: 10
   mace:
@@ -2905,6 +2905,8 @@ settings:
   hard_shards: 25.0
   hard_floors_a_level: 2.0
   pvp_level_effect: 3.0
+  pvp_base_damage: 2.0
+  pvp_smash_max: 2.0
   pvp_loot_seconds: 60.0
   clearlag_minutes: 5.0
   clearlag_warning: 30.0

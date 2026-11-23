@@ -49,6 +49,8 @@ public final class GauntletGear {
         item.editMeta(meta -> {
             meta.setUnbreakable(true);
             meta.getPersistentDataContainer().set(BowListener.GAUNTLET_KEY, PersistentDataType.STRING, gear.id());
+            // A bow's, crossbow's or trident's share goes onto what it fires
+            meta.getPersistentDataContainer().set(BowListener.SHARE_KEY, PersistentDataType.INTEGER, gear.damage());
             // A thrown trident flies back to whoever threw it
             if (item.getType() == Material.TRIDENT) meta.addEnchant(Enchantment.LOYALTY, 3, true);
         });

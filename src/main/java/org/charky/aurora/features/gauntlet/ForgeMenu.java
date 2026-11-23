@@ -108,10 +108,10 @@ public class ForgeMenu extends PagedMenu {
         List<String> lines = new ArrayList<>();
         switch (piece.kind()) {
             case "melee" -> lines.add(change("Hit", hit(now.melee(), piece.damage()), next == null ? null : hit(next.melee(), piece.damage())));
-            case "ranged" -> lines.add(change("Full shot", hit(now.ranged(), 100), next == null ? null : hit(next.ranged(), 100)));
+            case "ranged" -> lines.add(change("Full shot", hit(now.ranged(), piece.damage()), next == null ? null : hit(next.ranged(), piece.damage())));
             case "thrown" -> {
                 lines.add(change("Hit", hit(now.melee(), piece.damage()), next == null ? null : hit(next.melee(), piece.damage())));
-                lines.add(change("Throw", hit(now.ranged(), 100), next == null ? null : hit(next.ranged(), 100)));
+                lines.add(change("Throw", hit(now.ranged(), piece.damage()), next == null ? null : hit(next.ranged(), piece.damage())));
             }
             case "armor" -> {
                 lines.add(change("Defence", now.defence(), next == null ? null : next.defence()));

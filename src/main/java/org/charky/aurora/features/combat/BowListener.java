@@ -30,6 +30,9 @@ public class BowListener implements Listener {
     public static final String BOW_ID = "bow";
     private static final NamespacedKey POWER_KEY = new NamespacedKey("aurora", "arrow_power");
     private static final NamespacedKey FORCE_KEY = new NamespacedKey("aurora", "arrow_force");
+    // Percent of a full shot a launcher hits for (a gauntlet crossbow more than a bow),
+    // on the weapon and on what it fires
+    public static final NamespacedKey SHARE_KEY = new NamespacedKey("aurora", "damage_share");
     // On every piece of gauntlet gear, its gear id (see GauntletGear)
     public static final NamespacedKey GAUNTLET_KEY = new NamespacedKey("aurora", "gauntlet_gear");
 
@@ -48,6 +51,7 @@ public class BowListener implements Listener {
         PersistentDataContainer pdc = arrow.getPersistentDataContainer();
         pdc.set(POWER_KEY, PersistentDataType.INTEGER, Enchants.level(event.getBow(), "power"));
         pdc.set(FORCE_KEY, PersistentDataType.FLOAT, event.getForce());
+        pdc.set(SHARE_KEY, PersistentDataType.INTEGER, shareOf(event.getBow()));
     }
 
     // Vanilla only draws a bow with an arrow to fire, so one is handed over whenever
@@ -88,6 +92,7 @@ public class BowListener implements Listener {
         PersistentDataContainer pdc = trident.getPersistentDataContainer();
         pdc.set(POWER_KEY, PersistentDataType.INTEGER, Enchants.level(item, "power"));
         pdc.set(FORCE_KEY, PersistentDataType.FLOAT, 1f);
+        pdc.set(SHARE_KEY, PersistentDataType.INTEGER, shareOf(item));
     }
 
     // A shot from the Aurora bow, null for any other projectile
@@ -96,15 +101,26 @@ public class BowListener implements Listener {
         PersistentDataContainer pdc = arrow.getPersistentDataContainer();
         Integer power = pdc.get(POWER_KEY, PersistentDataType.INTEGER);
         Float force = pdc.get(FORCE_KEY, PersistentDataType.FLOAT);
-        return power == null || force == null ? null : new Shot(power, force);
+        return power == null || force == null ? null : new Shot(power, force, pdc.getOrDefault(SHARE_KEY, PersistentDataType.INTEGER, 100) / 100.0);
     }
 
-    public record Shot(int power, float force) {
-        // 10 plus Power in Sharpness's brackets, from a fifth for a flick of the bow to
-        // all of it fully drawn, squared like a sword swing's charge
+    // The launcher's share, a full one for any without
+    private static int shareOf(ItemStack launcher) {
+        if (launcher == null || !launcher.hasItemMeta()) return 100;
+        return launcher.getItemMeta().getPersistentDataContainer().getOrDefault(SHARE_KEY, PersistentDataType.INTEGER, 100);
+    }
+
+    public record Shot(int power, float force, double share) {
+        // Of a full shot: a fifth for a flick of the bow to all of it fully drawn, squared
+        // like a sword swing's charge
+        public double draw() {
+            double pull = Math.clamp(force, 0f, 1f);
+            return 0.2 + 0.8 * pull * pull;
+        }
+
+        // 10 plus Power in Sharpness's brackets, times the launcher's share and the draw
         public double raw() {
-            double draw = Math.clamp(force, 0f, 1f);
-            return (CombatFormulas.BASE_DAMAGE + CombatFormulas.sharpnessBonus(power)) * (0.2 + 0.8 * draw * draw);
+            return (CombatFormulas.BASE_DAMAGE + CombatFormulas.sharpnessBonus(power)) * share * draw();
         }
     }
 }

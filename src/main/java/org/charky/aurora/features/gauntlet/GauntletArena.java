@@ -310,6 +310,12 @@ public class GauntletArena {
         return Box.between(origin, far).contains(level);
     }
 
+    // The height of a slot's copy's lowest blocks
+    public double slotFloor(int slot) {
+        Location min = places.get(ARENA_MIN);
+        return min == null ? Double.NEGATIVE_INFINITY : origin(slot).getY();
+    }
+
     private Location origin(int slot) {
         Location min = places.get(ARENA_MIN);
         return min.clone().add(0, 0, (long) SLOT_SPACING * (slot + 1));

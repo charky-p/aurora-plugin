@@ -6,6 +6,7 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.util.Vector;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -56,6 +57,8 @@ public class GauntletRuns implements Listener {
     public enum End { DIED, TIMED_OUT, LEFT, QUIT }
 
     private static final long FLOOR_DELAY_TICKS = 60L;
+    // Blocks below the arena's floor, or below its spawn outside it, that count as fallen off
+    private static final double FALL_BELOW_FLOOR = 5;
     private static final String DAILY_DAY = "daily_day";
     private static final String HEAT_CHOICE = "heat_choice";
     private static final String START_CHOICE = "start_choice";
@@ -580,13 +583,21 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    // Fallen out of the arena, or down and watching from too far: back to its spawn
+    // Fallen off the arena, however it happened (walked off or knocked off by a boss):
+    // below its floor, or outside it and below the spawn. Or down and watching from too
+    // far. Back to its spawn, the fall forgiven
     private void keepInArena(GauntletRun run, Player player, Member member, Location spawn) {
         if (spawn == null) return;
         Location at = player.getLocation();
-        boolean fell = !manager.arena().isInSlot(run.slot, at) && at.getY() < spawn.getY() - 30;
-        boolean drifted = member.down && (!manager.arena().isOverSlot(run.slot, at) || Math.abs(at.getY() - spawn.getY()) > 30);
-        if (fell || drifted) player.teleport(spawn);
+        GauntletArena arena = manager.arena();
+        boolean fell = at.getY() < arena.slotFloor(run.slot) - FALL_BELOW_FLOOR
+                || (!arena.isOverSlot(run.slot, at) && at.getY() < spawn.getY() - FALL_BELOW_FLOOR);
+        boolean drifted = member.down && (!arena.isOverSlot(run.slot, at) || Math.abs(at.getY() - spawn.getY()) > 30);
+        if (!fell && !drifted) return;
+        player.setVelocity(new Vector());
+        player.setFallDistance(0);
+        player.teleport(spawn);
+        if (fell && !member.down) player.sendActionBar(TextUtils.parse("<gray>You fell off the arena, back to its spawn"));
     }
 
     // The action bar: the floor and mobs left with a combo going, being down, or the

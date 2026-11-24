@@ -177,12 +177,15 @@ public class GauntletSetup implements Listener {
 
     // ---- Laying it out ----
 
-    // Empties the inventory and fills it with what it holds where they are, laid out
+    // Empties the inventory and fills it with what it holds where they are: the setup
+    // as the Loadout lays it out, the lobby's menu, start and leave items always at the
+    // end of the hotbar (a layout from before the Loadout could have put them anywhere)
     public void restore(Player player) {
         PlayerInventory inventory = player.getInventory();
         inventory.clear();
         player.setItemOnCursor(null);
-        place(items(player), manager.profile(player).layout).forEach(inventory::setItem);
+        Map<Integer, String> layout = where(player) == Where.LOBBY ? Map.of() : manager.profile(player).layout;
+        place(items(player), layout).forEach(inventory::setItem);
         player.updateInventory();
     }
 

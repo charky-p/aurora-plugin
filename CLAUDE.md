@@ -2,10 +2,6 @@
 
 Paper 26.3 sky-mining RPG plugin (Java 25, Maven, SQLite).
 
-## Goal: launch a working demo
-- Priority is a stable, playable demo (Origin Isles), not new features.
-- Prefer finishing, fixing and polishing what exists. Flag scope creep; ask before adding features.
-
 ## Game data
 - The CSVs under `scripts/data/` (folders `world`, `items`, `mobs`, `shops`) are the source of truth for all game data (gear, mobs, blocks, shops).
 - `scripts/generate.py` generates the YAML in `src/main/resources/` from it. Edit the CSV, never the YAML.

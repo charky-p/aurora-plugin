@@ -36,7 +36,6 @@ For any new region: only use mobs that melee, shoot arrows, throw potions (witch
 
 Not built yet, see `legacy/skript/` for how each one used to work.
 
-- `/vault` (`command.sk`): personal 6 row chests that keep items between sessions
 - Arachne's other abilities (`mobarachne.sk`): cobweb traps, invisibility. She already wakes with her skeleton rider, in Emerald Peaks
 - The Pillager Captain's abilities (`mobpillager.sk`): arrow volleys, berserk. The Captain and the Quarry Ravager are in the Ironbound Quarry
 - Talking NPCs (`npc.sk`): timed dialogue lines

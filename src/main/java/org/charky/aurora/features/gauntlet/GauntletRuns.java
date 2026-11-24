@@ -53,7 +53,7 @@ import java.util.UUID;
 // party has cleared, and at a heat they have unlocked. GauntletBonuses adds up boons,
 // perks and talents, GauntletRunCombat puts them into hits
 public class GauntletRuns implements Listener {
-    public enum End { DIED, LEFT, QUIT }
+    public enum End { DIED, TIMED_OUT, LEFT, QUIT }
 
     private static final long FLOOR_DELAY_TICKS = 60L;
     private static final String DAILY_DAY = "daily_day";
@@ -363,7 +363,7 @@ public class GauntletRuns implements Listener {
         else if (!run.wiping && !stopping) {
             run.tell("<gray>" + player.getName() + " left the run");
             // Nobody left standing to clear the floor
-            if (run.standing().isEmpty()) wipe(run);
+            if (run.standing().isEmpty()) wipe(run, End.DIED);
             else if (run.state == State.CHOOSING) choicesDone(run);
         }
         if (why == End.QUIT) return;
@@ -376,10 +376,10 @@ public class GauntletRuns implements Listener {
         }
     }
 
-    // Everyone is down: the run is over for all of them
-    private void wipe(GauntletRun run) {
+    // Everyone is down, or the floor's time ran out: the run is over for all of them
+    private void wipe(GauntletRun run, End why) {
         run.wiping = true;
-        for (Player player : run.online()) end(player, End.DIED);
+        for (Player player : run.online()) end(player, why);
         for (Member member : run.members.values()) runs.remove(member.id);
         run.members.clear();
         if (!run.over) close(run);
@@ -420,7 +420,7 @@ public class GauntletRuns implements Listener {
         manager.daily().result(player, cleared);
         long now = System.currentTimeMillis();
         manager.recordRun(uuid, new RunRecord(now, run.floor, cleared, run.startFloor, run.heat, run.partySize,
-                (int) ((now - run.started) / 1000), member.kills, banked, member.cores, why == End.DIED,
+                (int) ((now - run.started) / 1000), member.kills, banked, member.cores, why == End.DIED || why == End.TIMED_OUT,
                 String.join(",", member.boons.entrySet().stream().map(boon -> boon.getKey() + ":" + boon.getValue()).toList())));
         if (!member.slain.isEmpty()) {
             member.slain.forEach((mob, count) -> manager.addStat(uuid, SLAIN + mob, count));
@@ -432,7 +432,8 @@ public class GauntletRuns implements Listener {
             if (run.partySize > 1) manager.addStat(uuid, "party_runs", 1);
         }
         if (why == End.QUIT) return;
-        player.showTitle(Title.title(TextUtils.parse(why == End.DIED ? "<red><b>DEFEATED" : "<gray><b>RUN OVER"),
+        player.showTitle(Title.title(TextUtils.parse(why == End.DIED ? "<red><b>DEFEATED"
+                        : why == End.TIMED_OUT ? "<red><b>TIME'S UP" : "<gray><b>RUN OVER"),
                 TextUtils.parse(record ? "<gold><b>NEW BEST</b> <gray>Floors cleared: <white>" + cleared
                         : "<gray>Floors cleared: <white>" + cleared)));
         summary(player, run, member, why, cleared, record, greed, daily, party, banked);
@@ -448,8 +449,8 @@ public class GauntletRuns implements Listener {
         String time = clock(seconds);
         boolean party = run.partySize > 1;
         TextUtils.send(player, "");
-        TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>RUN OVER</b></gradient> <gray>" + (why == End.DIED
-                ? "fell on floor <white>" + run.floor : "left on floor <white>" + run.floor)
+        TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>RUN OVER</b></gradient> <gray>" + (why == End.DIED ? "fell on floor <white>" + run.floor
+                : why == End.TIMED_OUT ? "ran out of time on floor <white>" + run.floor : "left on floor <white>" + run.floor)
                 + (run.startFloor > 1 ? " <dark_gray>(started on " + run.startFloor + ")" : "")
                 + (run.hardFloor > 0 ? " <dark_red>Hard " + run.hardFloor : "")
                 + (run.heat > 0 ? " <gold>Heat " + run.heat : ""));
@@ -562,6 +563,7 @@ public class GauntletRuns implements Listener {
                 waves.bossPhases(run);
                 waves.bossAbilities(run);
                 if (run.mobs.isEmpty()) cleared(run);
+                else clock(run);
             } else if (run.state == State.CHOOSING
                     && System.currentTimeMillis() - run.choosingSince > data().setting("choice_seconds", 45) * 1000) {
                 autoChoose(run);
@@ -607,6 +609,33 @@ public class GauntletRuns implements Listener {
     }
 
     // The boss's health on a boss floor, otherwise how much of the floor is cleared
+    // Seconds the floor being fought has left, MAX_VALUE with no limit (floor_seconds 0)
+    private int timeLeft(GauntletRun run) {
+        int limit = (int) data().setting("floor_seconds", 300);
+        if (limit <= 0) return Integer.MAX_VALUE;
+        return limit - (int) ((System.currentTimeMillis() - run.floorStarted) / 1000);
+    }
+
+    // Warnings as the floor's time runs low, and the end of the run when it is out
+    private void clock(GauntletRun run) {
+        int left = timeLeft(run);
+        if (left <= 0) {
+            run.tell("<red><b>TIME'S UP</b> <gray>floor " + run.floor + " was not cleared in time");
+            wipe(run, End.TIMED_OUT);
+        } else if (left == 60 || left == 30 || left == 10) {
+            run.tell("<yellow>" + left + " seconds left to clear floor " + run.floor);
+            run.sound(Sound.BLOCK_NOTE_BLOCK_PLING, 0.7f, left == 10 ? 1.6f : 1.2f);
+        }
+    }
+
+    // m:ss, or nothing without a limit
+    private String clockText(GauntletRun run) {
+        int left = timeLeft(run);
+        if (left == Integer.MAX_VALUE) return "";
+        left = Math.max(0, left);
+        return (left <= 30 ? " <red>" : " <gray>") + "⌚ " + left / 60 + ":" + String.format("%02d", left % 60);
+    }
+
     private void updateBar(GauntletRun run) {
         if (run.bar == null) return;
         LivingEntity boss = run.boss == null ? null : Bukkit.getEntity(run.boss) instanceof LivingEntity living ? living : null;
@@ -614,7 +643,7 @@ public class GauntletRuns implements Listener {
             double max = CustomHealth.max(boss), now = CustomHealth.current(boss);
             MobData data = manager.registry().mobOf(boss);
             run.bar.name(TextUtils.parse("<dark_red><b>Floor " + run.floor + "</b> <dark_gray>» ").append(data == null
-                    ? TextUtils.parse("<red>Boss") : data.displayName()).append(TextUtils.parse(" <red>" + Math.round(now) + "/" + Math.round(max))));
+                    ? TextUtils.parse("<red>Boss") : data.displayName()).append(TextUtils.parse(" <red>" + Math.round(now) + "/" + Math.round(max) + clockText(run))));
             run.bar.progress((float) Math.clamp(now / max, 0, 1));
             run.bar.color(BossBar.Color.PURPLE);
             return;
@@ -626,7 +655,7 @@ public class GauntletRuns implements Listener {
                 run.bar.name(TextUtils.parse("<red><b>Floor " + run.floor + "</b>"
                         + (run.statFloor() > run.floor ? " <dark_red>as " + run.statFloor() : "") + " <gray>" + (total - Math.min(total, run.mobs.size()))
                         + "/" + total + " killed" + (run.mutator != null ? " <light_purple>" + run.mutator.name() : "")
-                        + (run.heat > 0 ? " <gold>Heat " + run.heat : "")));
+                        + (run.heat > 0 ? " <gold>Heat " + run.heat : "") + clockText(run)));
                 run.bar.progress((float) Math.clamp(1 - (double) run.mobs.size() / total, 0, 1));
             }
             case CHOOSING -> {
@@ -972,7 +1001,7 @@ public class GauntletRuns implements Listener {
         }
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_DEATH, 0.5f, 1.2f);
         if (run.standing().size() <= 1) {
-            wipe(run);
+            wipe(run, End.DIED);
             return;
         }
         down(run, member, player);

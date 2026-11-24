@@ -2914,6 +2914,7 @@ settings:
   elite_pay: 3.0
   mutator_from: 6.0
   mutator_chance: 25.0
+  floor_seconds: 300.0
   par_seconds: 10.0
   par_per_mob: 2.5
   fast_bonus: 50.0

@@ -33,9 +33,9 @@ fox_fur,<#D9D3B0>Fox Fur,ORANGE_WOOL,overworld,verdant_birch,500,<dark_gray>Drop
 spruce_log,<#4F7A4A>Spruce Log,SPRUCE_LOG,overworld,verdant_spruce,500,<dark_gray>Verdant Groves - Spruce Ridge,
 lead,<#4F7A4A><b>Lead,GRAY_CONCRETE,overworld,verdant_spruce,6400,<dark_gray>Verdant Groves - Spruce Ridge,
 wolf_pelt,<#4F7A4A>Wolf Pelt,RABBIT_HIDE,overworld,verdant_spruce,800,<dark_gray>Dropped by Ridge Wolfs,
-dark_oak_log,<#6B4F35>Dark Oak Log,DARK_OAK_LOG,overworld,verdant_darkoak,1000,<dark_gray>Verdant Groves - Dark Oak Thicket,0.001671
-silver,<#6B4F35><b>Silver,IRON_BLOCK,overworld,verdant_darkoak,20000,<dark_gray>Verdant Groves - Dark Oak Thicket,0.00006362
-ancient_seed,<#6B4F35>Ancient Seed,TORCHFLOWER_SEEDS,overworld,verdant_darkoak,1600,<dark_gray>Dropped by Thicket Sniffers,0.002589
+dark_oak_log,<#6B4F35>Dark Oak Log,DARK_OAK_LOG,overworld,verdant_darkoak,1000,<dark_gray>Verdant Groves - Dark Oak Thicket,
+silver,<#6B4F35><b>Silver,IRON_BLOCK,overworld,verdant_darkoak,20000,<dark_gray>Verdant Groves - Dark Oak Thicket,
+ancient_seed,<#6B4F35>Ancient Seed,TORCHFLOWER_SEEDS,overworld,verdant_darkoak,1600,<dark_gray>Dropped by Thicket Sniffers,
 tree_sap,<gold>Tree Sap,HONEYCOMB,overworld,elderwood_treehouse,10000,<dark_gray>Elderwood Roots,
 heartwood,<dark_green><b>Heartwood,CREAKING_HEART,overworld,elderwood_treehouse,1,<dark_gray>Elderwood Roots,
 deserter_coin,<#C9A227>Deserter Coin,GOLD_NUGGET,overworld,khorvath_canyons,48,<dark_gray>Khorvath,
@@ -87,7 +87,7 @@ lapis,<blue><b>Lapis,LAPIS_LAZULI,overworld,peaks_depths,200000,<dark_gray>Emera
 spider_silk,<white>Frost Silk,COBWEB,overworld,peaks_grotto,60000,<dark_gray>Emerald Peaks,
 emerald,<green><b>Emerald,EMERALD,overworld,peaks_depths,800000,<dark_gray>Emerald Peaks,
 venom_sac,<dark_green>Venom Sac,FERMENTED_SPIDER_EYE,overworld,peaks_depths,100000,<dark_gray>Emerald Peaks,
-rider_bone,<white>Rider Bone,BONE,overworld,peaks_arachne,40000,<dark_gray>Emerald Peaks,
+rider_bone,<white>Rider Bone,BONE,overworld,peaks_arachne,40000,<dark_gray>Emerald Peaks,0.007477
 arachne_eye,<dark_red><b>Arachne's Eye,SPIDER_EYE,overworld,peaks_arachne,4,<dark_gray>Emerald Peaks,
 basalt,<dark_gray>Ashen Basalt,BASALT,overworld,duat_ashen,12,<dark_gray>The Duat,
 ash,<gray>River Ash,GUNPOWDER,overworld,duat_ashen,1,<dark_gray>The Duat,

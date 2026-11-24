@@ -329,7 +329,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
     collection: 1000
-    essence: 0.001671
 
   silver:
     display: "<#6B4F35><b>Silver"
@@ -339,7 +338,6 @@ items:
     lore:
       - "<dark_gray>Verdant Groves - Dark Oak Thicket"
     collection: 20000
-    essence: 6.362e-05
 
   ancient_seed:
     display: "<#6B4F35>Ancient Seed"
@@ -349,7 +347,6 @@ items:
     lore:
       - "<dark_gray>Dropped by Thicket Sniffers"
     collection: 1600
-    essence: 0.002589
 
   tree_sap:
     display: "<gold>Tree Sap"
@@ -818,6 +815,7 @@ items:
     lore:
       - "<dark_gray>Emerald Peaks"
     collection: 40000
+    essence: 0.007477
 
   arachne_eye:
     display: "<dark_red><b>Arachne's Eye"

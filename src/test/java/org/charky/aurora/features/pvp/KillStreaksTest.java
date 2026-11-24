@@ -14,25 +14,34 @@ class KillStreaksTest {
     private final UUID c = UUID.randomUUID();
 
     @Test
-    void enoughKillsInARowProtectTheVictim() {
+    void enoughKillsInTheWindowProtectTheVictim() {
         KillStreaks streaks = new KillStreaks();
-        for (int kill = 1; kill < KillStreaks.KILLS_IN_A_ROW; kill++) assertFalse(streaks.kill(a, b, 0));
-        assertTrue(streaks.kill(a, b, 2));
-        assertEquals(KillStreaks.COOLDOWN_MS, streaks.cooldownLeft(a, b, 2));
+        for (int kill = 1; kill < KillStreaks.KILLS; kill++) assertFalse(streaks.kill(a, b, kill));
+        assertTrue(streaks.kill(a, b, 10));
+        assertEquals(KillStreaks.COOLDOWN_MS, streaks.cooldownLeft(a, b, 10));
         // Only that killer, only that victim
-        assertEquals(0, streaks.cooldownLeft(b, a, 2));
-        assertEquals(0, streaks.cooldownLeft(a, c, 2));
-        assertEquals(0, streaks.cooldownLeft(a, b, 2 + KillStreaks.COOLDOWN_MS));
+        assertEquals(0, streaks.cooldownLeft(b, a, 10));
+        assertEquals(0, streaks.cooldownLeft(a, c, 10));
+        assertEquals(0, streaks.cooldownLeft(a, b, 10 + KillStreaks.COOLDOWN_MS));
     }
 
-    // Killing someone else, or being killed back, starts the streak again
+    // Killing someone else in between, or being killed back, changes nothing
     @Test
-    void anotherKillStartsAgain() {
-        for (UUID[] between : new UUID[][]{{a, c}, {b, a}}) {
-            KillStreaks streaks = new KillStreaks();
-            for (int kill = 1; kill < KillStreaks.KILLS_IN_A_ROW; kill++) streaks.kill(a, b, 0);
-            streaks.kill(between[0], between[1], 2);
-            assertFalse(streaks.kill(a, b, 3));
-        }
+    void alternatingDoesNotDodgeIt() {
+        KillStreaks streaks = new KillStreaks();
+        assertFalse(streaks.kill(a, b, 0));
+        streaks.kill(a, c, 1);
+        streaks.kill(b, a, 2);
+        assertFalse(streaks.kill(a, b, 3));
+        streaks.kill(a, c, 4);
+        assertTrue(streaks.kill(a, b, 5));
+    }
+
+    // Kills further apart than the window never add up
+    @Test
+    void oldKillsFallOutOfTheWindow() {
+        KillStreaks streaks = new KillStreaks();
+        long gap = KillStreaks.WINDOW_MS / 2 + 1;
+        for (int kill = 0; kill < 5; kill++) assertFalse(streaks.kill(a, b, kill * gap));
     }
 }

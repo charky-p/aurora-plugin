@@ -259,8 +259,8 @@ public class GauntletPvp implements Listener {
     }
 
     // A death in the zone: the killer is paid, more on a streak and for ending a streak
-    // of 3 or more, and both are counted. The anti-farming rule (KillStreaks) already
-    // stops the same pair trading kills. What the dead had on them drops as loot
+    // of 3 or more, and both are counted, however often the same two meet (the main
+    // world's anti-farming rule is off here). What the dead had on them drops as loot
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(PlayerDeathEvent event) {
         Player victim = event.getPlayer();

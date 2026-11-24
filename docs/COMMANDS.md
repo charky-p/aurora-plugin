@@ -76,7 +76,7 @@ Only builders and admins can go to a build world, by any teleport or portal, and
 
 PvP is on everywhere except in safe zones, and in the Gauntlet's world only inside its PvP zone. A hit is stopped when either player stands in one, so nobody can hit from inside one. Dying to another player costs nothing: the inventory, levels and XP are all kept.
 
-**No farming.** Kill the same player 3 times in a row and you can't hurt them for 5 minutes. Killing anyone else, or being killed by them, starts the count again.
+**No farming.** Kill the same player 3 times within 5 minutes and you can't hurt them for 5 minutes; killing others in between or trading kills doesn't reset it. Not in the Gauntlet, where you can kill anyone as often as you like.
 
 | Command | Does |
 |---|---|

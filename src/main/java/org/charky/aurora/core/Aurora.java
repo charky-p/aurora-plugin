@@ -481,7 +481,8 @@ public class Aurora extends JavaPlugin {
                 accessManager,
                 buildManager,
                 safeZoneManager,
-                new KillStreakListener(),
+                // Killing is the Gauntlet's game, the anti-farming rule is for the main world
+                new KillStreakListener(player -> gauntletManager != null && gauntletManager.isHere(player)),
                 padManager,
                 fishingManager,
                 staffPermissions,

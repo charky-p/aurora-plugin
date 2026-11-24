@@ -51,7 +51,8 @@ public final class MobDamage {
     }
 
     // Heavy hitters swing every attack, only one per cooldown lands. The last
-    // landed hit is kept on the mob itself, so nothing leaks when it dies
+    // landed hit is kept on the mob itself, so nothing leaks when it dies. A breeze
+    // is held to it when it shoots instead (CombatListener.onBreezeShoot)
     public static boolean onCooldown(LivingEntity mob, double cooldownSeconds) {
         if (cooldownSeconds <= 0) return false;
 

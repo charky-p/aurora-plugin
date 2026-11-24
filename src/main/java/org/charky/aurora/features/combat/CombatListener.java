@@ -3,6 +3,7 @@ package org.charky.aurora.features.combat;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Breeze;
 import org.bukkit.entity.EvokerFangs;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
@@ -86,7 +88,8 @@ public class CombatListener implements Listener {
             return;
         }
 
-        if (MobDamage.onCooldown(source, mob.attackCooldown())) {
+        // A breeze's cooldown already spaced its shots out when it fired
+        if (!(source instanceof Breeze) && MobDamage.onCooldown(source, mob.attackCooldown())) {
             event.setCancelled(true);
             return;
         }
@@ -200,6 +203,16 @@ public class CombatListener implements Listener {
             arrow.clearCustomEffects();
             arrow.setBasePotionType(null);
         }
+    }
+
+    // A breeze fires wind charges as fast as vanilla lets it, and each one throws the
+    // player about whether it hurts or not. So its attack_cooldown spaces out its shots
+    // rather than its hits: a charge launched inside the cooldown is never fired
+    @EventHandler(ignoreCancelled = true)
+    public void onBreezeShoot(ProjectileLaunchEvent event) {
+        if (!(event.getEntity().getShooter() instanceof Breeze breeze) || !CustomHealth.isTracked(breeze)) return;
+        MobData mob = registry.mobOf(breeze);
+        if (mob != null && MobDamage.onCooldown(breeze, mob.attackCooldown())) event.setCancelled(true);
     }
 
     // A witch's potion is her attack: whatever she throws (harming, poison, slowness,

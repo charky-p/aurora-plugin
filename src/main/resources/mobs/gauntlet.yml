@@ -152,6 +152,7 @@ items:
     display: "<white><b>Gale"
     entity: BREEZE
     health: 61.0
+    attack_cooldown: 3.0
     damage: 1.91
     attributes:
       - attr: FOLLOW_RANGE
@@ -192,7 +193,7 @@ items:
       - attr: SCALE
         value: 0.7
       - attr: MOVEMENT_SPEED
-        value: 0.3
+        value: 0.25
       - attr: FOLLOW_RANGE
         value: 48.0
 

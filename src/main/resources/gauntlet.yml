@@ -387,15 +387,15 @@ floors:
     cores: 4
   - mobs:
       g_rustling: 6
-      g_gale: 4
+      g_gale: 2
     health: 59.0
     attack: 90
     kill: 4
     shards: 26
     cores: 0
   - mobs:
-      g_rustling: 6
-      g_gale: 3
+      g_rustling: 5
+      g_gale: 2
     health: 62.5
     attack: 92
     kill: 4
@@ -403,47 +403,47 @@ floors:
     cores: 0
   - mobs:
       g_rustling: 6
-      g_gale: 4
+      g_gale: 2
     health: 66.0
     attack: 95
     kill: 4
     shards: 27
     cores: 0
   - mobs:
-      g_rustling: 7
-      g_gale: 4
+      g_rustling: 6
+      g_gale: 2
     health: 69.5
     attack: 97
     kill: 5
     shards: 27
     cores: 0
   - mobs:
-      g_rustling: 8
-      g_gale: 4
+      g_rustling: 7
+      g_gale: 2
     health: 73.0
     attack: 99
     kill: 5
     shards: 28
     cores: 0
   - mobs:
-      g_rustling: 7
-      g_gale: 4
+      g_rustling: 6
+      g_gale: 2
     health: 77.0
     attack: 101
     kill: 5
     shards: 29
     cores: 0
   - mobs:
-      g_rustling: 9
-      g_gale: 5
+      g_rustling: 8
+      g_gale: 2
     health: 81.0
     attack: 103
     kill: 5
     shards: 29
     cores: 0
   - mobs:
-      g_rustling: 8
-      g_gale: 4
+      g_rustling: 7
+      g_gale: 2
     health: 85.0
     attack: 106
     kill: 5
@@ -451,7 +451,7 @@ floors:
     cores: 0
   - mobs:
       g_rustling: 10
-      g_gale: 6
+      g_gale: 2
     health: 89.0
     attack: 108
     kill: 5

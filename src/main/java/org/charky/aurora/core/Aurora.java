@@ -255,6 +255,7 @@ public class Aurora extends JavaPlugin {
     private void createPlayerSystems() {
         this.players = new PlayerManager(this, db, new PlayerStore(db));
         this.scoreboard = new ScoreboardManager(players);
+        getServer().getScheduler().runTaskTimer(this, scoreboard::showHealth, 20L, 10L);
         this.tabManager = new TabManager(players);
         this.levelManager = new LevelManager(this, players, scoreboard);
         this.rankManager = new RankManager(this, db, new RankStore(db), players, scoreboard, tabManager);

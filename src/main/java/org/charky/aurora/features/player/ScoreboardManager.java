@@ -5,7 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
+import io.papermc.paper.scoreboard.numbers.NumberFormat;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.charky.aurora.common.util.TextUtils;
@@ -19,10 +21,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 // Draws each player's sidebar from their profile in PlayerManager. A game mode can
-// show its own lines instead, the Gauntlet does in its world
+// show its own lines instead, the Gauntlet does in its world. Under everyone's name
+// their health shows in hearts (showHealth)
 public class ScoreboardManager {
     // A sidebar never has more lines than this
     private static final int MAX_LINES = 15;
+
+    private static final String HEALTH = "health";
 
     private final Map<UUID, Scoreboard> boards = new ConcurrentHashMap<>();
     private final PlayerManager players;
@@ -33,6 +38,21 @@ public class ScoreboardManager {
         this.players = players;
     }
 
+    // Every online player's hearts on every board, "7.5 ❤", a few times a second
+    public void showHealth() {
+        List<? extends Player> online = List.copyOf(Bukkit.getOnlinePlayers());
+        for (Scoreboard board : boards.values()) {
+            Objective health = board.getObjective(HEALTH);
+            if (health == null) continue;
+            for (Player player : online) {
+                double hearts = Math.ceil(player.getHealth()) / 2;
+                Score score = health.getScore(player.getName());
+                score.setScore((int) Math.ceil(player.getHealth()));
+                score.numberFormat(NumberFormat.fixed(TextUtils.parse("<white>" + (hearts % 1 == 0 ? String.valueOf((int) hearts) : String.valueOf(hearts)))));
+            }
+        }
+    }
+
     public void setOverride(Function<Player, List<Component>> override) {
         this.override = override;
     }
@@ -41,6 +61,8 @@ public class ScoreboardManager {
         Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = board.registerNewObjective("aurora", Criteria.DUMMY, TextUtils.getServer());
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        Objective health = board.registerNewObjective(HEALTH, Criteria.DUMMY, TextUtils.parse("<red>❤"));
+        health.setDisplaySlot(DisplaySlot.BELOW_NAME);
 
         renderLines(board, obj, lines(player));
 

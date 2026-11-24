@@ -140,6 +140,7 @@ public class Aurora extends JavaPlugin {
     // Where players join until /aurora setspawn main picks another world. Loaded
     // like any other world made with /aurora world create, the plugin makes none itself
     public static final String MAIN_WORLD = "aurora_overworld";
+    private static final String VANILLA_NETHER = "world_nether";
 
     private Database db;
     private SpawnStore spawnStore;
@@ -239,6 +240,10 @@ public class Aurora extends JavaPlugin {
     private void loadWorlds() {
         this.worldManager = new WorldManager(this, new WorldStore(db));
         worldManager.loadAll();
+        // Vanilla's nether is part of no zone and Paper can't turn it off, so it is
+        // unloaded to save its memory; its portals then lead nowhere
+        World nether = Bukkit.getWorld(VANILLA_NETHER);
+        if (nether != null && Bukkit.unloadWorld(nether, true)) getLogger().info("Unloaded " + VANILLA_NETHER + ", no zone uses it");
 
         this.spawnMap = spawnStore.loadAll();
         String savedMain = spawnStore.loadMain();

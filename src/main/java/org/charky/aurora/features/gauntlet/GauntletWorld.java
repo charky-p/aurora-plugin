@@ -117,7 +117,7 @@ public class GauntletWorld implements Listener {
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             if (!player.isOnline()) return;
             manager.weekly().notice(player);
-            manager.tower().notice(player);
+            manager.daily().notice(player);
             manager.achievements().check(player.getUniqueId());
             if (manager.isHere(player)) {
                 Location lobby = arena.lobby();

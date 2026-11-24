@@ -14,10 +14,8 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 // One run up the tower in its own copy of the arena, alone or with a party: the floor
 // it is on, the party's pot of Shards, the floor's mobs, and each player's own part
@@ -95,8 +93,6 @@ final class GauntletRun {
     BossBar bar;
     // Everyone is down and on the way out: no "left the run" for each, no second wipe
     boolean wiping;
-    // The Daily Tower's day, 0 for any other run: its floors' rolls are seeded by the day
-    long towerDay;
     // Hard Mode's floor, 0 without it: every floor below it plays and pays as it
     int hardFloor;
     // Where its care packages landed, to clear when it is over
@@ -144,12 +140,6 @@ final class GauntletRun {
 
     void sound(Sound sound, float volume, float pitch) {
         for (Player player : online()) player.playSound(player.getLocation(), sound, volume, pitch);
-    }
-
-    // The rolls of this floor: in the Daily Tower seeded by the day and floor (salt keeps
-    // the floor's different rolls apart), so everyone climbs the same tower; any otherwise
-    Random floorRandom(int salt) {
-        return towerDay == 0 ? ThreadLocalRandom.current() : new Random((towerDay * 1_000 + floor) * 31 + salt);
     }
 
     // 1 for one player, and percent more for every player past the first

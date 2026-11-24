@@ -42,7 +42,7 @@ public class GauntletMenu extends PagedMenu {
         List<Button> buttons = new ArrayList<>();
         row(buttons,
                 new Button(start(player), this::startRun),
-                new Button(tower(profile), this::climbTower),
+                new Button(daily(profile), null),
                 new Button(party(player), viewer -> new PartyMenu(manager).open(viewer)),
                 new Button(duels(profile), viewer -> new DuelMenu(manager).open(viewer)),
                 new Button(pvp(profile), null),
@@ -92,22 +92,19 @@ public class GauntletMenu extends PagedMenu {
                         : "<yellow>Click to start"));
     }
 
-    // Today's Daily Tower: how it works, how far the best got, and the player's try
-    private ItemStack tower(GauntletProfile profile) {
-        GauntletTower tower = manager.tower();
-        boolean tried = tower.climbedToday(profile);
+    // The day's best runs: the furthest floors cleared today, and the player's own
+    private ItemStack daily(GauntletProfile profile) {
+        GauntletDaily daily = manager.daily();
         List<String> lines = new ArrayList<>(List.of(
-                "<gray>One try a day, alone, from floor 1.",
-                "<gray>Every floor from " + (int) manager.data().setting("mutator_from", 6) + " is mutated, the",
-                "<gray>same tower for everyone today.",
-                "",
-                "<yellow>Today's best"));
-        lines.addAll(GauntletBoards.rows(tower.top(GauntletTower.today(), 5), top -> "floor " + top.stat(GauntletTower.BEST),
-                "Nobody has climbed it yet"));
+                "<gray>The furthest floor cleared today",
+                "<gray>in any run, alone or in a party.",
+                ""));
+        lines.addAll(GauntletBoards.rows(daily.top(GauntletDaily.today(), 5), top -> "floor " + top.stat(GauntletDaily.BEST),
+                "No floor cleared today yet"));
         lines.add("<dark_gray>The top three are paid when the day turns");
         lines.add("");
-        lines.add(tried ? "<gray>Your floor today: <white>" + profile.stat(GauntletTower.BEST) : "<yellow>Click to climb it");
-        return button(Material.LODESTONE, "<aqua><b>Daily Tower", lines);
+        lines.add("<gray>Your floor today: <white>" + daily.bestToday(profile));
+        return button(Material.CLOCK, "<aqua><b>Best Today", lines);
     }
 
     private static ItemStack forge(GauntletProfile profile) {
@@ -365,11 +362,6 @@ public class GauntletMenu extends PagedMenu {
     @Override
     protected void onEntryClick(Player player, int index) {
         if (index < clicks.size() && clicks.get(index) != null) clicks.get(index).accept(player);
-    }
-
-    private void climbTower(Player player) {
-        String problem = runs.beginTower(player);
-        if (problem != null) TextUtils.error(player, problem);
     }
 
     private void startRun(Player player) {

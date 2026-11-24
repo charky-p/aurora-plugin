@@ -12,21 +12,21 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-// The Daily Tower's board: who climbed today's tower and how far, one try each (marked
-// when it starts, so quitting gives no second one). When the day turns the last day's
-// top three are paid (tower_1 to tower_3 Shards), told at once or when they next join
-final class GauntletTower {
+// The day's best runs: the furthest floor each player cleared today, in any run, alone
+// or in a party. When the day turns the last day's top three are paid (daily_1 to
+// daily_3 Shards), told at once or when they next join
+final class GauntletDaily {
+    // Stat names from when this was the Daily Tower, kept so the stats carry on
     static final String DAY = "tower_day";
     static final String BEST = "tower_best";
     private static final String NOTICE = "tower_notice";
-    // Counted for achievements: tries, and days topped
-    private static final String CLIMBS = "tower_climbs";
+    // Days topped, counted for an achievement
     private static final String WINS = "tower_wins";
 
     private final GauntletManager manager;
     private final GauntletPaid paid;
 
-    GauntletTower(GauntletManager manager, File dataFolder, Logger logger) {
+    GauntletDaily(GauntletManager manager, File dataFolder, Logger logger) {
         this.manager = manager;
         this.paid = new GauntletPaid(dataFolder, "gauntlet_tower_day.txt", logger);
     }
@@ -35,30 +35,27 @@ final class GauntletTower {
         return LocalDate.now().toEpochDay();
     }
 
-    boolean climbedToday(GauntletProfile profile) {
-        return profile.stat(DAY) == today();
-    }
-
-    void started(UUID uuid) {
-        manager.setStat(uuid, DAY, (int) today());
-        manager.setStat(uuid, BEST, 0);
-        manager.addStat(uuid, CLIMBS, 1);
-    }
-
-    // How far a day's climbers got, furthest first
+    // How far a day's players got, furthest first
     List<Map.Entry<UUID, GauntletProfile>> top(long day, int count) {
         return manager.topBy(BEST, Integer.MAX_VALUE).stream()
-                .filter(entry -> entry.getValue().stat(DAY) == day).limit(count).toList();
+                .filter(entry -> entry.getValue().stat(DAY) == day && entry.getValue().stat(BEST) > 0).limit(count).toList();
     }
 
-    // How far a try went; a new leader of the day is told to the whole Gauntlet
-    void result(Player player, long day, int cleared) {
+    // The player's floor today, 0 before their first run of the day
+    int bestToday(GauntletProfile profile) {
+        return profile.stat(DAY) == today() ? profile.stat(BEST) : 0;
+    }
+
+    // A run's floors cleared; a new best of the day is kept, a new leader told to the whole Gauntlet
+    void result(Player player, int cleared) {
         GauntletProfile profile = manager.profile(player);
-        if (profile.stat(DAY) != day || cleared <= profile.stat(BEST)) return;
+        long day = today();
+        if (cleared <= bestToday(profile)) return;
         List<Map.Entry<UUID, GauntletProfile>> leader = top(day, 1);
-        boolean leads = cleared > 0 && (leader.isEmpty() || cleared > leader.getFirst().getValue().stat(BEST));
+        boolean leads = leader.isEmpty() || cleared > leader.getFirst().getValue().stat(BEST);
+        manager.setStat(player.getUniqueId(), DAY, (int) day);
         manager.setStat(player.getUniqueId(), BEST, cleared);
-        if (leads) manager.announce("<aqua><b>DAILY TOWER</b> <white>" + player.getName() + " <gray>leads today's tower, floor <aqua>"
+        if (leads) manager.announce("<aqua><b>BEST TODAY</b> <white>" + player.getName() + " <gray>has the day's best run, floor <aqua>"
                 + cleared + "</aqua> cleared");
     }
 
@@ -76,7 +73,7 @@ final class GauntletTower {
         for (int place = 0; place < top.size(); place++) {
             UUID uuid = top.get(place).getKey();
             if (place == 0) manager.addStat(uuid, WINS, 1);
-            int shards = (int) manager.data().setting("tower_" + (place + 1), 0);
+            int shards = (int) manager.data().setting("daily_" + (place + 1), 0);
             if (shards <= 0) continue;
             GauntletProfile profile = top.get(place).getValue();
             profile.shards += shards;
@@ -84,18 +81,18 @@ final class GauntletTower {
             manager.addStat(uuid, NOTICE, shards);
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) notice(player);
-            manager.announce("<aqua><b>DAILY TOWER</b> <white>" + GauntletManager.nameOf(uuid) + " <gray>placed <white>#" + (place + 1)
-                    + "</white> on yesterday's tower (floor " + profile.stat(BEST) + ") <aqua>+" + shards + " Shards");
+            manager.announce("<aqua><b>BEST TODAY</b> <white>" + GauntletManager.nameOf(uuid) + " <gray>placed <white>#" + (place + 1)
+                    + "</white> yesterday (floor " + profile.stat(BEST) + ") <aqua>+" + shards + " Shards");
         }
     }
 
-    // A Daily Tower prize not told yet, on joining
+    // A prize for the day's best not told yet, on joining
     void notice(Player player) {
         int shards = manager.profile(player).stat(NOTICE);
         if (shards <= 0) return;
         manager.setStat(player.getUniqueId(), NOTICE, 0);
         manager.refreshBoard(player);
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7f, 1f);
-        TextUtils.send(player, "<aqua><b>DAILY TOWER</b> <gray>Your place on the last tower paid you <aqua>" + shards + " Shards");
+        TextUtils.send(player, "<aqua><b>BEST TODAY</b> <gray>Your place in yesterday's best runs paid you <aqua>" + shards + " Shards");
     }
 }

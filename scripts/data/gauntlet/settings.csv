@@ -60,9 +60,9 @@ party_boss_health,60,Percent more boss health for each player past the first
 party_shards,0,Percent more Shards each player of a party banks for each of the others (0: what the same floors pay alone)
 bounty_streak,5,A PvP kill streak this long is a bounty: its player glows in the zone
 sprint_floor,10,The floor a solo run from floor 1 is timed to for the fastest runs board
-tower_1,300,Shards for the furthest climber of a day's Daily Tower, paid when the day turns
-tower_2,180,Shards for the second furthest
-tower_3,100,Shards for the third furthest
+daily_1,300,Shards for the day's best run (furthest floor cleared in any run) paid when the day turns
+daily_2,180,Shards for the second furthest
+daily_3,100,Shards for the third furthest
 hard_shards,25,Percent more Shards for a run in Hard Mode
 hard_floors_a_level,2,Hard Mode's floor for each level of gear (the best weapon's or the armour set's, whichever is higher)
 pvp_level_effect,3,Percent a PvP hit changes for each level the weapon is ahead of the armour (or behind)

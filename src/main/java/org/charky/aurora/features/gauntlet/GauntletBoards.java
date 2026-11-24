@@ -20,7 +20,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 // Leaderboards standing in the lobby: the top floors, PvP kills, duel ratings, the
-// fastest solo runs to sprint_floor, today's Daily Tower, or the week's two boards. Each is a text display saved with the world (so deploys carry it),
+// fastest solo runs to sprint_floor, the day's best runs, or the week's two boards. Each is a text display saved with the world (so deploys carry it),
 // placed with /a gauntlet board and brought up to date every half minute
 final class GauntletBoards {
     static final List<String> KINDS = List.of("floors", "pvp", "duels", "week", "sprint", "tower");
@@ -87,9 +87,9 @@ final class GauntletBoards {
                         "Nobody has a PvP kill yet"));
             }
             case "tower" -> {
-                lines.add(TITLE.formatted("TODAY'S TOWER"));
-                lines.addAll(rows(manager.tower().top(GauntletTower.today(), ROWS), profile -> "floor " + profile.stat(GauntletTower.BEST),
-                        "Nobody has climbed it yet"));
+                lines.add(TITLE.formatted("BEST TODAY"));
+                lines.addAll(rows(manager.daily().top(GauntletDaily.today(), ROWS), profile -> "floor " + profile.stat(GauntletDaily.BEST),
+                        "No floor cleared today yet"));
             }
             case "sprint" -> {
                 lines.add(TITLE.formatted("FASTEST TO FLOOR " + GauntletRuns.sprintFloor(manager.data())));

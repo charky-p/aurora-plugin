@@ -59,13 +59,13 @@ final class GauntletWaves {
         return manager.data();
     }
 
-    // A floor's mutator now and then from mutator_from, on every floor from there in the
-    // Daily Tower; one that gives every mob an affix only from affix_from, like elites'
+    // A floor's mutator now and then from mutator_from; one that gives every mob an affix
+    // only from affix_from, like elites'
     GauntletData.Mutator rollMutator(GauntletRun run) {
         int floor = run.statFloor();
         if (data().mutators().isEmpty() || floor < data().setting("mutator_from", 6)) return null;
-        Random random = run.floorRandom(1);
-        if (run.towerDay == 0 && random.nextDouble(100) >= data().setting("mutator_chance", 25)) return null;
+        Random random = ThreadLocalRandom.current();
+        if (random.nextDouble(100) >= data().setting("mutator_chance", 25)) return null;
         boolean affixes = floor >= data().setting("affix_from", 10);
         List<GauntletData.Mutator> all = data().mutators().values().stream()
                 .filter(mutator -> affixes || mutator.affix().isBlank()).toList();
@@ -89,7 +89,7 @@ final class GauntletWaves {
         GauntletData.Floor floor = data().floor(run.floor);
         GauntletArena arena = manager.arena();
         List<Location> spawns = new ArrayList<>(arena.mobSpawns().stream().map(spawn -> arena.inSlot(run.slot, spawn)).toList());
-        Random random = run.floorRandom(2);
+        Random random = ThreadLocalRandom.current();
         Collections.shuffle(spawns, random);
         double eliteChance = eliteChance(run);
         run.floorScale = GauntletRun.partyScale(run.members.size(), data().setting("party_mobs", 50));

@@ -50,7 +50,7 @@ public class GauntletManager {
     private final GauntletChallenges challenges = new GauntletChallenges(this);
     private final GauntletWeekly weekly;
     private final GauntletBoards boards;
-    private final GauntletTower tower;
+    private final GauntletDaily daily;
     private final GauntletAchievements achievements = new GauntletAchievements(this);
     private GauntletSpectate spectate;
     private GauntletParty party;
@@ -70,7 +70,7 @@ public class GauntletManager {
         this.arena = new GauntletArena(db, store, plugin.getDataFolder(), plugin.getLogger());
         this.weekly = new GauntletWeekly(this, plugin.getDataFolder(), plugin.getLogger());
         this.boards = new GauntletBoards(plugin, this);
-        this.tower = new GauntletTower(this, plugin.getDataFolder(), plugin.getLogger());
+        this.daily = new GauntletDaily(this, plugin.getDataFolder(), plugin.getLogger());
         profiles.putAll(store.loadAll());
     }
 
@@ -98,8 +98,8 @@ public class GauntletManager {
         return boards;
     }
 
-    GauntletTower tower() {
-        return tower;
+    GauntletDaily daily() {
+        return daily;
     }
 
     // To everyone in the Gauntlet's world, in a run or not
@@ -211,7 +211,7 @@ public class GauntletManager {
             // The weekly boards pay out once the week has turned, the lobby's boards catch up
             if (ticks % 60 == 0) {
                 weekly.check();
-                tower.check();
+                daily.check();
             }
             if (ticks % 30 == 0) boards.refresh();
             ticks++;

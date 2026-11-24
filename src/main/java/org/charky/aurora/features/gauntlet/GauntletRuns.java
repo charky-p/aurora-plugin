@@ -246,7 +246,7 @@ public class GauntletRuns implements Listener {
 
     // Null if it started, otherwise why not. The floor is remembered for the start item
     public String begin(Player player, int startFloor) {
-        String problem = start(player, startFloor, 0);
+        String problem = start(player, startFloor);
         if (problem == null) manager.setStat(player.getUniqueId(), START_CHOICE, startFloor);
         return problem;
     }
@@ -258,21 +258,7 @@ public class GauntletRuns implements Listener {
         return begin(player, checkpoints(player).contains(floor) ? floor : 1);
     }
 
-    // The Daily Tower, once a day and alone, from floor 1 at no heat: every floor from
-    // mutator_from mutated, the same tower for everyone. Null if it started, otherwise why not
-    public String beginTower(Player player) {
-        GauntletTower tower = manager.tower();
-        if (team(player).size() > 1) return "The Daily Tower is climbed alone, leave your party first";
-        if (tower.climbedToday(manager.profile(player))) return "You have climbed today's tower, a new one comes tomorrow";
-        String problem = start(player, 1, GauntletTower.today());
-        if (problem != null) return problem;
-        tower.started(player.getUniqueId());
-        TextUtils.send(player, "<aqua><b>DAILY TOWER</b> <gray>Every floor from " + (int) data().setting("mutator_from", 6)
-                + " is mutated, the same tower for everyone today. One try, make it count");
-        return null;
-    }
-
-    private String start(Player player, int startFloor, long towerDay) {
+    private String start(Player player, int startFloor) {
         String problem = canStart(player);
         if (problem != null) return problem;
         if (!checkpoints(player).contains(startFloor)) return "Your party can't start on floor " + startFloor + " yet";
@@ -283,9 +269,8 @@ public class GauntletRuns implements Listener {
         GauntletRun run = new GauntletRun(slot);
         run.partySize = team.size();
         run.startFloor = startFloor;
-        run.towerDay = towerDay;
-        run.heat = towerDay == 0 ? heat(player) : 0;
-        int hard = towerDay == 0 && hardChosen(player) ? hardFloor(player) : 0;
+        run.heat = heat(player);
+        int hard = hardChosen(player) ? hardFloor(player) : 0;
         run.hardFloor = hard > startFloor ? hard : 0;
         run.floor = startFloor - 1;
         arena.paste(slot);
@@ -328,7 +313,7 @@ public class GauntletRuns implements Listener {
         mate.showBossBar(run.bar);
         mate.playSound(mate.getLocation(), Sound.EVENT_RAID_HORN, 0.6f, 1f);
         int gearFloor = bonuses.gearFloor(profile);
-        if (run.hardFloor == 0 && run.towerDay == 0 && gearFloor > run.startFloor + 5) {
+        if (run.hardFloor == 0 && gearFloor > run.startFloor + 5) {
             TextUtils.send(mate, "<gray>Your gear stands at floor <white>" + gearFloor + "</white>, these floors will be easy: <dark_red>Hard Mode</dark_red> "
                     + "in the start menu makes them a fight, for more Shards");
         }
@@ -432,7 +417,7 @@ public class GauntletRuns implements Listener {
         manager.addStat(uuid, "hoarders", run.hoarders);
         manager.addStat(uuid, "fast_clears", run.fastClears);
         if (member.bestCombo > profile.stat(BEST_COMBO)) manager.setStat(uuid, BEST_COMBO, member.bestCombo);
-        if (run.towerDay != 0) manager.tower().result(player, run.towerDay, cleared);
+        manager.daily().result(player, cleared);
         long now = System.currentTimeMillis();
         manager.recordRun(uuid, new RunRecord(now, run.floor, cleared, run.startFloor, run.heat, run.partySize,
                 (int) ((now - run.started) / 1000), member.kills, banked, member.cores, why == End.DIED,
@@ -466,7 +451,7 @@ public class GauntletRuns implements Listener {
         TextUtils.send(player, "<gradient:#FF416C:#FF4B2B><b>RUN OVER</b></gradient> <gray>" + (why == End.DIED
                 ? "fell on floor <white>" + run.floor : "left on floor <white>" + run.floor)
                 + (run.startFloor > 1 ? " <dark_gray>(started on " + run.startFloor + ")" : "")
-                + (run.towerDay != 0 ? " <aqua>Daily Tower" : "") + (run.hardFloor > 0 ? " <dark_red>Hard " + run.hardFloor : "")
+                + (run.hardFloor > 0 ? " <dark_red>Hard " + run.hardFloor : "")
                 + (run.heat > 0 ? " <gold>Heat " + run.heat : ""));
         TextUtils.send(player, "<gray>Cleared <white>" + cleared + "</white> in <white>" + time + "</white>, <white>"
                 + member.kills + "</white> kills (" + member.eliteKills + " elite)" + (party ? " <dark_gray>(party " + run.kills + ")" : "")

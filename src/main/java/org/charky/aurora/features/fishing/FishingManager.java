@@ -278,9 +278,4 @@ public class FishingManager implements Listener, LoadoutData {
     public void swapLoadout(Player player, UUID other) {
         Swaps.keys(rods, player.getUniqueId(), other);
     }
-
-    @Override
-    public void copyLoadout(Player player, UUID other) {
-        Swaps.copy(rods, player.getUniqueId(), other, HashMap::new);
-    }
 }

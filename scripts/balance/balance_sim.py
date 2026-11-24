@@ -142,7 +142,7 @@ MOBS = {r["id"]: {"entity": r["entity"], "hp": float(r["health"] or 20), "def": 
                   "respawn": float(r.get("respawn") or 0), "dmg": float(r.get("damage") or 1),
                   "drops": parse_drops(r["independent"])}
         for f in MOB_FILES for r in rows(f)}
-# Mine layouts, the mix scripts/build_test_world.py builds: mine id -> {block id: share},
+# Mine layouts, the mix mines.csv gives each mine: mine id -> {block id: share},
 # and the tool each one is mined with (pick, axe or shovel)
 MINES = {r["id"]: {b.split(":")[0]: int(b.split(":")[1]) / 100 for b in r["blocks"].split("|")}
          for r in rows("mines")}

@@ -82,16 +82,6 @@ public class BackpackManager implements LoadoutData {
         return copy;
     }
 
-    // A copy for a new loadout of the one in play, see LoadoutManager
-    @Override
-    public void copyLoadout(Player player, UUID other) {
-        Swaps.copy(backpacks, player.getUniqueId(), other, data -> {
-            BackpackData copy = new BackpackData(registry);
-            copy.getItems().putAll(data.getItems());
-            return copy;
-        });
-    }
-
     // Trades what it holds for the player with their other loadout, see LoadoutManager
     @Override
     public void swapLoadout(Player player, UUID other) {

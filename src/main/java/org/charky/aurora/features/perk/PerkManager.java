@@ -141,12 +141,6 @@ public class PerkManager implements Listener, LoadoutData {
         apply(player);
     }
 
-    // A copy for a new loadout of the one in play, see LoadoutManager
-    @Override
-    public void copyLoadout(Player player, UUID other) {
-        Swaps.copy(levels, player.getUniqueId(), other, HashMap::new);
-    }
-
     // Trades what it holds for the player with their other loadout, see LoadoutManager
     @Override
     public void swapLoadout(Player player, UUID other) {

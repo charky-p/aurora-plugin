@@ -6,27 +6,8 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class LoadoutTest {
-    @Test
-    void testWorldsAreExperimental() {
-        assertEquals(Loadout.EXPERIMENTAL, Loadout.of("aurora_test"));
-        assertEquals(Loadout.EXPERIMENTAL, Loadout.of("Aurora_Test_Gormak"));
-        assertEquals(Loadout.MAIN, Loadout.of("aurora_overworld"));
-        assertEquals(Loadout.MAIN, Loadout.of("build_world"));
-        assertEquals(Loadout.MAIN, Loadout.of("my_aurora_test"));
-    }
-
-    // Entering a world of the other kind switches, a build world (null) keeps the one in play
-    @Test
-    void worldsPickTheirLoadout() {
-        assertEquals(Loadout.EXPERIMENTAL, LoadoutManager.toPlay(Loadout.EXPERIMENTAL, Loadout.MAIN));
-        assertEquals(Loadout.MAIN, LoadoutManager.toPlay(Loadout.MAIN, Loadout.EXPERIMENTAL));
-        assertNull(LoadoutManager.toPlay(Loadout.MAIN, Loadout.MAIN));
-        assertNull(LoadoutManager.toPlay(null, Loadout.EXPERIMENTAL));
-    }
-
     @Test
     void idsRoundTrip() {
         for (Loadout loadout : Loadout.values()) assertEquals(loadout, Loadout.byId(loadout.id()));

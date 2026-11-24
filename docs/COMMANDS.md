@@ -4,7 +4,7 @@
 
 Arguments: `<required>`, `[optional]`. Coordinates take `~` for your own position. Names of mines, spawners and portals are case-insensitive.
 
-**`-w <world>`** can go anywhere in any `/aurora` command to pick the world it works in, e.g. `/a mine create coal 0 60 0 8 64 8 -w aurora_test`. Without it, commands use your own world, or the main world from the console. Everything can be set up from the console this way, as long as coordinates are given instead of `~` or the wand.
+**`-w <world>`** can go anywhere in any `/aurora` command to pick the world it works in, e.g. `/a mine create coal 0 60 0 8 64 8 -w aurora_overworld`. Without it, commands use your own world, or the main world from the console. Everything can be set up from the console this way, as long as coordinates are given instead of `~` or the wand.
 
 ## Player commands
 
@@ -42,13 +42,9 @@ How the game progresses is in [PROGRESSION.md](PROGRESSION.md). Selling donor ra
 8. In the first region, stand by the Cobblestone Quarry and `/a tutorial setstart` for where new players begin the tutorial.
 9. `scripts/server.sh backup` (local) or `python scripts/deploy.py backup <server>` (live).
 
-## Test world
+## Loadouts
 
-`python scripts/build_test_world.py --send` builds a playable skeleton of every region on the running local server, from console commands only, read from `scripts/data` (`regions.csv`, `zones.csv`, `mines.csv`, `traders.csv`). Regions are strips of zones in four void worlds with keep inventory on: `aurora_test` (Origin Isles, Verdant Groves, Sunken Marsh, Emerald Peaks, Ironbound Quarry), `aurora_test_gormak` (Gormak, Khorvath, the Duat), `aurora_test_elderwood` (Elderwood Roots and Heart) and `aurora_test_sky` (Cloud Isles, Sky Kingdom). Khorvath stands on a 10 block cliff (grapple), Elderwood Heart on a 20 block one (elytra), and the Duat and the Ironbound Quarry start 40 blocks of void further on (elytra). Dying respawns you at the world's spawn. Plain platforms, one square per zone with its 9x9x5 mines (they refill the moment they are mined out, and every minute), spawners and a trader beside the mine, fences with carpet around zones with hostile mobs (a gate on the walking line) and a fenced safe platform on their left where the trader stands, a walled arena for each summoned boss, and obsidian gates linking the worlds both ways, locked to their pass with its gatekeeper beside them. Everything it names starts with `t_`. Go there with `/a world tp aurora_test`.
-
-Without `--send` it prints the commands instead. `--regions gormak,verdant` builds only those, and `--teardown --send` deletes everything it built so it can be built again.
-
-**Loadouts.** Every world whose name starts with `aurora_test` plays with an **experimental** loadout, every other world with the **main** one, and the swap happens by itself as you go between them. A build world keeps whichever one is in play. Everything Aurora keeps for a player is separate: inventory and ender chest, backpack, tool levels, level, XP, kills, blocks mined, Essence, playtime and rank, collections, gear unlocked from mobs, portal access, perks, cosmetics, bought, donor and staff ranks, the tutorial, the questline and the fishing rod. Builder status, the build inventory, suggestions, punishments and everything in the Gauntlet are shared. The first time in a test world starts from nothing with the starter kit; a main loadout that starts from nothing gets the tutorial too, like a first join. `/a loadout 1|2|3|experimental` switches an admin's loadout where they stand and keeps it in every world until `/a loadout auto` or they leave. Slot 1 is the main loadout (`main` works too); slots 2 and 3 are extra main-world loadouts for admins, each with its own progress, starting fresh with the tutorial, never on the leaderboards. `/a testworld [world]` goes to a test world (`aurora_test` without one) on the experimental loadout; the first time, with no experimental loadout yet, it starts as a copy of your main one instead of from nothing, after that the two go their own ways. Admin commands like `/a grant` and `/a reset` act on the loadout in play, so a reset in a test world only wipes the experimental one. Leaderboards only count main loadouts (slot 1), also while their player is in a test world. The first `deploy.py upload --db` with loadouts makes everything players did on the host so far their experimental loadout, and their main one starts fresh on their next join.
+Every player has one loadout, the main one, in every world; a build world puts the inventory away on its own. The experimental loadout of the old test worlds and the admin slots 2 and 3 are gone: whoever still has one in play is switched back to main when they join, and what that one held stays put away, off the leaderboards.
 
 ## Worlds
 
@@ -262,8 +258,6 @@ A muted player cannot chat, `/msg`, `/tell`, `/w`, `/r`, `/me`, `/say` or `/sugg
 | `/a gear <player> <zone> [start\|end]` | Set every tool and armour piece to what a player has on reaching a zone, or on finishing it with `end`: each zone played before it (one region at a time, as in `before` in upgrades.yml) bought out in full. Every other tool level goes, and the tools are handed over. `start` without one |
 | `/a cosmetic <player> <give\|take> <id>` | Give or take a rank, a cosmetic or `suffix_slot_2`. The only way to the donor and staff ranks, the donor-only cosmetics and the second suffix, which comes with a donor package. Tab completes every id |
 | `/a grant <player> <essence\|xp\|hours> <amount>` | Give Essence, XP or hours of playtime, for testing cosmetics, levels and playtime ranks. Hours are counted within a minute, which is when a new playtime rank is handed out |
-| `/a testworld [world]` | Go to a test world on the experimental loadout. The first time, with none yet, it starts as a copy of your main one. `aurora_test` without a world |
-| `/a loadout [1\|2\|3\|experimental\|auto]` | Switch your loadout where you stand: slot 1 (main), 2, 3 or experimental. The one picked is played in every world until `auto` or you leave, instead of the one each world plays with; `/a testworld` drops the pick. On its own it shows which loadout is in play |
 | `/a breaking [on\|off]` | Turn off breaking blocks for real: you mine like a player and break nothing outside a mine, until `on` or the server restarts. On its own it switches. Admins break for real by default, to build |
 | `/a suggestions [page]` | What players sent with `/suggest`, newest first with who and when. Each one is also in the server log. Click a number to fill in the delete command |
 | `/a suggestions delete <id>` | Delete one that has been dealt with |

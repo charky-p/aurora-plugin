@@ -16,7 +16,6 @@ items:
     name: "<green><b>Overworld"
     worlds:
       - "aurora_overworld"
-      - "aurora_test"
 
   gormak:
     name: "<gold><b>Gormak"
@@ -30,7 +29,6 @@ items:
     name: "<gold><b>Duneworld"
     worlds:
       - "aurora_duneworld"
-      - "aurora_test_gormak"
     base: overworld
 
   khorvath:
@@ -71,12 +69,8 @@ items:
 
   elderworld:
     name: "<dark_green><b>Elderwood"
-    worlds:
-      - "aurora_test_elderwood"
     base: overworld
 
   skyworld:
     name: "<aqua><b>Sky World"
-    worlds:
-      - "aurora_test_sky"
     base: overworld

@@ -1,8 +1,8 @@
 id,name,worlds,base,part_of
-overworld,<green><b>Overworld,aurora_overworld|aurora_test,,
+overworld,<green><b>Overworld,aurora_overworld,,
 gormak,<gold><b>Gormak,,,overworld
 verdant,<dark_green><b>Verdant Groves,,,overworld
-duneworld,<gold><b>Duneworld,aurora_duneworld|aurora_test_gormak,overworld,
+duneworld,<gold><b>Duneworld,aurora_duneworld,overworld,
 khorvath,<#B4462A><b>Khorvath,,,overworld
 elderwood,<#3A7D2C><b>Elderwood Roots,,,overworld
 marsh,<#4E6B3A><b>Sunken Marsh,,,overworld
@@ -12,5 +12,5 @@ elderheart,<#1E5631><b>Elderwood Heart,,,overworld
 skyisles,<#BFE9FF><b>Cloud Isles,,,overworld
 kingdom,<#FFE680><b>Sky Kingdom,,,overworld
 quarry,<#8A8D91><b>Ironbound Quarry,,,overworld
-elderworld,<dark_green><b>Elderwood,aurora_test_elderwood,overworld,
-skyworld,<aqua><b>Sky World,aurora_test_sky,overworld,
+elderworld,<dark_green><b>Elderwood,,overworld,
+skyworld,<aqua><b>Sky World,,overworld,

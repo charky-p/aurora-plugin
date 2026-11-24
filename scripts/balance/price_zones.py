@@ -54,7 +54,7 @@ import prices               # noqa: E402
 
 DATA = sim.DATA
 
-# A test world spawner brings a mob every 100 ticks, so one mob kind is never killed faster
+# A spawner brings a mob every 100 ticks by default, so one mob kind is never killed faster
 SPAWN_SECONDS = 5.0
 # Share of mining time spent killing hostile mobs that come at you, in a zone that has them
 AMBIENT_FIGHT = 0.3

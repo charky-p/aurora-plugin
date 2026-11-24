@@ -254,7 +254,7 @@ After any data change: `python scripts/balance/collection_tiers.py --write`, `py
 - **The mace's smash is not in the model**, so the Cloud Isles' mob prices assume sword hits.
 - **The Caverns do not exist yet**: the Overworld Core gives the `caverns` tag and nothing opens with it.
 - **Verdant Groves has no danger.** Its four mobs do not attack; the treants are in Elderwood Roots now.
-- **The real map is in progress** in `aurora_overworld` (the Origin Isles' traders stand there); the other regions are still only the test world's plain platforms from `scripts/build_test_world.py`.
+- **The real map is in progress** in `aurora_overworld` and `aurora_duneworld`. Regions not built there yet have nowhere to be played: the test world is gone.
 - **Essence** has utility to buy now, but nothing drains it after that.
 - **The Gauntlet has not been played yet.** Its floor and gear numbers come from `gauntlet_balance.py` alone, and its world, lobby and arena are not built.
 - **PvP outside the Gauntlet is vanilla damage.** Aurora's damage rules are for mobs: between players in the main game, armour gives no protection (its vanilla armour points are removed) and Sharpness is vanilla's. The Gauntlet's PvP zone has its own rules.

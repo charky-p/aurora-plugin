@@ -19,15 +19,3 @@ items:
     world: aurora_duneworld
     region: gormak
     tag: gormak
-
-  elderwood:
-    icon: icon_elderwood
-    world: aurora_test_elderwood
-    region: elderwood
-    tag: elderwood
-
-  sky:
-    icon: icon_sky
-    world: aurora_test_sky
-    region: skyisles
-    tag: sky

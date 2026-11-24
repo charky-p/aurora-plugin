@@ -15,7 +15,7 @@ Aurora deploy helpers, plain Python so they run on the live server's host too.
       with --db merges LocalServer's game data (mines, spawners, traders, portals,
       spawns, worlds, safe zones) into the host's mines.db, keeping its player data and
       the game data of the worlds under keep. Only the worlds named in deploy.ini bring
-      their game data, never LocalServer's test worlds. Start the server again after.
+      their game data, never LocalServer's other worlds. Start the server again after.
 
   python scripts/deploy.py upload [--db] [--worlds] [--all]
       stage and swap in one go, for a host whose server is already stopped.
@@ -183,8 +183,8 @@ def progress_to_experimental(db):
 
 # The host's database with LocalServer's game data in it. Player tables stay the host's,
 # and so does all game data of the kept worlds, like a build world only the host has.
-# LocalServer's rows come only for the worlds deployed, so its test worlds never get
-# back onto the host's world list
+# LocalServer's rows come only for the worlds deployed, so its other worlds never get
+# onto the host's world list
 def merge_database(host_db, local_db, out, keep, worlds):
     shutil.copy(host_db, out)
     db = sqlite3.connect(out)

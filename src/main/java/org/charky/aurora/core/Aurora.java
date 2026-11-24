@@ -357,18 +357,19 @@ public class Aurora extends JavaPlugin {
         gauntletRuns.start();
     }
 
-    // The main and experimental loadouts, after everything that keeps per-player data
+    // The one loadout, after everything that keeps per-player data: switches anyone still
+    // on an old experimental or slot loadout back to main
     private void createLoadouts() {
         List<LoadoutData> holders = List.of(backpackManager, toolManager, rankManager, cosmeticManager,
                 perkManager, collectionManager, armoryManager, accessManager, tutorialManager, questManager, fishingManager);
-        this.loadoutManager = new LoadoutManager(registry, db, new LoadoutStore(db), players, buildManager,
+        this.loadoutManager = new LoadoutManager(registry, db, new LoadoutStore(db), players,
                 toolManager, holders, player -> {
                     scoreboard.setupBoard(player);
                     levelManager.show(player);
                     tabManager.updateAll();
                     staffPermissions.update(player);
                 }, tutorialManager::begin);
-        // Leaderboards only count main loadouts, an experimental one in play is left out
+        // Leaderboards only count main loadouts, an old one still in play is left out
         players.setRanked(uuid -> loadoutManager.activeOf(uuid) == Loadout.MAIN);
     }
 

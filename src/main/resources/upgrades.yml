@@ -4885,7 +4885,7 @@ items:
         level: "10"
         cost:
           - id: lapis
-            amount: 100000
+            amount: 120000
           - id: venom_sac
             amount: 3000
       - tool: sword
@@ -4903,9 +4903,7 @@ items:
           - id: emerald
             amount: 120000
           - id: lapis
-            amount: 120000
-          - id: calcite
-            amount: 75000
+            amount: 150000
       - tool: sword
         stat: looting
         level: "19"

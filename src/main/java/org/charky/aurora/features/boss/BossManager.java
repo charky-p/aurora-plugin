@@ -70,9 +70,12 @@ public class BossManager implements Listener {
 
     // After CombatListener, so a hit a shield stopped is already cancelled
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onScytheHit(EntityDamageByEntityEvent event) {
+    public void onMobHit(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         if (!(event.getDamager() instanceof LivingEntity attacker) || attacker instanceof Projectile) return;
+
+        BossFight fight = fights.get(attacker.getUniqueId());
+        if (fight != null) fight.onHit(player);
 
         MobData mob = registry.mobOf(attacker);
         if (mob != null && GormakEternal.GHOUL_ID.equalsIgnoreCase(mob.id())) GormakEternal.reap(player);

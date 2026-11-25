@@ -54,6 +54,10 @@ public class BossFight {
         return abilities.shields(this, attacker);
     }
 
+    void onHit(Player victim) {
+        abilities.onHit(this, victim);
+    }
+
     void end() {
         for (UUID uuid : viewers) {
             Player player = Bukkit.getPlayer(uuid);

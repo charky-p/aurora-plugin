@@ -22,6 +22,10 @@ public interface BossAbilities {
         return false;
     }
 
+    // The boss's own hit landed on a player (not one a shield stopped)
+    default void onHit(BossFight fight, Player victim) {
+    }
+
     // The boss died or is gone, clean up whatever it left behind
     default void end(BossFight fight) {
     }

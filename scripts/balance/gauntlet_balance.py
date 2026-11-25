@@ -10,6 +10,8 @@ about half the floor they are on (EXPECTED_LEVEL), and the floor is tuned for th
                   hit you feel: 10 + the Sharpness brackets (CombatFormulas.sharpnessBonus)
   armour        = its level in Defence a piece and STAT_PER_LEVEL Protection a level;
                   the shield's Deflection keeps up with the floors' attack
+  strength      = from floor 11, the floors of a theme (but its boss's) are all as strong as its 5th
+                  (THEME_STEP): a jump when a theme starts, then the same up to the boss
   floor health  = every mob's health times the hit of the expected weapon over 10,
                   so a mob takes as many hits on floor 40 as on floor 1
   floor attack  = ATTACK_PER_FLOOR levels a floor, a little ahead of the expected
@@ -48,6 +50,8 @@ KILL_BASE, KILL_PER_FLOOR = 1.0, 0.08   # KILL_PER_FLOOR is also in GauntletData
 BOSS_KILLS = 5                  # GauntletData.BOSS_KILLS
 SHARD_BASE, SHARD_GROWTH = 10, 1.17
 MAX_LEVEL = 50
+# Which floor of its ten a theme's floors all take their strength from (strength_floor)
+THEME_STEP = 5
 LEVELS_PER_MATERIAL = 5
 CORES = {10: 1, 15: 1, 20: 2, 25: 2, 30: 3, 35: 3, 40: 4, 45: 4, 50: 5}
 
@@ -74,9 +78,20 @@ def hit(level):
     return a + (b - a) * (level - low)
 
 
+def strength_floor(floor):
+    """The floor whose strength a floor's mobs have. Every floor of a theme but its boss's
+    is as strong as its THEME_STEP-th, so a theme starts with a jump and then holds while
+    the mobs grow in number (floors.csv) up to the boss. The first ten climb floor by
+    floor, so a new player's first floor stays gentle"""
+    if floor % 10 == 0 or floor < 10:
+        return floor
+    return (floor - 1) // 10 * 10 + THEME_STEP
+
+
 def floor_numbers(floor):
-    health = round(max(1.0, hit(floor * EXPECTED_LEVEL * STAT_PER_LEVEL) / 10), 2)
-    attack = round(floor * ATTACK_PER_FLOOR)
+    strength = strength_floor(floor)
+    health = round(max(1.0, hit(strength * EXPECTED_LEVEL * STAT_PER_LEVEL) / 10), 2)
+    attack = round(strength * ATTACK_PER_FLOOR)
     shards = round(SHARDS_BASE + SHARDS_PER_FLOOR * floor)
     kill = max(1, round(KILL_BASE + KILL_PER_FLOOR * floor))
     cores = floor // 10 if floor % 10 == 0 else 0

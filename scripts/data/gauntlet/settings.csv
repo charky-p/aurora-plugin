@@ -87,3 +87,4 @@ restock_arrows_4,8,Arrows Restock IV gives
 restock_seconds_4,30,Seconds between Restock IV's arrows
 restock_cap,128,Restock gives no arrows past this many carried
 burn_share,15,Percent of the hit that lit it a Fire Aspect or Flame burn tick deals a mob (about one a second while it burns)
+gale_jump_seconds,8,Seconds a Gale (breeze) waits between leaps; one sooner is stopped

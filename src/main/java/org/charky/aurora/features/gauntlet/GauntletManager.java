@@ -56,6 +56,7 @@ public class GauntletManager {
     private GauntletParty party;
     private GauntletWorld world;
     private BukkitTask sweep;
+    private BukkitTask gales;
     private final GauntletRestock restock = new GauntletRestock(this);
     private int ticks;
 
@@ -219,6 +220,7 @@ public class GauntletManager {
             ticks++;
         }, 20L, 20L);
         scoreboard.setOverride(new GauntletSidebar(this)::lines);
+        gales = plugin.getServer().getScheduler().runTaskTimer(plugin, new GaleJumps(this)::tick, 1L, 1L);
     }
 
     public void refreshBoard(Player player) {
@@ -227,6 +229,7 @@ public class GauntletManager {
 
     public void shutdown() {
         if (sweep != null) sweep.cancel();
+        if (gales != null) gales.cancel();
     }
 
     public GauntletArena arena() {

@@ -86,8 +86,8 @@ redstone,<red><b>Redstone,REDSTONE,overworld,peaks_grotto,1000000,<dark_gray>Eme
 lapis,<blue><b>Lapis,LAPIS_LAZULI,overworld,peaks_depths,200000,<dark_gray>Emerald Peaks,
 spider_silk,<white>Frost Silk,COBWEB,overworld,peaks_grotto,60000,<dark_gray>Emerald Peaks,
 emerald,<green><b>Emerald,EMERALD,overworld,peaks_depths,800000,<dark_gray>Emerald Peaks,
-venom_sac,<dark_green>Venom Sac,FERMENTED_SPIDER_EYE,overworld,peaks_depths,100000,<dark_gray>Emerald Peaks,
-rider_bone,<white>Rider Bone,BONE,overworld,peaks_arachne,40000,<dark_gray>Emerald Peaks,0.007477
+venom_sac,<dark_green>Venom Sac,FERMENTED_SPIDER_EYE,overworld,peaks_depths,50000,<dark_gray>Emerald Peaks,
+rider_bone,<white>Rider Bone,BONE,overworld,peaks_arachne,120000,<dark_gray>Emerald Peaks,0.007477
 arachne_eye,<dark_red><b>Arachne's Eye,SPIDER_EYE,overworld,peaks_arachne,4,<dark_gray>Emerald Peaks,
 basalt,<dark_gray>Ashen Basalt,BASALT,overworld,duat_ashen,12,<dark_gray>The Duat,
 ash,<gray>River Ash,GUNPOWDER,overworld,duat_ashen,1,<dark_gray>The Duat,

@@ -4962,170 +4962,160 @@ items:
         stat: protection
         level: "12"
         cost:
-          - id: venom_sac
-            amount: 1600
+          - id: rider_bone
+            amount: 1200
       - tool: chestplate
         stat: protection
         level: "12"
         cost:
-          - id: venom_sac
-            amount: 1600
+          - id: rider_bone
+            amount: 1200
       - tool: leggings
         stat: protection
         level: "12"
         cost:
-          - id: venom_sac
-            amount: 1600
+          - id: rider_bone
+            amount: 1200
       - tool: boots
         stat: protection
         level: "12"
         cost:
-          - id: venom_sac
-            amount: 1600
+          - id: rider_bone
+            amount: 1200
       - tool: sword
         stat: sharpness
         level: "6"
         cost:
-          - id: venom_sac
-            amount: 2000
+          - id: rider_bone
+            amount: 1600
       - tool: shield
         stat: deflection
         level: "1"
         cost:
-          - id: venom_sac
-            amount: 2500
+          - id: rider_bone
+            amount: 2000
       - tool: helmet
         stat: protection
         level: "13"
         cost:
           - id: rider_bone
-            amount: 2000
+            amount: 2500
       - tool: chestplate
         stat: protection
         level: "13"
         cost:
           - id: rider_bone
-            amount: 2000
+            amount: 2500
       - tool: leggings
         stat: protection
         level: "13"
         cost:
           - id: rider_bone
-            amount: 2000
+            amount: 2500
       - tool: boots
         stat: protection
         level: "13"
         cost:
           - id: rider_bone
-            amount: 2000
+            amount: 2500
       - tool: sword
         stat: looting
         level: "21"
         cost:
           - id: rider_bone
-            amount: 2500
+            amount: 3000
       - tool: sword
         stat: sharpness
         level: "7"
         cost:
           - id: rider_bone
-            amount: 3000
+            amount: 3200
       - tool: helmet
         stat: sustenance
         level: "1"
         cost:
-          - id: venom_sac
-            amount: 3000
           - id: rider_bone
-            amount: 3200
+            amount: 4000
       - tool: chestplate
         stat: sustenance
         level: "1"
         cost:
-          - id: venom_sac
-            amount: 3000
           - id: rider_bone
-            amount: 3200
+            amount: 4000
       - tool: leggings
         stat: sustenance
         level: "1"
         cost:
-          - id: venom_sac
-            amount: 3000
           - id: rider_bone
-            amount: 3200
+            amount: 4000
       - tool: boots
         stat: sustenance
         level: "1"
         cost:
-          - id: venom_sac
-            amount: 3000
           - id: rider_bone
-            amount: 3200
+            amount: 4000
       - tool: sword
         stat: bloodlust
         level: "1"
         cost:
-          - id: venom_sac
-            amount: 3200
           - id: rider_bone
-            amount: 4000
+            amount: 4800
       - tool: sword
         stat: sharpness
         level: "8"
         cost:
-          - id: venom_sac
-            amount: 4000
+          - id: rider_bone
+            amount: 5000
       - tool: pick
         stat: efficiency
         level: "11"
         cost:
-          - id: venom_sac
-            amount: 5000
+          - id: rider_bone
+            amount: 6000
       - tool: pick
         stat: fortune
         level: "14"
         cost:
-          - id: venom_sac
-            amount: 6000
+          - id: rider_bone
+            amount: 6400
       - tool: pick
         stat: efficiency
         level: "12"
         cost:
-          - id: venom_sac
-            amount: 6400
+          - id: rider_bone
+            amount: 7500
           - id: arachne_eye
             amount: 1
       - tool: shield
         stat: deflection
         level: "2"
         cost:
-          - id: venom_sac
-            amount: 7500
+          - id: rider_bone
+            amount: 8000
           - id: arachne_eye
             amount: 1
       - tool: shield
         stat: deflection
         level: "3"
         cost:
-          - id: venom_sac
-            amount: 8000
+          - id: rider_bone
+            amount: 10000
           - id: arachne_eye
             amount: 1
       - tool: grapple
         stat: thrust
         level: "6"
         cost:
-          - id: venom_sac
-            amount: 10000
+          - id: rider_bone
+            amount: 12000
           - id: arachne_eye
             amount: 1
       - tool: grapple
         stat: recharge
         level: "6"
         cost:
-          - id: venom_sac
-            amount: 12000
+          - id: rider_bone
+            amount: 15000
           - id: arachne_eye
             amount: 1
       - tool: leggings
@@ -5133,7 +5123,7 @@ items:
         level: "2"
         cost:
           - id: rider_bone
-            amount: 5000
+            amount: 16000
 
   ashen:
     name: "Ashen River"

@@ -38,7 +38,7 @@ public class TraderItem implements TraderNode {
     // The item with what it costs and how much of each the player holds
     @Override
     public ItemStack getDisplayItem(Player player) {
-        ItemStack display = item.getItem();
+        ItemStack display = purchase();
         BackpackData backpack = backpackManager.get(player.getUniqueId());
         display.editMeta(meta -> {
             List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
@@ -67,9 +67,16 @@ public class TraderItem implements TraderNode {
 
         backpack.removeItems(player, costs);
         KeyItems.obtained(player, item.getId());
-        hand(player, item.getItem());
+        hand(player, purchase());
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         refresh(player);
+    }
+
+    // The item as the shop sells it: as many as its amount, a stack of bread and not one
+    private ItemStack purchase() {
+        ItemStack purchase = item.getItem();
+        purchase.setAmount(Math.min(item.getAmount(), purchase.getMaxStackSize()));
+        return purchase;
     }
 
     private static void hand(Player player, ItemStack purchase) {

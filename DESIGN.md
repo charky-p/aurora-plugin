@@ -34,7 +34,7 @@ For any new region: only use mobs that melee, shoot arrows, throw potions (witch
 
 ## From the legacy Skript
 
-Not built yet, see `legacy/skript/` for how each one used to work.
+Not built yet. The Skript is gone from the repo; the `v0.4` tag still has it in `legacy/skript/`, for how each one used to work.
 
 - The Pillager Captain's abilities (`mobpillager.sk`): arrow volleys, berserk. The Captain and the Quarry Ravager are in the Ironbound Quarry
 - Talking NPCs (`npc.sk`): timed dialogue lines

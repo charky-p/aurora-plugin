@@ -1,7 +1,9 @@
 package org.charky.aurora.features.combat;
 
+import org.bukkit.Bukkit;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Breeze;
 import org.bukkit.entity.EvokerFangs;
@@ -24,10 +26,15 @@ import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.charky.aurora.common.util.DataKeys;
 import org.charky.aurora.common.util.Enchants;
 import org.charky.aurora.core.Aurora;
 import org.charky.aurora.core.DataRegistry;
 import org.charky.aurora.features.spawner.MobData;
+
+import java.util.UUID;
 
 // Routes combat events to the damage rules, the rules themselves live in
 // PlayerDamage, MobDamage, Thorns and Bloodlust
@@ -37,6 +44,8 @@ public class CombatListener implements Listener {
     private final PlayerDamage playerDamage = new PlayerDamage(swings);
     private final DamageIndicator indicator;
     private final Thorns thorns;
+    // Long enough for Fire Aspect II's 8 seconds of fire
+    private static final long BURN_MILLIS = 9_000;
 
     public CombatListener(Aurora plugin) {
         this.registry = plugin.getRegistry();
@@ -71,6 +80,36 @@ public class CombatListener implements Listener {
         CustomHealth.apply(victim, dealt, attacker, registry);
         indicator.show(victim, dealt);
         CombatHooks.afterHit(attacker, victim, dealt, shot != null);
+        if (setsAlight(event, attacker)) markBurning(victim, attacker, dealt);
+    }
+
+    // A swing with Fire Aspect, or a burning arrow (Flame)
+    private static boolean setsAlight(EntityDamageByEntityEvent event, Player attacker) {
+        if (event.getDamager() instanceof Projectile projectile) return projectile.getFireTicks() > 0;
+        return attacker.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.FIRE_ASPECT) > 0;
+    }
+
+    // Vanilla sets the mob alight, but its fire would move vanilla health only. Each burn
+    // tick deals burn_share% (settings.csv) of the hit that lit it instead, see onEnvironmental
+    private void markBurning(LivingEntity victim, Player attacker, double dealt) {
+        double share = registry.getGauntlet() == null ? 15 : registry.getGauntlet().setting("burn_share", 15);
+        PersistentDataContainer pdc = victim.getPersistentDataContainer();
+        pdc.set(DataKeys.BURN_KEY, PersistentDataType.DOUBLE, (double) Math.max(1, Math.round(dealt * share / 100)));
+        pdc.set(DataKeys.BURN_BY_KEY, PersistentDataType.STRING, attacker.getUniqueId().toString());
+        pdc.set(DataKeys.BURN_UNTIL_KEY, PersistentDataType.LONG, System.currentTimeMillis() + BURN_MILLIS);
+    }
+
+    // A burn tick, when a player lit the fire in the last few seconds. Any other fire
+    // (sunlight, lava) does nothing, as before
+    private void burn(LivingEntity victim) {
+        PersistentDataContainer pdc = victim.getPersistentDataContainer();
+        Double amount = pdc.get(DataKeys.BURN_KEY, PersistentDataType.DOUBLE);
+        Long until = pdc.get(DataKeys.BURN_UNTIL_KEY, PersistentDataType.LONG);
+        if (amount == null || until == null || System.currentTimeMillis() > until) return;
+        String by = pdc.get(DataKeys.BURN_BY_KEY, PersistentDataType.STRING);
+        Player source = by == null ? null : Bukkit.getPlayer(UUID.fromString(by));
+        CustomHealth.apply(victim, amount, source, registry);
+        indicator.show(victim, amount);
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -172,6 +211,7 @@ public class CombatListener implements Listener {
         }
         if (cause == EntityDamageEvent.DamageCause.KILL
                 || cause == EntityDamageEvent.DamageCause.CUSTOM) return;
+        if (cause == EntityDamageEvent.DamageCause.FIRE_TICK) burn(victim);
 
         event.setCancelled(true);
     }

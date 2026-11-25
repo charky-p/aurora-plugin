@@ -56,6 +56,7 @@ public class GauntletManager {
     private GauntletParty party;
     private GauntletWorld world;
     private BukkitTask sweep;
+    private final GauntletRestock restock = new GauntletRestock(this);
     private int ticks;
 
     public GauntletManager(Aurora plugin, Database db, GauntletStore store, PlayerManager players,
@@ -208,6 +209,7 @@ public class GauntletManager {
         sweep = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             if (world != null) world.everySecond();
             if (pvp != null) pvp.markBounties();
+            restock.everySecond();
             // The weekly boards pay out once the week has turned, the lobby's boards catch up
             if (ticks % 60 == 0) {
                 weekly.check();

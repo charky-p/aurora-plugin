@@ -38,4 +38,4 @@ Not built yet, see `legacy/skript/` for how each one used to work.
 
 - The Pillager Captain's abilities (`mobpillager.sk`): arrow volleys, berserk. The Captain and the Quarry Ravager are in the Ironbound Quarry
 - Talking NPCs (`npc.sk`): timed dialogue lines
-- From `test.sk`: wheat farming with regrowth, Restock bows, a Haste enchant
+- From `test.sk`: wheat farming with regrowth, a Haste enchant

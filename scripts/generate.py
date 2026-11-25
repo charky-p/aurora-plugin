@@ -1124,6 +1124,8 @@ VANILLA_ENCHANTS = {"protection", "fire_protection", "feather_falling", "blast_p
                     "efficiency", "silk_touch", "unbreaking", "fortune", "power", "punch", "flame", "infinity",
                     "luck_of_the_sea", "lure", "loyalty", "impaling", "riptide", "channeling", "multishot", "quick_charge",
                     "piercing", "density", "breach", "wind_burst", "lunge", "mending"}
+# The Gauntlet's own enchants, allowed in gear_enchants.csv beside vanilla's (GauntletRestock)
+GAUNTLET_CUSTOM_ENCHANTS = {"restock"}
 GAUNTLET_TALENT_STATS = {"health", "shards", "care", "reroll", "insight", "revive", "double_jump"}
 GAUNTLET_CHALLENGE_STATS = {"floor", "kills", "elite_kills", "fast_clears", "boss_kills", "pvp_kills", "runs"}
 GAUNTLET_BOSS_ABILITIES = {"slam", "volley", "charge", "leap", "summon", "fireball", "blink", "sonic"}
@@ -1205,8 +1207,8 @@ def gauntlet_text(mobs, cosmetics):
         if row["gear"] not in gear:
             errors.append(f"gauntlet enchant: no gear '{row['gear']}'")
             continue
-        if row["enchant"] not in VANILLA_ENCHANTS:
-            errors.append(f"gauntlet enchant on {row['gear']}: '{row['enchant']}' is not a vanilla enchantment")
+        if row["enchant"] not in VANILLA_ENCHANTS | GAUNTLET_CUSTOM_ENCHANTS:
+            errors.append(f"gauntlet enchant on {row['gear']}: '{row['enchant']}' is not a vanilla or Gauntlet enchantment")
         gear[row["gear"]].setdefault("enchants", []).append(
             OrderedDict(level=int(row["level"] or 0), enchant=row["enchant"], amount=int(row["amount"] or 1)))
 

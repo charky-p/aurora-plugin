@@ -17,6 +17,10 @@ public final class DataKeys {
     public static final NamespacedKey HEALTH_KEY = new NamespacedKey("aurora", "health");
     public static final NamespacedKey MAX_HEALTH_KEY = new NamespacedKey("aurora", "max_health");
     public static final NamespacedKey LAST_ATTACK_KEY = new NamespacedKey("aurora", "last_attack");
+    // What a burn tick deals a mob set alight by Fire Aspect or Flame, who did it and until when
+    public static final NamespacedKey BURN_KEY = new NamespacedKey("aurora", "burn");
+    public static final NamespacedKey BURN_BY_KEY = new NamespacedKey("aurora", "burn_by");
+    public static final NamespacedKey BURN_UNTIL_KEY = new NamespacedKey("aurora", "burn_until");
     public static final NamespacedKey BLOODLUST_STACKS_KEY = new NamespacedKey("aurora", "bloodlust_stacks");
     public static final NamespacedKey BLOODLUST_UNTIL_KEY = new NamespacedKey("aurora", "bloodlust_until");
     public static final NamespacedKey SUSTENANCE_KEY = new NamespacedKey("aurora", "sustenance_progress");

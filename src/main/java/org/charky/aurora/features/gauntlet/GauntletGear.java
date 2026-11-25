@@ -60,6 +60,9 @@ public final class GauntletGear {
                 if (found != null) meta.addEnchant(found, amount, true);
             });
             meta.setUnbreakable(true);
+            // Restock is the Gauntlet's own, GauntletRestock reads it from here
+            Integer restock = vanilla.get(GauntletRestock.ENCHANT);
+            if (restock != null) meta.getPersistentDataContainer().set(GauntletRestock.RESTOCK_KEY, PersistentDataType.INTEGER, restock);
             meta.getPersistentDataContainer().set(BowListener.GAUNTLET_KEY, PersistentDataType.STRING, gear.id());
             // A bow's, crossbow's or trident's share goes onto what it fires
             meta.getPersistentDataContainer().set(BowListener.SHARE_KEY, PersistentDataType.INTEGER, gear.damage());

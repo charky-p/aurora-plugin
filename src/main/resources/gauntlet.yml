@@ -892,6 +892,12 @@ gear:
       - level: 10
         enchant: knockback
         amount: 1
+      - level: 15
+        enchant: fire_aspect
+        amount: 1
+      - level: 35
+        enchant: fire_aspect
+        amount: 2
   bow:
     name: Bow
     item: BOW
@@ -909,6 +915,21 @@ gear:
       - level: 30
         enchant: punch
         amount: 2
+      - level: 5
+        enchant: restock
+        amount: 1
+      - level: 15
+        enchant: restock
+        amount: 2
+      - level: 25
+        enchant: restock
+        amount: 3
+      - level: 40
+        enchant: restock
+        amount: 4
+      - level: 20
+        enchant: flame
+        amount: 1
   helmet:
     name: Helmet
     item: HELMET
@@ -957,6 +978,16 @@ gear:
     unlock_shards: 0
     unlock_floor: 0
     start_level: 0
+    enchants:
+      - level: 10
+        enchant: swift_sneak
+        amount: 1
+      - level: 25
+        enchant: swift_sneak
+        amount: 2
+      - level: 40
+        enchant: swift_sneak
+        amount: 3
   boots:
     name: Boots
     item: BOOTS
@@ -980,6 +1011,15 @@ gear:
       - level: 30
         enchant: feather_falling
         amount: 4
+      - level: 15
+        enchant: depth_strider
+        amount: 1
+      - level: 25
+        enchant: depth_strider
+        amount: 2
+      - level: 35
+        enchant: depth_strider
+        amount: 3
   axe:
     name: Axe
     item: AXE
@@ -1058,6 +1098,21 @@ gear:
       - level: 40
         enchant: piercing
         amount: 2
+      - level: 5
+        enchant: restock
+        amount: 1
+      - level: 15
+        enchant: restock
+        amount: 2
+      - level: 25
+        enchant: restock
+        amount: 3
+      - level: 40
+        enchant: restock
+        amount: 4
+      - level: 25
+        enchant: multishot
+        amount: 1
   mace:
     name: Mace
     item: MACE
@@ -2976,6 +3031,16 @@ settings:
   clearlag_minutes: 5.0
   clearlag_warning: 30.0
   choice_seconds: 45.0
+  restock_arrows_1: 4.0
+  restock_seconds_1: 60.0
+  restock_arrows_2: 5.0
+  restock_seconds_2: 50.0
+  restock_arrows_3: 6.0
+  restock_seconds_3: 40.0
+  restock_arrows_4: 8.0
+  restock_seconds_4: 30.0
+  restock_cap: 128.0
+  burn_share: 15.0
 themes:
   - floor: 1
     name: The Rot

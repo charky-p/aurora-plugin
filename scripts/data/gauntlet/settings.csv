@@ -77,3 +77,13 @@ pvp_loot_seconds,60,Seconds what a death in the PvP zone drops lies for others t
 clearlag_minutes,5,Minutes between clearing what lies on the ground in the lobby and the PvP zone (0 never)
 clearlag_warning,30,Seconds of warning before the ground is cleared
 choice_seconds,45,Seconds a boon or altar choice waits before it is made for whoever has not chosen
+restock_arrows_1,4,Arrows Restock I gives a bow or crossbow carrier
+restock_seconds_1,60,Seconds between Restock I's arrows
+restock_arrows_2,5,Arrows Restock II gives
+restock_seconds_2,50,Seconds between Restock II's arrows
+restock_arrows_3,6,Arrows Restock III gives
+restock_seconds_3,40,Seconds between Restock III's arrows
+restock_arrows_4,8,Arrows Restock IV gives
+restock_seconds_4,30,Seconds between Restock IV's arrows
+restock_cap,128,Restock gives no arrows past this many carried
+burn_share,15,Percent of the hit that lit it a Fire Aspect or Flame burn tick deals a mob (about one a second while it burns)
